@@ -19,7 +19,7 @@ export default class LoginScreen extends Component {
               <CardItem>
                 <Left />
                 <Body>
-                  <H3>SwapPoker</H3>
+                  <H3>Swap Poker</H3>
                 </Body>
                 <Right />
 
