@@ -14,45 +14,38 @@ const getState = ({ getStore, setStore, getActions }) => {
 				hendon:'https://pokerdb.thehendonmob.com/player.php?a=r&n=110693',
 				swaps:[ 123, 321, 500 ],
 				tournaments:[ 22, 32, 44 ],
-				receipts:[ 123, 321, 500 ],
-				tokens:[ 110, 111, 112, 113, 114 ]
+				tokens: 32
 			},
 
 			tournamentList: [
 				{
 					id:22,
+					date_created: 'Feb 1, 2019 9:00AM',
+					date_modified: 'Feb 9, 2019 8:00AM',
+					status:'completed',
 					full_title:'Sharp Pole Tournament #12',
 					title:'SHRPO #12',
 					address:'1231 SW 123rd St Hollywood, Fl 33199',
 					date:'Sep 13',
 					year:'2019',
 					buyIn:'$100',
-					buyInTime:'9:00AM',
-					buyOutTime:'12:00PM',
-					users:[]
+					swaps:[33,43,34]
 				}
 			],
 
-			mySwaps: [
-				{
-					offer: 223,
-					user_id: 43,
-					state:'inactive',
-					percent:0,
 
-				}
-			],
-
-			myOffers:[
+			mySwaps:[
 				{
-					offer_id: 223,
+					name:'Gabe',
+					receipt_id: 23,
 					tournament_id: 23,
 					table: 10,
 					seat: 3,
 					chips: 5000,
+					action: 5,
 					stillIn:'Yes',
-					swap: [ 212, 234, 322 ],
-					action: 12
+					winnings:3333,
+					exhanges: [ 212, 234, 322 ]
 				}
 			],
 
@@ -66,17 +59,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 				}
 			],
 
-			tokens:[
-				{
-					id: 12,
-					user_id: 0, 
-					time_bought:'15:32',
-					date_bought: '2019-02-01',
-					time_spent: '16:22',
-					date_spent: '2019-02-01',
-					state: 'bought'
-				}
-			]
 		},
 
 		actions: {
