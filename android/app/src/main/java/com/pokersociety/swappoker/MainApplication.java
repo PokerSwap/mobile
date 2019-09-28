@@ -1,4 +1,4 @@
-package com.awesomenativebase;
+package com.pokersociety.swappoker;
 
 import android.app.Application;
 import android.util.Log;

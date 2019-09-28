@@ -1,8 +1,8 @@
 platform :ios, '9.0'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
-target 'AwesomeNativeBase' do
-  # Pods for AwesomeNativeBase
+target 'SwapPoker' do
+  # Pods for SwapPoker
   pod 'React', :path => '../node_modules/react-native/'
   pod 'React-Core', :path => '../node_modules/react-native/React'
   pod 'React-DevSupport', :path => '../node_modules/react-native/React'
@@ -26,7 +26,7 @@ target 'AwesomeNativeBase' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
-  target 'AwesomeNativeBaseTests' do
+  target 'SwapPokerTests' do
     inherit! :search_paths
     # Pods for testing
   end
@@ -34,10 +34,10 @@ target 'AwesomeNativeBase' do
   use_native_modules!
 end
 
-target 'AwesomeNativeBase-tvOS' do
-  # Pods for AwesomeNativeBase-tvOS
+target 'SwapPoker-tvOS' do
+  # Pods for SwapPoker-tvOS
 
-  target 'AwesomeNativeBase-tvOSTests' do
+  target 'SwapPoker-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end

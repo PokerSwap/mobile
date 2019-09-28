@@ -128,7 +128,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.awesomenativebase"
+        applicationId "com.pokersociety.swappoker"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
