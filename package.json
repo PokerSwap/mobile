@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "fishhook": "0.0.3",
+    "ionicons": "^4.6.3",
     "lodash": "^4.17.15",
     "native-base": "^2.13.4",
     "react": "^16.9.0",
@@ -18,6 +19,7 @@
     "react-native-image-picker": "^1.0.2",
     "react-native-progress-steps": "^1.2.7",
     "react-native-reanimated": "^1.1.0",
+    "react-native-vector-icons": "^6.6.0",
     "react-navigation": "^3.11.1"
   },
   "devDependencies": {
