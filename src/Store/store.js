@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { getMaxListeners } from 'cluster'
 
 const getState = ({ getStore, setStore, getActions }) => {
 	return {
@@ -438,7 +437,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 				},
 
-				get: (id) => {
+				get: ( id ) => {
 
 				},
 
@@ -474,14 +473,14 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 			user: {
 				
-				delete:(id)=>{
+				delete:( id )=>{
 				},
 
-				get:(id)=>{
+				get:( id )=>{
 
 				},
 
-				login: (an_email, a_password) => {
+				login: ( an_email, a_password ) => {
 
 				},
 
@@ -489,7 +488,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 				},
 
-				signup: (an_email, a_password, a_firstName, a_lastName, a_hendon, a_picture) => {
+				signup: ( an_email, a_password, a_firstName, a_lastName, a_hendon, a_picture ) => {
 
 				},
 
@@ -501,7 +500,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 			userToken: {
 
-				get: async(data) => {
+				get: async( data ) => {
 					try{
 						const url = 'https://assets.breatheco.de/apis/credentials/auth'
 						let response1 = await fetch(url, {
@@ -536,7 +535,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				} ,
 
 				// During Login, Stores User Information in the Store
-				store: async(user) => {
+				store: async( user ) => {
 
 					try {
 						// console.log('userToken in store funvtion: ', user, typeof(user))
