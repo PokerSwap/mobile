@@ -81,7 +81,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					tournament_id: 1,
 					created_at: "Mon, 16 Sep 2019, 14:55:32",
 					updated_at: "Tue, 17 Sep 2019, 22:44:07",
-					// buy_ins: list(filter(lambda x: x['flight_id'] == 1, buy_ins))
+					buy_ins: [1,2,3,5]
 				},
 				{
 					id: 2,
@@ -90,7 +90,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					tournament_id: 1,
 					created_at: "Mon, 16 Sep 2019, 14:55:32",
 					updated_at: "Tue, 17 Sep 2019, 22:44:07",
-					// buy_ins: list(filter(lambda x: x['flight_id'] == 2, buy_ins))
+					buy_ins: [4]
 				},
 				{
 					id: 3,
@@ -99,7 +99,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					tournament_id: 2,
 					created_at: "Mon, 16 Sep 2019, 14:55:32",
 					updated_at: "Tue, 17 Sep 2019, 22:44:07",
-					// buy_ins: list(filter(lambda x: x['flight_id'] == 3, buy_ins))
+					buy_ins: [6]
 				},
 				{
 					id: 4,
@@ -108,7 +108,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					tournament_id: 2,
 					created_at: "Mon, 16 Sep 2019, 14:55:32",
 					updated_at: "Tue, 17 Sep 2019, 22:44:07",
-					// buy_ins: list(filter(lambda x: x['flight_id'] == 4, buy_ins))
+					buy_ins: [7]
 				},
 				{
 					id: 5,
@@ -117,7 +117,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					tournament_id: 3,
 					created_at: "Mon, 16 Sep 2019, 14:55:32",
 					updated_at: "Tue, 17 Sep 2019, 22:44:07",
-					// buy_ins: list(filter(lambda x: x['flight_id'] == 5, buy_ins))
+					buy_ins: [8]
 				},
 			],
 
@@ -126,7 +126,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					id: 1,
 					first_name: "Cary",
 					last_name: "Katz",
-					username: "",
+					username: "KAT",
 					email: "katz234@gmail.com",
 					hendon_url: "https://pokerdb.thehendonmob.com/player.php?a=r&n=26721",
 					profile_picture_url: "https://pokerdb.thehendonmob.com/pictures/carykatzpic.png",
@@ -134,14 +134,14 @@ const getState = ({ getStore, setStore, getActions }) => {
 					created_at: "Tue, 17 Sep 2019 04:23:59 GMT",
 					updated_at: "Tue, 17 Sep 2019 04:23:59 GMT",
 					tokens: 12,
-					// swaps: list(filter(lambda x: x['sender_id'] == 1, swaps)),
-					// buy_ins: list(filter(lambda x: x['user_id'] == 1, buy_ins))
+					swaps: [1,2,3,4],
+					buy_ins: [1,2]
 				},
 				{
 					id: 2,
 					first_name: "Kate",
 					last_name: "Hoang",
-					username: "",
+					username: "Qwang",
 					email: "hoang234@gmail.com",
 					hendon_url: "https://pokerdb.thehendonmob.com/player.php?a=r&n=421758",
 					profile_picture_url: "https://pokerdb.thehendonmob.com/pictures/Hoang_2.jpg",
@@ -149,8 +149,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 					created_at: "Tue, 17 Sep 2019 04:23:59 GMT",
 					updated_at: "Tue, 17 Sep 2019 04:23:59 GMT",
 					tokens: 0,
-					// swaps: list(filter(lambda x: x['sender_id'] == 2, swaps)),
-					// buy_ins: list(filter(lambda x: x['flight_id'] == 2, buy_ins))
+					swaps: [5,6,7],
+					buy_ins: [3,4]
 				},
 				{
 					id: 3,
@@ -164,13 +164,14 @@ const getState = ({ getStore, setStore, getActions }) => {
 					created_at: "Tue, 17 Sep 2019 04:23:59 GMT",
 					updated_at: "Tue, 17 Sep 2019 04:23:59 GMT",
 					tokens: 5,
-					// swaps: list(filter(lambda x: x['sender_id'] == 3, swaps)),
-					// buy_ins: list(filter(lambda x: x['flight_id'] == 3, buy_ins))
+					swaps: [8,9,10,11],
+					buy_ins: [5,6,7,8]
 				}
 			],
 			
 			swaps:[
 				{
+					id:1,
 					tournament_id: 1,
 					sender_id: 1,
 					recipient_id: 2,
@@ -180,6 +181,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					updated_at: "Tue, 17 Sep 2019, 22:44:07"
 				},
 				{
+					id:2,
 					tournament_id: 1,
 					sender_id: 2,
 					recipient_id: 1,
@@ -189,6 +191,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					updated_at: "Tue, 17 Sep 2019, 22:44:07"
 				},
 				{
+					id:3,
 					tournament_id: 1,
 					sender_id: 2,
 					recipient_id: 3,
@@ -198,6 +201,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					updated_at: "Tue, 17 Sep 2019, 22:44:07"
 				},
 				{
+					id:4,
 					tournament_id: 1,
 					sender_id: 3,
 					recipient_id: 2,
@@ -207,6 +211,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					updated_at: "Tue, 17 Sep 2019, 22:44:07"
 				},
 				{
+					id:5,
 					tournament_id: 2,
 					sender_id: 1,
 					recipient_id: 3,
@@ -216,6 +221,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					updated_at: "Tue, 17 Sep 2019, 22:44:07"
 				},
 				{
+					id:5,
 					tournament_id: 2,
 					sender_id: 3,
 					recipient_id: 1,
@@ -225,6 +231,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					updated_at: "Tue, 17 Sep 2019, 22:44:07"
 				},
 				{
+					id:6,
 					tournament_id: 2,
 					sender_id: 2,
 					recipient_id: 1,
@@ -234,6 +241,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					updated_at: "Tue, 17 Sep 2019, 22:44:07"
 				},
 				{
+					id:7,
 					tournament_id: 2,
 					sender_id: 1,
 					recipient_id: 2,
@@ -243,6 +251,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					updated_at: "Tue, 17 Sep 2019, 22:44:07"
 				},
 				{
+					id:8,
 					tournament_id: 3,
 					sender_id: 2,
 					recipient_id: 3,
@@ -252,6 +261,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					updated_at: "Tue, 17 Sep 2019, 22:44:07"
 				},
 				{
+					id:9,
 					tournament_id: 3,
 					sender_id: 3,
 					recipient_id: 2,
@@ -261,6 +271,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					updated_at: "Tue, 17 Sep 2019, 22:44:07"
 				},
 				{
+					id:10,
 					tournament_id: 3,
 					sender_id: 1,
 					recipient_id: 3,
@@ -270,6 +281,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					updated_at: "Tue, 17 Sep 2019, 22:44:07"
 				},
 				{
+					id:11,
 					tournament_id: 3,
 					sender_id: 3,
 					recipient_id: 1,
@@ -302,7 +314,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					created_at: "Mon, 16 Sep 2019, 14:55:32",
 					updated_at: "Tue, 17 Sep 2019, 22:44:07",
 					// swaps: "should we put a list of all the swaps for the tournament?",
-					// flights: list(filter(lambda x: x['tournament_id'] == 1, flights))
+					// flights: list(filter(lambda x: x['tournament_id'] == 1, flights)) [1,2]
 				},
 				{
 					id: 2,
@@ -313,7 +325,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					created_at: "Mon, 16 Sep 2019, 14:55:32",
 					updated_at: "Tue, 17 Sep 2019, 22:44:07",
 					// swaps: "should we put a list of all the swaps for the tournament?",
-					// flights: list(filter(lambda x: x['tournament_id'] == 2, flights))
+					// flights: list(filter(lambda x: x['tournament_id'] == 2, flights)) [3,4]
 				},
 				{
 					id: 3,
@@ -324,7 +336,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					created_at: "Mon, 16 Sep 2019, 14:55:32",
 					updated_at: "Tue, 17 Sep 2019, 22:44:07",
 					// swaps: "should we put a list of all the swaps for the tournament?",
-					// flights: list(filter(lambda x: x['tournament_id'] == 3, flights))
+					// flights: list(filter(lambda x: x['tournament_id'] == 3, flights)) [5]
 				}
 			],
 
@@ -353,7 +365,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 			
 			buy_in:{
 
-				add: () => {
+				add: ( userID, flightID, receiptURL ) => {
 
 				},
 
@@ -364,18 +376,18 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 			flights:{
 				
-				add: () => {
+				add: ( tournamentID, startTime, endTime ) => {
 
 				},
 
-				update: () => {
+				update: ( tournamentID, startTime, endTime ) => {
 
 				}
 			},
 
 			profile:{
 				
-				add: () => {
+				add: ( userID, firstName, lastName, hendonURL, pictureURL ) => {
 
 				},
 
@@ -387,7 +399,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 				},
 
-				update: () => {
+				update: ( firstName, lastName, hendonURL, pictureURL ) => {
 
 				}
 			},
@@ -422,11 +434,11 @@ const getState = ({ getStore, setStore, getActions }) => {
 		
 			tournament:{
 
-				add: () => {
+				add: ( a_name, an_address, startTime, endTime ) => {
 
 				},
 
-				get: () => {
+				get: (id) => {
 
 				},
 
@@ -434,7 +446,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 				},
 
-				update: () => {
+				update: ( a_name, an_address, startTime, endTime ) => {
 
 				},
 
@@ -454,7 +466,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 			transactions:{
 
-				add: () => {
+				add: ( user, dollars, coins ) => {
 
 				}
 
@@ -462,45 +474,90 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 			user: {
 				
-				// delete:(id)=>{
+				delete:(id)=>{
+				},
 
-				// },
+				get:(id)=>{
 
-				// get:(id)=>{
+				},
 
-				// },
+				login: (an_email, a_password) => {
 
-				// login: (an_email, a_password) => {
+				},
 
-				// },
+				logout: () => {
 
-				// logout: () => {
+				},
 
-				// },
+				signup: (an_email, a_password, a_firstName, a_lastName, a_hendon, a_picture) => {
 
-				// signup: (an_email, a_password, a_firstName, a_lastName, a_hendon, a_picture) => {
+				},
 
-				// },
+				update: ( id, an_email, a_password ) => {
 
-				// update: (id) => {
-
-				// }
+				}
 
 			},
 
 			userToken: {
 
-				get: () => {
+				get: async(data) => {
+					try{
+						const url = 'https://assets.breatheco.de/apis/credentials/auth'
+						let response1 = await fetch(url, {
+							method: 'POST',
+							body: JSON.stringify(data),
+							headers: {
+								'Authorization':'application/json',
+								'Content-Type':'application/json'
+							}, 
+						});
+						// console.log(response)
+						let res = await response1.json();
+						if (response1.status >= 200 && response1.status < 300) {
+							data.error = "";
+							let user = res;
+							console.log('userToken: ', user, typeof(user))
+							getActions().userToken.store(user);
+						} else {
+							let error = res;
+							console.log("something went wrong in getting userToken", error, getStore().userToken);
+							return false;
+							throw error;
+						}
+						
+					} catch(error) {
+						{() => getActions().userToken.remove()};
+						console.log("Email: ", data.username);
+						console.log("Password: ", data.password);
+						console.log("Error: ", error);
+						throw data.error;
+					}
+				} ,
 
+				// During Login, Stores User Information in the Store
+				store: async(user) => {
+
+					try {
+						// console.log('userToken in store funvtion: ', user, typeof(user))
+
+						setStore({userToken: user});
+						// console.log('userToken in store gerneral: ', getStore().userToken)
+
+					} catch(error) {
+						console.log('something went wrong in storing userToken', error)
+					}
 				},
 
-				store: () => {
-
+				// During logout, Removes User Information in the Store
+				remove: async() => {
+					try {
+						setStore({userToken: null})
+					} catch(error) {
+						console.log('Something went wrong in removing userToken')
+					}
 				},
 
-				remove: () => {
-
-				}
 			},
 
 		},
