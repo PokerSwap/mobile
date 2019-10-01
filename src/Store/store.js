@@ -11,6 +11,13 @@ const getState = ({ getStore, setStore, getActions }) => {
 					user_id: 1,
 					flight_id: 1,
 					receipt_img_url: "http://lorempixel.com/400/200/",
+					swaps:[ 1, 2 ],
+					action: 12,
+					bullet: 0,
+					still_in: true,
+					table: 23,
+					seat: 4,
+					current_chips: 10000,
 					created_at: "Mon, 16 Sep 2019, 14:55:32",
 					updated_at: "Tue, 17 Sep 2019, 22:44:07"
 				},
@@ -19,6 +26,13 @@ const getState = ({ getStore, setStore, getActions }) => {
 					user_id: 1,
 					flight_id: 1,
 					receipt_img_url: "http://lorempixel.com/400/200/",
+					swaps:[ 1, 2 ],
+					action: 12,
+					bullet: 0,
+					still_in: true,
+					table: 23,
+					seat: 4,
+					current_chips: 10000,
 					created_at: "Mon, 16 Sep 2019, 14:55:32",
 					updated_at: "Tue, 17 Sep 2019, 22:44:07"
 				},
@@ -27,6 +41,13 @@ const getState = ({ getStore, setStore, getActions }) => {
 					user_id: 2,
 					flight_id: 1,
 					receipt_img_url: "http://lorempixel.com/400/200/",
+					swaps:[ 1, 2 ],
+					action: 12,
+					bullet: 0,
+					still_in: true,
+					table: 23,
+					seat: 4,
+					current_chips: 10000,
 					created_at: "Mon, 16 Sep 2019, 14:55:32",
 					updated_at: "Tue, 17 Sep 2019, 22:44:07"
 				},
@@ -35,6 +56,13 @@ const getState = ({ getStore, setStore, getActions }) => {
 					user_id: 2,
 					flight_id: 2,
 					receipt_img_url: "http://lorempixel.com/400/200/",
+					swaps:[ 1, 2 ],
+					action: 12,
+					bullet: 0,
+					still_in: true,
+					table: 23,
+					seat: 4,
+					current_chips: 10000,
 					created_at: "Mon, 16 Sep 2019, 14:55:32",
 					updated_at: "Tue, 17 Sep 2019, 22:44:07"
 				},
@@ -43,6 +71,13 @@ const getState = ({ getStore, setStore, getActions }) => {
 					user_id: 3,
 					flight_id: 1,
 					receipt_img_url: "http://lorempixel.com/400/200/",
+					swaps:[ 1, 2 ],
+					action: 12,
+					bullet: 0,
+					still_in: true,
+					table: 23,
+					seat: 4,
+					current_chips: 10000,
 					created_at: "Mon, 16 Sep 2019, 14:55:32",
 					updated_at: "Tue, 17 Sep 2019, 22:44:07"
 				},
@@ -51,6 +86,13 @@ const getState = ({ getStore, setStore, getActions }) => {
 					user_id: 3,
 					flight_id: 3,
 					receipt_img_url: "http://lorempixel.com/400/200/",
+					swaps:[ 1, 2 ],
+					action: 12,
+					bullet: 0,
+					still_in: true,
+					table: 23,
+					seat: 4,
+					current_chips: 10000,
 					created_at: "Mon, 16 Sep 2019, 14:55:32",
 					updated_at: "Tue, 17 Sep 2019, 22:44:07"
 				},
@@ -59,6 +101,13 @@ const getState = ({ getStore, setStore, getActions }) => {
 					user_id: 3,
 					flight_id: 4,
 					receipt_img_url: "http://lorempixel.com/400/200/",
+					swaps:[ 1, 2 ],
+					action: 12,
+					bullet: 0,
+					still_in: true,
+					table: 23,
+					seat: 4,
+					current_chips: 10000,
 					created_at: "Mon, 16 Sep 2019, 14:55:32",
 					updated_at: "Tue, 17 Sep 2019, 22:44:07"
 				},
@@ -67,6 +116,13 @@ const getState = ({ getStore, setStore, getActions }) => {
 					user_id: 3,
 					flight_id: 5,
 					receipt_img_url: "http://lorempixel.com/400/200/",
+					swaps:[ 1, 2 ],
+					action: 12,
+					bullet: 0,
+					still_in: true,
+					table: 23,
+					seat: 4,
+					current_chips: 10000,
 					created_at: "Mon, 16 Sep 2019, 14:55:32",
 					updated_at: "Tue, 17 Sep 2019, 22:44:07"
 				}
@@ -175,6 +231,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					sender_id: 1,
 					recipient_id: 2,
 					percentage: 5,
+					state:'pending',
 					winning_chips: null,
 					created_at: "Mon, 16 Sep 2019, 14:55:32",
 					updated_at: "Tue, 17 Sep 2019, 22:44:07"
@@ -185,6 +242,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					sender_id: 2,
 					recipient_id: 1,
 					percentage: 5,
+					state:'recieved',
 					winning_chips: null,
 					created_at: "Mon, 16 Sep 2019, 14:55:32",
 					updated_at: "Tue, 17 Sep 2019, 22:44:07"
@@ -195,6 +253,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					sender_id: 2,
 					recipient_id: 3,
 					percentage: 10,
+					state:'rejected',
 					winning_chips: null,
 					created_at: "Mon, 16 Sep 2019, 14:55:32",
 					updated_at: "Tue, 17 Sep 2019, 22:44:07"
@@ -205,6 +264,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					sender_id: 3,
 					recipient_id: 2,
 					percentage: 10,
+					state:'rejected',
 					winning_chips: null,
 					created_at: "Mon, 16 Sep 2019, 14:55:32",
 					updated_at: "Tue, 17 Sep 2019, 22:44:07"
@@ -215,20 +275,12 @@ const getState = ({ getStore, setStore, getActions }) => {
 					sender_id: 1,
 					recipient_id: 3,
 					percentage: 12,
+					state:'pending',
 					winning_chips: null,
 					created_at: "Mon, 16 Sep 2019, 14:55:32",
 					updated_at: "Tue, 17 Sep 2019, 22:44:07"
 				},
-				{
-					id:5,
-					tournament_id: 2,
-					sender_id: 3,
-					recipient_id: 1,
-					percentage: 12,
-					winning_chips: null,
-					created_at: "Mon, 16 Sep 2019, 14:55:32",
-					updated_at: "Tue, 17 Sep 2019, 22:44:07"
-				},
+			
 				{
 					id:6,
 					tournament_id: 2,
@@ -236,6 +288,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					recipient_id: 1,
 					percentage: 3,
 					winning_chips: 1000,
+					state:'agreed',
 					created_at: "Mon, 16 Sep 2019, 14:55:32",
 					updated_at: "Tue, 17 Sep 2019, 22:44:07"
 				},
@@ -246,6 +299,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					recipient_id: 2,
 					percentage: 3,
 					winning_chips: 300,
+					state:'agreed',
 					created_at: "Mon, 16 Sep 2019, 14:55:32",
 					updated_at: "Tue, 17 Sep 2019, 22:44:07"
 				},
@@ -255,6 +309,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					sender_id: 2,
 					recipient_id: 3,
 					percentage: 20,
+					state:'agreed',
 					winning_chips: 500,
 					created_at: "Mon, 16 Sep 2019, 14:55:32",
 					updated_at: "Tue, 17 Sep 2019, 22:44:07"
@@ -265,6 +320,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					sender_id: 3,
 					recipient_id: 2,
 					percentage: 20,
+					state:'agreed',
 					winning_chips: 0,
 					created_at: "Mon, 16 Sep 2019, 14:55:32",
 					updated_at: "Tue, 17 Sep 2019, 22:44:07"
@@ -275,6 +331,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					sender_id: 1,
 					recipient_id: 3,
 					percentage: 16,
+					state: 'agreed',
 					winning_chips: 500,
 					created_at: "Mon, 16 Sep 2019, 14:55:32",
 					updated_at: "Tue, 17 Sep 2019, 22:44:07"
@@ -285,6 +342,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					sender_id: 3,
 					recipient_id: 1,
 					percentage: 16,
+					state:'agreed',
 					winning_chips: 600,
 					created_at: "Mon, 16 Sep 2019, 14:55:32",
 					updated_at: "Tue, 17 Sep 2019, 22:44:07"
@@ -307,35 +365,41 @@ const getState = ({ getStore, setStore, getActions }) => {
 				{
 					id: 1,
 					name: "Heartland Poker Tour - HPT Colorado, Black Hawk",
+					abbreviation: 'HPT Col. BH #19',
+					venue:'Golden Gates Casino',
 					address: "261 Main St, Black Hawk, CO 80422",
 					start_at: "Wed, 11 Oct 2019 12:00:00 GMT",
 					end_at: "Wed, 11 Oct 2019 21:00:00 GMT",
 					created_at: "Mon, 16 Sep 2019, 14:55:32",
 					updated_at: "Tue, 17 Sep 2019, 22:44:07",
-					// swaps: "should we put a list of all the swaps for the tournament?",
-					// flights: list(filter(lambda x: x['tournament_id'] == 1, flights)) [1,2]
+					buy_ins: [ 1, 2, 3, 4 ],
+					flights: [ 1, 2 ]
 				},
 				{
 					id: 2,
 					name: "Stones Live Fall Poker Series",
+					abbreviation: 'SLFPS 2019',
+					venue:'Stones Gambling Hall',
 					address: "6510 Antelope Rd, Citrus Heights, CA 95621",
 					start_at: "Mon, 30 Sep 2019 11:00:00 GMT",
 					end_at: "Tue, 1 Oct 2019 22:00:00 GMT",
 					created_at: "Mon, 16 Sep 2019, 14:55:32",
 					updated_at: "Tue, 17 Sep 2019, 22:44:07",
-					// swaps: "should we put a list of all the swaps for the tournament?",
-					// flights: list(filter(lambda x: x['tournament_id'] == 2, flights)) [3,4]
+					buy_ins: [ 5, 6 , 7 ],
+					flights: [ 3, 4 ]
 				},
 				{
 					id: 3,
 					name: "WPT DeepStacks - WPTDS Sacramento",
-					address: "Thunder Valley Casino Resort, 1200 Athens Ave, Lincoln, CA 95648",
+					abbreviation: 'WPTDS S 2019',
+					venue:'Thunder Valley Casino Resort',
+					address: "1200 Athens Ave, Lincoln, CA 95648",
 					start_at: "Wed, 2 Oct 2019 12:00:00 GMT",
 					end_at: "Wed, 2 Oct 2019 21:00:00 GMT",
 					created_at: "Mon, 16 Sep 2019, 14:55:32",
 					updated_at: "Tue, 17 Sep 2019, 22:44:07",
-					// swaps: "should we put a list of all the swaps for the tournament?",
-					// flights: list(filter(lambda x: x['tournament_id'] == 3, flights)) [5]
+					buy_ins: [ 8, 9, 10, 11 ],
+					flights: [ 5 ]
 				}
 			],
 
