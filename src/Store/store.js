@@ -2,13 +2,41 @@ import React, { Component } from 'react'
 
 const getState = ({ getStore, setStore, getActions }) => {
 	return {
-		
+
 		store: {
-			
+
+      // CURRENT USER
+      user_in_session:{
+        id:1,
+        email: 'gherndon5@hotmail.com',
+        password:'lol',
+        created_at:'2020-01-01T12:00:00+0400',
+        updated_at:'2020-01-01T12:06:00+0400'
+      },
+
+      // Place to get your Swaps, tokens, settings, and buyin/swap history
+      my_profile:{ 
+					id: 1,
+					first_name: "Gabriel",
+					last_name: "Herndon",
+          nickname: "Gabe",
+          rating: 5,
+          roi: 21,
+					email: "katz234@gmail.com",
+					hendon_url: "https://pokerdb.thehendonmob.com/player.php?a=r&n=26721",
+					profile_picture_url: "https://pokerdb.thehendonmob.com/pictures/carykatzpic.png",
+					transactions: "list of transactions",
+					created_at: "Tue, 17 Sep 2019 04:23:59 GMT",
+					updated_at: "Tue, 17 Sep 2019 04:23:59 GMT",
+					tokens: 12,
+					buy_ins: [1,2]
+      },
+      
+      // FOR CURRENT TOURNAMENT (or FLIGHTS?)
 			buy_ins: [
 				{
 					id: 1,
-					user_id: 1,
+          user_id: 1,
 					flight_id: 1,
 					receipt_img_url: "http://lorempixel.com/400/200/",
 					swaps:[ 1, 2 ],
@@ -128,6 +156,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				}
 			],
 
+      // FOR CURRENT TOURNAMENT
 			flights:[
 				{
 					id: 1,
@@ -176,22 +205,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 				},
 			],
 
+      // OTHER PEOPLE'S PROFILES (ON PROFILE VIEW)
 			profiles:[
-				{
-					id: 1,
-					first_name: "Cary",
-					last_name: "Katz",
-					username: "KAT",
-					email: "katz234@gmail.com",
-					hendon_url: "https://pokerdb.thehendonmob.com/player.php?a=r&n=26721",
-					profile_picture_url: "https://pokerdb.thehendonmob.com/pictures/carykatzpic.png",
-					transactions: "list of transactions",
-					created_at: "Tue, 17 Sep 2019 04:23:59 GMT",
-					updated_at: "Tue, 17 Sep 2019 04:23:59 GMT",
-					tokens: 12,
-					swaps: [1,2,3,4],
-					buy_ins: [1,2]
-				},
 				{
 					id: 2,
 					first_name: "Kate",
@@ -223,7 +238,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 					buy_ins: [5,6,7,8]
 				}
 			],
-			
+      
+      //CURRENT USER'S SWAPS
 			swaps:[
 				{
 					id:1,
@@ -347,9 +363,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 					created_at: "Mon, 16 Sep 2019, 14:55:32",
 					updated_at: "Tue, 17 Sep 2019, 22:44:07"
 				}
-			]
-			,
+			],
 
+      // CURRENT USER'S TOKENS
 			tokens:[
 				{
 					id:1,
@@ -361,6 +377,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				}
 			],
 
+      // ALL TOURNAMETS, FILTERED BY FIRST 10 RESULTS
 			tournaments:[
 				{
 					id: 1,
@@ -403,6 +420,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				}
 			],
 
+      // CURRENT USER'S TRANSACTIONS
 			transactions:[
 				{
 					id:1,
@@ -414,14 +432,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 				}
 			],
 
-			users:{
-				id:1,
-				email: 'gherndon5@hotmail.com',
-				password:'lol',
-				created_at:'2020-01-01T12:00:00+0400',
-				updated_at:'2020-01-01T12:06:00+0400'
-			},
-
 		},
 
 		actions: {
@@ -432,7 +442,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 				},
 
-				update: () => {
+				update: ( is_still_in, a_table, a_seat, current_chips, a_bullet, a_flight ) => {
 
 				}
 			},
@@ -454,7 +464,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 				},
 
-				get: () => {
+				get: ( id ) => {
 
 				},
 
