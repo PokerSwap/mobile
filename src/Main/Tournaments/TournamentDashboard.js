@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import { Container, List, ListItem, Content, Text } from 'native-base';
 import _Header from "../../View-Components/header";
-import TournamentBody from './Components/TournamentBody'
+import TournamentBody from './Components/TournamentBody';
+import { Context } from '../../Store/appContext'
 
 export default class TournamentDashboard extends Component {
     constructor(props){
@@ -18,50 +19,27 @@ export default class TournamentDashboard extends Component {
               <ListItem itemDivider >
                 <Text>2019</Text>
               </ListItem>
-            {/* TOURNAMENT LIST GENERATOR
+             {/* TOURNAMENT LIST GENERATOR */}
                 <Context.Consumer>
                   {({store, actions}) => {
                     return store.tournaments.map((content, index) => {
                       return(
                         <TournamentBody 
                           reel={this.props.navigation}
-                          title={content.title} 
+                          name={content.name} 
+                          abbreviation={content.abbreviation}
                           status={content.status}
-                          date={content.date} 
-                          year={content.year}
+                          start_at={content.start_at}
+                          end_at={content.end_at}
+                          buy_ins={content.buy_ins}
+                          flights={content.flights}
                           address={content.address}
                         />
                       )
                     })}
                   }
-                </Context.Consumer>
-                 */}
-                
-                <TournamentBody 
-                  reel={this.props.navigation}
-                  title='#IMANIUS' status='active'
-                  month="SEP" day="13" year='2019'
-                  street='2122 SW 122 Blvd.' 
-                  city='Hollywood' state='FL' zip='35654'
-                />
-              
-                <TournamentBody
-                  reel={this.props.navigation}
-                  title='#MCUNO' status='inactive'
-                  month="DEC" day="23" year='2019'
-                  street='3483 NE 100 Terr.' 
-                  city='Atlanta' state='GA' zip='42422'
-                />
-
-                <TournamentBody
-                  reel={this.props.navigation}
-                  title='#ONEENN' status='inactive'
-                  month="MAR" day="13" year='2020'
-                  street='43222 SE 21100 St' 
-                  city='Albourny' state='NY' zip='23322'
-                />
+                </Context.Consumer>  
             </List>
-
           </Content>
         </Container>
       )

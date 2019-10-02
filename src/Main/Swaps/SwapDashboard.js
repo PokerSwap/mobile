@@ -26,7 +26,7 @@ export default class SwapDashboard extends Component {
               {/* INCOMING SWAPS LIST
               <Context.Consumer>
                 {({store, actions})=> {
-                  return store.swapList.map((content, index) => {
+                  return store.buy_ins.map((content, index) => {
                     return(
                       <SwapEntry 
                         key={id}

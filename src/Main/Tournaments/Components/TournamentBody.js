@@ -32,11 +32,12 @@ export default class TournamentBody extends Component {
         path = 'VerifyTicket'
       }
       return(
+
         <ListItem 
           noIndent style={{backgroundColor: bgColor}}
           onPress={()=> navigation.navigate(path)} >
           
-          {/* Tournament Start Date */}
+          {/* TOURNAMENT START DATE*/}
           <Left>
             <Button bordered 
               style={{
@@ -50,36 +51,28 @@ export default class TournamentBody extends Component {
               }}
             >
               <Text style={{fontWeight:"600", color:textColor}}>
-                {this.props.month} 
+                {this.props.start_at}
               </Text>
-              <Text style={{fontWeight:"600", color:textColor}}>
-                {this.props.day}
-              </Text>
-              
             </Button>        
           </Left>
           
-          {/* Tournament Title and Address */}
+          {/* TOURNAMENT TITLE AND ADDRESS */}
           <Col style={{width: 230}}>
             <Text 
               style={{color:textColor, 
               alignSelf:"flex-start",
               fontSize:20, fontWeight:'600'}}> 
-              {this.props.title}
+              {this.props.abbreviation}
             </Text>
             <Text 
               style={{color:textColor, 
-              alignSelf:"flex-start"}}> 
-              {this.props.street} 
-            </Text>
-            <Text 
-              style={{color:textColor, 
-              alignSelf:"flex-start"}}> 
-              {this.props.city}, {this.props.state} {this.props.zip} 
+              alignSelf:"flex-start",
+              fontSize:20, fontWeight:'600'}}> 
+              {this.props.address}
             </Text>
           </Col>
           
-          {/* Right Arrow Icon */}
+          {/* RIGHT ARROW NAVIGATION */}
           <Right>
               <Icon type="FontAwesome5" name="angle-right"/>
           </Right>
