@@ -16,9 +16,6 @@ export default class TournamentDashboard extends Component {
           <_Header drawer={() => this.props.navigation.toggleDrawer()}/>
           <Content>
             <List>
-              <ListItem itemDivider >
-                <Text>2019</Text>
-              </ListItem>
              {/* TOURNAMENT LIST GENERATOR */}
                 <Context.Consumer>
                   {({store, actions}) => {

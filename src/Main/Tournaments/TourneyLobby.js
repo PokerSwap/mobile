@@ -2,15 +2,13 @@ import React, {Component} from 'react';
 import {Container, Content, Button, Footer, List, ListItem, Text} from 'native-base';
 
 import TourneyHeader from './Components/TourneyHeader'
-import SwapEntry from '../Swaps/Components/SwapEntry'
+import BuyIn from '../Swaps/Components/BuyIn'
 import {Col} from 'react-native-easy-grid'
 
 export default class TourneyLobby extends Component {
   constructor(props){
     super(props);
     this.state={
-      swaps: 0,
-      action: 0
     }
   }
   
@@ -19,64 +17,62 @@ export default class TourneyLobby extends Component {
       <Container>
         <Content>
           <List>
+
+            {/* TOURNAMENT HEADER */}
             <ListItem itemHeader first>
-
               <TourneyHeader 
-                title='#SHRPO' daytime='Thu 11:00AM' 
-                date='Sep 1, 2019' 
-                address='Seminole Hard Rock  HollyWood, FL'
+                id={this.props.id}
+                name={this.props.name}
+                address={this.props.address}
+                abbreviation={this.props.abbreviation}
+                start_at={this.props.start_at}
+                end_at={this.props.end_at}
               />
-
-            {/* TOURNAMENT HEADER
-              <Context.Consumer>
-                {({store, actions}) => {
-                  return store.tournaments.map((content, index) => {
-                    return(
-                      <TourneyHeader 
-                        id={content.id}
-                        title={content.name}
-                        buyInTime={content.time}
-                        outTime={content.outTime}
-                        date={content.date}
-                        address={content.address}
-                      />
-                    )
-                  })
-                }}
-              </Context.Consumer> */}
-            
             </ListItem>
-            <SwapEntry
-              name='You' stillIn='Yes' 
-              table='20' seat='6' chips='10,000' 
-              navigation={this.props.navigation}
-            />
-            
-        {/* TOURNEY SWAP ENTRIES 
+
+            {/* CURRENT USER'S BUYIN */}
             <Content.Consumer>
               {({store, actions}) => {
-                return store.swaps.map((content, index) => {
+                var you = store.buy_ins.filter(item => item.user_id == 1 )
+                return you.map((content, index) => {
                   return(
-                    <SwapEntry
+                    <BuyIn
+                      name='You' stillIn='Yes' 
+                      table='20' seat='6' chips='10,000' 
+                      navigation={this.props.navigation}
+                    />
+                  )
+                })
+              }}
+            </Content.Consumer> 
+            
+            {/* TOURNEY BUYIN ENTRIES  */}
+            <Content.Consumer>
+              {({store, actions}) => {
+                var everyone_else = store.buy_ins.filter(item => item.user_id !== 1)
+                return everyone_else.map((content, index) => {
+                  return(
+                    <BuyIn
                       id = {content.id}
                       name={content.name}
                       stillIn={content.stillIn}
                       table={content.table}
                       seat={content.seat}
                       chips={content.chips}
-                      navigation={this.props.navigation}/>
+                      state={content.status}
+                      navigation={this.props.navigation}
+                    />
                   )
                 })
               }}
-            </Content.Consumer> */}
-
-            <SwapEntry name='Lou Garrison'  stillIn='Yes' table='1' seat='12' chips='34,000' offer='pending' navigation={this.props.navigation}/>
-            <SwapEntry  name='Homer Simpson' stillIn='Yes' table='20' seat='6' chips='10,000' offer='agreed' apercent={33} navigation={this.props.navigation}/>
-            <SwapEntry name='Paul Blart'  stillIn='Yes' table='12' seat='6' chips='24,000' offer='inactive' navigation={this.props.navigation}/>
-            <SwapEntry name='Jack Nicholson'  stillIn='Yes' table='12' seat='9' chips='15,000' navigation={this.props.navigation} offer='recieved'/> 
+            </Content.Consumer> 
           </List>
         </Content>
+
+        {/* FOOTER CONTAINS NUMBER OF SWAPS AND ACTION */}
         <Footer style={{maxHeight:60}}>
+          
+          {/* CURRENT USER'S NUMBER OF CURRENT TOURNAMENT SWAPS */}
           <Col>
             <Button  large
               style={{
@@ -90,9 +86,10 @@ export default class TourneyLobby extends Component {
             </Button>
           </Col>
           
+
+          {/* CURRENT USER'S ACTION */}
           <Col>
-            <Button transparent large
-              style={{justifyContent:'center'}}>
+            <Button transparent large style={{justifyContent:'center'}}>
               <Text >ACTION: {this.state.action}%</Text>
             </Button>
           </Col>

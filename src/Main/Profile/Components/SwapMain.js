@@ -34,24 +34,28 @@ export default class SwapMain extends Component {
                     justifyContent:'center'
                   }}
                 >
-                  <Text 
-                    style={{fontWeight:"600"}}>
+                  <Text style={{fontWeight:"600"}}>
                     {this.props.swaps} SWAPS
                   </Text>
                 </Button>
               </Row>
-              <SwapBody  
-                navigation = {this.props.navigation}
-                name={this.props.names[0]} 
-                percent={this.props.percents[0]}/>
-              <SwapBody  
-                navigation = {this.props.navigation}
-                name={this.props.names[1]} 
-                percent={this.props.percents[1]}/>
-              <SwapBody
-                navigation = {this.props.navigation}
-                name={this.props.names[2]} 
-                percent={this.props.percents[2]}/>
+              
+              {/* TOURNEY BUYIN ENTRIES 
+              <Content.Consumer>
+                {({store, actions}) => {
+                  return store.swaps.map((content, index) => {
+                    return(
+                      <SwapBody
+                        id = {content.id}
+                        name={content.name}
+                        percent={content.percent}
+                        state={content.status}
+                        navigation={this.props.navigation}/>
+                    )
+                  })
+                }}
+              </Content.Consumer> */}
+              
               </Col>
           </Grid>
         </ListItem>

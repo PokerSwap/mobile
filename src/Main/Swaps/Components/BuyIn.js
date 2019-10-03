@@ -1,39 +1,13 @@
 import React, {Component} from 'react';
 import {  Text, ListItem, Button, Icon } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid'
+import BuyInAttribute from './BuyInAttribute'
 
-class SwapAttribute extends Component {
-  constructor(props){
-    super(props);
-    this.state={
-
-    }
-  }
-
-  render(){
-    return(
-      <Col>
-        <Row style={{justifyContent:'center'}}>
-          <Text style={{textAlign:'center'}}> 
-            {this.props.top} 
-          </Text>
-        </Row>
-        <Row style={{justifyContent:'center'}}>
-          <Text style={{textAlign:'center'}}> 
-            {this.props.bottom} 
-          </Text>
-        </Row>
-      </Col> 
-    )
-  }
-}
-
-
-export default class SwapEntry extends Component {
+export default class BuyIn extends Component {
     constructor(props){
       super(props);
       this.state={  
-        offer: props.offer
+        
       }
     }
 
@@ -89,28 +63,30 @@ export default class SwapEntry extends Component {
           <Grid style={{marginVertical:10}}>
             <Col style={{width:'70%'}}>
 
-              {/* PERSON */}
+              {/* PROFILE NAME */}
               <Row style={{justifyContent:'center'}}>
                 <Text style={{fontSize:24}}> {this.props.name} </Text>
+                <Text> {this.props.flight} </Text>
               </Row>
 
               {/* DETAILS */}
               <Row style={{marginTop:10}}>
-                <SwapAttribute top=' Still In? ' bottom={this.props.stillIn}/>
-                <SwapAttribute top=' Table ' bottom={this.props.table}/>
-                <SwapAttribute top=' Seat ' bottom={this.props.seat}/>
-                <SwapAttribute top=' Chips ' bottom={this.props.chips}/>
+                <BuyInAttribute top=' Still In? ' bottom={this.props.stillIn}/>
+                <BuyInAttribute top=' Table ' bottom={this.props.table}/>
+                <BuyInAttribute top=' Seat ' bottom={this.props.seat}/>
+                <BuyInAttribute top=' Chips ' bottom={this.props.chips}/>
               </Row>
             </Col>
 
             {/* BUTTON WITH VARIABLE PATHS */}
             <Col style={{justifyContent:'center', marginLeft:20}}>
               <Button 
-                onPress={()=> this.props.navigation.navigate('SwapOffer', {mode:path})}
+                onPress={()=> this.props.navigation.navigate('SwapOffer', { mode: path })}
                 style={{backgroundColor:buttonColor, width:70, height:70, justifyContent:'center'}}>
                 {lastCol}
               </Button>
             </Col>
+
           </Grid>
         </ListItem>
       )
