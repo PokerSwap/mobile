@@ -477,7 +477,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 				}
 			},
 			
-			
 			// (navigation, aName) => {
 			// 	navigation.navigate('Profile', {
 			// 		name: aName,
@@ -495,7 +494,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 			
 			swap: {
 
-				add: () => {
+				add: ( a_state, a_sender_id, a_recipient_id, a_percent ) => {
 
 				},
 
@@ -507,7 +506,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 		
 			tournament:{
 
-				add: ( a_name, an_address, startTime, endTime ) => {
+				add: ( a_name, an_abbreviation, an_address, startTime, endTime ) => {
 
 				},
 
@@ -519,7 +518,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 				},
 
-				update: ( a_name, an_address, startTime, endTime ) => {
+				update: ( a_name, an_abbreviation, an_address, startTime, endTime ) => {
 
 				},
 
