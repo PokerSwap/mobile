@@ -17,6 +17,29 @@ export default class SwapDashboard extends Component {
           <Content>
             <List>
 
+              {/* LIVE SWAPS LIST HEADER */}
+              <Separator bordered style={{height:48}}>
+                <Text style={{fontSize:20}}> Live Swaps </Text>
+              </Separator>
+              
+              {/* LIVE SWAPS LIST */}
+              <Context.Consumer>
+                {({store, actions})=> {
+                  var liveSwaps = store.my_swaps.filter(item => item.state =='live')
+                  return liveSwaps.map((content, index) => {
+                    return(
+                      <BuyIn 
+                        key={index}
+                        name={content.name}
+                        percent={content.percent}
+                        table={content.table}
+                        seat={content.seat}
+                        chips={content.chips}
+                        offer={content.offer}
+                      />
+                  )})}}
+              </Context.Consumer> 
+
               {/* INCOMING SWAPS LIST HEADER */}
               <Separator style={{height:48}} bordered>
                 <Text style={{fontSize:20}}> Incoming Swaps </Text> 
@@ -25,7 +48,7 @@ export default class SwapDashboard extends Component {
               {/* INCOMING SWAPS LIST */}
               <Context.Consumer>
                 {({store, actions})=> {
-                  var incomingSwaps = store.swaps.filter(item => item.state =='incoming')
+                  var incomingSwaps = store.my_swaps.filter(item => item.state =='incoming')
                   return incomingSwaps.map((content, index) => {
                     return(
                       <BuyIn 
@@ -48,7 +71,7 @@ export default class SwapDashboard extends Component {
               {/* PENDING SWAPS LIST */}
               <Context.Consumer>
                 {({store, actions})=> {
-                  var pendingSwaps = store.swaps.filter(item => item.state =='pending')
+                  var pendingSwaps = store.my_swaps.filter(item => item.state =='pending')
                   return pendingSwaps.map((content, index) => {
                     return(
                       <BuyIn 
@@ -62,17 +85,17 @@ export default class SwapDashboard extends Component {
                       />
                 )})}}
               </Context.Consumer> 
-
-              {/* CURRENT SWAPS LIST HEADER */}
+            
+              {/* SCHEDUELED SWAPS LIST HEADER */}
               <Separator bordered style={{height:48}}>
-                <Text style={{fontSize:20}}> Current Swaps </Text>
+                <Text style={{fontSize:20}}> Schedueled Swaps </Text>
               </Separator>
-              
-              {/* CURRENT SWAPS LIST */}
+
+              {/* SCHEDUELED SWAPS LIST */}
               <Context.Consumer>
                 {({store, actions})=> {
-                  var currentSwaps = store.swaps.filter(item => item.state =='current')
-                  return currentSwaps.map((content, index) => {
+                  var schedueledSwaps = store.my_swaps.filter(item => item.state =='schedueled')
+                  return schedueledSwaps.map((content, index) => {
                     return(
                       <BuyIn 
                         key={index}
@@ -85,7 +108,7 @@ export default class SwapDashboard extends Component {
                       />
                   )})}}
               </Context.Consumer> 
-            
+
             </List>
           </Content>
         </Container>
