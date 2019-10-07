@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import { Button, Text, H1, CardItem} from 'native-base';
-import { Col, Row, Grid } from 'react-native-easy-grid';
+import { Button, Text } from 'native-base';
+import { Col, Row } from 'react-native-easy-grid';
 
 export default class SwapHead extends Component {
     constructor(props){

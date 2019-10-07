@@ -1,5 +1,3 @@
-import React, { Component } from 'react'
-
 const getState = ({ getStore, setStore, getActions }) => {
 	return {
 
@@ -16,27 +14,28 @@ const getState = ({ getStore, setStore, getActions }) => {
 
       // Place to get your Swaps, tokens, settings, and buyin/swap history
       my_profile:{ 
-					id: 1,
-					first_name: "Gabriel",
-					last_name: "Herndon",
-          nickname: "Gabe",
-          rating: 5,
-          roi: 21,
-					email: "katz234@gmail.com",
-					hendon_url: "https://pokerdb.thehendonmob.com/player.php?a=r&n=26721",
-					profile_picture_url: "https://pokerdb.thehendonmob.com/pictures/carykatzpic.png",
-					transactions: "list of transactions",
-					created_at: "Tue, 17 Sep 2019 04:23:59 GMT",
-					updated_at: "Tue, 17 Sep 2019 04:23:59 GMT",
-					tokens: 12,
-					buy_ins: [1,2]
+				id: 1,
+				first_name: "Gabriel",
+				last_name: "Herndon",
+				nickname: "Gabe",
+				rating: 5,
+				roi: 21,
+				email: "katz234@gmail.com",
+				hendon_url: "https://pokerdb.thehendonmob.com/player.php?a=r&n=26721",
+				profile_picture_url: "https://pokerdb.thehendonmob.com/pictures/carykatzpic.png",
+				transactions: "list of transactions",
+				created_at: "Tue, 17 Sep 2019 04:23:59 GMT",
+				updated_at: "Tue, 17 Sep 2019 04:23:59 GMT",
+				tokens: 12,
+				buy_ins: [1,2,3,4,5,6,7,8]
       },
       
       // FOR CURRENT TOURNAMENT (or FLIGHTS?)
 			buy_ins: [
 				{
 					id: 1,
-          user_id: 1,
+					user_id: 1,
+					live:true,  
 					flight_id: 1,
 					receipt_img_url: "http://lorempixel.com/400/200/",
 					swaps:[ 1, 2 ],
@@ -54,7 +53,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					user_id: 1,
 					flight_id: 1,
 					receipt_img_url: "http://lorempixel.com/400/200/",
-					swaps:[ 1, 2 ],
+					swaps:[ 3, 4 ],
 					action: 12,
 					still_in: true,
 					table: 23,
@@ -65,7 +64,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				},
 				{
 					id: 3,
-					user_id: 2,
+					user_id: 1,
 					flight_id: 1,
 					receipt_img_url: "http://lorempixel.com/400/200/",
 					swaps:[ 1, 2 ],
@@ -80,7 +79,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				},
 				{
 					id: 4,
-					user_id: 2,
+					user_id: 1,
 					flight_id: 2,
 					receipt_img_url: "http://lorempixel.com/400/200/",
 					swaps:[ 1, 2 ],
@@ -95,7 +94,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				},
 				{
 					id: 5,
-					user_id: 3,
+					user_id: 1,
 					flight_id: 1,
 					receipt_img_url: "http://lorempixel.com/400/200/",
 					swaps:[ 1, 2 ],
@@ -110,7 +109,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				},
 				{
 					id: 6,
-					user_id: 3,
+					user_id: 1,
 					flight_id: 3,
 					receipt_img_url: "http://lorempixel.com/400/200/",
 					swaps:[ 1, 2 ],
@@ -125,7 +124,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				},
 				{
 					id: 7,
-					user_id: 3,
+					user_id: 1,
 					flight_id: 4,
 					receipt_img_url: "http://lorempixel.com/400/200/",
 					swaps:[ 1, 2 ],
@@ -140,7 +139,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				},
 				{
 					id: 8,
-					user_id: 3,
+					user_id: 1,
 					flight_id: 5,
 					receipt_img_url: "http://lorempixel.com/400/200/",
 					swaps:[ 1, 2 ],
@@ -240,7 +239,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 			],
       
       //CURRENT USER'S SWAPS
-			swaps:[
+			my_swaps:[
 				{
 					id:1,
 					tournament_id: 1,
@@ -477,12 +476,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 				}
 			},
 			
-			// (navigation, aName) => {
-			// 	navigation.navigate('Profile', {
-			// 		name: aName,
-			// 		state: 'public'
-			// 	})
-			// },
 
 			receipt:{
 

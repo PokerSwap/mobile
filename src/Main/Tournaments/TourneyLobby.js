@@ -4,6 +4,7 @@ import {Container, Content, Button, Footer, List, ListItem, Text} from 'native-b
 import TourneyHeader from './Components/TourneyHeader'
 import BuyIn from '../Swaps/Components/BuyIn'
 import {Col} from 'react-native-easy-grid'
+import { Context } from '../../Store/appContext'
 
 export default class TourneyLobby extends Component {
   constructor(props){
@@ -68,7 +69,7 @@ export default class TourneyLobby extends Component {
             </Content.Consumer> 
 
 {/* TOURNEY BUYIN ENTRIES  */}
-            <Content.Consumer>
+            <Context.Consumer>
               {({store, actions}) => {
                 var everyone_else = store.buy_ins.filter(item => item.user_id !== 1)
                 return everyone_else.map((content, index) => {
@@ -86,7 +87,7 @@ export default class TourneyLobby extends Component {
                   )
                 })
               }}
-            </Content.Consumer> 
+            </Context.Consumer> 
 
           </List>
         </Content>
