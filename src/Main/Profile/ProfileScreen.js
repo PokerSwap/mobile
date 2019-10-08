@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { Container, Content, Header } from 'native-base';
 import _Header from '../../View-Components/header'
 import ProfileBio from './Components/ProfileBio';
-import SwapHistory from './Components/SwapHistory'
+import ProfileHistory from './Components/ProfileHistory'
 
 export default class ProfileScreen extends Component {
     constructor(props){
@@ -27,7 +27,7 @@ export default class ProfileScreen extends Component {
         history = null
       } else {
         header= <_Header drawer={() => this.props.navigation.toggleDrawer()}/>
-        history = <SwapHistory navigation={this.props.navigation}/>
+        history = <ProfileHistory navigation={this.props.navigation}/>
       }
 
       return(
