@@ -37,8 +37,9 @@ export default class TournamentBody extends Component {
           noIndent style={{backgroundColor: bgColor}}
           onPress={()=> navigation.navigate(path)} >
           
-          {/* TOURNAMENT START DATE*/}
+          {/* LEFT SIDE */}
           <Left>
+            {/* TOURNAMENT DATE BOX */}
             <Button bordered 
               style={{
                 borderColor:buttonColor,
@@ -50,24 +51,26 @@ export default class TournamentBody extends Component {
                 width:75, height:75
               }}
             >
+              {/* TOURNAMENT START DATE*/}
               <Text style={{fontWeight:"600", color:textColor}}>
                 {this.props.start_at}
               </Text>
             </Button>        
           </Left>
-          
-          {/* TOURNAMENT TITLE AND ADDRESS */}
+                 
           <Col style={{width: 230}}>
+            {/* TOURNAMENT TITLE */}
             <Text 
               style={{color:textColor, 
               alignSelf:"flex-start",
               fontSize:20, fontWeight:'600'}}> 
-              {this.props.abbreviation}
+              {this.props.name}
             </Text>
+            {/* TOURNAMENT ADDRESS */}
             <Text 
               style={{color:textColor, 
               alignSelf:"flex-start",
-              fontSize:20, fontWeight:'600'}}> 
+              fontSize:16, fontWeight:'400'}}> 
               {this.props.address}
             </Text>
           </Col>
@@ -79,5 +82,5 @@ export default class TournamentBody extends Component {
 
         </ListItem>
       )
-    }
+    }s
 }
