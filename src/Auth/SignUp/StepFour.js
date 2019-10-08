@@ -58,12 +58,12 @@ export default class StepFour extends Component {
 					<AlertS  next={this.props.next}/>
 					<Button danger style={{marginVertical:20}} 
 						onPress={() => this.props.next()}>
-						<Text>I don't have a Hendon account</Text>
+						<Text>I'll do it later</Text>
 					</Button>
 				</CardItem>          
 				<CardItem>
 					<Button info large onPress={() => this.props.prev()}>
-						<Text></Text>
+						<Text>Prev</Text>
 					</Button>
 				</CardItem>
 			</Card>

@@ -19,12 +19,20 @@ export default class StepTwo extends Component {
                     </Text>
                 </CardItem>
                 <CardItem body style={{flexDirection:"column"}}>
-                    <Item>
-                        <Input placeholder='First Name'/>
-                    </Item>
-                    <Item>
-                        <Input placeholder='Last Name'/>
-                    </Item>
+                  <Item>
+                    <Input 
+                      placeholder='First Name'
+                      value={this.props.first_name}    
+                      onChangeText={email => this.setState({ email })}
+                    />
+                  </Item>
+                  <Item>
+                    <Input 
+                      placeholder='Last Name'
+                      value={this.props.email}    
+                      onChangeText={email => this.setState({ email })}
+                    />
+                  </Item>
                 </CardItem>
                 <CardItem footer style={{justifyContent:"center"}}>
                     <Button large onPress={() => this.props.next()}>

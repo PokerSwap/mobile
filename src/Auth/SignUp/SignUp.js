@@ -12,7 +12,13 @@ export default class SignUpScreen extends Component {
   constructor(){
     super();
     this.state={
-      page:0
+      page:0,
+      email:'',
+      password:'',
+      first_name:'',
+      last_name:'',
+      picture:'',
+      hendon:''
     }
   }
   // NEXT SIGNUP STEP
@@ -28,6 +34,31 @@ export default class SignUpScreen extends Component {
     } 
   }
 
+  // onChange = (e) => {
+  //   e.preventDefault
+  // }
+
+  // onChange2 = (f) => {
+  //   f.preventDefault
+  // }
+
+  // createUser = async(x) => {
+
+  //     this.loading();
+  //     var answer = await x.user.signup(
+  //       this.state.email, 
+  //       this.state.password, 
+  //       this.state.first_name,
+  //       this.state.last_name,
+  //       this.state.picture,
+  //       this.state.hendon,
+  //       this.props.navigation
+  //       );
+  //     console.log('response', answer)
+  //     this.loading();	
+  //   }
+  // }
+
   render(){
     return(
       <Container>
@@ -40,23 +71,30 @@ export default class SignUpScreen extends Component {
             <Tab disabled heading="Email">
               <StepOne 
                 next={() => this.nextPage()}
+                // email={this.state.email}
+                // password={this.state.password}
                 />
             </Tab>
             <Tab disabled heading="Name">
               <StepTwo 
                 prev={() => this.prevPage()}
-                next={() => this.nextPage()} />
+                next={() => this.nextPage()} 
+                // first_name={this.state.first_name} 
+                // last_name={this.state.last_name} 
+              />
             </Tab>
             <Tab disabled heading="Picture">
               <StepThree 
                 prev={() => this.prevPage()}
                 next={() => this.nextPage()}
+                // picture={this.state.picture}
               />
             </Tab>
             <Tab disabled heading="Hendon">
               <StepFour 
                 prev={() => this.prevPage()}
                 next={() => this.nextPage()}
+                // hendon={this.state.hendon}
               />
             </Tab>
             <Tab disabled heading="Review">
