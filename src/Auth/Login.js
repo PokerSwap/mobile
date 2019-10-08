@@ -8,13 +8,13 @@ import { Grid, Row, Col } from 'react-native-easy-grid';
 import { View, Image, StatusBar, SafeAreaView, Keyboard, 
   TouchableWithoutFeedback, TextInput, KeyboardAvoidingView } from 'react-native';
 
-
 export default class LoginScreen extends Component {
     constructor(){
       super();
       this.state={
         email:'',
-        password:''
+        password:'',
+        loading:false
       }
     }
 
@@ -22,7 +22,7 @@ export default class LoginScreen extends Component {
       this.setState({loading: !this.state.loading})
     }
   
-    startButton = async (x) => {
+    loginStart = async (x) => {
       this.loading();
       var answer = await x.user.login(
         this.state.username, 
@@ -37,6 +37,9 @@ export default class LoginScreen extends Component {
       return(
         <Container>
           <Content contentContainerStyle={{flex:1, justifyContent:"center"}}>
+            
+            <Spinner visible={this.state.loading} style={{color: '#FFF'}}/>
+            
             <Card transparent>
               
               {/* TITLE */}
@@ -88,54 +91,53 @@ export default class LoginScreen extends Component {
                   <Right/>
                 </CardItem>
               
-                {/* LOGIN BUTTON */}
-                <Context.Consumer>
-                  {({store, actions}) => {
-                    wrong = () => {
-                      if(store.userToken==null){
-                        Toast.show({
-                          text:'Sorry you entered the wrong email or password',
-                        duration:3000})
-                      }
+              {/* LOGIN BUTTON */}
+              <Context.Consumer>
+                {({store, actions}) => {
+                  wrong = () => {
+                    if(store.userToken==null){
+                      Toast.show({
+                        text:'Sorry you entered the wrong email or password',
+                      duration:3000})
                     }
-                    return(
-                      <View>
-                        <Button block
-                          onPress={
-                            async() => {
-                              Keyboard.dismiss();
-                              var x = await this.startButton(actions)
-                              wrong()}
-                            }
-                        >
-                          <Text> Login</Text>
-                        </Button>
-                      </View>
-                    )
-                  }}
-                </Context.Consumer>
-
+                  }
+                  return(
+                    <View>
+                      <Button block
+                        onPress={
+                          async() => {
+                            Keyboard.dismiss();
+                            var x = await this.loginStart(actions)
+                            wrong()}
+                          }
+                      >
+                        <Text> Login </Text>
+                      </Button>
+                    </View>
+                  )
+                }}
+              </Context.Consumer>
 
               {/* BOTTOM BUTTONS */}
               <CardItem>
-                  <Left>
-                    <Body>
-                      {/* FORGOT PASSWORD BUTTON */}
-                      <Button transparent>
-                        <Text>Forgot password?</Text>
-                      </Button>
-                    </Body>
-                  </Left>
-                  <Right>
+                <Left>
                   <Body>
-                    {/* SIGN UP BUTTON */}
-                    <Button transparent onPress={()=>navigate("TermsAndConditions")}>
-                      <Text>First Time</Text>
+                    {/* FORGOT PASSWORD BUTTON */}
+                    <Button transparent>
+                      <Text>Forgot password?</Text>
                     </Button>
                   </Body>
+                </Left>
+                <Right>
+                <Body>
+                  {/* SIGN UP BUTTON */}
+                  <Button transparent onPress={()=>navigate("TermsAndConditions")}>
+                    <Text>First Time?</Text>
+                  </Button>
+                </Body>
 
-                  </Right>
-                </CardItem>
+                </Right>
+              </CardItem>
             </Card>
           </Content>
         </Container>
