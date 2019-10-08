@@ -16,8 +16,12 @@ export default class _Header extends Component {
                 <Icon name="menu"
                   onPress={() => this.props.drawer()}/>
               </Left>
-              <Body><Text>Swap Poker</Text></Body>
-              <Right><Icon name="question"/></Right>
+              <Body>
+                <Text>Swap Poker</Text>
+              </Body>
+              <Right>
+                <Icon name="question"/>
+              </Right>
             </Header>
       )
     }

@@ -32,7 +32,7 @@ export default class TourneyLobby extends Component {
             </ListItem>
 
             {/* CURRENT USER'S BUYIN */}
-            <Content.Consumer>
+            <Context.Consumer>
               {({store, actions}) => {
                 var you = store.buy_ins.filter(item => item.user_id == 1 )
                 return you.map((content, index) => {
@@ -45,10 +45,10 @@ export default class TourneyLobby extends Component {
                   )
                 })
               }}
-            </Content.Consumer> 
+            </Context.Consumer> 
             
             {/* TOURNEY BUYIN ENTRIES  */}
-            <Content.Consumer>
+            <Context.Consumer>
               {({store, actions}) => {
                 var everyone_else = store.buy_ins.filter(item => item.user_id !== 1)
                 return everyone_else.map((content, index) => {
@@ -66,13 +66,13 @@ export default class TourneyLobby extends Component {
                   )
                 })
               }}
-            </Content.Consumer> 
+            </Context.Consumer> 
 
 {/* TOURNEY BUYIN ENTRIES  */}
             <Context.Consumer>
               {({store, actions}) => {
                 var everyone_else = store.buy_ins.filter(item => item.user_id !== 1)
-                return everyone_else.map((content, index) => {
+                return store.buy_ins.map((content, index) => {
                   return(
                     <BuyIn
                       id = {content.id}

@@ -24,7 +24,6 @@ export default class TournamentDashboard extends Component {
                         <TournamentBody 
                           reel={this.props.navigation}
                           name={content.name} 
-                          abbreviation={content.abbreviation}
                           status={content.status}
                           start_at={content.start_at}
                           end_at={content.end_at}

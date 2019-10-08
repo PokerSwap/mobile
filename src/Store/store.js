@@ -27,7 +27,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 				created_at: "Tue, 17 Sep 2019 04:23:59 GMT",
 				updated_at: "Tue, 17 Sep 2019 04:23:59 GMT",
 				tokens: 12,
-				buy_ins: [1,2,3,4,5,6,7,8]
+				buy_ins: [1,2,3,4,5,6,7,8],
+				swaps: []
       },
       
       // FOR CURRENT TOURNAMENT (or FLIGHTS?)
@@ -36,6 +37,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					id: 1,
 					user_id: 1,
 					live:true,  
+					bullet:4,
 					flight_id: 1,
 					receipt_img_url: "http://lorempixel.com/400/200/",
 					swaps:[ 1, 2 ],
@@ -50,7 +52,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				},
 				{
 					id: 2,
-					user_id: 1,
+					user_id: 2,
 					flight_id: 1,
 					receipt_img_url: "http://lorempixel.com/400/200/",
 					swaps:[ 3, 4 ],
@@ -64,7 +66,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				},
 				{
 					id: 3,
-					user_id: 1,
+					user_id: 3,
 					flight_id: 1,
 					receipt_img_url: "http://lorempixel.com/400/200/",
 					swaps:[ 1, 2 ],
