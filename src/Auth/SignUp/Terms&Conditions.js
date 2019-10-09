@@ -43,7 +43,7 @@ export default class TermsAndConditions extends Component {
             </CardItem>
             {/* PAGE BUTTON */}
             <CardItem style={{justifyContent:"center"}}>
-              <Button large onPress={()=> this.props.navigation.navigate('SignUp')}>
+              <Button large onPress={()=> this.props.navigation.navigate('UserCreation')}>
                 <Text>I AGREE</Text>
               </Button>
             </CardItem>

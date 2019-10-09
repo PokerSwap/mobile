@@ -2,13 +2,14 @@ import React from 'react';
 import { Icon } from "native-base";
 import { createStackNavigator, createBottomTabNavigator,
 createDrawerNavigator, createAppContainer } from "react-navigation";
-import Store from './src/Store/appContext'
+import Store, {Context} from './src/Store/appContext'
 
 // AUTH VIEWS
 import SplashScreen from './src/Auth/Splash'
 import LogInScreen from './src/Auth/Login'
-import SignUpScreen from './src/Auth/SignUp/SignUp'
+import CreateProfile from './src/Auth/SignUp/CreateProfile'
 import TermsAndConditions from './src/Auth/SignUp/Terms&Conditions'
+import CreateUser from './src/Auth/SignUp/CreateUser'
 
 // MAIN VIEWS
 import TournamentDashboard from './src/Main/Tournaments/TournamentDashboard'
@@ -40,6 +41,7 @@ const AuthStack = createStackNavigator(
         header: null
       }
     },
+
     LogIn: {
       screen: LogInScreen,
       navigationOptions: {
@@ -47,12 +49,21 @@ const AuthStack = createStackNavigator(
         header: null
       }
     },
-    SignUp: {
-      screen: SignUpScreen,
+
+    UserCreation:{
+      screen: CreateUser,
       navigationOptions: {
-        title: 'Sign Up',
+        title:'Create User'
       }
     },
+
+    ProfileCreation: {
+      screen: CreateProfile,
+      navigationOptions: {
+        title: 'Create Your Profile'
+      }
+    },
+
     TermsAndConditions:{
       screen: TermsAndConditions,
       navigationOptions:{

@@ -1,16 +1,16 @@
 import React, {Component} from 'react';
 import { Content, Container, Header, Tab, Tabs } from 'native-base';
 
-import { Context } from '../Store/appContext'
+import { Context } from '../../Store/appContext'
 import Spinner from 'react-native-loading-spinner-overlay';
 
-import StepOne from './StepOne';
+import StepOne from './CreateUser';
 import StepTwo from './StepTwo';
 import StepThree from './StepThree';
 import StepFour from './StepFour';
 import ProfileReview from './ProfileReview'
 
-export default class SignUpScreen extends Component {
+export default class CreateProfile extends Component {
   constructor(){
     super();
     this.state={
@@ -37,11 +37,16 @@ export default class SignUpScreen extends Component {
     } 
   }
 
-  createUser = async(x) => {
+  loading = () => {
+    this.setState({loading: !this.state.loading})
+  }
+
+  createProfile = async(x) => {
     this.loading();
     var answer = await x.user.signup(
       this.state.email, 
       this.state.password, 
+      this.state.username,
       this.state.first_name,
       this.state.last_name,
       this.state.picture,
@@ -50,7 +55,7 @@ export default class SignUpScreen extends Component {
       );
     console.log('response', answer)
     this.loading();	
-    }
+  }
 
   render(){
     return(
@@ -62,24 +67,16 @@ export default class SignUpScreen extends Component {
             justifyContent:"center"}}>
          
          <Spinner visible={this.state.loading} style={{color: '#FFF'}}/>
-
          
           <Tabs initialPage={0} page={this.state.page}>
-
-            <Tab disabled heading="Email">
-              <StepOne 
-                next={() => this.nextPage()}
-                email={this.state.email}
-                password={this.state.password}
-                />
-            </Tab>
 
             <Tab disabled heading="Name">
               <StepTwo 
                 prev={() => this.prevPage()}
                 next={() => this.nextPage()} 
-                first_name={this.state.first_name} 
-                last_name={this.state.last_name} 
+                first_name= {this.state.first_name} 
+                last_name= {this.state.last_name} 
+                username= {this.state.username}
               />
             </Tab>
 
@@ -87,7 +84,7 @@ export default class SignUpScreen extends Component {
               <StepThree 
                 prev={() => this.prevPage()}
                 next={() => this.nextPage()}
-                picture={this.state.picture}
+                picture= {this.state.picture}
               />
             </Tab>
 
@@ -95,14 +92,15 @@ export default class SignUpScreen extends Component {
               <StepFour 
                 prev={() => this.prevPage()}
                 next={() => this.nextPage()}
-                hendon={this.state.hendon}
+                hendon= {this.state.hendon}
               />
             </Tab>
 
             <Tab disabled heading="Review">
               <ProfileReview 
                 prev={() => this.prevPage()}
-                navigation={this.props.navigation}
+                createUser= {this.createUser}
+                navigation= {this.props.navigation}
               />
             </Tab>
 
