@@ -12,9 +12,9 @@ export default class ProfileHistory extends Component {
 	render(){
 		return(
 			<List header>
-				<Context.Consumer>
+				{/* <Context.Consumer>
 					{({store, actions}) => {
-						var user = store.my_profile.buy_ins
+						var user = store.tournaments
 						return user.map((content, index) => {
 							return(
 								<SwapMain 
@@ -25,7 +25,7 @@ export default class ProfileHistory extends Component {
 							)
 							})
 					}}
-				</Context.Consumer>
+				</Context.Consumer> */}
 			</List>				
 		)
 	}

@@ -20,7 +20,7 @@ export default class _Header extends Component {
                 <Text>Swap Poker</Text>
               </Body>
               <Right>
-                <Icon name="question"/>
+                <Icon name="ios-clock"/>
               </Right>
             </Header>
       )
