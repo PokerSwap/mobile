@@ -4,11 +4,10 @@ import { Content, Container, Header, Tab, Tabs } from 'native-base';
 import { Context } from '../../Store/appContext'
 import Spinner from 'react-native-loading-spinner-overlay';
 
-import StepOne from './CreateUser';
-import StepTwo from './StepTwo';
-import StepThree from './StepThree';
-import StepFour from './StepFour';
 import ProfileReview from './ProfileReview'
+import NameSetup from './NameSetup';
+import PictureSetup from './PictureSetup';
+import HendonSetup from './HendonSetup';
 
 export default class CreateProfile extends Component {
   constructor(){
@@ -71,7 +70,7 @@ export default class CreateProfile extends Component {
           <Tabs initialPage={0} page={this.state.page}>
 
             <Tab disabled heading="Name">
-              <StepTwo 
+              <NameSetup 
                 prev={() => this.prevPage()}
                 next={() => this.nextPage()} 
                 first_name= {this.state.first_name} 
@@ -81,7 +80,7 @@ export default class CreateProfile extends Component {
             </Tab>
 
             <Tab disabled heading="Picture">
-              <StepThree 
+              <PictureSetup 
                 prev={() => this.prevPage()}
                 next={() => this.nextPage()}
                 picture= {this.state.picture}
@@ -89,7 +88,7 @@ export default class CreateProfile extends Component {
             </Tab>
 
             <Tab disabled heading="Hendon">
-              <StepFour 
+              <HendonSetup 
                 prev={() => this.prevPage()}
                 next={() => this.nextPage()}
                 hendon= {this.state.hendon}

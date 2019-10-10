@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
-import { Button, Card, CardItem, Item, Input,
-ProgressBar, Text } from 'native-base';
+import { Button, Card, CardItem, Item, Input, Text } from 'native-base';
 
-export default class StepTwo extends Component {
+export default class NameSetup extends Component {
     constructor(props){
         super(props);
         this.state={
@@ -23,14 +22,21 @@ export default class StepTwo extends Component {
                     <Input 
                       placeholder='First Name'
                       value={this.props.first_name}    
-                      onChangeText={email => this.setState({ email })}
+                      onChangeText={first_name => this.setState({ first_name })}
                     />
                   </Item>
                   <Item>
                     <Input 
                       placeholder='Last Name'
-                      value={this.props.email}    
-                      onChangeText={email => this.setState({ email })}
+                      value={this.props.last_name}    
+                      onChangeText={last_name => this.setState({ last_name })}
+                    />
+                  </Item>
+                  <Item>
+                    <Input 
+                      placeholder='Nick Name'
+                      value={this.props.username}    
+                      onChangeText={email => this.setState({ username })}
                     />
                   </Item>
                 </CardItem>

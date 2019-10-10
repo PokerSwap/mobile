@@ -15,6 +15,7 @@ export default class ProfileReview extends Component {
                 <Button success large onPress={()=>this.props.navigation.navigate('Swaps')}>
                     <Text>Finalize</Text>
                 </Button>
+                
                 <Button light onPress={() => this.props.prev()}>
                     <Text>Go back</Text>
                 </Button>

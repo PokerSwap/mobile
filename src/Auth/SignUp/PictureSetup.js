@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { Image } from 'react-native'
 import { Button, Card, CardItem, Text } from 'native-base';
 
-export default class StepThree extends Component {
+export default class PictureSetup extends Component {
     constructor(props){
         super(props);
         this.state={
