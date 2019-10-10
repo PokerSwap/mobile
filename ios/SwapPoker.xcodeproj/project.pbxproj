@@ -5,7 +5,6 @@
 	};
 	objectVersion = 52;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		004A31C9232ED4580067C922 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 004A31C8232ED4580067C922 /* StoreKit.framework */; };
 		00E356F31AD99517003FC87E /* SwapPokerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* SwapPokerTests.m */; };
