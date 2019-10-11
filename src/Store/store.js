@@ -4,565 +4,230 @@ const getState = ({ getStore, setStore, getActions }) => {
 		store: {
 
       // CURRENT USER
-      user_in_session:{
-        id:1,
-        email: 'gherndon5@hotmail.com',
-        password:'lol',
-        created_at:'2020-01-01T12:00:00+0400',
-        updated_at:'2020-01-01T12:06:00+0400'
-      },
-
-      // Place to get your Swaps, tokens, settings, and buyin/swap history
-      my_profile:{ 
-				id: 1,
-				first_name: "Gabriel",
-				last_name: "Herndon",
-				nickname: "Gabe",
-				rating: 5,
-				roi: 21,
-				email: "katz234@gmail.com",
-				hendon_url: "https://pokerdb.thehendonmob.com/player.php?a=r&n=26721",
-				profile_picture_url: "https://pokerdb.thehendonmob.com/pictures/carykatzpic.png",
-				transactions: "list of transactions",
-				created_at: "Tue, 17 Sep 2019 04:23:59 GMT",
-				updated_at: "Tue, 17 Sep 2019 04:23:59 GMT",
-				tokens: 12,
-				buy_ins: [1,2,3,4,5,6,7,8],
-				swaps: []
-      },
+      profile_in_session:{},
       
       // FOR CURRENT TOURNAMENT (or FLIGHTS?)
-			buy_ins: [
-				{
-					id: 1,
-					user_id: 1,
-					live:true,  
-					bullet:4,
-					flight_id: 1,
-					receipt_img_url: "http://lorempixel.com/400/200/",
-					swaps:[ 1, 2 ],
-					action: 12,
-					day:2,
-					still_in: true,
-					table: 23,
-					seat: 4,
-					current_chips: 10000,
-					created_at: "Mon, 16 Sep 2019, 14:55:32",
-					updated_at: "Tue, 17 Sep 2019, 22:44:07"
-				},
-				{
-					id: 2,
-					user_id: 2,
-					flight_id: 1,
-					receipt_img_url: "http://lorempixel.com/400/200/",
-					swaps:[ 3, 4 ],
-					action: 12,
-					still_in: true,
-					table: 23,
-					seat: 4,
-					current_chips: 10000,
-					created_at: "Mon, 16 Sep 2019, 14:55:32",
-					updated_at: "Tue, 17 Sep 2019, 22:44:07"
-				},
-				{
-					id: 3,
-					user_id: 3,
-					flight_id: 1,
-					receipt_img_url: "http://lorempixel.com/400/200/",
-					swaps:[ 1, 2 ],
-					action: 12,
-					bullet: 0,
-					still_in: true,
-					table: 23,
-					seat: 4,
-					current_chips: 10000,
-					created_at: "Mon, 16 Sep 2019, 14:55:32",
-					updated_at: "Tue, 17 Sep 2019, 22:44:07"
-				},
-				{
-					id: 4,
-					user_id: 1,
-					flight_id: 2,
-					receipt_img_url: "http://lorempixel.com/400/200/",
-					swaps:[ 1, 2 ],
-					action: 12,
-					bullet: 0,
-					still_in: true,
-					table: 23,
-					seat: 4,
-					current_chips: 10000,
-					created_at: "Mon, 16 Sep 2019, 14:55:32",
-					updated_at: "Tue, 17 Sep 2019, 22:44:07"
-				},
-				{
-					id: 5,
-					user_id: 1,
-					flight_id: 1,
-					receipt_img_url: "http://lorempixel.com/400/200/",
-					swaps:[ 1, 2 ],
-					action: 12,
-					bullet: 0,
-					still_in: true,
-					table: 23,
-					seat: 4,
-					current_chips: 10000,
-					created_at: "Mon, 16 Sep 2019, 14:55:32",
-					updated_at: "Tue, 17 Sep 2019, 22:44:07"
-				},
-				{
-					id: 6,
-					user_id: 1,
-					flight_id: 3,
-					receipt_img_url: "http://lorempixel.com/400/200/",
-					swaps:[ 1, 2 ],
-					action: 12,
-					bullet: 0,
-					still_in: true,
-					table: 23,
-					seat: 4,
-					current_chips: 10000,
-					created_at: "Mon, 16 Sep 2019, 14:55:32",
-					updated_at: "Tue, 17 Sep 2019, 22:44:07"
-				},
-				{
-					id: 7,
-					user_id: 1,
-					flight_id: 4,
-					receipt_img_url: "http://lorempixel.com/400/200/",
-					swaps:[ 1, 2 ],
-					action: 12,
-					bullet: 0,
-					still_in: true,
-					table: 23,
-					seat: 4,
-					current_chips: 10000,
-					created_at: "Mon, 16 Sep 2019, 14:55:32",
-					updated_at: "Tue, 17 Sep 2019, 22:44:07"
-				},
-				{
-					id: 8,
-					user_id: 1,
-					flight_id: 5,
-					receipt_img_url: "http://lorempixel.com/400/200/",
-					swaps:[ 1, 2 ],
-					action: 12,
-					bullet: 0,
-					still_in: true,
-					table: 23,
-					seat: 4,
-					current_chips: 10000,
-					created_at: "Mon, 16 Sep 2019, 14:55:32",
-					updated_at: "Tue, 17 Sep 2019, 22:44:07"
-				}
-			],
+			buy_ins: [ ],
 
       // FOR CURRENT TOURNAMENT
-			flights:[
-				{
-					id: 1,
-					start_at: "Wed, 11 Oct 2019 16:00:00 GMT",
-					end_at: "Wed, 11 Oct 2019 21:00:00 GMT",
-					tournament_id: 1,
-					created_at: "Mon, 16 Sep 2019, 14:55:32",
-					updated_at: "Tue, 17 Sep 2019, 22:44:07",
-					buy_ins: [1,2,3,5]
-				},
-				{
-					id: 2,
-					start_at: "Wed, 11 Oct 2019 16:00:00 GMT",
-					end_at: "Wed, 11 Oct 2019 21:00:00 GMT",
-					tournament_id: 1,
-					created_at: "Mon, 16 Sep 2019, 14:55:32",
-					updated_at: "Tue, 17 Sep 2019, 22:44:07",
-					buy_ins: [4]
-				},
-				{
-					id: 3,
-					start_at: "Mon, 30 Sep 2019 12:00:00 GMT",
-					end_at: "Mon, 30 Sep 2019 21:00:00 GMT",
-					tournament_id: 2,
-					created_at: "Mon, 16 Sep 2019, 14:55:32",
-					updated_at: "Tue, 17 Sep 2019, 22:44:07",
-					buy_ins: [6]
-				},
-				{
-					id: 4,
-					start_at: "Tue, 1 Oct 2019 12:00:00 GMT",
-					end_at: "Tue, 1 Oct 2019 21:00:00 GMT",
-					tournament_id: 2,
-					created_at: "Mon, 16 Sep 2019, 14:55:32",
-					updated_at: "Tue, 17 Sep 2019, 22:44:07",
-					buy_ins: [7]
-				},
-				{
-					id: 5,
-					start_at: "Wed, 11 Oct 2019 12:00:00 GMT",
-					end_at: "Wed, 11 Oct 2019 16:00:00 GMT",
-					tournament_id: 3,
-					created_at: "Mon, 16 Sep 2019, 14:55:32",
-					updated_at: "Tue, 17 Sep 2019, 22:44:07",
-					buy_ins: [8]
-				},
-			],
+			flights:[ ],
 
       // OTHER PEOPLE'S PROFILES (ON PROFILE VIEW)
-			profiles:[
-				{
-					id: 2,
-					first_name: "Kate",
-					last_name: "Hoang",
-					username: "Qwang",
-					email: "hoang234@gmail.com",
-					hendon_url: "https://pokerdb.thehendonmob.com/player.php?a=r&n=421758",
-					profile_picture_url: "https://pokerdb.thehendonmob.com/pictures/Hoang_2.jpg",
-					transactions: "list of transactions",
-					created_at: "Tue, 17 Sep 2019 04:23:59 GMT",
-					updated_at: "Tue, 17 Sep 2019 04:23:59 GMT",
-					userpref:'swap profit',
-					tokens: 0,
-					swaps: [5,6,7],
-					buy_ins: [3,4]
-				},
-				{
-					id: 3,
-					first_name: "Nikita",
-					last_name: "Bodyakovskiy",
-					username: "Mikita",
-					email: "bodyakov@gmail.com",
-					hendon_url: "https://pokerdb.thehendonmob.com/player.php?a=r&n=159100",
-					profile_picture_url: "https://pokerdb.thehendonmob.com/pictures/NikitaBadz18FRh.jpg",
-					transactions: "list of transactions",
-					created_at: "Tue, 17 Sep 2019 04:23:59 GMT",
-					updated_at: "Tue, 17 Sep 2019 04:23:59 GMT",
-					tokens: 5,
-					swaps: [8,9,10,11],
-					buy_ins: [5,6,7,8]
-				}
-			],
+			profiles:[ ],
       
       //CURRENT USER'S SWAPS
-			my_swaps:[
-				{
-					id:1,
-					tournament_id: 1,
-					sender_id: 1,
-					recipient_id: 2,
-					percentage: 5,
-					state:'pending',
-					winning_chips: null,
-					created_at: "Mon, 16 Sep 2019, 14:55:32",
-					updated_at: "Tue, 17 Sep 2019, 22:44:07"
-				},
-				{
-					id:2,
-					tournament_id: 1,
-					sender_id: 2,
-					recipient_id: 1,
-					percentage: 5,
-					state:'recieved',
-					winning_chips: null,
-					created_at: "Mon, 16 Sep 2019, 14:55:32",
-					updated_at: "Tue, 17 Sep 2019, 22:44:07"
-				},
-				{
-					id:3,
-					tournament_id: 1,
-					sender_id: 2,
-					recipient_id: 3,
-					percentage: 10,
-					state:'rejected',
-					winning_chips: null,
-					created_at: "Mon, 16 Sep 2019, 14:55:32",
-					updated_at: "Tue, 17 Sep 2019, 22:44:07"
-				},
-				{
-					id:4,
-					tournament_id: 1,
-					sender_id: 3,
-					recipient_id: 2,
-					percentage: 10,
-					state:'rejected',
-					winning_chips: null,
-					created_at: "Mon, 16 Sep 2019, 14:55:32",
-					updated_at: "Tue, 17 Sep 2019, 22:44:07"
-				},
-				{
-					id:5,
-					tournament_id: 2,
-					sender_id: 1,
-					recipient_id: 3,
-					percentage: 12,
-					state:'pending',
-					winning_chips: null,
-					created_at: "Mon, 16 Sep 2019, 14:55:32",
-					updated_at: "Tue, 17 Sep 2019, 22:44:07"
-				},
-			
-				{
-					id:6,
-					tournament_id: 2,
-					sender_id: 2,
-					recipient_id: 1,
-					percentage: 3,
-					winning_chips: 1000,
-					state:'agreed',
-					created_at: "Mon, 16 Sep 2019, 14:55:32",
-					updated_at: "Tue, 17 Sep 2019, 22:44:07"
-				},
-				{
-					id:7,
-					tournament_id: 2,
-					sender_id: 1,
-					recipient_id: 2,
-					percentage: 3,
-					winning_chips: 300,
-					state:'agreed',
-					created_at: "Mon, 16 Sep 2019, 14:55:32",
-					updated_at: "Tue, 17 Sep 2019, 22:44:07"
-				},
-				{
-					id:8,
-					tournament_id: 3,
-					sender_id: 2,
-					recipient_id: 3,
-					percentage: 20,
-					state:'agreed',
-					winning_chips: 500,
-					created_at: "Mon, 16 Sep 2019, 14:55:32",
-					updated_at: "Tue, 17 Sep 2019, 22:44:07"
-				},
-				{
-					id:9,
-					tournament_id: 3,
-					sender_id: 3,
-					recipient_id: 2,
-					percentage: 20,
-					state:'agreed',
-					winning_chips: 0,
-					created_at: "Mon, 16 Sep 2019, 14:55:32",
-					updated_at: "Tue, 17 Sep 2019, 22:44:07"
-				},
-				{
-					id:10,
-					tournament_id: 3,
-					sender_id: 1,
-					recipient_id: 3,
-					percentage: 16,
-					state: 'agreed',
-					winning_chips: 500,
-					created_at: "Mon, 16 Sep 2019, 14:55:32",
-					updated_at: "Tue, 17 Sep 2019, 22:44:07"
-				},
-				{
-					id:11,
-					tournament_id: 3,
-					sender_id: 3,
-					recipient_id: 1,
-					percentage: 16,
-					state:'agreed',
-					winning_chips: 600,
-					created_at: "Mon, 16 Sep 2019, 14:55:32",
-					updated_at: "Tue, 17 Sep 2019, 22:44:07"
-				}
-			],
-
-      // CURRENT USER'S TOKENS
-			tokens:[
-				{
-					id:1,
-					token:'s3224323edtvc44c',
-					expires_at:'2021-01-01T15:30:00+0400',
-					user_id:1,
-					created_at:'2020-01-01T15:30:00+0400',
-					updated_at:'2020-01-01T18:30:00+0400',
-				}
-			],
+			swaps:[ ],
 
       // ALL TOURNAMETS, FILTERED BY FIRST 10 RESULTS
-			tournaments:[
-				{
-					id: 1,
-					name: "Heartland Poker Tour - HPT Colorado, Black Hawk",
-					abbreviation: 'HPT Col. BH #19',
-					venue:'Golden Gates Casino',
-					address: "261 Main St, Black Hawk, CO 80422",
-					start_at: "Wed, 11 Oct 2019 12:00:00 GMT",
-					end_at: "Wed, 11 Oct 2019 21:00:00 GMT",
-					created_at: "Mon, 16 Sep 2019, 14:55:32",
-					updated_at: "Tue, 17 Sep 2019, 22:44:07",
-					buy_ins: [ 1, 2, 3, 4 ],
-					flights: [ 1, 2 ]
-				},
-				{
-					id: 2,
-					name: "Stones Live Fall Poker Series",
-					abbreviation: 'SLFPS 2019',
-					venue:'Stones Gambling Hall',
-					address: "6510 Antelope Rd, Citrus Heights, CA 95621",
-					start_at: "Mon, 30 Sep 2019 11:00:00 GMT",
-					end_at: "Tue, 1 Oct 2019 22:00:00 GMT",
-					created_at: "Mon, 16 Sep 2019, 14:55:32",
-					updated_at: "Tue, 17 Sep 2019, 22:44:07",
-					buy_ins: [ 5, 6 , 7 ],
-					flights: [ 3, 4 ]
-				},
-				{
-					id: 3,
-					name: "WPT DeepStacks - WPTDS Sacramento",
-					abbreviation: 'WPTDS S 2019',
-					venue:'Thunder Valley Casino Resort',
-					address: "1200 Athens Ave, Lincoln, CA 95648",
-					start_at: "Wed, 2 Oct 2019 12:00:00 GMT",
-					end_at: "Wed, 2 Oct 2019 21:00:00 GMT",
-					created_at: "Mon, 16 Sep 2019, 14:55:32",
-					updated_at: "Tue, 17 Sep 2019, 22:44:07",
-					buy_ins: [ 8, 9, 10, 11 ],
-					flights: [ 5 ]
-				}
-			],
+			tournaments:[ ],
 
-      // CURRENT USER'S TRANSACTIONS
-			transactions:[
-				{
-					id:1,
-					amount_in_coins:0,
-					amount_in_dollars:1,
-					user_id:1,
-					created_at:'2020-01-02T15:30:00+0400',
-					updated_at:'2020-01-02T16:30:00+0400'
-				}
-			],
+			userToken: null
 
 		},
 
 		actions: {
 			
-			buy_in:{
+			buy_in:{},
 
-				add: ( userID, flightID, receiptURL ) => {
+			coin:{},
 
-				},
-
-				update: ( is_still_in, a_table, a_seat, current_chips, a_bullet, a_flight ) => {
-
-				}
-			},
-
-			flights:{
-				
-				add: ( tournamentID, startTime, endTime ) => {
-
-				},
-
-				update: ( tournamentID, startTime, endTime ) => {
-
-				}
-			},
+			flight:{},
 
 			profile:{
 				
-				add: ( userID, firstName, lastName, hendonURL, pictureURL ) => {
+				add: async ( userName, firstName, lastName, a_hendon, profilePic ) => {
+					
+					try{
 
+						const url = 'https://pokerswap.herokuapp.com/profiles'
+
+						data = {
+							username: userName,
+							first_name: firstName,
+							last_name: lastName,
+							hendon_url: a_hendon,
+							profile_pic_url: profilePic
+						}
+
+						let response = await fetch(url, {
+							method:'POST',
+							body: JSON.stringify(data),
+							headers: {
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							}, 
+						})
+						
+						.then(response => response.json)
+						console.log(response.json)
+					} catch(error) {
+						console.log("Something went wrong in profile.add", error)
+					}
 				},
 
-				get: ( id ) => {
+				get: async () => {
+					try{
 
+						const accessToken = getStore().userToken.jwt;
+						const url = 'https://pokerswap.herokuapp.com/profiles/me';
+
+						let response = await fetch(url, {
+							method:'GET',
+							headers: {
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							}, 
+						})
+
+						let profileData = await response.json()
+
+						setStore({ profile_in_session: profileData })
+						console.log('current profile', getStore().profile_in_session)
+					} catch(error){
+						console.log('Something went wrong in profile.get', error)
+					}
 				},
 
-				getAll: () => {
-
-				},
-
-				update: ( firstName, lastName, hendonURL, pictureURL ) => {
-
-				}
 			},
 			
-
-			receipt:{
-
-				add: () => {
-
-				},
-
-			},
+			receipt: {},
 			
-			swap: {
-
-				add: ( a_state, a_sender_id, a_recipient_id, a_percent ) => {
-
-				},
-
-				getAll: () => {
-
-				}
-
-			},
+			swap: {},
 		
 			tournament:{
 
-				add: ( a_name, an_abbreviation, an_address, startTime, endTime ) => {
+				get: async ( id ) => {
+					try{
+						
+						const url = 'https://pokerswap.herokuapp.com/tournaments/' + id;
+						const accessToken = getStore().userToken ;
+
+						let response = await fetch(url, {
+							method: 'GET',
+							headers: {
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							}, 
+						})
+						.then(response => response.json)
+						console.log(response.json)
+
+					} catch(error){
+						console.log('Something went wrong with tournament.get', error)
+					}
 
 				},
-
-				get: ( id ) => {
-
-				},
-
-				getAll: () => {
-
-				},
-
-				update: ( a_name, an_abbreviation, an_address, startTime, endTime ) => {
-
-				},
-
+			
 			},
 
-			token:{
-
-				buy: () => {
-
-				},
-
-				spend: () => {
-
-				}
-
-			},
-
-			transactions:{
-
-				add: ( user, dollars, coins ) => {
-
-				}
-
-			},
+			transaction:{},
 
 			user: {
-				
-				delete:( id )=>{
+
+				add: async ( an_email, a_password ) => {
+
+					try{
+						const url = 'https://pokerswap.herokuapp.com/users'
+
+						data = {
+							email: an_email,
+							password: a_password
+						}
+
+						let response = await fetch(url, {
+							method:'POST',
+							body: JSON.stringify(data),
+							headers: {
+								'Content-Type':'application/json'
+							}, 
+						})
+						.then(response => response.json())
+						console.log(response)
+
+											// let res = await response.json();
+					// if (response.status >= 200 && response.status < 300) {
+					// 		data.error = "";
+					// 		let user = res;
+					// 		console.log('userToken: ', user, typeof(user))
+					// 		getActions().userToken.store(user);
+					// } else {
+					// 		let error = res;
+					// 		console.log("something went wrong in getting userToken", error, getStore().userToken);
+					// 		return false;
+					// 		throw error;
+					// }
+
+						
+					} catch(error) {
+						console.log("Something went wrong in user.add", error)
+					}
 				},
 
-				get:( id )=>{
+				login: async (your_email, your_password, navigation) => {
+            
+					var time = (1000*60*60*24*20)
+
+					var data = {
+						email: your_email,
+						password: your_password,
+						exp: time
+					};
+
+					return new Promise(resolve =>
+							 resolve(getActions().userToken.get(data)
+							.then(()=>getActions().profile.get())
+							.then(()=> your_password = '')
+							.finally(()=> {
+									if(getStore().userToken){
+											if(getStore().profile_in_session.message != 'User not found' ){
+												navigation.navigate('Swaps');
+											} else {
+												navigation.navigate('ProfileCreation');
+											}
+											
+									}else{
+											console.log("You did not login");
+									}
+							})
+							.catch(()=> console.log('something wehnt wrong in login'))
+					))
+
+
+					try{
+						getActions().userToken.get(data)
+						.then(() => console.log('useertoken in fetch is', getActions().userToken.get(data)))
+						.then(() => console.log('userToken is', getStore().userToken))
+						.then(() => console.log('profile get is', getActions().profile.get()))
+					} catch(error){
+						console.log('true error', error)
+					}
 
 				},
-
-				login: ( an_email, a_password ) => {
-
+			
+				logout: (navigation) => {
+					getActions().userToken.remove();
+					navigation.navigate("Login")	
 				},
 
-				logout: () => {
+				changeEmail: async ( an_email, a_password, new_password ) => {
 
-				},
+					let data = {
+						email: an_email,
+						password: a_password,
+						new_email: new_password
+					}
 
-				signup: ( an_email, a_password, a_firstName, a_lastName, a_hendon, a_picture ) => {
-
-				},
-
-				update: ( id, an_email, a_password ) => {
-
+					let response = await fetch(url, {
+						method:'PUT',
+						body: JSON.stringify(data),
+						headers: {
+							'Content-Type':'application/json'
+						}, 
+					})
+					.then(response => response.json())
+					console.log(response)
 				}
+
 
 			},
 
@@ -570,17 +235,18 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 				get: async( data ) => {
 					try{
-						const url = 'https://assets.breatheco.de/apis/credentials/auth'
+						const url = 'https://pokerswap.herokuapp.com/users/token'
+
 						let response1 = await fetch(url, {
 							method: 'POST',
 							body: JSON.stringify(data),
 							headers: {
-								'Authorization':'application/json',
 								'Content-Type':'application/json'
 							}, 
 						});
-						// console.log(response)
+
 						let res = await response1.json();
+						
 						if (response1.status >= 200 && response1.status < 300) {
 							data.error = "";
 							let user = res;
@@ -588,31 +254,26 @@ const getState = ({ getStore, setStore, getActions }) => {
 							getActions().userToken.store(user);
 						} else {
 							let error = res;
-							console.log("something went wrong in getting userToken", error, getStore().userToken);
+							getActions().userToken.remove();
+							console.log("something went wrong in userToken.get", error, getStore().userToken);
 							return false;
-							throw error;
 						}
 						
 					} catch(error) {
-						{() => getActions().userToken.remove()};
-						console.log("Email: ", data.username);
-						console.log("Password: ", data.password);
-						console.log("Error: ", error);
-						throw data.error;
+							{() => getActions().userToken.remove()};
+							console.log("Email: ", data.username);
+							console.log("Password: ", data.password);
+							console.log("Error: ", error);
+							throw data.error;
 					}
 				} ,
 
 				// During Login, Stores User Information in the Store
 				store: async( user ) => {
-
 					try {
-						// console.log('userToken in store funvtion: ', user, typeof(user))
-
 						setStore({userToken: user});
-						// console.log('userToken in store gerneral: ', getStore().userToken)
-
 					} catch(error) {
-						console.log('something went wrong in storing userToken', error)
+						console.log('something went wrong in userToken.store', error)
 					}
 				},
 
@@ -626,8 +287,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				},
 
 			},
-
-		},
+		}
 	}
 }
 
