@@ -9,7 +9,7 @@ export default class VerifyTicket extends Component {
   constructor(props){
     super(props);
     this.state={
-      image: require('../../Images/placeholder.jpg')
+       image: require('../../Images/placeholder.jpg')
     }
   }
     
@@ -39,23 +39,21 @@ export default class VerifyTicket extends Component {
   render(){
     return(
       <Container>
-        <Content contentContainerStyle={{
-            alignItems:'center', justifyContent:'center' }}>
+        <Content contentContainerStyle={{ alignItems:'center', justifyContent:'center' }}>
           
           {/* IMAGE HOLDER */}
           <Image 
             source={this.state.image}
-            style={{height:300, width:300, marginTop:50}}/>
+            style={{height:300, width:300, marginTop:50}}
+          />
           
           {/* INSTRUCTION TEXT */}
-          <Text 
-          style={{width:250, fontSize:24, textAlign:'center', marginTop:50}}>
+          <Text  style={{width:250, fontSize:24, textAlign:'center', marginTop:50}}>
             Upload a photo of your tournament ticket.
           </Text>
 
           {/* UPLOAD BUTTON */}
-          <Button large
-            style={{marginVertical:20}} onPress={() => this.ChoosePhoto()}>
+          <Button large style={{marginVertical:20}} onPress={() => this.ChoosePhoto()}>
             <Text style={{fontWeight: 600}}>UPLOAD</Text>
           </Button>
           

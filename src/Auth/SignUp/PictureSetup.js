@@ -1,23 +1,78 @@
 import React, {Component} from 'react';
-import { Image } from 'react-native'
+import { Image } from 'react-native';
 import { Button, Card, CardItem, Text } from 'native-base';
+import ImagePicker from 'react-native-image-picker';
+import '../../Images/placeholder.jpg';
 
 export default class PictureSetup extends Component {
   constructor(props){
     super(props);
     this.state={
-      pic:"https://yak-ridge.com/wp-content/uploads/2019/04/image-placeholder-350x350.png"
+      image: require('../../Images/placeholder.jpg')    
     }
   }
+  
+  choosePhoto = () => {
+    const options = {
+      title: 'Submit Picture',
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    
+    ImagePicker.showImagePicker(options, (response) => {
+      console.log('Response = ', response);
+    
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else {
+        const source = { uri: response.uri };
+        this.setState({image: source});
+      }
+    });
+  };
+
+  // launchCamera = () => {
+    
+  //   let options = {
+  //     title: 'Submit Picture',
+  //     storageOptions: {
+  //       skipBackup: true,
+  //       path: 'images',
+  //     },
+  //   };
+
+  //   ImagePicker.launchCamera(options, (response) => {
+  //     console.log('Response = ', response);
+
+  //     if (response.didCancel) {
+  //       console.log('User cancelled image picker');
+  //     } else if (response.error) {
+  //       console.log('ImagePicker Error: ', response.error);
+  //     } else if (response.customButton) {
+  //       console.log('User tapped custom button: ', response.customButton);
+  //       alert(response.customButton);
+  //     } else {
+  //       const source = { uri: response.uri };
+  //       this.setState({image: source});
+  //     }
+  //   });
+
+  // }
+
   render(){
     return(
       <Card transparent>
 
         {/* IMAGE PREVIEW AND UPLOADER */}
         <CardItem header>
-          <Button>
-            <Image source={{uri: this.state.pic }} style={{height: 200,  flex: 1}}/>
-          </Button>
+          <Image 
+            source={this.state.image}
+            style={{height:300, width:300, marginTop:50}}
+          />
         </CardItem>
 
         {/* PICTURE INSTRUCTIONS */}
@@ -27,7 +82,7 @@ export default class PictureSetup extends Component {
          
         {/* UPLOAD BUTTON */}
         <CardItem footer style={{justifyContent:"center"}}>
-          <Button large onPress={() => this.props.next()}>
+          <Button large onPress={() => this.choosePhoto()}>
             <Text> UPLOAD </Text>
           </Button>
         </CardItem>
@@ -36,6 +91,9 @@ export default class PictureSetup extends Component {
         <CardItem footer style={{justifyContent:"center"}}>
           <Button large onPress={() => this.props.prev()}>
             <Text> Go Back </Text>
+          </Button>
+          <Button large onPress={() => this.props.next()}>
+            <Text> Next </Text>
           </Button>
         </CardItem>
 
