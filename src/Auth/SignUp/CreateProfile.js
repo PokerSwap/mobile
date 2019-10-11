@@ -19,6 +19,7 @@ export default class CreateProfile extends Component {
       password:'',
       first_name:'',
       last_name:'',
+      username:'',
       picture:'',
       hendon:''
     }
@@ -39,6 +40,11 @@ export default class CreateProfile extends Component {
   loading = () => {
     this.setState({loading: !this.state.loading})
   }
+
+  onChange(field, value) {
+    // parent class change handler is always called with field name and value
+    this.setState({[field]: value});
+}
 
   createProfile = async(x) => {
     this.loading();
@@ -74,8 +80,11 @@ export default class CreateProfile extends Component {
                 prev={() => this.prevPage()}
                 next={() => this.nextPage()} 
                 first_name= {this.state.first_name} 
+                onChangeFirstName={first_name => this.setState({ first_name })}
                 last_name= {this.state.last_name} 
+                onChangeLastName={last_name => this.setState({ last_name })}
                 username= {this.state.username}
+                onChangeUserName={username => this.setState({ username })}
               />
             </Tab>
 
@@ -84,6 +93,7 @@ export default class CreateProfile extends Component {
                 prev={() => this.prevPage()}
                 next={() => this.nextPage()}
                 picture= {this.state.picture}
+                onChangePicture={picture => this.setState({ picture })}
               />
             </Tab>
 
@@ -92,6 +102,7 @@ export default class CreateProfile extends Component {
                 prev={() => this.prevPage()}
                 next={() => this.nextPage()}
                 hendon= {this.state.hendon}
+                onChangeHendon={hendon => this.setState({ hendon })}
               />
             </Tab>
 
@@ -100,6 +111,11 @@ export default class CreateProfile extends Component {
                 prev={() => this.prevPage()}
                 createUser= {this.createUser}
                 navigation= {this.props.navigation}
+                first_name= {this.state.first_name} 
+                last_name= {this.state.last_name} 
+                username= {this.state.username}
+                picture= {this.state.picture}
+                hendon= {this.state.hendon}
               />
             </Tab>
 
