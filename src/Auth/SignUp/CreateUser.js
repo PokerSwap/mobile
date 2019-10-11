@@ -20,10 +20,10 @@ export default class CreateUser extends Component {
 
 		if(this.state.submitted){
 			x = 	<Card transparent style={{justifyContent:'center'}}>
-				<CardItem>
-					<Text>A validation link has been sent to your email at {this.state.email}.</Text>
-				</CardItem>
-			</Card>
+							<CardItem>
+								<Text>A validation link has been sent to your email at {this.state.email}.</Text>
+							</CardItem>
+						</Card>
 		} else {
 			x =  <Card transparent style={{justifyContent:'center'}}>
 				<CardItem style={{flexDirection:"column", paddingLeft: 30, width:350, justifyContent:"center"}}>
@@ -32,7 +32,7 @@ export default class CreateUser extends Component {
 						your personal Password and your Email Address.
 					</Text>
 					<Item>
-					<Icon active name='mail' />
+						<Icon active name='mail' />
             <TextInput 
 							placeholder="Enter Email"
 							keyboardType="email-address"
@@ -59,6 +59,7 @@ export default class CreateUser extends Component {
 						/>
 					</Item>
 				</CardItem>
+				
 				<CardItem footer style={{justifyContent:"center"}}>
 					<Context.Consumer>
 					{({store, actions }) => {
@@ -73,10 +74,9 @@ export default class CreateUser extends Component {
 							}}
 						</Context.Consumer>
 				</CardItem>
-			</Card>
-							
-						
+			</Card>		
 		}
+		
 		return(
 			<Container>
 			{x}
