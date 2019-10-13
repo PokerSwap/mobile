@@ -6,9 +6,7 @@ import { Row, Col } from 'react-native-easy-grid'
 export default class SwapOffer extends Component {
     constructor(props){
       super(props);
-      this.state={
-        percent: 3
-      }
+      this.state={}
     }
     
     // INACTIVE/INCOMING FUNCTION
@@ -39,85 +37,111 @@ export default class SwapOffer extends Component {
             <Text> Still In? </Text>
             <Item style={{width:100}} rounded><Input placeholder='Yes'/></Item>
           </Row>
+
         partTwo = 
           <Row style={{justifyContent:'center'}}>
             <Text> Table </Text>
             <Item style={{width:100}} rounded><Input placeholder='7'/></Item>
           </Row>
+
         partThree = 
           <Row style={{justifyContent:'center'}}>
             <Text> Seat: </Text>
             <Item style={{width:100}} rounded><Input  placeholder='5'/></Item>
           </Row>
+
         partFour = 
           <Row style={{justifyContent:'center'}}>
             <Text> Chips: </Text>
             <Item style={{width:100}} rounded><Input placeholder='10,000'/></Item>
           </Row>
+
         partFive = <Button light><Text> Update </Text></Button>
       }    
 
       // INCOMING SWAP VIEW
       else if (mode=='recieved'){
+
         partOne = 
           <Col>
             <Row style={{justifyContent:'center'}}><Text > Swap With: </Text></Row>
             <Row style={{justifyContent:'center'}}><Text> Peter Shiao </Text></Row>
           </Col>
+
         partTwo = 
           <Col>
             <Row style={{justifyContent:'center'}}><Text> Swap Offer: </Text></Row>
             <Row style={{justifyContent:'center'}}><Text> {this.state.percent}% </Text></Row>
           </Col>
         partThree = <Button success><Text> Accept Offer </Text></Button>
+
         partFour = <Button warning><Text> Counter Offer </Text></Button>
+
         partFive = <Button danger><Text> No Thanks </Text></Button>
 
       } 
 
       // PENDING SWAP VIEW
       else if (mode=='pending'){
+
         partOne = <Text> Still In?</Text>
+
         partTwo = <Text> Still In?</Text>
+
         partThree = <Text> Still In?</Text>
+
         partFour = <Text> Still In?</Text>
+
         partFive = <Text> Still In?</Text>
+
 
       } 
 
       // AGREED SWAP VIEW
       else if (mode=='agreed'){
+
         partOne = <Text> Still In?</Text>
+
         partTwo = <Text> Still In?</Text>
+
         partThree = <Text> Still In?</Text>
+
         partFour = <Text> Still In?</Text>
+
         partFive = <Text> Still In?</Text>
 
       } 
 
       // INACTIVE SWAP VIEW
       else if (mode=='inactive') {
+
         partOne = 
-          <Text style={{marginRight:5,fontSize:24}}>Swap With:</Text>       
+          <Text style={{marginRight:5,fontSize:24}}>Swap With:</Text>    
+
         partTwo = 
           <Text style={{marginLeft:5,fontSize:24}}>Some Guy</Text>
+
         partThree = 
           <Text style={{marginRight:5,fontSize:24}}>Swap Offer:</Text>
+
         partFour = 
           <Row style={{justifyContent:'center', marginBottom:20}}>
             <Button onPress={()=>this.subtract()}><Text style={{fontSize:24}}> - </Text></Button>
             <Text style={{fontSize:24, marginHorizontal:10}}> {this.state.percent}% </Text>
             <Button onPress={()=>this.add()}><Text style={{fontSize:24}}> + </Text></Button>
           </Row>
+
         partFive = 
           <Button large>
             <Text> Offer Swap </Text>
           </Button>
+
       }
   
       return(
         <Container>
           <Content>
+            
             {/* HEADER */}
             <Card transparent>
             <TourneyHeader 
@@ -135,6 +159,7 @@ export default class SwapOffer extends Component {
               <CardItem style={{justifyContent:'center'}}>{partFour}</CardItem>
               <CardItem style={{justifyContent:'center'}}>{partFive}</CardItem>
             </Card>    
+
           </Content>
         </Container>
       )

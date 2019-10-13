@@ -68,7 +68,7 @@ export default class TourneyLobby extends Component {
               }}
             </Context.Consumer> 
 
-{/* TOURNEY BUYIN ENTRIES  */}
+            {/* TOURNEY BUYIN ENTRIES  */}
             <Context.Consumer>
               {({store, actions}) => {
                 var everyone_else = store.buy_ins.filter(item => item.user_id !== 1)
@@ -88,8 +88,8 @@ export default class TourneyLobby extends Component {
                 })
               }}
             </Context.Consumer> 
-
           </List>
+
         </Content>
 
         {/* FOOTER CONTAINS NUMBER OF SWAPS AND ACTION */}
@@ -109,13 +109,13 @@ export default class TourneyLobby extends Component {
             </Button>
           </Col>
           
-
           {/* CURRENT USER'S ACTION */}
           <Col>
             <Button transparent large style={{justifyContent:'center'}}>
               <Text >ACTION: {this.state.action}%</Text>
             </Button>
           </Col>
+
         </Footer>
       </Container>
     )

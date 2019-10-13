@@ -67,7 +67,7 @@ export default class PictureSetup extends Component {
     return(
       <Card transparent>
 
-        {/* IMAGE PREVIEW AND UPLOADER */}
+        {/* IMAGE PREVIEW */}
         <CardItem header>
           <Image 
             source={this.state.image}
@@ -87,14 +87,19 @@ export default class PictureSetup extends Component {
           </Button>
         </CardItem>
 
-        {/* GO BACK BUTTON */}
+        {/* NAVIGATION BUTTONS */}
         <CardItem footer style={{justifyContent:"center"}}>
+
+          {/* PREVUIOS BUTTON */}
           <Button large onPress={() => this.props.prev()}>
-            <Text> Go Back </Text>
+            <Text> Previous </Text>
           </Button>
+
+          {/* NEXT BUTTON */}
           <Button large onPress={() => this.props.next()}>
             <Text> Next </Text>
           </Button>
+
         </CardItem>
 
       </Card>

@@ -174,33 +174,23 @@ const getState = ({ getStore, setStore, getActions }) => {
 					};
 
 					return new Promise(resolve =>
-							 resolve(getActions().userToken.get(data)
-							.then(()=>getActions().profile.get())
-							.then(()=> your_password = '')
-							.finally(()=> {
-									if(getStore().userToken){
-											if(getStore().profile_in_session.message != 'User not found' ){
-												navigation.navigate('Swaps');
-											} else {
-												navigation.navigate('ProfileCreation');
-											}
+						resolve(getActions().userToken.get(data)
+						.then(()=>getActions().profile.get())
+						.then(()=> your_password = '')
+						.finally(()=> {
+							if(getStore().userToken){
+								if(getStore().profile_in_session.message != 'User not found' ){
+									navigation.navigate('Swaps');
+								} else {
+									navigation.navigate('ProfileCreation');
+								}
 											
-									}else{
-											console.log("You did not login");
-									}
-							})
-							.catch(()=> console.log('something wehnt wrong in login'))
+							}else{
+									console.log("You did not login");
+							}
+						})
+						.catch(()=> console.log('something wehnt wrong in login'))
 					))
-
-
-					try{
-						getActions().userToken.get(data)
-						.then(() => console.log('useertoken in fetch is', getActions().userToken.get(data)))
-						.then(() => console.log('userToken is', getStore().userToken))
-						.then(() => console.log('profile get is', getActions().profile.get()))
-					} catch(error){
-						console.log('true error', error)
-					}
 
 				},
 			
@@ -227,7 +217,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 					.then(response => response.json())
 					console.log(response)
 				}
-
 
 			},
 
