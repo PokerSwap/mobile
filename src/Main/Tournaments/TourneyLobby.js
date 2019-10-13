@@ -9,8 +9,7 @@ import { Context } from '../../Store/appContext'
 export default class TourneyLobby extends Component {
   constructor(props){
     super(props);
-    this.state={
-    }
+    this.state={}
   }
   
   render(){
@@ -95,7 +94,7 @@ export default class TourneyLobby extends Component {
         {/* FOOTER CONTAINS NUMBER OF SWAPS AND ACTION */}
         <Footer style={{maxHeight:60}}>
           
-          {/* CURRENT USER'S NUMBER OF CURRENT TOURNAMENT SWAPS */}
+          {/* CURRENT USER'S NUMBER OF TOURNAMENT SWAPS */}
           <Col>
             <Button  large
               style={{
@@ -117,6 +116,7 @@ export default class TourneyLobby extends Component {
           </Col>
 
         </Footer>
+
       </Container>
     )
   }

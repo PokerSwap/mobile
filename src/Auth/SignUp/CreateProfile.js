@@ -37,15 +37,12 @@ export default class CreateProfile extends Component {
     } 
   }
 
+  // LOADING SPINNER ACTIVATION
   loading = () => {
     this.setState({loading: !this.state.loading})
   }
 
-  onChange(field, value) {
-    // parent class change handler is always called with field name and value
-    this.setState({[field]: value});
-}
-
+  // CREATE PROFILE FUNCTION
   createProfile = async(x) => {
     this.loading();
     var answer = await x.user.signup(
@@ -120,7 +117,9 @@ export default class CreateProfile extends Component {
             </Tab>
 
           </Tabs>
+
         </Content>
+      
       </Container>  
     )
   }
