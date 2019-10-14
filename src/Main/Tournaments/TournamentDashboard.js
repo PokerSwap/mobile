@@ -11,6 +11,11 @@ export default class TournamentDashboard extends Component {
   }
     
   render(){
+
+  // sortby
+  //   date
+  //   location
+
     return(
 
       <Container>
@@ -21,17 +26,24 @@ export default class TournamentDashboard extends Component {
             {/* TOURNAMENT LIST GENERATOR */}
             <Context.Consumer>
               {({store, actions}) => {
+                
                 return store.tournaments.map((content, index) => {
                   return(
                     <TournamentBody 
-                      reel={this.props.navigation}
+                      navigation={this.props.navigation}
+
+                      key={content.id}
                       name={content.name} 
-                      status={content.status}
+                      created_at={content.created_at}
+                      updated_at={content.updated_at}
+
+                      address={content.address}
+                      latitude={content.latitude}
+                      longitude={content.longitude}
+
+                      flights={content.flights}
                       start_at={content.start_at}
                       end_at={content.end_at}
-                      buy_ins={content.buy_ins}
-                      flights={content.flights}
-                      address={content.address}
                     />
                   )
                 })}

@@ -96,11 +96,11 @@ const getState = ({ getStore, setStore, getActions }) => {
 		
 			tournament:{
 
-				get: async ( id ) => {
+				getOne: async ( id ) => {
 					try{
 						
 						const url = 'https://pokerswap.herokuapp.com/tournaments/' + id;
-						const accessToken = getStore().userToken ;
+						const accessToken = getStore().userToken.jwt ;
 
 						let response = await fetch(url, {
 							method: 'GET',
@@ -118,6 +118,32 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 				},
 			
+				getAll: async () => {
+					try{
+						
+						const url = 'https://pokerswap.herokuapp.com/tournaments/all'
+						const accessToken = getStore().userToken.jwt ;
+
+						let response = await fetch(url, {
+							method: 'GET',
+							headers: {
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							}, 
+						})
+						// .then(response => response.json)
+
+						let tournamentData = await response.json()
+						console.log('response', response)
+
+						setStore({tournaments: tournamentData});
+						console.log('current tournaments', getStore().tournaments)
+						
+					} catch(error){
+						console.log('Something went wrong with tournament.getAll', error)
+					}
+				}
+
 			},
 
 			transaction:{},
@@ -175,11 +201,12 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 					return new Promise(resolve =>
 						resolve(getActions().userToken.get(data)
-						.then(()=>getActions().profile.get())
+						.then(()=> getActions().profile.get())
 						.then(()=> your_password = '')
 						.finally(()=> {
 							if(getStore().userToken){
 								if(getStore().profile_in_session.message != 'User not found' ){
+									getActions().tournament.getAll();
 									navigation.navigate('Swaps');
 								} else {
 									navigation.navigate('ProfileCreation');

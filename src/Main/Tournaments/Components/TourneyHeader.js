@@ -34,7 +34,7 @@ export default class TourneyHeader extends Component {
           
           <Col>
             <Button 
-              onPress={()=>Linking.openURL('www.thepokersociety.com/tournament/'+ this.props.id)}
+              // onPress={()=>Linking.openURL('www.thepokersociety.com/tournament/'+ this.props.id)}
               style={{justifyContent:'center'}}>
               <Text >Tourney Info</Text>
             </Button>

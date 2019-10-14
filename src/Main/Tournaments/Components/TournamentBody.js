@@ -11,7 +11,7 @@ export default class TournamentBody extends Component {
   render(){      
     
     var bgColor, textColor, buttonColor, path;
-    var navigation = this.props.reel ;
+    var navigation = this.props.navigation ;
 
     // ACTIVE TOURNAMENT VIEW
     if (this.props.status=='active') {
