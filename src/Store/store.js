@@ -27,18 +27,53 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 		actions: {
 			
-			buy_in:{},
+			buy_in:{
+				
+				add: async ( a_flight_id, some_chips, a_table, a_seat ) => {
+					try{
+						let data = {
+							flight_id: a_flight_id,
+							chips: some_chips,
+							table: a_table,
+							seat: a_seat
+						}
+
+						let accessToken = getStore().userToken.jwt
+						const url = 'https://pokerswap.herokuapp.com/buy_ins/me'
+
+						let response = await fetch(url, {
+							method: 'POST',
+							body: JSON.stringify(data),
+							headers: {
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							}, 
+						})
+						.then(response => response.json)
+						console.log(response.json)
+					} catch(error) {
+						console.log("Some went wrong in buyin.add", error)
+					}
+				}
+			},
 
 			coin:{},
 
-			flight:{},
+			flight:{
+
+				getAll: async() => {
+
+				}
+
+			},
 
 			profile:{
 				
 				add: async ( userName, firstName, lastName, a_hendon, profilePic ) => {
 					
 					try{
-
+						
+						const accessToken = getStore().userToken.jwt;
 						const url = 'https://pokerswap.herokuapp.com/profiles'
 
 						data = {
