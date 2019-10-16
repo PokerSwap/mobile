@@ -127,7 +127,37 @@ const getState = ({ getStore, setStore, getActions }) => {
 			
 			receipt: {},
 			
-			swap: {},
+			swap: {
+
+				add: ( a_tournament_id, a_recipient_id, a_percentage ) => {
+					
+					try{
+						const url = 'https://pokerswap.herokuapp.com/swaps/me'
+						let accessToken = getStore().userToken.jwt
+
+						let data = {
+							tournament_id: a_tournament_id,
+							recipient_id: a_recipient_id,
+							percentage: a_percentage
+						}
+
+						let response = await fetch(url,{
+							method:"POST",
+							body: JSON.stringify(data),
+							headers:{
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							}
+						})
+						.then(response => response.json())
+						console.log(response)
+
+					}catch(error){
+						console.log('Something went wrong with swap.add', error)
+					}
+				}
+
+			},
 		
 			tournament:{
 
