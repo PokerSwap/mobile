@@ -64,13 +64,22 @@ export default class PictureSetup extends Component {
   // }
 
   render(){
+
+    let x;
+
+    if(this.props.picture){
+      x=true
+    }else{
+      x=false
+    }
+
     return(
       <Card transparent>
 
         {/* IMAGE PREVIEW */}
         <CardItem header>
           <Image 
-            source={this.state.image}
+            source={this.props.image}
             style={{height:300, width:300, marginTop:50}}
           />
         </CardItem>
@@ -96,7 +105,7 @@ export default class PictureSetup extends Component {
           </Button>
 
           {/* NEXT BUTTON */}
-          <Button large onPress={() => this.props.next()}>
+          <Button large disabled={x} onPress={() => this.props.next()}>
             <Text> Next </Text>
           </Button>
 

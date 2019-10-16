@@ -23,18 +23,18 @@ export default class TermsAndConditions extends Component {
             </CardItem> 
             
             {/* PAGE BODY */}
-            <CardItem style={{justifyContent:"center"}}>
-              <Text style={{textAlign:"center", width:300}}>
+            <CardItem style={{justifyContent:"center", flexDirection:'column'}}>
+              <Text style={{textAlign:"justify", width:'90%', marginVertical:3}}>
                   By using Swapppoker, I hereby certify that I am not 
                   a douchebag and that I will be 1,000,000% liable for 
                   any and every agreed transaction on this app.
               </Text>
-              <Text style={{textAlign:"center", width:300}}>
+              <Text style={{textAlign:"justify", width:'90%', marginVertical:3}}>
                   I am not a bullshitter and I hold my integrity and my 
                   namesake above all else.  I will pay out what I am supposed 
                   to in due time.
               </Text>
-              <Text style={{textAlign:"center", width:300}}>
+              <Text style={{textAlign:"justify", width:'90%', marginVertical:3}}>
                   I also understand that if I commit any douchebaggery by 
                   not paying out what I have agreed to, my name is going to be 
                   ruined in PokerLand.

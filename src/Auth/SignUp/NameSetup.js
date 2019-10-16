@@ -8,6 +8,15 @@ export default class NameSetup extends Component {
   }
   
   render(){
+
+    let x;
+
+    if(this.props.first_name == '' || this.props.last_name == ''){
+      x=true
+    }else{
+      x=false
+    }
+
     return(
 
       <Card transparent>
@@ -52,7 +61,7 @@ export default class NameSetup extends Component {
 
         {/* SUBMIT BUTTON */}
         <CardItem footer style={{justifyContent:"center"}}>
-          <Button large onPress={() => this.props.next()}>
+          <Button large disabled={x} onPress={() => this.props.next()}>
             <Text>SUBMIT</Text>
           </Button>
         </CardItem>
