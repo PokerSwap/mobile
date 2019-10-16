@@ -226,25 +226,53 @@ const getState = ({ getStore, setStore, getActions }) => {
 					navigation.navigate("Login")	
 				},
 
-				changeEmail: async ( an_email, a_password, new_password ) => {
+				changeEmail: async ( an_email, a_password, a_new_email ) => {
 
 					let data = {
 						email: an_email,
 						password: a_password,
-						new_email: new_password
+						new_email: a_new_email
 					}
+
+					let accessToken = getStore().userToken.jwt;
+
+					const url = 'https://pokerswap.herokuapp.com/users/me/email'
 
 					let response = await fetch(url, {
 						method:'PUT',
 						body: JSON.stringify(data),
 						headers: {
-							'Content-Type':'application/json'
+							'Content-Type':'application/json',
+							'Authorization': 'Bearer ' + accessToken
+						}, 
+					})
+					.then(response => response.json())
+					console.log(response)
+				},
+
+				forgotPassword: async( an_email, a_password, a_new_password ) => {
+
+					let data = {
+						email: an_email,
+						password: a_password,
+						new_password: a_new_password
+					}
+
+					let accessToken = getStore().userToken.jwt;
+
+					const url = 'https://pokerswap.herokuapp.com/users/me/password'
+
+					let response = await fetch(url, {
+						method:'PUT',
+						body: JSON.stringify(data),
+						headers: {
+							'Content-Type':'application/json',
+							'Authorization': 'Bearer ' + accessToken
 						}, 
 					})
 					.then(response => response.json())
 					console.log(response)
 				}
-
 			},
 
 			userToken: {
