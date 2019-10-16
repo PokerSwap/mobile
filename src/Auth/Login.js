@@ -34,101 +34,104 @@ export default class LoginScreen extends Component {
     var {navigate} = this.props.navigation
     return(
       <Container>
-        <Content contentContainerStyle={{flex:1, justifyContent:"center"}}>
-          
-          <Spinner visible={this.state.loading} style={{color: '#FFF'}}/>
-          
-          <Card transparent>
+        <Content contentContainerStyle={{flex:1, justifyContent:"center", backgroundColor:'rgb(12,85,32)'}}>
+        <Spinner visible={this.state.loading} style={{color: '#FFF'}}/>
+          <KeyboardAvoidingView>
+            <TouchableWithoutFeedback>
+              <Card transparent style={{color:'rgb(12,85,32)'}}>
+              
+              {/* TITLE */}
+              <CardItem header style={{justifyContent:'center',backgroundColor:'rgb(12,85,32)'}}>
+                <Text style={{color:'white', fontWeight:'600', fontSize:36, justifyContent:'center'}}>Swap Poker</Text>
+              </CardItem>
+
+              {/* EMAIL INPUT */}
+              <CardItem style={{width:'75%', alignSelf:'center', marginVertical:5}}>
+                  <TextInput 
+                    placeholder="Enter Email"
+                    placeholderTextColor='gray'
+                    keyboardType="email-address"
+                    blurOnSubmit={false}
+                    returnKeyType="next"
+                    autoCapitalize='none'
+                    autoCorrect={false} 
+                    onSubmitEditing={() => { this.txtPassword.focus(); }}
+                    value={this.state.email}    
+                    onChangeText={email => this.setState({ email })}
+                  />
+              </CardItem>
+              
+              {/* PASSWORD INPUT */}
+              <CardItem style={{width:'75%',  alignSelf:'center'}}>
+                  <TextInput 
+                    placeholder="Enter Password"
+                    placeholderTextColor='gray'
+                    secureTextEntry
+                    autoCapitalize='none'
+                    returnKeyType="go"
+                    autoCorrect={false} 
+                    ref={(input) => { this.txtPassword = input; }} 
+                    value={this.state.password}
+                    onChangeText={password => this.setState({ password })}
+                  />
+              </CardItem>
+
+
+              {/* BUTTONS  */}
+              <CardItem style={{backgroundColor:'rgb(12,85,32)', justifyContent:'center', flexDirection:'column'}}>
+
+                {/* LOGIN BUTTON */}
+                <Context.Consumer>
+                  {({store, actions}) => {
+                    wrong = () => {
+                      if(store.userToken==null){
+                        Toast.show({
+                          text:'Sorry you entered the wrong email or password',
+                        duration:3000})
+                      }
+                    }
+                    return(
+                        <Button 
+                          style={{width:'50%', justifyContent:'center', marginBottom:5}}
+                          onPress={
+                            async() => {
+                              Keyboard.dismiss();
+                              var x = await this.loginStart(actions)
+                              wrong()}
+                            }
+                        >
+                          <Text style={{fontWeight:'600', justifyContent:'center'}}> Login </Text>
+                        </Button>
+                    )
+                  }}
+                </Context.Consumer>
+
+                {/* SIGN UP BUTTON */}
+                <Context.Consumer>
+                  {({store, actions}) => {
+                    return(
+                        <Button transparent style={{backgroundColor:'rgb(211,152,35)', width:'50%', justifyContent:'center'}} onPress={()=>navigate("TermsAndConditions")}>
+                          <Text style={{color:'black', justifyContent:'center', fontWeight:'600'}}> Sign Up </Text>
+                        </Button>
+                    )
+                  }}
+                </Context.Consumer>
+                      
+                {/* FORGOT PASSWORD BUTTON */}
+                <Context.Consumer>
+                  {({store, actions}) => {
+                    return(
+                      <Button transparent style={{justifyContent:'center'}} onPress={() => actions.user.forgotPassword(this.props.navigation)}>
+                        <Text style={{color:'white'}}>Forgot password?</Text>
+                      </Button>
+                    )
+                }}  
+                </Context.Consumer>
+              </CardItem>
             
-            {/* TITLE */}
-            <CardItem >
-              <H3>Swap Poker</H3>
-            </CardItem>
-
-            {/* EMAIL INPUT */}
-            <CardItem>
-              <Item>
-                <TextInput 
-                  placeholder="Enter Email"
-                  keyboardType="email-address"
-                  blurOnSubmit={false}
-                  returnKeyType="next"
-                  autoCapitalize='none'
-                  autoCorrect={false} 
-                  onSubmitEditing={() => { this.txtPassword.focus(); }}
-                  value={this.state.email}    
-                  onChangeText={email => this.setState({ email })}
-                />
-              </Item>
-            </CardItem>
-            
-            {/* PASSWORD INPUT */}
-            <CardItem>
-              <Item>
-                <TextInput 
-                  placeholder="Enter Password"
-                  secureTextEntry
-                  autoCapitalize='none'
-                  returnKeyType="go"
-                  autoCorrect={false} 
-                  ref={(input) => { this.txtPassword = input; }} 
-                  value={this.state.password}
-                  onChangeText={password => this.setState({ password })}
-                />
-              </Item>
-            </CardItem>
-                        
-            {/* LOGIN BUTTON */}
-            <Context.Consumer>
-              {({store, actions}) => {
-                wrong = () => {
-                  if(store.userToken==null){
-                    Toast.show({
-                      text:'Sorry you entered the wrong email or password',
-                    duration:3000})
-                  }
-                }
-                return(
-                  <View>
-                    <Button block
-                      onPress={
-                        async() => {
-                          Keyboard.dismiss();
-                          var x = await this.loginStart(actions)
-                          wrong()}
-                        }
-                    >
-                      <Text> Login </Text>
-                    </Button>
-                  </View>
-                )
-              }}
-            </Context.Consumer>
-
-            {/* BOTTOM BUTTONS */}
-            <CardItem>
-
-              {/* FORGOT PASSWORD BUTTON */}
-              <Left>
-                <Body>
-                  <Button transparent>
-                    <Text>Forgot password?</Text>
-                  </Button>
-                </Body>
-              </Left>
-
-              {/* SIGN UP BUTTON */}
-              <Right>
-                <Body>
-                  <Button transparent onPress={()=>navigate("TermsAndConditions")}>
-                    <Text>First Time?</Text>
-                  </Button>
-                </Body>
-              </Right>
-
-            </CardItem>
-          
-          </Card>
+            </Card>
+            </TouchableWithoutFeedback>
+          </KeyboardAvoidingView>
         </Content>
       </Container>
     )
