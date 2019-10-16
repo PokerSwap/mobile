@@ -18,7 +18,7 @@ export default class SwapDashboard extends Component {
           <Content>
             <List>
               {/* LIVE SWAPS LIST HEADER */}
-              <Separator bordered style={{height:48, backgroundColor:'blue'}}>
+              <Separator bordered style={{height:48, backgroundColor:'rgb(56,68,165)'}}>
                 <Text style={{fontSize:20, color:'white', fontWeight:'600', textAlign:'center'}}> 
                   LIVE 
                 </Text>
