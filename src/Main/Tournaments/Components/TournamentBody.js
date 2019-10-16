@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { View } from 'react-native';
 import { Button, ListItem, Text, Left, Icon, Right } from 'native-base';
 import { Col } from 'react-native-easy-grid'
 
@@ -31,17 +32,23 @@ export default class TournamentBody extends Component {
       path = 'VerifyTicket'
     }
 
+    var month = this.props.start_at.substring(8,11)
+    var day = this.props.start_at.substring(5,7)
+    var day_name = this.props.start_at.substring(0,3)
+
     return(
 
       <ListItem 
+
         noIndent style={{backgroundColor: bgColor}}
-        onPress={()=> navigation.navigate(path)} >
+        onPress={()=> navigation.navigate(path)} 
+        style={{flexDirection:'row', justifyContent:'space-between'}}>
         
         {/* TOURNAMENT DATE */}
-        <Left>
+        <Col style={{width:'28%', alignItems:'center'}}>
 
           {/* TOURNAMENT DATE BOX */}
-          <Button bordered 
+          <View  
             style={{
               borderColor:buttonColor,
               borderRadius: borderWidth,
@@ -49,24 +56,24 @@ export default class TournamentBody extends Component {
               flexDirection:"column",
               flex:0,
               justifyContent:"center",
-              width:75, height:75
+              width:85, height:85
             }}
           >
             {/* TOURNAMENT START DATE*/}
-            <Text style={{fontWeight:"600", color:textColor}}>
-              {this.props.start_at}
-            </Text>
-          </Button>        
+            <Text style={{fontWeight:"600", fontSize:24, color:textColor}}>{month} {day}</Text>
+            <Text style={{fontWeight:"600", fontsize:12, color:textColor, marginTop:5}}>{day_name}</Text>
+          </View>        
        
-        </Left>
+        </Col>
                 
         {/* TOURNAMENT DETAILS */}
-        <Col style={{width: 230}}>
+        <Col style={{width: '62%'}}>
 
           {/* TOURNAMENT TITLE */}
           <Text 
             style={{color:textColor, 
-            alignSelf:"flex-start",
+            alignContent:'center',
+            textAlign:'center',
             fontSize:20, fontWeight:'600'}}> 
             {this.props.name}
           </Text>
@@ -76,15 +83,15 @@ export default class TournamentBody extends Component {
             style={{color:textColor, 
             alignSelf:"flex-start",
             fontSize:16, fontWeight:'400'}}> 
-            {this.props.address}
+            {/* {this.props.address} */}
           </Text>
         
         </Col>
         
         {/* RIGHT ARROW NAVIGATION */}
-        <Right>
-            <Icon type="FontAwesome5" name="angle-right"/>
-        </Right>
+        <Col style={{justifyContent:'flex-end', width:'10%'}}>
+            <Icon style={{justifyContent:'flex-end', alignSelf:'flex-end'}} type="FontAwesome5" name="angle-right"/>
+        </Col>
 
       </ListItem>
     )
