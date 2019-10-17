@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { Container, Content, List, Separator, Text } from 'native-base';
 import _Header from '../../View-Components/header'
 import { Context } from '../../Store/appContext'
+import SwapCard from './Components/SwapCard'
 
 export default class SwapDashboard extends Component {
     constructor(){
@@ -53,25 +54,7 @@ export default class SwapDashboard extends Component {
                       />
                   )})}}
               </Context.Consumer>  */}
-              
-              {/* PENDING SWAPS LIST */}
-              {/* <Context.Consumer>
-                {({store, actions})=> {
-                  var pendingSwaps = store.my_swaps.filter(item => item.state =='pending')
-                  return pendingSwaps.map((content, index) => {
-                    return(
-                      <BuyIn 
-                        key={index}
-                        name={content.name}
-                        percent={content.percent}
-                        table={content.table}
-                        seat={content.seat}
-                        chips={content.chips}
-                        offer={content.offer}
-                      />
-                )})}}
-              </Context.Consumer>  */}
-
+  
               {/* SCHEDULED SWAPS LIST HEADER */}
               <Separator bordered style={{height:48, backgroundColor:'gray'}}>
                 <Text style={{fontSize:20, color:'white', fontWeight:'600', textAlign:'center'}}> 
@@ -80,22 +63,20 @@ export default class SwapDashboard extends Component {
               </Separator>
 
               {/* SCHEDUELED SWAPS LIST */}
-              {/* <Context.Consumer>
+              <Context.Consumer>
                 {({store, actions})=> {
-                  var schedueledSwaps = store.my_swaps.filter(item => item.state =='schedueled')
-                  return schedueledSwaps.map((content, index) => {
+                  var mySwaps = store.profile_in_session.receiving_swaps;
+                  return mySwaps.map((content, index) => {
                     return(
-                      <BuyIn 
+                      <SwapCard
                         key={index}
-                        name={content.name}
-                        percent={content.percent}
-                        table={content.table}
-                        seat={content.seat}
-                        chips={content.chips}
-                        offer={content.offer}
+                        tournament={content.tournament_id}
+                        percentage={content.percentage}
+                        first_name={content.user.first_name}
+                        last_name={content.user.last_name}
                       />
                   )})}}
-              </Context.Consumer>  */}
+              </Context.Consumer>  
 
             </List>
           </Content>
