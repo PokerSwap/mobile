@@ -164,15 +164,13 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 						.then(response => response.json())
 						console.log(response)
-
+						
 					}catch(error){
 						console.log('Something went wrong with swap.add', error)
 					}
 				},
 
 				getAll: async() => {
-
-
 
 					setStore({ swaps: my_swaps})
 				}

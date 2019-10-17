@@ -28,7 +28,8 @@ export default class TournamentDashboard extends Component {
                     <TournamentBody 
                       navigation={this.props.navigation}
 
-                      key={content.id}
+                      key={index}
+                      id = {content.id}
                       name={content.name} 
                       created_at={content.created_at} 
                       updated_at={content.updated_at}

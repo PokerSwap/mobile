@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { View } from 'react-native';
-import { Button, ListItem, Text, Left, Icon, Right } from 'native-base';
+import { ListItem, Text, Icon } from 'native-base';
 import { Col } from 'react-native-easy-grid'
 
 export default class TournamentBody extends Component {
@@ -12,15 +12,29 @@ export default class TournamentBody extends Component {
   render(){      
     
     var bgColor, textColor, buttonColor, path;
-    var navigation = this.props.navigation ;
+    var navigation = this.props.navigation;
+
+    const enterTournament = () => {
+      navigation.push(path, {
+        tournament_id: this.props.id,
+        name: this.props.name,
+        address: this.props.address,
+        longitude: this.props.longitude,
+        latitude: this.props.latitude,
+        start_at: this.props.start_at,
+        end_at: this.props.end_at,
+        flights: this.props.flights
+      });
+    }
 
     // ACTIVE TOURNAMENT VIEW
-    if (this.props.status=='active') {
+    if (this.props.flights.buyins == 'active') {
       bgColor = 'green';
       textColor = 'white';
       buttonColor = 'white';
       borderWidth = 4;
       path = 'TourneyLobby'
+      action = actions
     } 
 
     // INACTIVE TOURNAMENT VIEW
@@ -29,7 +43,8 @@ export default class TournamentBody extends Component {
       textColor = 'black';
       buttonColor = null;
       borderWidth = 2;
-      path = 'VerifyTicket'
+      path = 'TourneyLobby'
+      action = null
     }
 
     var month = this.props.start_at.substring(8,11)
@@ -38,11 +53,10 @@ export default class TournamentBody extends Component {
 
     return(
 
-      <ListItem 
-
-        noIndent style={{backgroundColor: bgColor}}
-        onPress={()=> navigation.navigate(path)} 
-        style={{flexDirection:'row', justifyContent:'space-between'}}>
+      <ListItem noIndent 
+        style={{backgroundColor: bgColor, flexDirection:'row', justifyContent:'space-between'}}
+        onPress={()=> enterTournament()} 
+      >
         
         {/* TOURNAMENT DATE */}
         <Col style={{width:'28%', alignItems:'center'}}>
@@ -50,20 +64,15 @@ export default class TournamentBody extends Component {
           {/* TOURNAMENT DATE BOX */}
           <View  
             style={{
-              borderColor:buttonColor,
-              borderRadius: borderWidth,
-              alignContent:'center',
-              flexDirection:"column",
-              flex:0,
-              justifyContent:"center",
-              width:85, height:85
+              borderColor:buttonColor, borderRadius: borderWidth, alignContent:'center',
+              flexDirection:"column", flex:0, justifyContent:"center", width:85, height:85
             }}
           >
             {/* TOURNAMENT START DATE*/}
             <Text style={{fontWeight:"600", fontSize:24, color:textColor}}>{month} {day}</Text>
             <Text style={{fontWeight:"600", fontsize:12, color:textColor, marginTop:5}}>{day_name}</Text>
           </View>        
-       
+      
         </Col>
                 
         {/* TOURNAMENT DETAILS */}

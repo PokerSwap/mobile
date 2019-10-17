@@ -1,32 +1,45 @@
 import React, {Component} from 'react';
+import { View } from 'react-native';
 import {Container, Button, Text, Content, Card, CardItem, Item, Input} from 'native-base';
 import TourneyHeader from './Components/TourneyHeader'
 import { Row, Col } from 'react-native-easy-grid'
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Context } from '../../Store/appContext';
 
 export default class SwapOffer extends Component {
     constructor(props){
       super(props);
-      this.state={}
+      this.state={
+        percentage: 1
+      }
     }
     
-    // INACTIVE/INCOMING FUNCTION
     // ADDING PERCENT TO SWAP - NO MORE THAN 50%
     add = () => {
-      if (this.state.percent < 50)
-      this.setState({percent: this.state.percent + 1})
+      if (this.state.percentage < 50){
+      this.setState({percentage: this.state.percentage + 1})
+    }else{
+      this.setState({percentage: 50})
+      }
     }
 
-    // INACTIVE/INCOMING FUNCTION
     // SUBTRACTING PERCENT FROM SWAP - NO MORE THAN 50%
     subtract = () => {
-      if (this.state.percent > 1)
-      this.setState({percent: this.state.percent - 1})
+      if (this.state.percentage > 0){
+      this.setState({percentage: this.state.percentage - 1})
+      }else{
+        this.setState({percentage: 1})
+      }
     }
-   
+
     render(){
       const { navigation } = this.props;
       let mode = navigation.getParam('mode', 'NO-ID');
-      
+      let first_name = navigation.getParam('first_name', 'default value');
+      let last_name = navigation.getParam('last_name', 'default value');
+      let user_id = navigation.getParam('user_id', 'default value');
+      let tournament_id = navigation.getParam('tournament_id', 'default value');
+
       // Each view contains five parts
       let partOne, partTwo, partThree, partFour, partFive;
 
@@ -119,36 +132,57 @@ export default class SwapOffer extends Component {
           <Text style={{marginRight:5,fontSize:24}}>Swap With:</Text>    
 
         partTwo = 
-          <Text style={{marginLeft:5,fontSize:24}}>Some Guy</Text>
+          <Text style={{marginLeft:5,fontSize:24,}}> {first_name} {last_name} </Text>
 
         partThree = 
           <Text style={{marginRight:5,fontSize:24}}>Swap Offer:</Text>
 
+        // PERCENTAGE AND BUTTONS
         partFour = 
-          <Row style={{justifyContent:'center', marginBottom:20}}>
-            <Button onPress={()=>this.subtract()}><Text style={{fontSize:24}}> - </Text></Button>
-            <Text style={{fontSize:24, marginHorizontal:10}}> {this.state.percent}% </Text>
-            <Button onPress={()=>this.add()}><Text style={{fontSize:24}}> + </Text></Button>
+          <Row style={{justifyContent:'center', marginBottom:20, alignItems:'center'}}>
+            
+            {/* SUBTRACT BUTTON */}
+            <TouchableOpacity onPress={()=> this.subtract()}>
+              <View style={{width:50, height:50, borderRadius: 5, backgroundColor:'blue'}} onPress={()=>this.subtract()}>
+                <Text style={{fontSize:36, color:'white', textAlign:'center'}}>-</Text>
+              </View>
+            </TouchableOpacity>
+            
+            {/* SWAP PERCENTAGE */}
+            <Text style={{fontSize:36, marginHorizontal:10}}> {this.state.percentage}% </Text>
+            
+            {/* ADD BUTTON */}
+            <TouchableOpacity onPress={()=> this.add()}>
+              <View style={{width:50, height:50, borderRadius: 5, backgroundColor:'blue'}} onPress={()=>this.add()}>
+                <Text style={{fontSize:36, color:'white', textAlign:'center'}}>+</Text>
+              </View>
+            </TouchableOpacity>
           </Row>
 
+        // OFFER SWAP BUTTON
         partFive = 
-          <Button large>
-            <Text> Offer Swap </Text>
-          </Button>
-
+          <Context.Consumer>
+            {({ store, actions }) => {
+              return(
+                <Button large 
+                  onPress={async() => {
+                    actions.swap.add(tournament_id, user_id, this.state.percentage),
+                    actions.profile.get()
+                  }}>
+                  <Text> Offer Swap </Text>
+                </Button>
+              )
+            }}   
+          </Context.Consumer>
       }
-  
+
       return(
         <Container>
           <Content>
             
             {/* HEADER */}
             <Card transparent>
-            <TourneyHeader 
-                title='#SHRPO' daytime='Thu 11:00AM' 
-                date='Sep 1, 2019' 
-                address='Seminole Hard Rock  Hollywood, FL'
-              />
+              <Text style={{fontSize:24}}>{first_name} {last_name}</Text>
             </Card>
 
             {/* BODY */}

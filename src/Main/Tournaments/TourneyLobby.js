@@ -2,9 +2,7 @@ import React, {Component} from 'react';
 import {Container, Content, Button, Footer, List, ListItem, Text} from 'native-base';
 
 import TourneyHeader from './Components/TourneyHeader'
-import BuyIn from '../Swaps/Components/BuyIn'
-import {Col} from 'react-native-easy-grid'
-import { Context } from '../../Store/appContext'
+import FlightSchedule from './Components/FlightSchedule';
 
 export default class TourneyLobby extends Component {
   constructor(props){
@@ -12,7 +10,34 @@ export default class TourneyLobby extends Component {
     this.state={}
   }
   
+
+  
   render(){
+    
+    const { navigation } = this.props;
+    let tournament_id = navigation.getParam('tournament_id', 'ID');
+    let name = navigation.getParam('name', 'default value');
+    let address = navigation.getParam('address', 'default value');
+    let longitude = navigation.getParam('longitude', 'ID');
+    let latitude = navigation.getParam('latitude', 'NO-ID');
+    let start_at = navigation.getParam('start_at', 'NO-ID');
+    let end_at = navigation.getParam('end_at', 'NO-ID');
+    let flights = navigation.getParam('flights', 'NO-ID');
+
+    var Flights = flights.map((flight) => 
+      <FlightSchedule 
+        id = {flight.id}
+        navigation={this.props.navigation}
+        tournament_id={tournament_id}
+        day = {flight.day}
+        start_at = {flight.start_at}
+        end_at = {flight.end_at}
+
+        buy_ins={flight.buy_ins}
+    />
+    )
+
+
     return(
       <Container>
         <Content>
@@ -21,80 +46,26 @@ export default class TourneyLobby extends Component {
             {/* TOURNAMENT HEADER */}
             <ListItem itemHeader first>
               <TourneyHeader 
-                id={this.props.id}
-                name={this.props.name}
-                address={this.props.address}
-                abbreviation={this.props.abbreviation}
-                start_at={this.props.start_at}
-                end_at={this.props.end_at}
+                id={tournament_id}
+                name={name}
+                address={address}
+                start_at={start_at}
+                end_at={end_at}
               />
             </ListItem>
 
-            {/* CURRENT USER'S BUYIN */}
-            <Context.Consumer>
-              {({store, actions}) => {
-                var you = store.buy_ins.filter(item => item.user_id == 1 )
-                return you.map((content, index) => {
-                  return(
-                    <BuyIn
-                      name='You' stillIn='Yes' 
-                      table='20' seat='6' chips='10,000' 
-                      navigation={this.props.navigation}
-                    />
-                  )
-                })
-              }}
-            </Context.Consumer> 
+            {/* TOURNEY BUYIN ENTRIES  */}
+            {Flights}
             
-            {/* TOURNEY BUYIN ENTRIES  */}
-            <Context.Consumer>
-              {({store, actions}) => {
-                var everyone_else = store.buy_ins.filter(item => item.user_id !== 1)
-                return everyone_else.map((content, index) => {
-                  return(
-                    <BuyIn
-                      id = {content.id}
-                      name={content.name}
-                      stillIn={content.stillIn}
-                      table={content.table}
-                      seat={content.seat}
-                      chips={content.chips}
-                      state={content.status}
-                      navigation={this.props.navigation}
-                    />
-                  )
-                })
-              }}
-            </Context.Consumer> 
-
-            {/* TOURNEY BUYIN ENTRIES  */}
-            <Context.Consumer>
-              {({store, actions}) => {
-                var everyone_else = store.buy_ins.filter(item => item.user_id !== 1)
-                return store.buy_ins.map((content, index) => {
-                  return(
-                    <BuyIn
-                      id = {content.id}
-                      name={content.name}
-                      stillIn={content.stillIn}
-                      table={content.table}
-                      seat={content.seat}
-                      chips={content.chips}
-                      state={content.status}
-                      navigation={this.props.navigation}
-                    />
-                  )
-                })
-              }}
-            </Context.Consumer> 
+          
           </List>
 
         </Content>
 
-        {/* FOOTER CONTAINS NUMBER OF SWAPS AND ACTION */}
+        {/* FOOTER CONTAINS NUMBER OF SWAPS AND ACTION 
         <Footer style={{maxHeight:60}}>
           
-          {/* CURRENT USER'S NUMBER OF TOURNAMENT SWAPS */}
+          CURRENT USER'S NUMBER OF TOURNAMENT SWAPS 
           <Col>
             <Button  large
               style={{
@@ -108,7 +79,7 @@ export default class TourneyLobby extends Component {
             </Button>
           </Col>
           
-          {/* CURRENT USER'S ACTION */}
+           CURRENT USER'S ACTION 
           <Col>
             <Button transparent large style={{justifyContent:'center'}}>
               <Text >ACTION: {this.state.action}%</Text>
@@ -116,6 +87,7 @@ export default class TourneyLobby extends Component {
           </Col>
 
         </Footer>
+        */}
 
       </Container>
     )

@@ -13,6 +13,18 @@ export default class BuyIn extends Component {
 
     render(){
 
+      const { navigation } = this.props;
+
+      const enterSwap = () => {
+        navigation.push(this.props.navigation.push('SwapOffer',{
+          mode: path,
+          user_id: this.props.user_id,
+          first_name: this.props.first_name,
+          last_name: this.props.last_name,
+          tournament_id:this.props.tournament_id
+        }));
+      }
+
       let path, lastCol, buttonColor;
       
       // COMPLETED SWAP VIEW
@@ -34,19 +46,19 @@ export default class BuyIn extends Component {
         buttonColor= 'orange';
       } 
       // YOUR SWAP VIEW
-      else if (this.props.name == 'You'){
+      else if (this.props.first_name == 'Gabriel'){
         lastCol = <Text>Edit</Text>;
         path = "edit";
         buttonColor= 'grey';
       } 
       // SWAP OFFER VIEW
-      else if (this.props.offer == 'inactive'){
+      else if (this.props.first_name != 'Gabriel'){
         lastCol = 
           <Icon  
             style={{alignSelf:'center', fontSize:24}} 
             type="FontAwesome5" name="handshake" />;
         path = "inactive";
-        buttonColor= 'blue';
+        buttonColor= 'rgb(56,68,165)';
       } 
       // INCOMING SWAP VIEW
       else if (this.props.offer == 'recieved'){
@@ -58,6 +70,8 @@ export default class BuyIn extends Component {
         buttonColor= 'red';
       }
 
+
+
       return(
         <ListItem noIndent>
           <Grid style={{marginVertical:10}}>
@@ -65,23 +79,23 @@ export default class BuyIn extends Component {
 
               {/* PROFILE NAME */}
               <Row style={{justifyContent:'center'}}>
-                <Text style={{fontSize:24}}> {this.props.name} </Text>
-                <Text> {this.props.flight} </Text>
+                <Text style={{fontSize:24}}> {this.props.first_name} {this.props.last_name} </Text>
               </Row>
 
               {/* DETAILS */}
               <Row style={{marginTop:10}}>
-                <BuyInAttribute top=' Still In? ' bottom={this.props.stillIn}/>
-                <BuyInAttribute top=' Table ' bottom={this.props.table}/>
+                {/* <BuyInAttribute top=' Still In? ' bottom={this.props.stillIn}/> */}
+                {/* <BuyInAttribute top=' Table ' bottom={this.props.table}/>
                 <BuyInAttribute top=' Seat ' bottom={this.props.seat}/>
-                <BuyInAttribute top=' Chips ' bottom={this.props.chips}/>
+                <BuyInAttribute top=' Chips ' bottom={this.props.chips}/> */}
               </Row>
             </Col>
+
 
             {/* BUTTON WITH VARIABLE PATHS */}
             <Col style={{justifyContent:'center', marginLeft:20}}>
               <Button 
-                onPress={()=> this.props.navigation.navigate('SwapOffer', { mode: path })}
+                onPress={()=> enterSwap()}
                 style={{backgroundColor:buttonColor, width:70, height:70, justifyContent:'center'}}>
                 {lastCol}
               </Button>

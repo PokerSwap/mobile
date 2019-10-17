@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import { View } from 'react-native';
 import { ListItem, Text } from 'native-base';
-
-import { Context } from '../../../Store/appContext'
+import BuyIn  from '../../Swaps/Components/BuyIn'
 
 export default class FlightSchedule extends Component {
   constructor(props){
@@ -14,38 +13,37 @@ export default class FlightSchedule extends Component {
     
     // var navigation = this.props.navigation ;
 
-    // var startMonth = this.props.start_at.substring(8,11)
-    // var startDay = this.props.start_at.substring(5,7)
-    // var startDayName = this.props.start_at.substring(0,3)
+    var startMonth = this.props.start_at.substring(8,11)
+    var startDay = this.props.start_at.substring(5,7)
+    
+    var startTime = this.props.start_at.substring(16,22)
+    var endTime = this.props.end_at.substring(16,22)
 
-    // var endMonth = this.props.end_at.substring(8,11)
-    // var endDay = this.props.end_at.substring(5,7)
-    // var endDayName = this.props.end_at.substring(0,3)
+    var buy_ins_list = this.props.buy_ins
 
-
+    var Buy_Ins = buy_ins_list.map((buy_in) => 
+      <BuyIn
+        key = {buy_in.id}
+        user_id = {buy_in.user.id}
+        tournament_id={this.props.tournament_id}
+        first_name={buy_in.user.first_name}
+        last_name={buy_in.user.last_name}
+        table={buy_in.table}
+        seat={buy_in.seat}
+        chips={buy_in.chips}
+        navigation={this.props.navigation}
+      />
+    )
+    
     return(
       <View>
-        <ListItem seperator>
-          {/* <Text> {startMonth} {startDay}, {startDayName} - {endMonth} {endDay}, {endDayName} </Text> */}
-          <Text>LOL</Text>
+        <ListItem noIndent seperator style={{backgroundColor:'lightgray', justifyContent:'space-between'}}>
+          <Text> Day {this.props.day} - {startMonth}. {startDay} </Text>
+          <Text>{startTime} - {endTime} </Text>
         </ListItem> 
-
-        <Context.Consumer>
-          {({ store, actions }) =>{
-            return store.buy_ins.map((content, index) => {
-              return(
-                <BuyIn
-                  id = {content.id}
-                  name={content.name}
-                  table={content.table}
-                  seat={content.seat}
-                  chips={content.chips}
-                  navigation={this.props.navigation}
-                />
-              )
-            })
-          }}
-        </Context.Consumer>
+      
+      {Buy_Ins}
+                
       </View>
     )
   }
