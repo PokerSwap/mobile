@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Container, List, ListItem, Content, Text } from 'native-base';
+import { Container, List, Content } from 'native-base';
 import _Header from "../../View-Components/header";
 import TournamentBody from './Components/TournamentBody';
 import { Context } from '../../Store/appContext'
@@ -11,10 +11,6 @@ export default class TournamentDashboard extends Component {
   }
     
   render(){
-
-  // sortby
-  //   date
-  //   location
 
     return(
 
@@ -34,7 +30,7 @@ export default class TournamentDashboard extends Component {
 
                       key={content.id}
                       name={content.name} 
-                      created_at={content.created_at}
+                      created_at={content.created_at} 
                       updated_at={content.updated_at}
 
                       address={content.address}

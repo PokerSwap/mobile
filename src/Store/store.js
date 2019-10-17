@@ -31,15 +31,15 @@ const getState = ({ getStore, setStore, getActions }) => {
 				
 				add: async ( a_flight_id, some_chips, a_table, a_seat ) => {
 					try{
+						
+						let accessToken = getStore().userToken.jwt
+						const url = 'https://pokerswap.herokuapp.com/buy_ins/me'		
 						let data = {
 							flight_id: a_flight_id,
 							chips: some_chips,
 							table: a_table,
 							seat: a_seat
 						}
-
-						let accessToken = getStore().userToken.jwt
-						const url = 'https://pokerswap.herokuapp.com/buy_ins/me'
 
 						let response = await fetch(url, {
 							method: 'POST',
@@ -51,10 +51,12 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 						.then(response => response.json)
 						console.log(response.json)
+
 					} catch(error) {
 						console.log("Some went wrong in buyin.add", error)
 					}
 				}
+
 			},
 
 			coin:{},
@@ -62,9 +64,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 			flight:{
 
 				getAll: async() => {
-
+					const store = getStore();
 				}
-
 			},
 
 			profile:{
@@ -100,6 +101,10 @@ const getState = ({ getStore, setStore, getActions }) => {
 					}
 				},
 
+				changePicture: async() => {
+
+				},
+
 				get: async () => {
 					try{
 
@@ -123,13 +128,21 @@ const getState = ({ getStore, setStore, getActions }) => {
 					}
 				},
 
+				remove: async () => {
+					try {
+						setStore({profile_in_session: null})
+					} catch(error) {
+						console.log('Something went wrong in removing userToken')
+					}
+				}
+
 			},
 			
 			receipt: {},
 			
 			swap: {
 
-				add: ( a_tournament_id, a_recipient_id, a_percentage ) => {
+				add: async ( a_tournament_id, a_recipient_id, a_percentage ) => {
 					
 					try{
 						const url = 'https://pokerswap.herokuapp.com/swaps/me'
@@ -155,8 +168,14 @@ const getState = ({ getStore, setStore, getActions }) => {
 					}catch(error){
 						console.log('Something went wrong with swap.add', error)
 					}
-				}
+				},
 
+				getAll: async() => {
+
+
+
+					setStore({ swaps: my_swaps})
+				}
 			},
 		
 			tournament:{
@@ -196,7 +215,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 								'Content-Type':'application/json'
 							}, 
 						})
-						// .then(response => response.json)
 
 						let tournamentData = await response.json()
 						console.log('response', response)
@@ -288,6 +306,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 			
 				logout: (navigation) => {
 					getActions().userToken.remove();
+					getActions().profile.remove()
 					navigation.navigate("Login")	
 				},
 
