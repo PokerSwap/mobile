@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { View } from 'react-native';
 import { ListItem, Text } from 'native-base';
-import BuyIn  from '../../Swaps/Components/BuyIn'
+import BuyIn  from '../../Shared/BuyIn'
 
 export default class FlightSchedule extends Component {
   constructor(props){

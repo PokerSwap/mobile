@@ -3,6 +3,8 @@ import { View } from 'react-native';
 import {  Text } from 'native-base';
 import { Context } from '../../../Store/appContext';
 
+import BuyIn from '../../Shared/BuyIn'
+
 export default class SwapTracker extends Component {
     constructor(props){
       super(props);
