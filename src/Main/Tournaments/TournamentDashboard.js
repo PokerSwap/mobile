@@ -22,11 +22,13 @@ export default class TournamentDashboard extends Component {
             {/* TOURNAMENT LIST GENERATOR */}
             <Context.Consumer>
               {({store, actions}) => {
-                
+                var buy_ins = store.profile_in_session.buy_ins
                 return store.tournaments.map((content, index) => {
                   return(
                     <TournamentBody 
                       navigation={this.props.navigation}
+
+                      my_buy_ins={buy_ins}
 
                       key={index}
                       id = {content.id}

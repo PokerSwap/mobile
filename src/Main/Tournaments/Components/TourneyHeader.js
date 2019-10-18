@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { ListItem, H2, H1, Text, Button } from 'native-base';
+import { Text, Button } from 'native-base';
 import { Linking } from 'react-native';
 import { Row, Col, Grid } from 'react-native-easy-grid';
 

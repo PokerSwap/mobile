@@ -27,14 +27,15 @@ export default class TournamentBody extends Component {
       });
     }
 
+
+
     // ACTIVE TOURNAMENT VIEW
-    if (this.props.flights.buyins == 'active') {
+    if (true) {
       bgColor = 'green';
       textColor = 'white';
       buttonColor = 'white';
       borderWidth = 4;
       path = 'TourneyLobby'
-      action = actions
     } 
 
     // INACTIVE TOURNAMENT VIEW
@@ -64,6 +65,7 @@ export default class TournamentBody extends Component {
           {/* TOURNAMENT DATE BOX */}
           <View  
             style={{
+              backgroundColor: bgColor,
               borderColor:buttonColor, borderRadius: borderWidth, alignContent:'center',
               flexDirection:"column", flex:0, justifyContent:"center", width:85, height:85
             }}

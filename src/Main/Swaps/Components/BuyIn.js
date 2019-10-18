@@ -85,9 +85,9 @@ export default class BuyIn extends Component {
               {/* DETAILS */}
               <Row style={{marginTop:10}}>
                 {/* <BuyInAttribute top=' Still In? ' bottom={this.props.stillIn}/> */}
-                {/* <BuyInAttribute top=' Table ' bottom={this.props.table}/>
+                <BuyInAttribute top=' Table ' bottom={this.props.table}/>
                 <BuyInAttribute top=' Seat ' bottom={this.props.seat}/>
-                <BuyInAttribute top=' Chips ' bottom={this.props.chips}/> */}
+                <BuyInAttribute top=' Chips ' bottom={this.props.chips}/>
               </Row>
             </Col>
 

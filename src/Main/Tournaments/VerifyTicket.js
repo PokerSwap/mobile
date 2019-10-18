@@ -3,7 +3,6 @@ import {Image, TextInput} from 'react-native';
 import {Container, Button, Text, Content, Card, CardItem} from 'native-base';
 
 import ImagePicker from 'react-native-image-picker';
-import { Row, Col } from 'react-native-easy-grid';
 
 import { Context } from '../../Store/appContext';
 import _Header from "../../View-Components/header";
