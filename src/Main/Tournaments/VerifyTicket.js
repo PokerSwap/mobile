@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Image, TextInput} from 'react-native';
+import {Image, TextInput, Picker} from 'react-native';
 import {Container, Button, Text, Content, Card, CardItem} from 'native-base';
 
 import ImagePicker from 'react-native-image-picker';
@@ -15,13 +15,14 @@ export default class VerifyTicket extends Component {
       image: require('../../Images/placeholder.jpg'),
       table: '',
       seat: '',
-      chips: ''
+      chips: '',
+      flight_id:''
     }
   }
 
   BuyInStart = async(x) => {    
     x.buy_in.add(
-      this.props.flight_id,
+      this.state.flight_id,
       this.state.table,
       this.state.seat,
       this.state.chips,
@@ -52,7 +53,37 @@ export default class VerifyTicket extends Component {
     });
   };
 
+ 
+    
+
   render(){
+
+    var navigation = this.props.navigation;
+
+    let flights = navigation.getParam('flights', 'NO-ID');
+
+    var FlightSelection = flights.map((flight) => {
+      
+      var startMonth = flight.start_at.substring(8,11)
+      var startDay = flight.start_at.substring(5,7)
+      
+      var startTime = flight.start_at.substring(16,22)
+      var endTime = flight.end_at.substring(16,22)
+
+      var day_name = flight.start_at.substring(0,3)
+      var day_num = flight.day
+
+
+      var labelTime = 'Day ' + day_num + ' ' + day_name + '.  ' + startMonth + '. ' + startDay + ', ' + startTime + ' -' + endTime
+        return(
+          <Picker.Item 
+            label= {labelTime}
+            value={flight.id}
+          />
+        )
+    })
+
+    
     return(
       <Container>
         <Content contentContainerStyle={{ alignItems:'center', justifyContent:'center' }}>
@@ -81,10 +112,11 @@ export default class VerifyTicket extends Component {
               </Button>
             </CardItem>
 
-            
+           
+
             {/* TABLE INPUT */}
             <CardItem style={{justifyContent:'center'}}>
-              <Text>Table: </Text>
+              <Text style={{fontSize:24}}>Table: </Text>
               <TextInput 
                 placeholder="Enter Table Number"
                 placeholderTextColor='gray'
@@ -101,7 +133,7 @@ export default class VerifyTicket extends Component {
             
             {/* SEAT INPUT */}
             <CardItem style={{justifyContent:'center'}}>
-              <Text>Seat: </Text>
+              <Text style={{fontSize:24}}>Seat: </Text>
               <TextInput 
                 placeholder="Enter Seat Number"
                 placeholderTextColor='gray'
@@ -119,7 +151,7 @@ export default class VerifyTicket extends Component {
             
             {/* CHIPS INPUT */}
             <CardItem style={{justifyContent:'center'}}>
-              <Text>Chips: </Text>
+              <Text style={{fontSize:24}}>Chips: </Text>
               <TextInput 
                 placeholder="Enter Number of Chips"
                 placeholderTextColor='gray'
@@ -134,6 +166,15 @@ export default class VerifyTicket extends Component {
               />
             </CardItem>
             
+            <Picker
+              selectedValue={this.state.flight_id}
+              onValueChange={(itemValue, itemIndex) =>
+                this.setState({flight_id: itemValue})
+              }
+            >
+              {FlightSelection}
+            </Picker>
+
             {/* SUBMIT BUTTON */}
             <CardItem style={{justifyContent:'center'}}>
               <Context.Consumer>
