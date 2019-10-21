@@ -37,7 +37,9 @@ export default class NameSetup extends Component {
             <Input 
               placeholder='First Name'
               value={this.props.first_name}
-              onChangeText={this.props.onChangeFirstName}        />
+              onChangeText={this.props.onChangeFirstName}
+              autoCorrect={false}         
+            />
           </Item>
 
           {/* LAST NAME INPUT */}
@@ -46,6 +48,7 @@ export default class NameSetup extends Component {
               placeholder='Last Name'
               value={this.props.last_name}    
               onChangeText={this.props.onChangeLastName} 
+              autoCorrect={false} 
             />
           </Item>
 
@@ -55,8 +58,10 @@ export default class NameSetup extends Component {
               placeholder='Nick Name'
               value={this.props.username}    
               onChangeText={this.props.onChangeUserName} 
+              autoCorrect={false} 
             />
           </Item>
+
         </CardItem>
 
         {/* SUBMIT BUTTON */}
@@ -66,13 +71,6 @@ export default class NameSetup extends Component {
           </Button>
         </CardItem>
 
-        {/* GO BACK BUTTON */}
-        <CardItem footer style={{justifyContent:"center"}}>
-          <Button large info onPress={() => this.props.prev()}>
-            <Text> Go Back </Text>
-          </Button>
-        </CardItem>
-        
       </Card>
       
     )
