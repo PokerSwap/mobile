@@ -15,12 +15,12 @@ export default class CreateProfile extends Component {
     this.state={
       page:0,
       loading:false,
-      email:'',
+      email:'', 
       password:'',
       first_name:'',
       last_name:'',
       username:'',
-      picture:'',
+      picture:'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
       hendon:''
     }
   }
@@ -113,6 +113,7 @@ export default class CreateProfile extends Component {
                 username= {this.state.username}
                 picture= {this.state.picture}
                 hendon= {this.state.hendon}
+
               />
             </Tab>
 

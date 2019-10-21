@@ -7,7 +7,7 @@ import SwapTracker from './Components/SwapTracker';
 export default class SwapDashboard extends Component {
     constructor(){
       super();
-      this.state={}
+      this.state={} 
     }
     
     render(){
@@ -36,13 +36,25 @@ export default class SwapDashboard extends Component {
               {/* SCHEDULED TOURNAMENT TITLE AND BOX */}
               <Context.Consumer>
                 {({store, actions})=> {
-                  var mySwaps = store.profile_in_session.receiving_swaps
-                  return mySwaps.map((content, index) => {
-                    var x = content.tournament_id;
-                    var tournament = () => actions.tournament.get(x)
+                  var myProfile = store.profile_in_session
+                  var myBuyIns = myProfile.buy_ins
+                  
+                  
+                  return myBuyIns.map((content, index) => {
                     return(
                       <SwapTracker
-                        tournament = {tournament.name}
+                        key = {index}
+                        name={content.flight.tournament}
+
+                        first_name={myProfile.first_name}
+                        last_name={myProfile.last_name}
+                        id={myProfile.id} 
+                        swaps={myProfile.receiving_swaps}
+                        buy_in_ID= {content.id}
+
+                        table={content.table}
+                        seat={content.seat}
+                        chips={content.chips}
                       />
                     )
                     })

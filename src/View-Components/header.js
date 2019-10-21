@@ -19,7 +19,7 @@ export default class _Header extends Component {
         
         {/* TITLE */}
         <Body>
-          <Text>Swap Poker</Text>
+          <Text>Swap Profit</Text>
         </Body>
         
         {/* TUTORIAL ICON */}

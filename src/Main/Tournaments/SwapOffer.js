@@ -13,6 +13,15 @@ export default class SwapOffer extends Component {
         percentage: 1
       }
     }
+
+    swapStart = async(x) => {
+      var answer = await x.swap.add(
+        tournament_id, 
+        user_id, 
+        this.state.percentage,
+        this.props.navigation
+      )
+    }
     
     // ADDING PERCENT TO SWAP - NO MORE THAN 50%
     add = () => {

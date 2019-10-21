@@ -36,16 +36,11 @@ export default class TournamentBody extends Component {
     )
   console.log('x',x)
  console.log('z',z)
-    var matches
-      x.forEach((buy_in) =>
-        z.forEach((other_buyin)=> {
-          if(buy_in!=other_buyin){
-            matches = true
-          } else {
-            matches =false
-          }
-        })
-      )
+    
+  
+    var matches = z.some(zz => zz == 1 || zz >= 4)
+
+    console.log('matches is', matches)
 
     console.log(matches)
     // ACTIVE TOURNAMENT VIEW

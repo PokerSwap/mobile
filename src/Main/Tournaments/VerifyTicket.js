@@ -21,7 +21,7 @@ export default class VerifyTicket extends Component {
   }
 
   BuyInStart = async(x) => {    
-    x.buy_in.add(
+    var answer = await x.buy_in.add(
       this.state.flight_id,
       this.state.table,
       this.state.seat,
@@ -172,6 +172,7 @@ export default class VerifyTicket extends Component {
                 this.setState({flight_id: itemValue})
               }
             >
+              <Picker.Item label='Please select an option...' value='-1' />
               {FlightSelection}
             </Picker>
 

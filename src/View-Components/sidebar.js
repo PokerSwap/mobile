@@ -6,7 +6,7 @@ import {Alert} from 'react-native'
 // DRAWER PHYSICAL COMPONENT
 const SideBar = props => (
   <Container>
-    <Header><Text> Swap Poker </Text></Header>
+    <Header><Text> Swap Profit </Text></Header>
     <Content>
       
       {/* DEFAULT BUTTONS */}

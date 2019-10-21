@@ -9,11 +9,40 @@ export default class SwapTracker extends Component {
     constructor(props){
       super(props);
       this.state={  
-        
+         
       }
     }
 
     render(){
+
+      var mySwaps = this.props.swaps;
+      var mySwappers = mySwaps.map((swap) => swap.sender_user)
+      console.log('mySwappers', mySwappers)
+      
+      
+      var i = 2
+      var j = 3
+      var k = 4
+      var l = 3000
+
+      var theirBuyIns = mySwappers.map((buyin) => {
+        i += 2
+        j += 3
+        k += 4
+        l += 2000
+        return(
+          <BuyIn
+            percentage={i}
+            table={j}
+            seat={k}
+            chips={l}
+            first_name={buyin.first_name}
+            last_name={buyin.last_name}
+            offer='agreed'
+            // table={content.table}
+            // seat={content.seat}
+            // chips={content.chips}
+        />)})
 
       return(
         <View>
@@ -23,40 +52,18 @@ export default class SwapTracker extends Component {
             <Text 
               style={{fontSize:18, fontWeight:'600', width:'75%',
                       alignSelf:'center',textAlign:'center', color:'white'}}>
-              {content.flight.tournament}
+              {this.props.name}
             </Text>
           </View>
-          
-          {/* MY BUYIN */}
-          <Context.Consumer>
-            {({store, actions})=> {
-              var mybuyIns = store.profile_in_session.buy_ins;
-              return mySwaps.map((content, index) => {
-                return(
-                  <BuyIn
-                    key={index} 
-                    percentage={content.percentage}
-                    first_name={content.user.first_name}
-                    last_name={content.user.last_name}
-                  />
-              )})}}
-          </Context.Consumer>  
-
-          {/* BUYIN AND SWAP LIST */}
-          <Context.Consumer>
-            {({store, actions})=> {
-              var mySwaps = store.profile_in_session.receiving_swaps;
-              return mySwaps.map((content, index) => {
-                return(
-                  <BuyIn
-                    key={index} 
-                    percentage={content.percentage}
-                    first_name={content.user.first_name}
-                    last_name={content.user.last_name}
-                  />
-              )})}}
-          </Context.Consumer>  
-        
+          <BuyIn
+            id={this.props.id}
+            first_name = {this.props.first_name} 
+            last_name = {this.props.last_name} 
+            table = {this.props.table}
+            seat = {this.props.seat}
+            chips = {this.props.chips}
+          />
+          {theirBuyIns}
         </View>
       )
     }

@@ -3,6 +3,8 @@ import {  Text, ListItem, Button, Icon } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid'
 import BuyInAttribute from './BuyInAttribute'
 
+import getStore from '../../Store/store'
+
 export default class BuyIn extends Component {
     constructor(props){
       super(props);
@@ -31,7 +33,7 @@ export default class BuyIn extends Component {
       if (this.props.offer == 'agreed'){
         lastCol = 
           <Text style={{fontWeight:'600', color:'white'}}>
-            {this.props.apercent}%
+            {this.props.percentage}%
           </Text>;
         buttonColor= 'green';
         path = "agreed"

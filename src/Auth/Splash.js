@@ -19,7 +19,7 @@ export default class SplashScreen extends Component {
 		return(
 			<Container>
 				<Content contentContainerStyle={styles.container}>
-					<Text style={styles.text}>Swap Poker</Text> 
+					<Text style={styles.text}>Swap Profit</Text> 
 				</Content>
 			</Container>
 		)

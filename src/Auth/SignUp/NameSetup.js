@@ -39,6 +39,7 @@ export default class NameSetup extends Component {
               value={this.props.first_name}
               onChangeText={this.props.onChangeFirstName}
               autoCorrect={false}         
+              
             />
           </Item>
 

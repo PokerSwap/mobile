@@ -41,7 +41,7 @@ export default class FlightSchedule extends Component {
           <Text> Day {this.props.day} - {startMonth}. {startDay} </Text>
           <Text>{startTime} - {endTime} </Text>
         </ListItem> 
-      
+   
       {Buy_Ins}
                 
       </View>

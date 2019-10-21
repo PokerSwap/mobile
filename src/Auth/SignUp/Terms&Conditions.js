@@ -25,7 +25,7 @@ export default class TermsAndConditions extends Component {
             {/* PAGE BODY */}
             <CardItem style={{justifyContent:"center", flexDirection:'column'}}>
               <Text style={{textAlign:"justify", width:'90%', marginVertical:3}}>
-                  By using Swapppoker, I hereby certify that I am not 
+                  By using SwapProfit, I hereby certify that I am not 
                   a douchebag and that I will be 1,000,000% liable for 
                   any and every agreed transaction on this app.
               </Text>

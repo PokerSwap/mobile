@@ -18,6 +18,8 @@ const getState = ({ getStore, setStore, getActions }) => {
       //CURRENT USER'S SWAPS
 			swaps:[ ],
 
+			myTournaments:[],
+
       // ALL TOURNAMETS, FILTERED BY FIRST 10 RESULTS
 			tournaments:[ ],
 
@@ -29,7 +31,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 			
 			buy_in:{
 				
-				add: async ( a_flight_id, some_chips, a_table, a_seat ) => {
+				add: async ( a_flight_id, some_chips, a_table, a_seat, navigation ) => {
 					try{
 						
 						let accessToken = getStore().userToken.jwt
@@ -50,7 +52,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}, 
 						})
 						.then(response => response.json)
-						console.log(response.json)
+						.then(getActions().profile.get())
+						.then(getActions().tournament.getAll())
+						.finally(navigation.navigate('TournamentDashboard'))
 
 					} catch(error) {
 						console.log("Some went wrong in buyin.add", error)
@@ -70,7 +74,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 			profile:{
 				
-				add: async ( userName, firstName, lastName, a_hendon, profilePic ) => {
+				add: async ( userName, firstName, lastName, a_hendon, profilePic, navigation ) => {
 					
 					try{
 						
@@ -93,9 +97,10 @@ const getState = ({ getStore, setStore, getActions }) => {
 								'Content-Type':'application/json'
 							}, 
 						})
-						
 						.then(response => response.json)
-						console.log(response.json)
+						getActions().profile.get()
+						getActions().tournament.getAll()
+						navigation.navigate('LogIn')
 					} catch(error) {
 						console.log("Something went wrong in profile.add", error)
 					}
@@ -142,7 +147,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 			
 			swap: {
 
-				add: async ( a_tournament_id, a_recipient_id, a_percentage ) => {
+				add: async ( a_tournament_id, a_recipient_id, a_percentage, navigation ) => {
 					
 					try{
 						const url = 'https://pokerswap.herokuapp.com/swaps/me'
@@ -163,7 +168,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}
 						})
 						.then(response => response.json())
-						console.log(response)
+						.then(getActions.profile.get())
+						.then(navigation.navigate('TourneyLobby'))
 						
 					}catch(error){
 						console.log('Something went wrong with swap.add', error)
@@ -192,7 +198,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}, 
 						})
 						.then(response => response.json)
-						console.log(response.json)
+						console.log('each tournament', response.json)
 
 					} catch(error){
 						console.log('Something went wrong with tournament.get', error)
@@ -223,7 +229,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					} catch(error){
 						console.log('Something went wrong with tournament.getAll', error)
 					}
-				}
+				},
 
 			},
 
@@ -251,18 +257,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 						.then(response => response.json())
 						console.log(response)
 
-											// let res = await response.json();
-					// if (response.status >= 200 && response.status < 300) {
-					// 		data.error = "";
-					// 		let user = res;
-					// 		console.log('userToken: ', user, typeof(user))
-					// 		getActions().userToken.store(user);
-					// } else {
-					// 		let error = res;
-					// 		console.log("something went wrong in getting userToken", error, getStore().userToken);
-					// 		return false;
-					// 		throw error;
-					// }
 
 						
 					} catch(error) {
@@ -288,7 +282,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							if(getStore().userToken){
 								if(getStore().profile_in_session.message != 'User not found' ){
 									getActions().tournament.getAll();
-									navigation.navigate('Swaps');
+										navigation.navigate('Swaps');
 								} else {
 									navigation.navigate('ProfileCreation');
 								}
@@ -387,7 +381,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						
 					} catch(error) {
 							{() => getActions().userToken.remove()};
-							console.log("Email: ", data.username);
+							console.log("Email: ", data.email);
 							console.log("Password: ", data.password);
 							console.log("Error: ", error);
 							throw data.error;

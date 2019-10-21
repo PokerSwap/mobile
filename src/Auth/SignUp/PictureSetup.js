@@ -8,7 +8,7 @@ export default class PictureSetup extends Component {
   constructor(props){
     super(props);
     this.state={
-      image: require('../../Images/placeholder.jpg')    
+      image: this.props.picture
     }
   }
   
@@ -79,7 +79,7 @@ export default class PictureSetup extends Component {
         {/* IMAGE PREVIEW */}
         <CardItem header>
           <Image 
-            source={this.props.image}
+            source={{uri:this.props.picture}}
             style={{height:300, width:300, marginTop:50}}
           />
         </CardItem>
@@ -105,7 +105,7 @@ export default class PictureSetup extends Component {
           </Button>
 
           {/* NEXT BUTTON */}
-          <Button large disabled={x} onPress={() => this.props.next()}>
+          <Button large  onPress={() => this.props.next()}>
             <Text> Next </Text>
           </Button>
 
