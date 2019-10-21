@@ -26,26 +26,41 @@ export default class TournamentBody extends Component {
         flights: this.props.flights
       });
     }
+    console.log('flights',this.props.flights)
+    console.log('my buyins', this.props.my_buy_ins)
 
+    var x = this.props.my_buy_ins.map((buy_in) => buy_in.id)
+    var z=[]
+    var y = this.props.flights.forEach((flight) => 
+      flight.buy_ins.forEach((buy_in) => z.push(buy_in.id))
+    )
+  console.log('x',x)
+ console.log('z',z)
+    var matches
+      x.forEach((buy_in) =>
+        z.forEach((other_buyin)=> {
+          if(buy_in!=other_buyin){
+            matches = true
+          } else {
+            matches =false
+          }
+        })
+      )
 
-
+    console.log(matches)
     // ACTIVE TOURNAMENT VIEW
-    if (true) {
+    if (matches) {
       bgColor = 'green';
       textColor = 'white';
       buttonColor = 'white';
       borderWidth = 4;
       path = 'TourneyLobby'
-    } 
-
-    // INACTIVE TOURNAMENT VIEW
-    else {
+    } else {
       bgColor = 'white';
       textColor = 'black';
       buttonColor = null;
       borderWidth = 2;
-      path = 'TourneyLobby'
-      action = null
+      path = 'VerifyTicket'
     }
 
     var month = this.props.start_at.substring(8,11)
@@ -72,7 +87,7 @@ export default class TournamentBody extends Component {
           >
             {/* TOURNAMENT START DATE*/}
             <Text style={{fontWeight:"600", fontSize:24, color:textColor}}>{month} {day}</Text>
-            <Text style={{fontWeight:"600", fontsize:12, color:textColor, marginTop:5}}>{day_name}</Text>
+            <Text style={{fontWeight:"600", fontSize:12, color:textColor, marginTop:5}}>{day_name}</Text>
           </View>        
       
         </Col>
