@@ -15,7 +15,7 @@ export default class SwapDashboard extends Component {
 
       return(
         <Container>
-          <_Header drawer={() => this.props.navigation.toggleDrawer()}/>
+          <_Header title={'Swap Dashboard'} drawer={() => this.props.navigation.toggleDrawer()}/>
           <Content>
             <List>
 

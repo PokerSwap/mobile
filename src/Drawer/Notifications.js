@@ -12,7 +12,7 @@ export default class NotificationsScreen extends Component {
     render(){
       return(
         <Container>
-          <_Header drawer={() => this.props.navigation.toggleDrawer()}/>
+          <_Header title={'Notifications'} drawer={() => this.props.navigation.toggleDrawer()}/>
           <Content>
             <Text>Notifications</Text>
           </Content>

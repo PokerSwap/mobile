@@ -28,7 +28,7 @@ export default class AddCoinsScreen extends Component {
     render(){
       return(
         <Container>
-          <_Header drawer={() => this.props.navigation.toggleDrawer()}/>
+          <_Header title={'Add Coins'} drawer={() => this.props.navigation.toggleDrawer()}/>
           <Content contentContainerStyle={{flex:1, justifyContent:'center'}}>
             <Card>
 

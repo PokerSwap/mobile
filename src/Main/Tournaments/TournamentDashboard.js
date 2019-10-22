@@ -15,7 +15,7 @@ export default class TournamentDashboard extends Component {
     return(
 
       <Container>
-        <_Header drawer={() => this.props.navigation.toggleDrawer()}/>
+        <_Header title={'Tournament Dashboard'} drawer={() => this.props.navigation.toggleDrawer()}/>
         <Content>
           <List>
             

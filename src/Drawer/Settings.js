@@ -12,7 +12,7 @@ export default class SettingsScreen extends Component {
     render(){
       return(
         <Container>
-          <_Header drawer={() => this.props.navigation.toggleDrawer()}/>
+          <_Header title={'Settings'} drawer={() => this.props.navigation.toggleDrawer()}/>
           <Content>
             <Text>Settings</Text>
           </Content>  
