@@ -134,7 +134,6 @@ const MainStack = createBottomTabNavigator(
       navigationOptions:{
         header: null,
         title: "Swaps",
-        tabBarLabel: 'Swaps',
         tabBarIcon: ({ tintColor }) => 
           <Icon 
             type="FontAwesome5" 
@@ -145,10 +144,9 @@ const MainStack = createBottomTabNavigator(
       }
     },
     Tournaments: { 
-      screen: TournamentsStack,//TournamentsStack
+      screen: TournamentsStack,
       navigationOptions:{
         header: null,
-        tabBarLabel: 'Tournaments',
         tabBarIcon: ({ tintColor }) => 
           <Icon
             type="FontAwesome5"
@@ -162,7 +160,6 @@ const MainStack = createBottomTabNavigator(
       navigationOptions:{
         header: null,
         title:"Profile",
-        tabBarLabel: 'Profile',
         tabBarIcon: ({ tintColor }) => 
           <Icon 
             type="FontAwesome5" 
@@ -182,6 +179,7 @@ const MainStack = createBottomTabNavigator(
       style: {
         height: 70
       },
+    showLabel: false 
     }
   }
 )
