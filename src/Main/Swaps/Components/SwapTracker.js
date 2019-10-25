@@ -15,35 +15,6 @@ export default class SwapTracker extends Component {
 
     render(){
 
-      var mySwaps = this.props.swaps;
-      var mySwappers = mySwaps.map((swap) => swap.sender_user)
-      console.log('mySwappers', mySwappers)
-      
-      
-      var i = 2
-      var j = 3
-      var k = 4
-      var l = 3000
-
-      var theirBuyIns = mySwappers.map((buyin) => {
-        i += 2
-        j += 3
-        k += 4
-        l += 2000
-        return(
-          <BuyIn
-            percentage={i}
-            table={j}
-            seat={k}
-            chips={l}
-            first_name={buyin.first_name}
-            last_name={buyin.last_name}
-            offer='agreed'
-            // table={content.table}
-            // seat={content.seat}
-            // chips={content.chips}
-        />)})
-
       return(
         <View>
           {/* TOURNAMENT TITLE */}
@@ -52,18 +23,21 @@ export default class SwapTracker extends Component {
             <Text 
               style={{fontSize:18, fontWeight:'600', width:'75%',
                       alignSelf:'center',textAlign:'center', color:'white'}}>
-              {this.props.name}
+              {this.props.tournament_name}
             </Text>
           </View>
           <BuyIn
+            navigation={this.props.navigation}
             id={this.props.id}
             first_name = {this.props.first_name} 
             last_name = {this.props.last_name} 
             table = {this.props.table}
             seat = {this.props.seat}
             chips = {this.props.chips}
+            username={this.props.username}
+            tournament_name={this.props.tournament_name}
+            
           />
-          {theirBuyIns}
         </View>
       )
     }

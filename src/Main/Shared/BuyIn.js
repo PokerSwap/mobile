@@ -3,8 +3,6 @@ import {  Text, ListItem, Button, Icon } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid'
 import BuyInAttribute from './BuyInAttribute'
 
-import getStore from '../../Store/store'
-
 export default class BuyIn extends Component {
     constructor(props){
       super(props);
@@ -14,18 +12,6 @@ export default class BuyIn extends Component {
     }
 
     render(){
-
-      const { navigation } = this.props;
-
-      const enterSwap = () => {
-        navigation.push(this.props.navigation.push('SwapOffer',{
-          mode: path,
-          user_id: this.props.user_id,
-          first_name: this.props.first_name,
-          last_name: this.props.last_name,
-          tournament_id:this.props.tournament_id
-        }));
-      }
 
       let path, lastCol, buttonColor;
       
@@ -71,8 +57,23 @@ export default class BuyIn extends Component {
         path = 'recieved';
         buttonColor= 'red';
       }
+      
 
+      const { navigation } = this.props;
 
+      const enterSwapOffer = () => {
+        navigation.push(this.props.navigation.push('SwapOffer',{
+          mode: path,
+          user_id: this.props.user_id,
+          first_name: this.props.first_name,
+          last_name: this.props.last_name,
+          tournament_id:this.props.tournament_id,
+          tournament_name: this.props.tournament_name,
+          table: this.props.table,
+          seat: this.props.seat,
+          chips: this.props.chips
+        }));
+      }
 
       return(
         <ListItem noIndent>
@@ -97,7 +98,7 @@ export default class BuyIn extends Component {
             {/* BUTTON WITH VARIABLE PATHS */}
             <Col style={{justifyContent:'center', marginLeft:20}}>
               <Button 
-                onPress={()=> enterSwap()}
+                onPress={()=> enterSwapOffer()}
                 style={{backgroundColor:buttonColor, width:70, height:70, justifyContent:'center'}}>
                 {lastCol}
               </Button>

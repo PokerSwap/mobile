@@ -13,6 +13,8 @@ export default class SwapDashboard extends Component {
     render(){
 
 
+
+
       return(
         <Container>
           <_Header title={'Swap Dashboard'} drawer={() => this.props.navigation.toggleDrawer()}/>
@@ -23,9 +25,39 @@ export default class SwapDashboard extends Component {
               <Separator bordered style={{height:48, backgroundColor:'rgb(56,68,165)'}}>
                 <Text style={{fontSize:20, color:'white', fontWeight:'600', textAlign:'center'}}> 
                   LIVE 
-                </Text>
+                </Text>                
               </Separator>
 
+              <Context.Consumer>
+                {({store, actions})=> {
+                  var myProfile = store.profile_in_session
+                  var myBuyIns = myProfile.buy_ins
+
+                  return myBuyIns.map((content, index) => {
+                    // var currentDate = Date();
+                    // var startDate = content.tournament_start
+                    // var endDate = content.tournament_end
+                    // filter
+                    return(
+                      <SwapTracker
+                        navigation={this.props.navigation}
+                        key = {index}
+                        tournament_name={content.flight.tournament}
+
+                        first_name={myProfile.first_name}
+                        last_name={myProfile.last_name}
+                        id={myProfile.id} 
+                        swaps={myProfile.receiving_swaps}
+                        buy_in_ID= {content.id}
+
+                        table={content.table}
+                        seat={content.seat}
+                        chips={content.chips}
+                      />
+                    )
+                    })
+                  }}
+              </Context.Consumer>
               {/* SCHEDULED SWAPS LIST HEADER */}
               <Separator bordered style={{height:48, backgroundColor:'gray'}}>
                 <Text style={{fontSize:20, color:'white', fontWeight:'600', textAlign:'center'}}> 
@@ -38,13 +70,13 @@ export default class SwapDashboard extends Component {
                 {({store, actions})=> {
                   var myProfile = store.profile_in_session
                   var myBuyIns = myProfile.buy_ins
-                  
-                  
+
                   return myBuyIns.map((content, index) => {
                     return(
                       <SwapTracker
+                        navigation={this.props.navigation}
                         key = {index}
-                        name={content.flight.tournament}
+                        tournament_name={content.flight.tournament}
 
                         first_name={myProfile.first_name}
                         last_name={myProfile.last_name}
