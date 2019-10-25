@@ -278,7 +278,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						resolve(getActions().userToken.get(data)
 						.then(()=> getActions().profile.get())
 						.then(()=> your_password = '')
-						.finally(()=> {
+						.then(()=> {
 							if(getStore().userToken){
 								if(getStore().profile_in_session.message != 'User not found' ){
 									getActions().tournament.getAll();
