@@ -26,21 +26,14 @@ export default class TournamentBody extends Component {
         flights: this.props.flights
       });
     }
-    console.log('flights',this.props.flights)
-    console.log('my buyins', this.props.my_buy_ins)
 
     var x = this.props.my_buy_ins.map((buy_in) => buy_in.id)
     var z=[]
     var y = this.props.flights.forEach((flight) => 
       flight.buy_ins.forEach((buy_in) => z.push(buy_in.id))
     )
-  console.log('x',x)
- console.log('z',z)
     
-  
     var matches = z.some(zz => zz == 1 || zz >= 4)
-
-    console.log('matches is', matches)
 
     console.log(matches)
     // ACTIVE TOURNAMENT VIEW
