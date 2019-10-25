@@ -14,12 +14,12 @@ import CreateUser from './src/Auth/SignUp/CreateUser'
 // MAIN VIEWS
 import TournamentDashboard from './src/Main/Tournaments/TournamentDashboard'
 import SwapDashboard from './src/Main/Swaps/SwapDashboard'
-import ProfileScreen from './src/Main/Profile/ProfileScreen'
+import SwapPot from './src/Main/SwapPot'
 
 // TOURNAMENT VIEWS
 import TourneyLobby from './src/Main/Tournaments/TourneyLobby'
 import VerifyTicket from './src/Main/Tournaments/VerifyTicket';
-import SwapOffer from './src/Main/Tournaments/SwapOffer';
+import SwapOffer from './src/Main/Shared/SwapOffer';
 
 // SWAPS VIEWS
 // 
@@ -121,6 +121,13 @@ const SwapsStack = createStackNavigator(
         header: null
       }
     },
+    SwapOffer:{
+      screen: SwapOffer,
+      navigationOptions:{
+        title:'Swap Offer',
+        header: null
+      }
+    }
   }, {
     header: null,
   }
@@ -155,15 +162,15 @@ const MainStack = createBottomTabNavigator(
             style={{ color: tintColor }}          />
       }
     },
-    Profile: { 
-      screen: ProfileScreen ,
+    SwapPot: { 
+      screen: SwapPot ,
       navigationOptions:{
         header: null,
-        title:"Profile",
+        title:"Swap Pot",
         tabBarIcon: ({ tintColor }) => 
           <Icon 
             type="FontAwesome5" 
-            name="user" 
+            name="comments-dollar" 
             size={24} 
             style={{ color: tintColor }}
           />
@@ -172,7 +179,7 @@ const MainStack = createBottomTabNavigator(
   },
   {
     animationEnabled: true,
-    initialRouteName: "Profile",
+    initialRouteName: "Swaps",
     tabBarOptions: {
       activeTintColor: 'orange',
       inactiveTintColor: 'gray',
@@ -250,14 +257,7 @@ const DrawerNav = createDrawerNavigator(
 const AppStack = createStackNavigator(
   {
     Auth: AuthStack,
-    Drawer: DrawerNav,
-    Pub: { 
-      screen: ProfileScreen,
-      navigationOptions: {
-        title: "PublicProfile",
-        headerMode: 'on'
-      }
-    }
+    Drawer: DrawerNav,    
 
   },
   {
