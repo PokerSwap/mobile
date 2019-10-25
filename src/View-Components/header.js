@@ -9,23 +9,17 @@ export default class _Header extends Component {
 
   render(){
     return(
-      <Header>
+      <Header style={{justifyContent:'space-between', alignItems:'center'}}>
         
         {/* MENU ICON */}
-        <Left>
           <Icon name="menu"
             onPress={() => this.props.drawer()}/>
-        </Left>
         
         {/* TITLE */}
-        <Body>
-          <Text>Swap Profit</Text>
-        </Body>
+          <Text style={{fontWeight:'600'}}>{this.props.title}</Text>
         
         {/* TUTORIAL ICON */}
-        <Right>
           <Icon name="ios-clock"/>
-        </Right>
       
       </Header>
     )
