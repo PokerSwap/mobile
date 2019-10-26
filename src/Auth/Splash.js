@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { View, StatusBar } from 'react-native';
 import {Container, Content, Text} from 'native-base';
 
 export default class SplashScreen extends Component {
@@ -17,11 +18,11 @@ export default class SplashScreen extends Component {
 
 	render(){
 		return(
-			<Container>
-				<Content contentContainerStyle={styles.container}>
+			<View style={styles.container}>
+				        <StatusBar barStyle='light-content'/>
+
 					<Text style={styles.text}>Swap Profit</Text> 
-				</Content>
-			</Container>
+			</View>
 		)
 	}
 }

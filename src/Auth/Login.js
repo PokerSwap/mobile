@@ -1,19 +1,16 @@
 import React, {Component} from 'react';
-import {Button, Text, H3, Item, Toast, Body, Left, Right,
-Card, CardItem, Container, Content} from 'native-base';
+import {Button, Text, Toast, Card, CardItem, Container, Content} from 'native-base';
 import { Context } from '../Store/appContext'
 
 import Spinner from 'react-native-loading-spinner-overlay';
-import { Grid, Row, Col } from 'react-native-easy-grid';
-import { View, Image, StatusBar, SafeAreaView, Keyboard, 
-  TouchableWithoutFeedback, TextInput, KeyboardAvoidingView } from 'react-native';
+import { Keyboard, TouchableWithoutFeedback, TextInput, KeyboardAvoidingView, View, StatusBar } from 'react-native';
 
 export default class LoginScreen extends Component {
   constructor(){
     super();
     this.state={
       email:'',
-      password:'',
+      password:'!',
       loading:false
     }
   }
@@ -24,17 +21,20 @@ export default class LoginScreen extends Component {
 
   loginStart = async (x) => {
     console.log(this.state.email, this.state.password)
+    this.loading();
     var answer = await x.user.login(
       this.state.email, 
       this.state.password, 
       this.props.navigation);
+    this.loading();
+
   }
 
   render(){
     var {navigate} = this.props.navigation
     return(
-      <Container>
-        <Content contentContainerStyle={{flex:1, justifyContent:"center", backgroundColor:'rgb(12,85,32)'}}>
+        <View style={{flex:1, justifyContent:"center", backgroundColor:'rgb(12,85,32)'}}>
+        <StatusBar barStyle='light-content'/>
         <Spinner visible={this.state.loading} style={{color: '#FFF'}}/>
           <KeyboardAvoidingView>
             <TouchableWithoutFeedback>
@@ -42,7 +42,7 @@ export default class LoginScreen extends Component {
               
               {/* TITLE */}
               <CardItem header style={{justifyContent:'center',backgroundColor:'rgb(12,85,32)'}}>
-                <Text style={{color:'white', fontWeight:'600', fontSize:36, justifyContent:'center'}}>Swap Poker</Text>
+                <Text style={{color:'white', fontWeight:'600', fontSize:36, justifyContent:'center'}}>Swap Profit</Text>
               </CardItem>
 
               {/* EMAIL INPUT */}
@@ -78,13 +78,16 @@ export default class LoginScreen extends Component {
 
 
               {/* BUTTONS  */}
-              <CardItem style={{backgroundColor:'rgb(12,85,32)', justifyContent:'center', flexDirection:'column'}}>
+              <CardItem style={{
+                backgroundColor:'rgb(12,85,32)', 
+                justifyContent:'center', 
+                flexDirection:'column'}}>
 
                 {/* LOGIN BUTTON */}
                 <Context.Consumer>
                   {({store, actions}) => {
                     wrong = () => {
-                      if(store.userToken==null){
+                      if(true){
                         Toast.show({
                           text:'Sorry you entered the wrong email or password',
                         duration:3000})
@@ -110,8 +113,17 @@ export default class LoginScreen extends Component {
                 <Context.Consumer>
                   {({store, actions}) => {
                     return(
-                        <Button transparent style={{backgroundColor:'rgb(211,152,35)', width:'50%', justifyContent:'center'}} onPress={()=>navigate("TermsAndConditions")}>
-                          <Text style={{color:'black', justifyContent:'center', fontWeight:'600'}}> Sign Up </Text>
+                        <Button transparent 
+                          style={{
+                            backgroundColor:'rgb(211,152,35)', 
+                            width:'50%', justifyContent:'center'}} 
+                            onPress={()=>navigate("TermsAndConditions")}>
+                          <Text style={{
+                            color:'black', 
+                            justifyContent:'center', 
+                            fontWeight:'600'}}> 
+                            Sign Up 
+                          </Text>
                         </Button>
                     )
                   }}
@@ -132,8 +144,7 @@ export default class LoginScreen extends Component {
             </Card>
             </TouchableWithoutFeedback>
           </KeyboardAvoidingView>
-        </Content>
-      </Container>
+        </View>
     )
   }
 }
