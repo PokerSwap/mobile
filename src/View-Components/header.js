@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Header, Body, Text, Left, Right, Icon } from 'native-base';
+import { Header, Text, Icon } from 'native-base';
 
 export default class _Header extends Component {
   constructor(props){
@@ -12,14 +12,20 @@ export default class _Header extends Component {
       <Header style={{justifyContent:'space-between', alignItems:'center'}}>
         
         {/* MENU ICON */}
-          <Icon name="menu"
-            onPress={() => this.props.drawer()}/>
+        <Icon name="menu"
+          onPress={() => this.props.drawer()}
+          style={{marginLeft:10}}
+        />
         
         {/* TITLE */}
-          <Text style={{fontWeight:'600'}}>{this.props.title}</Text>
+        <Text style={{fontWeight:'600'}}>{this.props.title}</Text>
         
         {/* TUTORIAL ICON */}
-          <Icon name="ios-clock"/>
+        <Icon 
+          style={{marginRight:10}}
+          type="SimpleLineIcons" 
+          name="question"
+        />
       
       </Header>
     )
