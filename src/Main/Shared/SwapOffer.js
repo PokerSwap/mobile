@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { View, TextInput } from 'react-native';
-import {Container, Button, Text, Content, Card, CardItem, Item, Input} from 'native-base';
+import {Container, Button, Text, Content, Card, CardItem } from 'native-base';
 import TourneyHeader from '../Tournaments/Components/TourneyHeader'
 import { Row, Col } from 'react-native-easy-grid'
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -17,8 +17,17 @@ export default class SwapOffer extends Component {
       }
     }
 
-    swapSend = async(x) => {
-      var answer = await x.swap.add(
+    buyinEdit = async(v) => {
+      var answerV = await v.buy_in.edit(
+        table,
+        seat,
+        chips,
+        flightID
+      )
+    }
+
+    swapAdd = async(w) => {
+      var answer1 = await w.swap.add(
         tournament_id, 
         user_id, 
         this.state.percentage,
@@ -27,18 +36,11 @@ export default class SwapOffer extends Component {
     }
 
     swapUpdate = async(x) => {
-
-    }
-
-    swapReject = async(x) => {
-
-    }
-
-    buyinEdit = async(y) => {
-      var answer1 = await y.buy_in.edit(
-        table,
-        seat,
-        chips
+      var answer2 = await w.swap.update(
+        tournament_id, 
+        user_id, 
+        this.state.percentage,
+        this.props.navigation
       )
     }
     
@@ -53,7 +55,7 @@ export default class SwapOffer extends Component {
 
     // SUBTRACTING PERCENT FROM SWAP - NO MORE THAN 50%
     subtract = () => {
-      if (this.state.percentage > 0){
+      if (this.state.percentage > 1){
       this.setState({percentage: this.state.percentage - 1})
       }else{
         this.setState({percentage: 1})
