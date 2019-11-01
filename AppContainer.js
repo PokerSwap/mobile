@@ -31,7 +31,6 @@ import SettingsScreen from './src/Drawer/Settings'
 import NotificationsScreen from './src/Drawer/Notifications'
 import AddCoinsScreen from './src/Drawer/AddCoins'
 import LogOutScreen from './src/Drawer/Logout'
-import { findRepos } from 'jest-changed-files';
 
 // LOGIN AND SIGNUP NAVIGATION
 const AuthStack = createStackNavigator(

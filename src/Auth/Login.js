@@ -9,8 +9,8 @@ export default class LoginScreen extends Component {
   constructor(){
     super();
     this.state={
-      email:'gherndon5@gmail.com',
-      password:'Tryagain5!',
+      email:'',
+      password:'!',
       loading:false
     }
   }

@@ -18,7 +18,6 @@ const getState = ({ getStore, setStore, getActions }) => {
       //CURRENT USER'S SWAPS
 			swaps:[ ],
 
-
 			myTournaments:[],
 
       // ALL TOURNAMETS, FILTERED BY FIRST 10 RESULTS
