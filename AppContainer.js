@@ -1,7 +1,8 @@
 import React from 'react';
 import { Icon } from "native-base";
-import { createBottomTabNavigator,
-createDrawerNavigator, createAppContainer } from "react-navigation";
+import { createBottomTabNavigator } from 'react-navigation-tabs';
+import { createDrawerNavigator } from 'react-navigation-drawer'
+import { createAppContainer } from "react-navigation";
 import {createStackNavigator} from "react-navigation-stack";
 import Store, {Context} from './src/Store/appContext';
 
