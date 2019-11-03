@@ -3,8 +3,8 @@ import { Icon } from "native-base";
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createDrawerNavigator } from 'react-navigation-drawer'
 import { createAppContainer } from "react-navigation";
-import {createStackNavigator} from "react-navigation-stack";
-import Store, {Context} from './src/Store/appContext';
+import { createStackNavigator } from "react-navigation-stack";
+import Store from './src/Store/appContext';
 
 // AUTH VIEWS
 import SplashScreen from './src/Auth/Splash'
@@ -31,7 +31,6 @@ import SideBar from './src/View-Components/sidebar'
 import SettingsScreen from './src/Drawer/Settings'
 import NotificationsScreen from './src/Drawer/Notifications'
 import AddCoinsScreen from './src/Drawer/AddCoins'
-import LogOutScreen from './src/Drawer/Logout'
 
 // LOGIN AND SIGNUP NAVIGATION
 const AuthStack = createStackNavigator(
