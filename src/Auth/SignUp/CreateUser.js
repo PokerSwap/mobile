@@ -1,28 +1,22 @@
-import React, {Component} from 'react';
+import React, {Component, useState} from 'react';
 import { TextInput } from 'react-native'
 import { Button, Container, Card, CardItem, Item, Input, Icon, Text } from 'native-base';
 import { Context } from '../../Store/appContext';
 
-export default class CreateUser extends Component {
-	constructor(props){
-		super(props);
-		this.state={
-			loading:false,
-			email:'',
-			password:'',
-			submitted: false
-		}
-	}
+export default CreateUser = (props) => {
 
-	render(){
+	const [ loading, setLoading] = useState(false)
+	const [ email, setEmail ] = useState('')
+	const [ password, setPassword ] = useState('')
+	const [ submitted, setSubmitted ] = useState(false)
 
 		let content;
 
-		if(this.state.submitted){
+		if(submitted){
 			content = 	
 				<Card transparent style={{justifyContent:'center'}}>
 					<CardItem>
-						<Text>A validation link has been sent to your email at {this.state.email}.</Text>
+						<Text>A validation link has been sent to your email at {email}.</Text>
 					</CardItem>
 				</Card>
 		} else {
@@ -42,9 +36,9 @@ export default class CreateUser extends Component {
 								returnKeyType="next"
 								autoCapitalize='none'
 								autoCorrect={false} 
-								onSubmitEditing={() => { this.txtPassword.focus(); }}
-								value={this.state.email}    
-								onChangeText={email => this.setState({ email })}
+								onSubmitEditing={() => { txtPassword.focus(); }}
+								value={email}    
+								onChangeText={email => setEmail( email )}
 								/>
 						</Item>
 						<Item>
@@ -55,9 +49,9 @@ export default class CreateUser extends Component {
 								autoCapitalize='none'
 								returnKeyType="go"
 								autoCorrect={false} 
-								ref={(input) => { this.txtPassword = input; }} 
-								value={this.state.password}
-								onChangeText={password => this.setState({ password })}
+								ref={(input) => { txtPassword = input; }} 
+								value={password}
+								onChangeText={password => setPassword( password )}
 							/>
 						</Item>
 					</CardItem>
@@ -67,8 +61,8 @@ export default class CreateUser extends Component {
 						{({store, actions }) => {
 							return(
 									<Button large onPress={() => {
-										actions.user.add(this.state.email, this.state.password);
-										this.setState({ submitted: true})
+										actions.user.add(email, password);
+										setSubmitted(true)
 									}}>
 										<Text> SUBMIT </Text>
 									</Button>
@@ -85,4 +79,3 @@ export default class CreateUser extends Component {
 			</Container>
 		)
 	}
-}

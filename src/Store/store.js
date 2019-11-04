@@ -16,7 +16,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 			profiles:[ ],
       
       //CURRENT USER'S SWAPS
-			swaps:[ ],
+			swapCurrent:[],
+
+			swapsSchedueled:[],
 
 			myTournaments:[],
 
@@ -68,8 +70,14 @@ const getState = ({ getStore, setStore, getActions }) => {
 					}catch(error){
 
 					}
-				}
+				},
 				
+				getMine: async ( ) => {
+					const my_buy_ins = getStore().profile_in_session.buy_ins; 
+
+					setStore({buy_ins:my_buy_ins})
+				}
+
 			},
 
 			coin:{},
@@ -180,11 +188,14 @@ const getState = ({ getStore, setStore, getActions }) => {
 					}
 				},
 
-				getAll: async() => {
+				getMine: async() => {
+
+					setStore({swapsCurrent: 'um'})
+					setStore({swapsSchedueled: 'uh'})
 
 				},
 
-				statusChange: async ( swap_id, a_status, ) => {
+				statusChange: async ( swap_id, a_tournament_id, a_recipient_id, a_status ) => {
 					try{
 
 					}
@@ -294,8 +305,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 						.then(()=> {
 							if(getStore().userToken){
 								if(getStore().profile_in_session.message != 'User not found' ){
+									getActions().buy_in.getMine();
 									getActions().tournament.getAll();
-										navigation.navigate('Swaps');
+									navigation.navigate('Swaps');
 								} else {
 									navigation.navigate('ProfileCreation');
 								}
@@ -309,7 +321,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 				},
 			
-				logout: (navigation) => {
+				logout: ( navigation ) => {
 					getActions().userToken.remove();
 					getActions().profile.remove()
 					navigation.navigate("Login")	

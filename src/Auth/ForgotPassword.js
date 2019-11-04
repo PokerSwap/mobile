@@ -1,30 +1,104 @@
-import React, {Component} from 'react';
+import React, {Component, useEffect, useState} from 'react';
 import {Container, Content, Text} from 'native-base';
 
-export default class SplashScreen extends Component {
-	constructor(){
-		super();
-		this.state = {}
+export default ForgotPassword = (props) => {
+
+	// STATES
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+
+	// useEffect(() => {
+  //   console.log('In 3 seconds, another message will appear'); 
+  //   console.log('hasSomething', hasSomething)
+  //   setTimeout(()=>{
+  //     console.log('3 seconds have passed');
+  //     props.navigation.navigate('Login')
+  //   }, 3000)
+  //   return () => {
+  //     //cleanup
+  //   };
+  // }, []);
+
+	passwordStart = () => {
+
 	}
 
-	componentDidMount () {
-		console.log('In 3 seconds, another message will appear'); 
-		setTimeout(()=>{
-			console.log('3 seconds have passed');
-			this.props.navigation.navigate('LogIn')
-		}, 3000)
-	}
+	return(
+		<View style={loginStyle.container}>
+			<StatusBar barStyle="light-content" />
+				<KeyboardAvoidingView behavior='padding' style={loginStyle.container}>
+				<TouchableWithoutFeedback style={loginStyle.container} onPress={Keyboard.dismiss}>						
+					<View style={loginStyle.logoContainer}>
+						{/* LOGO IMAGE */}
+						<Text style={{fontSize:24, width:'90%', color:'white', fontWeight:'600', textAlign:'center'}}> Enter the email associated with your BreatheCode account </Text>
 
-	render(){
-		return(
-			<Container>
-				<Content contentContainerStyle={styles.container}>
-					<Text style={styles.text}>Swap Profit</Text> 
-				</Content>
-			</Container>
-		)
-	}
+						{/* EMAIL INPUT */}
+						<TextInput 
+							style={{
+								height:40,
+								width:'70%',
+								marginTop: '5%',
+								backgroundColor: 'rgba(255,255,255,0.2)',
+								color: "#FFF",
+								paddingHorizontal: 10}}
+							placeholder={i18n.t("enterEmail")}
+							placeholderTextColor='rgba(255,255,255,0.8)'
+							keyboardType="email-address"
+							blurOnSubmit={true}
+							returnKeyType="next"
+							autoCapitalize='none'
+							autoCorrect={false} 
+							// onSubmitEditing={() => { this.txtPassword.focus(); }}
+							value={email}    
+							onChangeText={email => setEmail(email)}
+						/>
+									
+						{/* LOGIN BUTTON */}
+						<Context.Consumer>
+							{({store, actions}) => {
+								wrong = () => {
+									if(store.userToken==null){
+										Toast.show({
+											text:'wrongPassword',
+										duration:3000})
+									}
+								}
+
+								return(
+										<View style={{marginTop:'5%'}}>
+											<Button block
+												style={loginStyle.buttonContainer} 
+												onPress={
+													async() => {
+														Keyboard.dismiss();
+														var x = await this.passwordStart(actions)
+														wrong()}
+													}
+											>
+												<Text style={loginStyle.buttonText} > Submit </Text>
+											</Button>
+										</View>
+
+								)
+							}}
+						</Context.Consumer>
+						<Button transparent light style={{justifyContent:'center'}}
+							onPress={()=> props.navigation.goBack()}>
+							<Text> goBack </Text>
+						</Button>
+					</View>
+
+				</TouchableWithoutFeedback>
+				</KeyboardAvoidingView>
+		</View>
+	)
 }
+				
+			
+		
+	
+
 
 const styles = {
     container:{

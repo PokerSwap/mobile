@@ -18,7 +18,7 @@ export default class ProfileHistory extends Component {
 						return user.map((content, index) => {
 							return(
 								<SwapMain 
-									navigation = {this.props.navigation}
+									navigation = {props.navigation}
 									tournament={content.flight_id}
 									swaps={content.swaps}
 								/>

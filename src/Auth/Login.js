@@ -1,41 +1,36 @@
-import React, {Component} from 'react';
+import React, {Component, useState } from 'react';
 import {Button, Text, Toast, Card, CardItem, Container, Content} from 'native-base';
 import { Context } from '../Store/appContext'
 
 import Spinner from 'react-native-loading-spinner-overlay';
 import { Keyboard, TouchableWithoutFeedback, TextInput, KeyboardAvoidingView, View, StatusBar } from 'react-native';
 
-export default class LoginScreen extends Component {
-  constructor(){
-    super();
-    this.state={
-      email:'',
-      password:'!',
-      loading:false
-    }
-  }
+export default  LoginScreen = (props) => {
 
-  loading = () => {
-    this.setState({loading: !this.state.loading})
+  const [email, setEmail] = useState('gherndon5@gmail.com')
+  const [password, setPassword] = useState('Tryagain5!')
+  const [loading, setLoading] = useState(false)
+
+  loadingSwitch = () => {
+    setLoading(!loading)
   }
 
   loginStart = async (x) => {
-    console.log(this.state.email, this.state.password)
-    this.loading();
+    console.log(email, password)
+    loadingSwitch();
     var answer = await x.user.login(
-      this.state.email, 
-      this.state.password, 
-      this.props.navigation);
-    this.loading();
+      email, 
+      password, 
+      props.navigation);
+    loadingSwitch();
 
   }
 
-  render(){
-    var {navigate} = this.props.navigation
+    var {navigate} = props.navigation
     return(
         <View style={{flex:1, justifyContent:"center", backgroundColor:'rgb(12,85,32)'}}>
         <StatusBar barStyle='light-content'/>
-        <Spinner visible={this.state.loading} style={{color: '#FFF'}}/>
+        <Spinner visible={loading} style={{color: '#FFF'}}/>
           <KeyboardAvoidingView>
             <TouchableWithoutFeedback>
               <Card transparent style={{color:'rgb(12,85,32)'}}>
@@ -55,9 +50,9 @@ export default class LoginScreen extends Component {
                     returnKeyType="next"
                     autoCapitalize='none'
                     autoCorrect={false} 
-                    onSubmitEditing={() => { this.txtPassword.focus(); }}
-                    value={this.state.email}    
-                    onChangeText={email => this.setState({ email })}
+                    onSubmitEditing={() => { txtPassword.focus(); }}
+                    value={email}    
+                    onChangeText={email => setEmail( email )}
                   />
               </CardItem>
               
@@ -70,9 +65,9 @@ export default class LoginScreen extends Component {
                     autoCapitalize='none'
                     returnKeyType="go"
                     autoCorrect={false} 
-                    ref={(input) => { this.txtPassword = input; }} 
-                    value={this.state.password}
-                    onChangeText={password => this.setState({ password })}
+                    ref={(input) => { txtPassword = input; }} 
+                    value={password}
+                    onChangeText={password => setPassword( password )}
                   />
               </CardItem>
 
@@ -99,7 +94,7 @@ export default class LoginScreen extends Component {
                           onPress={
                             async() => {
                               Keyboard.dismiss();
-                              var x = await this.loginStart(actions)
+                              var x = await loginStart(actions)
                               wrong()}
                             }
                         >
@@ -133,7 +128,7 @@ export default class LoginScreen extends Component {
                 <Context.Consumer>
                   {({store, actions}) => {
                     return(
-                      <Button transparent style={{justifyContent:'center'}} onPress={() => actions.user.forgotPassword(this.props.navigation)}>
+                      <Button transparent style={{justifyContent:'center'}} onPress={() => actions.user.forgotPassword(props.navigation)}>
                         <Text style={{color:'white'}}>Forgot password?</Text>
                       </Button>
                     )
@@ -147,4 +142,3 @@ export default class LoginScreen extends Component {
         </View>
     )
   }
-}

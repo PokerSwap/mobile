@@ -1,30 +1,27 @@
-import React, {Component} from 'react';
+import React, { useEffect} from 'react';
 import { View, StatusBar } from 'react-native';
 import {Container, Content, Text} from 'native-base';
 
-export default class SplashScreen extends Component {
-	constructor(){
-		super();
-		this.state = {}
-	}
+export default SplashScreen = (props) => {
 
-	componentDidMount () {
+	useEffect(() => {
 		console.log('In 3 seconds, another message will appear'); 
 		setTimeout(()=>{
 			console.log('3 seconds have passed');
-			this.props.navigation.navigate('LogIn')
+			props.navigation.navigate('LogIn')
 		}, 3000)
-	}
+		return () => {
+			// cleanup
+		};
+	}, []) 
 
-	render(){
-		return(
-			<View style={styles.container}>
-				        <StatusBar barStyle='light-content'/>
+	return(
+		<View style={styles.container}>
+							<StatusBar barStyle='light-content'/>
 
-					<Text style={styles.text}>Swap Profit</Text> 
-			</View>
-		)
-	}
+				<Text style={styles.text}>Swap Profit</Text> 
+		</View>
+	)
 }
 
 const styles = {

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useState} from 'react';
 import { Content, Container, Header, Tab, Tabs } from 'native-base';
 
 import { Context } from '../../Store/appContext'
@@ -9,57 +9,54 @@ import NameSetup from './NameSetup';
 import PictureSetup from './PictureSetup';
 import HendonSetup from './HendonSetup';
 
-export default class CreateProfile extends Component {
-  constructor(){
-    super();
-    this.state={
-      page:0,
-      loading:false,
-      email:'', 
-      password:'',
-      first_name:'',
-      last_name:'',
-      username:'',
-      picture:'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
-      hendon:''
-    }
-  }
+export default CreateProfile = (props) => {
+
+    const [ page, setPage ] = useState(0)
+    const [ loading, setLoading ] = useState(false)
+    const [ email, setEmail ] = useState('')
+    const [ password, setPassword ] = useState('')
+    const [ first_name, setFirstName ] = useState('')
+    const [ last_name, setLastName ] = useState('')
+    const [ username, setUserName ] = useState('')
+    const [ picture, setPicture]  = useState('https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png')
+    const [ hendon, setHendon] = useState('')
+
   // NEXT SIGNUP STEP
   nextPage = () => {
-    if (this.state.page >= 0){
-      this.setState({ page: this.state.page + 1})
+    if (page >= 0){
+      setPage(page + 1)
     } 
 };
   // NEXT SIGNUP STEP
   prevPage = () => {
-    if (this.state.page <= 5){
-      this.setState({ page: this.state.page - 1})
+    if (page <= 5){
+      setPage(page- 1)
     } 
   }
 
   // LOADING SPINNER ACTIVATION
   loading = () => {
-    this.setState({loading: !this.state.loading})
+    setLoading(!loading)
   }
 
   // CREATE PROFILE FUNCTION
   createProfile = async(x) => {
     this.loading();
     var answer = await x.user.signup(
-      this.state.email, 
-      this.state.password, 
-      this.state.username,
-      this.state.first_name,
-      this.state.last_name,
-      this.state.picture,
-      this.state.hendon,
-      this.props.navigation
+      email, 
+      password, 
+      username,
+      first_name,
+      last_name,
+      picture,
+      hendon,
+      props.navigation
       );
     console.log('response', answer)
-    this.loading();	
+    loading();	
   }
 
-  render(){
+
     return(
       <Container>
 
@@ -68,29 +65,29 @@ export default class CreateProfile extends Component {
             flex:1, 
             justifyContent:"center"}}>
          
-         <Spinner visible={this.state.loading} style={{color: '#FFF'}}/>
+         <Spinner visible={loading} style={{color: '#FFF'}}/>
          
-          <Tabs initialPage={0} page={this.state.page}>
+          <Tabs initialPage={0} page={page}>
 
             <Tab disabled heading="Name">
               <NameSetup 
-                prev={() => this.prevPage()}
-                next={() => this.nextPage()} 
-                first_name= {this.state.first_name} 
-                onChangeFirstName={first_name => this.setState({ first_name })}
-                last_name= {this.state.last_name} 
-                onChangeLastName={last_name => this.setState({ last_name })}
-                username= {this.state.username}
-                onChangeUserName={username => this.setState({ username })}
+                prev={() => prevPage()}
+                next={() => nextPage()} 
+                first_name= {first_name} 
+                onChangeFirstName={first_name => setFirstName( first_name )}
+                last_name= {last_name} 
+                onChangeLastName={last_name => setLastName( last_name )}
+                username= {username}
+                onChangeUserName={username => setUserName( username )}
               />
             </Tab>
 
             <Tab disabled heading="Picture">
               <PictureSetup 
-                prev={() => this.prevPage()}
-                next={() => this.nextPage()}
-                picture= {this.state.picture}
-                onChangePicture={picture => this.setState({ picture })}
+                prev={() => prevPage()}
+                next={() => nextPage()}
+                picture= {picture}
+                onChangePicture={picture => setPicture( picture )}
               />
             </Tab>
 
@@ -98,21 +95,21 @@ export default class CreateProfile extends Component {
               <HendonSetup 
                 prev={() => this.prevPage()}
                 next={() => this.nextPage()}
-                hendon= {this.state.hendon}
-                onChangeHendon={hendon => this.setState({ hendon })}
+                hendon= {hendon}
+                onChangeHendon={hendon => hendonSet(hendon )}
               />
             </Tab>
 
             <Tab disabled heading="Review">
               <ProfileReview 
-                prev={() => this.prevPage()}
-                createUser= {this.createUser}
-                navigation= {this.props.navigation}
-                first_name= {this.state.first_name} 
-                last_name= {this.state.last_name} 
-                username= {this.state.username}
-                picture= {this.state.picture}
-                hendon= {this.state.hendon}
+                prev={() => prevPage()}
+                createUser= {createUser}
+                navigation= {props.navigation}
+                first_name= {first_name} 
+                last_name= {last_name} 
+                username= {username}
+                picture= {picture}
+                hendon= {hendon}
 
               />
             </Tab>
@@ -124,4 +121,4 @@ export default class CreateProfile extends Component {
       </Container>  
     )
   }
-}
+

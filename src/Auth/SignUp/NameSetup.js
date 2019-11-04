@@ -1,17 +1,11 @@
-import React, {Component} from 'react';
+import React, {} from 'react';
 import { Button, Card, CardItem, Item, Input, Text } from 'native-base';
 
-export default class NameSetup extends Component {
-  constructor(props){
-    super(props);
-    this.state={}
-  }
-  
-  render(){
+export default NameSetup = () => {
 
     let x;
 
-    if(this.props.first_name == '' || this.props.last_name == ''){
+    if(props.first_name == '' || props.last_name == ''){
       x=true
     }else{
       x=false
@@ -36,8 +30,8 @@ export default class NameSetup extends Component {
           <Item>
             <Input 
               placeholder='First Name'
-              value={this.props.first_name}
-              onChangeText={this.props.onChangeFirstName}
+              value={props.first_name}
+              onChangeText={props.onChangeFirstName}
               autoCorrect={false}         
               
             />
@@ -47,8 +41,8 @@ export default class NameSetup extends Component {
           <Item>
             <Input 
               placeholder='Last Name'
-              value={this.props.last_name}    
-              onChangeText={this.props.onChangeLastName} 
+              value={props.last_name}    
+              onChangeText={props.onChangeLastName} 
               autoCorrect={false} 
             />
           </Item>
@@ -57,8 +51,8 @@ export default class NameSetup extends Component {
           <Item>
             <Input 
               placeholder='Nick Name'
-              value={this.props.username}    
-              onChangeText={this.props.onChangeUserName} 
+              value={props.username}    
+              onChangeText={props.onChangeUserName} 
               autoCorrect={false} 
             />
           </Item>
@@ -67,7 +61,7 @@ export default class NameSetup extends Component {
 
         {/* SUBMIT BUTTON */}
         <CardItem footer style={{justifyContent:"center"}}>
-          <Button large disabled={x} onPress={() => this.props.next()}>
+          <Button large disabled={x} onPress={() => props.next()}>
             <Text>SUBMIT</Text>
           </Button>
         </CardItem>
@@ -76,4 +70,3 @@ export default class NameSetup extends Component {
       
     )
   }
-}

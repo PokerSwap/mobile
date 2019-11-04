@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {useState} from 'react';
 import { Button, Card, CardItem, 
 Item, Input, Text } from 'native-base';
 import { Alert, TextInput, View } from "react-native";
@@ -28,27 +28,22 @@ const AlertS = (props) => {
 	)
 }
 
-export default class HendonSetup extends Component {
-	constructor(props){
-		super(props);
-		this.state={
-			uri: 'https://www.thehendonmob.com/search/',
-			hendon:'ddscscdscsd'
-		}
-	}
+export default HendonSetup = (props) => {
+
+	const [hendon, setHendon] = useState('https://www.thehendonmob.com/search/')
+	const [uri, setURI] = useState('')
 
 	_onNavigationStateChange = (webViewState) =>{
 		console.log(webViewState)
-		this.setState({hendon: webViewState.url})
-		this.props.hendon = webViewState.url
+		setHendon(webViewState.url)
+		props.hendon = webViewState.url
 	}
 
-	render(){
-		const injectedJs = `
-			document.URL = 'red';
-			setTimeout(function() { window.alert('hi') }, 2000);
-			true; // note: this is required, or you'll sometimes get silent failures
-		`;		
+	const injectedJs = `
+		document.URL = 'red';
+		setTimeout(function() { window.alert('hi') }, 2000);
+		true; // note: this is required, or you'll sometimes get silent failures
+	`	
 	return(
 			<Card transparent>
 
@@ -67,11 +62,12 @@ export default class HendonSetup extends Component {
 					<WebView 
 						useWebKit={true}
 						ref="webview"
-						source={{uri:this.state.uri}}
+						source={{uri:uri}}
 						injectedJavaScript={injectedJs}
 						javaScriptEnabled = {true}
 						domStorageEnabled = {true}
-						onNavigationStateChange={this._onNavigationStateChange.bind(this)}						injectedJavaScript = {this.state.cookie}
+						onNavigationStateChange={this._onNavigationStateChange.bind(this)}						
+						injectedJavaScript = {this.state.cookie}
 						startInLoadingState={false}
 						scalesPageToFit
 				
@@ -80,8 +76,8 @@ export default class HendonSetup extends Component {
 				</CardItem>
 				<CardItem>
 			
-					<Text>{this.state.hendon}</Text>
-					<Text>{this.props.hendon}</Text>
+					<Text>{hendon}</Text>
+					<Text>{props.hendon}</Text>
 				</CardItem>
 				{/* OPTIONS FOR HENDON */}
 				<CardItem footer style={{flexDirection:"column", justifyContent:"center"}}> 
@@ -92,15 +88,15 @@ export default class HendonSetup extends Component {
 						style={{paddingHorizontal:10}}
 						placeholder='Enter Your Hendon User URL'
 						placeholderTextColor='gray'
-						value={this.props.hendon}
-						onChange={this.props.onChangeHendon}
+						value={props.hendon}
+						onChange={props.onChangeHendon}
 						
 					/>
 					</View>
-					<AlertS  next={this.props.next}/>
+					<AlertS  next={props.next}/>
 					
 					<Button danger style={{marginVertical:20}} 
-						onPress={() => this.props.next()}>
+						onPress={() => props.next()}>
 						<Text>I'll do it later</Text>
 					</Button>
 
@@ -108,7 +104,7 @@ export default class HendonSetup extends Component {
 
 				{/* PREV BUTTON */}
 				<CardItem>
-					<Button info large onPress={() => this.props.prev()}>
+					<Button info large onPress={() => props.prev()}>
 						<Text>Prev</Text>
 					</Button>
 				</CardItem>
@@ -116,4 +112,3 @@ export default class HendonSetup extends Component {
 			</Card>
 		)
   }
-}

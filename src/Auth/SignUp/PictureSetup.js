@@ -1,16 +1,12 @@
-import React, {Component} from 'react';
+import React, {useState} from 'react';
 import { Image } from 'react-native';
 import { Button, Card, CardItem, Text } from 'native-base';
 import ImagePicker from 'react-native-image-picker';
 import '../../Images/placeholder.jpg';
 
-export default class PictureSetup extends Component {
-  constructor(props){
-    super(props);
-    this.state={
-      image: this.props.picture
-    }
-  }
+export default  PictureSetup = (props) => {
+
+  const [ image, setImage ] = useState(props.picture)
   
   choosePhoto = () => {
     const options = {
@@ -30,7 +26,7 @@ export default class PictureSetup extends Component {
         console.log('ImagePicker Error: ', response.error);
       } else {
         const source = { uri: response.uri };
-        this.setState({image: source});
+        setImage(source);
       }
     });
   };
@@ -63,11 +59,10 @@ export default class PictureSetup extends Component {
 
   // }
 
-  render(){
 
     let x;
 
-    if(this.props.picture){
+    if(props.picture){
       x=true
     }else{
       x=false
@@ -79,7 +74,7 @@ export default class PictureSetup extends Component {
         {/* IMAGE PREVIEW */}
         <CardItem header>
           <Image 
-            source={{uri:this.props.picture}}
+            source={{uri:props.picture}}
             style={{height:300, width:300, marginTop:50}}
           />
         </CardItem>
@@ -91,7 +86,7 @@ export default class PictureSetup extends Component {
          
         {/* UPLOAD BUTTON */}
         <CardItem footer style={{justifyContent:"center"}}>
-          <Button large onPress={() => this.choosePhoto()}>
+          <Button large onPress={() => choosePhoto()}>
             <Text> UPLOAD </Text>
           </Button>
         </CardItem>
@@ -100,12 +95,12 @@ export default class PictureSetup extends Component {
         <CardItem footer style={{justifyContent:"center"}}>
 
           {/* PREVUIOS BUTTON */}
-          <Button large onPress={() => this.props.prev()}>
+          <Button large onPress={() => props.prev()}>
             <Text> Previous </Text>
           </Button>
 
           {/* NEXT BUTTON */}
-          <Button large  onPress={() => this.props.next()}>
+          <Button large  onPress={() => props.next()}>
             <Text> Next </Text>
           </Button>
 
@@ -114,4 +109,3 @@ export default class PictureSetup extends Component {
       </Card>
     )
   }
-}

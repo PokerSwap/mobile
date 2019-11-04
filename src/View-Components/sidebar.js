@@ -1,5 +1,5 @@
 import React from 'react'
-import { DrawerItems } from 'react-navigation'
+import { DrawerItems } from 'react-navigation-drawer'
 import { Container, Content, Text, Icon, Button } from 'native-base'
 import {Alert, View} from 'react-native'
 
@@ -7,12 +7,9 @@ import ProfileBio from '../Main/Profile/Components/ProfileBio'
 import { Context } from '../Store/appContext'
 
 // DRAWER PHYSICAL COMPONENT
-const SideBar = props => (
+export default SideBar = (props) => (
   <Container>
     
-
-      
-
     <Content>
       
     <Context.Consumer>
@@ -20,6 +17,7 @@ const SideBar = props => (
           var user = store.profile_in_session
             return(
               <ProfileBio 
+              style={{marginTop:11}}
             first_name={user.first_name}
             last_name={user.last_name}
             username={user.username}
@@ -61,4 +59,3 @@ const SideBar = props => (
   </Container>
 )
 
-export default SideBar;

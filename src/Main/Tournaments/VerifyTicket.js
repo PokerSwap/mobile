@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useState} from 'react';
 import {Image, TextInput, Picker} from 'react-native';
 import {Container, Button, Text, Content, Card, CardItem} from 'native-base';
 
@@ -8,25 +8,22 @@ import { Context } from '../../Store/appContext';
 import _Header from "../../View-Components/header";
 import '../../Images/placeholder.jpg';
 
-export default class VerifyTicket extends Component {
-  constructor(props){
-    super(props);
-    this.state={
-      image: require('../../Images/placeholder.jpg'),
-      table: '',
-      seat: '',
-      chips: '',
-      flight_id:''
-    }
-  }
+export default VerifyTicket = (props) => {
+
+  const [image, setImage ]= useState(require('../../Images/placeholder.jpg'));
+  const [table, setTable ]= useState('');
+  const [seat, setSeat] = useState('');
+  const [chips, setChips] = useState('');
+  const [flight_id, setFlight] = useState('')
+
 
   BuyInStart = async(x) => {    
     var answer = await x.buy_in.add(
-      this.state.flight_id,
-      this.state.table,
-      this.state.seat,
-      this.state.chips,
-      this.props.navigation
+      light_id,
+      table,
+      seat,
+      chips,
+      props.navigation
     )
   }
 
@@ -48,17 +45,14 @@ export default class VerifyTicket extends Component {
         console.log('ImagePicker Error: ', response.error);
       } else {
         const source = { uri: response.uri };
-        this.setState({image: source});
+        setImage(source);
       }
     });
   };
 
  
-    
 
-  render(){
-
-    var navigation = this.props.navigation;
+    var navigation = props.navigation;
 
     let flights = navigation.getParam('flights', 'NO-ID');
 
@@ -93,7 +87,7 @@ export default class VerifyTicket extends Component {
             {/* IMAGE UPLOADED  */}
             <CardItem style={{justifyContent:'center'}}>
               <Image 
-              source={this.state.image}
+              source={image}
               style={{height:200, width:200, marginTop:10}}
               />
             </CardItem>
@@ -107,7 +101,7 @@ export default class VerifyTicket extends Component {
 
             {/* UPLOAD BUTTON  */}
             <CardItem style={{justifyContent:'center'}}>
-              <Button large style={{marginVertical:10}} onPress={() => this.ChoosePhoto()}>
+              <Button large style={{marginVertical:10}} onPress={() => ChoosePhoto()}>
                 <Text style={{fontWeight: '600'}}>UPLOAD</Text>
               </Button>
             </CardItem>
@@ -125,9 +119,9 @@ export default class VerifyTicket extends Component {
                 returnKeyType="next"
                 autoCapitalize='none'
                 autoCorrect={false} 
-                onSubmitEditing={() => { this.txtSeat.focus(); }}
-                value={this.state.table}    
-                onChangeText={table => this.setState({ table })}
+                onSubmitEditing={() => { txtSeat.focus(); }}
+                value={table}    
+                onChangeText={table => setTable( table )}
               />
             </CardItem>
             
@@ -142,10 +136,10 @@ export default class VerifyTicket extends Component {
                 returnKeyType="next"
                 autoCapitalize='none'
                 autoCorrect={false} 
-                ref={(input) => { this.txtSeat = input; }} 
-                onSubmitEditing={() => { this.txtChips.focus(); }}
-                value={this.state.seat}    
-                onChangeText={seat => this.setState({ seat })}
+                ref={(input) => { txtSeat = input; }} 
+                onSubmitEditing={() => { txtChips.focus(); }}
+                value={seat}    
+                onChangeText={seat => setSeat( seat )}
               />
             </CardItem>
             
@@ -159,17 +153,17 @@ export default class VerifyTicket extends Component {
                 returnKeyType="go"
                 autoCapitalize='none'
                 autoCorrect={false} 
-                ref={(input) => { this.txtChips = input; }} 
-                onSubmitEditing={() => { this.txtPassword.focus(); }}
-                value={this.state.chips}    
-                onChangeText={chips => this.setState({ chips })}
+                ref={(input) => { txtChips = input; }} 
+                onSubmitEditing={() => { txtPassword.focus(); }}
+                value={chips}    
+                onChangeText={chips => setChips( chips )}
               />
             </CardItem>
             
             <Picker
-              selectedValue={this.state.flight_id}
+              selectedValue={flight_id}
               onValueChange={(itemValue, itemIndex) =>
-                this.setState({flight_id: itemValue})
+                setFlight(itemValue)
               }
             >
               <Picker.Item label='Please select an option...' value='-1' />
@@ -181,7 +175,7 @@ export default class VerifyTicket extends Component {
               <Context.Consumer>
                 {({ store, actions }) => {
                   return(
-                    <Button onPress={() => this.BuyInStart(actions)}>
+                    <Button onPress={() => BuyInStart(actions)}>
                       <Text style={{fontWeight:'600'}}> SUBMIT </Text>
                     </Button>
                   )
@@ -195,4 +189,3 @@ export default class VerifyTicket extends Component {
       </Container>
     )
   }
-}
