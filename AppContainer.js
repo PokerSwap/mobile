@@ -16,7 +16,7 @@ import CreateUser from './src/Auth/SignUp/CreateUser'
 // MAIN VIEWS
 import TournamentDashboard from './src/Main/Tournaments/TournamentDashboard'
 import SwapDashboard from './src/Main/Swaps/SwapDashboard'
-import SwapPot from './src/Main/SwapPot'
+import WinningsDashboard from './src/Main/Winnings/WinningsDashboard'
 
 // TOURNAMENT VIEWS
 import TourneyLobby from './src/Main/Tournaments/TourneyLobby'
@@ -163,11 +163,10 @@ const MainStack = createBottomTabNavigator(
             style={{ color: tintColor }}          />
       }
     },
-    SwapPot: { 
-      screen: SwapPot ,
+    Winnings: { 
+      screen: WinningsDashboard ,
       navigationOptions:{
         header: null,
-        title:"Swap Pot",
         tabBarIcon: ({ tintColor }) => 
           <Icon 
             type="FontAwesome5" 
