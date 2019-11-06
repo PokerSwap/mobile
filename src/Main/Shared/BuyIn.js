@@ -1,55 +1,72 @@
-import React, {Component} from 'react';
+import React, {useContext} from 'react';
 import {  Text, ListItem, Button, Icon } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid'
 import BuyInAttribute from './BuyInAttribute'
 
+import { Context } from '../../Store/appContext'
+
+BuyInAttribute = (props) => {
+
+  return(
+    <Col>
+
+      <Row style={{justifyContent:'center'}}>
+        <Text style={{textAlign:'center'}}> 
+          {props.top} 
+        </Text>
+      </Row>
+
+      <Row style={{justifyContent:'center'}}>
+        <Text style={{textAlign:'center'}}> 
+          {props.bottom} 
+        </Text>
+      </Row>
+
+    </Col> 
+  )
+}
+
+
 export default BuyIn = (props) => {
 
   let path, lastCol, buttonColor;
-  
-  // COMPLETED SWAP VIEW
-  if (props.offer == 'agreed'){
-    lastCol = 
-      <Text style={{fontWeight:'600', color:'white'}}>
-        {props.percentage}%
-      </Text>;
-    buttonColor= 'green';
-    path = "agreed"
-  } 
-  // PENDING SWAP VIEW
-  else if(props.offer == 'pending') {
-    lastCol =  
-      <Icon  
-        style={{alignSelf:'center', fontSize:30}} 
-        type="Ionicons" name="md-time" />;
-    path = "pending";
-    buttonColor= 'orange';
-  } 
+
+  const { store, actions } = useContext(Context)
+
   // YOUR SWAP VIEW
-  else if (props.first_name == 'Gabriel'){
+  if (props.user_id == store.profile_in_session.id){
     lastCol = <Text>Edit</Text>;
     path = "edit";
     buttonColor= 'grey';
   } 
-  // SWAP OFFER VIEW
-  else if (props.first_name != 'Gabriel'){
+  // COMPLETED SWAP VIEW
+  else if (props.offer == 'agreed'){
     lastCol = 
-      <Icon  
-        style={{alignSelf:'center', fontSize:24}} 
-        type="FontAwesome5" name="handshake" />;
+      <Text style={{fontWeight:'600', color:'white'}}> {props.percentage}% </Text>;
+    buttonColor= 'green';
+    path = "agreed"
+  } 
+  // PENDING SWAP VIEW
+  else if(props.offer == 'sending') {
+    lastCol =  
+      <Icon style={{alignSelf:'center', fontSize:30}} type="Ionicons" name="md-time" />;
+    path = "pending";
+    buttonColor= 'orange';
+  } 
+  // INCOMING SWAP VIEW
+  else if (props.offer == 'recieving'){
+    lastCol = 
+      <Icon style={{alignSelf:'center', fontSize:24}}type="FontAwesome5" name="exclamation" />;
+    path = 'recieved';
+    buttonColor= 'red';
+  } 
+  // SWAP OFFER VIEW
+  else {
+    lastCol = 
+      <Icon style={{alignSelf:'center', fontSize:24}} type="FontAwesome5" name="handshake" />;
     path = "inactive";
     buttonColor= 'rgb(56,68,165)';
   } 
-  // INCOMING SWAP VIEW
-  else if (props.offer == 'recieved'){
-    lastCol =
-      <Icon  
-        style={{alignSelf:'center', fontSize:24}} 
-        type="FontAwesome5" name="exclamation" />;
-    path = 'recieved';
-    buttonColor= 'red';
-  }
-  
 
   const { navigation } = props;
 
@@ -57,8 +74,7 @@ export default BuyIn = (props) => {
     navigation.push(props.navigation.push('SwapOffer',{
       mode: path,
       user_id: props.user_id,
-      first_name: props.first_name,
-      last_name: props.last_name,
+      user_name: props.user_name,
       tournament_id:props.tournament_id,
       tournament_name: props.tournament_name,
       table: props.table,
@@ -74,7 +90,7 @@ export default BuyIn = (props) => {
 
           {/* PROFILE NAME */}
           <Row style={{justifyContent:'center'}}>
-            <Text style={{fontSize:24}}> {props.first_name} {props.last_name} </Text>
+            <Text style={{fontSize:24}}> {props.user_name} </Text>
           </Row>
 
           {/* DETAILS */}
