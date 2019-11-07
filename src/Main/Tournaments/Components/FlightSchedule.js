@@ -8,18 +8,18 @@ export default FlightSchedule = (props) => {
   var startMonth = props.start_at.substring(8,11)
   var startDay = props.start_at.substring(5,7)
   
-  var startTime = thprops.start_at.substring(16,22)
+  var startTime = props.start_at.substring(16,22)
   var endTime = props.end_at.substring(16,22)
 
   var buy_ins_list = props.buy_ins
 
   var Buy_Ins = buy_ins_list.map((buy_in) => 
     <BuyIn
-      key = {buy_in.id}
-      user_id = {buy_in.user.id}
+      // key = {buy_in.id}
+      // user_id = {buy_in.user.id}
       tournament_id={props.tournament_id}
-      first_name={buy_in.user.first_name}
-      last_name={buy_in.user.last_name}
+      user_name={buy_in.user_name}
+      user_id={buy_in.user_id}
       table={buy_in.table}
       seat={buy_in.seat}
       chips={buy_in.chips}

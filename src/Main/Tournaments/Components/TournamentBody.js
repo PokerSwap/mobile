@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { Context } from '../../../Store/appContext'
+import { Context } from '../../../Store/appContext';
 
 import { View } from 'react-native';
 import { ListItem, Text, Icon } from 'native-base';
@@ -9,11 +9,13 @@ export default TournamentBody = (props) => {
 
   const { store, actions } = useContext(Context);
 
-  var bgColor, textColor, buttonColor, path;
+  var bgColor, textColor, borderWidths, buttonColor, path;
   var navigation = props.navigation;
 
-  const enterTournament = () => {
-    navigation.push(path, {
+
+  const enterTournament = async() => {
+    await navigation.push(path, {
+      action: props.action,
       tournament_id: props.id,
       name: props.name,
       address: props.address,
@@ -21,31 +23,30 @@ export default TournamentBody = (props) => {
       latitude: props.latitude,
       start_at: props.start_at,
       end_at: props.end_at,
-      // flights: this.props.flights
+      flights: props.flights
     });
   }
 
-    // var x = this.props.my_buy_ins.map((buy_in) => buy_in.id)
-    // var z=[]
-    // var y = this.props.flights.forEach((flight) => 
-    //   flight.buy_ins.forEach((buy_in) => z.push(buy_in.id))
-    // )
-    
-    // var matches = z.some(zz => zz == 1 || zz >= 4)
 
-    // console.log(matches)
+    var z=[]
+    var y = props.flights.forEach((flight) => 
+      flight.buy_ins.forEach((buy_in) => z.push(buy_in.id))
+    )
+    
+    var matches = z.some(zz => zz)
+
     // ACTIVE TOURNAMENT VIEW
-  if (true) {
+  if (matches) {
     bgColor = 'green';
     textColor = 'white';
     buttonColor = 'white';
-    borderWidth = 4;
+    borderWidths = 4;
     path = 'TourneyLobby'
   } else {
     bgColor = 'white';
     textColor = 'black';
     buttonColor = null;
-    borderWidth = 2;
+    borderWidths = 2;
     path = 'VerifyTicket'
   }
 
@@ -66,7 +67,7 @@ export default TournamentBody = (props) => {
         <View  
           style={{
             backgroundColor: bgColor,
-            borderColor:buttonColor, borderRadius: borderWidth, alignContent:'center',
+            borderColor:buttonColor, borderRadius: borderWidths, alignContent:'center',
             flexDirection:"column", flex:0, justifyContent:"center", width:85, height:85
           }}
         >
@@ -107,19 +108,3 @@ export default TournamentBody = (props) => {
     </ListItem>
   )
 }
-
-
-
-
-  // useEffect(() => {
-  //   console.log('In 3 seconds, another message will appear'); 
-  //   console.log('hasSomething', hasSomething)
-  //   setTimeout(()=>{
-  //     console.log('3 seconds have passed');
-  //     props.navigation.navigate('Login')
-  //   }, 3000)
-  //   return () => {
-  //     //cleanup
-  //   };
-  // }, []);
-
