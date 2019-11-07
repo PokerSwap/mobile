@@ -4,7 +4,7 @@ import { Header, Text, Icon } from 'native-base';
 export default _Header = (props) => {
 
   return(
-    <Header style={{justifyContent:'space-between', alignItems:'center'}}>
+    <Header  style={{justifyContent:'space-between', alignItems:'center'}}>
       
       {/* MENU ICON */}
       <Icon name="menu"

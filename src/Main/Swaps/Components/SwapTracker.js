@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
+import React, {} from 'react';
 import { View } from 'react-native';
 import {  Text } from 'native-base';
 import { Context } from '../../../Store/appContext';
 
 import BuyIn from '../../Shared/BuyIn'
 
-export default  SwapTracker = (props) => {
+export default SwapTracker = (props) => {
 
   return(
     <View>
@@ -15,20 +15,36 @@ export default  SwapTracker = (props) => {
         <Text 
           style={{fontSize:18, fontWeight:'600', width:'75%',
                   alignSelf:'center',textAlign:'center', color:'white'}}>
-          {props.tournament_name}
         </Text>
       </View>
       <BuyIn
-        navigation = {props.navigation}
         id = {props.id}
-        first_name = {props.first_name} 
-        last_name = {props.last_name} 
+        navigation = {props.navigation}
+        user_id = {props.user_id}
+        user_name = {props.user_name} 
         table = {props.table}
         seat = {props.seat}
         chips = {props.chips}
-        username={props.username}
-        tournament_name = {props.tournament_name}
+        flight_id = {props.flight_id}
       />
+      {/* <Context.Consumer>
+        {({store, actions}) => {
+          let tournament = store.tournaments
+
+          return (
+            <BuyIn
+              id = {props.id}
+              navigation = {props.navigation}
+              
+              user_name = {props.user_name} 
+              table = {props.table}
+              seat = {props.seat}
+              chips = {props.chips}
+              flight_id = {props.flight_id}
+            />
+          )
+        }}
+      </Context.Consumer> */}
     </View>
   )
 }

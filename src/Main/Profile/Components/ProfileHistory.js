@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 import { List } from 'native-base';
-import SwapMain from './SwapMain';
-import { Context } from '../../../Store/appContext';
 
 export default class ProfileHistory extends Component {
 	constructor(props){

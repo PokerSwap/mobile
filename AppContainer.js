@@ -21,11 +21,9 @@ import WinningsDashboard from './src/Main/Winnings/WinningsDashboard'
 // TOURNAMENT VIEWS
 import TourneyLobby from './src/Main/Tournaments/TourneyLobby'
 import VerifyTicket from './src/Main/Tournaments/VerifyTicket';
-import SwapOffer from './src/Main/Shared/SwapOffer';
+import SwapOffer from './src/Main/SwapOffer/SwapOffer';
 
-// SWAPS VIEWS
-// 
- 
+
 // DRAWER VIEWS
 import SideBar from './src/View-Components/sidebar'
 import SettingsScreen from './src/Drawer/Settings'

@@ -1,7 +1,6 @@
 import React, {useContext} from 'react';
 import {  Text, ListItem, Button, Icon } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid'
-import BuyInAttribute from './BuyInAttribute'
 
 import { Context } from '../../Store/appContext'
 

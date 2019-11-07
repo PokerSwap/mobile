@@ -1,8 +1,6 @@
-import React, {Component} from 'react';
+import React, {} from 'react';
 import { Button, Icon, Text } from 'native-base';
 import { Col, Row } from 'react-native-easy-grid';
-import { Linking } from 'react-native';
-import { Context } from '../../../Store/appContext'
 
 export default  ProfileBio = (props) => {
    

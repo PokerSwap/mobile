@@ -18,8 +18,9 @@ export default WinningsDashboard = (props) => {
             </Text>                
           </Separator>
           <Context.Consumer>
-            {({store, actions})=> {              
-              return store.past_buy_ins.map((content, index) => {
+            {({store, actions})=> {  
+              var buy_ins = store.profile_in_session.buy_ins           
+              return buy_ins.map((content, index) => {
                 return(
                   <WinningTracker 
                     
