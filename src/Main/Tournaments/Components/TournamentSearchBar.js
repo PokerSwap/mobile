@@ -1,6 +1,11 @@
+import React, {useContext} from 'react'
 import { Button, Header, Icon, Input, Item, Text} from 'native-base';
 
+import {Context} from '../../../Store/appContext'
+
 export default TournamentSearchBar = (props) => {
+
+  const { actions } = useContext(Context)
   return(
     <Header searchBar rounded>
       <Item>

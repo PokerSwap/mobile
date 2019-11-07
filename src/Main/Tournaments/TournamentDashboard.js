@@ -1,11 +1,10 @@
-import React, {useContext, useState, useEffect} from 'react';
-
-import { Container, List, Content, Segment, Button, Text, Header,Item, Icon, Input } from 'native-base';
+import React, {useContext, useState} from 'react';
+import { Container, List, ListItem, Content, Text } from 'native-base';
 
 import _Header from "../../View-Components/header";
 import TournamentBody from './Components/TournamentBody';
 import TournamentSearchBar from './Components/TournamentSearchBar';
-import TournamentSort from './Components/TournamentSearchBar';
+import TournamentSort from './Components/TournamentSort';
 
 import { Context } from '../../Store/appContext';
 
@@ -17,7 +16,7 @@ export default TournamentDashboard = (props) => {
   const [search, setSearch] = useState('')
 
   var TournamentsList;
-  if (false){
+  if (store.tournaments== null){
     TournamentsList = 
     <ListItem>
       <Text>Sorry, there are no tournaments under that name</Text>
@@ -45,13 +44,12 @@ export default TournamentDashboard = (props) => {
     <Container>
       <_Header title={'Tournament Dashboard'} drawer={() => props.navigation.toggleDrawer()}/>
       
-      <TournamentSearchBar />
+      <TournamentSearchBar search={search} setSearch={setSearch}/>
       
-      <TournamentSort sort={sort} setSort={setSort} search={search} setSearch={setSearch} />
+      <TournamentSort sort={sort} setSort={setSort} />
       
       <Content>
         <List>
-          
           {/* TOURNAMENT LIST GENERATOR */}
           {TournamentsList}
         </List>

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { Context } from '../../../Store/appContext';
 
 import { View } from 'react-native';

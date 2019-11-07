@@ -19,7 +19,6 @@ export default VerifyTicket = (props) => {
   var navigation = props.navigation;
   let flights = navigation.getParam('flights', 'NO-ID');
 
-  var fliff = flights.sort()
   var FlightSelection = flights.map((flight) => {
       
     var startMonth = flight.start_at.substring(8,11)
@@ -44,7 +43,7 @@ export default VerifyTicket = (props) => {
 
   BuyInStart = async(x) => {    
     var answer = await x.buy_in.add(
-      light_id,
+      flight_id,
       table,
       seat,
       chips,
@@ -52,7 +51,7 @@ export default VerifyTicket = (props) => {
     )
   }
 
-  ChoosePhoto = () => {
+  UploadTicketPhoto = () => {
     const options = {
       title: 'Submit Picture',
       storageOptions: {
@@ -97,7 +96,7 @@ export default VerifyTicket = (props) => {
 
           {/* UPLOAD BUTTON  */}
           <CardItem style={{justifyContent:'center'}}>
-            <Button large style={{marginVertical:10}} onPress={() => ChoosePhoto()}>
+            <Button large style={{marginVertical:10}} onPress={() => UploadTicketPhoto()}>
               <Text style={{fontWeight: '600'}}>UPLOAD</Text>
             </Button>
           </CardItem>      

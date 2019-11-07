@@ -1,3 +1,5 @@
+import React from 'react'
+
 import { Button, Segment, Text} from 'native-base';
 
 export default TournamentSort = (props) => {

@@ -28,7 +28,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 			
 			buy_in:{
 				
-				add: async ( a_flight_id, some_chips, a_table, a_seat, navigation ) => {
+				add: async ( a_flight_id, a_table, a_seat, some_chips, navigation ) => {
 					
 					try{	
 						let accessToken = getStore().userToken.jwt
@@ -222,7 +222,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					}
 				},
 
-				statusChange: async ( a_tournament_id, a_recipient_id, is_paid, a_status, a_percentage ) => {
+				statusChange: async ( a_tournament_id, a_recipient_id, is_paid, a_status, a_percentage, navigation ) => {
 					try{
 						const url = 'https://pokerswap.herokuapp.com/me/swaps'
 						let accessToken = getStore().userToken.jwt
@@ -296,13 +296,13 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 						let specificTournaments = await response.json()
 						
+						if (specificTournaments.message == "Tournament not found"){
+							setStore({tournaments: null})
+						}else{
 							setStore({tournaments: specificTournaments})
 							console.log('specificData:', specificData)
-
-						// console.log('action:', response.json)
-
-						// console.log('what:', getStore().action.swaps)
 						}
+					}
 					} catch(error){
 
 						console.log('something went wrong in tournament.getAction', error)
