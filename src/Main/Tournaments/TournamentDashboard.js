@@ -4,46 +4,17 @@ import { Container, List, Content, Segment, Button, Text, Header,Item, Icon, Inp
 
 import _Header from "../../View-Components/header";
 import TournamentBody from './Components/TournamentBody';
-import { Context } from '../../Store/appContext'
+import TournamentSearchBar from './Components/TournamentSearchBar';
+import TournamentSort from './Components/TournamentSearchBar';
 
-TournamentSort = (props) => {
-
-  // const [active1, setActive1] = useState('active'.raw())
-  // const [active2, setActive2] = useState(''.raw())
-
-
-  return(
-    <Segment >
-      <Button first active onPress={()=> 
-        props.setSort('Zip Code')
-
-        }>
-        <Text>Zip Code</Text>
-      </Button>
-      <Button last onPress={()=> {
-        props.setSort('Current Location')
-        }}>
-        <Text>Current Location</Text>
-      </Button>
-    </Segment>
-  )
-}
+import { Context } from '../../Store/appContext';
 
 export default TournamentDashboard = (props) => {
-
-  const [search, setSearch] = useState('')
 
   const { store, actions} = useContext(Context)
 
   const [sort, setSort] = useState('Current Location')
-
-  useEffect(() => {
-    actions.tournament.getAll()
-
-    return () => {
-      // cleanup
-    };
-  }, [])
+  const [search, setSearch] = useState('')
 
   var TournamentsList;
   if (false){
@@ -73,20 +44,11 @@ export default TournamentDashboard = (props) => {
   return(
     <Container>
       <_Header title={'Tournament Dashboard'} drawer={() => props.navigation.toggleDrawer()}/>
-      <Header searchBar rounded>
-        <Item>
-          <Icon name="ios-search" />
-          <Input 
-            value={search}
-            onChangeText={(value)=> setSearch(value)}
-            placeholder="Search Tournaments" />
-        </Item>
-        <Button transparent onPress={()=> actions.tournament.getSpecific(search)}>
-          <Text>Search</Text>
-        </Button>
-      </Header>
-      <TournamentSort sort={sort} setSort={setSort}/>
-       
+      
+      <TournamentSearchBar />
+      
+      <TournamentSort sort={sort} setSort={setSort} search={search} setSearch={setSearch} />
+      
       <Content>
         <List>
           
@@ -94,6 +56,7 @@ export default TournamentDashboard = (props) => {
           {TournamentsList}
         </List>
       </Content>
+      
     </Container>
 
   )

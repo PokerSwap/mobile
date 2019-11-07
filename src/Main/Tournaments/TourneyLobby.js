@@ -1,8 +1,6 @@
-import React, {useContext, useEffect} from 'react';
-import {Context} from '../../Store/appContext'
+import React, {} from 'react';
 
-import {Container, Content, Button, Footer, List, ListItem, Text} from 'native-base';
-import { Col, Row, Grid } from 'react-native-easy-grid'
+import {Container, Content, List, ListItem } from 'native-base';
 
 import ActionBar from './Components/ActionBar'
 import TourneyHeader from './Components/TourneyHeader'
@@ -10,8 +8,6 @@ import FlightSchedule from './Components/FlightSchedule';
 
 export default TourneyLobby = (props) => {
   
-  const { store, actions } = useContext(Context)
-
   const { navigation } = props;
   let tournament_id = navigation.getParam('tournament_id', 'NO-ID');
   let name = navigation.getParam('name', 'default value');
