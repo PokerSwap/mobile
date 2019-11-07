@@ -1,6 +1,6 @@
 import React, {} from "react";
 
-import { Context } from "../../Store/appContext";
+import { Context } from "../../../Store/appContext";
 
 import { ListItem, Button, Text } from 'native-base';
 import { Grid, Col, Row } from 'react-native-easy-grid'
@@ -79,7 +79,7 @@ SwapBody = (props) => {
   )
 }
 
-export default  SwapResults = () => {
+export default  WinningTracker = () => {
 
   return(
         <ListItem noIndent style={{flex:1, flexDirection:'column'}}>

@@ -2,9 +2,9 @@ import React, {} from 'react';
 import { Container, Content, List, Separator, Text } from 'native-base';
 import _Header from '../../View-Components/header'
 import { Context } from '../../Store/appContext'
+import WinningTracker from './Components/WinningTracker'
 
 export default WinningsDashboard = (props) => {
-
   return(
     <Container>
       <_Header title={'Winnings Dashboard'} drawer={() => props.navigation.toggleDrawer()}/>
@@ -14,45 +14,22 @@ export default WinningsDashboard = (props) => {
           {/* LIVE SWAPS LIST HEADER */}
           <Separator bordered style={{height:48, backgroundColor:'rgb(56,68,165)'}}>
             <Text style={{fontSize:20, color:'white', fontWeight:'600', textAlign:'center'}}> 
-              LIVE 
+              RECENT 
             </Text>                
           </Separator>
-
-          {/* SCHEDULED SWAPS LIST HEADER  */}
-          <Separator bordered style={{height:48, backgroundColor:'gray'}}>
-            <Text style={{fontSize:20, color:'white', fontWeight:'600', textAlign:'center'}}> 
-              STANDBY 
-            </Text>
-          </Separator>
-
-          {/* SCHEDULED TOURNAMENT TITLE AND BOX */}
-          {/* <Context.Consumer>
-            {({store, actions})=> {
-              var myProfile = store.profile_in_session
-              var myBuyIns = myProfile.buy_ins
-
-              return myBuyIns.map((content, index) => {
+          <Context.Consumer>
+            {({store, actions})=> {              
+              return store.past_buy_ins.map((content, index) => {
                 return(
-                  <SwapTracker
-                    navigation={props.navigation}
-                    key = {index}
-                    tournament_name={content.flight.tournament}
-
-                    first_name={myProfile.first_name}
-                    last_name={myProfile.last_name}
-                    id={myProfile.id} 
-                    swaps={myProfile.receiving_swaps}
-                    buy_in_ID= {content.id}
-
-                    table={content.table}
-                    seat={content.seat}
-                    chips={content.chips}
+                  <WinningTracker 
+                    
                   />
-                )
+                  )
                 })
               }}
           </Context.Consumer>
-                  */}
+
+
         </List>
       </Content>
     </Container>
