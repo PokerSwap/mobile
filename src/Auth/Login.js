@@ -1,4 +1,4 @@
-import React, {Component, useState } from 'react';
+import React, {Component, useState, useContext } from 'react';
 import {Button, Text, Toast, Card, CardItem, Container, Content} from 'native-base';
 import { Context } from '../Store/appContext'
 
@@ -7,18 +7,20 @@ import { Keyboard, TouchableWithoutFeedback, TextInput, KeyboardAvoidingView, Vi
 
 export default  LoginScreen = (props) => {
 
-  const [email, setEmail] = useState('gherndon5@gmail.com')
-  const [password, setPassword] = useState('Tryagain5!')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
+
+  const { store, actions } = useContext(Context)
 
   loadingSwitch = () => {
     setLoading(!loading)
   }
 
-  loginStart = async (x) => {
+  loginStart = async () => {
     console.log(email, password)
     loadingSwitch();
-    var answer = await x.user.login(
+    var answer = await actions.user.login(
       email, 
       password, 
       props.navigation);
@@ -94,7 +96,7 @@ export default  LoginScreen = (props) => {
                           onPress={
                             async() => {
                               Keyboard.dismiss();
-                              var x = await loginStart(actions)
+                              var x = await loginStart();
                               wrong()}
                             }
                         >
