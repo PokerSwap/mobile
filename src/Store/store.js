@@ -2,25 +2,20 @@ const getState = ({ getStore, setStore, getActions }) => {
 	return {
 
 		store: {
-      
-      // FOR CURRENT TOURNAMENT (or FLIGHTS?)
-			buy_ins: [ ],
+			
+			// FOR CURRENT TOURNAMENT ACTION
+			action: null,
 
-      // FOR CURRENT TOURNAMENT
-			flights:[ ],
+      // FOR CURRENT TOURNAMENT (or FLIGHTS?
 
 			// CURRENT PROFILE
 			profile_in_session:{},
 			
       // OTHER PEOPLE'S PROFILES (ON PROFILE VIEW)
-			profiles:[ ],
+			profile:[ ],
       
       //CURRENT USER'S SWAPS
 			swapCurrent:[],
-
-			swapsSchedueled:[],
-
-			myTournaments:[],
 
       // ALL TOURNAMETS, FILTERED BY FIRST 10 RESULTS
 			tournaments:[ ],
@@ -37,7 +32,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					
 					try{	
 						let accessToken = getStore().userToken.jwt
-						const url = 'https://pokerswap.herokuapp.com/buy_ins/me'		
+						const url = 'https://pokerswap.herokuapp.com/me/buy_ins'		
 						let data = {
 							flight_id: a_flight_id,
 							chips: some_chips,
@@ -63,26 +58,49 @@ const getState = ({ getStore, setStore, getActions }) => {
 					}
 				},
 
-				edit: async ( buy_in_id, some_chips, a_table, a_seat, navigation) => {
+				edit: async ( a_buy_in_id, some_chips, a_table, a_seat, navigation) => {
 					try{
-						const url = 'https://pokerswap.herokuapp.com/buy_ins/me/' + buy_in_id
+						
+						const url = 'https://pokerswap.herokuapp.com/me/buy_ins/' + buy_in_id
+						let accessToken = getStore().userToken.jwt
+
+						let data = {
+							id: a_buy_in_id,
+							chips: some_chips,
+							table: a_table,
+							seat: a_seat
+						}
+
+						let response = await fetch(url, {
+							method: 'PUT',
+							body: JSON.stringify(data),
+							headers: {
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							}, 
+						})
+						.then(response => response.json)
 
 					}catch(error){
-
+						console.log('Something went wrong with buyin.edit', error)
 					}
 				},
 				
 				getMine: async ( ) => {
-					const my_buy_ins = getStore().profile_in_session.buy_ins; 
 
-					setStore({buy_ins:my_buy_ins})
+					const buy_ins = getStore().profile_in_session.buy_ins; 
+
+					var timeNow = new Date()
+
+					setStore({schedueled_buy_ins: schedueled_buy_ins})
+					console.log(getStore().schedueled_buy_ins)
+
+
 				}
 
 			},
 
 			coin:{},
-
-			flight:{},
 
 			profile:{
 				
@@ -120,6 +138,24 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 				changePicture: async() => {
 
+					try{
+						const accessToken = getStore().userToken.jwt;
+						const url = 'https://pokerswap.herokuapp.com/profiles/me/image'
+
+						let response = await fetch(url, {
+							method: 'PUT',
+							body: JSON.stringify(data),
+							headers: {
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							}, 
+						})
+						.then(response => resppnse.json)
+
+					}catch(error){
+						console.log('Something went wrong with profile.changePicture', error)
+					}
+
 				},
 
 				get: async () => {
@@ -154,15 +190,13 @@ const getState = ({ getStore, setStore, getActions }) => {
 				}
 
 			},
-			
-			receipt: {},
-			
+						
 			swap: {
 
 				add: async ( a_tournament_id, a_recipient_id, a_percentage, navigation ) => {
 					
 					try{
-						const url = 'https://pokerswap.herokuapp.com/swaps/me'
+						const url = 'https://pokerswap.herokuapp.com/me/swaps'
 						let accessToken = getStore().userToken.jwt
 
 						let data = {
@@ -180,7 +214,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}
 						})
 						.then(response => response.json())
-						.then(getActions.profile.get())
+						.then(getActions().profile.get())
 						.then(navigation.navigate('TourneyLobby'))
 						
 					}catch(error){
@@ -188,15 +222,28 @@ const getState = ({ getStore, setStore, getActions }) => {
 					}
 				},
 
-				getMine: async() => {
-
-					setStore({swapsCurrent: 'um'})
-					setStore({swapsSchedueled: 'uh'})
-
-				},
-
-				statusChange: async ( swap_id, a_tournament_id, a_recipient_id, a_status ) => {
+				statusChange: async ( a_tournament_id, a_recipient_id, is_paid, a_status, a_percentage ) => {
 					try{
+						const url = 'https://pokerswap.herokuapp.com/me/swaps'
+						let accessToken = getStore().userToken.jwt
+
+						let data = {
+							tournament_id: a_tournament_id,
+							recipient_id: a_recipient_id,
+							paid: is_paid,
+							status: a_status,
+							percentage: a_percentage
+						}
+
+						let response = await fetch(url,{
+							method:"PUT",
+							body: JSON.stringify(data),
+							headers:{
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							}
+						})
+						.then(response => response.json())
 
 					}
 					catch(error){
@@ -208,10 +255,10 @@ const getState = ({ getStore, setStore, getActions }) => {
 		
 			tournament:{
 
-				getOne: async ( id ) => {
+				getOne: async ( tournament_id ) => {
 					try{
 						
-						const url = 'https://pokerswap.herokuapp.com/tournaments/' + id;
+						const url = 'https://pokerswap.herokuapp.com/tournaments/' + tournament_id;
 						const accessToken = getStore().userToken.jwt ;
 
 						let response = await fetch(url, {
@@ -221,8 +268,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 								'Content-Type':'application/json'
 							}, 
 						})
-						.then(response => response.json)
-						console.log('each tournament', response.json)
+					// 	.then(response => response.json)
+					// 	.then(data => console.log('DATA',data))
+						// console.log('each tournament', response.json)
 
 					} catch(error){
 						console.log('Something went wrong with tournament.get', error)
@@ -230,6 +278,38 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 				},
 			
+				getSpecific: async ( searchInput ) => {
+					try{
+						if(searchInput =='') {
+							getActions().tournament.getAll()
+						} else{
+						const url = "https://pokerswap.herokuapp.com/tournaments/" + searchInput;
+						const accessToken = getStore().userToken.jwt ;
+
+						let response = await fetch(url, {
+							method: 'GET',
+							headers: {
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							}, 
+						})
+
+						let specificTournaments = await response.json()
+						
+							setStore({tournaments: specificTournaments})
+							console.log('specificData:', specificData)
+
+						// console.log('action:', response.json)
+
+						// console.log('what:', getStore().action.swaps)
+						}
+					} catch(error){
+
+						console.log('something went wrong in tournament.getAction', error)
+					}
+				
+				},
+
 				getAll: async () => {
 					try{
 						
@@ -255,9 +335,31 @@ const getState = ({ getStore, setStore, getActions }) => {
 					}
 				},
 
-			},
+				getAction: async ( tournament_id ) => {
+					try{
+						const url = "https://pokerswap.herokuapp.com/swaps/me/tournament/" + tournament_id;
+						const accessToken = getStore().userToken.jwt ;
 
-			transaction:{},
+						let response = await fetch(url, {
+							method: 'GET',
+							headers: {
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							}, 
+						})
+
+						let actionData = await response.json()
+						console.log('actionData:', actionData)
+						// console.log('action:', response.json)
+
+						// console.log('what:', getStore().action.swaps)
+
+					} catch(error){
+						console.log('something went wrong in tournament.getAction', error)
+					}
+
+				}
+			},
 
 			user: {
 
@@ -305,7 +407,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 						.then(()=> {
 							if(getStore().userToken){
 								if(getStore().profile_in_session.message != 'User not found' ){
-									getActions().buy_in.getMine();
 									getActions().tournament.getAll();
 									navigation.navigate('Swaps');
 								} else {
