@@ -1,6 +1,5 @@
 import React, {} from 'react';
 import { Text, Button } from 'native-base';
-import { Linking } from 'react-native';
 import { Row, Col, Grid } from 'react-native-easy-grid';
 
 export default  TourneyHeader = (props) => {

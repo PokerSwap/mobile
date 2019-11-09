@@ -27,15 +27,15 @@ export default TournamentBody = (props) => {
     });
   }
 
+  var w = []
+  var x = store.profile_in_session.buy_ins.forEach((buy_in => w.push(buy_in.id)));
+  var z=[]
+  var y = props.flights.forEach((flight) => 
+    flight.buy_ins.forEach((buy_in) => z.push(buy_in.id))
+  )
+  const matches = w.some(ww=> z.includes(ww))
 
-    var z=[]
-    var y = props.flights.forEach((flight) => 
-      flight.buy_ins.forEach((buy_in) => z.push(buy_in.id))
-    )
-    
-    var matches = z.some(zz => zz)
-
-    // ACTIVE TOURNAMENT VIEW
+  // ACTIVE TOURNAMENT VIEW
   if (matches) {
     bgColor = 'green';
     textColor = 'white';
