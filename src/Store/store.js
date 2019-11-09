@@ -10,7 +10,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 			profile_in_session:{},
 			
       // OTHER PEOPLE'S PROFILES (ON PROFILE VIEW)
-			profile:[ ],
+			profileView:[ ],
       
       //CURRENT USER'S SWAPS
 			swapCurrent:[],
@@ -33,9 +33,10 @@ const getState = ({ getStore, setStore, getActions }) => {
 						const url = 'https://pokerswap.herokuapp.com/me/buy_ins'		
 						let data = {
 							flight_id: a_flight_id,
-							chips: some_chips,
 							table: a_table,
-							seat: a_seat
+							seat: a_seat,
+							chips: some_chips
+
 						}
 
 						let response = await fetch(url, {
@@ -185,6 +186,22 @@ const getState = ({ getStore, setStore, getActions }) => {
 					} catch(error) {
 						console.log('Something went wrong in removing userToken')
 					}
+				},
+
+				view: async( a_user_id) => {
+					const accessToken = getStore().userToken.jwt;
+					const url = 'https://pokerswap.herokuapp.com/profiles/'+ a_user_id
+
+					let response = await fetch(url, {
+						method:'GET',
+						headers: {
+							'Authorization': 'Bearer ' + accessToken,
+							'Content-Type':'application/json'
+						}, 
+					})
+
+					let profileInfo = await response.json()
+					setStore({profileView: profileInfo})
 				}
 
 			},
