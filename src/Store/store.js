@@ -6,8 +6,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 			// FOR CURRENT TOURNAMENT ACTION
 			action: null,
 
-      // FOR CURRENT TOURNAMENT (or FLIGHTS?
-
 			// CURRENT PROFILE
 			profile_in_session:{},
 			
@@ -251,6 +249,31 @@ const getState = ({ getStore, setStore, getActions }) => {
 					)}
 				},
 		
+				paid: async ( a_tournament_id, a_recipient_id, is_paid, navigation) => {
+					try{
+						const url = 'https://pokerswap.herokuapp.com/users/me/swaps/4/done'
+						let accessToken = getStore().userToken.jwt
+
+						let data = {
+							tournament_id: a_tournament_id,
+							recipient_id: a_recipient_id,
+							paid: is_paid
+						}
+
+						let response = await fetch(url,{
+							method:"PUT",
+							body: JSON.stringify(data),
+							headers:{
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							}
+						})
+						.then(response => response.json())
+
+					}catch(error){
+						console.log('something went wrong with swap.paid', error)
+					}
+				}
 			},
 		
 			tournament:{
@@ -326,6 +349,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 						let tournamentData = await response.json()
 						// console.log('response', response)
+						// map and complete the tournamentw
 
 						setStore({tournaments: tournamentData});
 						console.log('current tournaments', getStore().tournaments)

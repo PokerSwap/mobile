@@ -53,7 +53,7 @@ export default TourneyLobby = (props) => {
       </Content>
 
       {/* FOOTER CONTAINS NUMBER OF SWAPS AND ACTION  */}
-      <ActionBar action={props.action} />
+      <ActionBar action={action} />
     </Container>
   )
 }

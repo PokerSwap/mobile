@@ -1,9 +1,14 @@
+import React, {useContext} from 'react'
+
 import {TouchableOpacity, View} from 'react-native'
 import {Text, Card, CardItem} from 'native-base'
 
 import {Context} from '../../../Store/appContext'
 
 export default InactivePath = (props) => {
+
+  const {store, actions} = useContext(Context)
+
   return(
     <Card>
 
@@ -41,19 +46,13 @@ export default InactivePath = (props) => {
       </CardItem>
 
       <CardItem>
-        <Context.Consumer>
-          {({ store, actions }) => {
-            return(
-              <Button large 
-                onPress={async() => {
-                  actions.swap.add(tournament_id, user_id, percentage),
-                  actions.profile.get()
-                }}>
-                <Text> Offer Swap </Text>
-              </Button>
-            )
-          }}   
-        </Context.Consumer>
+        <Button large 
+          onPress={async() => {
+            actions.swap.add(tournament_id, user_id, percentage),
+            actions.profile.get()
+          }}>
+          <Text> Offer Swap </Text>
+        </Button>
       </CardItem>
 
     </Card>

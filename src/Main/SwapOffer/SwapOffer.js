@@ -45,7 +45,6 @@ export default SwapOffer = (props) => {
     var answer = await actions.swap.statusChange(
       tournament_id, 
       user_id, 
-      paid,
       status,
       percentage,
       props.navigation
@@ -96,23 +95,36 @@ export default SwapOffer = (props) => {
   else if (mode=='received'){
     currentPath = 
       <ReceivedPath 
+      user_name={user_name}
 
       />
   } 
   // PENDING SWAP VIEW
-  else if (mode=='sending'){
-    currentPath = <SentPath />
+  else if (mode=='sent'){
+    currentPath = 
+      <SentPath 
+        user_name={user_name}
+
+        tournament_id={tournament_id}
+      />
   } 
   // AGREED SWAP VIEW
   else if (mode=='agreed'){
-    currentPath = <AgreedPath />
+    currentPath = 
+      <AgreedPath 
+        user_name={user_name}
+
+      />
   }
   // REJECTED SWAP VIEW 
   else if (mode=='rejected'){
-    currentPath = <RejectedPath />
+    currentPath = 
+      <RejectedPath 
+
+      />
   }
   // INACTIVE SWAP VIEW
-  else if (mode=='inactive') {
+  else{
     currentPath = 
       <InactivePath 
         percentage={percentage} setPercentage={setPercentage}

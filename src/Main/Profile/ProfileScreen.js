@@ -1,33 +1,32 @@
-import React, {Component} from 'react';
+import React, {useContext} from 'react';
 import { Container, Content } from 'native-base';
 import _Header from '../../View-Components/header'
 import ProfileBio from './Components/ProfileBio';
 import ProfileHistory from './Components/ProfileHistory'
 
+import {Context} from '../../Store/appContext'
+
 export default ProfileScreen = (props) => {
 
-  const { navigation } = props;
-  let aName = navigation.getParam('name', 'NO-ID');
-  let aState = navigation.getParam('state', 'NO-ID');
+  const { store, actions } = useContext(Context)
 
+  const { navigation } = props;
+  let name = navigation.getParam('user_name', 'NO-ID');
+  let id = navigation.getParam('id', 'NO-ID');
   
-  let header;
   let history;
 
-  if (aState=='public'){
-    header= <_Header drawer={() => props.navigation.toggleDrawer()}/>
-
+  if (id == store.profile_in_session){
     history = null
   } else {
-    header= <_Header drawer={() => props.navigation.toggleDrawer()}/>
     history = <ProfileHistory navigation={props.navigation}/>
   }
 
   return(
     <Container>
-      {header}
+      <_Header drawer={() => props.navigation.toggleDrawer()}/>
       <Content>
-          <ProfileBio name={aName} state={aState}/>
+          <ProfileBio name={name} id={id} />
           {history}
       </Content>
     </Container>
