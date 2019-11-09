@@ -14,7 +14,7 @@ export default  ProfileBio = (props) => {
       
       <Row style={{displayFlex:1, justifyContent:"center"}}>
         <Button transparent>
-          <Text>{props.first_name} "{props.username}" {props.last_name}</Text>
+          <Text>{props.first_name} {props.last_name}</Text>
         </Button>
       </Row>
       

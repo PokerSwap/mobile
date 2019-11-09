@@ -128,6 +128,7 @@ export default SwapOffer = (props) => {
     currentPath = 
       <InactivePath 
         percentage={percentage} setPercentage={setPercentage}
+        user_name={user_name}
         add={add} subtract={subtract} 
         swapAdd={swapAdd}
       />

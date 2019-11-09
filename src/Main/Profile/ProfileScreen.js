@@ -11,12 +11,16 @@ export default ProfileScreen = (props) => {
   const { store, actions } = useContext(Context)
 
   const { navigation } = props;
-  let name = navigation.getParam('user_name', 'NO-ID');
+  let first_name = navigation.getParam('first_name', 'NO-ID');
+  let last_name = navigation.getParam('last_name', 'NO-ID');
   let id = navigation.getParam('id', 'NO-ID');
-  
+  let roi = navigation.getParam('roi', 'NO-ID');
+  let hendon_url = navigation.getParam('hendon_url', 'NO-ID');
+  let profile_pic_url = navigation.getParam('profile_pic_url','NO-ID')
+
   let history;
 
-  if (id == store.profile_in_session){
+  if (id == store.profile_in_session.id){
     history = null
   } else {
     history = <ProfileHistory navigation={props.navigation}/>
@@ -26,7 +30,10 @@ export default ProfileScreen = (props) => {
     <Container>
       <_Header drawer={() => props.navigation.toggleDrawer()}/>
       <Content>
-          <ProfileBio name={name} id={id} />
+          <ProfileBio 
+            first_name={first_name} last_name={last_name} 
+            roi={roi} hendon_url={hendon_url} 
+            profile_pic_url={profile_pic_url}/>
           {history}
       </Content>
     </Container>

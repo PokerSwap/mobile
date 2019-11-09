@@ -1,7 +1,7 @@
 import React, {useContext} from 'react'
 
 import {TouchableOpacity, View} from 'react-native'
-import {Text, Card, CardItem} from 'native-base'
+import {Text, Button, Card, CardItem} from 'native-base'
 
 import {Context} from '../../../Store/appContext'
 
@@ -12,19 +12,19 @@ export default InactivePath = (props) => {
   return(
     <Card>
 
-      <CardItem>
-        <Text style={{marginRight:5,fontSize:24}}>Swap With:</Text>    
+      <CardItem style={{justifyContent:'center'}}>
+        <Text style={{marginRight:5,fontSize:24, textAlign:'center'}}>Swap With:</Text>    
       </CardItem>
 
-      <CardItem>
-        <Text style={{marginLeft:5,fontSize:24,}}> {props.user_name} </Text>
+      <CardItem style={{justifyContent:'center'}}>
+        <Text style={{marginLeft:5,fontSize:36,justifyContent:'center'}}> {props.user_name} </Text>
       </CardItem>
       
-      <CardItem>
-        <Text style={{marginRight:5,fontSize:24}}>Swap Offer:</Text>
+      <CardItem style={{justifyContent:'center'}}> 
+        <Text style={{marginRight:5,fontSize:24,justifyContent:'center'}}>Swap Offer:</Text>
       </CardItem>
 
-      <CardItem>
+      <CardItem style={{justifyContent:'center'}}>
 
         {/* SUBTRACT BUTTON */}
         <TouchableOpacity onPress={()=> props.subtract()}>
@@ -45,7 +45,7 @@ export default InactivePath = (props) => {
 
       </CardItem>
 
-      <CardItem>
+      <CardItem style={{justifyContent:'center'}}>
         <Button large 
           onPress={async() => {
             actions.swap.add(tournament_id, user_id, percentage),

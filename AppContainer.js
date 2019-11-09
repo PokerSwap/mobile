@@ -23,6 +23,7 @@ import TourneyLobby from './src/Main/Tournaments/TourneyLobby'
 import VerifyTicket from './src/Main/Tournaments/VerifyTicket';
 import SwapOffer from './src/Main/SwapOffer/SwapOffer';
 
+import ProfileScreen from './src/Main/Profile/ProfileScreen'
 
 // DRAWER VIEWS
 import SideBar from './src/View-Components/sidebar'
@@ -125,6 +126,12 @@ const SwapsStack = createStackNavigator(
       navigationOptions:{
         title:'Swap Offer',
         header: null
+      }
+    },
+    Profile: {
+      screen: ProfileScreen,
+      navigationOptions: {
+        title: 'Profile Screen',
       }
     }
   }, {
@@ -251,11 +258,25 @@ const DrawerNav = createDrawerNavigator(
   }
 )
 
+const ProfileStack = createStackNavigator({
+  Profile: {
+    screen: ProfileScreen,
+    navigationOptions: {
+      title: 'ProfileScreen',
+    }
+  }
+},
+{
+  initialRouteName: 'ProfileScreen',
+
+})
+
 // MAIN NAVIGATION STACK
 const AppStack = createStackNavigator(
   {
     Auth: AuthStack,
     Drawer: DrawerNav,    
+    Profile: ProfileStack
 
   },
   {
