@@ -32,8 +32,9 @@ export default BuyIn = (props) => {
   const { navigation } = props;
 
   const enterSwapOffer = () => {
-    navigation.push(props.navigation.push('SwapOffer',{
+    navigation.push('SwapOffer',{
       mode: path,
+      flight_id: props.flight_id,
       user_id: props.user_id,
       user_name: props.user_name,
       tournament_id:props.tournament_id,
@@ -41,20 +42,20 @@ export default BuyIn = (props) => {
       table: props.table,
       seat: props.seat,
       chips: props.chips
-    }));
+    });
   }
 
-  const enterProfile = () => {
-    actions.profile.view(props.user_id);
+  const enterProfile = async() => {
+    var answer = await actions.profile.view(props.user_id);
     var profile = store.profileView
-    navigation.push(props.navigation.push('ProfileScreen',{
+    navigation.push('Profile',{
       first_name: profile.first_name,
       last_name: profile.last_name,
       roi: profile.roi,
       profile_pic_url: profile.profile_pic_url,
       hendon_url: profile.hendon_url
 
-    }));
+    });
   }
 
   let path, lastCol, buttonColor;

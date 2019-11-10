@@ -127,12 +127,6 @@ const SwapsStack = createStackNavigator(
         title:'Swap Offer',
         header: null
       }
-    },
-    Profile: {
-      screen: ProfileScreen,
-      navigationOptions: {
-        title: 'Profile Screen',
-      }
     }
   }, {
     header: null,
@@ -276,7 +270,12 @@ const AppStack = createStackNavigator(
   {
     Auth: AuthStack,
     Drawer: DrawerNav,    
-    Profile: ProfileStack
+    Profile: {
+      screen: ProfileScreen,
+      navigationOptions: {
+        title: 'Profile Screen'
+      }
+    }
 
   },
   {

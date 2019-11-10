@@ -36,7 +36,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 							table: a_table,
 							seat: a_seat,
 							chips: some_chips
-
 						}
 
 						let response = await fetch(url, {
@@ -57,14 +56,14 @@ const getState = ({ getStore, setStore, getActions }) => {
 					}
 				},
 
-				edit: async ( a_buy_in_id, some_chips, a_table, a_seat, navigation) => {
+				edit: async ( a_flight_id, a_table, a_seat, some_chips, navigation) => {
 					try{
 						
-						const url = 'https://pokerswap.herokuapp.com/me/buy_ins/' + buy_in_id
+						const url = 'https://pokerswap.herokuapp.com/me/buy_ins/' + a_flight_id
 						let accessToken = getStore().userToken.jwt
 
 						let data = {
-							id: a_buy_in_id,
+							id: a_flight_id,
 							chips: some_chips,
 							table: a_table,
 							seat: a_seat
@@ -79,22 +78,13 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}, 
 						})
 						.then(response => response.json)
+						.then(getStore().tracker.getCurrent())
+						.then(navigation.goBack())
+						
 
 					}catch(error){
 						console.log('Something went wrong with buyin.edit', error)
 					}
-				},
-				
-				getMine: async ( ) => {
-
-					const buy_ins = getStore().profile_in_session.buy_ins; 
-
-					var timeNow = new Date()
-
-					setStore({schedueled_buy_ins: schedueled_buy_ins})
-					console.log(getStore().schedueled_buy_ins)
-
-
 				}
 
 			},
@@ -188,7 +178,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					}
 				},
 
-				view: async( a_user_id) => {
+				view: async( a_user_id ) => {
 					const accessToken = getStore().userToken.jwt;
 					const url = 'https://pokerswap.herokuapp.com/profiles/'+ a_user_id
 
@@ -205,7 +195,33 @@ const getState = ({ getStore, setStore, getActions }) => {
 				}
 
 			},
-						
+			
+			tracker: {
+
+				getCurrent: async() => {
+					try{
+						const url = 'https://pokerswap.herokuapp.com/me/swap_tracker'
+						let accessToken = getStore().userToken.jwt
+
+						let response = await fetch(url, {
+							method:'GET',
+							headers: {
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							}, 
+						})
+
+						let trackerData = await response.json()
+						console.log('tracker', trackerData)
+						setStore({swapCurrent: trackerData})
+					}catch(error){
+						console.log('something went wrong in tracker.getCurrent', error)
+					}
+
+				}
+				
+			},
+
 			swap: {
 
 				add: async ( a_tournament_id, a_recipient_id, a_percentage, navigation ) => {
@@ -448,8 +464,11 @@ const getState = ({ getStore, setStore, getActions }) => {
 						.then(()=> {
 							if(getStore().userToken){
 								if(getStore().profile_in_session.message != 'User not found' ){
-									getActions().tournament.getAll();
-									navigation.navigate('Swaps');
+									
+										getActions().tournament.getAll()
+										.then(() =>getActions().tracker.getCurrent())
+										.then(() => navigation.navigate('Swaps'))
+								;
 								} else {
 									navigation.navigate('ProfileCreation');
 								}

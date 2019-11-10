@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import { Container, Content } from 'native-base';
+import { Container, Content, Button, Text } from 'native-base';
 import _Header from '../../View-Components/header'
 import ProfileBio from './Components/ProfileBio';
 import ProfileHistory from './Components/ProfileHistory'
@@ -30,6 +30,8 @@ export default ProfileScreen = (props) => {
     <Container>
       <_Header drawer={() => props.navigation.toggleDrawer()}/>
       <Content>
+          <Button onPress={() => props.navigation.goBack(null)} title="Go back anywhere" />
+
           <ProfileBio 
             first_name={first_name} last_name={last_name} 
             roi={roi} hendon_url={hendon_url} 

@@ -25,6 +25,7 @@ export default SwapOffer = (props) => {
 
   var buyinEdit = async() => {
     var answer = await actions.buy_in.edit(
+      flight_id,
       table,
       seat,
       chips, 
@@ -73,6 +74,7 @@ export default SwapOffer = (props) => {
   let mode = navigation.getParam('mode', 'NO-ID');
   let user_name = navigation.getParam('user_name', 'default value');
   let user_id = navigation.getParam('user_id', 'default value');
+  let flight_id = navigation.getParam('flight_id', 'default value');
   let tournament_name = navigation.getParam('tournament_name', 'default value');
   let tournament_id = navigation.getParam('tournament_id', 'default value');
   let address = navigation.getParam('tournament_id', 'default value');
@@ -86,6 +88,7 @@ export default SwapOffer = (props) => {
     currentPath = 
       <EditPath 
         user_name={user_name}
+        flight_id={flight_id}
         table={table} setTable={setTable}
         seat={seat} setSeat={setSeat}
         chips={chips} setChips={setChips}
