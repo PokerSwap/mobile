@@ -23,7 +23,6 @@ export default SwapTracker = (props) => {
   let yy = x.filter(buyin => buyin.user_id != myID)
   let buyinlist = yy.map(buyin => buyin.id)
 
-  let incSwaps
   // look for user_id in buyins
 
   // filter out buyins for most current

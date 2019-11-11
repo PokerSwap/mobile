@@ -1,10 +1,12 @@
-import React, {} from 'react';
+import React, {useEffect, useContext} from 'react';
 
 import {Container, Content, List, ListItem } from 'native-base';
 
 import ActionBar from './Components/ActionBar'
 import TourneyHeader from './Components/TourneyHeader'
 import FlightSchedule from './Components/FlightSchedule';
+
+import {Context} from '../../Store/appContext'
 
 export default TourneyLobby = (props) => {
   
@@ -17,7 +19,16 @@ export default TourneyLobby = (props) => {
   let start_at = navigation.getParam('start_at', 'NO-ID');
   let end_at = navigation.getParam('end_at', 'NO-ID');
   let flights = navigation.getParam('flights', 'NO-ID');
-  let action = navigation.getParam('action', 'NO-ID');
+
+
+const {store,actions} = useContext(Context)
+
+useEffect(async() => {
+  var answer = await actions.tournament.getAction(tournament_id)
+  return () => {
+    // cleanup
+  };
+}, [])
 
   var Flights = flights.map((flight) =>  
   <FlightSchedule 
@@ -53,7 +64,7 @@ export default TourneyLobby = (props) => {
       </Content>
 
       {/* FOOTER CONTAINS NUMBER OF SWAPS AND ACTION  */}
-      <ActionBar action={action} />
+      <ActionBar action={store.action} />
     </Container>
   )
 }

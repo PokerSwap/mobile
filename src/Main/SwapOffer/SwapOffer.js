@@ -21,7 +21,16 @@ export default SwapOffer = (props) => {
   const [seat, setSeat] = useState(props.navigation.getParam('seat', 'default value'));
   const [chips, setChips] = useState(props.navigation.getParam('chips', 'default value'));
 
-  console.log('table', table)
+  const { navigation } = props;
+  let mode = navigation.getParam('mode', 'NO-ID');
+  let user_name = navigation.getParam('user_name', 'default value');
+  let user_id = navigation.getParam('user_id', 'default value');
+  let flight_id = navigation.getParam('flight_id', 'default value');
+  let tournament_name = navigation.getParam('tournament_name', 'default value');
+  let tournament_id = navigation.getParam('tournament_id', 'default value');
+  let address = navigation.getParam('tournament_id', 'default value');
+  let start_at = navigation.getParam('start_at', 'default value');
+  let end_at = navigation.getParam('end_at', 'default value');
 
   var buyinEdit = async() => {
     var answer = await actions.buy_in.edit(
@@ -69,17 +78,6 @@ export default SwapOffer = (props) => {
       setPercentage(1)
     }
   }
-
-  const { navigation } = props;
-  let mode = navigation.getParam('mode', 'NO-ID');
-  let user_name = navigation.getParam('user_name', 'default value');
-  let user_id = navigation.getParam('user_id', 'default value');
-  let flight_id = navigation.getParam('flight_id', 'default value');
-  let tournament_name = navigation.getParam('tournament_name', 'default value');
-  let tournament_id = navigation.getParam('tournament_id', 'default value');
-  let address = navigation.getParam('tournament_id', 'default value');
-  let start_at = navigation.getParam('start_at', 'default value');
-  let end_at = navigation.getParam('end_at', 'default value');
 
   let currentPath;
 

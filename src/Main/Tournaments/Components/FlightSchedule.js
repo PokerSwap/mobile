@@ -15,8 +15,7 @@ export default FlightSchedule = (props) => {
 
   var Buy_Ins = buy_ins_list.map((buy_in) => 
     <BuyIn
-      // key = {buy_in.id}
-      // user_id = {buy_in.user.id}
+      key = {buy_in.id}
       tournament_id={props.tournament_id}
       user_name={buy_in.user_name}
       user_id={buy_in.user_id}
