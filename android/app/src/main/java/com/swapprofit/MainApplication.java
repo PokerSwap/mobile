@@ -1,4 +1,4 @@
-package com.swapprofit;
+package com.swapprofitllc.swapprofit;
 
 import android.app.Application;
 import android.content.Context;

@@ -1,4 +1,4 @@
-package com.swapprofit;
+package com.swapprofitllc.swapprofit;
 
 import com.facebook.react.ReactActivity;
 
