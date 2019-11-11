@@ -21,6 +21,7 @@
 		52FC0F05D8D06EF699E4FD21 /* libPods-SwapProfit-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B637DDAF08E637A1AF8B90E /* libPods-SwapProfit-tvOSTests.a */; };
 		5EE3623AEEDEBFC2AF0AEAFA /* libPods-SwapProfit-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 174CCE3AA276317901A10513 /* libPods-SwapProfit-tvOS.a */; };
 		AC2859FE925C40635352212A /* libPods-SwapProfit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 65C9FDBBFBF0F435847F3051 /* libPods-SwapProfit.a */; };
+		C0215A662379A65200E35B40 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C0215A652379A65200E35B40 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,7 @@
 		6B637DDAF08E637A1AF8B90E /* libPods-SwapProfit-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SwapProfit-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACD1A0A14C226042999F9A07 /* Pods-SwapProfit-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwapProfit-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-SwapProfit-tvOS/Pods-SwapProfit-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		B970F6139515CB89B5403892 /* Pods-SwapProfit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwapProfit.debug.xcconfig"; path = "Target Support Files/Pods-SwapProfit/Pods-SwapProfit.debug.xcconfig"; sourceTree = "<group>"; };
+		C0215A652379A65200E35B40 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D113B4893372C4715185847F /* Pods-SwapProfit-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwapProfit-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-SwapProfit-tvOSTests/Pods-SwapProfit-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
@@ -131,6 +133,7 @@
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
+				C0215A652379A65200E35B40 /* GoogleService-Info.plist */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
@@ -340,6 +343,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				C0215A662379A65200E35B40 /* GoogleService-Info.plist in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				004C3B0A236E1283000445F9 /* Default-568h@2x.png in Resources */,
 			);
@@ -609,7 +613,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = SwapProfitTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -633,7 +637,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = SwapProfitTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
