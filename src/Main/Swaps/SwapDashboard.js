@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import { Container, Content, List, Separator, Text } from 'native-base';
+import { Container, Content, List, ListItem, Separator, Text } from 'native-base';
 import _Header from '../../View-Components/header'
 import Store, { Context } from '../../Store/appContext'
 import SwapTracker from './Components/SwapTracker';
@@ -10,8 +10,12 @@ const { store, actions } = useContext(Context)
 
   var x = store.swapCurrent
   let liveTracker
-  if(store.swapCurrent.message == "Buy_in not found"){
-    liveTracker = <Text> You have no live tournaments at the moment. </Text>
+  console.log('x',Object.keys(x))
+  if(Object.keys(x)[0] == "message"){
+    liveTracker = 
+    <ListItem noIndent style={{justifyContent:'center'}}>
+      <Text style={{justifyContent:'center', textAlign:'center', fontSize:24, width:'80%'}}> You have no live tournaments at the moment. </Text>
+    </ListItem>
   } else{
     liveTracker = <SwapTracker
                       navigation={props.navigation}

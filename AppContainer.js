@@ -30,6 +30,7 @@ import SideBar from './src/View-Components/sidebar'
 import SettingsScreen from './src/Drawer/Settings'
 import NotificationsScreen from './src/Drawer/Notifications'
 import AddCoinsScreen from './src/Drawer/AddCoins'
+import ChangeEmail from './src/Drawer/ChangeEmail';
 
 // LOGIN AND SIGNUP NAVIGATION
 const AuthStack = createStackNavigator(
@@ -190,6 +191,23 @@ const MainStack = createBottomTabNavigator(
   }
 )
 
+const SettingsStack = createStackNavigator({
+  SettingsScreen:{
+    screen: SettingsScreen,
+    navigationOptions:{
+      title:'Settings'
+    }
+  },
+  ChangeEmail:{
+    screen: ChangeEmail,
+    navigationOptions:{
+      title:'Change Email'
+    }
+  }
+},
+{
+  initialRouteName: 'Settings',
+})
 
 // DRAWER VIEWS NAVIGATION
 const DrawerNav = createDrawerNavigator(
@@ -205,16 +223,15 @@ const DrawerNav = createDrawerNavigator(
         )
       }
     },
-    Settings: { 
+    Settings:{
       screen: SettingsScreen,
       navigationOptions: {
-        title: 'Settings',
         drawerIcon: ({ focused }) => (
-        <Icon 
-          name="cog" size={24} 
-          color={focused ? 'blue' : 'black'} 
-        />
-        ),
+          <Icon 
+            name="cog" size={24} 
+            color={focused ? '#2C2E9B' : 'black'} 
+          />
+        )
       }
     },
     Notifications: { 
@@ -252,18 +269,7 @@ const DrawerNav = createDrawerNavigator(
   }
 )
 
-const ProfileStack = createStackNavigator({
-  Profile: {
-    screen: ProfileScreen,
-    navigationOptions: {
-      title: 'ProfileScreen',
-    }
-  }
-},
-{
-  initialRouteName: 'ProfileScreen',
 
-})
 
 // MAIN NAVIGATION STACK
 const AppStack = createStackNavigator(

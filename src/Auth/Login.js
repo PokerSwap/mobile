@@ -7,8 +7,8 @@ import { Keyboard, TouchableWithoutFeedback, TextInput, KeyboardAvoidingView, Vi
 
 export default  LoginScreen = (props) => {
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('gherndon5@gmail.com')
+  const [password, setPassword] = useState('Tryagain5!')
   const [loading, setLoading] = useState(false)
 
   const { store, actions } = useContext(Context)

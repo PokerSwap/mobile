@@ -1,7 +1,6 @@
 import React, {} from 'react';
 import { View } from 'react-native';
-import {  Text } from 'native-base';
-import { Context } from '../../../Store/appContext';
+import { Text } from 'native-base';
 
 import BuyIn from '../../Shared/BuyIn'
 
@@ -34,6 +33,7 @@ export default SwapTracker = (props) => {
       id = {content.id}
       navigation = {props.navigation}
       
+      user_id = {content.user_id}
       user_name = {content.user_name} 
       table = {content.table}
       seat = {content.seat}
@@ -54,7 +54,7 @@ export default SwapTracker = (props) => {
         </Text>
       </View>
       <BuyIn
-        id = {mybID}
+        buy_id = {mybID}
         navigation = {props.navigation}
         user_id = {myID}
         user_name = {myName} 

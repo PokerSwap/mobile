@@ -379,12 +379,19 @@ const getState = ({ getStore, setStore, getActions }) => {
 								'Content-Type':'application/json'
 							}, 
 						})
-
-						let tournamentData = await response.json()
-						// console.log('response', response)
+						.then(response => response.json())
+						.then(console.log(response,'2'))
 						// map and complete the tournamentw
 
-						setStore({tournaments: tournamentData});
+						var tournaments = response.map(async(tournament, i)=> {
+							(x = async() => await getActions().tournament.getAction(tournament.id))
+							return({
+							  "action": x,
+							  ...tournament
+							})
+						  })
+
+						setStore({tournaments: tournaments});
 						console.log('current tournaments', getStore().tournaments)
 						
 					} catch(error){
@@ -406,7 +413,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 
 						let actionData = await response.json()
-						console.log('actionData:', actionData)
+						
+
 						// console.log('action:', response.json)
 
 						// console.log('what:', getStore().action.swaps)

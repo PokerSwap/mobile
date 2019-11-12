@@ -286,8 +286,9 @@ PODS:
     - React-cxxreact (= 0.61.3)
     - React-jsi (= 0.61.3)
     - ReactCommon/jscallinvoker (= 0.61.3)
-  - ReactNativePayments (0.7.1)
   - RNGestureHandler (1.5.0):
+    - React
+  - RNIap (4.2.2):
     - React
   - RNReanimated (1.4.0):
     - React
@@ -327,8 +328,8 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - ReactCommon/jscallinvoker (from `../node_modules/react-native/ReactCommon`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
-  - ReactNativePayments (from `../node_modules/react-native-payments/ReactNativePayments.podspec`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNIap (from `../node_modules/react-native-iap`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -401,10 +402,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/Libraries/Vibration"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
-  ReactNativePayments:
-    :path: "../node_modules/react-native-payments/ReactNativePayments.podspec"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNIap:
+    :path: "../node_modules/react-native-iap"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNVectorIcons:
@@ -451,12 +452,12 @@ SPEC CHECKSUMS:
   React-RCTText: b8f895b94aa0e7778fef28d13f3d71eed4a10c3d
   React-RCTVibration: 262588c97551b0b1c675468cda857466ba5af18f
   ReactCommon: c2c63d9290b422ca6ad5b3663073a015dd892ae9
-  ReactNativePayments: fe3d9255a75b5e6177399a32bc61aed8b85e85cc
   RNGestureHandler: a4ddde1ffc6e590c8127b8b7eabfdade45475c74
+  RNIap: 861821c440b244adbbe5e3b5511fd4f2b7603e0a
   RNReanimated: b2ab0b693dddd2339bd2f300e770f6302d2e960c
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   Yoga: 02036f6383c0008edb7ef0773a0e6beb6ce82bd1
 
-PODFILE CHECKSUM: f3b930da405cbc0f5847850d043eb33975f9944a
+PODFILE CHECKSUM: d7fa76f3377eb42a93154026738fced8b349b807
 
 COCOAPODS: 1.8.4

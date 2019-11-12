@@ -22,24 +22,24 @@ export default TournamentDashboard = (props) => {
       <Text>Sorry, there are no tournaments under that name</Text>
     </ListItem> 
   } else {
+
+    
   TournamentsList = store.tournaments.map((tournament) => 
-    <TournamentBody 
-      navigation={props.navigation}
-      id = {tournament.id}
-      action = {actions.tournament.getAction(tournament.id)}
-      name={tournament.name} 
-      created_at={tournament.created_at} 
-      updated_at={tournament.updated_at}
-      address={tournament.address}
-      latitude={tournament.latitude}
-      longitude={tournament.longitude}
-      flights={tournament.flights}
-      start_at={tournament.start_at}
-      end_at={tournament.end_at}
-    />
-  
-)
-}
+      <TournamentBody 
+        navigation={props.navigation}
+        id = {tournament.id}
+        action = {tournament.action}
+        name={tournament.name} 
+        created_at={tournament.created_at} 
+        updated_at={tournament.updated_at}
+        address={tournament.address}
+        latitude={tournament.latitude}
+        longitude={tournament.longitude}
+        flights={tournament.flights}
+        start_at={tournament.start_at}
+        end_at={tournament.end_at}
+      />
+)}
   return(
     <Container>
       <_Header title={'Tournament Dashboard'} drawer={() => props.navigation.toggleDrawer()}/>
