@@ -17,13 +17,15 @@ const { store, actions } = useContext(Context)
       <Text style={{justifyContent:'center', textAlign:'center', fontSize:24, width:'80%'}}> You have no live tournaments at the moment. </Text>
     </ListItem>
   } else{
-    liveTracker = <SwapTracker
-                      navigation={props.navigation}
-                      my_current_buy_in= {x.my_current_buy_in}
-                      other_swaps = {x.other_swaps}
-                      tournament={x.tournament}
-                    />
-    }    
+    liveTracker = <ListItem><Text>Damit</Text></ListItem>
+    // <SwapTracker
+    //                   navigation={props.navigation}
+    //                   my_current_buy_in= {x.my_current_buy_in}
+    //                   other_swaps = {x.other_swaps}
+    //                   tournament={x.tournament}
+    //                 />
+    // 
+  }    
             
 
   return(

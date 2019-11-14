@@ -1,14 +1,16 @@
 ext {
-    var = '24.0'
+    var = "18.0"
     var1 = '28.0'
 }// Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
     ext {
-        buildToolsVersion = "29.0.0"
-        minSdkVersion = 24
-        compileSdkVersion = 29
-        targetSdkVersion = 29
+        buildToolsVersion = "28.0.3"
+        minSdkVersion = 18
+        compileSdkVersion = 28
+        targetSdkVersion = 28
+        androidXAnnotation = "1.1.0"
+        androidXBrowser = "1.0.0"
     }
     repositories {
         google()
@@ -16,12 +18,17 @@ buildscript {
     }
     dependencies {
         classpath('com.android.tools.build:gradle:3.5.2')
-
+        classpath 'com.google.gms:google-services:4.3.2'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
 }
+configurations.all {
+    resolutionStrategy {
+        force 'com.android.support:support-v4:27.1.0'
+    }}
+
 
 allprojects {
     repositories {
@@ -44,13 +51,3 @@ allprojects {
     }
 }
 
-subprojects {
-    afterEvaluate {project ->
-        if (project.hasProperty("android")) {
-            android {
-                compileSdkVersion 25
-                buildToolsVersion '29.0.0'
-            }
-        }
-    }
-}

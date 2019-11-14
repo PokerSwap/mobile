@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "21801176699",
+    "firebase_url": "https://swapprofit-43722.firebaseio.com",
+    "project_id": "swapprofit-43722",
+    "storage_bucket": "swapprofit-43722.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:21801176699:android:d785787d863c274ff99cde",
+        "android_client_info": {
+          "package_name": "com.swapprofitllc.swapprofit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "21801176699-2eeil9vumrh565lo6mt0v6675kgjfu47.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCufGeibLw_pY0HYMDvV4DL3LutdsDTgH8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "21801176699-2eeil9vumrh565lo6mt0v6675kgjfu47.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "21801176699-105at6s1infqv3oukulbhlcmmb5geklc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.gabe.swapprofit",
+                "app_store_id": "1486985637"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

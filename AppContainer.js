@@ -29,7 +29,7 @@ import ProfileScreen from './src/Main/Profile/ProfileScreen'
 import SideBar from './src/View-Components/sidebar'
 import SettingsScreen from './src/Drawer/Settings'
 import NotificationsScreen from './src/Drawer/Notifications'
-import AddCoinsScreen from './src/Drawer/AddCoins'
+import AddTokens from './src/Drawer/AddTokens'
 import ChangeEmail from './src/Drawer/ChangeEmail';
 
 // LOGIN AND SIGNUP NAVIGATION
@@ -246,10 +246,10 @@ const DrawerNav = createDrawerNavigator(
         ),
       }
     },
-    AddCoins: { 
-      screen: AddCoinsScreen,
+    AddTokens: { 
+      screen: AddTokens,
       navigationOptions: {
-        title: 'Add Coins',
+        title: 'Add Tokens',
         drawerIcon: ({ focused }) => (
         <Icon 
           type="FontAwesome5" name="coins" size={24} 

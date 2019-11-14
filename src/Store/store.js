@@ -371,7 +371,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 						
 						const url = 'https://pokerswap.herokuapp.com/tournaments/all'
 						const accessToken = getStore().userToken.jwt ;
-
 						let response = await fetch(url, {
 							method: 'GET',
 							headers: {
@@ -379,24 +378,31 @@ const getState = ({ getStore, setStore, getActions }) => {
 								'Content-Type':'application/json'
 							}, 
 						})
-						.then(response => response.json())
-						.then(console.log(response,'2'))
-						// map and complete the tournamentw
-
-						var tournaments = response.map(async(tournament, i)=> {
-							(x = async() => await getActions().tournament.getAction(tournament.id))
+						let tournamentData = await response.json()
+						console.log('tdata', tournamentData)
+						var tournaments =  tournamentData.map(function(tournament, i){
+							var answer = getActions().tournament.getAction(tournament.id)
+							.then(console.log('actionData aqcurired', answer))
 							return({
-							  "action": x,
+							  "action": answer,
 							  ...tournament
 							})
 						  })
-
-						setStore({tournaments: tournaments});
-						console.log('current tournaments', getStore().tournaments)
+						  console.log('t instore', tournaments)
+						
+						var answer3 = await getActions().tournament.storeAll(tournaments)
 						
 					} catch(error){
 						console.log('Something went wrong with tournament.getAll', error)
 					}
+				},
+
+				storeAll: async(data) => {
+					try{
+						setStore({tournaments: data})
+						console.log('current tournaments', getStore().tournaments)
+					}catch(error){
+						console.log('something went wtong with tournamentstoreall',error)}
 				},
 
 				getAction: async ( tournament_id ) => {
@@ -413,6 +419,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 
 						let actionData = await response.json()
+						console.log('actionData',actionData)
 						
 
 						// console.log('action:', response.json)
