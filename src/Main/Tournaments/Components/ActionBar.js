@@ -1,10 +1,13 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext} from 'react';
 
-import { Button, Footer, List, ListItem, Text} from 'native-base';
-import { Col, Row, Grid } from 'react-native-easy-grid'
+import { Button, Footer, Text, Spinner } from 'native-base';
+import { Col, Row } from 'react-native-easy-grid'
+import {Context} from '../../../Store/appContext'
 
 
 export default ActionBar = (props) => {
+
+  const { store, actions} = useContext(Context)
   return(
     // {/* FOOTER CONTAINS NUMBER OF SWAPS AND ACTION  */}
     <Footer style={{maxHeight:60}}>
@@ -18,7 +21,7 @@ export default ActionBar = (props) => {
               alignItems:'center'}}>
             <Text style={{
               textAlign:'center'}}>
-                SWAPS: {props.action.swaps}
+                SWAPS: {!store.action ? <Spinner /> : store.action.swaps}
             </Text>
           </Button>
         </Col>
@@ -26,7 +29,7 @@ export default ActionBar = (props) => {
         {/* CURRENT USER'S ACTION  */}
         <Col>
           <Button transparent large style={{justifyContent:'center'}}>
-            <Text >ACTION: {props.action.actions}%</Text>
+            <Text >ACTION: {!store.action ? <Spinner/> : store.action.actions}%</Text>
           </Button>
         </Col>
 

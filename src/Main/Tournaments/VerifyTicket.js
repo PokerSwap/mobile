@@ -9,7 +9,7 @@ import _Header from "../../View-Components/header";
 import '../../Images/placeholder.jpg';
 
 export default VerifyTicket = (props) => {
-
+ 
   const [image, setImage ]= useState(require('../../Images/placeholder.jpg'));
   const [table, setTable ]= useState('');
   const [seat, setSeat] = useState('');

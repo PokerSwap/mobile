@@ -44,10 +44,6 @@ export default AddTokens = (props) => {
   const [productList, setProductList] = useState('')
   const [availableItemsMessage, setAvailableItemsMessage] = useState('')
 
-const check = ['SP_SwapToken_10',
-'SP_SwapToken_25',
-'SP_SwapToken_60']
-
   const itemSkus = Platform.select({
     ios: [
      'SP_SwapToken_10',
@@ -90,7 +86,7 @@ const check = ['SP_SwapToken_10',
 
   var getItems = async () => {
     try {
-      const products = await RNIap.getProducts(check);
+      const products = await RNIap.getProducts(itemsSku);
       // const products = await RNIap.getSubscriptions(itemSkus);
       console.log('Products', products);
       setProductList(products);

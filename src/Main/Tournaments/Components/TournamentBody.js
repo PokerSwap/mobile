@@ -13,10 +13,11 @@ export default TournamentBody = (props) => {
   var navigation = props.navigation;
 
 
-  const enterTournament = async() => {
-    console.log('answer',store.action)
-    await navigation.push(path, {
-      action: props.action,
+  const enterTournament = () => {
+    actions.tournament.getAction(props.id);
+    console.log('answer', store.action)
+    navigation.push(path, {
+      action: store.action,
       tournament_id: props.id,
       name: props.name,
       address: props.address,

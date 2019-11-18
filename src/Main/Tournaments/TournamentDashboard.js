@@ -28,7 +28,6 @@ export default TournamentDashboard = (props) => {
       <TournamentBody 
         navigation={props.navigation}
         id = {tournament.id}
-        action = {tournament.action}
         name={tournament.name} 
         created_at={tournament.created_at} 
         updated_at={tournament.updated_at}

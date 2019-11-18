@@ -11,6 +11,7 @@ import {Context} from '../../Store/appContext'
 export default TourneyLobby = (props) => {
   
   const { navigation } = props;
+  let action = navigation.getParam('action', 'NO-ID');
   let tournament_id = navigation.getParam('tournament_id', 'NO-ID');
   let name = navigation.getParam('name', 'default value');
   let address = navigation.getParam('address', 'default value');
@@ -64,7 +65,7 @@ useEffect(async() => {
       </Content>
 
       {/* FOOTER CONTAINS NUMBER OF SWAPS AND ACTION  */}
-      <ActionBar action={store.action} />
+      <ActionBar action={action} />
     </Container>
   )
 }
