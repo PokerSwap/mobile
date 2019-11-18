@@ -21,7 +21,8 @@
 		52FC0F05D8D06EF699E4FD21 /* libPods-SwapProfit-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B637DDAF08E637A1AF8B90E /* libPods-SwapProfit-tvOSTests.a */; };
 		5EE3623AEEDEBFC2AF0AEAFA /* libPods-SwapProfit-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 174CCE3AA276317901A10513 /* libPods-SwapProfit-tvOS.a */; };
 		AC2859FE925C40635352212A /* libPods-SwapProfit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 65C9FDBBFBF0F435847F3051 /* libPods-SwapProfit.a */; };
-		C0215A662379A65200E35B40 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C0215A652379A65200E35B40 /* GoogleService-Info.plist */; };
+		C0057249238313A300E132EC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C0057248238313A300E132EC /* GoogleService-Info.plist */; };
+		C005724B238313BD00E132EC /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C005724A238313BD00E132EC /* StoreKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,7 +66,8 @@
 		6B637DDAF08E637A1AF8B90E /* libPods-SwapProfit-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SwapProfit-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACD1A0A14C226042999F9A07 /* Pods-SwapProfit-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwapProfit-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-SwapProfit-tvOS/Pods-SwapProfit-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		B970F6139515CB89B5403892 /* Pods-SwapProfit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwapProfit.debug.xcconfig"; path = "Target Support Files/Pods-SwapProfit/Pods-SwapProfit.debug.xcconfig"; sourceTree = "<group>"; };
-		C0215A652379A65200E35B40 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C0057248238313A300E132EC /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = "GoogleService-Info.plist"; path = "../../GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C005724A238313BD00E132EC /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		C0F33CA7237C9B8C0041B597 /* SwapProfit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = SwapProfit.entitlements; path = SwapProfit/SwapProfit.entitlements; sourceTree = "<group>"; };
 		D113B4893372C4715185847F /* Pods-SwapProfit-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwapProfit-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-SwapProfit-tvOSTests/Pods-SwapProfit-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -88,6 +90,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AC2859FE925C40635352212A /* libPods-SwapProfit.a in Frameworks */,
+				C005724B238313BD00E132EC /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -130,12 +133,12 @@
 		13B07FAE1A68108700A75B9A /* SwapProfit */ = {
 			isa = PBXGroup;
 			children = (
+				C0057248238313A300E132EC /* GoogleService-Info.plist */,
 				C0F33CA7237C9B8C0041B597 /* SwapProfit.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
-				C0215A652379A65200E35B40 /* GoogleService-Info.plist */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
@@ -146,6 +149,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C005724A238313BD00E132EC /* StoreKit.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
 				65C9FDBBFBF0F435847F3051 /* libPods-SwapProfit.a */,
@@ -345,7 +349,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				C0215A662379A65200E35B40 /* GoogleService-Info.plist in Resources */,
+				C0057249238313A300E132EC /* GoogleService-Info.plist in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				004C3B0A236E1283000445F9 /* Default-568h@2x.png in Resources */,
 			);
@@ -676,7 +680,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.gabe.swapprofit;
+				PRODUCT_BUNDLE_IDENTIFIER = com.swapprofitllc.swapprofit;
 				PRODUCT_NAME = SwapProfit;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -702,7 +706,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.gabe.swapprofit;
+				PRODUCT_BUNDLE_IDENTIFIER = com.swapprofitllc.swapprofit;
 				PRODUCT_NAME = SwapProfit;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";

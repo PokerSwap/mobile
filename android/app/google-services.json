@@ -1,42 +1,58 @@
 {
   "project_info": {
-    "project_number": "21801176699",
-    "firebase_url": "https://swapprofit-43722.firebaseio.com",
-    "project_id": "swapprofit-43722",
-    "storage_bucket": "swapprofit-43722.appspot.com"
+    "project_number": "1008390219361",
+    "firebase_url": "https://swapprofitapp.firebaseio.com",
+    "project_id": "swapprofitapp",
+    "storage_bucket": "swapprofitapp.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:21801176699:android:d785787d863c274ff99cde",
+        "mobilesdk_app_id": "1:1008390219361:android:275a612fed54e03b892c20",
         "android_client_info": {
           "package_name": "com.swapprofitllc.swapprofit"
         }
       },
       "oauth_client": [
         {
-          "client_id": "21801176699-2eeil9vumrh565lo6mt0v6675kgjfu47.apps.googleusercontent.com",
+          "client_id": "1008390219361-qfto4dakckbg5lt9n127e5jb2km4asl2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.swapprofitllc.swapprofit",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "1008390219361-b0v43euclvnmnuapaqph7571dqvbginu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.swapprofitllc.swapprofit",
+            "certificate_hash": "412c8b265daa2adc975e126d2844e8bdf9d4efe8"
+          }
+        },
+        {
+          "client_id": "1008390219361-vjkeakna4hvh9qu87qbnbg76sfu99ei9.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCufGeibLw_pY0HYMDvV4DL3LutdsDTgH8"
+          "current_key": "AIzaSyDG7XADBCkqWlDkprgK2q7U9oYyYSr0Q7U"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "21801176699-2eeil9vumrh565lo6mt0v6675kgjfu47.apps.googleusercontent.com",
+              "client_id": "1008390219361-vjkeakna4hvh9qu87qbnbg76sfu99ei9.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "21801176699-105at6s1infqv3oukulbhlcmmb5geklc.apps.googleusercontent.com",
+              "client_id": "1008390219361-hd7s6559uhiucdrho1q0cej1r1kc3g7s.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.gabe.swapprofit",
-                "app_store_id": "1486985637"
+                "bundle_id": "com.swapprofitllc.swaprofit",
+                "app_store_id": "1488364486"
               }
             }
           ]

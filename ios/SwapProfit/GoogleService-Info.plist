@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>533541562873-g4r17reh61rb9f9osqdl68i4h4or83ru.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.533541562873-g4r17reh61rb9f9osqdl68i4h4or83ru</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>533541562873-c17o3oq562gueu2sher9iheo8ephc5ja.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBTHSrLd8t6N3AS-nw-Utd_gvIl3jTMHE4</string>
+	<key>GCM_SENDER_ID</key>
+	<string>533541562873</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.4geeks.breathecode</string>
+	<key>PROJECT_ID</key>
+	<string>breathecode-197918</string>
+	<key>STORAGE_BUCKET</key>
+	<string>breathecode-197918.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:533541562873:ios:0e61be3cddadf62fff3528</string>
+	<key>DATABASE_URL</key>
+	<string>https://breathecode-197918.firebaseio.com</string>
+</dict>
+</plist>

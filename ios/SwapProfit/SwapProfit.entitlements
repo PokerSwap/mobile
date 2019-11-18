@@ -6,7 +6,7 @@
 	<string>development</string>
 	<key>com.apple.developer.in-app-payments</key>
 	<array>
-		<string>merchant.com.gabe.swapprofit</string>
+		<string>merchant.com.swapprofitllc.swapprofit</string>
 	</array>
 </dict>
 </plist>
