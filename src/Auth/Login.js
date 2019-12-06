@@ -1,11 +1,11 @@
-import React, {Component, useState, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import {Button, Text, Toast, Card, CardItem, Container, Content} from 'native-base';
 import { Context } from '../Store/appContext'
 
 import Spinner from 'react-native-loading-spinner-overlay';
 import { Keyboard, TouchableWithoutFeedback, TextInput, KeyboardAvoidingView, View, StatusBar } from 'react-native';
 
-export default  LoginScreen = (props) => {
+export default LoginScreen = (props) => {
 
   const [email, setEmail] = useState('lou@gmail.com')
   const [password, setPassword] = useState('loustadler')
@@ -81,61 +81,40 @@ export default  LoginScreen = (props) => {
                 flexDirection:'column'}}>
 
                 {/* LOGIN BUTTON */}
-                <Context.Consumer>
-                  {({store, actions}) => {
-                    wrong = () => {
-                      if(true){
-                        Toast.show({
-                          text:'Sorry you entered the wrong email or password',
-                        duration:3000})
-                      }
+                
+                <Button 
+                  style={{width:'50%', justifyContent:'center', marginBottom:5}}
+                  onPress={
+                    async() => {
+                      Keyboard.dismiss();
+                      var x = await loginStart();
+                      wrong()}
                     }
-                    return(
-                        <Button 
-                          style={{width:'50%', justifyContent:'center', marginBottom:5}}
-                          onPress={
-                            async() => {
-                              Keyboard.dismiss();
-                              var x = await loginStart();
-                              wrong()}
-                            }
-                        >
-                          <Text style={{fontWeight:'600', justifyContent:'center'}}> Login </Text>
-                        </Button>
-                    )
-                  }}
-                </Context.Consumer>
+                >
+                <Text style={{fontWeight:'600', justifyContent:'center'}}> Login </Text>
+              </Button>
+                    
 
                 {/* SIGN UP BUTTON */}
-                <Context.Consumer>
-                  {({store, actions}) => {
-                    return(
-                        <Button transparent 
-                          style={{
-                            backgroundColor:'rgb(211,152,35)', 
-                            width:'50%', justifyContent:'center'}} 
-                            onPress={()=>navigate("TermsAndConditions")}>
-                          <Text style={{
-                            color:'black', 
-                            justifyContent:'center', 
-                            fontWeight:'600'}}> 
-                            Sign Up 
-                          </Text>
-                        </Button>
-                    )
-                  }}
-                </Context.Consumer>
+                <Button transparent 
+                  style={{
+                    backgroundColor:'rgb(211,152,35)', 
+                    width:'50%', justifyContent:'center'}} 
+                    onPress={()=>navigate("TermsAndConditions")}>
+                  <Text style={{
+                    color:'black', 
+                    justifyContent:'center', 
+                    fontWeight:'600'}}> 
+                    Sign Up 
+                  </Text>
+                </Button>
+                    
                       
                 {/* FORGOT PASSWORD BUTTON */}
-                <Context.Consumer>
-                  {({store, actions}) => {
-                    return(
-                      <Button transparent style={{justifyContent:'center'}} onPress={() => actions.user.forgotPassword(props.navigation)}>
-                        <Text style={{color:'white'}}>Forgot password?</Text>
-                      </Button>
-                    )
-                }}  
-                </Context.Consumer>
+                <Button transparent style={{justifyContent:'center'}} onPress={() => actions.user.forgotPassword(props.navigation)}>
+                  <Text style={{color:'white'}}>Forgot password?</Text>
+                </Button>
+                    
               </CardItem>
             
             </Card>

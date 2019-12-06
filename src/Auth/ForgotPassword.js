@@ -7,7 +7,13 @@ export default ForgotPassword = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-
+	wrong = () => {
+		if(store.userToken==null){
+			Toast.show({
+				text:'wrongPassword',
+			duration:3000})
+		}
+	}
 	// useEffect(() => {
   //   console.log('In 3 seconds, another message will appear'); 
   //   console.log('hasSomething', hasSomething)
@@ -55,24 +61,14 @@ export default ForgotPassword = (props) => {
 						/>
 									
 						{/* LOGIN BUTTON */}
-						<Context.Consumer>
-							{({store, actions}) => {
-								wrong = () => {
-									if(store.userToken==null){
-										Toast.show({
-											text:'wrongPassword',
-										duration:3000})
-									}
-								}
-
-								return(
+				
 										<View style={{marginTop:'5%'}}>
 											<Button block
 												style={loginStyle.buttonContainer} 
 												onPress={
 													async() => {
 														Keyboard.dismiss();
-														var x = await this.passwordStart(actions)
+														var x = await passwordStart()
 														wrong()}
 													}
 											>
@@ -80,9 +76,6 @@ export default ForgotPassword = (props) => {
 											</Button>
 										</View>
 
-								)
-							}}
-						</Context.Consumer>
 						<Button transparent light style={{justifyContent:'center'}}
 							onPress={()=> props.navigation.goBack()}>
 							<Text> goBack </Text>

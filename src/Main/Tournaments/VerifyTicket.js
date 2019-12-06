@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {Image, TextInput, Picker} from 'react-native';
 import {Container, Button, Text, Content, Card, CardItem} from 'native-base';
 
@@ -9,6 +9,8 @@ import _Header from "../../View-Components/header";
 import '../../Images/placeholder.jpg';
 
 export default VerifyTicket = (props) => {
+
+  const { store, actions } = useContext(Context)
  
   const [image, setImage ]= useState(require('../../Images/placeholder.jpg'));
   const [table, setTable ]= useState('');
@@ -166,15 +168,11 @@ export default VerifyTicket = (props) => {
 
           {/* SUBMIT BUTTON */}
           <CardItem style={{justifyContent:'center'}}>
-            <Context.Consumer>
-              {({ store, actions }) => {
-                return(
-                  <Button onPress={() => BuyInStart(actions)}>
+            
+                  <Button onPress={() => BuyInStart()}>
                     <Text style={{fontWeight:'600'}}> SUBMIT </Text>
                   </Button>
-                )
-              }}
-            </Context.Consumer>
+                
           </CardItem>
         
         </Card>

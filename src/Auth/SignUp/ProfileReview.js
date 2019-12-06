@@ -1,14 +1,14 @@
-import React, {Component} from 'react';
+import React, {useContext} from 'react';
 import { Image } from 'react-native';
 import { Button, Card, Text, CardItem } from 'native-base';
 import { Context } from '../../Store/appContext';
 
 export default  ProfileReview = (props) => {
 
-	
+	const { store, actions } = useContext(Context)
 
-	profileStart = async(x) => {
-		var answer = await x.profile.add(
+	profileStart = async() => {
+		var answer = await actions.profile.add(
 			props.username,
 			props.first_name,
 			props.last_name,
@@ -36,15 +36,11 @@ export default  ProfileReview = (props) => {
 						<Text>{props.hendon}</Text>
 				</CardItem>
 
-				<Context.Consumer>
-					{({ store, actions }) => {
-						return(
-							<Button success large onPress={()=> profileStart(actions)}>
-								<Text>Finalize</Text>
-							</Button>
-						)
-					}}
-				</Context.Consumer>
+
+				<Button success large onPress={()=> profileStart()}>
+					<Text>Finalize</Text>
+				</Button>
+
 		
 				<Button light onPress={() => props.prev()}>
 					<Text>Go back</Text>

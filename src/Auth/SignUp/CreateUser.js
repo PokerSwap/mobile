@@ -5,6 +5,7 @@ import { Context } from '../../Store/appContext';
 
 export default CreateUser = (props) => {
 
+
 	const [ loading, setLoading] = useState(false)
 	const [ email, setEmail ] = useState('')
 	const [ password, setPassword ] = useState('')
@@ -57,18 +58,13 @@ export default CreateUser = (props) => {
 					</CardItem>
 					
 					<CardItem footer style={{justifyContent:"center"}}>
-						<Context.Consumer>
-						{({store, actions }) => {
-							return(
-									<Button large onPress={() => {
-										actions.user.add(email, password);
-										setSubmitted(true)
-									}}>
-										<Text> SUBMIT </Text>
-									</Button>
-									)
-								}}
-							</Context.Consumer>
+						<Button large onPress={() => {
+							actions.user.add(email, password);
+							setSubmitted(true)
+						}}>
+							<Text> SUBMIT </Text>
+						</Button>
+									
 					</CardItem>
 				</Card>		
 		}
