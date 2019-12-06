@@ -24,6 +24,9 @@ import VerifyTicket from './src/Main/Tournaments/VerifyTicket';
 import SwapOffer from './src/Main/SwapOffer/SwapOffer';
 
 import ProfileScreen from './src/Main/Profile/ProfileScreen'
+import WebViewScreen from './src/Main/Shared/WebView'
+import TutorialScreen from './src/Main/Shared/Tutorial'
+
 
 // DRAWER VIEWS
 import SideBar from './src/View-Components/sidebar'
@@ -278,6 +281,18 @@ const AppStack = createStackNavigator(
     Drawer: DrawerNav,    
     Profile: {
       screen: ProfileScreen,
+      navigationOptions: {
+        title: 'Profile Screen'
+      }
+    },
+    WebView: {
+      screen: WebViewScreen,
+      navigationOptions: {
+        title: 'Profile Screen'
+      }
+    },
+    Tutorial: {
+      screen: TutorialScreen,
       navigationOptions: {
         title: 'Profile Screen'
       }
