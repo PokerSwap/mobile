@@ -30,7 +30,8 @@ export default TournamentBody = (props) => {
   }
 
   var w = []
-  var x = store.profile_in_session.buy_ins.forEach((buy_in => w.push(buy_in.id)));
+  var x = store.my_trackers.live.forEach((tracker) => 
+    w.push(tracker.my_buyin.id));
   var z=[]
   var y = props.flights.forEach((flight) => 
     flight.buy_ins.forEach((buy_in) => z.push(buy_in.id))

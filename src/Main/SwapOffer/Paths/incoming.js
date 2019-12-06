@@ -1,7 +1,7 @@
 import {TextInput} from 'react-native'
 import {Text, Card, CardItem} from 'native-base'
 
-export default ReceivedPath = (props) => {
+export default IncomingPath = (props) => {
   return(
     <Card>
 

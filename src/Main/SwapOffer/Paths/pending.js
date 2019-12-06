@@ -1,9 +1,7 @@
 import {TextInput} from 'react-native'
 import {Text, Card, CardItem} from 'native-base'
 
-export default SentPath = (props) => {
-
-  const {store, actions} = useContext(Context)
+export default PendingPath = (props) => {
 
   return(
     <Card>

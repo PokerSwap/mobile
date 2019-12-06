@@ -6,39 +6,27 @@ import BuyIn from '../../Shared/BuyIn'
 
 export default SwapTracker = (props) => {
 
-  let myID = props.my_current_buy_in.user_id
-  let mybID = props.my_current_buy_in.id
-  let myName = props.my_current_buy_in.user_name
-  let myTable = props.my_current_buy_in.table
-  let mySeat = props.my_current_buy_in.seat
-  let myChips = props.my_current_buy_in.chips
+  let myID = props.my_buyin.user_id
+  let mybID = props.my_buyin.id
+  let myName = props.my_buyin.user_name
+  let myTable = props.my_buyin.table
+  let mySeat = props.my_buyin.seat
+  let myChips = props.my_buyin.chips
 
   let tournamentName = props.tournament.name
 
-  let ww = []
-  props.tournament.flights.forEach(flight => ww.push(flight.buy_ins))
-  let x = ww.flat()
-
-  let yy = x.filter(buyin => buyin.user_id != myID)
-  let buyinlist = yy.map(buyin => buyin.id)
-
-  // look for user_id in buyins
-
-  // filter out buyins for most current
-
-  // map their buyins
-
-  let other_swappers = yy.map((content, index) => 
+  let other_swaps = props.swaps.map((content, index) => 
     <BuyIn
-      id = {content.id}
       navigation = {props.navigation}
-      
-      user_id = {content.user_id}
-      user_name = {content.user_name} 
-      table = {content.table}
-      seat = {content.seat}
-      chips = {content.chips}
-      flight_id = {content.flight_id}
+      id = {content.buyin.id}      
+      user_id = {content.buyin.user_id}
+      user_name = {content.buyin.user_name} 
+      table = {content.buyin.table}
+      seat = {content.buyin.seat}
+      chips = {content.buyin.chips}
+      flight_id = {content.buyin.flight_id}
+      status = {content.swap.status}
+      percentage = {content.swap.percentage}
     />
   )
     
@@ -64,7 +52,7 @@ export default SwapTracker = (props) => {
         // flight_id = {props.flight_id}
       />
 
-      {other_swappers}
+      {other_swaps}
 
     </View>
   )

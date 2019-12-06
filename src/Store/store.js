@@ -7,15 +7,15 @@ const getState = ({ getStore, setStore, getActions }) => {
 			action: null,
 
 			// CURRENT PROFILE
-			profile_in_session:{},
-			
-      		// OTHER PEOPLE'S PROFILES (ON PROFILE VIEW)
-			profileView:[ ],
-      
-      		//CURRENT USER'S SWAPS
-			swapCurrent:[],
+			my_profile:{},
 
-      		// ALL TOURNAMETS, FILTERED BY FIRST 10 RESULTS
+			// CURRENT PROFILE
+			my_trackers:[],
+			
+      // OTHER PEOPLE'S PROFILES (ON PROFILE VIEW)
+			profileView:[ ],
+
+      // ALL TOURNAMETS, FILTERED BY FIRST 10 RESULTS
 			tournaments:[ ],
 
 			userToken: null
@@ -25,12 +25,43 @@ const getState = ({ getStore, setStore, getActions }) => {
 		actions: {
 			
 			buy_in:{
+
+				// get: async() => {
+				// 	try {
+				// 		const id = getStore().my_profile.id
+				// 		console.log('id',id)
+				// 		const url = 'https://swapprofit-test.herokuapp.com/me/buy_ins/' + id
+				// 		const accessToken = getStore().userToken.jwt ;
+				// 		let response = await fetch(url, {
+				// 			method: 'GET',
+				// 			headers: {
+				// 				'Authorization': 'Bearer ' + accessToken,
+				// 				'Content-Type':'application/json'
+				// 			}, 
+				// 		})
+				// 		let buyinList = await response.json()
+				// 		console.log('e', buyinList)
+				// 		getActions().buy_in.store(buyinList)
+
+				// 	} catch (error) {
+				// 		console.log('some went wrong with getting buyins:', error)
+				// 	}
+				// },
 				
+				// store: async(buyin_data) => {
+				// 	try {
+				// 		setStore({my_buyins: buyin_data})
+				// 		console.log('My Buyins:', getStore().my_buyins)
+				// 	} catch (error) {
+				// 		console.log('some went wrong with storing buyins:', error)
+				// 	}
+				// },
+
 				add: async ( a_flight_id, a_table, a_seat, some_chips, navigation ) => {
 					
 					try{	
 						let accessToken = getStore().userToken.jwt
-						const url = 'https://swapprofit.herokuapp.com/me/buy_ins'		
+						const url = 'https://swapprofit-test.herokuapp.com/me/buy_ins'		
 						let data = {
 							flight_id: a_flight_id,
 							table: a_table,
@@ -47,19 +78,19 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}, 
 						})
 						.then(response => response.json)
-						.then(getActions().profile.get())
+						.then(getActions().buy_in.get())
 						.then(getActions().tournament.getAll())
 						.finally(navigation.navigate('TournamentDashboard'))
 
 					} catch(error) {
-						console.log("Some went wrong in buyin.add", error)
+						console.log("Some went wrong in adding a buyin", error)
 					}
 				},
 
 				edit: async ( a_flight_id, a_table, a_seat, some_chips, navigation) => {
 					try{
 						
-						const url = 'https://swapprofit.herokuapp.com/me/buy_ins/' + a_flight_id
+						const url = 'https://swapprofit-test.herokuapp.com/me/buy_ins/' + a_flight_id
 						let accessToken = getStore().userToken.jwt
 
 						let data = {
@@ -78,12 +109,12 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}, 
 						})
 						.then(response => response.json)
-						.then(getStore().tracker.getCurrent())
+						.then(getActions().buy_in.get())
 						.then(navigation.goBack())
 						
 
 					}catch(error){
-						console.log('Something went wrong with buyin.edit', error)
+						console.log('Something went wrong with editing a buyin', error)
 					}
 				}
 
@@ -98,7 +129,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					try{
 						
 						const accessToken = getStore().userToken.jwt;
-						const url = 'https://swapprofit.herokuapp.com/profiles'
+						const url = 'https://swapprofit-test.herokuapp.com/profiles'
 
 						data = {
 							username: userName,
@@ -121,7 +152,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						getActions().tournament.getAll()
 						navigation.navigate('LogIn')
 					} catch(error) {
-						console.log("Something went wrong in profile.add", error)
+						console.log("Something went wrong in adding a profile", error)
 					}
 				},
 
@@ -129,7 +160,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 					try{
 						const accessToken = getStore().userToken.jwt;
-						const url = 'https://swapprofit.herokuapp.com/profiles/me/image'
+						const url = 'https://swapprofit-test.herokuapp.com/profiles/me/image'
 
 						let response = await fetch(url, {
 							method: 'PUT',
@@ -142,7 +173,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						.then(response => resppnse.json)
 
 					}catch(error){
-						console.log('Something went wrong with profile.changePicture', error)
+						console.log('Something went wrong with changing the profile picture', error)
 					}
 
 				},
@@ -151,7 +182,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					try{
 
 						const accessToken = getStore().userToken.jwt;
-						const url = 'https://swapprofit.herokuapp.com/profiles/me';
+						const url = 'https://swapprofit-test.herokuapp.com/profiles/me';
 
 						let response = await fetch(url, {
 							method:'GET',
@@ -163,16 +194,24 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 						let profileData = await response.json()
 
-						setStore({ profile_in_session: profileData })
-						console.log('current profile', getStore().profile_in_session)
+						getActions().profile.store(profileData)
 					} catch(error){
-						console.log('Something went wrong in profile.get', error)
+						console.log('Something went wrong in getting profile', error)
+					}
+				},
+
+				store: async(profileData) => {
+					try {
+						setStore({ my_profile: profileData })
+						console.log('my profile', getStore().my_profile)
+					} catch (error) {
+						console.log('Something went wrong in storing profile', error)
 					}
 				},
 
 				remove: async () => {
 					try {
-						setStore({profile_in_session: null})
+						setStore({myProfile: null})
 					} catch(error) {
 						console.log('Something went wrong in removing userToken')
 					}
@@ -180,7 +219,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 				view: async( a_user_id ) => {
 					const accessToken = getStore().userToken.jwt;
-					const url = 'https://swapprofit.herokuapp.com/profiles/'+ a_user_id
+					const url = 'https://swapprofit-test.herokuapp.com/profiles/'+ a_user_id
 
 					let response = await fetch(url, {
 						method:'GET',
@@ -198,9 +237,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 			
 			tracker: {
 
-				getCurrent: async() => {
+				getAll: async() => {
 					try{
-						const url = 'https://swapprofit.herokuapp.com/me/swap_tracker'
+						const url = 'https://swapprofit-test.herokuapp.com/me/swap_tracker'
 						let accessToken = getStore().userToken.jwt
 
 						let response = await fetch(url, {
@@ -212,8 +251,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 
 						let trackerData = await response.json()
-						console.log('tracker', trackerData)
-						setStore({swapCurrent: trackerData})
+						setStore({my_trackers: trackerData})
+						
 					}catch(error){
 						console.log('something went wrong in tracker.getCurrent', error)
 					}
@@ -224,10 +263,37 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 			swap: {
 
+				// get: async() => {
+				// 	try {
+				// 		const url = 'https://swapprofit-test.herokuapp.com/me/swaps'
+				// 		const accessToken = getStore().userToken.jwt ;
+				// 		let response = await fetch(url, {
+				// 			method: 'GET',
+				// 			headers: {
+				// 				'Authorization': 'Bearer ' + accessToken,
+				// 				'Content-Type':'application/json'
+				// 			}, 
+				// 		})
+				// 		let buyinList = response.json()
+
+				// 	} catch (error) {
+				// 		console.log('some went wrong with getting swaps:', error)
+				// 	}
+				// },
+
+				// store: async(buyin_data) => {
+				// 	try {
+				// 		setStore({my_buyins: buyin_data})
+				// 		console.log('My Buyins:', getStore(my_buyins))
+				// 	} catch (error) {
+				// 		console.log('some went wrong with storing buyins:', error)
+				// 	}
+				// },
+
 				add: async ( a_tournament_id, a_recipient_id, a_percentage, navigation ) => {
 					
 					try{
-						const url = 'https://swapprofit.herokuapp.com/me/swaps'
+						const url = 'https://swapprofit-test.herokuapp.com/me/swaps'
 						let accessToken = getStore().userToken.jwt
 
 						let data = {
@@ -255,7 +321,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 				statusChange: async ( a_tournament_id, a_recipient_id, is_paid, a_status, a_percentage, navigation ) => {
 					try{
-						const url = 'https://swapprofit.herokuapp.com/me/swaps'
+						const url = 'https://swapprofit-test.herokuapp.com/me/swaps'
 						let accessToken = getStore().userToken.jwt
 
 						let data = {
@@ -284,7 +350,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 		
 				paid: async ( a_tournament_id, a_recipient_id, is_paid, navigation) => {
 					try{
-						const url = 'https://swapprofit.herokuapp.com/users/me/swaps/4/done'
+						const url = 'https://swapprofit-test.herokuapp.com/users/me/swaps/4/done'
 						let accessToken = getStore().userToken.jwt
 
 						let data = {
@@ -314,7 +380,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				getOne: async ( tournament_id ) => {
 					try{
 						
-						const url = 'https://swapprofit.herokuapp.com/tournaments/' + tournament_id;
+						const url = 'https://swapprofit-test.herokuapp.com/tournaments/' + tournament_id;
 						const accessToken = getStore().userToken.jwt ;
 
 						let response = await fetch(url, {
@@ -339,7 +405,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						if(searchInput =='') {
 							getActions().tournament.getAll()
 						} else{
-						const url = "https://swapprofit.herokuapp.com/tournaments/" + searchInput;
+						const url = "https://swapprofit-test.herokuapp.com/tournaments/" + searchInput;
 						const accessToken = getStore().userToken.jwt ;
 
 						let response = await fetch(url, {
@@ -369,7 +435,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				getAll: async () => {
 					try{
 						
-						const url = 'https://swapprofit.herokuapp.com/tournaments/all'
+						const url = 'https://swapprofit-test.herokuapp.com/tournaments/all'
 						const accessToken = getStore().userToken.jwt ;
 						let response = await fetch(url, {
 							method: 'GET',
@@ -379,15 +445,12 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}, 
 						})
 						let tournamentData = await response.json()
-						console.log('tdata', tournamentData)
 						var tournaments =  tournamentData.map(function(tournament, i){
 
-							
 							return({
 							  ...tournament
 							})
 						  })
-						  console.log('t instore', tournaments)
 						
 						getActions().tournament.storeAll(tournaments)
 						
@@ -408,7 +471,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					// return new Promise((resolve, reject) => 
 					// {
 						try{
-							const url = "https://swapprofit.herokuapp.com/swaps/me/tournament/" + tournament_id;
+							const url = "https://swapprofit-test.herokuapp.com/swaps/me/tournament/" + tournament_id;
 							const accessToken = getStore().userToken.jwt ;
 	
 							fetch(url, {
@@ -443,7 +506,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				add: async ( an_email, a_password ) => {
 
 					try{
-						const url = 'https://swapprofit.herokuapp.com/users'
+						const url = 'https://swapprofit-test.herokuapp.com/users'
 
 						data = {
 							email: an_email,
@@ -483,10 +546,12 @@ const getState = ({ getStore, setStore, getActions }) => {
 						.then(()=> your_password = '')
 						.then(()=> {
 							if(getStore().userToken){
-								if(getStore().profile_in_session.message != 'User not found' ){
+								if(getStore().my_profile.message != 'User not found' ){
 									
 										getActions().tournament.getAll()
-										.then(() =>getActions().tracker.getCurrent())
+										.then(() => getActions().tracker.getAll())
+										// .then(() => getActions().swap.get())
+
 										.then(() => navigation.navigate('Swaps'))
 								;
 								} else {
@@ -518,7 +583,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 					let accessToken = getStore().userToken.jwt;
 
-					const url = 'https://swapprofit.herokuapp.com/users/me/email'
+					const url = 'https://swapprofit-test.herokuapp.com/users/me/email'
 
 					let response = await fetch(url, {
 						method:'PUT',
@@ -542,7 +607,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 					let accessToken = getStore().userToken.jwt;
 
-					const url = 'https://swapprofit.herokuapp.com/users/me/password'
+					const url = 'https://swapprofit-test.herokuapp.com/users/me/password'
 
 					let response = await fetch(url, {
 						method:'PUT',
@@ -561,7 +626,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 				get: async( data ) => {
 					try{
-						const url = 'https://swapprofit.herokuapp.com/users/token'
+						const url = 'https://swapprofit-test.herokuapp.com/users/token'
 
 						let response1 = await fetch(url, {
 							method: 'POST',

@@ -5,18 +5,17 @@ import TourneyHeader from '../Tournaments/Components/TourneyHeader'
 import { Context } from '../../Store/appContext';
 
 import AgreedPath from './Paths/agreed';
-import DonePath from './Paths/received';
+import IncomingPath from './Paths/incoming';
 import EditPath from './Paths/edit';
 import InactivePath from './Paths/inactive';
-import ReceivedPath from './Paths/edit';
 import RejectedPath from './Paths/rejected';
-import SentPath from './Paths/sent';
+import PendingPath from './Paths/pending';
 
 export default SwapOffer = (props) => {
 
   const { store, actions } = useContext(Context)
 
-  const [percentage, setPercentage] =  useState(1);
+  const [percentage, setPercentage] =  useState(props.navigation.getParam('percentage', 'default value'));
   const [table, setTable] = useState(props.navigation.getParam('table', 'default value'));
   const [seat, setSeat] = useState(props.navigation.getParam('seat', 'default value'));
   const [chips, setChips] = useState(props.navigation.getParam('chips', 'default value'));
@@ -31,6 +30,7 @@ export default SwapOffer = (props) => {
   let address = navigation.getParam('tournament_id', 'default value');
   let start_at = navigation.getParam('start_at', 'default value');
   let end_at = navigation.getParam('end_at', 'default value');
+  
 
   var buyinEdit = async() => {
     var answer = await actions.buy_in.edit(
@@ -95,15 +95,15 @@ export default SwapOffer = (props) => {
   // RECEIVED SWAP VIEW
   else if (mode=='received'){
     currentPath = 
-      <ReceivedPath 
+      <IncomingPath 
       user_name={user_name}
 
       />
   } 
   // PENDING SWAP VIEW
-  else if (mode=='sent'){
+  else if (mode=='pending'){
     currentPath = 
-      <SentPath 
+      <PendingPath 
         user_name={user_name}
 
         tournament_id={tournament_id}

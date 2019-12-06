@@ -24,8 +24,13 @@ export default TourneyLobby = (props) => {
 
 const {store,actions} = useContext(Context)
 
-useEffect(async() => {
-  var answer = await actions.tournament.getAction(tournament_id)
+var answer = async() => {
+  await actions.tournament.getAction(tournament_id)
+}
+
+
+useEffect(() => {
+  answer()
   return () => {
     // cleanup
   };

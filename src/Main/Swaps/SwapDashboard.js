@@ -6,31 +6,34 @@ import SwapTracker from './Components/SwapTracker';
 
 export default SwapDashboard = (props) => {
 
-const { store, actions } = useContext(Context)
+  const { store, actions } = useContext(Context)
 
-  var x = store.swapCurrent
   let liveTracker
-  console.log('x',Object.keys(x))
+  let x = store.my_trackers
+  console.log('x',x)
   if(Object.keys(x)[0] == "message"){
-    liveTracker = 
-      <ListItem noIndent style={{justifyContent:'center'}}>
-        <Text style={{justifyContent:'center', textAlign:'center', fontSize:24, width:'80%'}}> You have no live tournaments at the moment. </Text>
+    liveTracker = <ListItem noIndent style={{justifyContent:'center'}}>
+        <Text style={{justifyContent:'center', textAlign:'center', 
+          fontSize:24, width:'80%'}}> You have no live tournaments at the moment. </Text>
       </ListItem>
   } else{
-    liveTracker = <ListItem><Text>Damit</Text></ListItem>
-//  liveTracker = 
-//        <SwapTracker
-//        navigation={props.navigation}
-//        my_current_buy_in= {x.my_current_buy_in}
-//        other_swaps = {x.other_swaps}
-//        tournament={x.tournament}
-//       />
-  }    
+      liveTracker = store.my_trackers.live.map((content, index) => {
+        
+        return(<SwapTracker
+          navigation={props.navigation}
+          my_buyin= {content.my_buyin}
+          swaps = {content.swaps}
+          tournament={content.tournament}
+        />)
+      })
+      console.log('log', liveTracker)
+    }
+        
             
 
   return(
     <Container>
-      <_Header title={'Swap Dashboard'} drawer={() => props.navigation.toggleDrawer()}/>
+      <_Header title={'Swap Dashboard'}  navigation={props.navigation} drawer={() => props.navigation.toggleDrawer()}/>
       <Content>
         <List>
 

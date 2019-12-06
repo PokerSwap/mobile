@@ -41,16 +41,16 @@ export default BuyIn = (props) => {
       tournament_name: props.tournament_name,
       table: props.table,
       seat: props.seat,
-      chips: props.chips
+      chips: props.chips,
+      percentage: props.percentage
     });
   }
 
   const enterProfile = async() => {
-    var answer = await actions.profile.view(props.user_id);
+    // var answer = await actions.profile.view(props.user_id);
     var profile = store.profileView
     navigation.push('Profile',{
-      first_name: profile.first_name,
-      last_name: profile.last_name,
+      user_name: profile.user_name,
       roi: profile.roi,
       profile_pic_url: profile.profile_pic_url,
       hendon_url: profile.hendon_url
@@ -61,7 +61,7 @@ export default BuyIn = (props) => {
   let path, lastCol, buttonColor;
 
   // YOUR SWAP VIEW
-  if (props.user_id == store.profile_in_session.id){
+  if (props.user_id == store.my_profile.id){
     lastCol = <Text>Edit</Text>;
     path = "edit";
     buttonColor= 'grey';
@@ -77,7 +77,7 @@ export default BuyIn = (props) => {
       path = "agreed"
   } 
   // PENDING SWAP VIEW
-  else if(props.status == 'sending') {
+  else if(props.status == 'pending') {
     lastCol =  
       <Icon 
         style={{alignSelf:'center', fontSize:30}} 
@@ -86,7 +86,7 @@ export default BuyIn = (props) => {
         buttonColor= 'orange';
   } 
   // INCOMING SWAP VIEW
-  else if (props.status == 'recieved'){
+  else if (props.status == 'incoming'){
     lastCol = 
       <Icon 
         style={{alignSelf:'center', fontSize:24}}

@@ -14,7 +14,7 @@ export default SideBar = (props) => (
       
     <Context.Consumer>
         {({ store, actions }) => {
-          var user = store.profile_in_session
+          var user = store.my_profile
             return(
               <ProfileBio 
               style={{marginTop:11}}

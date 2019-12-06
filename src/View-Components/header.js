@@ -20,6 +20,7 @@ export default _Header = (props) => {
         style={{marginRight:10}}
         type="SimpleLineIcons" 
         name="question"
+        onPress={()=> props.navigation.navigate()}
       />
     
     </Header>
