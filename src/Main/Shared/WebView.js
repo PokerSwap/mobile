@@ -2,7 +2,7 @@ import React from "react";
 import { TouchableOpacity, } from 'react-native'
 import { WebView } from 'react-native-webview';
 import { Container, Content, Header, Text } from "native-base";
-import i18n from "../i18n/i18n"; 
+import i18n from "../../i18n/i18n"; 
 
 export default WebViewScreen = (props) => {
 
@@ -17,10 +17,10 @@ export default WebViewScreen = (props) => {
 						<Text style={{fontWeight:'600', color:'white', marginLeft:10}}> Go Back</Text>
 					</TouchableOpacity>
 				</Header>
-				<WebView
+				{/* <WebView
 				source={{uri: url}}
 				style={{height:1000}}
-			/>
+			/> */}
 			</Content>
 		</Container>
 	)
