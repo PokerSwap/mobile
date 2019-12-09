@@ -5,8 +5,8 @@ import {Text, Card, CardItem, Button} from 'native-base'
 
 export default EditPath = (props) => {
   return(
-    <Card>
-
+    
+  <Card>
       <CardItem style={{justifyContent:'center'}}>
         <Text style={{fontSize:24}}>Table: </Text>
         <TextInput 
