@@ -28,98 +28,105 @@ export default LoginScreen = (props) => {
 
   }
 
-    var {navigate} = props.navigation
-    return(
-        <View style={{flex:1, justifyContent:"center", backgroundColor:'rgb(12,85,32)'}}>
-        <StatusBar barStyle='light-content'/>
-        <Spinner visible={loading} style={{color: '#FFF'}}/>
-          <KeyboardAvoidingView>
-            <TouchableWithoutFeedback>
-              <Card transparent style={{color:'rgb(12,85,32)'}}>
-              
-              {/* TITLE */}
-              <CardItem header style={{justifyContent:'center',backgroundColor:'rgb(12,85,32)'}}>
-                <Text style={{color:'white', fontWeight:'600', fontSize:36, justifyContent:'center'}}>Swap Profit</Text>
-              </CardItem>
+  wrong = () => {
+		if(store.userToken==null){
+			Toast.show({
+				text:'wrongPassword',
+			duration:3000})
+		}
+	}
 
-              {/* EMAIL INPUT */}
-              <CardItem style={{width:'75%', alignSelf:'center', marginVertical:5}}>
-                  <TextInput 
-                    placeholder="Enter Email"
-                    placeholderTextColor='gray'
-                    keyboardType="email-address"
-                    blurOnSubmit={false}
-                    returnKeyType="next"
-                    autoCapitalize='none'
-                    autoCorrect={false} 
-                    onSubmitEditing={() => { txtPassword.focus(); }}
-                    value={email}    
-                    onChangeText={email => setEmail( email )}
-                  />
-              </CardItem>
-              
-              {/* PASSWORD INPUT */}
-              <CardItem style={{width:'75%',  alignSelf:'center'}}>
-                  <TextInput 
-                    placeholder="Enter Password"
-                    placeholderTextColor='gray'
-                    secureTextEntry
-                    autoCapitalize='none'
-                    returnKeyType="go"
-                    autoCorrect={false} 
-                    ref={(input) => { txtPassword = input; }} 
-                    value={password}
-                    onChangeText={password => setPassword( password )}
-                  />
-              </CardItem>
+  var {navigate} = props.navigation
+  return(
+    <View style={{flex:1, justifyContent:"center", backgroundColor:'rgb(12,85,32)'}}>
+    <StatusBar barStyle='light-content'/>
+    <Spinner visible={loading} style={{color: '#FFF'}}/>
+      <KeyboardAvoidingView>
+        <TouchableWithoutFeedback>
+          <Card transparent style={{color:'rgb(12,85,32)'}}>
+          
+          {/* TITLE */}
+          <CardItem header style={{justifyContent:'center',backgroundColor:'rgb(12,85,32)'}}>
+            <Text style={{color:'white', fontWeight:'600', fontSize:36, justifyContent:'center'}}>Swap Profit</Text>
+          </CardItem>
+
+          {/* EMAIL INPUT */}
+          <CardItem style={{width:'75%', alignSelf:'center', marginVertical:5}}>
+              <TextInput 
+                placeholder="Enter Email"
+                placeholderTextColor='gray'
+                keyboardType="email-address"
+                blurOnSubmit={false}
+                returnKeyType="next"
+                autoCapitalize='none'
+                autoCorrect={false} 
+                onSubmitEditing={() => { txtPassword.focus(); }}
+                value={email}    
+                onChangeText={email => setEmail( email )}
+              />
+          </CardItem>
+          
+          {/* PASSWORD INPUT */}
+          <CardItem style={{width:'75%',  alignSelf:'center'}}>
+              <TextInput 
+                placeholder="Enter Password"
+                placeholderTextColor='gray'
+                secureTextEntry
+                autoCapitalize='none'
+                returnKeyType="go"
+                autoCorrect={false} 
+                ref={(input) => { txtPassword = input; }} 
+                value={password}
+                onChangeText={password => setPassword( password )}
+              />
+          </CardItem>
 
 
-              {/* BUTTONS  */}
-              <CardItem style={{
-                backgroundColor:'rgb(12,85,32)', 
-                justifyContent:'center', 
-                flexDirection:'column'}}>
+          {/* BUTTONS  */}
+          <CardItem style={{
+            backgroundColor:'rgb(12,85,32)', 
+            justifyContent:'center', 
+            flexDirection:'column'}}>
 
-                {/* LOGIN BUTTON */}
-                
-                <Button 
-                  style={{width:'50%', justifyContent:'center', marginBottom:5}}
-                  onPress={
-                    async() => {
-                      Keyboard.dismiss();
-                      var x = await loginStart();
-                      wrong()}
-                    }
-                >
-                <Text style={{fontWeight:'600', justifyContent:'center'}}> Login </Text>
-              </Button>
-                    
-
-                {/* SIGN UP BUTTON */}
-                <Button transparent 
-                  style={{
-                    backgroundColor:'rgb(211,152,35)', 
-                    width:'50%', justifyContent:'center'}} 
-                    onPress={()=>navigate("TermsAndConditions")}>
-                  <Text style={{
-                    color:'black', 
-                    justifyContent:'center', 
-                    fontWeight:'600'}}> 
-                    Sign Up 
-                  </Text>
-                </Button>
-                    
-                      
-                {/* FORGOT PASSWORD BUTTON */}
-                <Button transparent style={{justifyContent:'center'}} onPress={() => actions.user.forgotPassword(props.navigation)}>
-                  <Text style={{color:'white'}}>Forgot password?</Text>
-                </Button>
-                    
-              </CardItem>
+            {/* LOGIN BUTTON */}
             
-            </Card>
-            </TouchableWithoutFeedback>
-          </KeyboardAvoidingView>
-        </View>
-    )
-  }
+            <Button 
+              style={{width:'50%', justifyContent:'center', marginBottom:5}}
+              onPress={
+                async() => {
+                  Keyboard.dismiss();
+                  var x = await loginStart();
+                  wrong()}
+                }
+            >
+            <Text style={{fontWeight:'600', justifyContent:'center'}}> Login </Text>
+          </Button>
+                
+
+            {/* SIGN UP BUTTON */}
+            <Button transparent 
+              style={{
+                backgroundColor:'rgb(211,152,35)', 
+                width:'50%', justifyContent:'center'}} 
+                onPress={()=>navigate("TermsAndConditions")}>
+              <Text style={{
+                color:'black', 
+                justifyContent:'center', 
+                fontWeight:'600'}}> 
+                Sign Up 
+              </Text>
+            </Button>
+                
+            {/* FORGOT PASSWORD BUTTON */}
+            <Button transparent style={{justifyContent:'center'}} onPress={() => props.navigation.navigate("ForgotPassword")}>
+              <Text style={{color:'white'}}>Forgot password?</Text>
+            </Button>
+                
+          </CardItem>
+        
+        </Card>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+    </View>
+  )
+}
