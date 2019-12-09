@@ -17,10 +17,10 @@ export default WebViewScreen = (props) => {
 						<Text style={{fontWeight:'600', color:'white', marginLeft:10}}> Go Back</Text>
 					</TouchableOpacity>
 				</Header>
-				{/* <WebView
+				<WebView
 				source={{uri: url}}
 				style={{height:1000}}
-			/> */}
+			/> 
 			</Content>
 		</Container>
 	)
