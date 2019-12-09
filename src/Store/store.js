@@ -530,7 +530,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					}
 				},
 
-				login: async (your_email, your_password, navigation) => {
+				login: async (your_email, your_password, navigation, loading) => {
             
 					var time = (1000*60*60*24*20)
 
@@ -550,11 +550,10 @@ const getState = ({ getStore, setStore, getActions }) => {
 									
 										getActions().tournament.getAll()
 										.then(() => getActions().tracker.getAll())
-										// .then(() => getActions().swap.get())
-
+										.then(() => loading)
 										.then(() => navigation.navigate('Swaps'))
 								;
-								} else {
+								} else { 
 									navigation.navigate('ProfileCreation');
 								}
 											

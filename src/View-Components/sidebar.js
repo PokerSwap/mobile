@@ -5,6 +5,7 @@ import {Alert, View} from 'react-native'
 
 import ProfileBio from '../Main/Profile/Components/ProfileBio'
 import { Context } from '../Store/appContext'
+
 // DRAWER PHYSICAL COMPONENT
 export default SideBar = (props) => {
 
@@ -19,6 +20,7 @@ export default SideBar = (props) => {
         style={{marginTop:11}}
         first_name={user.first_name}
         last_name={user.last_name}
+        profile_pic_url={user.profile_pic_url}
         username={user.username}
         roi={user.roi}
         rating={user.rating}

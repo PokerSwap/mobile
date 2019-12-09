@@ -78,7 +78,7 @@ export default ForgotPassword = (props) => {
 
 						<Button transparent light style={{justifyContent:'center'}}
 							onPress={()=> props.navigation.goBack()}>
-							<Text> goBack </Text>
+							<Text> Go Back </Text>
 						</Button>
 					</View>
 

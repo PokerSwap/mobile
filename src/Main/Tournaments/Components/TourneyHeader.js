@@ -15,7 +15,7 @@ export default  TourneyHeader = (props) => {
   return(
     <Grid transparent style={{marginHorizontal:5}}>
       <Col style={{marginBottom:5}}>       
-        <Row><Text style={{fontSize:24}}>{props.name}</Text></Row>        
+        <Row style={{justifyContent:'center'}}><Text style={{fontSize:24, textAlign:'center'}}>{props.tournament_name}</Text></Row>        
         <Row><Text>{props.address}</Text></Row>
         <Row style={{marginVertical:10}}>
           <Col>
@@ -27,28 +27,6 @@ export default  TourneyHeader = (props) => {
             <Row><Text style={{fontSize:24}}>{endDayName}, {endMonth}. {endDay}</Text></Row>
           </Col>
         </Row>
-
-        {/* INFO BUTTONS */}
-        <Row>
-
-          {/* ACTIVE BUTTON */}
-          <Col>
-            <Button success style={{justifyContent:'center'}}>
-              <Text>ACTIVE</Text>
-            </Button>
-          </Col>
-                
-          {/* TOURNEY INFO BUTTON */}
-          <Col>
-            <Button 
-              // onPress={()=>Linking.openURL('www.thepokersociety.com/tournament/'+ props.id)}
-              style={{justifyContent:'center'}}>
-              <Text >Tourney Info</Text>
-            </Button>
-          </Col>
-
-        </Row>
-      
       </Col>
     </Grid>
   )
