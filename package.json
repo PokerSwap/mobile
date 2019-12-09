@@ -16,6 +16,7 @@
     "i18n-js": "^3.3.0",
     "jest-changed-files": "^24.9.0",
     "lodash": "^4.17.15",
+    "moment": "^2.24.0",
     "native-base": "^2.13.8",
     "react": "16.9.0",
     "react-native": "0.61.3",
