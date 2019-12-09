@@ -1,4 +1,5 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
+import {RefreshControl} from 'react-native';
 import { Container, Content, List, ListItem, Separator, Text } from 'native-base';
 import _Header from '../../View-Components/header'
 import { Context } from '../../Store/appContext'
@@ -48,7 +49,21 @@ export default SwapDashboard = (props) => {
     liveTracker = noTracker('live')
     upcomingTracker = noTracker('upcoming')
   }       
-            
+  
+  function wait(timeout) {
+    return new Promise(resolve => {
+      setTimeout(resolve, timeout);
+    });
+  }
+
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    actions.tracker.getAll()
+    wait(2000).then(() => setRefreshing(false));
+  }, [refreshing]);
+
   return(
     <Container>
       <_Header title={'Swap Dashboard'}  
@@ -56,6 +71,7 @@ export default SwapDashboard = (props) => {
         tutorial={() => props.navigation.push('Tutorial')}
         />
       <Content>
+      <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         <List>
 
           {/* LIVE SWAPS LIST HEADER */}
