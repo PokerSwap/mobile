@@ -1,10 +1,12 @@
 import React, {useState, useContext} from 'react';
-import {Container, Text, Content, Card } from 'native-base';
+import {Container, Text, Content, Card, Icon, Header, } from 'native-base';
+import {TouchableOpacity} from 'react-native'
 
 import TourneyHeader from '../Tournaments/Components/TourneyHeader'
 import { Context } from '../../Store/appContext';
 
 import AgreedPath from './Paths/agreed';
+import CanceledPath from './Paths/canceled';
 import IncomingPath from './Paths/incoming';
 import EditPath from './Paths/edit';
 import InactivePath from './Paths/inactive';
@@ -30,7 +32,7 @@ export default SwapOffer = (props) => {
   let address = navigation.getParam('tournament_id', 'default value');
   let start_at = navigation.getParam('start_at', 'default value');
   let end_at = navigation.getParam('end_at', 'default value');
-  
+
 
   var buyinEdit = async() => {
     var answer = await actions.buy_in.edit(
@@ -85,7 +87,7 @@ export default SwapOffer = (props) => {
   if (mode=='edit'){ 
     currentPath = 
       <EditPath 
-        user_name={user_name}
+        navigation={props.navigation} user_name={user_name}
         flight_id={flight_id}
         table={table} setTable={setTable}
         seat={seat} setSeat={setSeat}
@@ -93,43 +95,52 @@ export default SwapOffer = (props) => {
         buyinEdit={buyinEdit}/>
   }    
   // RECEIVED SWAP VIEW
-  else if (mode=='received'){
+  else if (mode=='incoming'){
     currentPath = 
       <IncomingPath 
-      user_name={user_name}
-
+        navigation={props.navigation} user_name={user_name}
+        percentage={percentage} setPercentage={setPercentage}
       />
   } 
   // PENDING SWAP VIEW
   else if (mode=='pending'){
     currentPath = 
       <PendingPath 
-        user_name={user_name}
-
-        tournament_id={tournament_id}
+        navigation={props.navigation} user_name={user_name}
+        percentage={percentage}
       />
   } 
   // AGREED SWAP VIEW
   else if (mode=='agreed'){
     currentPath = 
       <AgreedPath 
-        user_name={user_name}
-
+        navigation={props.navigation} user_name={user_name}
+        percentage={percentage} setPercentage={setPercentage}
       />
   }
   // REJECTED SWAP VIEW 
   else if (mode=='rejected'){
     currentPath = 
       <RejectedPath 
-
+        navigation={props.navigation} user_name={user_name}
+        percentage={percentage} 
+      />
+  }
+  // CANCELED SWAP VIEW 
+  else if (mode=='canceled'){
+    currentPath = 
+      <CanceledPath
+        navigation={props.navigation} user_name={user_name}
+        percentage={percentage}
+        swapUpdate={swapUpdate}
       />
   }
   // INACTIVE SWAP VIEW
   else{
     currentPath = 
       <InactivePath 
+        navigation={props.navigation} user_name={user_name}
         percentage={percentage} setPercentage={setPercentage}
-        user_name={user_name}
         add={add} subtract={subtract} 
         swapAdd={swapAdd}
       />
@@ -137,25 +148,33 @@ export default SwapOffer = (props) => {
 
   return(
     <Container>
+      
+      <Header style={{justifyContent:'flex-start', alignItems:'center', backgroundColor:'rgb(56,68,165)'}}>
+        <TouchableOpacity onPress={()=> props.navigation.goBack()} style={{alignItems:'center', flexDirection:'row'}}>
+          <Icon type='FontAwesome5' name='angle-left' style={{color:'white'}}/>
+          <Text style={{fontWeight:'600', color:'white', marginLeft:10, fontSize:18}}> Go Back</Text>
+        </TouchableOpacity>
+      </Header>
       <Content>
-        
+      
         {/* HEADER */}
         <Card transparent style={{justifyContent:'center'}}>
           <TourneyHeader 
             id={tournament_id}
-            name={tournament_name}
+            tournament_name={tournament_name}
             address={address}
             start_at={start_at}
             end_at={end_at}
 
           />
-          <Text style={{fontSize:24, justifyContent:'center', textAlign:'center'}}>{user_name}</Text>
+          <Text style={{textAlign:'center'}}>User:</Text>
+          <Text style={{fontSize:36, justifyContent:'center', textAlign:'center'}}>{user_name}</Text>
         </Card>
 
         {/* BODY */}
         {currentPath}
-
       </Content>
+      
     </Container>
   )
 }

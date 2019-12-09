@@ -29,17 +29,17 @@ export default TournamentBody = (props) => {
     });
   }
 
-  var w = []
-  var x = store.my_trackers.live.forEach((tracker) => 
-    w.push(tracker.my_buyin.id));
-  var z=[]
-  var y = props.flights.forEach((flight) => 
-    flight.buy_ins.forEach((buy_in) => z.push(buy_in.id))
-  )
-  const matches = w.some(ww=> z.includes(ww))
+  // var w = []
+  // var x = store.my_trackers.live.forEach((tracker) => 
+  //   w.push(tracker.my_buyin.id));
+  // var z=[]
+  // var y = props.flights.forEach((flight) => 
+  //   flight.buy_ins.forEach((buy_in) => z.push(buy_in.id))
+  // )
+  // const matches = w.some(ww=> z.includes(ww))
 
   // ACTIVE TOURNAMENT VIEW
-  if (matches) {
+  if (true) {
     bgColor = 'green';
     textColor = 'white';
     buttonColor = 'white';

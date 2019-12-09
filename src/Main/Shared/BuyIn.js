@@ -1,6 +1,7 @@
 import React, {useContext} from 'react';
 import {  Text, ListItem, Button, Icon } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid'
+import moment from 'moment'
 
 import { Context } from '../../Store/appContext'
 
@@ -28,62 +29,36 @@ BuyInAttribute = (props) => {
 export default BuyIn = (props) => {
 
   const { store, actions } = useContext(Context)
-
   const { navigation } = props;
-
-  const enterSwapOffer = () => {
-    navigation.push('SwapOffer',{
-      mode: path,
-      flight_id: props.flight_id,
-      user_id: props.user_id,
-      user_name: props.user_name,
-      tournament_id:props.tournament_id,
-      tournament_name: props.tournament_name,
-      table: props.table,
-      seat: props.seat,
-      chips: props.chips,
-      percentage: props.percentage
-    });
-  }
-
-  const enterProfile = async() => {
-    // var answer = await actions.profile.view(props.user_id);
-    var profile = store.profileView
-    navigation.push('Profile',{
-      user_name: profile.user_name,
-      roi: profile.roi,
-      profile_pic_url: profile.profile_pic_url,
-      hendon_url: profile.hendon_url
-
-    });
-  }
-
   let path, lastCol, buttonColor;
 
   // YOUR SWAP VIEW
   if (props.user_id == store.my_profile.id){
-    lastCol = <Text>Edit</Text>;
+    lastCol = 
+      <Icon 
+        style={{alignSelf:'center', fontSize:36}}
+        type="Entypo" name="edit" />;
     path = "edit";
     buttonColor= 'grey';
   } 
-  // COMPLETED SWAP VIEW
+  // AGREED SWAP VIEW
   else if (props.status == 'agreed'){
     lastCol = 
       <Text 
         style={{fontWeight:'600', color:'white'}}> 
           {props.percentage}% 
       </Text>;
-      buttonColor= 'green';
-      path = "agreed"
+    buttonColor= 'green';
+    path = "agreed"
   } 
   // PENDING SWAP VIEW
   else if(props.status == 'pending') {
     lastCol =  
       <Icon 
-        style={{alignSelf:'center', fontSize:30}} 
+        style={{alignSelf:'center', fontSize:36}} 
         type="Ionicons" name="md-time" />;
-        path = "pending";
-        buttonColor= 'orange';
+      path = "pending";
+      buttonColor= 'orange';
   } 
   // INCOMING SWAP VIEW
   else if (props.status == 'incoming'){
@@ -91,9 +66,27 @@ export default BuyIn = (props) => {
       <Icon 
         style={{alignSelf:'center', fontSize:24}}
         type="FontAwesome5" name="exclamation" />;
-        path = 'recieved';
-        buttonColor= 'red';
+      path = 'incoming';
+      buttonColor= 'green';
   } 
+  // CANCELED SWAP OFFER VIEW
+  else if (props.status == 'canceled'){
+    lastCol = 
+    <Icon 
+      style={{alignSelf:'center', fontSize:36}}
+      type="FontAwesome5" name="times" />;
+    path = 'canceled';
+    buttonColor= 'grey';
+  }
+  // REJECTED SWAP OFFER VIEW
+  else if (props.status == 'rejected'){
+    lastCol = 
+    <Icon 
+      style={{alignSelf:'center', fontSize:36}}
+      type="FontAwesome5" name="times" />;
+    path = 'rejected';
+    buttonColor= 'red';
+  }
   // SWAP OFFER VIEW
   else {
     lastCol = 
@@ -101,6 +94,41 @@ export default BuyIn = (props) => {
     path = "inactive";
     buttonColor= 'rgb(56,68,165)';
   } 
+
+  const enterSwapOffer = () => {
+    navigation.push('SwapOffer',{
+      mode: path,
+      flight_id: props.flight_id,
+      user_id: props.user_id,
+      user_name: props.user_name,
+      tournament_id: props.tournament_id,
+      tournament_name: props.tournament_name,
+      table: props.table,
+      seat: props.seat,
+      chips: props.chips,
+      percentage: props.percentage,
+      start_at: props.start_at,
+      end_at: props.end_at
+
+    });
+  }
+
+  const enterProfile = async() => {
+    var answer = await actions.profile.view(props.user_id);
+    var profile = store.profileView
+    console.log('profile:',profile)
+    navigation.push('Profile',{
+      first_name: profile.first_name,
+      last_name: profile.last_name,
+      roi: profile.roi,
+      profile_pic_url: profile.profile_pic_url,
+      hendon_url: profile.hendon_url
+    });
+  }
+
+  var x = moment(props.updated_at).fromNow()
+
+
 
   return(
     <ListItem noIndent>
@@ -131,6 +159,7 @@ export default BuyIn = (props) => {
             style={{backgroundColor:buttonColor, width:70, height:70, justifyContent:'center'}}>
             {lastCol}
           </Button>
+          <Text style={{marginTop:10, textAlign:'center'}}>{x}</Text>
         </Col>
 
       </Grid>

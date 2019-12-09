@@ -13,7 +13,9 @@ export default SwapTracker = (props) => {
   let mySeat = props.my_buyin.seat
   let myChips = props.my_buyin.chips
 
-  let tournamentName = props.tournament.name
+  let tournament_name = props.tournament.name
+  let tournament_start = props.tournament.start_at
+  let tournament_end = props.tournament.end_at
 
   let other_swaps = props.swaps.map((content, index) => 
     <BuyIn
@@ -25,8 +27,16 @@ export default SwapTracker = (props) => {
       seat = {content.buyin.seat}
       chips = {content.buyin.chips}
       flight_id = {content.buyin.flight_id}
+
       status = {content.swap.status}
       percentage = {content.swap.percentage}
+      updated_at = {content.swap.updated_at}
+
+      tournament_name={tournament_name}
+      start_at={tournament_start}
+      end_at={tournament_end}
+
+
     />
   )
     
@@ -38,7 +48,7 @@ export default SwapTracker = (props) => {
         <Text 
           style={{fontSize:18, fontWeight:'600', width:'75%',
           alignSelf:'center',textAlign:'center', color:'white'}}>
-          {tournamentName}
+          {tournament_name}
         </Text>
       </View>
       <BuyIn
@@ -49,6 +59,7 @@ export default SwapTracker = (props) => {
         table = {myTable}
         seat = {mySeat}
         chips = {myChips}
+        tournament_name={tournament_name}
         // flight_id = {props.flight_id}
       />
 

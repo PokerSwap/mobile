@@ -3,46 +3,71 @@ import { Container, Content, List, ListItem, Separator, Text } from 'native-base
 import _Header from '../../View-Components/header'
 import { Context } from '../../Store/appContext'
 import SwapTracker from './Components/SwapTracker';
+import moment from 'moment'
 
 export default SwapDashboard = (props) => {
 
   const { store, actions } = useContext(Context)
 
-  let liveTracker
-  let x = store.my_trackers
-  console.log('x',x)
-  if(Object.keys(x)[0] == "message"){
-    liveTracker = <ListItem noIndent style={{justifyContent:'center'}}>
-        <Text style={{justifyContent:'center', textAlign:'center', 
-          fontSize:24, width:'80%'}}> You have no live tournaments at the moment. </Text>
-      </ListItem>
-  } else{
-      liveTracker = store.my_trackers.live.map((content, index) => {
-        
-        return(<SwapTracker
-          navigation={props.navigation}
-          my_buyin= {content.my_buyin}
-          swaps = {content.swaps}
-          tournament={content.tournament}
-        />)
-      })
-      console.log('log', liveTracker)
-    }
-        
-            
+  noTracker = (f) =>  
+    <ListItem noIndent style={{justifyContent:'center'}}>
+      <Text style={{
+        justifyContent:'center', textAlign:'center', 
+        fontSize:24, width:'80%'}}> 
+        You have no {f} tournaments at the moment. 
+      </Text>
+    </ListItem>;
 
+  a_tracker = (e) => e.map((content, index) => {
+    return(
+      <SwapTracker
+        navigation={props.navigation}
+        my_buyin= {content.my_buyin}
+        swaps = {content.swaps}
+        tournament={content.tournament}
+      />
+    )
+  })
+  
+  let liveTracker;
+  let upcomingTracker;
+  let trackers = store.my_trackers
+  
+  if(Object.keys(trackers)[0] != "message"){
+
+    var now = moment()
+
+    var currentList = trackers.filter((tracker) => now.isBetween(tracker.tournament.start_at, tracker.tournament.end_at))
+    currentList != null ? liveTracker = a_tracker(currentList) : 
+                            liveTracker = noTracker('live')
+    
+    var upcomingList = trackers.filter((tracker) => now.isBefore(tracker.tournament.start_at))
+    upcomingList != null ? upcomingTracker = a_tracker(upcomingList) : 
+                            upcomingTracker = noTracker('upcoming')
+  } else{
+    liveTracker = noTracker('live')
+    upcomingTracker = noTracker('upcoming')
+  }       
+            
   return(
     <Container>
-      <_Header title={'Swap Dashboard'}  navigation={props.navigation} drawer={() => props.navigation.toggleDrawer()}/>
+      <_Header title={'Swap Dashboard'}  
+        drawer={() => props.navigation.toggleDrawer()}
+        tutorial={() => props.navigation.push('Tutorial')}
+        />
       <Content>
         <List>
 
           {/* LIVE SWAPS LIST HEADER */}
-          <Separator bordered style={{height:48, backgroundColor:'rgb(56,68,165)'}}>
-            <Text style={{fontSize:20, color:'white', fontWeight:'600', textAlign:'center'}}> 
+          <Separator bordered 
+            style={{height:48, backgroundColor:'rgb(56,68,165)'}}>
+            <Text 
+              style={{fontSize:20, color:'white', 
+                fontWeight:'600', textAlign:'center'}}> 
               LIVE 
             </Text>                
           </Separator>
+          
           {liveTracker}
           
           {/*SCHEDULED SWAPS LIST HEADER  */}
@@ -52,6 +77,7 @@ export default SwapDashboard = (props) => {
               STANDBY 
             </Text>
           </Separator>
+          {upcomingTracker}
          
         </List>
       </Content>
