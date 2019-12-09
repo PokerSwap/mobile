@@ -1,5 +1,6 @@
 import React, {useContext, useState} from 'react';
 import { Container, List, ListItem, Content, Text } from 'native-base';
+import { RefreshControl } from 'react-native'
 
 import _Header from "../../View-Components/header";
 import TournamentBody from './Components/TournamentBody';
@@ -14,6 +15,20 @@ export default TournamentDashboard = (props) => {
 
   const [sort, setSort] = useState('Current Location')
   const [search, setSearch] = useState('')
+
+  function wait(timeout) {
+    return new Promise(resolve => {
+      setTimeout(resolve, timeout);
+    });
+  }
+
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    actions.tournament.getAll()
+    wait(2000).then(() => setRefreshing(false));
+  }, [refreshing]);
 
   var TournamentsList;
   if (store.tournaments== null){
@@ -42,12 +57,15 @@ export default TournamentDashboard = (props) => {
   return(
     <Container>
       <_Header title={'Tournament Dashboard'} drawer={() => props.navigation.toggleDrawer()}/>
-      
+
+
       <TournamentSearchBar search={search} setSearch={setSearch}/>
       
       <TournamentSort sort={sort} setSort={setSort} />
       
       <Content>
+      <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+
         <List>
           {/* TOURNAMENT LIST GENERATOR */}
           {TournamentsList}
