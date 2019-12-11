@@ -22,6 +22,7 @@ export default SwapDashboard = (props) => {
   a_tracker = (e) => e.map((content, index) => {
     return(
       <SwapTracker
+        key={index}
         navigation={props.navigation}
         my_buyin= {content.my_buyin}
         swaps = {content.swaps}
@@ -71,10 +72,12 @@ export default SwapDashboard = (props) => {
         tutorial={() => props.navigation.push('Tutorial')}
         />
       <Content>
-      <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        
+        {/* SWAPTRACKERS */}
         <List>
 
-          {/* LIVE SWAPS LIST HEADER */}
+          {/* LIVE SWAPTRACKER */}
           <Separator bordered 
             style={{height:48, backgroundColor:'rgb(56,68,165)'}}>
             <Text 
@@ -83,19 +86,19 @@ export default SwapDashboard = (props) => {
               LIVE 
             </Text>                
           </Separator>
-          
           {liveTracker}
           
-          {/*SCHEDULED SWAPS LIST HEADER  */}
-          
-          <Separator bordered style={{height:48, backgroundColor:'gray'}}>
+          {/* UPCOMING SWAPTRACKER */}
+          <Separator bordered 
+            style={{height:48, backgroundColor:'gray'}}>
             <Text style={{fontSize:20, color:'white', fontWeight:'600', textAlign:'center'}}> 
-              STANDBY 
+              UPCOMING 
             </Text>
           </Separator>
           {upcomingTracker}
          
         </List>
+      
       </Content>
     </Container>
 )
