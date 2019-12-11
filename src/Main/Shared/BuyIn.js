@@ -127,7 +127,7 @@ export default BuyIn = (props) => {
   }
 
   var x = moment(props.updated_at).fromNow()
-
+  console.log('x',props.updated_at)
 
 
   return(

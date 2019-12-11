@@ -42,6 +42,7 @@ export default TournamentDashboard = (props) => {
   TournamentsList = store.tournaments.map((tournament) => 
       <TournamentBody 
         navigation={props.navigation}
+        key = {tournament.id}
         id = {tournament.id}
         name={tournament.name} 
         created_at={tournament.created_at} 

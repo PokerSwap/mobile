@@ -109,7 +109,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}, 
 						})
 						.then(response => response.json)
-						.then(getActions().buy_in.get())
+						.then(getActions().tracker.getAll())
 						.then(navigation.goBack())
 						
 

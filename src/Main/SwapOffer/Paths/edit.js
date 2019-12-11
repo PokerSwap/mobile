@@ -24,7 +24,7 @@ export default EditPath = (props) => {
         />
       </CardItem>
 
-      <CardItem>
+      <CardItem style={{justifyContent:'center'}}>
         <Text style={{fontSize:24}}>Seat: </Text>
         <TextInput 
           placeholder={props.seat.toString()}
