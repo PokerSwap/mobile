@@ -12,6 +12,7 @@ import LogInScreen from './src/Auth/Login'
 import CreateProfile from './src/Auth/SignUp/CreateProfile'
 import TermsAndConditions from './src/Auth/SignUp/Terms&Conditions'
 import CreateUser from './src/Auth/SignUp/CreateUser'
+import ForgotPassword from './src/Auth/ForgotPassword'
 
 // MAIN VIEWS
 import TournamentDashboard from './src/Main/Tournaments/TournamentDashboard'
@@ -58,6 +59,13 @@ const AuthStack = createStackNavigator(
       screen: CreateUser,
       navigationOptions: {
         title:'Create User'
+      }
+    },
+
+    ForgotPassword:{
+      screen: ForgotPassword,
+      navigationOptions:{
+        title:'Forgot Password'
       }
     },
 

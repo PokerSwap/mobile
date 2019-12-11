@@ -1,6 +1,8 @@
 import React, {Component, useEffect, useState} from 'react';
-import {Container, Content, Text} from 'native-base';
+import {Button , Text} from 'native-base';
 
+import {View, TextInput,TouchableWithoutFeedback,KeyboardAvoidingView, Keyboard, StatusBar} from 'react-native'
+import i18n from '../i18n/i18n'
 export default ForgotPassword = (props) => {
 
 	// STATES
@@ -31,11 +33,11 @@ export default ForgotPassword = (props) => {
 	}
 
 	return(
-		<View style={loginStyle.container}>
+		<View>
 			<StatusBar barStyle="light-content" />
-				<KeyboardAvoidingView behavior='padding' style={loginStyle.container}>
-				<TouchableWithoutFeedback style={loginStyle.container} onPress={Keyboard.dismiss}>						
-					<View style={loginStyle.logoContainer}>
+				<KeyboardAvoidingView behavior='padding' >
+				<TouchableWithoutFeedback  onPress={Keyboard.dismiss}>						
+					<View >
 						{/* LOGO IMAGE */}
 						<Text style={{fontSize:24, width:'90%', color:'white', fontWeight:'600', textAlign:'center'}}> Enter the email associated with your BreatheCode account </Text>
 
@@ -64,7 +66,7 @@ export default ForgotPassword = (props) => {
 				
 										<View style={{marginTop:'5%'}}>
 											<Button block
-												style={loginStyle.buttonContainer} 
+												
 												onPress={
 													async() => {
 														Keyboard.dismiss();
@@ -72,7 +74,7 @@ export default ForgotPassword = (props) => {
 														wrong()}
 													}
 											>
-												<Text style={loginStyle.buttonText} > Submit </Text>
+												<Text > Submit </Text>
 											</Button>
 										</View>
 
