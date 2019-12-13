@@ -5,6 +5,7 @@ import {Text, Card, Button, CardItem} from 'native-base'
 import {Row} from 'react-native-easy-grid'
 
 export default IncomingPath = (props) => {
+
   return(
     <Card>
 
@@ -14,15 +15,22 @@ export default IncomingPath = (props) => {
       </CardItem>
 
       <CardItem>
-        <Button success><Text> Accept Offer </Text></Button>
+        <Button success
+          onPress={()=> props.swapUpdate()}>
+          <Text> Accept Offer </Text>
+        </Button>
       </CardItem>
 
       <CardItem>
-        <Button warning><Text> Counter Offer </Text></Button>
+        <Button warning>
+          <Text> Counter Offer </Text>
+        </Button>
       </CardItem>
 
       <CardItem>
-        <Button danger><Text> No Thanks </Text></Button>
+        <Button danger>
+          <Text> No Thanks </Text>
+        </Button>
       </CardItem>
 
     </Card>
