@@ -6,6 +6,8 @@ import {Alert, View} from 'react-native'
 import ProfileBio from '../Main/Profile/Components/ProfileBio'
 import { Context } from '../Store/appContext'
 
+import AsyncStorage from '@react-native-community/async-storage'
+
 // DRAWER PHYSICAL COMPONENT
 export default SideBar = (props) => {
 
@@ -42,6 +44,7 @@ export default SideBar = (props) => {
             [
               {text: 'Cancel', onPress: () => {return null}},
               {text: 'Confirm', onPress: () => {
+                AsyncStorage.removeItem('token')
                 props.navigation.navigate('LogIn')
               }},
             ],
