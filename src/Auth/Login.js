@@ -5,10 +5,12 @@ import { Context } from '../Store/appContext'
 import Spinner from 'react-native-loading-spinner-overlay';
 import { Keyboard, TouchableWithoutFeedback, TextInput, KeyboardAvoidingView, View, StatusBar } from 'react-native';
 
+import AsyncStorage from '@react-native-community/async-storage'
+
 export default LoginScreen = (props) => {
 
-  const [email, setEmail] = useState('lou@gmail.com')
-  const [password, setPassword] = useState('loustadler')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
 
   const { store, actions } = useContext(Context)
@@ -17,13 +19,25 @@ export default LoginScreen = (props) => {
     setLoading(!loading)
   }
 
+  storeData = async () => {
+    try {
+      await AsyncStorage.setItem('token', store.userToken.jwt)
+    } catch (error) {
+      console.log('could not store dat', error)
+      // saving error
+    }
+  }
+
   loginStart = async () => {
     console.log(email, password)
     loadingSwitch();
     var answer = await actions.user.login(
       email, 
       password, 
-      props.navigation);
+      props.navigation
+    );
+    storeData();
+
     loadingSwitch();
 
   }
