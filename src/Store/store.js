@@ -87,14 +87,13 @@ const getState = ({ getStore, setStore, getActions }) => {
 					}
 				},
 
-				edit: async ( a_flight_id, a_table, a_seat, some_chips, navigation) => {
+				edit: async ( a_buyin_id, a_table, a_seat, some_chips, navigation) => {
 					try{
 						
-						const url = 'https://swapprofit-test.herokuapp.com/me/buy_ins/' + a_flight_id
+						const url = 'https://swapprofit-test.herokuapp.com/me/buy_ins/' + a_buyin_id
 						let accessToken = getStore().userToken.jwt
 
 						let data = {
-							id: a_flight_id,
 							chips: some_chips,
 							table: a_table,
 							seat: a_seat
@@ -178,7 +177,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 				},
 
-				get: async () => {
+				get: async (navigation) => {
 					try{
 
 						const accessToken = getStore().userToken.jwt;
@@ -194,7 +193,13 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 						let profileData = await response.json()
 
-						getActions().profile.store(profileData)
+						if (profileData !== 'User not found'){
+							getActions().profile.store(profileData)
+						}else{
+							console.log('hey noew')
+						}
+
+						
 					} catch(error){
 						console.log('Something went wrong in getting profile', error)
 					}
@@ -319,7 +324,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					}
 				},
 
-				statusChange: async ( a_tournament_id, a_recipient_id, is_paid, a_status, a_percentage, navigation ) => {
+				statusChange: async ( a_tournament_id, a_recipient_id, is_paid, a_status, a_percentage, a_counter_percentage ) => {
 					try{
 						const url = 'https://swapprofit-test.herokuapp.com/me/swaps'
 						let accessToken = getStore().userToken.jwt
@@ -329,7 +334,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 							recipient_id: a_recipient_id,
 							paid: is_paid,
 							status: a_status,
-							percentage: a_percentage
+							percentage: a_percentage,
+							counter_percentage: a_counter_percentage
 						}
 
 						let response = await fetch(url,{
@@ -503,14 +509,15 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 			user: {
 
-				add: async ( an_email, a_password ) => {
+				add: async ( an_email, a_password, a_deviceID ) => {
 
 					try{
 						const url = 'https://swapprofit-test.herokuapp.com/users'
 
-						data = {
+						const data = {
 							email: an_email,
-							password: a_password
+							password: a_password,
+							device_token: a_deviceID
 						}
 
 						let response = await fetch(url, {
@@ -530,6 +537,37 @@ const getState = ({ getStore, setStore, getActions }) => {
 					}
 				},
 
+				auto_login: async(stored_token, navigation) => {
+
+					var data = {
+						jwt: stored_token
+					}
+					
+						return new Promise(resolve =>
+							resolve(getActions().userToken.store(data)
+							.then(()=> getActions().profile.get())
+							.then(()=> {
+								if(getStore().userToken){
+									console.log('FFF',getStore().userToken)
+									console.log('RRR',getStore().my_profile)
+									if(getStore().my_profile.message !== "User not found" || getStore().my_profile.message !== 'Not enough segments'){
+										() => console.log('EEE',getStore().my_profile.message)
+										.then(() => getActions().tournament.getAll())
+										.then(() => console.log('Auto Success'))
+										.then(() => getActions().tracker.getAll())
+										.then(() => navigation.navigate('Swaps'))
+									} else { 
+										() => navigation.navigate('LogIn')
+										console.log('logged in')
+									}
+								}else{
+										console.log("You did not login");
+								}
+							}
+								
+						)))
+					},
+
 				login: async (your_email, your_password, navigation, loading) => {
             
 					var time = (1000*60*60*24*20)
@@ -546,15 +584,14 @@ const getState = ({ getStore, setStore, getActions }) => {
 						.then(()=> your_password = '')
 						.then(()=> {
 							if(getStore().userToken){
-								if(getStore().my_profile.message != 'User not found' ){
-									
-										getActions().tournament.getAll()
-										.then(() => getActions().tracker.getAll())
-										.then(() => loading)
-										.then(() => navigation.navigate('Swaps'))
-								;
+								if(getStore().my_profile.message !== "User not found" ){
+									getActions().tournament.getAll()
+									.then(() => getActions().tracker.getAll())
+									.then(() => loading)
+									.then(() => navigation.navigate('Swaps'))
 								} else { 
-									navigation.navigate('ProfileCreation');
+									
+									navigation.navigate('ProfileCreation')
 								}
 											
 							}else{
