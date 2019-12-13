@@ -20,32 +20,31 @@ export default TourneyLobby = (props) => {
   let start_at = navigation.getParam('start_at', 'NO-ID');
   let end_at = navigation.getParam('end_at', 'NO-ID');
   let flights = navigation.getParam('flights', 'NO-ID');
+  let buy_ins = navigation.getParam('buy_ins', 'NO-ID');
+
+  const {store,actions} = useContext(Context)
+
+  var answer = async() => {
+    await actions.tournament.getAction(tournament_id)
+  }
 
 
-const {store,actions} = useContext(Context)
-
-var answer = async() => {
-  await actions.tournament.getAction(tournament_id)
-}
-
-
-useEffect(() => {
-  answer()
-  return () => {
-    // cleanup
-  };
-}, [])
-
-  var Flights = flights.map((flight) =>  
-  <FlightSchedule 
+  var Flights = flights.map((flight) => { 
+    var something = buy_ins.filter(buy_in => buy_in.flight_id == flight.id)
+    var aa = store.my_trackers.filter(tracker => tracker.tournament.id == tournament_id)
+    var bb = aa.map(a => a.swaps)
+    console.log('bb',bb)
+    return(<FlightSchedule 
     id = {flight.id}
     navigation={props.navigation}
     tournament_id={tournament_id}
+    name={flight.tournament}
     day = {flight.day}
     start_at = {flight.start_at}
     end_at = {flight.end_at}
-    buy_ins={flight.buy_ins}
-  />)
+    buy_ins={something}
+    swaps={bb}
+  />)})
 
   return(
     <Container>
@@ -55,10 +54,8 @@ useEffect(() => {
           <ListItem itemHeader first>
             <TourneyHeader 
               id={tournament_id}
-              name={name}
-              address={address}
-              start_at={start_at}
-              end_at={end_at}
+              name={name} address={address}
+              start_at={start_at} end_at={end_at}
             />
           </ListItem>
 

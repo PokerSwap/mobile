@@ -1,19 +1,25 @@
-import React, {useState} from 'react';
+import React, {useContext} from 'react';
 import { View } from 'react-native';
 import { ListItem, Text } from 'native-base';
 import BuyIn  from '../../Shared/BuyIn'
 
+import {Context} from '../../../Store/appContext'
+
 export default FlightSchedule = (props) => {
     
+  const { store, actions } = useContext(Context)
+
   var startMonth = props.start_at.substring(8,11)
   var startDay = props.start_at.substring(5,7)
   
   var startTime = props.start_at.substring(16,22)
   var endTime = props.end_at.substring(16,22)
 
-  var buy_ins_list = props.buy_ins
+  var ssss = props.swaps.map(swap => swap.swap)
 
-  var Buy_Ins = buy_ins_list.map((buy_in) => 
+  var Buy_Ins = props.buy_ins.map((buy_in) => {
+
+    return(
     <BuyIn
       key = {buy_in.id}
       tournament_id={props.tournament_id}
@@ -23,7 +29,10 @@ export default FlightSchedule = (props) => {
       seat={buy_in.seat}
       chips={buy_in.chips}
       navigation={props.navigation}
+
+      status={a_status}
     />
+    )}
   )
     
   return(

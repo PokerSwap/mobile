@@ -1,5 +1,5 @@
 import React, {useState, useContext} from 'react';
-import {Container, Text, Content, Card, Icon, Header, } from 'native-base';
+import {Container, Text, Content, Card, Icon, Header, CardItem } from 'native-base';
 import {TouchableOpacity} from 'react-native'
 
 import TourneyHeader from '../Tournaments/Components/TourneyHeader'
@@ -12,6 +12,8 @@ import EditPath from './Paths/edit';
 import InactivePath from './Paths/inactive';
 import RejectedPath from './Paths/rejected';
 import PendingPath from './Paths/pending';
+
+import { Grid, Row, Col } from 'react-native-easy-grid'
 
 export default SwapOffer = (props) => {
 
@@ -26,6 +28,7 @@ export default SwapOffer = (props) => {
   let mode = navigation.getParam('mode', 'NO-ID');
   let user_name = navigation.getParam('user_name', 'default value');
   let user_id = navigation.getParam('user_id', 'default value');
+  let buyin_id = navigation.getParam('buyin_id', 'default value');
   let flight_id = navigation.getParam('flight_id', 'default value');
   let tournament_name = navigation.getParam('tournament_name', 'default value');
   let tournament_id = navigation.getParam('tournament_id', 'default value');
@@ -36,7 +39,7 @@ export default SwapOffer = (props) => {
 
   var buyinEdit = async() => {
     var answer = await actions.buy_in.edit(
-      flight_id,
+      buyin_id,
       table,
       seat,
       chips, 
@@ -59,8 +62,15 @@ export default SwapOffer = (props) => {
       user_id, 
       status,
       percentage,
-      props.navigation
+      counter_percentage
     )
+    var answer2 = await actions.swap.statusChange(
+      tournament_id, 
+      user_id, 
+      status,
+      percentage
+    )
+    props.navigation.goBack()
   }
 
   // ADDING PERCENT TO SWAP - NO MORE THAN 50%
@@ -88,18 +98,21 @@ export default SwapOffer = (props) => {
     currentPath = 
       <EditPath 
         navigation={props.navigation} user_name={user_name}
-        flight_id={flight_id}
         table={table} setTable={setTable}
         seat={seat} setSeat={setSeat}
         chips={chips} setChips={setChips}
+        buyin_id={buyin_id}
         buyinEdit={buyinEdit}/>
   }    
   // RECEIVED SWAP VIEW
   else if (mode=='incoming'){
     currentPath = 
       <IncomingPath 
-        navigation={props.navigation} user_name={user_name}
+        navigation={props.navigation} 
+        user_name={user_name} user_id = {user_id}
+        tournament_id={tournament_id}
         percentage={percentage} setPercentage={setPercentage}
+        swapUpdate={swapUpdate}
       />
   } 
   // PENDING SWAP VIEW
@@ -107,7 +120,9 @@ export default SwapOffer = (props) => {
     currentPath = 
       <PendingPath 
         navigation={props.navigation} user_name={user_name}
+        tournament_id={tournament_id}
         percentage={percentage}
+        swapUpdate={swapUpdate}
       />
   } 
   // AGREED SWAP VIEW
@@ -159,16 +174,31 @@ export default SwapOffer = (props) => {
       
         {/* HEADER */}
         <Card transparent style={{justifyContent:'center'}}>
-          <TourneyHeader 
-            id={tournament_id}
-            tournament_name={tournament_name}
+          {/* <TourneyHeader 
+            id={tournament_id} tournament_name={tournament_name}
             address={address}
-            start_at={start_at}
-            end_at={end_at}
+            start_at={start_at} end_at={end_at}
+          /> */}
+          <CardItem>
+            <Grid>
+              <Row style={{justifyContent:'center'}}><Text style={{textAlign:'center'}}>{user_name}</Text></Row>
+              <Row>
+                <Col>
+                  <Text>Table:</Text>
+                  <Text>{table}</Text>
+                </Col>
+                <Col>
+                  <Text>Seat:</Text>
+                  <Text>{seat}</Text>
+                </Col>
+                <Col>
+                  <Text>Chips:</Text>
+                  <Text>{chips}</Text>
+                </Col>
+              </Row>
+            </Grid>
+          </CardItem>
 
-          />
-          <Text style={{textAlign:'center'}}>User:</Text>
-          <Text style={{fontSize:36, justifyContent:'center', textAlign:'center'}}>{user_name}</Text>
         </Card>
 
         {/* BODY */}
