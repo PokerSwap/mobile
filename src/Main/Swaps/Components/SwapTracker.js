@@ -22,7 +22,7 @@ export default SwapTracker = (props) => {
     <BuyIn
       key = {content.buyin.id}      
       navigation = {props.navigation}
-      id = {content.buyin.id}      
+      buyin_id = {content.buyin.id}      
       user_id = {content.buyin.user_id}
       user_name = {content.buyin.user_name} 
       table = {content.buyin.table}
@@ -54,7 +54,7 @@ export default SwapTracker = (props) => {
         </Text>
       </View>
       <BuyIn
-        buy_id = {mybID}
+        buyin_id = {mybID}
         navigation = {props.navigation}
         user_id = {myID}
         user_name = {myName} 

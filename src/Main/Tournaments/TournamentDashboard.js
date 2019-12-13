@@ -51,6 +51,7 @@ export default TournamentDashboard = (props) => {
         latitude={tournament.latitude}
         longitude={tournament.longitude}
         flights={tournament.flights}
+        buy_ins={tournament.buy_ins}
         start_at={tournament.start_at}
         end_at={tournament.end_at}
       />
@@ -66,7 +67,7 @@ export default TournamentDashboard = (props) => {
       
       <Content>
       <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-
+      
         <List>
           {/* TOURNAMENT LIST GENERATOR */}
           {TournamentsList}

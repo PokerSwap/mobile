@@ -57,8 +57,8 @@ export default BuyIn = (props) => {
       <Icon 
         style={{alignSelf:'center', fontSize:36}} 
         type="Ionicons" name="md-time" />;
-      path = "pending";
-      buttonColor= 'orange';
+    path = "pending";
+    buttonColor= 'orange';
   } 
   // INCOMING SWAP VIEW
   else if (props.status == 'incoming'){
@@ -66,8 +66,8 @@ export default BuyIn = (props) => {
       <Icon 
         style={{alignSelf:'center', fontSize:24}}
         type="FontAwesome5" name="exclamation" />;
-      path = 'incoming';
-      buttonColor= 'green';
+    path = 'incoming';
+    buttonColor= 'green';
   } 
   // CANCELED SWAP OFFER VIEW
   else if (props.status == 'canceled'){
@@ -103,6 +103,7 @@ export default BuyIn = (props) => {
       user_name: props.user_name,
       tournament_id: props.tournament_id,
       tournament_name: props.tournament_name,
+      buyin_id: props.buyin_id,
       table: props.table,
       seat: props.seat,
       chips: props.chips,

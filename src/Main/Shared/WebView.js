@@ -12,9 +12,9 @@ export default WebViewScreen = (props) => {
 	return(
 		<Container>
 			<Content>
-				<Header style={{justifyContent:'flex-start', backgroundColor:"#2EABFF"}}>
+				<Header style={{justifyContent:'flex-start'}}>
 					<TouchableOpacity onPress={()=> props.navigation.goBack()}>
-						<Text style={{fontWeight:'600', color:'white', marginLeft:10}}> Go Back</Text>
+						<Text style={{fontWeight:'600',  marginLeft:10}}> Go Back</Text>
 					</TouchableOpacity>
 				</Header>
 				<WebView

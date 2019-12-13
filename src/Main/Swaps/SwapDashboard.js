@@ -1,6 +1,6 @@
 import React, {useContext, useState} from 'react';
 import {RefreshControl} from 'react-native';
-import { Container, Content, List, ListItem, Separator, Text } from 'native-base';
+import { Container, Content, List, ListItem, Separator, Text, Button } from 'native-base';
 import _Header from '../../View-Components/header'
 import { Context } from '../../Store/appContext'
 import SwapTracker from './Components/SwapTracker';
@@ -73,7 +73,6 @@ export default SwapDashboard = (props) => {
         />
       <Content>
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        
         {/* SWAPTRACKERS */}
         <List>
 
