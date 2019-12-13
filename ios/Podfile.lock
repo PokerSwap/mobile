@@ -286,13 +286,14 @@ PODS:
     - React-cxxreact (= 0.61.3)
     - React-jsi (= 0.61.3)
     - ReactCommon/jscallinvoker (= 0.61.3)
-  - RNCAsyncStorage (1.6.3):
+  - ReactNativePayments (0.7.1)
+  - RNCAsyncStorage (1.7.0):
     - React
-  - RNDeviceInfo (5.3.1):
+  - RNDeviceInfo (5.4.0):
     - React
   - RNGestureHandler (1.5.0):
     - React
-  - RNIap (4.2.2):
+  - RNIap (4.3.2):
     - React
   - RNReanimated (1.4.0):
     - React
@@ -332,6 +333,7 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - ReactCommon/jscallinvoker (from `../node_modules/react-native/ReactCommon`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - ReactNativePayments (from `../node_modules/react-native-payments`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
@@ -408,6 +410,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/Libraries/Vibration"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  ReactNativePayments:
+    :path: "../node_modules/react-native-payments"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-community/async-storage"
   RNDeviceInfo:
@@ -450,8 +454,8 @@ SPEC CHECKSUMS:
   React-jsi: 8bcf5836caa8a759c135ab9ef97f3e023a7b94af
   React-jsiexecutor: ae078e9df9c65bcdcf68f9a17656657932d95528
   React-jsinspector: a8939cc6909607eb5e8a5ecfff7c6226984e174d
-  react-native-image-picker: 45aa7e3b8e85324d97637a9a59ba8a62bc789401
-  react-native-webview: dbfec7f16f09a71ea53731bdf5f86ae70eac4313
+  react-native-image-picker: 7a85cf7b0a53845f03ae52fb4592a2748ded069b
+  react-native-webview: 82d6456dfae1b3ef70c3939135536342afc96373
   React-RCTActionSheet: 94671eef55b01a93be735605822ef712d5ea208e
   React-RCTAnimation: 524ae33e73de9c0fe6501a7a4bda8e01d26499d9
   React-RCTBlob: 5481c2db702f57207af7e7a9b32d90524b821b72
@@ -462,14 +466,15 @@ SPEC CHECKSUMS:
   React-RCTText: b8f895b94aa0e7778fef28d13f3d71eed4a10c3d
   React-RCTVibration: 262588c97551b0b1c675468cda857466ba5af18f
   ReactCommon: c2c63d9290b422ca6ad5b3663073a015dd892ae9
-  RNCAsyncStorage: 6b57de0f6cb0dcfd17521af1681fa39001d3efff
-  RNDeviceInfo: e5976ab5c3bed0b5c78f188e0b8abb139b33a9da
+  ReactNativePayments: c20b421c056e065b13a050e409eb94ee2f9591fb
+  RNCAsyncStorage: 8a2fadab0c6cc58d6a0629e24f978cc2ff3151fc
+  RNDeviceInfo: c7b1dc457611b9231bb780a882102e2c93edc7af
   RNGestureHandler: a4ddde1ffc6e590c8127b8b7eabfdade45475c74
-  RNIap: 861821c440b244adbbe5e3b5511fd4f2b7603e0a
+  RNIap: 6c18a35653f72edbd14de95b26fc16848c6de5c0
   RNReanimated: b2ab0b693dddd2339bd2f300e770f6302d2e960c
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   Yoga: 02036f6383c0008edb7ef0773a0e6beb6ce82bd1
 
-PODFILE CHECKSUM: d210c9829664e150b43a6907580b01640d38609f
+PODFILE CHECKSUM: 9b53dc1ed167ffaefe5f1ce38830ef130f4e4c7b
 
 COCOAPODS: 1.8.4
