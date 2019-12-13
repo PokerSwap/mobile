@@ -12,7 +12,7 @@ import HendonSetup from './HendonSetup';
 export default CreateProfile = (props) => {
 
     const [ page, setPage ] = useState(0)
-    const [ loading, setLoading ] = useState(false)
+    // const [ loading, setLoading ] = useState(false)
     const [ email, setEmail ] = useState('')
     const [ password, setPassword ] = useState('')
     const [ first_name, setFirstName ] = useState('')
@@ -35,13 +35,13 @@ export default CreateProfile = (props) => {
   }
 
   // LOADING SPINNER ACTIVATION
-  loading = () => {
-    setLoading(!loading)
-  }
+  // loading = () => {
+  //   setLoading(!loading)
+  // }
 
   // CREATE PROFILE FUNCTION
-  createProfile = async(x) => {
-    this.loading();
+  var createProfile = async(x) => {
+    // this.loading();
     var answer = await x.user.signup(
       email, 
       password, 
@@ -53,7 +53,7 @@ export default CreateProfile = (props) => {
       props.navigation
       );
     console.log('response', answer)
-    loading();	
+    // loading();	
   }
 
 
@@ -65,7 +65,7 @@ export default CreateProfile = (props) => {
             flex:1, 
             justifyContent:"center"}}>
          
-         <Spinner visible={loading} style={{color: '#FFF'}}/>
+         {/* <Spinner visible={loading} style={{color: '#FFF'}}/> */}
          
           <Tabs initialPage={0} page={page}>
 
@@ -103,7 +103,7 @@ export default CreateProfile = (props) => {
             <Tab disabled heading="Review">
               <ProfileReview 
                 prev={() => prevPage()}
-                createUser= {createUser}
+                // createProfile= {createProfile}
                 navigation= {props.navigation}
                 first_name= {first_name} 
                 last_name= {last_name} 

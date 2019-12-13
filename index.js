@@ -1,7 +1,8 @@
 /**
  * @format
  */
-// global.PaymentRequest = require('react-native-payments').PaymentRequest;
+
+
 
 import {AppRegistry} from 'react-native';
 import App from './App';

@@ -1,7 +1,7 @@
 import React, {} from 'react';
 import { Button, Card, CardItem, Item, Input, Text } from 'native-base';
 
-export default NameSetup = () => {
+export default NameSetup = (props) => {
 
     let x;
 

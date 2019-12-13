@@ -1,6 +1,6 @@
 import React from "react";
 import { TouchableOpacity, } from 'react-native'
-import { Container, Content, Header, Text } from "native-base";
+import { Container, Content, Header, Text, Icon } from "native-base";
 import i18n from "../../i18n/i18n"; 
 
 export default TutorialScreen = (props) => {
@@ -10,13 +10,14 @@ export default TutorialScreen = (props) => {
 
 	return(
 		<Container>
+			<Header style={{justifyContent:'flex-start', alignItems:'center', backgroundColor:'rgb(56,68,165)'}}>
+        <TouchableOpacity onPress={()=> props.navigation.goBack()} style={{alignItems:'center', flexDirection:'row'}}>
+          <Icon type='FontAwesome5' name='angle-left' style={{color:'white'}}/>
+          <Text style={{fontWeight:'600', color:'white', marginLeft:10, fontSize:18}}> Go Back</Text>
+        </TouchableOpacity>
+      </Header>
 			<Content>
-				<Header style={{justifyContent:'flex-start', backgroundColor:"#2EABFF"}}>
-					<TouchableOpacity onPress={()=> props.navigation.goBack()}>
-						<Text style={{fontWeight:'600', color:'white', marginLeft:10}}> Go Back</Text>
-					</TouchableOpacity>
-					<Text>{props.title}</Text>
-				</Header>
+		
 				
 			</Content>
 		</Container>

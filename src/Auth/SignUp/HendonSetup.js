@@ -33,11 +33,11 @@ export default HendonSetup = (props) => {
 	const [hendon, setHendon] = useState('https://www.thehendonmob.com/search/')
 	const [uri, setURI] = useState('')
 
-	_onNavigationStateChange = (webViewState) =>{
-		console.log(webViewState)
-		setHendon(webViewState.url)
-		props.hendon = webViewState.url
-	}
+	// _onNavigationStateChange = (webViewState) =>{
+	// 	console.log(webViewState)
+	// 	setHendon(webViewState.url)
+	// 	props.hendon = webViewState.url
+	// }
 
 	const injectedJs = `
 		document.URL = 'red';
@@ -59,20 +59,7 @@ export default HendonSetup = (props) => {
 
 				{/* HENDON WEBVIEW */}
 				<CardItem style={{height:250}}>
-					<WebView 
-						useWebKit={true}
-						ref="webview"
-						source={{uri:uri}}
-						injectedJavaScript={injectedJs}
-						javaScriptEnabled = {true}
-						domStorageEnabled = {true}
-						onNavigationStateChange={this._onNavigationStateChange.bind(this)}						
-						injectedJavaScript = {this.state.cookie}
-						startInLoadingState={false}
-						scalesPageToFit
-				
-						style={{ flex: 1 }}
-					/>
+		
 				</CardItem>
 				<CardItem>
 			
