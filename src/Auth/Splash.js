@@ -1,14 +1,45 @@
-import React, { useEffect} from 'react';
+import React, {useContext, useEffect} from 'react';
 import { View, StatusBar } from 'react-native';
 import {Container, Content, Text} from 'native-base';
 
+import {Context} from '../Store/appContext'
+
+import AsyncStorage from '@react-native-community/async-storage';
+
 export default SplashScreen = (props) => {
 
+	const { store, actions } = useContext(Context)
+
+	getData = async () => {
+		try {
+			if(myValue !== null) {
+				actions.user.auto_login(myValue, props.navigation )
+				// value previously stored
+			}
+		} catch(error) {
+			console.log('error:', error)
+		}
+	}
+
+	var myValue;
+
+	checkData = async() => {
+		const value1 = await AsyncStorage.getItem('token')
+		console.log('value1', typeof value1)
+		myValue = value1
+	}
+
+
 	useEffect(() => {
+		
+		// checkData()
 		console.log('In 3 seconds, another message will appear'); 
 		setTimeout(()=>{
 			console.log('3 seconds have passed');
-			props.navigation.navigate('LogIn')
+			// if(typeof myValue == 'string'){getData()}else{
+				props.navigation.navigate('LogIn')
+			// }
+			
 		}, 3000)
 		return () => {
 			// cleanup
