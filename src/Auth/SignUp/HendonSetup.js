@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
-import { Button, Card, CardItem, 
-Item, Input, Text } from 'native-base';
+import { Button, Card, CardItem, Text, Icon } from 'native-base';
 import { Alert, TextInput, View } from "react-native";
 import { WebView } from 'react-native-webview';
 
@@ -31,71 +30,72 @@ const AlertS = (props) => {
 export default HendonSetup = (props) => {
 
 	const [hendon, setHendon] = useState('https://www.thehendonmob.com/search/')
-	const [uri, setURI] = useState('')
 
-	// _onNavigationStateChange = (webViewState) =>{
-	// 	console.log(webViewState)
-	// 	setHendon(webViewState.url)
-	// 	props.hendon = webViewState.url
-	// }
-
-	const injectedJs = `
-		document.URL = 'red';
-		setTimeout(function() { window.alert('hi') }, 2000);
-		true; // note: this is required, or you'll sometimes get silent failures
-	`	
 	return(
-			<Card transparent>
+		<Card transparent>
 
-				{/* HENDON INSTRUCTIONS */}
-				<CardItem style={{flexDirection:"column", justifyContent:"center"}}>
-					<Text style={{textAlign:'center', marginVertical:20}}>
-						Please enter your name as it appears on your Hendon Mob profile.
-					</Text>
-					<Text>
-						If you don't have a Hendon, that's okay. :)
-					</Text>
+			{/* HENDON WEBVIEW */}
+			<CardItem style={{height:400}}>
+					<WebView 
+						source={{ uri: hendon }}
+						originWhitelist={['*']}
+						// ref="webview"
+						onNavigationStateChange={(webViewState) => {
+							console.log(webViewState)
+							setHendon(webViewState.url)
+							props.onChangeHendon(webViewState.url)
+						}}
+						javaScriptEnabled = {true}
+						domStorageEnabled = {true}
+						startInLoadingState={false}
+					/>
 				</CardItem>
-
-				{/* HENDON WEBVIEW */}
-				<CardItem style={{height:250}}>
-		
-				</CardItem>
-				<CardItem>
-			
-					<Text>{hendon}</Text>
-					<Text>{props.hendon}</Text>
-				</CardItem>
-				{/* OPTIONS FOR HENDON */}
-				<CardItem footer style={{flexDirection:"column", justifyContent:"center"}}> 
+				
+			{/* HENDON URL INPUT */}
+			<CardItem footer style={{flexDirection:"row", justifyContent:"center"}}> 
 					<View
-					style={{borderWidth:1, width:'85%', paddingVertical:12, marginVertical:30}}
+						style={{borderWidth:1, width:'85%', paddingVertical:12, marginVertical:10}}
 					>
 					<TextInput
 						style={{paddingHorizontal:10}}
 						placeholder='Enter Your Hendon User URL'
 						placeholderTextColor='gray'
 						value={props.hendon}
-						onChange={props.onChangeHendon}
-						
+						onChangeText={props.onChangeHendon}
 					/>
-					</View>
-					<AlertS  next={props.next}/>
 					
-					<Button danger style={{marginVertical:20}} 
-						onPress={() => props.next()}>
-						<Text>I'll do it later</Text>
-					</Button>
+					</View>
+				</CardItem>
 
-				</CardItem>  
+			{/* HENDON INSTRUCTIONS */}
+			<CardItem style={{flexDirection:"column", justifyContent:"center"}}>
+				<Text style={{textAlign:'center'}}>
+					Please enter your name as it appears on your Hendon Mob profile.
+				</Text>
+			</CardItem>
+			
+			{/* OPTION BUTTONS */}
+			<CardItem style={{justifyContent:'space-around'}}>
+				<AlertS  next={props.next}/>
+				
+				<Button large danger style={{}} 
+					onPress={() => {
+						props.onChangeHendon('');
+						props.next();
+					}}>
+					<Text>LATER</Text>
+				</Button>
 
-				{/* PREV BUTTON */}
-				<CardItem>
-					<Button info large onPress={() => props.prev()}>
-						<Text>Prev</Text>
+			</CardItem>  
+
+			{/* PREV BUTTON */}
+			<CardItem style={{justifyContent:'center'}}>
+					<Button info iconLeft large onPress={() => props.prev()}>
+						<Icon name='arrow-back'/>
+						<Text>Go Back</Text>
 					</Button>
 				</CardItem>
 
-			</Card>
-		)
-  }
+		</Card>
+	)
+}

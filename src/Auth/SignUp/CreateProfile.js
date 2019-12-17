@@ -1,8 +1,7 @@
-import React, {Component, useState} from 'react';
+import React, {useState} from 'react';
 import { Content, Container, Header, Tab, Tabs } from 'native-base';
 
 import { Context } from '../../Store/appContext'
-import Spinner from 'react-native-loading-spinner-overlay';
 
 import ProfileReview from './ProfileReview'
 import NameSetup from './NameSetup';
@@ -12,7 +11,6 @@ import HendonSetup from './HendonSetup';
 export default CreateProfile = (props) => {
 
     const [ page, setPage ] = useState(0)
-    // const [ loading, setLoading ] = useState(false)
     const [ email, setEmail ] = useState('')
     const [ password, setPassword ] = useState('')
     const [ first_name, setFirstName ] = useState('')
@@ -34,13 +32,8 @@ export default CreateProfile = (props) => {
     } 
   }
 
-  // LOADING SPINNER ACTIVATION
-  // loading = () => {
-  //   setLoading(!loading)
-  // }
-
   // CREATE PROFILE FUNCTION
-  var createProfile = async(x) => {
+  createProfile = async(x) => {
     // this.loading();
     var answer = await x.user.signup(
       email, 
@@ -56,22 +49,17 @@ export default CreateProfile = (props) => {
     // loading();	
   }
 
-
     return(
       <Container>
 
         <Content 
-          contentContainerStyle={{
-            flex:1, 
-            justifyContent:"center"}}>
+          contentContainerStyle={{flex:1, justifyContent:"center"}}>
          
-         {/* <Spinner visible={loading} style={{color: '#FFF'}}/> */}
-         
-          <Tabs initialPage={0} page={page}>
+          <Tabs locked initialPage={0} page={page}>
 
             <Tab disabled heading="Name">
               <NameSetup 
-                prev={() => prevPage()}
+                prev={() => prevPage()} 
                 next={() => nextPage()} 
                 first_name= {first_name} 
                 onChangeFirstName={first_name => setFirstName( first_name )}
@@ -93,10 +81,10 @@ export default CreateProfile = (props) => {
 
             <Tab disabled heading="Hendon">
               <HendonSetup 
-                prev={() => this.prevPage()}
-                next={() => this.nextPage()}
+                prev={() => prevPage()}
+                next={() => nextPage()}
                 hendon= {hendon}
-                onChangeHendon={hendon => hendonSet(hendon )}
+                onChangeHendon={hendon => setHendon(hendon)}
               />
             </Tab>
 

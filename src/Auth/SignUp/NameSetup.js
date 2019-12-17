@@ -1,16 +1,12 @@
 import React, {} from 'react';
-import { Button, Card, CardItem, Item, Input, Text } from 'native-base';
+import {View} from 'react-native'
+import { Button, Card, CardItem, Item, Icon, Input, Text } from 'native-base';
 
 export default NameSetup = (props) => {
 
     let x;
-
-    if(props.first_name == '' || props.last_name == ''){
-      x=true
-    }else{
-      x=false
-    }
-
+    (props.first_name == '' || props.last_name == '') ? x=true : x=false
+    
     return(
 
       <Card transparent>
@@ -25,27 +21,25 @@ export default NameSetup = (props) => {
 
         {/* NAME TEXT INPUTS */}
         <CardItem body style={{flexDirection:"column"}}>
-          
-          {/* FIRST NAME INPUT */}
-          <Item>
-            <Input 
-              placeholder='First Name'
-              value={props.first_name}
-              onChangeText={props.onChangeFirstName}
-              autoCorrect={false}         
-              
-            />
-          </Item>
+            {/* FIRST NAME INPUT */}
+            <Item>
+              <Input 
+                placeholder='First Name'
+                value={props.first_name}
+                onChangeText={props.onChangeFirstName}
+                autoCorrect={false}         
+              />
+            </Item>
 
-          {/* LAST NAME INPUT */}
-          <Item>
-            <Input 
-              placeholder='Last Name'
-              value={props.last_name}    
-              onChangeText={props.onChangeLastName} 
-              autoCorrect={false} 
-            />
-          </Item>
+            {/* LAST NAME INPUT */}
+            <Item>
+              <Input 
+                placeholder='Last Name'
+                value={props.last_name}    
+                onChangeText={props.onChangeLastName} 
+                autoCorrect={false} 
+              />
+            </Item>
 
           {/* NICK NAME INPUT */}
           <Item>
@@ -60,9 +54,10 @@ export default NameSetup = (props) => {
         </CardItem>
 
         {/* SUBMIT BUTTON */}
-        <CardItem footer style={{justifyContent:"center"}}>
-          <Button large disabled={x} onPress={() => props.next()}>
-            <Text>SUBMIT</Text>
+        <CardItem footer style={{justifyContent:"flex-end", alignContent:'flex-end'}}>
+          <Button iconRight large disabled={x} onPress={() => props.next()}>
+            <Text>NEXT</Text>
+            <Icon name='arrow-forward'/>
           </Button>
         </CardItem>
 

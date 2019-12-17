@@ -1,3 +1,5 @@
+import ForgotPassword from "../Auth/ForgotPassword"
+
 const getState = ({ getStore, setStore, getActions }) => {
 	return {
 
@@ -130,12 +132,11 @@ const getState = ({ getStore, setStore, getActions }) => {
 						const accessToken = getStore().userToken.jwt;
 						const url = 'https://swapprofit-test.herokuapp.com/profiles'
 
-						data = {
-							username: userName,
+						let data = {
+							nickname: userName,
 							first_name: firstName,
 							last_name: lastName,
-							hendon_url: a_hendon,
-							profile_pic_url: profilePic
+							hendon_url: a_hendon
 						}
 
 						let response = await fetch(url, {
@@ -147,29 +148,50 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}, 
 						})
 						.then(response => response.json)
-						getActions().profile.get()
-						getActions().tournament.getAll()
-						navigation.navigate('LogIn')
+						.then(getActions().profile.changePicture(profilePic))
+						.then(getActions().profile.get())
+						.then(getActions().tournament.getAll())
+						.then(navigation.navigate('Swaps'))
 					} catch(error) {
 						console.log("Something went wrong in adding a profile", error)
 					}
 				},
 
-				changePicture: async() => {
+				changePicture: async(picture) => {
 
 					try{
 						const accessToken = getStore().userToken.jwt;
-						const url = 'https://swapprofit-test.herokuapp.com/profiles/me/image'
+						const url = 'https://swapprofit-test.herokuapp.com/profiles/image'
+
+						// const data = new FormData();
+						// data.append('name', 'testName'); // you can append anyone.
+						// data.append('photo', {
+						// 	uri: picture,
+						// 	type: 'image/png', // or photo.type
+						// 	name: 'testPhotoName'
+						// });
+						// fetch(url, {
+						// 	method: 'post',
+						// 	body: data
+						// }).then(res => {
+						// 	console.log('this is me', res)
+						// });
+
+
+						let data = {
+							image: picture
+						}
 
 						let response = await fetch(url, {
 							method: 'PUT',
 							body: JSON.stringify(data),
 							headers: {
+								'Accept': 'application/json',
 								'Authorization': 'Bearer ' + accessToken,
-								'Content-Type':'application/json'
+								'Content-Type':'multipart/form-data'
 							}, 
 						})
-						.then(response => resppnse.json)
+						.then(response => response.json)
 
 					}catch(error){
 						console.log('Something went wrong with changing the profile picture', error)
@@ -633,7 +655,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					console.log(response)
 				},
 
-				forgotPassword: async( an_email, a_password, a_new_password ) => {
+				resetPassword: async( an_email, a_password, a_new_password ) => {
 
 					let data = {
 						email: an_email,
@@ -651,6 +673,25 @@ const getState = ({ getStore, setStore, getActions }) => {
 						headers: {
 							'Content-Type':'application/json',
 							'Authorization': 'Bearer ' + accessToken
+						}, 
+					})
+					.then(response => response.json())
+					console.log(response)
+				},
+
+				forgotPassword: async( an_email ) => {
+
+					const url = 'https://swapprofit-test.herokuapp.com/users/me/password?forgot=true'
+
+					let data = {
+						email: an_email
+					}
+
+					let response = await fetch(url, {
+						method:'PUT',
+						body: JSON.stringify(data),
+						headers: {
+							'Content-Type':'application/json',
 						}, 
 					})
 					.then(response => response.json())

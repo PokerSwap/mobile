@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import { Image } from 'react-native';
-import { Button, Card, Text, CardItem } from 'native-base';
+import { Button, Card, Text, CardItem, Item } from 'native-base';
 import { Context } from '../../Store/appContext';
 
 export default  ProfileReview = (props) => {
@@ -20,31 +20,36 @@ export default  ProfileReview = (props) => {
 
 
 		return(
-      <Card>
-				<Text>Profile Review</Text>
+      <Card style={{flexDirection:'column'}}>
 
-				<CardItem>
-						<Text>Image</Text>
-						<Image src={{}}/>
-				</CardItem>
-				<CardItem>
-						<Text>Name</Text>
+
+					
+					<CardItem transparent style={{justifyContent:'center'}}>
+						<Image source={{uri: props.picture}} style={{height:100, width:100, marginTop:25, borderRadius:500}}/>
+					</CardItem>
+
+					<CardItem transparent style={{flexDirection:'column',marginVertical:10}}>
+						<Text style={{fontSize:20,fontWeight:'600'}}>Name</Text>
 						<Text> {props.first_name} "{props.username}" {props.last_name}</Text>
-				</CardItem>
-				<CardItem>		
-						<Text>Hendon</Text>
-						<Text>{props.hendon}</Text>
-				</CardItem>
+					</CardItem>
 
+					<CardItem transparent style={{flexDirection:'column',marginVertical:10}}>		
+							<Text style={{fontSize:20,fontWeight:'600'}}>Hendon URL:</Text>
+							<Text>{props.hendon}</Text>
+					</CardItem>
 
-				<Button success large onPress={()=> profileStart()}>
-					<Text>Finalize</Text>
-				</Button>
-
-		
-				<Button light onPress={() => props.prev()}>
-					<Text>Go back</Text>
-				</Button>
+					<CardItem transparent style={{justifyContent:'space-around'}}>		
+						
+					<Button light onPress={() => props.prev()}>
+							<Text>Go back</Text>
+						</Button>
+						
+						<Button success large onPress={()=> profileStart()}>
+							<Text>Finalize</Text>
+						</Button>
+	
+						
+					</CardItem>
 			</Card>
     )
   }
