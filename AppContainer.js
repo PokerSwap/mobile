@@ -51,7 +51,8 @@ const AuthStack = createStackNavigator(
       screen: LogInScreen,
       navigationOptions: {
         title: 'Log In',
-        header: null
+        header: null,
+        gesturesEnabled: false,
       }
     },
 
@@ -72,7 +73,8 @@ const AuthStack = createStackNavigator(
     ProfileCreation: {
       screen: CreateProfile,
       navigationOptions: {
-        title: 'Create Your Profile'
+        title: 'Create Your Profile',
+        gesturesEnabled: false,
       }
     },
 
@@ -84,7 +86,8 @@ const AuthStack = createStackNavigator(
     }
   },
   {
-    initialRouteName: "Splash"
+    initialRouteName: "Splash",
+    gesturesEnabled: false,
   }
 )
 
@@ -190,6 +193,7 @@ const MainStack = createBottomTabNavigator(
   },
   {
     animationEnabled: true,
+    gesturesEnabled: false,
     initialRouteName: "Swaps",
     tabBarOptions: {
       activeTintColor: 'orange',
