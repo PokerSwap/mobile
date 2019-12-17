@@ -184,7 +184,6 @@ configurations.all {
     }}
 
 dependencies {
-    implementation project(':react-native-payments')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'com.facebook.react:react-native:0.61.3'  // From node_modules
     implementation 'com.google.firebase:firebase-analytics:17.2.1'

@@ -42,7 +42,7 @@
 	<key>NSMainNibFile</key>
 	<string>LaunchScreen</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>ProfilePicture</string>
+	<string>ProfilePicture and Take Buyins</string>
 	<key>Privacy - Camera Usage Description   </key>
 	<string>ProfilePicture</string>
 	<key>UIAppFonts</key>
