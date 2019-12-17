@@ -7,6 +7,43 @@ import { Keyboard, TouchableWithoutFeedback, TextInput, KeyboardAvoidingView, Vi
 
 import AsyncStorage from '@react-native-community/async-storage'
 
+// const PaymentRequest = require('react-native-payments').PaymentRequest;  
+
+// const METHOD_DATA = [{
+//   supportedMethods: ['apple-pay'],
+//   data: {
+//     merchantIdentifier: 'merchant.com.swapprofitllc.swapprofit',
+//     supportedNetworks: ['visa', 'mastercard', 'amex'],
+//     countryCode: 'US',
+//     currencyCode: 'USD'
+//   }
+// }];
+
+// const DETAILS = {
+//   id: 'basic-example',
+//   displayItems: [
+//     {
+//       label: 'Movie Ticket',
+//       amount: { currency: 'USD', value: '15.00' }
+//     }
+//   ],
+//   total: {
+//     label: 'Merchant Name',
+//     amount: { currency: 'USD', value: '15.00' }
+//   }
+// }
+
+// const paymentRequest = new PaymentRequest(METHOD_DATA, DETAILS);
+
+// paymentRequest.canMakePayments().then((canMakePayment) => {
+//   if (canMakePayment) {
+//     Alert.alert(
+//       'Apple Pay',
+//       'Apple Pay is available in this device'
+//     );
+//   }
+// })
+
 export default LoginScreen = (props) => {
 
   const [email, setEmail] = useState('')
@@ -14,6 +51,7 @@ export default LoginScreen = (props) => {
   const [loading, setLoading] = useState(false)
 
   const { store, actions } = useContext(Context)
+
 
   loadingSwitch = () => {
     setLoading(!loading)
@@ -51,6 +89,7 @@ export default LoginScreen = (props) => {
 	}
 
   var {navigate} = props.navigation
+
   return(
     <View style={{flex:1, justifyContent:"center", backgroundColor:'rgb(12,85,32)'}}>
     <StatusBar barStyle='light-content'/>
@@ -63,7 +102,6 @@ export default LoginScreen = (props) => {
           <CardItem header style={{justifyContent:'center',backgroundColor:'rgb(12,85,32)'}}>
             <Text style={{color:'white', fontWeight:'600', fontSize:36, justifyContent:'center'}}>Swap Profit</Text>
           </CardItem>
-
           {/* EMAIL INPUT */}
           <CardItem style={{width:'75%', alignSelf:'center', marginVertical:5}}>
               <TextInput 
