@@ -17,9 +17,14 @@ export default SettingsScreen = (props) => {
       />
       <Content>
         <List>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={()=> props.navigation.push()}>
             <ListItem>
               <Text> Change Email </Text>
+            </ListItem>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={()=> props.navigation.push()}>
+            <ListItem>
+              <Text> Change Profile Picture </Text>
             </ListItem>
           </TouchableOpacity>
           <TouchableOpacity onPress={()=> props.navigation.push()}>
@@ -27,12 +32,12 @@ export default SettingsScreen = (props) => {
               <Text> Change Password </Text>
             </ListItem>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={()=> props.navigation.push()}>
             <ListItem>
               <Text> Change Payout Method </Text>
             </ListItem>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={()=> props.navigation.push()}>
             <ListItem>
               <Text> Leave Feedback </Text>
             </ListItem>

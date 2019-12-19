@@ -7,50 +7,15 @@ import { Keyboard, TouchableWithoutFeedback, TextInput, KeyboardAvoidingView, Vi
 
 import AsyncStorage from '@react-native-community/async-storage'
 
-// const PaymentRequest = require('react-native-payments').PaymentRequest;  
-
-// const METHOD_DATA = [{
-//   supportedMethods: ['apple-pay'],
-//   data: {
-//     merchantIdentifier: 'merchant.com.swapprofitllc.swapprofit',
-//     supportedNetworks: ['visa', 'mastercard', 'amex'],
-//     countryCode: 'US',
-//     currencyCode: 'USD'
-//   }
-// }];
-
-// const DETAILS = {
-//   id: 'basic-example',
-//   displayItems: [
-//     {
-//       label: 'Movie Ticket',
-//       amount: { currency: 'USD', value: '15.00' }
-//     }
-//   ],
-//   total: {
-//     label: 'Merchant Name',
-//     amount: { currency: 'USD', value: '15.00' }
-//   }
-// }
-
-// const paymentRequest = new PaymentRequest(METHOD_DATA, DETAILS);
-
-// paymentRequest.canMakePayments().then((canMakePayment) => {
-//   if (canMakePayment) {
-//     Alert.alert(
-//       'Apple Pay',
-//       'Apple Pay is available in this device'
-//     );
-//   }
-// })
-
 export default LoginScreen = (props) => {
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('lou@gmail.com')
+  const [password, setPassword] = useState('loustadler')
   const [loading, setLoading] = useState(false)
 
   const { store, actions } = useContext(Context)
+
+  var {navigate} = props.navigation
 
 
   loadingSwitch = () => {
@@ -66,6 +31,14 @@ export default LoginScreen = (props) => {
     }
   }
 
+  wrong = () => {
+		if(store.userToken==null){
+			Toast.show({
+				text:'wrongPassword',
+			duration:3000})
+		}
+	}
+
   loginStart = async () => {
     console.log(email, password)
     loadingSwitch();
@@ -75,20 +48,9 @@ export default LoginScreen = (props) => {
       props.navigation
     );
     storeData();
-
     loadingSwitch();
 
   }
-
-  wrong = () => {
-		if(store.userToken==null){
-			Toast.show({
-				text:'wrongPassword',
-			duration:3000})
-		}
-	}
-
-  var {navigate} = props.navigation
 
   return(
     <View style={{flex:1, justifyContent:"center", backgroundColor:'rgb(12,85,32)'}}>
@@ -104,35 +66,34 @@ export default LoginScreen = (props) => {
           </CardItem>
           {/* EMAIL INPUT */}
           <CardItem style={{width:'75%', alignSelf:'center', marginVertical:5}}>
-              <TextInput 
-                placeholder="Enter Email"
-                placeholderTextColor='gray'
-                keyboardType="email-address"
-                blurOnSubmit={false}
-                returnKeyType="next"
-                autoCapitalize='none'
-                autoCorrect={false} 
-                onSubmitEditing={() => { txtPassword.focus(); }}
-                value={email}    
-                onChangeText={email => setEmail( email )}
-              />
+            <TextInput 
+              placeholder="Enter Email"
+              placeholderTextColor='gray'
+              keyboardType="email-address"
+              blurOnSubmit={false}
+              returnKeyType="next"
+              autoCapitalize='none'
+              autoCorrect={false} 
+              onSubmitEditing={() => { txtPassword.focus(); }}
+              value={email}    
+              onChangeText={email => setEmail( email )}
+            />
           </CardItem>
           
           {/* PASSWORD INPUT */}
           <CardItem style={{width:'75%',  alignSelf:'center'}}>
-              <TextInput 
-                placeholder="Enter Password"
-                placeholderTextColor='gray'
-                secureTextEntry
-                autoCapitalize='none'
-                returnKeyType="go"
-                autoCorrect={false} 
-                ref={(input) => { txtPassword = input; }} 
-                value={password}
-                onChangeText={password => setPassword( password )}
-              />
+            <TextInput 
+              placeholder="Enter Password"
+              placeholderTextColor='gray'
+              secureTextEntry
+              autoCapitalize='none'
+              returnKeyType="go"
+              autoCorrect={false} 
+              ref={(input) => { txtPassword = input; }} 
+              value={password}
+              onChangeText={password => setPassword( password )}
+            />
           </CardItem>
-
 
           {/* BUTTONS  */}
           <CardItem style={{
@@ -151,8 +112,8 @@ export default LoginScreen = (props) => {
                   wrong()}
                 }
             >
-            <Text style={{fontWeight:'600', justifyContent:'center'}}> Login </Text>
-          </Button>
+              <Text style={{fontWeight:'600', justifyContent:'center'}}> Login </Text>
+            </Button>
                 
 
             {/* SIGN UP BUTTON */}

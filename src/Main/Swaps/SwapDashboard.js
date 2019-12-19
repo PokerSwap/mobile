@@ -10,16 +10,16 @@ export default SwapDashboard = (props) => {
 
   const { store, actions } = useContext(Context)
 
-  noTracker = (f) =>  
+  let noTracker = (f) =>  {
     <ListItem noIndent style={{justifyContent:'center'}}>
       <Text style={{
         justifyContent:'center', textAlign:'center', 
         fontSize:24, width:'80%'}}> 
         You have no {f} tournaments at the moment. 
       </Text>
-    </ListItem>;
+    </ListItem>}
 
-  a_tracker = (e) => e.map((content, index) => {
+  let a_tracker = (e) => e.map((content, index) => {
     return(
       <SwapTracker
         key={index}
@@ -65,6 +65,33 @@ export default SwapDashboard = (props) => {
     wait(2000).then(() => setRefreshing(false));
   }, [refreshing]);
 
+  const METHOD_DATA = [{
+    supportedMethods: ['apple-pay'],
+    data: {
+      merchantIdentifier: 'merchant.com.your-app.namespace',
+      supportedNetworks: ['visa', 'mastercard', 'amex'],
+      countryCode: 'US',
+      currencyCode: 'USD'
+    }
+  }];
+
+  const DETAILS = {
+    id: 'basic-example',
+    displayItems: [
+      {
+        label: 'Movie Ticket',
+        amount: { currency: 'USD', value: '15.00' }
+      }
+    ],
+    total: {
+      label: 'Merchant Name',
+      amount: { currency: 'USD', value: '15.00' }
+    }
+  };
+
+  const paymentRequest = new PaymentRequest(METHOD_DATA, DETAILS);
+
+
   return(
     <Container>
       <_Header title={'Swap Dashboard'}  
@@ -72,6 +99,7 @@ export default SwapDashboard = (props) => {
         tutorial={() => props.navigation.push('Tutorial')}
         />
       <Content>
+        <Button onPress={()=>paymentRequest.show()}><Text>show</Text></Button>
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         {/* SWAPTRACKERS */}
         <List>

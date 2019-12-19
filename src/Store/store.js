@@ -11,8 +11,11 @@ const getState = ({ getStore, setStore, getActions }) => {
 			// CURRENT PROFILE
 			my_profile:{},
 
-			// CURRENT PROFILE
+			// LIVE AND UPCOMING SWAP TRACKER
 			my_trackers:[],
+
+			// PAST/WINNINGS SWAP TRACKER
+			pastTrackers:[],
 			
       // OTHER PEOPLE'S PROFILES (ON PROFILE VIEW)
 			profileView:[ ],
@@ -28,38 +31,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 			
 			buy_in:{
 
-				// get: async() => {
-				// 	try {
-				// 		const id = getStore().my_profile.id
-				// 		console.log('id',id)
-				// 		const url = 'https://swapprofit-test.herokuapp.com/me/buy_ins/' + id
-				// 		const accessToken = getStore().userToken.jwt ;
-				// 		let response = await fetch(url, {
-				// 			method: 'GET',
-				// 			headers: {
-				// 				'Authorization': 'Bearer ' + accessToken,
-				// 				'Content-Type':'application/json'
-				// 			}, 
-				// 		})
-				// 		let buyinList = await response.json()
-				// 		console.log('e', buyinList)
-				// 		getActions().buy_in.store(buyinList)
-
-				// 	} catch (error) {
-				// 		console.log('some went wrong with getting buyins:', error)
-				// 	}
-				// },
-				
-				// store: async(buyin_data) => {
-				// 	try {
-				// 		setStore({my_buyins: buyin_data})
-				// 		console.log('My Buyins:', getStore().my_buyins)
-				// 	} catch (error) {
-				// 		console.log('some went wrong with storing buyins:', error)
-				// 	}
-				// },
-
-				add: async ( a_flight_id, a_table, a_seat, some_chips, navigation ) => {
+				add: async ( a_flight_id, a_table, a_seat, some_chips ) => {
 					
 					try{	
 						let accessToken = getStore().userToken.jwt
@@ -80,9 +52,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}, 
 						})
 						.then(response => response.json)
-						.then(getActions().buy_in.get())
+						.then(getActions().tracker.getAll())
 						.then(getActions().tournament.getAll())
-						.finally(navigation.navigate('TournamentDashboard'))
+					
 
 					} catch(error) {
 						console.log("Some went wrong in adding a buyin", error)
@@ -117,15 +89,65 @@ const getState = ({ getStore, setStore, getActions }) => {
 					}catch(error){
 						console.log('Something went wrong with editing a buyin', error)
 					}
-				}
+				},
 
+				getMostRecent: async() => {
+					const url = 'https://swapprofit-test.herokuapp.com/me/buy_ins/'
+					let accessToken = getStore().userToken.jwt
+
+					let response = await fetch(url, {
+						method: 'GET',
+						headers: {
+							'Authorization': 'Bearer ' + accessToken,
+							'Content-Type':'application/json'
+						}, 
+					})
+					let buyinList = await response.json()
+					console.log('lool',buyinList)
+					return buyinList
+				},
+
+				uploadPhoto: async ( image ) => {
+
+					const data = new FormData();
+					var an_id = await getActions().buy_in.getMostRecent()
+					var url ='https://swapprofit-test.herokuapp.com/me/buy_ins/' + an_id + '/image'
+					const accessToken = getStore().userToken.jwt ;
+					data.append('image', {
+							uri: image.uri,
+							type: image.type,
+							name: image.name
+					});
+					console.log('wee', data)
+		
+					var postData = {
+						method: 'PUT',
+						headers: {
+							'Content-Type': 'multipart/form-data',
+							'Authorization': 'Bearer ' + accessToken,
+						},
+						body: data,
+					}
+			
+					let response = await fetch(url, postData)
+					.then(response => response.json())
+					.then((responseJson) => {
+						console.log('responseJson',responseJson);
+						return responseJson;
+					})
+					.catch((error) => {
+						console.log('error in json',error);
+					});
+				
+				}
+				
 			},
 
 			coin:{},
 
 			profile:{
 				
-				add: async ( userName, firstName, lastName, a_hendon, profilePic, navigation ) => {
+				add: async ( userName, firstName, lastName, a_hendon ) => {
 					
 					try{
 						
@@ -148,55 +170,47 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}, 
 						})
 						.then(response => response.json)
-						.then(getActions().profile.changePicture(profilePic))
-						.then(getActions().profile.get())
-						.then(getActions().tournament.getAll())
-						.then(navigation.navigate('Swaps'))
 					} catch(error) {
 						console.log("Something went wrong in adding a profile", error)
 					}
 				},
 
-				changePicture: async(picture) => {
+				uploadPhoto: async ( photo ) => {
 
-					try{
-						const accessToken = getStore().userToken.jwt;
-						const url = 'https://swapprofit-test.herokuapp.com/profiles/image'
+					const data = new FormData();
+					
+					var url ='https://swapprofit-test.herokuapp.com/profiles/image'
+					const accessToken = getStore().userToken.jwt ;
+					data.append('image', {
+							uri: photo.uri,
+							type: photo.type,
+        			name: photo.name
+					});
+			console.log('wee', data)
 
-						// const data = new FormData();
-						// data.append('name', 'testName'); // you can append anyone.
-						// data.append('photo', {
-						// 	uri: picture,
-						// 	type: 'image/png', // or photo.type
-						// 	name: 'testPhotoName'
-						// });
-						// fetch(url, {
-						// 	method: 'post',
-						// 	body: data
-						// }).then(res => {
-						// 	console.log('this is me', res)
-						// });
-
-
-						let data = {
-							image: picture
-						}
-
-						let response = await fetch(url, {
+			var postData = {
 							method: 'PUT',
-							body: JSON.stringify(data),
 							headers: {
-								'Accept': 'application/json',
+								'Content-Type': 'multipart/form-data',
 								'Authorization': 'Bearer ' + accessToken,
-								'Content-Type':'multipart/form-data'
-							}, 
-						})
-						.then(response => response.json)
-
-					}catch(error){
-						console.log('Something went wrong with changing the profile picture', error)
+							},
+							body: data,
 					}
-
+			
+					let response = await fetch(url, postData)
+							.then(response => response.json())
+							.then((responseJson) => {
+			
+									console.log('responseJson',responseJson);
+									return responseJson;
+			
+							})
+							.catch((error) => {
+									
+									console.log('error in json',error);
+			
+							});
+			
 				},
 
 				get: async (navigation) => {
@@ -284,38 +298,33 @@ const getState = ({ getStore, setStore, getActions }) => {
 						console.log('something went wrong in tracker.getCurrent', error)
 					}
 
+				},
+
+				getPast: async() => {
+					try{
+						const url = 'https://swapprofit-test.herokuapp.com/me/swap_tracker?history=true'
+						let accessToken = getStore().userToken.jwt
+
+						let response = await fetch(url, {
+							method:'GET',
+							headers: {
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							}, 
+						})
+
+						let trackerData = await response.json()
+						setStore({pastTrackers: trackerData})
+						
+					}catch(error){
+						console.log('something went wrong in tracker.getCurrent', error)
+					}
+
 				}
 				
 			},
 
 			swap: {
-
-				// get: async() => {
-				// 	try {
-				// 		const url = 'https://swapprofit-test.herokuapp.com/me/swaps'
-				// 		const accessToken = getStore().userToken.jwt ;
-				// 		let response = await fetch(url, {
-				// 			method: 'GET',
-				// 			headers: {
-				// 				'Authorization': 'Bearer ' + accessToken,
-				// 				'Content-Type':'application/json'
-				// 			}, 
-				// 		})
-				// 		let buyinList = response.json()
-
-				// 	} catch (error) {
-				// 		console.log('some went wrong with getting swaps:', error)
-				// 	}
-				// },
-
-				// store: async(buyin_data) => {
-				// 	try {
-				// 		setStore({my_buyins: buyin_data})
-				// 		console.log('My Buyins:', getStore(my_buyins))
-				// 	} catch (error) {
-				// 		console.log('some went wrong with storing buyins:', error)
-				// 	}
-				// },
 
 				add: async ( a_tournament_id, a_recipient_id, a_percentage, navigation ) => {
 					
@@ -418,9 +427,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 								'Content-Type':'application/json'
 							}, 
 						})
-					// 	.then(response => response.json)
-					// 	.then(data => console.log('DATA',data))
-						// console.log('each tournament', response.json)
 
 					} catch(error){
 						console.log('Something went wrong with tournament.get', error)
@@ -496,36 +502,24 @@ const getState = ({ getStore, setStore, getActions }) => {
 				},
 
 				getAction: ( tournament_id ) => {
-					// return new Promise((resolve, reject) => 
-					// {
-						try{
-							const url = "https://swapprofit-test.herokuapp.com/swaps/me/tournament/" + tournament_id;
-							const accessToken = getStore().userToken.jwt ;
-	
-							fetch(url, {
-								method: 'GET',
-								headers: {
-									'Authorization': 'Bearer ' + accessToken,
-									'Content-Type':'application/json'
-								}, 
-							})
-	
-							.then(response => response.json())
-							.then(data => {
-								setStore({action: data})
-								// resolve(data)
-							})
-							
-	
-							// console.log('action:', response.json)
-	
-							// console.log('what:', getStore().action.swaps)
-	
-						} catch(error){
-							console.log('something went wrong in tournament.getAction', error)
-						}
-					// })
+					try{
 
+						const url = "https://swapprofit-test.herokuapp.com/swaps/me/tournament/" + tournament_id;
+						const accessToken = getStore().userToken.jwt ;
+
+						fetch(url, {
+							method: 'GET',
+							headers: {
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							}, 
+						})
+						.then(response => response.json())
+						.then(data => setStore({action: data})
+					)
+					} catch(error){
+						console.log('something went wrong in tournament.getAction', error)
+					}
 				}
 			},
 
@@ -588,7 +582,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}
 								
 						)))
-					},
+				},
 
 				login: async (your_email, your_password, navigation, loading) => {
             
@@ -609,6 +603,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 								if(getStore().my_profile.message !== "User not found" ){
 									getActions().tournament.getAll()
 									.then(() => getActions().tracker.getAll())
+									.then(() => getActions().tracker.getPast())
 									.then(() => loading)
 									.then(() => navigation.navigate('Swaps'))
 								} else { 
