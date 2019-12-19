@@ -56,7 +56,7 @@ export default  PictureSetup = (props) => {
         name,
       };
       props.onChangePicture(selectedImage)
-      setImage({ selectedImage });
+      setImage(selectedImage.uri );
       }
     });
   };
