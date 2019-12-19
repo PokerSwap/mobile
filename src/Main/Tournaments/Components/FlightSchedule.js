@@ -15,23 +15,46 @@ export default FlightSchedule = (props) => {
   var startTime = props.start_at.substring(16,22)
   var endTime = props.end_at.substring(16,22)
 
-  var ssss = props.swaps.map(swap => swap.swap)
+  var allSwapsinTournament = props.allSwapsinTournament
+  var mySwapsinTournament = props.mySwapsinTournament
 
   var Buy_Ins = props.buy_ins.map((buy_in) => {
 
-    return(
-    <BuyIn
-      key = {buy_in.id}
-      tournament_id={props.tournament_id}
-      user_name={buy_in.user_name}
-      user_id={buy_in.user_id}
-      table={buy_in.table}
-      seat={buy_in.seat}
-      chips={buy_in.chips}
-      navigation={props.navigation}
+    var a_status, a_percentage, a_counter_percentage;
+     
+    if (mySwapsinTournament.length !== 0){
+      var xx = mySwapsinTournament.filter((swap) => swap.recipient_user.id == buy_in.user_id)
+      console.log('xx',xx)
+      if (xx.length !== 0){
+        a_status=xx[0].status
+        a_percentage=xx[0].percentage
+        console.log('Got your swap with ' + buy_in.user_name + ' which is ' + a_status)
+      } else{
+        a_status=''
+        a_percentage=''
+        console.log('You dont have a swap with ' + buy_in.user_name)
+      }
+      
+    }else{
+      a_status=''
+      a_percentage=''
+    }
 
-      status={a_status}
-    />
+    return(
+      <BuyIn
+        key = {buy_in.id}
+        tournament_id={props.tournament_id}
+        user_name={buy_in.user_name}
+        user_id={buy_in.user_id}
+        table={buy_in.table} 
+        seat={buy_in.seat}
+        chips={buy_in.chips}
+        navigation={props.navigation}
+
+        status={a_status}
+        percentage={a_percentage}
+        // counter_percentage={a_counter_percentage}
+      />
     )}
   )
     

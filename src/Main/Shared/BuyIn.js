@@ -97,7 +97,7 @@ export default BuyIn = (props) => {
 
   const enterSwapOffer = () => {
     navigation.push('SwapOffer',{
-      mode: path,
+      status: path,
       flight_id: props.flight_id,
       user_id: props.user_id,
       user_name: props.user_name,
@@ -128,7 +128,6 @@ export default BuyIn = (props) => {
   }
 
   var x = moment(props.updated_at).fromNow()
-  console.log('x',props.updated_at)
 
 
   return(

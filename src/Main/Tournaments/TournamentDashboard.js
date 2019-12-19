@@ -52,6 +52,7 @@ export default TournamentDashboard = (props) => {
         longitude={tournament.longitude}
         flights={tournament.flights}
         buy_ins={tournament.buy_ins}
+        swaps={tournament.swaps}
         start_at={tournament.start_at}
         end_at={tournament.end_at}
       />
@@ -59,14 +60,12 @@ export default TournamentDashboard = (props) => {
   return(
     <Container>
       <_Header title={'Tournament Dashboard'} drawer={() => props.navigation.toggleDrawer()}/>
-
-
       <TournamentSearchBar search={search} setSearch={setSearch}/>
-      
       <TournamentSort sort={sort} setSort={setSort} />
       
       <Content>
-      <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       
         <List>
           {/* TOURNAMENT LIST GENERATOR */}

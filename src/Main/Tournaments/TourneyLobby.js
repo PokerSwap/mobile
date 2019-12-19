@@ -21,6 +21,7 @@ export default TourneyLobby = (props) => {
   let end_at = navigation.getParam('end_at', 'NO-ID');
   let flights = navigation.getParam('flights', 'NO-ID');
   let buy_ins = navigation.getParam('buy_ins', 'NO-ID');
+  let allSwapsinTournament = navigation.getParam('swaps', 'NO-ID');
 
   const {store,actions} = useContext(Context)
 
@@ -28,23 +29,28 @@ export default TourneyLobby = (props) => {
     await actions.tournament.getAction(tournament_id)
   }
 
+  var aa = store.my_trackers.filter(tracker => tracker.tournament.id == tournament_id)
+  console.log('aa',aa)
+  var mySwapsinTournament = aa[0].swaps.map(swapBody => swapBody.swap)
+  console.log('mySwapsinTournament',mySwapsinTournament)
 
   var Flights = flights.map((flight) => { 
-    var something = buy_ins.filter(buy_in => buy_in.flight_id == flight.id)
-    var aa = store.my_trackers.filter(tracker => tracker.tournament.id == tournament_id)
-    var bb = aa.map(a => a.swaps)
-    console.log('bb',bb)
-    return(<FlightSchedule 
-    id = {flight.id}
-    navigation={props.navigation}
-    tournament_id={tournament_id}
-    name={flight.tournament}
-    day = {flight.day}
-    start_at = {flight.start_at}
-    end_at = {flight.end_at}
-    buy_ins={something}
-    swaps={bb}
-  />)})
+    var their_buy_ins = buy_ins.filter(buy_in => buy_in.flight_id == flight.id)
+    
+    return(
+      <FlightSchedule 
+        id = {flight.id}
+        navigation={props.navigation}
+        tournament_id={tournament_id}
+        name={flight.tournament}
+        day = {flight.day}
+        start_at = {flight.start_at}
+        end_at = {flight.end_at}
+        buy_ins={their_buy_ins}
+        allSwapsinTournament={allSwapsinTournament}
+        mySwapsinTournament={mySwapsinTournament}
+      />)
+  })
 
   return(
     <Container>

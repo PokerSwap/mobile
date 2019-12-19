@@ -43,17 +43,18 @@ export default VerifyTicket = (props) => {
       )
   })
 
-  BuyInStart = async(x) => {    
-    var answer = await x.buy_in.add(
+  const BuyInStart = async() => {    
+    var answer = await actions.buy_in.add(
       flight_id,
       table,
       seat,
-      chips,
-      props.navigation
+      chips
     )
+    var answer2 = await actions.buy_in.uploadPhoto( image)
+    props.navigation.goBack()
   }
 
-  UploadTicketPhoto = () => {
+  const UploadTicketPhoto = () => {
     const options = {
       title: 'Submit Picture',
       storageOptions: {
@@ -75,6 +76,19 @@ export default VerifyTicket = (props) => {
       }
     });
   };
+
+  var x;
+
+  const isNumeric = (n) => {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+  }
+
+  if (!isNumeric(table) || !isNumeric(seat) || !isNumeric(chips) || flight_id=='' || flight_id==-1 || 
+      image == require('../../Images/placeholder.jpg')){
+    x=true
+  }else{
+    x=false
+  }
 
   return(
     <Container>
@@ -114,7 +128,7 @@ export default VerifyTicket = (props) => {
               returnKeyType="next"
               autoCapitalize='none'
               autoCorrect={false} 
-              onSubmitEditing={() => { txtSeat.focus(); }}
+              // onSubmitEditing={() => { txtSeat.focus(); }}
               value={table}    
               onChangeText={table => setTable( table )}
             />
@@ -131,8 +145,8 @@ export default VerifyTicket = (props) => {
               returnKeyType="next"
               autoCapitalize='none'
               autoCorrect={false} 
-              ref={(input) => { txtSeat = input; }} 
-              onSubmitEditing={() => { txtChips.focus(); }}
+              // ref={(input) => { txtSeat = input; }} 
+              // onSubmitEditing={() => { txtChips.focus(); }}
               value={seat}    
               onChangeText={seat => setSeat( seat )}
             />
@@ -148,8 +162,8 @@ export default VerifyTicket = (props) => {
               returnKeyType="go"
               autoCapitalize='none'
               autoCorrect={false} 
-              ref={(input) => { txtChips = input; }} 
-              onSubmitEditing={() => { txtPassword.focus(); }}
+              // ref={(input) => { txtChips = input; }} 
+              // onSubmitEditing={() => { txtPassword.focus(); }}
               value={chips}    
               onChangeText={chips => setChips( chips )}
             />
@@ -169,7 +183,7 @@ export default VerifyTicket = (props) => {
           {/* SUBMIT BUTTON */}
           <CardItem style={{justifyContent:'center'}}>
             
-                  <Button onPress={() => BuyInStart()}>
+                  <Button disabled={x} onPress={() => BuyInStart()}>
                     <Text style={{fontWeight:'600'}}> SUBMIT </Text>
                   </Button>
                 

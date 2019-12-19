@@ -25,7 +25,7 @@ export default SwapOffer = (props) => {
   const [chips, setChips] = useState(props.navigation.getParam('chips', 'default value'));
 
   const { navigation } = props;
-  let mode = navigation.getParam('mode', 'NO-ID');
+  let status = navigation.getParam('status', 'NO-ID');
   let user_name = navigation.getParam('user_name', 'default value');
   let user_id = navigation.getParam('user_id', 'default value');
   let buyin_id = navigation.getParam('buyin_id', 'default value');
@@ -94,7 +94,7 @@ export default SwapOffer = (props) => {
   let currentPath;
 
   // YOUR SWAP VIEW
-  if (mode=='edit'){ 
+  if (status=='edit'){ 
     currentPath = 
       <EditPath 
         navigation={props.navigation} user_name={user_name}
@@ -105,7 +105,7 @@ export default SwapOffer = (props) => {
         buyinEdit={buyinEdit}/>
   }    
   // RECEIVED SWAP VIEW
-  else if (mode=='incoming'){
+  else if (status=='incoming'){
     currentPath = 
       <IncomingPath 
         navigation={props.navigation} 
@@ -116,7 +116,7 @@ export default SwapOffer = (props) => {
       />
   } 
   // PENDING SWAP VIEW
-  else if (mode=='pending'){
+  else if (status=='pending'){
     currentPath = 
       <PendingPath 
         navigation={props.navigation} user_name={user_name}
@@ -126,7 +126,7 @@ export default SwapOffer = (props) => {
       />
   } 
   // AGREED SWAP VIEW
-  else if (mode=='agreed'){
+  else if (status=='agreed'){
     currentPath = 
       <AgreedPath 
         navigation={props.navigation} user_name={user_name}
@@ -134,7 +134,7 @@ export default SwapOffer = (props) => {
       />
   }
   // REJECTED SWAP VIEW 
-  else if (mode=='rejected'){
+  else if (status=='rejected'){
     currentPath = 
       <RejectedPath 
         navigation={props.navigation} user_name={user_name}
@@ -142,7 +142,7 @@ export default SwapOffer = (props) => {
       />
   }
   // CANCELED SWAP VIEW 
-  else if (mode=='canceled'){
+  else if (status=='canceled'){
     currentPath = 
       <CanceledPath
         navigation={props.navigation} user_name={user_name}
@@ -152,6 +152,8 @@ export default SwapOffer = (props) => {
   }
   // INACTIVE SWAP VIEW
   else{
+    setPercentage(1);
+    console.log('f',percentage)
     currentPath = 
       <InactivePath 
         navigation={props.navigation} user_name={user_name}
