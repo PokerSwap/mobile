@@ -18,6 +18,7 @@ import ForgotPassword from './src/Auth/ForgotPassword'
 import TournamentDashboard from './src/Main/Tournaments/TournamentDashboard'
 import SwapDashboard from './src/Main/Swaps/SwapDashboard'
 import WinningsDashboard from './src/Main/Winnings/WinningsDashboard'
+import SwapPot from './src/Main/Winnings/SwapPot'
 
 // TOURNAMENT VIEWS
 import TourneyLobby from './src/Main/Tournaments/TourneyLobby'
@@ -148,6 +149,27 @@ const SwapsStack = createStackNavigator(
   }
 )
 
+const WinningsStack = createStackNavigator(
+  {
+    WinningsDashboard:{
+      screen: WinningsDashboard,
+      navigationOptions:{
+        title:"Winnings Dashboard",
+        header: null
+      }
+    },
+    SwapPot:{
+      screen: SwapPot,
+      navigationOptions:{
+        title:'Swap Pot',
+        header: null
+      }
+    }
+  }, {
+    header: null,
+  }
+)
+
 // TOURNAMENTS, SWAPS, PROFILE NAVIGATION
 const MainStack = createBottomTabNavigator(
   {
@@ -178,7 +200,7 @@ const MainStack = createBottomTabNavigator(
       }
     },
     Winnings: { 
-      screen: WinningsDashboard ,
+      screen: WinningsStack ,
       navigationOptions:{
         header: null,
         tabBarIcon: ({ tintColor }) => 
