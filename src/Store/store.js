@@ -143,7 +143,61 @@ const getState = ({ getStore, setStore, getActions }) => {
 				
 			},
 
-			coin:{},
+			coin:{
+				buy: async (some_dollars, some_coins) => {
+					try{
+						const accessToken = getStore().userToken.jwt;
+						const url = 'https://swapprofit-test.herokuapp.com/users/me/transaction'
+
+						let data = {
+							dollars: some_dollars,
+							coins: some_coins
+						}
+
+						let response = await fetch(url, {
+							method:'POST',
+							body: JSON.stringify(data),
+							headers: {
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							}, 
+						})
+						.then(response => response.json)
+						.then(() => getActions().profile.get())
+
+					}catch(error){
+						console.log('something went wrong with buying tokens', error)
+					}
+					
+					
+				},
+				
+				spend: async() => {
+					try{
+						const accessToken = getStore().userToken.jwt;
+						const url = 'https://swapprofit-test.herokuapp.com/users/me/transaction'
+
+						let data = {
+							coins: -1
+						}
+
+						let response = await fetch(url, {
+							method:'POST',
+							body: JSON.stringify(data),
+							headers: {
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							}, 
+						})
+						.then(response => response.json)
+						.then(() => getActions().profile.get())
+
+					}catch(error){
+						console.log('something went wrong with spending coins', error)
+					}
+				}
+
+			},
 
 			profile:{
 				
@@ -213,7 +267,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 			
 				},
 
-				get: async (navigation) => {
+				get: async () => {
 					try{
 
 						const accessToken = getStore().userToken.jwt;
@@ -252,7 +306,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 				remove: async () => {
 					try {
-						setStore({myProfile: null})
+						setStore({my_profile: null})
 					} catch(error) {
 						console.log('Something went wrong in removing userToken')
 					}
@@ -378,10 +432,11 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}
 						})
 						.then(response => response.json())
+						console.log(response)
 
 					}
 					catch(error){
-						console.log('Something went wrong with swap.statusChange'
+						console.log('Something went wrong with swap.statusChange',error
 					)}
 				},
 		
