@@ -11,13 +11,14 @@ export default SwapDashboard = (props) => {
   const { store, actions } = useContext(Context)
 
   let noTracker = (f) =>  {
+    return(
     <ListItem noIndent style={{justifyContent:'center'}}>
       <Text style={{
         justifyContent:'center', textAlign:'center', 
         fontSize:24, width:'80%'}}> 
         You have no {f} tournaments at the moment. 
       </Text>
-    </ListItem>}
+    </ListItem>)}
 
   let a_tracker = (e) => e.map((content, index) => {
     return(
@@ -40,12 +41,13 @@ export default SwapDashboard = (props) => {
     var now = moment()
 
     var currentList = trackers.filter((tracker) => now.isBetween(tracker.tournament.start_at, tracker.tournament.end_at))
-    currentList != null ? liveTracker = a_tracker(currentList) : 
-                            liveTracker = noTracker('live')
+    currentList.length !== 0 ? 
+      liveTracker = a_tracker(currentList) : liveTracker = noTracker('live')
     
     var upcomingList = trackers.filter((tracker) => now.isBefore(tracker.tournament.start_at))
-    upcomingList != null ? upcomingTracker = a_tracker(upcomingList) : 
-                            upcomingTracker = noTracker('upcoming')
+    upcomingList.length !== 0 ? 
+      upcomingTracker = a_tracker(upcomingList) : upcomingTracker = noTracker('upcoming')
+      
   } else{
     liveTracker = noTracker('live')
     upcomingTracker = noTracker('upcoming')
@@ -65,32 +67,6 @@ export default SwapDashboard = (props) => {
     wait(2000).then(() => setRefreshing(false));
   }, [refreshing]);
 
-  const METHOD_DATA = [{
-    supportedMethods: ['apple-pay'],
-    data: {
-      merchantIdentifier: 'merchant.com.your-app.namespace',
-      supportedNetworks: ['visa', 'mastercard', 'amex'],
-      countryCode: 'US',
-      currencyCode: 'USD'
-    }
-  }];
-
-  const DETAILS = {
-    id: 'basic-example',
-    displayItems: [
-      {
-        label: 'Movie Ticket',
-        amount: { currency: 'USD', value: '15.00' }
-      }
-    ],
-    total: {
-      label: 'Merchant Name',
-      amount: { currency: 'USD', value: '15.00' }
-    }
-  };
-
-  const paymentRequest = new PaymentRequest(METHOD_DATA, DETAILS);
-
 
   return(
     <Container>
@@ -99,7 +75,6 @@ export default SwapDashboard = (props) => {
         tutorial={() => props.navigation.push('Tutorial')}
         />
       <Content>
-        <Button onPress={()=>paymentRequest.show()}><Text>show</Text></Button>
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         {/* SWAPTRACKERS */}
         <List>

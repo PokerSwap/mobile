@@ -20,6 +20,7 @@ export default SwapOffer = (props) => {
   const { store, actions } = useContext(Context)
 
   const [percentage, setPercentage] =  useState(props.navigation.getParam('percentage', 'default value'));
+  const [counter_percentage, setCounterPercentage] =  useState(props.navigation.getParam('counter_percentage', 'default value'));
   const [table, setTable] = useState(props.navigation.getParam('table', 'default value'));
   const [seat, setSeat] = useState(props.navigation.getParam('seat', 'default value'));
   const [chips, setChips] = useState(props.navigation.getParam('chips', 'default value'));
@@ -54,23 +55,6 @@ export default SwapOffer = (props) => {
       percentage,
       props.navigation
     )
-  }
-
-  var swapUpdate = async() => {
-    var answer = await actions.swap.statusChange(
-      tournament_id, 
-      user_id, 
-      status,
-      percentage,
-      counter_percentage
-    )
-    var answer2 = await actions.swap.statusChange(
-      tournament_id, 
-      user_id, 
-      status,
-      percentage
-    )
-    props.navigation.goBack()
   }
 
   // ADDING PERCENT TO SWAP - NO MORE THAN 50%
@@ -109,54 +93,62 @@ export default SwapOffer = (props) => {
     currentPath = 
       <IncomingPath 
         navigation={props.navigation} 
-        user_name={user_name} user_id = {user_id}
+        user_name={user_name} 
+        user_id={user_id}
         tournament_id={tournament_id}
-        percentage={percentage} setPercentage={setPercentage}
-        swapUpdate={swapUpdate}
+        percentage={percentage}
+        counter_percentage={counter_percentage}
       />
   } 
   // PENDING SWAP VIEW
   else if (status=='pending'){
     currentPath = 
       <PendingPath 
-        navigation={props.navigation} user_name={user_name}
+        navigation={props.navigation} 
+        user_name={user_name}
+        user_id={user_id}
         tournament_id={tournament_id}
         percentage={percentage}
-        swapUpdate={swapUpdate}
+        counter_percentage={counter_percentage}
       />
   } 
   // AGREED SWAP VIEW
   else if (status=='agreed'){
     currentPath = 
       <AgreedPath 
-        navigation={props.navigation} user_name={user_name}
+        navigation={props.navigation} 
+        user_name={user_name}
+        user_id={user_id}
         percentage={percentage} setPercentage={setPercentage}
+        counter_percentage={counter_percentage}
       />
   }
   // REJECTED SWAP VIEW 
   else if (status=='rejected'){
     currentPath = 
       <RejectedPath 
-        navigation={props.navigation} user_name={user_name}
+        navigation={props.navigation} 
+        user_name={user_name}
         percentage={percentage} 
+        counter_percentage={counter_percentage}
       />
   }
   // CANCELED SWAP VIEW 
   else if (status=='canceled'){
     currentPath = 
       <CanceledPath
-        navigation={props.navigation} user_name={user_name}
+        navigation={props.navigation} 
+        user_name={user_name}
         percentage={percentage}
-        swapUpdate={swapUpdate}
+        counter_percentage={counter_percentage}
       />
   }
   // INACTIVE SWAP VIEW
   else{
-    setPercentage(1);
-    console.log('f',percentage)
     currentPath = 
       <InactivePath 
         navigation={props.navigation} user_name={user_name}
+        tournament_id={tournament_id} user_id={user_id}
         percentage={percentage} setPercentage={setPercentage}
         add={add} subtract={subtract} 
         swapAdd={swapAdd}
@@ -166,12 +158,11 @@ export default SwapOffer = (props) => {
   return(
     <Container>
       
-      <Header style={{justifyContent:'flex-start', alignItems:'center', backgroundColor:'rgb(56,68,165)'}}>
-        <TouchableOpacity onPress={()=> props.navigation.goBack()} style={{alignItems:'center', flexDirection:'row'}}>
-          <Icon type='FontAwesome5' name='angle-left' style={{color:'white'}}/>
-          <Text style={{fontWeight:'600', color:'white', marginLeft:10, fontSize:18}}> Go Back</Text>
-        </TouchableOpacity>
-      </Header>
+      <Header style={{
+        justifyContent:'flex-start', 
+        alignItems:'center', 
+        backgroundColor:'rgb(56,68,165)'}}
+      />
       <Content>
       
         {/* HEADER */}
@@ -183,19 +174,19 @@ export default SwapOffer = (props) => {
           /> */}
           <CardItem>
             <Grid>
-              <Row style={{justifyContent:'center'}}><Text style={{textAlign:'center'}}>{user_name}</Text></Row>
+              <Row style={{justifyContent:'center', marginBottom:10}}><Text style={{textAlign:'center', fontSize:30}}>{user_name}</Text></Row>
               <Row>
-                <Col>
-                  <Text>Table:</Text>
-                  <Text>{table}</Text>
+                <Col style={{justifyContent:'center'}}>
+                  <Text style={{textAlign:'center', fontSize:18}}>Table:</Text>
+                  <Text style={{textAlign:'center', fontSize:24}}>{table}</Text>
                 </Col>
-                <Col>
-                  <Text>Seat:</Text>
-                  <Text>{seat}</Text>
+                <Col style={{justifyContent:'center'}}>
+                  <Text style={{textAlign:'center', fontSize:18}}>Seat:</Text>
+                  <Text style={{textAlign:'center', fontSize:24}}>{seat}</Text>
                 </Col>
-                <Col>
-                  <Text>Chips:</Text>
-                  <Text>{chips}</Text>
+                <Col style={{justifyContent:'center'}}>
+                  <Text style={{textAlign:'center', fontSize:18}}>Chips:</Text>
+                  <Text style={{textAlign:'center', fontSize:24}}>{chips}</Text>
                 </Col>
               </Row>
             </Grid>

@@ -94,7 +94,7 @@ export default VerifyTicket = (props) => {
     <Container>
       <Content contentContainerStyle={{ alignItems:'center', justifyContent:'center' }}>
         
-        <Card>                 
+        <Card transparent>                 
           {/* IMAGE UPLOADED  */}
           <CardItem style={{justifyContent:'center'}}>
             <Image 
@@ -118,13 +118,14 @@ export default VerifyTicket = (props) => {
           </CardItem>      
 
           {/* TABLE INPUT */}
-          <CardItem style={{justifyContent:'center'}}>
+          <CardItem style={{justifyContent:'flex-start', marginLeft:10}}>
             <Text style={{fontSize:24}}>Table: </Text>
             <TextInput 
               placeholder="Enter Table Number"
               placeholderTextColor='gray'
               keyboardType="number-pad"
               blurOnSubmit={false}
+              style={{justifyContent:'center', fontSize:20}}
               returnKeyType="next"
               autoCapitalize='none'
               autoCorrect={false} 
@@ -135,7 +136,7 @@ export default VerifyTicket = (props) => {
           </CardItem>
           
           {/* SEAT INPUT */}
-          <CardItem style={{justifyContent:'center'}}>
+          <CardItem style={{justifyContent:'flex-start', marginLeft:10}}>
             <Text style={{fontSize:24}}>Seat: </Text>
             <TextInput 
               placeholder="Enter Seat Number"
@@ -145,6 +146,7 @@ export default VerifyTicket = (props) => {
               returnKeyType="next"
               autoCapitalize='none'
               autoCorrect={false} 
+              style={{justifyContent:'center', fontSize:20}}
               // ref={(input) => { txtSeat = input; }} 
               // onSubmitEditing={() => { txtChips.focus(); }}
               value={seat}    
@@ -153,7 +155,7 @@ export default VerifyTicket = (props) => {
           </CardItem>
           
           {/* CHIPS INPUT */}
-          <CardItem style={{justifyContent:'center'}}>
+          <CardItem style={{justifyContent:'flex-start', marginLeft:10}}>
             <Text style={{fontSize:24}}>Chips: </Text>
             <TextInput 
               placeholder="Enter Number of Chips"
@@ -162,6 +164,7 @@ export default VerifyTicket = (props) => {
               returnKeyType="go"
               autoCapitalize='none'
               autoCorrect={false} 
+              style={{justifyContent:'center', fontSize:20}}
               // ref={(input) => { txtChips = input; }} 
               // onSubmitEditing={() => { txtPassword.focus(); }}
               value={chips}    
