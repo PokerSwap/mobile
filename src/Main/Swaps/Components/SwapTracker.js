@@ -1,6 +1,7 @@
 import React, {} from 'react';
 import { View } from 'react-native';
 import { Text } from 'native-base';
+import {Col, Row } from 'react-native-easy-grid'
 
 import BuyIn from '../../Shared/BuyIn'
 
@@ -15,6 +16,7 @@ export default SwapTracker = (props) => {
   let myUpdate = props.my_buyin.updated_at
 
   let tournament_name = props.tournament.name
+  let tournament_id = props.tournament.id
   let tournament_start = props.tournament.start_at
   let tournament_end = props.tournament.end_at
 
@@ -32,12 +34,13 @@ export default SwapTracker = (props) => {
 
       status = {content.swap.status}
       percentage = {content.swap.percentage}
+      counter_percentage= {content.swap.counter_percentage}
       updated_at = {content.buyin.updated_at}
 
       tournament_name={tournament_name}
+      tournament_id={tournament_id}
       start_at={tournament_start}
       end_at={tournament_end}
-
 
     />
   )
@@ -53,6 +56,7 @@ export default SwapTracker = (props) => {
           {tournament_name}
         </Text>
       </View>
+      
       <BuyIn
         buyin_id = {mybID}
         navigation = {props.navigation}
@@ -67,7 +71,7 @@ export default SwapTracker = (props) => {
       />
 
       {other_swaps}
-
+      
     </View>
   )
 }

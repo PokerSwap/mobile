@@ -7,6 +7,8 @@ export default AgreedPath = (props) => {
     <Card>
       <CardItem>
         <Text>{props.user_name}</Text>
+        <Text>{props.percentage}</Text>
+        <Text>{props.counter_percentage}</Text>
       </CardItem>
       <CardItem>
         <Button>

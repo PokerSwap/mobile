@@ -28,6 +28,7 @@ export default SideBar = (props) => {
         rating={user.rating}
         picture={user.picture}
       />
+      <Text>{user.coins}</Text>
             
       {/* DEFAULT BUTTONS */}
       <DrawerItems {...props} />

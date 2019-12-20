@@ -49,7 +49,7 @@ export default BuyIn = (props) => {
           {props.percentage}% 
       </Text>;
     buttonColor= 'green';
-    path = "agreed"
+    path = 'agreed'
   } 
   // PENDING SWAP VIEW
   else if(props.status == 'pending') {
@@ -107,6 +107,7 @@ export default BuyIn = (props) => {
       table: props.table,
       seat: props.seat,
       chips: props.chips,
+      counter_percentage: props.counter_percentage,
       percentage: props.percentage,
       start_at: props.start_at,
       end_at: props.end_at

@@ -9,7 +9,7 @@ export default CanceledPath = (props) => {
   return(
     <Card>
       <CardItem>
-        <Row style={{justifyContent:'center'}}><Text > Rejected Swap With: </Text></Row>
+        <Row style={{justifyContent:'center'}}><Text > Canceled Swap With: </Text></Row>
         <Row style={{justifyContent:'center'}}><Text> {props.name} </Text></Row>
       </CardItem>
 
