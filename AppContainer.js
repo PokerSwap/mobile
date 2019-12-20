@@ -34,7 +34,7 @@ import TutorialScreen from './src/Main/Shared/Tutorial'
 import SideBar from './src/View-Components/sidebar'
 import SettingsScreen from './src/Drawer/Settings'
 import NotificationsScreen from './src/Drawer/Notifications'
-import AddTokens from './src/Drawer/AddTokens'
+import PurchaseTokens from './src/Drawer/PurchaseTokens'
 import ChangeEmail from './src/Drawer/ChangeEmail';
 
 // LOGIN AND SIGNUP NAVIGATION
@@ -283,10 +283,10 @@ const DrawerNav = createDrawerNavigator(
         ),
       }
     },
-    AddTokens: { 
-      screen: AddTokens,
+    PurchaseTokens: { 
+      screen: PurchaseTokens,
       navigationOptions: {
-        title: 'Add Tokens',
+        title: 'Purchase Tokens',
         drawerIcon: ({ focused }) => (
         <Icon 
           type="FontAwesome5" name="coins" size={24} 
