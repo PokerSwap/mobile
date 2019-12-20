@@ -20,24 +20,25 @@ export default FlightSchedule = (props) => {
 
   var Buy_Ins = props.buy_ins.map((buy_in) => {
 
-    var a_status, a_percentage, a_counter_percentage;
+    var a_status, a_percentage, a_firstname, a_counter_percentage;
      
     if (mySwapsinTournament.length !== 0){
       var xx = mySwapsinTournament.filter((swap) => swap.recipient_user.id == buy_in.user_id)
-      console.log('xx',xx)
       if (xx.length !== 0){
         a_status=xx[0].status
         a_percentage=xx[0].percentage
-        console.log('Got your swap with ' + buy_in.user_name + ' which is ' + a_status)
+        a_counter_percentage=xx[0].counter_percentage
+        a_firstname=xx[0].first_name
       } else{
         a_status=''
-        a_percentage=''
-        console.log('You dont have a swap with ' + buy_in.user_name)
+        a_percentage=1
+        a_counter_percentage=''
       }
       
     }else{
       a_status=''
       a_percentage=''
+      a_counter_percentage=''
     }
 
     return(
@@ -53,7 +54,8 @@ export default FlightSchedule = (props) => {
 
         status={a_status}
         percentage={a_percentage}
-        // counter_percentage={a_counter_percentage}
+        first_name={a_firstname}
+        counter_percentage={a_counter_percentage}
       />
     )}
   )
