@@ -1,9 +1,10 @@
 import React, { useState, useContext } from 'react';
-import {Button, Text, Toast, Card, CardItem, Container, Content} from 'native-base';
+import {Button, Text, Toast} from 'native-base';
 import { Context } from '../Store/appContext'
 
 import Spinner from 'react-native-loading-spinner-overlay';
-import { Keyboard, TouchableWithoutFeedback, TextInput, KeyboardAvoidingView, View, StatusBar } from 'react-native';
+import { Keyboard, TouchableWithoutFeedback, TextInput, 
+  KeyboardAvoidingView, View, StatusBar } from 'react-native';
 
 import AsyncStorage from '@react-native-community/async-storage'
 
@@ -58,15 +59,24 @@ export default LoginScreen = (props) => {
     <Spinner visible={loading} style={{color: '#FFF'}}/>
       <KeyboardAvoidingView>
         <TouchableWithoutFeedback>
-          <Card transparent style={{color:'rgb(12,85,32)'}}>
+        <View transparent style={{color:'rgb(12,85,32)'}}>
           
           {/* TITLE */}
-          <CardItem header style={{justifyContent:'center',backgroundColor:'rgb(12,85,32)'}}>
-            <Text style={{color:'white', fontWeight:'600', fontSize:36, justifyContent:'center'}}>Swap Profit</Text>
-          </CardItem>
+          <View header style={{justifyContent:'center',backgroundColor:'rgb(12,85,32)'}}>
+            <Text style={{color:'white', textAlign:'center', fontWeight:'600', fontSize:36, justifyContent:'center'}}>Swap Profit</Text>
+          </View>
+          
+     
+
           {/* EMAIL INPUT */}
-          <CardItem style={{width:'75%', alignSelf:'center', marginVertical:5}}>
+          <View style={{width:'75%', alignSelf:'center', marginVertical:5}}>
             <TextInput 
+              style={{height:40,
+                marginTop: 1,
+                backgroundColor: 'rgba(255,255,255,0.2)',
+                color: "#FFF",
+                paddingHorizontal: 10
+        }}
               placeholder="Enter Email"
               placeholderTextColor='gray'
               keyboardType="email-address"
@@ -78,11 +88,17 @@ export default LoginScreen = (props) => {
               value={email}    
               onChangeText={email => setEmail( email )}
             />
-          </CardItem>
+          </View>
           
           {/* PASSWORD INPUT */}
-          <CardItem style={{width:'75%',  alignSelf:'center'}}>
+          <View style={{width:'75%',  alignSelf:'center'}}>
             <TextInput 
+            style={{height:40,
+              marginTop: 1,
+              backgroundColor: 'rgba(255,255,255,0.2)',
+              color: "#FFF",
+              paddingHorizontal: 10
+      }}
               placeholder="Enter Password"
               placeholderTextColor='gray'
               secureTextEntry
@@ -93,18 +109,20 @@ export default LoginScreen = (props) => {
               value={password}
               onChangeText={password => setPassword( password )}
             />
-          </CardItem>
+          </View>
 
           {/* BUTTONS  */}
-          <CardItem style={{
+          <View style={{
             backgroundColor:'rgb(12,85,32)', 
             justifyContent:'center', 
             flexDirection:'column'}}>
 
             {/* LOGIN BUTTON */}
             
-            <Button 
-              style={{width:'50%', justifyContent:'center', marginBottom:5}}
+            <Button block
+              style={{width:'75%', alignSelf:'center',
+        paddingVertical: 15,
+        marginTop: 10}}
               onPress={
                 async() => {
                   Keyboard.dismiss();
@@ -117,10 +135,11 @@ export default LoginScreen = (props) => {
                 
 
             {/* SIGN UP BUTTON */}
-            <Button transparent 
+            <Button transparent block
               style={{
-                backgroundColor:'rgb(211,152,35)', 
-                width:'50%', justifyContent:'center'}} 
+                backgroundColor:'rgb(211,152,35)',
+                width:'75%', paddingVertical: 15,
+                marginTop: 10, alignSelf:'center'}} 
                 onPress={()=>navigate("TermsAndConditions")}>
               <Text style={{
                 color:'black', 
@@ -135,9 +154,8 @@ export default LoginScreen = (props) => {
               <Text style={{color:'white'}}>Forgot password?</Text>
             </Button>
                 
-          </CardItem>
-        
-        </Card>
+          </View>
+        </View>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
     </View>

@@ -53,7 +53,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 						.then(response => response.json)
 						.then(getActions().tracker.getAll())
-						.then(getActions().tournament.getAll())
+						.then(getActions().tournament.getInitial())
 					
 
 					} catch(error) {
@@ -144,6 +144,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 			},
 
 			coin:{
+
 				buy: async (some_dollars, some_coins) => {
 					try{
 						const accessToken = getStore().userToken.jwt;
@@ -409,6 +410,10 @@ const getState = ({ getStore, setStore, getActions }) => {
 					}
 				},
 
+				counter: async () => {
+
+				},
+
 				statusChange: async ( a_tournament_id, a_recipient_id, is_paid, a_status, a_percentage, a_counter_percentage ) => {
 					try{
 						const url = 'https://swapprofit-test.herokuapp.com/me/swaps'
@@ -492,7 +497,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				getSpecific: async ( searchInput ) => {
 					try{
 						if(searchInput =='') {
-							getActions().tournament.getAll()
+							getActions().tournament.getInitial()
 						} else{
 						const url = "https://swapprofit-test.herokuapp.com/tournaments/" + searchInput;
 						const accessToken = getStore().userToken.jwt ;
@@ -521,10 +526,10 @@ const getState = ({ getStore, setStore, getActions }) => {
 				
 				},
 
-				getAll: async () => {
+				getInitial: async (page) => {
 					try{
 						
-						const url = 'https://swapprofit-test.herokuapp.com/tournaments/all'
+						const url = 'https://swapprofit-test.herokuapp.com/tournaments/all?page=1+&limit=5'
 						const accessToken = getStore().userToken.jwt ;
 						let response = await fetch(url, {
 							method: 'GET',
@@ -541,16 +546,34 @@ const getState = ({ getStore, setStore, getActions }) => {
 							})
 						  })
 						
-						getActions().tournament.storeAll(tournaments)
+						setStore({tournaments: tournaments})
 						
 					} catch(error){
 						console.log('Something went wrong with tournament.getAll', error)
 					}
 				},
 
-				storeAll: async(data) => {
+				getUpdated: async(data) => {
 					try{
-						setStore({tournaments: data})
+
+						const url = 'https://swapprofit-test.herokuapp.com/tournaments/all?page=1+&limit=2'
+						const accessToken = getStore().userToken.jwt ;
+						let response = await fetch(url, {
+							method: 'GET',
+							headers: {
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							}, 
+						})
+						let tournamentData = await response.json()
+
+
+						var newList = []
+						var tournaments = getStore().tournaments.forEach(
+							tournament => newList.push(tournament)
+						)
+						
+						setStore({tournaments: b})
 						console.log('current tournaments', getStore().tournaments)
 					}catch(error){
 						console.log('something went wtong with tournamentstoreall',error)}
@@ -576,6 +599,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						console.log('something went wrong in tournament.getAction', error)
 					}
 				}
+
 			},
 
 			user: {
@@ -623,7 +647,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 									console.log('RRR',getStore().my_profile)
 									if(getStore().my_profile.message !== "User not found" || getStore().my_profile.message !== 'Not enough segments'){
 										() => console.log('EEE',getStore().my_profile.message)
-										.then(() => getActions().tournament.getAll())
+										.then(() => getActions().tournament.getInitial())
 										.then(() => console.log('Auto Success'))
 										.then(() => getActions().tracker.getAll())
 										.then(() => navigation.navigate('Swaps'))
@@ -656,7 +680,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						.then(()=> {
 							if(getStore().userToken){
 								if(getStore().my_profile.message !== "User not found" ){
-									getActions().tournament.getAll()
+									getActions().tournament.getInitial()
 									.then(() => getActions().tracker.getAll())
 									.then(() => getActions().tracker.getPast())
 									.then(() => loading)

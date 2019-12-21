@@ -23,12 +23,19 @@ export default TournamentDashboard = (props) => {
   }
 
   const [refreshing, setRefreshing] = useState(false);
+  const [refreshing2, setRefreshing2] = useState(false);
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    actions.tournament.getAll()
+    actions.tournament.getInitial()
     wait(2000).then(() => setRefreshing(false));
   }, [refreshing]);
+
+  const onRefresh2 = React.useCallback(() => {
+    setRefreshing2(true);
+    console.log('POP')
+    wait(2000).then(() => setRefreshing2(false));
+  }, [refreshing2]);
 
   var TournamentsList;
   if (store.tournaments== null){
@@ -71,8 +78,8 @@ export default TournamentDashboard = (props) => {
           {/* TOURNAMENT LIST GENERATOR */}
           {TournamentsList}
         </List>
+
       </Content>
-      
     </Container>
 
   )

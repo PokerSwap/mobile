@@ -20,26 +20,7 @@ export default WinningsTracker = (props) => {
   return(
     <ListItem noIndent onPress={()=> enterWinnings()}>
       
-      {/* TOURNAMENT DATE */}
-      <Col style={{width:'28%', alignItems:'center'}}>
-
-        {/* TOURNAMENT DATE BOX */}
-        {/* <View  
-          style={{
-            backgroundColor: bgColor,
-            borderColor:buttonColor, borderRadius: borderWidths, alignContent:'center',
-            flexDirection:"column", flex:0, justifyContent:"center", width:85, height:85
-          }}
-        > */}
-          {/* TOURNAMENT START DATE*/}
-          {/* <Text style={{fontWeight:"600", fontSize:24, color:textColor}}>{month} {day}</Text>
-          <Text style={{fontWeight:"600", fontSize:12, color:textColor, marginTop:5}}>{day_name}</Text>
-        </View>         */}
-    
-      </Col>
-              
-      {/* TOURNAMENT DETAILS */}
-      <Col style={{width: '62%'}}>
+      <Col style={{width:'80%', justifyContent:'center'}}>
 
         {/* TOURNAMENT TITLE */}
         <Text 
@@ -49,15 +30,15 @@ export default WinningsTracker = (props) => {
           fontSize:20, fontWeight:'600'}}> 
           {props.tournament.name}
         </Text>
+        </Col>
+<Col style={{width:'20%'}}>
 
       
-      </Col>
       
       {/* RIGHT ARROW NAVIGATION */}
-      <Col style={{justifyContent:'flex-end', width:'10%'}}>
-          <Icon style={{justifyContent:'flex-end', alignSelf:'flex-end'}} type="FontAwesome5" name="angle-right"/>
-      </Col>
-
+          <Icon style={{justifyContent:'center', alignSelf:'center'}} type="FontAwesome5" name="angle-right"/>
+      
+          </Col>
     </ListItem>
   )
 }

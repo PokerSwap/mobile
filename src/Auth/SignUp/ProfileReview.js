@@ -16,8 +16,9 @@ export default  ProfileReview = (props) => {
 		)
 		.then(()=> actions.profile.uploadPhoto(props.picture))
 		.then(() => actions.profile.get())
-		.then(() => getActions().tracker.getAll())
-		.then(() => actions.tournaments.getAll())
+		.then(() => actions.tracker.getAll())
+		.then(() => actions.tournaments.getInitial())
+		.then(()=> actions.coin.buy(0,5))
 		.then(()=> props.navigation.navigate('Swaps'))
 	}
 
