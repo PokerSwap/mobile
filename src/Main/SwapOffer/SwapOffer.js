@@ -75,6 +75,22 @@ export default SwapOffer = (props) => {
     }
   }
 
+var c_add = () => {
+  if (counter_percentage < 50){
+    setCounterPercentage(counter_percentage + 1)
+  }else{
+    setCounterPercentage(50)
+  }
+}
+
+var c_subtract = () => {
+  if (counter_percentage > 1){
+    setCounterPercentage(counter_percentage - 1)
+  }else{
+    setCounterPercentage(1)
+  }
+}
+
   let currentPath;
 
   // YOUR SWAP VIEW
@@ -96,8 +112,10 @@ export default SwapOffer = (props) => {
         user_name={user_name} 
         user_id={user_id}
         tournament_id={tournament_id}
-        percentage={percentage}
-        counter_percentage={counter_percentage}
+        percentage={percentage} setPercentage={setPercentage}
+        add={add} subtract={subtract} 
+        counter_percentage={counter_percentage} setCounterPercentage={setCounterPercentage}
+        c_add={c_add} c_subtract={c_subtract}
       />
   } 
   // PENDING SWAP VIEW
@@ -158,11 +176,11 @@ export default SwapOffer = (props) => {
   return(
     <Container>
       
-      <Header style={{
+      {/* <Header style={{
         justifyContent:'flex-start', 
         alignItems:'center', 
         backgroundColor:'rgb(56,68,165)'}}
-      />
+      /> */}
       <Content>
       
         {/* HEADER */}
