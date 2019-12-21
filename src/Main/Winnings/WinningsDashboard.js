@@ -38,8 +38,8 @@ export default WinningsDashboard = (props) => {
 
   if(store.pastTrackers.length !== 0){
     
-    var recentSwaps = store.pastTrackers.filter(
-      tracker => moment().isBefore(moment(tracker.tournament.end_at).add(1, 'months')))    
+    var recentSwaps = store.pastTrackers.map(tracker => tracker)
+      // tracker => moment().isAfter(moment(tracker.tournament.end_at).add(1, 'days')))    
     recentSwaps.length !== 0  ? 
       recentTracker = aTracker(recentSwaps) : recentTracker = noTracker('recent')
 

@@ -28,7 +28,12 @@ export default SideBar = (props) => {
         rating={user.rating}
         picture={user.picture}
       />
-      <Text>{user.coins}</Text>
+      <View style={{alignSelf:'center'}}>
+        <Button iconLeft large warning style={{marginVertical:5, width:100,justifyContent:'center'}}>
+          <Icon type='FontAwesome5' name='coins' style={{color:'white'}}/>
+          <Text style={{color:'white', fontSize:20, fontWeight:'600'}}>{user.coins}</Text>
+        </Button>
+      </View>
             
       {/* DEFAULT BUTTONS */}
       <DrawerItems {...props} />

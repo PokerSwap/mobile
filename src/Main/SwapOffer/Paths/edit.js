@@ -60,7 +60,10 @@ export default EditPath = (props) => {
       </CardItem>
 
       <CardItem style={{justifyContent:'center'}}>
-        <Button onPress={()=> props.buyinEdit()}>
+        <Button onPress={()=> {
+          props.buyinEdit()
+          props.navigation.goBack()
+        }}>
           <Text> Update </Text>
         </Button>
       </CardItem>

@@ -25,7 +25,6 @@ export default SwapPot = (props) => {
 
   return(
     <Container>
-      <_Header title={'Swap Pot'} drawer={() => props.navigation.toggleDrawer()}/>
       <Content>
         <List>
           <ListItem header>

@@ -3,7 +3,7 @@ import { Icon } from "native-base";
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createDrawerNavigator } from 'react-navigation-drawer'
 import { createAppContainer } from "react-navigation";
-import { createStackNavigator } from "react-navigation-stack";
+import { createStackNavigator, HeaderBackButton } from "react-navigation-stack";
 import Store from './src/Store/appContext';
 
 // AUTH VIEWS
@@ -139,10 +139,11 @@ const SwapsStack = createStackNavigator(
     },
     SwapOffer:{
       screen: SwapOffer,
-      navigationOptions:{
+      navigationOptions: ({navigation}) => ({
         title:'Swap Offer',
-        header: null
-      }
+        headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)} />,
+      })
+
     }
   }, {
     header: null,
@@ -160,10 +161,10 @@ const WinningsStack = createStackNavigator(
     },
     SwapPot:{
       screen: SwapPot,
-      navigationOptions:{
+      navigationOptions: ({navigation}) => ({
         title:'Swap Pot',
-        header: null
-      }
+        headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)} />,
+      })
     }
   }, {
     header: null,
