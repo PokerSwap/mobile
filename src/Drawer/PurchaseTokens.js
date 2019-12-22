@@ -34,7 +34,9 @@ export default PurchaseTokens = (props) => {
 
   return(
     <Container>
-      <_Header title={'Add Tokens'} drawer={() => props.navigation.toggleDrawer()}/>
+      <_Header title={'Add Tokens'} 
+      drawer={() => props.navigation.toggleDrawer()}
+      tutorial={() => props.navigation.push('Tutorial')}/>
       <Content contentContainerStyle={{flex:1, justifyContent:'center'}}>
       <ScrollView style={{ alignSelf: 'stretch' }}>           
         <Card>

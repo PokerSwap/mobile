@@ -33,7 +33,7 @@ export default BuyIn = (props) => {
   let path, lastCol, buttonColor;
 
   // YOUR SWAP VIEW
-  if (props.user_id == store.my_profile.id){
+  if (props.user_id == store.myProfile.id){
     lastCol = 
       <Icon 
         style={{alignSelf:'center', fontSize:36}}

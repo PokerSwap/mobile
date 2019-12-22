@@ -12,7 +12,7 @@ import AsyncStorage from '@react-native-community/async-storage'
 export default SideBar = (props) => {
 
   const { store, actions } = useContext(Context)
-  var user = store.my_profile
+  var user = store.myProfile
 
   return(
   <Container>

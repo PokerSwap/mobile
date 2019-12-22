@@ -1,5 +1,3 @@
-import ForgotPassword from "../Auth/ForgotPassword"
-
 const getState = ({ getStore, setStore, getActions }) => {
 	return {
 
@@ -9,10 +7,10 @@ const getState = ({ getStore, setStore, getActions }) => {
 			action: null,
 
 			// CURRENT PROFILE
-			my_profile:{},
+			myProfile:{},
 
 			// LIVE AND UPCOMING SWAP TRACKER
-			my_trackers:[],
+			myTrackers:[],
 
 			// PAST/WINNINGS SWAP TRACKER
 			pastTrackers:[],
@@ -298,8 +296,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 				store: async(profileData) => {
 					try {
-						setStore({ my_profile: profileData })
-						console.log('my profile', getStore().my_profile)
+						setStore({ myProfile: profileData })
+						console.log('my profile', getStore().myProfile)
 					} catch (error) {
 						console.log('Something went wrong in storing profile', error)
 					}
@@ -307,7 +305,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 				remove: async () => {
 					try {
-						setStore({my_profile: null})
+						setStore({myProfile: null})
 					} catch(error) {
 						console.log('Something went wrong in removing userToken')
 					}
@@ -347,7 +345,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 
 						let trackerData = await response.json()
-						setStore({my_trackers: trackerData})
+						setStore({myTrackers: trackerData})
 						
 					}catch(error){
 						console.log('something went wrong in tracker.getCurrent', error)
@@ -644,9 +642,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 							.then(()=> {
 								if(getStore().userToken){
 									console.log('FFF',getStore().userToken)
-									console.log('RRR',getStore().my_profile)
-									if(getStore().my_profile.message !== "User not found" || getStore().my_profile.message !== 'Not enough segments'){
-										() => console.log('EEE',getStore().my_profile.message)
+									console.log('RRR',getStore().myProfile)
+									if(getStore().myProfile.message !== "User not found" || getStore().myProfile.message !== 'Not enough segments'){
+										() => console.log('EEE',getStore().myProfile.message)
 										.then(() => getActions().tournament.getInitial())
 										.then(() => console.log('Auto Success'))
 										.then(() => getActions().tracker.getAll())
@@ -679,7 +677,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						.then(()=> your_password = '')
 						.then(()=> {
 							if(getStore().userToken){
-								if(getStore().my_profile.message !== "User not found" ){
+								if(getStore().myProfile.message !== "User not found" ){
 									getActions().tournament.getInitial()
 									.then(() => getActions().tracker.getAll())
 									.then(() => getActions().tracker.getPast())

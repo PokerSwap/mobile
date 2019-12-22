@@ -1,6 +1,6 @@
 import React, {useContext} from 'react'
 
-import {TouchableOpacity, View} from 'react-native'
+import {TouchableOpacity, View, Alert} from 'react-native'
 import {Text, Button, Card, CardItem} from 'native-base'
 
 import {Context} from '../../../Store/appContext'
@@ -46,7 +46,7 @@ export default InactivePath = (props) => {
         <Text style={{marginLeft:5,fontSize:36,justifyContent:'center'}}> {props.user_name} </Text>
       </CardItem>
       
-      {store.my_profile.coins > 0 ? 
+      {store.myProfile.coins > 0 ? 
         <View>
           <CardItem style={{justifyContent:'center'}}>
             {/* SUBTRACT BUTTON */}

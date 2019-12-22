@@ -6,7 +6,9 @@ export default NotificationsScreen = (props) => {
 
   return(
     <Container>
-      <_Header title={'Notifications'} drawer={() => props.navigation.toggleDrawer()}/>
+      <_Header title={'Notifications'} 
+      drawer={() => props.navigation.toggleDrawer()}
+      tutorial={() => props.navigation.push('Tutorial')}/>
       <Content>
         <Text>Notifications</Text>
       </Content>

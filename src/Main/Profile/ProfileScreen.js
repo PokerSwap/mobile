@@ -21,7 +21,7 @@ export default ProfileScreen = (props) => {
 
   let history;
 
-  id == store.my_profile.id ? 
+  id == store.myProfile.id ? 
     history = null :
       history = <ProfileHistory navigation={props.navigation}/>
   

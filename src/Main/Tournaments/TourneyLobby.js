@@ -29,7 +29,7 @@ export default TourneyLobby = (props) => {
     await actions.tournament.getAction(tournament_id)
   }
 
-  var aa = store.my_trackers.filter(tracker => tracker.tournament.id == tournament_id)
+  var aa = store.myTrackers.filter(tracker => tracker.tournament.id == tournament_id)
   var mySwapsinTournament = aa[0].swaps.map(swapBody => swapBody.swap)
 
   var Flights = flights.map((flight) => { 

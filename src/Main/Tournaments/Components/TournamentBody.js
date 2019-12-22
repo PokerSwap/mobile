@@ -32,7 +32,7 @@ export default TournamentBody = (props) => {
   }
 
   var w = []
-  var x = store.my_trackers.forEach((tracker) => 
+  var x = store.myTrackers.forEach((tracker) => 
     w.push(tracker.my_buyin.id));
   var z=[]
   var y = props.buy_ins.forEach((buy_in) => z.push(buy_in.id))

@@ -10,7 +10,8 @@ export default ChangeEmail = (props) => {
   
   return(
     <Container>
-      <_Header title={'Email Change'} drawer={() => props.navigation.toggleDrawer()}/>
+      <_Header title={'Email Change'} drawer={() => props.navigation.toggleDrawer()}
+      tutorial={() => props.navigation.push('Tutorial')}/>
       <Content>
         <List>
           <TouchableOpacity>

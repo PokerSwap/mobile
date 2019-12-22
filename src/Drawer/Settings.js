@@ -13,7 +13,7 @@ export default SettingsScreen = (props) => {
     <Container>
       <_Header title={'Settings'} 
         drawer={() => props.navigation.toggleDrawer()}
-        
+        tutorial={() => props.navigation.push('Tutorial')}
       />
       <Content>
         <List>

@@ -55,7 +55,10 @@ export default WinningsDashboard = (props) => {
 
   return(
     <Container>
-      <_Header title={'Winnings Dashboard'} drawer={() => props.navigation.toggleDrawer()}/>
+      <_Header title={'Winnings Dashboard'} 
+      drawer={() => props.navigation.toggleDrawer()}
+      tutorial={() => props.navigation.push('Tutorial')}
+      />
       <Content>
         <List>
 

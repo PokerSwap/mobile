@@ -5,7 +5,6 @@
 	};
 	objectVersion = 52;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		004C3B0A236E1283000445F9 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 004C3B09236E1283000445F9 /* Default-568h@2x.png */; };
 		00E356F31AD99517003FC87E /* SwapProfitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* SwapProfitTests.m */; };
@@ -40,13 +39,6 @@
 			remoteGlobalIDString = 2D02E47A1E0B4A5D006451C7;
 			remoteInfo = "SwapProfit-tvOS";
 		};
-		C0B74B3023A5D66500AAC6C6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C0B74B2C23A5D66500AAC6C6 /* ReactNativePayments.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 134814201AA4EA6300B7C361;
-			remoteInfo = ReactNativePayments;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -75,7 +67,6 @@
 		B970F6139515CB89B5403892 /* Pods-SwapProfit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwapProfit.debug.xcconfig"; path = "Target Support Files/Pods-SwapProfit/Pods-SwapProfit.debug.xcconfig"; sourceTree = "<group>"; };
 		C0057248238313A300E132EC /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = "GoogleService-Info.plist"; path = "../../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C005724A238313BD00E132EC /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
-		C0B74B2C23A5D66500AAC6C6 /* ReactNativePayments.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativePayments.xcodeproj; path = "../node_modules/react-native-payments/lib/ios/ReactNativePayments.xcodeproj"; sourceTree = "<group>"; };
 		C0F33CA7237C9B8C0041B597 /* SwapProfit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = SwapProfit.entitlements; path = SwapProfit/SwapProfit.entitlements; sourceTree = "<group>"; };
 		D113B4893372C4715185847F /* Pods-SwapProfit-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwapProfit-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-SwapProfit-tvOSTests/Pods-SwapProfit-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -186,7 +177,6 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				C0B74B2C23A5D66500AAC6C6 /* ReactNativePayments.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -214,14 +204,6 @@
 				00E356EE1AD99517003FC87E /* SwapProfitTests.xctest */,
 				2D02E47B1E0B4A5D006451C7 /* SwapProfit-tvOS.app */,
 				2D02E4901E0B4A5D006451C7 /* SwapProfit-tvOSTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		C0B74B2D23A5D66500AAC6C6 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				C0B74B3123A5D66500AAC6C6 /* libReactNativePayments.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -314,7 +296,7 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0940;
+				LastUpgradeCheck = 940;
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
@@ -344,10 +326,6 @@
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
 			projectReferences = (
-				{
-					ProductGroup = C0B74B2D23A5D66500AAC6C6 /* Products */;
-					ProjectRef = C0B74B2C23A5D66500AAC6C6 /* ReactNativePayments.xcodeproj */;
-				},
 			);
 			projectRoot = "";
 			targets = (
@@ -360,13 +338,6 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		C0B74B3123A5D66500AAC6C6 /* libReactNativePayments.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libReactNativePayments.a;
-			remoteRef = C0B74B3023A5D66500AAC6C6 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -666,6 +637,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SwapProfit.app/SwapProfit";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+				);
 			};
 			name = Debug;
 		};
@@ -690,6 +664,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SwapProfit.app/SwapProfit";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+				);
 			};
 			name = Release;
 		};
@@ -717,6 +694,9 @@
 				PRODUCT_NAME = SwapProfit;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+				);
 			};
 			name = Debug;
 		};
@@ -743,6 +723,9 @@
 				PRODUCT_NAME = SwapProfit;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+				);
 			};
 			name = Release;
 		};
@@ -775,6 +758,9 @@
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.2;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+				);
 			};
 			name = Debug;
 		};
@@ -807,6 +793,9 @@
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.2;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+				);
 			};
 			name = Release;
 		};
@@ -838,6 +827,9 @@
 				SDKROOT = appletvos;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SwapProfit-tvOS.app/SwapProfit-tvOS";
 				TVOS_DEPLOYMENT_TARGET = 10.1;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+				);
 			};
 			name = Debug;
 		};
@@ -869,6 +861,9 @@
 				SDKROOT = appletvos;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SwapProfit-tvOS.app/SwapProfit-tvOS";
 				TVOS_DEPLOYMENT_TARGET = 10.1;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+				);
 			};
 			name = Release;
 		};

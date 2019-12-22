@@ -66,7 +66,9 @@ export default TournamentDashboard = (props) => {
 )}
   return(
     <Container>
-      <_Header title={'Tournament Dashboard'} drawer={() => props.navigation.toggleDrawer()}/>
+      <_Header title={'Tournament Dashboard'} 
+      drawer={() => props.navigation.toggleDrawer()}
+      tutorial={() => props.navigation.push('Tutorial')}/>
       <TournamentSearchBar search={search} setSearch={setSearch}/>
       <TournamentSort sort={sort} setSort={setSort} />
       

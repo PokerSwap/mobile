@@ -57,7 +57,7 @@ export default IncomingPath = (props) => {
         </CardItem>
       }
 
-      {store.my_profile.coins > 0 ?
+      {store.myProfile.coins > 0 ?
         <View style={{ alignSelf:'center'}}>
           <CardItem>
             <Button success
