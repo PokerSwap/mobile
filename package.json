@@ -25,6 +25,7 @@
     "react-native-gesture-handler": "^1.5.2",
     "react-native-image-picker": "^1.1.0",
     "react-native-loading-spinner-overlay": "^1.0.1",
+    "react-native-permissions": "^2.0.8",
     "react-native-progress-steps": "^1.2.8",
     "react-native-push-notification": "^3.1.9",
     "react-native-reanimated": "^1.4.0",
