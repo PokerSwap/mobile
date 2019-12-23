@@ -24,9 +24,9 @@
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"SwapProfit"
                                             initialProperties:nil];
+  [FIRApp configure];
 
   rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
-  [FIRApp configure];
   
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
