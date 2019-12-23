@@ -47,6 +47,7 @@ export default TourneyLobby = (props) => {
         buy_ins={their_buy_ins}
         allSwapsinTournament={allSwapsinTournament}
         mySwapsinTournament={mySwapsinTournament}
+        action={action}
       />)
   })
 

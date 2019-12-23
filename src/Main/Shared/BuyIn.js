@@ -95,9 +95,11 @@ export default BuyIn = (props) => {
     buttonColor= 'rgb(56,68,165)';
   } 
 
-  const enterSwapOffer = () => {
+  const enterSwapOffer = async() => {
+    var answer = await actions.tournament.getAction()
     navigation.push('SwapOffer',{
       status: path,
+
       flight_id: props.flight_id,
       user_id: props.user_id,
       user_name: props.user_name,
@@ -110,7 +112,8 @@ export default BuyIn = (props) => {
       counter_percentage: props.counter_percentage,
       percentage: props.percentage,
       start_at: props.start_at,
-      end_at: props.end_at
+      end_at: props.end_at,
+      action: store.action
 
     });
   }

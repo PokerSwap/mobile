@@ -59,15 +59,17 @@ export default LoginScreen = (props) => {
     <Spinner visible={loading} style={{color: '#FFF'}}/>
       <KeyboardAvoidingView>
         <TouchableWithoutFeedback>
-        <View transparent style={{color:'rgb(12,85,32)'}}>
+        {/* TITLE */}
+        
+        <View transparent 
+          style={{color:'rgb(12,85,32)', position:'absolute', top:0, left:0, right:0 }}>
           
-          {/* TITLE */}
-          <View header style={{justifyContent:'center',backgroundColor:'rgb(12,85,32)'}}>
+        <View header style={{justifyContent:'center',backgroundColor:'rgb(12,85,32)'}}>
             <Text style={{color:'white', textAlign:'center', fontWeight:'600', fontSize:36, justifyContent:'center'}}>Swap Profit</Text>
-          </View>
+          </View>  
           
      
-
+        <View >
           {/* EMAIL INPUT */}
           <View style={{width:'75%', alignSelf:'center', marginVertical:5}}>
             <TextInput 
@@ -91,7 +93,7 @@ export default LoginScreen = (props) => {
           </View>
           
           {/* PASSWORD INPUT */}
-          <View style={{width:'75%',  alignSelf:'center'}}>
+          <View style={{width:'75%', alignSelf:'center',}}>
             <TextInput 
             style={{height:40,
               marginTop: 1,
@@ -119,7 +121,7 @@ export default LoginScreen = (props) => {
 
             {/* LOGIN BUTTON */}
             
-            <Button block
+            <Button block large
               style={{width:'75%', alignSelf:'center',
         paddingVertical: 15,
         marginTop: 10}}
@@ -135,7 +137,7 @@ export default LoginScreen = (props) => {
                 
 
             {/* SIGN UP BUTTON */}
-            <Button transparent block
+            <Button  block large
               style={{
                 backgroundColor:'rgb(211,152,35)',
                 width:'75%', paddingVertical: 15,
@@ -154,6 +156,7 @@ export default LoginScreen = (props) => {
               <Text style={{color:'white'}}>Forgot password?</Text>
             </Button>
                 
+          </View>
           </View>
         </View>
         </TouchableWithoutFeedback>

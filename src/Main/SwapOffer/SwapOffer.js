@@ -36,6 +36,7 @@ export default SwapOffer = (props) => {
   let address = navigation.getParam('tournament_id', 'default value');
   let start_at = navigation.getParam('start_at', 'default value');
   let end_at = navigation.getParam('end_at', 'default value');
+  let action = navigation.getParam('action', 'default value');
 
 
   var buyinEdit = async() => {
@@ -116,6 +117,7 @@ var c_subtract = () => {
         add={add} subtract={subtract} 
         counter_percentage={counter_percentage} setCounterPercentage={setCounterPercentage}
         c_add={c_add} c_subtract={c_subtract}
+        action={action}
       />
   } 
   // PENDING SWAP VIEW

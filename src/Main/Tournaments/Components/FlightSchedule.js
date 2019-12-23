@@ -32,13 +32,13 @@ export default FlightSchedule = (props) => {
       } else{
         a_status=''
         a_percentage=1
-        a_counter_percentage=''
+        a_counter_percentage=1
       }
       
     }else{
       a_status=''
-      a_percentage=''
-      a_counter_percentage=''
+      a_percentage=1
+      a_counter_percentage=1
     }
 
     return(
@@ -56,6 +56,7 @@ export default FlightSchedule = (props) => {
         percentage={a_percentage}
         first_name={a_firstname}
         counter_percentage={a_counter_percentage}
+        action={props.action}
       />
     )}
   )
