@@ -1,0 +1,55 @@
+{
+  "name": "SwapProfit",
+  "version": "0.3.0",
+  "private": true,
+  "scripts": {
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "start": "react-native start",
+    "test": "jest",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@react-native-community/async-storage": "^1.7.0",
+    "apsl-react-native-button": "^3.1.1",
+    "core-js": "^3.3.6",
+    "i18n-js": "^3.3.0",
+    "jest-changed-files": "^24.9.0",
+    "lodash": "^4.17.15",
+    "moment": "^2.24.0",
+    "native-base": "^2.13.8",
+    "react": "^16.12.0",
+    "react-native": "^0.61.5",
+    "react-native-device-info": "^5.3.1",
+    "react-native-easy-grid": "^0.2.2",
+    "react-native-gesture-handler": "^1.5.2",
+    "react-native-image-picker": "^1.1.0",
+    "react-native-loading-spinner-overlay": "^1.0.1",
+    "react-native-permissions": "^2.0.8",
+    "react-native-progress-steps": "^1.2.8",
+    "react-native-push-notification": "^3.1.9",
+    "react-native-reanimated": "^1.4.0",
+    "react-native-rename": "^2.4.1",
+    "react-native-vector-icons": "^6.6.0",
+    "react-native-webview": "^7.6.0",
+    "react-navigation": "^4.0.10",
+    "react-navigation-drawer": "^2.3.3",
+    "react-navigation-stack": "^1.10.3",
+    "react-navigation-tabs": "^2.6.2",
+    "save": "^2.4.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.6.4",
+    "@babel/runtime": "^7.6.3",
+    "@react-native-community/eslint-config": "^0.0.5",
+    "babel-jest": "^24.9.0",
+    "eslint": "^6.7.2",
+    "jest": "^24.9.0",
+    "jetifier": "^1.6.4",
+    "metro-react-native-babel-preset": "^0.57.0",
+    "react-test-renderer": "16.9.0"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}

@@ -1,0 +1,30 @@
+import React, {Component} from 'react';
+import { List } from 'native-base';
+
+export default class ProfileHistory extends Component {
+	constructor(props){
+		super(props);
+		this.state={
+		}
+	}
+	render(){
+		return(
+			<List header>
+				{/* <Context.Consumer>
+					{({store, actions}) => {
+						var user = store.tournaments
+						return user.map((content, index) => {
+							return(
+								<SwapMain 
+									navigation = {props.navigation}
+									tournament={content.flight_id}
+									swaps={content.swaps}
+								/>
+							)
+							})
+					}}
+				</Context.Consumer> */}
+			</List>				
+		)
+	}
+}
