@@ -10,37 +10,54 @@ export default SplashScreen = (props) => {
 
 	const { store, actions } = useContext(Context)
 
-	getData = async () => {
-		try {
-			if(myValue !== null) {
-				actions.user.auto_login(myValue, props.navigation )
-				// value previously stored
-			}
-		} catch(error) {
-			console.log('error:', error)
-		}
-	}
-
-	var myValue;
 
 	checkData = async() => {
-		const value1 = await AsyncStorage.getItem('token')
-		console.log('value1', typeof value1)
-		myValue = value1
+		const currentToken = await AsyncStorage.getItem('loginToken')
+		console.log('currentToken', currentToken)
+		if (currentToken){
+
+			var data = {jwt: currentToken}
+
+			var answer0 = await actions.userToken.store(data)
+			var answer = await actions.profile.get()
+
+			console.log('profile befroe check', store.myProfile)
+
+			if( Object.keys(store.myProfile)[0] != 'msg' 
+				// store.myProfileObj[0] {msg: "Token has expired"}
+
+				// store.myProfile !== {msg: "Signature verification failed" } 
+					// || store.myProfile !== {msg: "Not enough segments"} 
+					// || 
+					// || store.myProfile !== {msg:  "Bad Authorization header. Expected value 'Bearer <JWT>'"} 
+			){
+				console.log('we are in')
+				var answer2 = await actions.user.auto_login(props.navigation)
+			}else{
+				console.log('badToken')
+				AsyncStorage.removeItem('loginToken')
+				props.navigation.navigate('LogIn')
+
+			}
+
+		} else{
+			console.log('token is null')
+			props.navigation.navigate('LogIn')
+
+		}
+		
 	}
+
+
 
 
 	useEffect(() => {
+		setTimeout(() => {
+			checkData()
+		}, 3000);
 		
-		// checkData()
-		console.log('In 3 seconds, another message will appear'); 
-		setTimeout(()=>{
-			console.log('3 seconds have passed');
-			// if(typeof myValue == 'string'){getData()}else{
-				props.navigation.navigate('LogIn')
-			// }
-			
-		}, 3000)
+
+		
 		return () => {
 			// cleanup
 		};

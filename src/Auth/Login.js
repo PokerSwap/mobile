@@ -25,7 +25,7 @@ export default LoginScreen = (props) => {
 
   storeData = async () => {
     try {
-      await AsyncStorage.setItem('token', store.userToken.jwt)
+      await AsyncStorage.setItem('loginToken', store.userToken.jwt)
     } catch (error) {
       console.log('could not store dat', error)
       // saving error

@@ -50,7 +50,7 @@ export default SideBar = (props) => {
             [
               {text: 'Cancel', onPress: () => {return null}},
               {text: 'Confirm', onPress: () => {
-                AsyncStorage.removeItem('token')
+                AsyncStorage.removeItem('loginToken')
                 props.navigation.navigate('LogIn')
               }},
             ],

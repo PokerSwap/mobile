@@ -630,35 +630,13 @@ const getState = ({ getStore, setStore, getActions }) => {
 					}
 				},
 
-				auto_login: async(stored_token, navigation) => {
-
-					var data = {
-						jwt: stored_token
-					}
-					
-						return new Promise(resolve =>
-							resolve(getActions().userToken.store(data)
-							.then(()=> getActions().profile.get())
-							.then(()=> {
-								if(getStore().userToken){
-									console.log('FFF',getStore().userToken)
-									console.log('RRR',getStore().myProfile)
-									if(getStore().myProfile.message !== "User not found" || getStore().myProfile.message !== 'Not enough segments'){
-										() => console.log('EEE',getStore().myProfile.message)
-										.then(() => getActions().tournament.getInitial())
-										.then(() => console.log('Auto Success'))
-										.then(() => getActions().tracker.getAll())
-										.then(() => navigation.navigate('Swaps'))
-									} else { 
-										() => navigation.navigate('LogIn')
-										console.log('logged in')
-									}
-								}else{
-										console.log("You did not login");
-								}
-							}
-								
-						)))
+				auto_login: async(navigation) => {
+					return new Promise(resolve =>
+							getActions().tournament.getInitial()
+							.then(() => getActions().tracker.getAll())
+							.then(() => getActions().tracker.getPast())
+							.then(() => navigation.navigate('Swaps'))	
+					)
 				},
 
 				login: async (your_email, your_password, navigation, loading) => {
@@ -684,7 +662,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 									.then(() => loading)
 									.then(() => navigation.navigate('Swaps'))
 								} else { 
-									
 									navigation.navigate('ProfileCreation')
 								}
 											
