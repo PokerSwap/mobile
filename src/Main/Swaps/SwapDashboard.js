@@ -35,6 +35,7 @@ export default SwapDashboard = (props) => {
   let liveTracker;
   let upcomingTracker;
   let trackers = store.myTrackers
+  console.log('tracker nows', trackers)
   
   if(Object.keys(trackers)[0] != "message"){
 
