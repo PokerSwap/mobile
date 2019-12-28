@@ -2,6 +2,8 @@ import React, {useState, useContext} from 'react';
 import {Image, TextInput, Picker} from 'react-native';
 import {Container, Button, Text, Content, Card, CardItem} from 'native-base';
 
+import {request, PERMISSIONS} from 'react-native-permissions';
+
 import ImagePicker from 'react-native-image-picker';
 
 import { Context } from '../../Store/appContext';
@@ -54,7 +56,16 @@ export default VerifyTicket = (props) => {
     props.navigation.goBack()
   }
 
-  const UploadTicketPhoto = () => {
+  const requestAll = async() => {
+    const cameraStatus = await request(PERMISSIONS.IOS.CAMERA);
+    const photosStatus = await request(PERMISSIONS.IOS.PHOTO_LIBRARY);
+    return {cameraStatus, photosStatus};
+  }
+
+  const UploadTicketPhoto = async() => {
+
+    var answer = await requestAll().then(statuses => console.log(statuses));;
+
     const options = {
       title: 'Submit Picture',
       storageOptions: {
@@ -76,6 +87,7 @@ export default VerifyTicket = (props) => {
       }
     });
   };
+
 
   var x;
 
@@ -112,7 +124,13 @@ export default VerifyTicket = (props) => {
 
           {/* UPLOAD BUTTON  */}
           <CardItem style={{justifyContent:'center'}}>
-            <Button large style={{marginVertical:10}} onPress={() => UploadTicketPhoto()}>
+            <Button large style={{marginVertical:10}} 
+              onPress={async() => 
+                {
+
+
+                  UploadTicketPhoto()
+                }}>
               <Text style={{fontWeight: '600'}}>UPLOAD</Text>
             </Button>
           </CardItem>      

@@ -4,11 +4,23 @@ import { Button, Card, CardItem, Text, Icon } from 'native-base';
 import ImagePicker from 'react-native-image-picker';
 import '../../Images/placeholder.jpg';
 
+import {request, PERMISSIONS} from 'react-native-permissions';
+
+
 export default  PictureSetup = (props) => {
 
   const [ image, setImage ] = useState(props.picture)
   
-  var choosePhoto = () => {
+  const requestAll = async() => {
+    const cameraStatus = await request(PERMISSIONS.IOS.CAMERA);
+    const photosStatus = await request(PERMISSIONS.IOS.PHOTO_LIBRARY);
+    return {cameraStatus, photosStatus};
+  }
+
+  const choosePhoto = async() => {
+
+    var answer = await requestAll().then(statuses => console.log(statuses));;
+
     const options = {
       title: 'Submit Picture',
       storageOptions: {
