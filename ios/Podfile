@@ -31,6 +31,7 @@ target 'SwapProfit' do
   pod 'Yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
   pod 'Firebase/Core'
   pod 'Firebase/Analytics'
+  pod 'Firebase/Messaging'
 
 
   pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
