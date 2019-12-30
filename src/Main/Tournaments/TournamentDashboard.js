@@ -61,7 +61,6 @@ export default TournamentDashboard = (props) => {
         buy_ins={tournament.buy_ins}
         swaps={tournament.swaps}
         start_at={tournament.start_at}
-        end_at={tournament.end_at}
       />
 )}
   return(

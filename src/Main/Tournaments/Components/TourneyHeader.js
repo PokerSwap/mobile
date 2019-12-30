@@ -8,10 +8,6 @@ export default  TourneyHeader = (props) => {
   var startDay = props.start_at.substring(5,7)
   var startDayName = props.start_at.substring(0,3)
 
-  var endMonth = props.end_at.substring(8,11)
-  var endDay = props.end_at.substring(5,7)
-  var endDayName = props.end_at.substring(0,3)
-
   return(
 
     <Grid transparent style={{marginHorizontal:25, marginTop:20, justifyContent:'center'}}>
@@ -23,10 +19,7 @@ export default  TourneyHeader = (props) => {
             <Row><Text>Begins on:</Text></Row>
             <Row><Text style={{fontSize:24}}>{startDayName}. {startMonth} {startDay}</Text></Row>
           </Col>
-          <Col>
-            <Row><Text>Ends On:</Text></Row>
-            <Row><Text style={{fontSize:24}}>{endDayName}. {endMonth} {endDay}</Text></Row>
-          </Col>
+          
         </Row>
       </Col>
     </Grid>

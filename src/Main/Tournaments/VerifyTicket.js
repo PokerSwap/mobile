@@ -29,13 +29,12 @@ export default VerifyTicket = (props) => {
     var startDay = flight.start_at.substring(5,7)
     
     var startTime = flight.start_at.substring(16,22)
-    var endTime = flight.end_at.substring(16,22)
 
     var day_name = flight.start_at.substring(0,3)
     var day_num = flight.day
 
 
-    var labelTime = 'Day ' + day_num + ' ' + day_name + '.  ' + startMonth + '. ' + startDay + ', ' + startTime + ' -' + endTime
+    var labelTime = 'Day ' + day_num + ' ' + day_name + '.  ' + startMonth + '. ' + startDay + ', ' + startTime 
       
     return(
         <Picker.Item 
@@ -52,7 +51,7 @@ export default VerifyTicket = (props) => {
       seat,
       chips
     )
-    var answer2 = await actions.buy_in.uploadPhoto( image)
+    var answer2 = await actions.buy_in.uploadPhoto(image)
     props.navigation.goBack()
   }
 

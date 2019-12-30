@@ -18,7 +18,6 @@ export default SwapTracker = (props) => {
   let tournament_name = props.tournament.name
   let tournament_id = props.tournament.id
   let tournament_start = props.tournament.start_at
-  let tournament_end = props.tournament.end_at
 
   let other_swaps = props.swaps.map((content, index) => 
     <BuyIn
@@ -40,7 +39,6 @@ export default SwapTracker = (props) => {
       tournament_name={tournament_name}
       tournament_id={tournament_id}
       start_at={tournament_start}
-      end_at={tournament_end}
 
     />
   )

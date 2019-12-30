@@ -13,7 +13,6 @@ export default FlightSchedule = (props) => {
   var startDay = props.start_at.substring(5,7)
   
   var startTime = props.start_at.substring(16,22)
-  var endTime = props.end_at.substring(16,22)
 
   var allSwapsinTournament = props.allSwapsinTournament
   var mySwapsinTournament = props.mySwapsinTournament
@@ -65,7 +64,7 @@ export default FlightSchedule = (props) => {
     <View>
       <ListItem noIndent seperator style={{backgroundColor:'lightgray', justifyContent:'space-between'}}>
         <Text> Day {props.day} - {startMonth}. {startDay} </Text>
-        <Text>{startTime} - {endTime} </Text>
+        <Text>{startTime}</Text>
       </ListItem> 
   
     {Buy_Ins}

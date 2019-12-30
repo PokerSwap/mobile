@@ -18,7 +18,6 @@ export default TourneyLobby = (props) => {
   let longitude = navigation.getParam('longitude', 'NO-ID');
   let latitude = navigation.getParam('latitude', 'NO-ID');
   let start_at = navigation.getParam('start_at', 'NO-ID');
-  let end_at = navigation.getParam('end_at', 'NO-ID');
   let flights = navigation.getParam('flights', 'NO-ID');
   let buy_ins = navigation.getParam('buy_ins', 'NO-ID');
   let allSwapsinTournament = navigation.getParam('swaps', 'NO-ID');
@@ -43,7 +42,6 @@ export default TourneyLobby = (props) => {
         name={flight.tournament}
         day = {flight.day}
         start_at = {flight.start_at}
-        end_at = {flight.end_at}
         buy_ins={their_buy_ins}
         allSwapsinTournament={allSwapsinTournament}
         mySwapsinTournament={mySwapsinTournament}
@@ -60,7 +58,7 @@ export default TourneyLobby = (props) => {
             <TourneyHeader 
               id={tournament_id}
               name={name} address={address}
-              start_at={start_at} end_at={end_at}
+              start_at={start_at}
             />
           </ListItem>
 

@@ -35,7 +35,6 @@ export default SwapOffer = (props) => {
   let tournament_id = navigation.getParam('tournament_id', 'default value');
   let address = navigation.getParam('tournament_id', 'default value');
   let start_at = navigation.getParam('start_at', 'default value');
-  let end_at = navigation.getParam('end_at', 'default value');
   let action = navigation.getParam('action', 'default value');
 
 
@@ -190,7 +189,7 @@ var c_subtract = () => {
           {/* <TourneyHeader 
             id={tournament_id} tournament_name={tournament_name}
             address={address}
-            start_at={start_at} end_at={end_at}
+            start_at={start_at} 
           /> */}
           <CardItem>
             <Grid>

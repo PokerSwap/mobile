@@ -112,7 +112,6 @@ export default BuyIn = (props) => {
       counter_percentage: props.counter_percentage,
       percentage: props.percentage,
       start_at: props.start_at,
-      end_at: props.end_at,
       action: store.action
 
     });

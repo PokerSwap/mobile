@@ -24,7 +24,6 @@ export default TournamentBody = (props) => {
       longitude: props.longitude,
       latitude: props.latitude,
       start_at: props.start_at,
-      end_at: props.end_at,
       buy_ins: props.buy_ins,
       swaps: props.swaps,
       flights: props.flights
