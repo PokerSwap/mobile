@@ -1,6 +1,7 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import {Button, Text, Toast} from 'native-base';
-import { Context } from '../Store/appContext'
+import { Context } from '../Store/appContext';
+
 
 import Spinner from 'react-native-loading-spinner-overlay';
 import { Keyboard, TouchableWithoutFeedback, TextInput, 
@@ -17,6 +18,7 @@ export default LoginScreen = (props) => {
   const { store, actions } = useContext(Context)
 
   var {navigate} = props.navigation
+
 
 
   loadingSwitch = () => {

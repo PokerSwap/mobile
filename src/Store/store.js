@@ -527,7 +527,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				getInitial: async (page) => {
 					try{
 						
-						const url = 'https://swapprofit-test.herokuapp.com/tournaments/all?page=1+&limit=5'
+						const url = 'https://swapprofit-test.herokuapp.com/tournaments/all'
 						const accessToken = getStore().userToken.jwt ;
 						let response = await fetch(url, {
 							method: 'GET',
@@ -537,17 +537,18 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}, 
 						})
 						let tournamentData = await response.json()
-						var tournaments =  tournamentData.map(function(tournament, i){
+						console.log('tournamentData', tournamentData)
+						// var tournaments =  tournamentData.map(function(tournament, i){
 
-							return({
-							  ...tournament
-							})
-						  })
+						// 	return({
+						// 	  ...tournament
+						// 	})
+						//   })
 						
-						setStore({tournaments: tournaments})
+						setStore({tournaments: tournamentData})
 						
 					} catch(error){
-						console.log('Something went wrong with tournament.getAll', error)
+						console.log('Something went wrong with tournament.getInitak', error)
 					}
 				},
 

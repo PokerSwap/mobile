@@ -36,19 +36,19 @@ export default WinningsDashboard = (props) => {
     )
   })
 
-  if(store.pastTrackers.length !== 0){
+  if( store.pastTrackers.length !== 0){
     
-    var recentSwaps = store.pastTrackers.map(tracker => tracker)
-      // tracker => moment().isAfter(moment(tracker.tournament.end_at).add(1, 'days')))    
+    var recentSwaps = store.pastTrackers.filter(
+      tracker => moment().isBefore(moment(tracker.tournament.start_at).add(30, 'days')))    
     recentSwaps.length !== 0  ? 
       recentTracker = aTracker(recentSwaps) : recentTracker = noTracker('recent')
 
     var historySwaps = store.pastTrackers.filter(
-      tracker => moment().isAfter(moment(tracker.tournament.end_at).add(1, 'months')))
+      tracker => moment().isAfter(moment(tracker.tournament.start_at).add(1, 'months')))
     historySwaps.length !== 0 ? 
       historyTracker = aTracker(historySwaps) : historyTracker = noTracker('history')
 
-  }else{
+  } else {
     recentTracker = noTracker('recent')
     historyTracker = noTracker('history')
   } 

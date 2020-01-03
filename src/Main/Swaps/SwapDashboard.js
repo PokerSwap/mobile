@@ -41,7 +41,7 @@ export default SwapDashboard = (props) => {
 
     var now = moment()
 
-    var currentList = trackers.filter((tracker) => now.isBetween(tracker.tournament.start_at, tracker.tournament.end_at))
+    var currentList = trackers.filter((tracker) => now.isAfter(moment(tracker.tournament.start_at).add(1, 'days')))
     currentList.length !== 0 ? 
       liveTracker = a_tracker(currentList) : liveTracker = noTracker('live')
     

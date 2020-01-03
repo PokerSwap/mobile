@@ -4,6 +4,7 @@ import { Text } from 'native-base';
 import {Col, Row } from 'react-native-easy-grid'
 
 import BuyIn from '../../Shared/BuyIn'
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default SwapTracker = (props) => {
 
@@ -43,16 +44,26 @@ export default SwapTracker = (props) => {
     />
   )
     
+
+  const enterTournament = () => {
+    props.navigation.push('TourneyLobby', {
+
+    })
+  }
+
+
   return(
     <View>
       {/* TOURNAMENT TITLE */}
       <View 
         style={{justifyContent:'center', backgroundColor:'black', paddingVertical:10}}>
-        <Text 
-          style={{fontSize:18, fontWeight:'600', width:'75%',
-          alignSelf:'center',textAlign:'center', color:'white'}}>
-          {tournament_name}
-        </Text>
+        <TouchableOpacity onPress={()=> console.log('lol')}>
+          <Text 
+            style={{fontSize:18, fontWeight:'600', width:'75%',
+            alignSelf:'center',textAlign:'center', color:'white'}}>
+            {tournament_name}
+          </Text>
+        </TouchableOpacity>
       </View>
       
       <BuyIn
