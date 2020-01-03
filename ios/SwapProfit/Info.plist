@@ -37,16 +37,16 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>NSCameraUsageDescription</key>
-	<string>This app requires access to the camera.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
 	<key>NSMainNibFile</key>
 	<string>LaunchScreen</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>ProfilePicture and Take Buyins Pictures</string>
+	<string>To take a Profile Picture and take pictures of Buy-In Tickets</string>
 	<key>Privacy - Camera Usage Description</key>
-	<string>ProfilePicture and BuyIn Ticket</string>
+	<string>To take a Profile Picture and take pictures of Buy-In Tickets</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>To locate your proximity to tournaments</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>To locate your proximity to tournaments</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>
