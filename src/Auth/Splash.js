@@ -1,6 +1,8 @@
 import React, {useContext, useEffect} from 'react';
 import { View, StatusBar } from 'react-native';
-import {Container, Content, Text} from 'native-base';
+import { Text} from 'native-base';
+
+import { firebase } from '@react-native-firebase/messaging';
 
 import {Context} from '../Store/appContext'
 
@@ -9,7 +11,6 @@ import AsyncStorage from '@react-native-community/async-storage';
 export default SplashScreen = (props) => {
 
 	const { store, actions } = useContext(Context)
-
 
 	checkData = async() => {
 		const currentToken = await AsyncStorage.getItem('loginToken')
@@ -48,15 +49,37 @@ export default SplashScreen = (props) => {
 		
 	}
 
+	hasPermission = async() => {
+			var answer = await firebase.messaging().hasPermission();
+			if (answer){
+				console.log('It has Permission')
+			}else{
+				console.log('Requesting Permission')
+				getPermission()
+			}
+	}
 
+	registerNotifications = async() => {
+		if (!firebase.messaging().isRegisteredForRemoteNotifications) {
+			await firebase.messaging().registerForRemoteNotifications();
+			console.log('registered for notifications')
+		}else{
+			console.log('was already refistered')
+		}
+	}
 
+	getPermission = async() => {
+		var answer1 = await firebase.messaging().requestPermission();
+		var answer2 = await registerNotifications()
+		(answer1) ? 
+			console.log('access granted') : console.log('access denied')
+	}
 
 	useEffect(() => {
+		hasPermission();
 		setTimeout(() => {
 			checkData()
 		}, 3000);
-		
-
 		
 		return () => {
 			// cleanup
