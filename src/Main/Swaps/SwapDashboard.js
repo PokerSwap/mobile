@@ -75,7 +75,7 @@ export default SwapDashboard = (props) => {
         drawer={() => props.navigation.toggleDrawer()}
         tutorial={() => props.navigation.push('Tutorial')}
         />
-      <Content>
+      <Content>	
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         {/* SWAPTRACKERS */}
         <List>
