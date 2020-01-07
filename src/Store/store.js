@@ -52,7 +52,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 						.then(response => response.json)
 						.then(getActions().tracker.getAll())
-						.then(getActions().tournament.getInitial())
+						.then(getActions().tournament.getMore())
 					
 
 					} catch(error) {
@@ -346,55 +346,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 			},
 			
-			tracker: {
-
-				getAll: async() => {
-					
-					try{
-						const url = 'https://swapprofit-test.herokuapp.com/me/swap_tracker'
-						let accessToken = getStore().userToken.jwt
-
-						let response = await fetch(url, {
-							method:'GET',
-							headers: {
-								'Authorization': 'Bearer ' + accessToken,
-								'Content-Type':'application/json'
-							}, 
-						})
-
-						let trackerData = await response.json()
-						setStore({myTrackers: trackerData})
-						
-					} catch(error){
-						console.log('something went wrong in tracker.getCurrent', error)
-					}
-
-				},
-
-				getPast: async() => {
-					
-					try{
-						const url = 'https://swapprofit-test.herokuapp.com/me/swap_tracker?history=true'
-						let accessToken = getStore().userToken.jwt
-
-						let response = await fetch(url, {
-							method:'GET',
-							headers: {
-								'Authorization': 'Bearer ' + accessToken,
-								'Content-Type':'application/json'
-							}, 
-						})
-
-						let trackerData = await response.json()
-						setStore({pastTrackers: trackerData})
-						
-					}catch(error){
-						console.log('something went wrong in tracker.getCurrent', error)
-					}
-
-				}
-				
-			},
 
 			swap: {
 
@@ -491,117 +442,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 		
 			tournament:{
 
-				getOne: async ( tournament_id ) => {
-					try{
-						
-						const url = 'https://swapprofit-test.herokuapp.com/tournaments/' + tournament_id;
-						const accessToken = getStore().userToken.jwt ;
-
-						let response = await fetch(url, {
-							method: 'GET',
-							headers: {
-								'Authorization': 'Bearer ' + accessToken,
-								'Content-Type':'application/json'
-							}, 
-						})
-
-					} catch(error){
-						console.log('Something went wrong with tournament.get', error)
-					}
-
-				},
-			
-				getSpecific: async ( searchInput ) => {
-					try{
-						if(searchInput =='') {
-							getActions().tournament.getInitial()
-						} else{
-						const url = "https://swapprofit-test.herokuapp.com/tournaments/" + searchInput;
-						const accessToken = getStore().userToken.jwt ;
-
-						let response = await fetch(url, {
-							method: 'GET',
-							headers: {
-								'Authorization': 'Bearer ' + accessToken,
-								'Content-Type':'application/json'
-							}, 
-						})
-
-						let specificTournaments = await response.json()
-						
-						if (specificTournaments.message == "Tournament not found"){
-							setStore({tournaments: null})
-						}else{
-							setStore({tournaments: specificTournaments})
-							console.log('specificData:', specificData)
-						}
-					}
-					} catch(error){
-
-						console.log('something went wrong in tournament.getAction', error)
-					}
-				
-				},
-
-				getClosest: async( my_coordinates ) => {
-
-				},
-
-				getInitial: async (page) => {
-					try{
-						
-						const url = 'https://swapprofit-test.herokuapp.com/tournaments/all'
-						const accessToken = getStore().userToken.jwt ;
-						let response = await fetch(url, {
-							method: 'GET',
-							headers: {
-								'Authorization': 'Bearer ' + accessToken,
-								'Content-Type':'application/json'
-							}, 
-						})
-						let tournamentData = await response.json()
-						console.log('tournamentData', tournamentData)
-						// var tournaments =  tournamentData.map(function(tournament, i){
-
-						// 	return({
-						// 	  ...tournament
-						// 	})
-						//   })
-						
-						setStore({tournaments: tournamentData})
-						
-					} catch(error){
-						console.log('Something went wrong with tournament.getInitak', error)
-					}
-				},
-
-				getUpdated: async(data) => {
-					
-					try{
-						const url = 'https://swapprofit-test.herokuapp.com/tournaments/all?page=1+&limit=2'
-						const accessToken = getStore().userToken.jwt ;
-						
-						let response = await fetch(url, {
-							method: 'GET',
-							headers: {
-								'Authorization': 'Bearer ' + accessToken,
-								'Content-Type':'application/json'
-							}, 
-						})
-						let tournamentData = await response.json()
-
-						var updatedTournamentList = []
-						var tournaments = getStore().tournaments.forEach(
-							tournament => updatedTournamentList.push(tournament)
-						)
-						
-						setStore({tournaments: b})
-						console.log('current tournaments', getStore().tournaments)
-					} catch(error){
-						console.log('something went wtong with tournamentstoreall', error)
-					}
-				},
-
 				getAction: ( tournament_id ) => {
 					try{
 
@@ -621,8 +461,163 @@ const getState = ({ getStore, setStore, getActions }) => {
 					} catch(error){
 						console.log('something went wrong in tournament.getAction', error)
 					}
-				}
+				},
 
+				getOne: async ( tournament_id ) => {
+					
+					try{
+		
+						const url = 'https://swapprofit-test.herokuapp.com/tournaments/' + tournament_id;
+						const accessToken = getStore().userToken.jwt ;
+
+						let response = await fetch(url, {
+							method: 'GET',
+							headers: {
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							}, 
+						})
+
+					} catch(error){
+						console.log('Something went wrong with tournament.get', error)
+					}
+
+				},
+			
+				getInitial: async ( limit, order, key1, value1, key2, value2, searchInput ) => {
+					try {
+
+						setStore({tournaments: null})
+
+						var base_url ='https://swapprofit-test.herokuapp.com/tournaments/all?page=1&'
+
+						var essentials_url
+						searchInput !== '' && searchInput !== undefined ?
+							essentials_url = base_url + 'limit=' + limit + '&' + order + '=true&name=' + searchInput
+							:
+							essentials_url = base_url + 'limit=' + limit + '&' + order + '=true'
+						
+						var full_url
+						key1 !== undefined ?
+							key2 !== undefined ?
+								full_url = essentials_url + '&' + key1 + '=' + value1 + '&' + key2 + '=' + value2
+								:
+								full_url = essentials_url + '&' + key1 + '=' + value1
+							:
+							full_url = essentials_url
+
+						console.log('full url', full_url)
+						const accessToken = getStore().userToken.jwt ;
+						
+						let response = await fetch(full_url, {
+							method: 'GET',
+							headers: {
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							}, 
+						})
+						var initialTournaments = await response.json()
+						
+						setStore({tournaments: initialTournaments})
+						console.log('initialTournametns:',getStore().tournaments)
+					} catch(error) {
+						console.log('something went wrong with getting initial tournaments', error)
+					}
+				},
+
+				getMore: async ( page, limit, order, key1, value1, key2, value2, searchInput ) => {
+
+					try{
+						var base_url = 'https://swapprofit-test.herokuapp.com/tournaments/all?'
+						
+						var essentials_url 
+						searchInput !== undefined && searchInput !== '' ?
+							essentials_url = base_url + 'page=' + page + '&limit=' + limit + '&' + order + '=true&name=' + searchInput
+							:
+							essentials_url = base_url + 'page=' + page + '&limit=' + limit + '&' + order + '=true'
+
+						var full_url
+						key1 !== undefined ?
+							key2 !== undefined ?
+								full_url = essentials_url + '&' + key1 + '=' + value1 + '&' + key2 + '=' + value2
+								:
+								full_url = essentials_url + '&' + key1 + '=' + value1
+							:
+							full_url = essentials_url
+
+						console.log('full updated url', full_url)
+						const accessToken = getStore().userToken.jwt ;
+						let response = await fetch(full_url, {
+							method: 'GET',
+							headers: {
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							}, 
+						})
+						let newData = await response.json()
+						console.log('newData', newData)
+						var tournamentData = getStore().tournaments
+						newData != [] ?
+							newData.forEach(tournament => tournamentData.push(tournament))
+							:
+							console.log('No more tournaments')
+						setStore({tournaments: tournamentData})
+						console.log('tournaments',getStore().tournaments)
+					} catch(error){
+						console.log('Something went wrong with to', error)
+					}
+				},
+
+			},
+
+			tracker: {
+
+				getAll: async() => {
+					
+					try{
+						const url = 'https://swapprofit-test.herokuapp.com/me/swap_tracker'
+						let accessToken = getStore().userToken.jwt
+
+						let response = await fetch(url, {
+							method:'GET',
+							headers: {
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							}, 
+						})
+
+						let trackerData = await response.json()
+						setStore({myTrackers: trackerData})
+						
+					} catch(error){
+						console.log('something went wrong in tracker.getCurrent', error)
+					}
+
+				},
+
+				getPast: async() => {
+					
+					try{
+						const url = 'https://swapprofit-test.herokuapp.com/me/swap_tracker?history=true'
+						let accessToken = getStore().userToken.jwt
+
+						let response = await fetch(url, {
+							method:'GET',
+							headers: {
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							}, 
+						})
+
+						let trackerData = await response.json()
+						setStore({pastTrackers: trackerData})
+						
+					}catch(error){
+						console.log('something went wrong in tracker.getCurrent', error)
+					}
+
+				}
+				
 			},
 
 			user: {
@@ -657,7 +652,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 				auto_login: async( navigation ) => {
 					return new Promise(resolve =>
-							getActions().tournament.getInitial()
+							getActions().tournament.getInitial(8,'asc')
 							.then(() => getActions().tracker.getAll())
 							.then(() => getActions().tracker.getPast())
 							.then(() => navigation.navigate('Swaps'))	
@@ -682,7 +677,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						.then(()=> {
 							if(getStore().userToken){
 								if(getStore().myProfile.message !== "User not found" ){
-									getActions().tournament.getInitial()
+									getActions().tournament.getInitial(8,'asc')
 									.then(() => getActions().tracker.getAll())
 									.then(() => getActions().tracker.getPast())
 									.then(() => loading)

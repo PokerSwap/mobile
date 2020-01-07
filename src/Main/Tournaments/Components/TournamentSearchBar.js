@@ -5,7 +5,7 @@ import {Context} from '../../../Store/appContext'
 
 export default TournamentSearchBar = (props) => {
 
-  const { actions } = useContext(Context)
+  const { store, actions } = useContext(Context)
   return(
     <Header searchBar rounded>
       <Item>
@@ -15,7 +15,7 @@ export default TournamentSearchBar = (props) => {
           onChangeText={(value)=> props.setSearch(value)}
           placeholder="Search Tournaments" />
       </Item>
-      <Button transparent onPress={()=> actions.tournament.getSpecific(props.search)}>
+      <Button transparent onPress={()=> actions.tournament.getInitial(props.limit, props.order, undefined, undefined, undefined, undefined, props.search)}>
         <Text>Search</Text>
       </Button>
     </Header>
