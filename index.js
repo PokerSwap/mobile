@@ -76,16 +76,6 @@ messaging().setBackgroundMessageHandler(async (remoteMessage) => {
 messaging().onMessage(async (remoteMessage) => {
   console.log('FCM Message Data:', remoteMessage);
  
-   // Update a users messages list using AsyncStorage
-  //  const currentMessages = await AsyncStorage.getItem('messages');
-  //  console.log('currentMessages',currentMessages)
-  //  var array = []
-  //  const messages = JSON.parse(currentMessages);
-  //  console.log('messages',messages)
-  //  var array = []
-  //  array.push(messages)
-  //  array.push(remoteMessage.data)
-  //  await AsyncStorage.setItem('messages', JSON.stringify(array));
   var messageArray
   var currentMessages = await AsyncStorage.getItem('messages');
   currentMessages != null ? messageArray = JSON.parse(currentMessages) : messageArray =[]

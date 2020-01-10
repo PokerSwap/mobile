@@ -71,27 +71,27 @@ export default TournamentDashboard = (props) => {
       <TournamentSearchBar search={search} setSearch={setSearch} limit={limit} order={order}/>
       <TournamentSort limit={limit} searchInput={search} order={order} setOrder={setOrder} page={page} setPage={setPage}/>
       
-        {/* TOURNAMENT LIST GENERATOR */}
-        {store.tournaments == [] ?
-          <List>
-            <ListItem>
-              <Text>Sorry, there are no tournaments under that name</Text>
-            </ListItem> 
-          </List>
-          :  
-          <FlatList
-            data={store.tournaments}
-            renderItem={TournamentRow}
-            keyExtractor={(content, index) => index.toString()}
-            refreshControl={
-              <RefreshControl
-                refreshing={refreshing}
-                onRefresh={onRefresh}
-              />}
-            onEndReached={()=>getMore(page)}
-            onEndReachedThreshold={0}
-          />
-        }
+      {/* TOURNAMENT LIST GENERATOR */}
+      {store.tournaments == [] ?
+        <List>
+          <ListItem>
+            <Text>Sorry, there are no tournaments under that name</Text>
+          </ListItem> 
+        </List>
+        :  
+        <FlatList
+          data={store.tournaments}
+          renderItem={TournamentRow}
+          keyExtractor={(content, index) => index.toString()}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+            />}
+          onEndReached={()=>getMore(page)}
+          onEndReachedThreshold={0}
+        />
+      }
     </Container>
   )
 }

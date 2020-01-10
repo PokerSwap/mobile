@@ -37,16 +37,14 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>To locate your proximity to tournaments</string>
 	<key>NSMainNibFile</key>
 	<string>LaunchScreen</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>To take a Profile Picture and take pictures of Buy-In Tickets</string>
 	<key>Privacy - Camera Usage Description</key>
 	<string>To take a Profile Picture and take pictures of Buy-In Tickets</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>To locate your proximity to tournaments</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>To locate your proximity to tournaments</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>
