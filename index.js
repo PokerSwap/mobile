@@ -7,7 +7,13 @@ import firebase from '@react-native-firebase/app';
 import messaging from '@react-native-firebase/messaging'
 
 import AsyncStorage from '@react-native-community/async-storage'
+import stripe from 'tipsi-stripe'
 
+stripe.setOptions({
+  publishableKey: '<PUBLISHABLE_KEY>',
+  merchantId: '<MERCHANT_ID>',
+  androidPayMode: 'test',
+})
 
 // pluck values from your `GoogleService-Info.plist` you created on the firebase console
 const iosConfig = {

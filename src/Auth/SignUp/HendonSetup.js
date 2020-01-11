@@ -41,7 +41,6 @@ export default HendonSetup = (props) => {
 						originWhitelist={['*']}
 						// ref="webview"
 						onNavigationStateChange={(webViewState) => {
-							console.log(webViewState)
 							setHendon(webViewState.url)
 							props.onChangeHendon(webViewState.url)
 						}}
