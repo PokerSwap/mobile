@@ -2,13 +2,17 @@ import React, {useState, useContext} from 'react';
 import {Image, TextInput, Picker} from 'react-native';
 import {Container, Button, Text, Content, Card, CardItem} from 'native-base';
 
-import {request, PERMISSIONS} from 'react-native-permissions';
+import {request, check, PERMISSIONS} from 'react-native-permissions';
 
 import ImagePicker from 'react-native-image-picker';
 
 import { Context } from '../../Store/appContext';
 import _Header from "../../View-Components/header";
 import '../../Images/placeholder.jpg';
+
+import PushNotificationIOS from '@react-native-community/push-notification-ios'
+import PushNotification from 'react-native-push-notification'
+
 
 export default VerifyTicket = (props) => {
 
@@ -52,18 +56,23 @@ export default VerifyTicket = (props) => {
       chips
     )
     var answer2 = await actions.buy_in.uploadPhoto(image)
+    PushNotification.localNotificationSchedule({
+      //... You can use all the options from localNotifications
+      message: "Update Your Buyin", // (required)
+      date: new Date(Date.now() + 20 * 1000) // in 60 secs
+    });
     props.navigation.goBack()
   }
 
   const requestAll = async() => {
-    const cameraStatus = await request(PERMISSIONS.IOS.CAMERA);
-    const photosStatus = await request(PERMISSIONS.IOS.PHOTO_LIBRARY);
+    const cameraStatus = await check(PERMISSIONS.IOS.CAMERA);
+    const photosStatus = await check(PERMISSIONS.IOS.PHOTO_LIBRARY);
     return {cameraStatus, photosStatus};
   }
 
   const UploadTicketPhoto = async() => {
 
-    var answer = await requestAll().then(statuses => console.log(statuses));;
+    // var answer = await requestAll().then(statuses => console.log(statuses));;
 
     const options = {
       title: 'Submit Picture',

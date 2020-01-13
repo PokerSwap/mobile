@@ -7,13 +7,17 @@ import firebase from '@react-native-firebase/app';
 import messaging from '@react-native-firebase/messaging'
 
 import AsyncStorage from '@react-native-community/async-storage'
-import stripe from 'tipsi-stripe'
 
-stripe.setOptions({
-  publishableKey: '<PUBLISHABLE_KEY>',
-  merchantId: '<MERCHANT_ID>',
-  androidPayMode: 'test',
-})
+import PushNotification from 'react-native-push-notification'
+
+import PushNotificationIOS from '@react-native-community/push-notification-ios'
+
+PushNotification.localNotificationSchedule({
+  //... You can use all the options from localNotifications
+  message: "Schedule Local Notification worked", // (required)
+  date: new Date(Date.now() + 20 * 1000) // in 60 secs
+});
+
 
 // pluck values from your `GoogleService-Info.plist` you created on the firebase console
 const iosConfig = {
@@ -68,6 +72,45 @@ if (!firebase.apps.length) {
   }
 } 
  
+PushNotification.configure({
+  // (optional) Called when Token is generated (iOS and Android)
+  onRegister: function(token) {
+    console.log("TOKEN:", token);
+  },
+
+  // (required) Called when a remote or local notification is opened or received
+  onNotification: function(notification) {
+    console.log("NOTIFICATION:", notification);
+
+    // process the notification
+
+    // required on iOS only (see fetchCompletionHandler docs: https://github.com/react-native-community/react-native-push-notification-ios)
+    notification.finish(PushNotificationIOS.FetchResult.NoData);
+  },
+
+  // ANDROID ONLY: GCM or FCM Sender ID (product_number) (optional - not required for local notifications, but is need to receive remote push notifications)
+  senderID: "YOUR GCM (OR FCM) SENDER ID",
+
+  // IOS ONLY (optional): default: all - Permissions to register.
+  permissions: {
+    alert: true,
+    badge: true,
+    sound: true
+  },
+
+  // Should the initial notification be popped automatically
+  // default: true
+  popInitialNotification: true,
+
+  /**
+   * (optional) default: true
+   * - Specified if permissions (ios) and token (android and ios) will requested or not,
+   * - if not, you must call PushNotificationsHandler.requestPermissions() later
+   */
+  requestPermissions: true
+});
+
+
 messaging().setBackgroundMessageHandler(async (remoteMessage) => {
   // Update a users messages list using AsyncStorage
   console.log('remoteMessage',remoteMessage)

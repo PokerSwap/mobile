@@ -21,7 +21,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -37,13 +37,13 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>To take a Profile Picture and take pictures of Buy-In Tickets</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>To locate your proximity to tournaments</string>
 	<key>NSMainNibFile</key>
 	<string>LaunchScreen</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>To take a Profile Picture and take pictures of Buy-In Tickets</string>
-	<key>Privacy - Camera Usage Description</key>
 	<string>To take a Profile Picture and take pictures of Buy-In Tickets</string>
 	<key>UIAppFonts</key>
 	<array>
