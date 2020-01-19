@@ -9,6 +9,12 @@ import { Keyboard, TouchableWithoutFeedback, TextInput,
 
 import AsyncStorage from '@react-native-community/async-storage'
 
+import DeviceInfo from 'react-native-device-info'
+
+import { getUniqueId, getManufacturer } from 'react-native-device-info'
+
+
+
 export default LoginScreen = (props) => {
 
   const [email, setEmail] = useState('lou@gmail.com')
@@ -19,6 +25,7 @@ export default LoginScreen = (props) => {
 
   var {navigate} = props.navigation
 
+	var deviceID = DeviceInfo.getUniqueId();
 
 
   loadingSwitch = () => {
@@ -47,6 +54,7 @@ export default LoginScreen = (props) => {
     var answer = await actions.user.login(
       email, 
       password, 
+      deviceID,
       props.navigation
     );
     storeData();

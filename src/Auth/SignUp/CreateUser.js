@@ -22,7 +22,7 @@ export default CreateUser = (props) => {
 
 		if(email !== ''|| password !== ''){
 			if(password==c_password){}else{
-				var answer1 = actions.user.add(email, password, deviceID);
+				var answer1 = actions.user.add(email, password);
 				setSubmitted(true)
 			}
 		} else {
