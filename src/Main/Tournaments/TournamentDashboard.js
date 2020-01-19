@@ -5,7 +5,6 @@ import { RefreshControl, FlatList } from 'react-native'
 import _Header from "../../View-Components/header";
 import TournamentBody from './Components/TournamentBody';
 import TournamentSearchBar from './Components/TournamentSearchBar';
-import TournamentSort from './Components/TournamentSort';
 
 import { Context } from '../../Store/appContext';
  
@@ -22,23 +21,22 @@ export default TournamentDashboard = (props) => {
   const [refreshing, setRefreshing] = useState(false);
 
   const [page, setPage] = useState(1)
-  const [limit, setLimit] = useState(8)
-  const [order, setOrder] = useState('asc')
+  const [mode, setMode] = useState('byDate')
 
   const onRefresh = async(currentPage) => {
     setRefreshing(true);
     currentPage =1
     setPage(currentPage)
-    var answer = await actions.tournament.getInitial(limit, order)
+    var answer = await actions.tournament.getInitial()
     wait(2000).then(() => setRefreshing(false));
   }
 
   const getMore = async( currentPage ) => {
     console.log('page before', currentPage)
-    currentPage += limit
+    currentPage += 8
     setPage(currentPage)
     console.log('page after', currentPage)
-    var answer2 = await actions.tournament.getMore(currentPage, limit, order)
+    var answer2 = await actions.tournament.getMore(currentPage, mode)
   }
   
   const [search, setSearch] = useState('')  
@@ -68,8 +66,7 @@ export default TournamentDashboard = (props) => {
         drawer={() => props.navigation.toggleDrawer()}
         tutorial={() => props.navigation.push('Tutorial')}
       />
-      <TournamentSearchBar search={search} setSearch={setSearch} limit={limit} order={order}/>
-      <TournamentSort limit={limit} searchInput={search} order={order} setOrder={setOrder} page={page} setPage={setPage}/>
+      <TournamentSearchBar search={search} setSearch={setSearch}/>
       
       {/* TOURNAMENT LIST GENERATOR */}
       {store.tournaments == [] ?

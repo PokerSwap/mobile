@@ -484,27 +484,21 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 				},
 			
-				getInitial: async ( limit, order, key1, value1, key2, value2, searchInput ) => {
+				getInitial: async ( key1, value1, key2, value2 ) => {
 					try {
 
 						setStore({tournaments: null})
 
-						var base_url ='https://swapprofit-test.herokuapp.com/tournaments/all?page=1&'
-
-						var essentials_url
-						searchInput !== '' && searchInput !== undefined ?
-							essentials_url = base_url + 'limit=' + limit + '&' + order + '=true&name=' + searchInput
-							:
-							essentials_url = base_url + 'limit=' + limit + '&' + order + '=true'
-						
+						var base_url ='https://swapprofit-test.herokuapp.com/tournaments/all?asc=true&limit=8&page=1'
+						console.log(key1)
 						var full_url
 						key1 !== undefined ?
 							key2 !== undefined ?
-								full_url = essentials_url + '&' + key1 + '=' + value1 + '&' + key2 + '=' + value2
+								full_url = base_url + '&' + key1 + '=' + value1 + '&' + key2 + '=' + value2
 								:
-								full_url = essentials_url + '&' + key1 + '=' + value1
+								full_url = base_url + '&' + key1 + '=' + value1
 							:
-							full_url = essentials_url
+							full_url = base_url
 
 						console.log('full url', full_url)
 						const accessToken = getStore().userToken.jwt ;
@@ -525,25 +519,19 @@ const getState = ({ getStore, setStore, getActions }) => {
 					}
 				},
 
-				getMore: async ( page, limit, order, key1, value1, key2, value2, searchInput ) => {
+				getMore: async ( page, key1, value1, key2, value2 ) => {
 
 					try{
-						var base_url = 'https://swapprofit-test.herokuapp.com/tournaments/all?'
+						var base_url = 'https://swapprofit-test.herokuapp.com/tournaments/all?page='
 						
-						var essentials_url 
-						searchInput !== undefined && searchInput !== '' ?
-							essentials_url = base_url + 'page=' + page + '&limit=' + limit + '&' + order + '=true&name=' + searchInput
-							:
-							essentials_url = base_url + 'page=' + page + '&limit=' + limit + '&' + order + '=true'
-
 						var full_url
 						key1 !== undefined ?
 							key2 !== undefined ?
-								full_url = essentials_url + '&' + key1 + '=' + value1 + '&' + key2 + '=' + value2
+								full_url = base_url + page + '&' + key1 + '=' + value1 + '&' + key2 + '=' + value2
 								:
-								full_url = essentials_url + '&' + key1 + '=' + value1
+								full_url = base_url + page + '&' + key1 + '=' + value1
 							:
-							full_url = essentials_url
+							full_url = base_url
 
 						console.log('full updated url', full_url)
 						const accessToken = getStore().userToken.jwt ;
@@ -622,15 +610,14 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 			user: {
 
-				add: async ( myEmail, myPassword, myDeviceID ) => {
+				add: async ( myEmail, myPassword ) => {
 
 					try{
 						const url = 'https://swapprofit-test.herokuapp.com/users'
 
 						const data = {
 							email: myEmail,
-							password: myPassword,
-							device_token: myDeviceID
+							password: myPassword
 						}
 
 						let response = await fetch(url, {
@@ -652,14 +639,14 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 				auto_login: async( navigation ) => {
 					return new Promise(resolve =>
-							getActions().tournament.getInitial(8,'asc')
+							getActions().tournament.getInitial()
 							.then(() => getActions().tracker.getAll())
 							.then(() => getActions().tracker.getPast())
 							.then(() => navigation.navigate('Swaps'))	
 					)
 				},
 
-				login: async ( myEmail, myPassword, navigation, loading ) => {
+				login: async ( myEmail, myPassword, myDeviceID, navigation, loading ) => {
 					
 					// 20 DAY EXPIRATION
 					var time = (1000*60*60*24*20)
@@ -667,6 +654,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					var data = {
 						email: myEmail,
 						password: myPassword,
+						device_token: myDeviceID,
 						exp: time
 					};
 
@@ -677,7 +665,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						.then(()=> {
 							if(getStore().userToken){
 								if(getStore().myProfile.message !== "User not found" ){
-									getActions().tournament.getInitial(8,'asc')
+									getActions().tournament.getInitial()
 									.then(() => getActions().tracker.getAll())
 									.then(() => getActions().tracker.getPast())
 									.then(() => loading)
