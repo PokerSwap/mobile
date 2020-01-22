@@ -12,12 +12,6 @@ import PushNotification from 'react-native-push-notification'
 
 import PushNotificationIOS from '@react-native-community/push-notification-ios'
 
-PushNotification.localNotificationSchedule({
-  //... You can use all the options from localNotifications
-  message: "Schedule Local Notification worked", // (required)
-  date: new Date(Date.now() + 20 * 1000) // in 60 secs
-});
-
 
 // pluck values from your `GoogleService-Info.plist` you created on the firebase console
 const iosConfig = {
@@ -52,7 +46,7 @@ const SwapProfitApp = firebase
     // use platform-specific firebase config
     Platform.OS === 'ios' ? iosConfig : androidConfig,
     // name of this app
-    'SwapProfitApp',
+    'SwapProfitApp'
   )
   .then(app => console.log('initialized apps ->', firebase.apps));
 
@@ -123,6 +117,7 @@ messaging().setBackgroundMessageHandler(async (remoteMessage) => {
 });
 
 messaging().onMessage(async (remoteMessage) => {
+  getToken()
   console.log('FCM Message Data:', remoteMessage);
  
   var messageArray
@@ -134,8 +129,6 @@ messaging().onMessage(async (remoteMessage) => {
    console.log('now', check3)
 });   
  
-
-
 messaging().onSendError(event => {
   console.log(event.messageId);
   console.log(event.error);
@@ -146,7 +139,7 @@ getToken = async()=> {
   console.log('fmtoken',fcmToken) 
 }
 
-getToken()
+
 
 import {AppRegistry} from 'react-native';
 import App from './App';

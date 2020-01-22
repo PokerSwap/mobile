@@ -110,116 +110,149 @@ export default VerifyTicket = (props) => {
     x=false
   }
 
+  let textSeat = null;
+  let textChips = null;
+
   return(
     <Container>
-      <Content contentContainerStyle={{ alignItems:'center', justifyContent:'center' }}>
+      <Content contentContainerStyle={styles.container.main}>
         
-        <Card transparent>                 
+        {/* IMAGE INPUT */}
+        <Card transparent>
+          
           {/* IMAGE UPLOADED  */}
-          <CardItem style={{justifyContent:'center'}}>
-            <Image 
-            source={image}
-            style={{height:200, width:200, marginTop:10}}
-            />
+          <CardItem style={styles.container.image}>
+            <Image source={image} style={styles.image} />
           </CardItem>
 
           {/* INSTRUCTION TEXT  */}
           <CardItem>
-            <Text  style={{width:300, fontSize:24, textAlign:'center', marginTop:10}}>
+            <Text style={styles.text.instruction}>
               Upload a photo of your tournament buyin ticket.
             </Text>
           </CardItem>
 
           {/* UPLOAD BUTTON  */}
-          <CardItem style={{justifyContent:'center'}}>
-            <Button large style={{marginVertical:10}} 
-              onPress={async() => 
-                {
-
-
-                  UploadTicketPhoto()
-                }}>
-              <Text style={{fontWeight: '600'}}>UPLOAD</Text>
+          <CardItem style={styles.container.button}>
+            <Button large style={styles.button} 
+              onPress={()=> UploadTicketPhoto()}>
+              <Text style={styles.text.button}>
+                UPLOAD
+              </Text>
             </Button>
           </CardItem>      
-
+        </Card>
+        
+        {/* ALL BUYIN INPUTS */}
+        <Card transparent>
           {/* TABLE INPUT */}
-          <CardItem style={{justifyContent:'flex-start', marginLeft:10}}>
-            <Text style={{fontSize:24}}>Table: </Text>
+          <CardItem style={styles.container.input}>
+            <Text style={styles.text}>Table: </Text>
             <TextInput 
               placeholder="Enter Table Number"
               placeholderTextColor='gray'
               keyboardType="number-pad"
               blurOnSubmit={false}
-              style={{justifyContent:'center', fontSize:20}}
-              returnKeyType="next"
+              style={styles.input}
+              returnKeyType="done"
               autoCapitalize='none'
               autoCorrect={false} 
-              // onSubmitEditing={() => { txtSeat.focus(); }}
+              onSubmitEditing={() => { textSeat.focus(); }}
               value={table}    
               onChangeText={table => setTable( table )}
             />
           </CardItem>
           
           {/* SEAT INPUT */}
-          <CardItem style={{justifyContent:'flex-start', marginLeft:10}}>
-            <Text style={{fontSize:24}}>Seat: </Text>
+          <CardItem style={styles.container.input}>
+            <Text style={styles.text}>Seat: </Text>
             <TextInput 
               placeholder="Enter Seat Number"
               placeholderTextColor='gray'
               keyboardType="number-pad"
               blurOnSubmit={false}
-              returnKeyType="next"
+              returnKeyType="done"
               autoCapitalize='none'
               autoCorrect={false} 
-              style={{justifyContent:'center', fontSize:20}}
-              // ref={(input) => { txtSeat = input; }} 
-              // onSubmitEditing={() => { txtChips.focus(); }}
+              style={styles.input}
+              ref={(input) => { textSeat = input; }} 
+              onSubmitEditing={() => { textChips.focus(); }}
               value={seat}    
               onChangeText={seat => setSeat( seat )}
             />
           </CardItem>
           
           {/* CHIPS INPUT */}
-          <CardItem style={{justifyContent:'flex-start', marginLeft:10}}>
-            <Text style={{fontSize:24}}>Chips: </Text>
+          <CardItem style={styles.container.input}>
+            <Text style={styles.text}>Chips: </Text>
             <TextInput 
               placeholder="Enter Number of Chips"
               placeholderTextColor='gray'
               keyboardType="number-pad"
-              returnKeyType="go"
+              returnKeyType="done"
               autoCapitalize='none'
               autoCorrect={false} 
-              style={{justifyContent:'center', fontSize:20}}
-              // ref={(input) => { txtChips = input; }} 
-              // onSubmitEditing={() => { txtPassword.focus(); }}
+              blurOnSubmit={true}
+
+              style={styles.input}
+              ref={(input) => { textChips = input; }} 
               value={chips}    
               onChangeText={chips => setChips( chips )}
             />
           </CardItem>
+          </Card>
+          
+        <Card transparent style={{width:'80%'}}>
           
           {/* FLIGHT SELECTION */}
-          <Picker
-            selectedValue={flight_id}
-            onValueChange={(itemValue, itemIndex) =>
-              setFlight(itemValue)
-            }
-          >
-            <Picker.Item label='Please select an option...' value='-1' />
-            {FlightSelection}
-          </Picker>
+            <Picker
+              selectedValue={flight_id}
+              onValueChange={ (itemValue, itemIndex) => setFlight(itemValue) }
+            >
+              <Picker.Item label='Please select an option...' value='-1' />
+              {FlightSelection}
+            </Picker>
+            
 
           {/* SUBMIT BUTTON */}
-          <CardItem style={{justifyContent:'center'}}>
-            
-                  <Button disabled={x} onPress={() => BuyInStart()}>
-                    <Text style={{fontWeight:'600'}}> SUBMIT </Text>
-                  </Button>
-                
+          <CardItem style={styles.container.button}> 
+            <Button disabled={x} style={styles.button} onPress={() => BuyInStart()}>
+              <Text style={styles.text.button}> SUBMIT </Text>
+            </Button>
           </CardItem>
         
         </Card>
       </Content>
     </Container>
   )
+}
+
+const styles = {
+  button:{
+    fontWeight:'600'},
+  container:{
+    button:{
+      justifyContent:'center', marginBottom:0},
+    main:{
+      alignItems:'center', justifyContent:'center'},
+    image:{
+      justifyContent:'center'},
+    input:{
+      justifyContent:'flex-start', marginLeft:10},
+    picker:{
+      width:'80%'}
+  },
+  image:{
+    height:200, width:200, marginTop:10},
+  input:{
+    justifyContent:'center', fontSize:20},
+  text:{
+    input:{
+      fontSize:24},
+    instruction:{
+      width:300, fontSize:24, 
+      textAlign:'center', marginTop:10},
+    button:{
+      fontWeight:'600'}
+  }
 }

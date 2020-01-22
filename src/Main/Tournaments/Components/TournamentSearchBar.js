@@ -26,6 +26,7 @@ export default TournamentSearchBar = (props) => {
   }
 
   const getByLocation = () => {
+    
     let a_latitude, a_longitude;
     let myCoordinates = Geolocation.getCurrentPosition(info => {
       console.log(info);

@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import {Button, Text, Toast} from 'native-base';
+import {Button, Text, Toast, Icon } from 'native-base';
 import { Context } from '../Store/appContext';
 
 
@@ -62,113 +62,136 @@ export default LoginScreen = (props) => {
   }
 
   return(
-    <View style={{flex:1, justifyContent:"center", backgroundColor:'rgb(12,85,32)'}}>
+    <View style={styles.container.main}>
     <StatusBar barStyle='light-content'/>
-    <Spinner visible={loading} style={{color: '#FFF'}}/>
-      <KeyboardAvoidingView>
-        <TouchableWithoutFeedback>
+    <Spinner visible={loading} style={styles.spinner}/>
+      <KeyboardAvoidingView  behavior='padding' keyboardVerticalOffset={-100}>
+        <TouchableWithoutFeedback  onPress={Keyboard.dismiss}>
+        <View>
+          
         {/* TITLE */}
-        
-        <View transparent 
-          style={{color:'rgb(12,85,32)', position:'absolute', top:0, left:0, right:0 }}>
-          
-        <View header style={{justifyContent:'center',backgroundColor:'rgb(12,85,32)'}}>
-          <Text style={{color:'white', textAlign:'center', fontWeight:'600', fontSize:36, justifyContent:'center'}}>Swap Profit</Text>
-        </View>  
-          
-     
-        <View >
-          {/* EMAIL INPUT */}
-          <View style={{width:'75%', alignSelf:'center', marginVertical:5}}>
-            <TextInput 
-              style={{
-                height:40,
-                marginTop: 1,
-                backgroundColor: 'rgba(255,255,255,0.2)',
-                color: "#FFF",
-                paddingHorizontal: 10
-              }}
-              placeholder="Enter Email"
-              placeholderTextColor='gray'
-              keyboardType="email-address"
-              blurOnSubmit={false}
-              returnKeyType="next"
-              autoCapitalize='none'
-              autoCorrect={false} 
-              onSubmitEditing={() => { txtPassword.focus(); }}
-              value={email}    
-              onChangeText={email => setEmail( email )}
-            />
-          </View>
-          
-          {/* PASSWORD INPUT */}
-          <View style={{width:'75%', alignSelf:'center',}}>
-            <TextInput 
-              style={{height:40,
-                marginTop: 1,
-                backgroundColor: 'rgba(255,255,255,0.2)',
-                color: "#FFF",
-                paddingHorizontal: 10
-                }}
-              placeholder="Enter Password"
-              placeholderTextColor='gray'
-              secureTextEntry
-              autoCapitalize='none'
-              returnKeyType="go"
-              autoCorrect={false} 
-              ref={(input) => { txtPassword = input; }} 
-              value={password}
-              onChangeText={password => setPassword( password )}
-            />
-          </View>
 
-          {/* BUTTONS  */}
-          <View style={{
-            backgroundColor:'rgb(12,85,32)', 
-            justifyContent:'center', 
-            flexDirection:'column'}}>
-
-            {/* LOGIN BUTTON */}
+          <View header style={{flexDirection:'column', alignItems:'center', marginBottom:100}}>
+          <Icon type="FontAwesome5" name="handshake" style={{fontSize:80,color:'white'}} />
+            <Text style={styles.text.title}>Swap Profit</Text>
             
-            <Button block large
-              style={{width:'75%', alignSelf:'center',
-              paddingVertical: 15, marginTop: 10}}
-              onPress={
-                async() => {
-                  Keyboard.dismiss();
-                  var x = await loginStart();
-                  wrong()}
-                }
-            >
-              <Text style={{fontWeight:'600', justifyContent:'center'}}> Login </Text>
-            </Button>
-                
+          </View>  
+            
+          <View transparent style={{ }}>
+          
+            {/* EMAIL INPUT */}
+            <View style={styles.container.input}>
+              <TextInput 
+                style={styles.input}
+                placeholder="Enter Email"
+                placeholderTextColor='white'
+                keyboardType="email-address"
+                blurOnSubmit={false}
+                returnKeyType="next"
+                autoCapitalize='none'
+                autoCorrect={false} 
+                onSubmitEditing={() => { txtPassword.focus(); }}
+                value={email}    
+                onChangeText={email => setEmail( email )}
+              />
+            </View>
+            
+            {/* PASSWORD INPUT */}
+            <View style={styles.container.input}>
+              <TextInput 
+                style={styles.input}
+                placeholder="Enter Password"
+                placeholderTextColor='white'
+                secureTextEntry
+                autoCapitalize='none'
+                returnKeyType="go"
+                autoCorrect={false} 
+                ref={(input) => { txtPassword = input; }} 
+                value={password}
+                onChangeText={password => setPassword( password )}
+              />
+            </View>
 
-            {/* SIGN UP BUTTON */}
-            <Button  block large
-              style={{
-                backgroundColor:'rgb(211,152,35)',
-                width:'75%', paddingVertical: 15,
-                marginTop: 10, alignSelf:'center'}} 
+            {/* BUTTONS */}
+            <View style={styles.container.button}>
+
+              {/* LOGIN BUTTON */}         
+              <Button block large style={styles.button.login}
+                onPress={
+                  async() => {
+                    Keyboard.dismiss();
+                    var x = await loginStart();
+                    wrong()}
+                  }
+              >
+                <Text style={styles.text.login}> Login </Text>
+              </Button>
+                  
+              {/* SIGN UP BUTTON */}
+              <Button  block large style={styles.button.signup} 
                 onPress={()=>navigate("TermsAndConditions")}>
-              <Text style={{
-                color:'black', 
-                justifyContent:'center', 
-                fontWeight:'600'}}> 
-                Sign Up 
-              </Text>
-            </Button>
-                
-            {/* FORGOT PASSWORD BUTTON */}
-            <Button transparent style={{justifyContent:'center'}} onPress={() => props.navigation.navigate("ForgotPassword")}>
-              <Text style={{color:'white'}}>Forgot password?</Text>
-            </Button>
-                
+                <Text style={styles.text.signup}> 
+                  Sign Up 
+                </Text>
+              </Button>
+                  
+              {/* FORGOT PASSWORD BUTTON */}
+              <Button transparent style={styles.button.forgotPassword} 
+                onPress={() => props.navigation.navigate("ForgotPassword")}>
+                <Text style={styles.text.forgotPassword}>Forgot password?</Text>
+              </Button>
+                  
+            </View>
+          
           </View>
-          </View>
+
         </View>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
     </View>
   )
+}
+
+const styles = {
+  container:{
+    main:{
+       flex:1,flexDirection:'column', justifyContent:'flex-end', backgroundColor:'rgb(12,85,32)'},
+    button:{
+      backgroundColor:'rgb(12,85,32)',  justifyContent:'center', 
+      flexDirection:'column', marginBottom:'12%'
+    },
+    input:{
+      width:'75%', alignSelf:'center', marginVertical:5, backgroundColor: 'rgba(255,255,255,0.2)'},
+    title:{
+      alignSelf:'center', justifyContent:'center', backgroundColor:'rgb(12,85,32)'
+    }
+  },
+  button:{
+    login:{
+      width:'75%', alignSelf:'center', paddingVertical: 15, marginTop: 10
+    },
+    signup:{  
+      backgroundColor:'rgb(211,152,35)', width:'75%', 
+      paddingVertical: 15, marginTop: 10, alignSelf:'center'
+    },
+    forgotPassword:{
+      justifyContent:'center', marginVertical:12}
+  },
+  input:{
+    height:40, marginTop: 1, 
+    color: "#FFF", paddingHorizontal: 10
+  },
+  text:{
+    title:{
+      color:'white', textAlign:'center', 
+      fontWeight:'600', fontSize:36, justifyContent:'center'},
+    login:{
+      fontWeight:'600', justifyContent:'center'},
+    signup:{
+      color:'black', justifyContent:'center', fontWeight:'600'},
+    forgotPassword:{
+      color:'white'}
+  },
+  spinner:{
+    color: '#FFF'}
 }

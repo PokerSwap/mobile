@@ -1,6 +1,6 @@
 import React, {useContext, useEffect} from 'react';
 import { View, StatusBar } from 'react-native';
-import { Text} from 'native-base';
+import { Text,Icon} from 'native-base';
 
 import { firebase } from '@react-native-firebase/messaging';
 
@@ -49,19 +49,24 @@ export default SplashScreen = (props) => {
 		
 	}
 
+
 	hasPermission = async() => {
-			var answer = await firebase.messaging().hasPermission();
-			if (answer){
-				console.log('It has Permission')
-			}else{
-				console.log('Requesting Permission')
-				getPermission()
-			}
+		var answer = await firebase.messaging().hasPermission();
+		console.log(answer)
+		if (answer){
+			var answer2 = await firebase.messaging().getToken();
+			console.log('fmtoken',fcmToken) 
+			console.log('It has Permission')
+
+		}else{
+			console.log('Requesting Permission')
+			getPermission()
+		}
 	}
 
 	registerNotifications = async() => {
 		if (!firebase.messaging().isRegisteredForRemoteNotifications) {
-			await firebase.messaging().registerForRemoteNotifications();
+			var answer33 = await firebase.messaging().registerForRemoteNotifications();
 			console.log('registered for notifications')
 		}else{
 			console.log('was already refistered')
@@ -71,8 +76,7 @@ export default SplashScreen = (props) => {
 	getPermission = async() => {
 		var answer1 = await firebase.messaging().requestPermission();
 		var answer2 = await registerNotifications()
-		(answer1) ? 
-			console.log('access granted') : console.log('access denied')
+		(answer1) ? console.log('access granted') : console.log('access denied')
 	}
 
 	useEffect(() => {
@@ -88,9 +92,12 @@ export default SplashScreen = (props) => {
 
 	return(
 		<View style={styles.container}>
-							<StatusBar barStyle='light-content'/>
+		<StatusBar barStyle='light-content'/>
+			<View style={{flex:1, flexDirection:'column', alignItems:'center', justifyContent:'center'}}>
+			<Icon type="FontAwesome5" name="handshake" style={{fontSize:80,color:'white'}} />
 
-				<Text style={styles.text}>Swap Profit</Text> 
+			<Text style={styles.text}>Swap Profit</Text> 
+			</View>
 		</View>
 	)
 }
@@ -98,8 +105,6 @@ export default SplashScreen = (props) => {
 const styles = {
     container:{
         flex:1, 
-        justifyContent: "center",
-        alignItems:'center',
         backgroundColor: 'rgb(12,85,32)'
     },
     text:{
