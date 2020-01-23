@@ -5,7 +5,7 @@ import { Col, Row } from 'react-native-easy-grid';
 
 export default  ProfileBio = (props) => {
    
-  openHendon = () => {
+  const openHendon = () => {
     props.navigation.push('WebView', {
       url: props.hendon_url
     })
