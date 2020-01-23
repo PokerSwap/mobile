@@ -19,14 +19,16 @@ export default SideBar = (props) => {
     
     <Content>
       <ProfileBio 
-        style={{marginTop:11}}
+        style={{marginTop:'10%'}}
         first_name={user.first_name}
         last_name={user.last_name}
         profile_pic_url={user.profile_pic_url}
         username={user.username}
+        hendon_url={user.hendon_url}
         roi={user.roi}
         rating={user.rating}
         picture={user.picture}
+        navigation={props.navigation}
       />
       <View style={{alignSelf:'center'}}>
         <Button iconLeft large warning style={{marginVertical:5, width:100,justifyContent:'center'}}>
