@@ -1,10 +1,10 @@
 import React, {useContext, useState} from 'react'
-import { Button, Header, Icon, Input, Item, Text} from 'native-base';
+import { Button, Header, Icon, Content, Item, Text} from 'native-base';
 import Geolocation from '@react-native-community/geolocation';
 
 
 import {Context} from '../../../Store/appContext'
-import { TouchableWithoutFeedback, TextInput, Keyboard, ScrollView } from 'react-native';
+import { TouchableWithoutFeedback, TextInput, Keyboard, View, TouchableOpacity } from 'react-native';
 
 export default TournamentSearchBar = (props) => {
 
@@ -45,27 +45,29 @@ export default TournamentSearchBar = (props) => {
   }
 
   return(
-    <Header searchBar rounded>
-      <ScrollView style={{flex: 1}}
-        keyboardShouldPersistTaps='handled'>
-        <Item style={{width:'100%'}}>
+    <View style={{flex:1, flexDirection:'row', alignItems:'center', justifyContent:'space-around', marginBottom:10}}>
+      
+        <Item rounded style={{width:'65%', height:40, backgroundColor:'#D3D3D3'}}>
           <Icon name="ios-search" />
           <TextInput 
             value={value}
+            autoCorrect={false}
+            style={{width:'85%'}}
             onChangeText={valueX=> setValue(valueX)}
-            placeholder="Search Tournaments" />
+            clearButtonMode='always'
+            placeholder="Search Tournaments"
+            placeholderTextColor='#696969' />
         </Item>
-      </ScrollView>
-      <Button transparent onPress={()=> testValue(value)}>
-        <Text>Search</Text>
-      </Button>
-      <Button transparent
-      onPress={()=> getByLocation()}
-        style={{width:80, height:60}}>
+      <TouchableOpacity   onPress={()=> testValue(value)}>
+        <Text style={{color:'blue'}}>Search</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={{marginRight:5}}
+      onPress={()=> getByLocation()}>
         <Icon 
           name='location-arrow' type='FontAwesome5'
+          style={{color:'blue', fontSize:18}}
         />
-      </Button>
-    </Header>
+      </TouchableOpacity>
+    </View>
   )
 }

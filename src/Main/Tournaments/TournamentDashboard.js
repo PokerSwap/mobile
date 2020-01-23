@@ -1,6 +1,6 @@
 import React, {useContext, useState} from 'react';
-import { Container, List, ListItem, Text } from 'native-base';
-import { RefreshControl, FlatList } from 'react-native'
+import { Container, List, ListItem, Text, Header, Icon, Segment, Spinner } from 'native-base';
+import { RefreshControl, FlatList, View} from 'react-native'
 
 import _Header from "../../View-Components/header";
 import TournamentBody from './Components/TournamentBody';
@@ -61,34 +61,53 @@ export default TournamentDashboard = (props) => {
 
   return(
     <Container>
-      <_Header 
-        title={'Tournament Dashboard'} 
-        drawer={() => props.navigation.toggleDrawer()}
-        tutorial={() => props.navigation.push('Tutorial')}
-      />
-      <TournamentSearchBar search={search} setSearch={setSearch}/>
+
+     
+      <Header hasSegment style={{justifyContent:'space-between',alignItems:'center'}}>
+        {/* MENU ICON */}
+        <Icon name="menu"
+          onPress={() => props.navigation.toggleDrawer()}
+          style={{marginLeft:10}}
+        />
+      
+        {/* TITLE */}
+        <Text style={{fontWeight:'600'}}>Tournament Dashboard</Text>
+        
+        {/* TUTORIAL ICON */}
+        <Icon 
+          style={{marginRight:10}}
+          type="SimpleLineIcons" 
+          name="question"
+          onPress={()=> props.navigation.push('Tutorial')}
+        />
+      </Header>
+      <Segment>
+        <TournamentSearchBar search={search} setSearch={setSearch}/>
+
+      </Segment>
       
       {/* TOURNAMENT LIST GENERATOR */}
-      {store.tournaments == [] ?
-        <List>
-          <ListItem>
-            <Text>Sorry, there are no tournaments under that name</Text>
-          </ListItem> 
-        </List>
+      {store.tournaments != null ?
+        store.tournaments.length != 0 ?
+          <FlatList
+            data={store.tournaments}
+            renderItem={TournamentRow}
+            keyExtractor={(content, index) => index.toString()}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+              />}
+            onEndReached={()=>getMore(page)}
+            onEndReachedThreshold={0}
+          />
+          :
+          <Text> There are no tournamnents under that name in our database</Text>
         :  
-        <FlatList
-          data={store.tournaments}
-          renderItem={TournamentRow}
-          keyExtractor={(content, index) => index.toString()}
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={onRefresh}
-            />}
-          onEndReached={()=>getMore(page)}
-          onEndReachedThreshold={0}
-        />
-      }
+        <Spinner />
+
+          }
+      
     </Container>
   )
 }

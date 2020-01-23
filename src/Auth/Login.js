@@ -87,6 +87,7 @@ export default LoginScreen = (props) => {
                 placeholderTextColor='white'
                 keyboardType="email-address"
                 blurOnSubmit={false}
+                selectionColor={'#D3D3D3'}
                 returnKeyType="next"
                 autoCapitalize='none'
                 autoCorrect={false} 
@@ -106,6 +107,7 @@ export default LoginScreen = (props) => {
                 autoCapitalize='none'
                 returnKeyType="go"
                 autoCorrect={false} 
+                selectionColor={'#D3D3D3'}
                 ref={(input) => { txtPassword = input; }} 
                 value={password}
                 onChangeText={password => setPassword( password )}

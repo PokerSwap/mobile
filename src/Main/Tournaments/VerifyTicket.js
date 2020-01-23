@@ -1,5 +1,5 @@
 import React, {useState, useContext} from 'react';
-import {Image, TextInput, Picker} from 'react-native';
+import {Image, TextInput, Picker, KeyboardAvoidingView, TouchableWithoutFeedback} from 'react-native';
 import {Container, Button, Text, Content, Card, CardItem} from 'native-base';
 
 import {request, check, PERMISSIONS} from 'react-native-permissions';
@@ -116,7 +116,7 @@ export default VerifyTicket = (props) => {
   return(
     <Container>
       <Content contentContainerStyle={styles.container.main}>
-        
+      <KeyboardAvoidingView style={{flex:1,}} behavior='position' keyboardVerticalOffset={-180}>
         {/* IMAGE INPUT */}
         <Card transparent>
           
@@ -143,11 +143,13 @@ export default VerifyTicket = (props) => {
           </CardItem>      
         </Card>
         
+        
         {/* ALL BUYIN INPUTS */}
-        <Card transparent>
+        <Card transparent style={{flex:1, flexDirection:'column'}}>
+
           {/* TABLE INPUT */}
           <CardItem style={styles.container.input}>
-            <Text style={styles.text}>Table: </Text>
+            <Text style={styles.text.input}>Table: </Text>
             <TextInput 
               placeholder="Enter Table Number"
               placeholderTextColor='gray'
@@ -155,24 +157,25 @@ export default VerifyTicket = (props) => {
               blurOnSubmit={false}
               style={styles.input}
               returnKeyType="done"
-              autoCapitalize='none'
+              allowFontScaling={false}
               autoCorrect={false} 
-              onSubmitEditing={() => { textSeat.focus(); }}
+
+              onSubmitEditing={() => { textSeat.focus({pageYOffset:56})}}
               value={table}    
               onChangeText={table => setTable( table )}
             />
           </CardItem>
-          
+         
+
           {/* SEAT INPUT */}
           <CardItem style={styles.container.input}>
-            <Text style={styles.text}>Seat: </Text>
+            <Text style={styles.text.input}>Seat: </Text>
             <TextInput 
               placeholder="Enter Seat Number"
               placeholderTextColor='gray'
               keyboardType="number-pad"
               blurOnSubmit={false}
               returnKeyType="done"
-              autoCapitalize='none'
               autoCorrect={false} 
               style={styles.input}
               ref={(input) => { textSeat = input; }} 
@@ -184,16 +187,14 @@ export default VerifyTicket = (props) => {
           
           {/* CHIPS INPUT */}
           <CardItem style={styles.container.input}>
-            <Text style={styles.text}>Chips: </Text>
+            <Text style={styles.text.input}>Chips: </Text>
             <TextInput 
               placeholder="Enter Number of Chips"
               placeholderTextColor='gray'
               keyboardType="number-pad"
               returnKeyType="done"
-              autoCapitalize='none'
               autoCorrect={false} 
               blurOnSubmit={true}
-
               style={styles.input}
               ref={(input) => { textChips = input; }} 
               value={chips}    
@@ -201,8 +202,9 @@ export default VerifyTicket = (props) => {
             />
           </CardItem>
           </Card>
+        
           
-        <Card transparent style={{width:'80%'}}>
+        <Card transparent style={{width:'100%'}}>
           
           {/* FLIGHT SELECTION */}
             <Picker
@@ -222,6 +224,8 @@ export default VerifyTicket = (props) => {
           </CardItem>
         
         </Card>
+        </KeyboardAvoidingView>
+
       </Content>
     </Container>
   )
@@ -238,17 +242,17 @@ const styles = {
     image:{
       justifyContent:'center'},
     input:{
-      justifyContent:'flex-start', marginLeft:10},
+      flexDirection:'column', justifyContent:'center'},
     picker:{
       width:'80%'}
   },
   image:{
     height:200, width:200, marginTop:10},
   input:{
-    justifyContent:'center', fontSize:20},
+    justifyContent:'center', fontSize:24, color:'black'},
   text:{
     input:{
-      fontSize:24},
+      fontSize:24, marginVertical:10},
     instruction:{
       width:300, fontSize:24, 
       textAlign:'center', marginTop:10},
