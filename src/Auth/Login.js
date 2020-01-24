@@ -14,7 +14,6 @@ import DeviceInfo from 'react-native-device-info'
 import { getUniqueId, getManufacturer } from 'react-native-device-info'
 
 
-
 export default LoginScreen = (props) => {
 
   const [email, setEmail] = useState('lou@gmail.com')

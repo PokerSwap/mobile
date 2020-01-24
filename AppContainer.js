@@ -24,6 +24,7 @@ import SwapPot from './src/Main/Winnings/SwapPot'
 import TourneyLobby from './src/Main/Tournaments/TourneyLobby'
 import VerifyTicket from './src/Main/Tournaments/VerifyTicket';
 import SwapOffer from './src/Main/SwapOffer/SwapOffer';
+import FlightSelection from './src/Main/Tournaments/FlightSelection'
 
 import ProfileScreen from './src/Main/Profile/ProfileScreen'
 import WebViewScreen from './src/Main/Shared/WebView'
@@ -35,7 +36,7 @@ import SideBar from './src/View-Components/sidebar'
 import SettingsScreen from './src/Drawer/Settings'
 import NotificationsScreen from './src/Drawer/Notifications'
 import PurchaseTokens from './src/Drawer/PurchaseTokens'
-import ChangeEmail from './src/Drawer/ChangeEmail';
+import SettingsChanger from './src/Drawer/SettingsChanger'
 
 // LOGIN AND SIGNUP NAVIGATION
 const AuthStack = createStackNavigator(
@@ -108,6 +109,13 @@ const TournamentsStack = createStackNavigator(
       navigationOptions:{
         title:"Verify Ticket",
       }
+    },
+    FlightSelection:{
+      screen: FlightSelection,
+      navigationOptions: ({navigation}) => ({
+        title:'Flight Selection',
+        headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)} />,
+      })
     },
     TourneyLobby:{
       screen: TourneyLobby,
@@ -233,18 +241,19 @@ const SettingsStack = createStackNavigator({
   SettingsScreen:{
     screen: SettingsScreen,
     navigationOptions:{
-      title:'Settings'
+      title:'Settings',
+      header:null
     }
   },
-  ChangeEmail:{
-    screen: ChangeEmail,
-    navigationOptions:{
-      title:'Change Email'
-    }
+  SettingsChanger:{
+    screen: SettingsChanger,
+    navigationOptions: ({navigation}) => ({
+      headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)} />,
+    })
   }
 },
 {
-  initialRouteName: 'Settings',
+  initialRouteName: 'SettingsScreen',
 })
 
 // DRAWER VIEWS NAVIGATION
@@ -262,7 +271,7 @@ const DrawerNav = createDrawerNavigator(
       }
     },
     Settings:{
-      screen: SettingsScreen,
+      screen: SettingsStack,
       navigationOptions: {
         drawerIcon: ({ focused }) => (
           <Icon 

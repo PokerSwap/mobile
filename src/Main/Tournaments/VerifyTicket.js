@@ -1,6 +1,6 @@
 import React, {useState, useContext} from 'react';
-import {Image, TextInput, Picker, KeyboardAvoidingView, TouchableWithoutFeedback} from 'react-native';
-import {Container, Button, Text, Content, Card, CardItem} from 'native-base';
+import {Image, TextInput, Picker, KeyboardAvoidingView, View, TouchableWithoutFeedback} from 'react-native';
+import {Container, Button, Text, Content, Card, CardItem, Icon} from 'native-base';
 
 import {request, check, PERMISSIONS} from 'react-native-permissions';
 
@@ -118,40 +118,34 @@ export default VerifyTicket = (props) => {
       <Content contentContainerStyle={styles.container.main}>
       <KeyboardAvoidingView style={{flex:1,}} behavior='position' keyboardVerticalOffset={-180}>
         {/* IMAGE INPUT */}
-        <Card transparent>
+        <Card transparent style={{justifyContent:'center', flex:1}}>
           
-          {/* IMAGE UPLOADED  */}
-          <CardItem style={styles.container.image}>
-            <Image source={image} style={styles.image} />
-          </CardItem>
-
           {/* INSTRUCTION TEXT  */}
-          <CardItem>
-            <Text style={styles.text.instruction}>
-              Upload a photo of your tournament buyin ticket.
+          <CardItem style={{textAlign:'center', flex:1, flexDirection:'column'}}>
+            <Text style={{textAlign:'center', fontSize:20}}>
+              Enter the information and upload a photo 
+            </Text>
+            <Text style={{textAlign:'center', fontSize:20}}>  
+              of your tournament buyin ticket.
             </Text>
           </CardItem>
-
-          {/* UPLOAD BUTTON  */}
-          <CardItem style={styles.container.button}>
-            <Button large style={styles.button} 
-              onPress={()=> UploadTicketPhoto()}>
-              <Text style={styles.text.button}>
-                UPLOAD
-              </Text>
+          {/* IMAGE UPLOADED  */}
+          <CardItem style={{justifyContent:'center', flex:1, flexDirection:'column', alignItems:'center'}}>
+            <Image source={image} style={{width:200, height:200}} />
+            <Button style={{width:200, justifyContent:'center'}} onPress={()=> UploadTicketPhoto()}>
+              <Icon type='FontAwesome5' name='plus' style={{color:'white'}}/>
             </Button>
-          </CardItem>      
+          </CardItem>
+
         </Card>
         
-        
         {/* ALL BUYIN INPUTS */}
-        <Card transparent style={{flex:1, flexDirection:'column'}}>
-
+        <Card transparent style={{flex:1, flexDirection:'row', justifyContent:'center'}}>
           {/* TABLE INPUT */}
-          <CardItem style={styles.container.input}>
+          <CardItem style={{flexDirection:'column', alignItems:'flex-end', width:'25%'}}>
             <Text style={styles.text.input}>Table: </Text>
             <TextInput 
-              placeholder="Enter Table Number"
+              placeholder="Table #"
               placeholderTextColor='gray'
               keyboardType="number-pad"
               blurOnSubmit={false}
@@ -159,19 +153,17 @@ export default VerifyTicket = (props) => {
               returnKeyType="done"
               allowFontScaling={false}
               autoCorrect={false} 
-
               onSubmitEditing={() => { textSeat.focus({pageYOffset:56})}}
               value={table}    
               onChangeText={table => setTable( table )}
             />
           </CardItem>
          
-
           {/* SEAT INPUT */}
-          <CardItem style={styles.container.input}>
+          <CardItem style={{flexDirection:'column', justifyContent:'center', width:'25%'}}>
             <Text style={styles.text.input}>Seat: </Text>
             <TextInput 
-              placeholder="Enter Seat Number"
+              placeholder="Seat #"
               placeholderTextColor='gray'
               keyboardType="number-pad"
               blurOnSubmit={false}
@@ -184,12 +176,12 @@ export default VerifyTicket = (props) => {
               onChangeText={seat => setSeat( seat )}
             />
           </CardItem>
-          
+
           {/* CHIPS INPUT */}
-          <CardItem style={styles.container.input}>
+          <CardItem style={{flexDirection:'column', alignItems:'flex-start', width:'33%'}}>
             <Text style={styles.text.input}>Chips: </Text>
             <TextInput 
-              placeholder="Enter Number of Chips"
+              placeholder="Enter Chips"
               placeholderTextColor='gray'
               keyboardType="number-pad"
               returnKeyType="done"
@@ -201,24 +193,30 @@ export default VerifyTicket = (props) => {
               onChangeText={chips => setChips( chips )}
             />
           </CardItem>
-          </Card>
+        </Card>
         
           
-        <Card transparent style={{width:'100%'}}>
-          
+        <Card transparent style={{ justifyContent:'center'}}>
           {/* FLIGHT SELECTION */}
-            <Picker
+          <CardItem style={{justifyContent:'center', marginVertical:10}}>
+            <Button style={{justifyContent:'center'}} iconRight transparent onPress={()=> navigation.navigate('FlightSelector')}>
+              <Text style={{fontSize:24, marginRight:5, paddingRight:0}}>Select Your Flight</Text>
+              <Icon style={{marginLeft:0}} type='Ionicons' name='ios-arrow-forward'/>
+            </Button>
+            </CardItem>
+            {/* <Picker            
+            
               selectedValue={flight_id}
               onValueChange={ (itemValue, itemIndex) => setFlight(itemValue) }
             >
-              <Picker.Item label='Please select an option...' value='-1' />
+              <Picker.Item label='Please select your flight...' value='-1' />
               {FlightSelection}
-            </Picker>
+            </Picker> */}
             
 
           {/* SUBMIT BUTTON */}
           <CardItem style={styles.container.button}> 
-            <Button disabled={x} style={styles.button} onPress={() => BuyInStart()}>
+            <Button large disabled={x} style={styles.button} onPress={() => BuyInStart()}>
               <Text style={styles.text.button}> SUBMIT </Text>
             </Button>
           </CardItem>
@@ -233,16 +231,15 @@ export default VerifyTicket = (props) => {
 
 const styles = {
   button:{
-    fontWeight:'600'},
+    padding:20},
   container:{
     button:{
-      justifyContent:'center', marginBottom:0},
+      justifyContent:'center', width:500},
     main:{
       alignItems:'center', justifyContent:'center'},
     image:{
-      justifyContent:'center'},
-    input:{
-      flexDirection:'column', justifyContent:'center'},
+      justifyContent:'center', width:200, flex:1, flexDirection:'column'},
+    
     picker:{
       width:'80%'}
   },
@@ -254,9 +251,8 @@ const styles = {
     input:{
       fontSize:24, marginVertical:10},
     instruction:{
-      width:300, fontSize:24, 
-      textAlign:'center', marginTop:10},
+       fontSize:20, textAlign:'center', marginTop:10},
     button:{
-      fontWeight:'600'}
+      fontWeight:'600', fontSize:24}
   }
 }
