@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import {Alert,TouchableOpacity} from 'react-native';
-import { Container, Button, Content, Text, List, ListItem } from 'native-base';
+import { Container, View, Content, Text, List, ListItem } from 'native-base';
 import _Header from '../View-Components/header'
 
 import {Context } from '../Store/appContext'
@@ -20,22 +20,34 @@ export default SettingsScreen = (props) => {
       />
       <Content>
         <List>
-          <Button onPress={()=> props.navigation.navigate('SettingsChanger')}>
-              <Text> Change Email </Text>
-          </Button>
-          <TouchableOpacity onPress={()=> props.navigation.navigate('SettingsChanger')}>
-              <Text> Change Profile Picture </Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={()=> props.navigation.navigate('SettingsChanger')}>
-            <ListItem>
-              <Text> Change Password </Text>
-            </ListItem>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={()=> props.navigation.navigate('SettingsChanger')}>
-            <ListItem>
-              <Text> Leave Feedback </Text>
-            </ListItem>
-          </TouchableOpacity>
+          
+          <ListItem noIndent 
+            onPress={()=> props.navigation.push('SettingsChanger', {
+              setting:'changeEmail'
+            })}>
+            <Text> Change Email </Text>
+          </ListItem>
+          
+          <ListItem noIndent 
+            onPress={()=> props.navigation.push('SettingsChanger', {
+              setting:'changePicture'
+            })}>
+            <Text> Change Profile Picture </Text>
+          </ListItem>
+          
+          <ListItem noIndent 
+            onPress={()=> props.navigation.push('SettingsChanger', {
+              setting:'changePassword'
+            })}>
+            <Text> Change Password </Text>
+          </ListItem>
+          
+          {/* <ListItem noIndent 
+            onPress={()=> props.navigation.push('SettingsChanger', {
+              setting:'leaveFeedback'
+            })}>
+            <Text> Leave Feedback </Text>
+          </ListItem> */}
           
         </List>
        
