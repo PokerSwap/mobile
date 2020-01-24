@@ -25,8 +25,9 @@ export default SideBar = (props) => {
         profile_pic_url={user.profile_pic_url}
         username={user.username}
         hendon_url={user.hendon_url}
-        roi={user.roi}
-        rating={user.rating}
+        roi_rating={user.roi_rating}
+        swap_rating={user.swap_rating}
+        total_swaps={user.total_swaps}
         picture={user.picture}
         navigation={props.navigation}
       />

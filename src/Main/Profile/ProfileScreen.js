@@ -15,7 +15,10 @@ export default ProfileScreen = (props) => {
   let first_name = navigation.getParam('first_name', 'default_value');
   let last_name = navigation.getParam('last_name', 'NO-ID');
   let id = navigation.getParam('id', 'NO-ID');
-  let roi = navigation.getParam('roi', 'NO-ID');
+  let roi_rating = navigation.getParam('roi_rating', 'NO-ID');
+  let swap_rating = navigation.getParam('swap_rating', 'NO-ID');
+  let total_swaps = navigation.getParam('total_swaps', 'NO-ID');
+
   let hendon_url = navigation.getParam('hendon_url', 'NO-ID');
   let profile_pic_url = navigation.getParam('profile_pic_url','NO-ID')
 
@@ -40,7 +43,9 @@ export default ProfileScreen = (props) => {
         <ProfileBio 
           navigation={props.navigation}
           first_name={first_name} last_name={last_name} 
-          roi={roi} hendon_url={hendon_url} 
+          roi_rating={roi_rating} swap_rating={swap_rating}
+          total_swaps={total_swaps}
+          hendon_url={hendon_url} 
           profile_pic_url={profile_pic_url}/>
         {history}
       </Content>

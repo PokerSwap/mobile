@@ -124,7 +124,9 @@ export default BuyIn = (props) => {
     navigation.push('Profile',{
       first_name: profile.first_name,
       last_name: profile.last_name,
-      roi: profile.roi,
+      roi_rating: profile.roi_rating,
+      swap_rating: profile.swap_rating,
+      total_swaps: profile.total_swaps,
       profile_pic_url: profile.profile_pic_url,
       hendon_url: profile.hendon_url
     });

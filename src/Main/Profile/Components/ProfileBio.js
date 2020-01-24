@@ -32,13 +32,16 @@ export default  ProfileBio = (props) => {
         </Button>
       </Row>
       
-      <Row 
-        style={{ displayFlex:1, justifyContent:"center", alignItems:"center" }} >
-        
-        <Text> R.O.I.: {props.roi}% </Text>
+      <Row style={{ displayFlex:1, justifyContent:"center", alignItems:"center" }} >
+        <Text> R.O.I.: {props.roi_rating}% </Text>
+      </Row>   
       
-        <Text> Rating: {props.rating} </Text>
-        <Icon name="star" style={{color:"gold"}}/>
+      <Row style={{ displayFlex:1, justifyContent:"center", alignItems:"center" }} >
+        <Text> Rating: {props.swap_rating} </Text>
+      </Row>   
+      
+      <Row style={{ displayFlex:1, justifyContent:"center", alignItems:"center" }} >
+        <Text> Total Swaps: {props.total_swaps} </Text>
       </Row>   
 
     </Col>
