@@ -36,8 +36,9 @@ import SideBar from './src/View-Components/sidebar'
 import SettingsScreen from './src/Drawer/Settings'
 import NotificationsScreen from './src/Drawer/Notifications'
 import PurchaseTokens from './src/Drawer/PurchaseTokens'
-import SettingsChanger from './src/Drawer/SettingsChanger'
-
+import ChangeEmail from './src/Drawer/ChangeEmail'
+import ChangePassword from './src/Drawer/ChangePassword'
+import ChangePicture from './src/Drawer/ChangePicture'
 // LOGIN AND SIGNUP NAVIGATION
 const AuthStack = createStackNavigator(
   {
@@ -245,12 +246,27 @@ const SettingsStack = createStackNavigator({
       header:null
     }
   },
-  SettingsChanger:{
-    screen: SettingsChanger,
+  ChangeEmail:{
+    screen: ChangeEmail,
     navigationOptions: ({navigation}) => ({
+      title:'Change Email',
       headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)} />,
     })
-  }
+  },
+  ChangePassword:{
+    screen: ChangePassword,
+    navigationOptions: ({navigation}) => ({
+      title:'Change Password',
+      headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)} />,
+    })
+  },
+  ChangePicture:{
+    screen: ChangePicture,
+    navigationOptions: ({navigation}) => ({
+      title:'Change Picture',
+      headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)} />,
+    })
+  },
 },
 {
   initialRouteName: 'SettingsScreen',

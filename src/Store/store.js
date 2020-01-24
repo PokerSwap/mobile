@@ -346,7 +346,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 			},
 			
-
 			swap: {
 
 				add: async ( a_tournament_id, a_recipient_id, a_percentage, navigation ) => {
@@ -690,51 +689,59 @@ const getState = ({ getStore, setStore, getActions }) => {
 				},
 
 				changeEmail: async ( myEmail, myPassword, myNewEmail ) => {
-
-					let data = {
-						email: myEmail,
-						password: myPassword,
-						new_email: myNewEmail
+					try {
+						let data = {
+							email: myEmail,
+							password: myPassword,
+							new_email: myNewEmail
+						}
+	
+						let accessToken = getStore().userToken.jwt;
+	
+						const url = 'https://swapprofit-test.herokuapp.com/users/me/email'
+	
+						let response = await fetch(url, {
+							method:'PUT',
+							body: JSON.stringify(data),
+							headers: {
+								'Content-Type':'application/json',
+								'Authorization': 'Bearer ' + accessToken
+							}, 
+						})
+						.then(response => response.json())
+						console.log(response)
+					}catch(error){
+						console.log('Something went wrong with changing email', error)
 					}
-
-					let accessToken = getStore().userToken.jwt;
-
-					const url = 'https://swapprofit-test.herokuapp.com/users/me/email'
-
-					let response = await fetch(url, {
-						method:'PUT',
-						body: JSON.stringify(data),
-						headers: {
-							'Content-Type':'application/json',
-							'Authorization': 'Bearer ' + accessToken
-						}, 
-					})
-					.then(response => response.json())
-					console.log(response)
+					
 				},
 
-				resetPassword: async( myEmail, myPassword, myNewPassword ) => {
-
-					let data = {
-						email: myEmail,
-						password: myPassword,
-						new_password: myNewPassword
+				changePassword: async( myEmail, myPassword, myNewPassword ) => {
+					try {
+						let data = {
+							email: myEmail,
+							password: myPassword,
+							new_password: myNewPassword
+						}
+	
+						let accessToken = getStore().userToken.jwt;
+	
+						const url = 'https://swapprofit-test.herokuapp.com/users/me/password'
+	
+						let response = await fetch(url, {
+							method:'PUT',
+							body: JSON.stringify(data),
+							headers: {
+								'Content-Type':'application/json',
+								'Authorization': 'Bearer ' + accessToken
+							}, 
+						})
+						.then(response => response.json())
+						console.log(response)
+					}catch(error){
+						console.log('Something went wrong with changing password', error)
 					}
-
-					let accessToken = getStore().userToken.jwt;
-
-					const url = 'https://swapprofit-test.herokuapp.com/users/me/password'
-
-					let response = await fetch(url, {
-						method:'PUT',
-						body: JSON.stringify(data),
-						headers: {
-							'Content-Type':'application/json',
-							'Authorization': 'Bearer ' + accessToken
-						}, 
-					})
-					.then(response => response.json())
-					console.log(response)
+					
 				},
 
 				forgotPassword: async( myEmail ) => {
