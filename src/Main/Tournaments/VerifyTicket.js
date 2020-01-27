@@ -67,20 +67,23 @@ export default VerifyTicket = (props) => {
       message: "Update Your Buyin", // (required)
       date: new Date(Date.now() + 20 * 1000) // in 60 secs
     });
-    var answer3 = await props.navigation.push('TourneyLobby', {
-      action: action,
-      tournament_id: tournament_id,
-      name: name,
-      address: address,
-      city: city,
-      state: state,
-      longitude: longitude,
-      latitude: latitude,
-      start_at: start_at,
-      buy_ins: buy_ins,
-      swaps: swaps,
-      flights: flights
-    });
+    var answer3 = await actions.tournament.getInitial()
+    var answer4 = await props.navigation.goBack(null)
+    // var answer3 = await props.navigation.push('TourneyLobby', {
+    //   action: action,
+    //   tournament_id: tournament_id,
+    //   name: name,
+    //   address: address,
+    //   city: city,
+    //   state: state,
+    //   longitude: longitude,
+    //   latitude: latitude,
+    //   start_at: start_at,
+    //   buy_ins: buy_ins,
+    //   swaps: swaps,
+    //   flights: flights,
+    //   navigation: props.navigation
+    // });
   }
 
   const requestAll = async() => {
@@ -130,7 +133,7 @@ export default VerifyTicket = (props) => {
 
   let textSeat = null;
   let textChips = null;
-  
+   
   return(
     <Container>
       <Content contentContainerStyle={styles.container.main}>

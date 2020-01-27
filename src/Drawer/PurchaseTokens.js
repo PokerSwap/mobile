@@ -21,7 +21,7 @@ const AlertS = (props) => {
           onPress: () => {actions.coin.buy(props.dollars, props.coins);
                           Alert.alert(
                             "Confirmation", 
-                            'You now have ' + store.myProfile.coins + ' coins.',
+                            'You now have ' + (store.myProfile.coins + props.coins) + ' coins.',
                             [{
                               text: 'OK',
                               onPress: () => console.log('OK')
@@ -75,9 +75,12 @@ export default PurchaseTokens = (props) => {
       <Content contentContainerStyle={{flex:1, justifyContent:'center', alignItems:'center'}}>
       <ScrollView style={{ alignSelf: 'stretch' }}>           
         <Card transparent>
-          <PriceOption dollars={4.99} coins={10}/>
-          <PriceOption dollars={9.99} coins={25}/>
-          <PriceOption dollars={19.99} coins={60}/>
+          <PriceOption dollars={4.99} coins={5}/>
+          <PriceOption dollars={9.99} coins={10}/>
+          <PriceOption dollars={19.99} coins={25}/>
+          <PriceOption dollars={34.99} coins={50}/>
+          <PriceOption dollars={59.99} coins={100}/>
+          <PriceOption dollars={99.99} coins={200}/>
         </Card>
         
         </ScrollView>

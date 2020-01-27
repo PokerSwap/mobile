@@ -55,12 +55,13 @@ export default CreateUser = (props) => {
 							Please create your Username for when you login and 
 							your personal Password and your Email Address.
 						</Text>
-						<Item>
+						<Item style={{marginVertical:10}}>
 							<Icon active name='mail' />
 							<TextInput 
 								placeholder="Enter Email"
 								keyboardType="email-address"
 								blurOnSubmit={false}
+								style={{fontSize:24, width:'80%'}}
 								returnKeyType="next"
 								autoCapitalize='none'
 								autoCorrect={false} 
@@ -69,10 +70,12 @@ export default CreateUser = (props) => {
 								onChangeText={email => setEmail( email )}
 								/>
 						</Item>
-						<Item>
+						<Item style={{marginVertical:10}}>
+						<Icon active name='key' />
 							<TextInput 
 								placeholder="Enter Password"
 								secureTextEntry
+								style={{fontSize:24, width:'80%'}}								
 								autoCapitalize='none'
 								returnKeyType="next"
 								autoCorrect={false} 
@@ -82,10 +85,12 @@ export default CreateUser = (props) => {
 								onChangeText={password => setPassword( password )}
 							/>
 						</Item>
-						<Item>
+						<Item style={{marginVertical:10}}>
+						<Icon active name='key' />
 							<TextInput 
 									placeholder="Confirm Password"
 									secureTextEntry
+									style={{fontSize:24, width:'80%'}}
 									autoCapitalize='none'
 									returnKeyType="go"
 									autoCorrect={false} 

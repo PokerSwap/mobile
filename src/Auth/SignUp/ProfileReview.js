@@ -15,11 +15,11 @@ export default  ProfileReview = (props) => {
 			props.hendon
 		)
 		.then(()=> actions.profile.uploadPhoto(props.picture))
-		.then(() => actions.profile.get())
-		.then(() => actions.tracker.getAll())
-		.then(() => actions.tournaments.getInital(8,'asc'))
-		.then(()=> actions.coin.buy(0,5))
-		.then(()=> props.navigation.navigate('Swaps'))
+		// .then(() => actions.profile.get())
+		// .then(() => actions.tracker.getAll())
+		// .then(() => actions.tournaments.getInital(8,'asc'))
+		// .then(()=> actions.coin.buy(0,5))
+		.then(()=> props.navigation.goBack(null))
 	}
 
 

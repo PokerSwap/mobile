@@ -22,7 +22,7 @@ export default TourneyLobby = (props) => {
   let start_at = navigation.getParam('start_at', 'NO-ID');
   let flights = navigation.getParam('flights', 'NO-ID');
   let buy_ins = navigation.getParam('buy_ins', 'NO-ID');
-  let allSwapsinTournament = navigation.getParam('swaps', 'NO-ID');
+  let swaps = navigation.getParam('swaps', 'NO-ID');
 
   const {store,actions} = useContext(Context)
 
@@ -31,6 +31,7 @@ export default TourneyLobby = (props) => {
   }
 
   var aa = store.myTrackers.filter(tracker => tracker.tournament.id == tournament_id)
+  console.log('aa', aa)
   var mySwapsinTournament = aa[0].swaps.map(swapBody => swapBody.swap)
 
   var Flights = flights.map((flight) => { 
@@ -45,7 +46,7 @@ export default TourneyLobby = (props) => {
         day = {flight.day}
         start_at = {flight.start_at}
         buy_ins={their_buy_ins}
-        allSwapsinTournament={allSwapsinTournament}
+        allSwapsinTournament={swaps}
         mySwapsinTournament={mySwapsinTournament}
         action={action}
       />)
@@ -61,7 +62,7 @@ export default TourneyLobby = (props) => {
               id={tournament_id} name={name} start_at={start_at}
               address={address} city={city} state={state}/>
           </ListItem>
-
+ 
           {/* TOURNEY BUYIN ENTRIES  */}
           {Flights}
              

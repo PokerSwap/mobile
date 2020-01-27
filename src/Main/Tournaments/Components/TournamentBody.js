@@ -11,7 +11,8 @@ export default TournamentBody = (props) => {
 
   var bgColor, textColor, borderWidths, buttonColor, path;
   var navigation = props.navigation;
-
+ 
+  console.log('prop swap', props.swaps)
 
   const enterTournament = async() => {
     var answer1 = await actions.tournament.getAction(props.id);

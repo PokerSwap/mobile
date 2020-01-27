@@ -32,19 +32,27 @@ export default ProfileBioSideBar = (props) => {
     ifNickName = ' '
 
   return(
-    <Card transparent>
-      <CardItem style={{alignItems:'flex-start', flex:1, flexDirection:'column'}}>
+    <Card transparent style={{flex:1, flexDirection:'column'}}>
+      <CardItem style={{alignItems:'flex-start', justifyContent:'space-between', flex:1, flexDirection:'row'}}>
         <View 
-          style={{marginTop:'4%', width: 50, height:50, position: 'relative',
+          style={{marginLeft:10, width: 100, height:100, position: 'relative',
           overflow: 'hidden', borderRadius: 100}}>
           <Image style={{
             display: 'flex', margin: 'auto', 
             height: '100%', width: 'auto'}} 
             source={{uri: props.profile_pic_url}} />
         </View>
+        <View style={{marginRight:15}}>
+          <Button warning style={{justifyContent:'center'}}>
+            <Text style={{fontSize:24, fontWeight:'600', paddingRight:5}}>{store.myProfile.coins}</Text>
+            <Icon style={{paddingLeft:5, marginLeft:0}} type="FontAwesome5" name="coins" size={24} />
+          </Button>
+        </View>
+      </CardItem>
+      <CardItem>
         <View style={{flex:1, justifyContent:'flex-start'}}>
-          <Button style={{flex:1, justifyContent:'flex-start'}} transparent onPress={() => enterProfile()}>
-            <Text style={{fontSize:20, textAlign:'left'}}>{props.first_name}{ifNickName}{props.last_name}</Text>
+          <Button style={{flex:1, justifyContent:'center'}} transparent onPress={() => enterProfile()}>
+            <Text style={{fontSize:20, textAlign:'center'}}>{props.first_name}{ifNickName}{props.last_name}</Text>
           </Button>
         </View>
       </CardItem>

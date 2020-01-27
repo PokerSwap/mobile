@@ -676,7 +676,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 									console.log("You did not login");
 							}
 						})
-						.catch(()=> console.log('something wehnt wrong in login'))
+						.catch((error)=> console.log('something wehnt wrong in login', error))
 					))
 
 				},

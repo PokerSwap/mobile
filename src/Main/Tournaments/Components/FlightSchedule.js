@@ -6,7 +6,7 @@ import BuyIn  from '../../Shared/BuyIn'
 import {Context} from '../../../Store/appContext'
 
 export default FlightSchedule = (props) => {
-    
+     
   const { store, actions } = useContext(Context)
 
   var startMonth = props.start_at.substring(8,11)
