@@ -116,7 +116,7 @@ const TournamentsStack = createStackNavigator(
       screen: FlightSelection,
       navigationOptions: ({navigation}) => ({
         title:'Flight Selection',
-        headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)} />,
+        headerLeft: <HeaderBackButton text='Back' onPress={() => navigation.goBack(null)} />,
       })
     },
     TourneyLobby:{

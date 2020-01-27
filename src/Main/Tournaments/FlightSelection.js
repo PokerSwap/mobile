@@ -1,6 +1,6 @@
 import React, {useState, useContext} from 'react';
-import {Picker} from 'react-native';
-import {Container, Content} from 'native-base';
+import {Picker, View} from 'react-native';
+import {Container, Content, Button, Text} from 'native-base';
 
 import { Context } from '../../Store/appContext';
 import _Header from "../../View-Components/header";
@@ -10,10 +10,12 @@ export default FlightSelection = (props) => {
 
   const { store, actions } = useContext(Context)
 
-  const [flight_id, setFlight] = useState('')
-
   var navigation = props.navigation;
-  let flights = navigation.getParam('flights', 'NO-ID');
+  let flights = navigation.getParam('flightMap', 'NO-ID');
+  let flight_id = navigation.getParam('flight_id', 'NO-ID');
+  let setFlight = navigation.getParam('setFlight', 'NO-ID');
+
+  console.log('flights', flights)
 
   var FlightSelection = flights.map((flight) => {
       
@@ -25,7 +27,7 @@ export default FlightSelection = (props) => {
     var day_name = flight.start_at.substring(0,3)
     var day_num = flight.day
 
-
+ 
     var labelTime = 'Day ' + day_num + ' ' + day_name + '.  ' + startMonth + '. ' + startDay + ', ' + startTime 
       
     return(
@@ -38,17 +40,21 @@ export default FlightSelection = (props) => {
 
   return(
     <Container>
-      <Content>
-
-        <Picker            
-          selectedValue={flight_id}
-          onValueChange={ (itemValue, itemIndex) => setFlight(itemValue) }
-        >
-          <Picker.Item label='Please select your flight...' value='-1' />
-          {FlightSelection}
-        </Picker>
+      <Content >
+        <View            
+>
+          <Picker   
+            selectedValue={flight_id}
+            onValueChange={ (itemValue, itemIndex) => setFlight(itemValue) }
+          >
+            <Picker.Item label='Please select your flight...' value='-1' />
+            {FlightSelection}
+          </Picker>
+        </View>
         
-
+        {/* <Button onPress={()=> console.log()}>
+          <Text> Select </Text>
+        </Button> */}
 
       </Content>
     </Container>

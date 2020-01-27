@@ -43,8 +43,9 @@ export default LoginScreen = (props) => {
   wrong = () => {
 		if(store.userToken==null){
 			Toast.show({
-				text:'wrongPassword',
-			duration:3000})
+        text:'Sorry, you entered the wrong email or password. Please try again',
+      duration:3000,
+    position:'top'})
 		}
 	}
 

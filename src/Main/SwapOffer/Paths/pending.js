@@ -42,12 +42,9 @@ export default PendingPath = (props) => {
   }
 
   return(
-    <Card>
+    <Card transparent>
       <CardItem style={{justifyContent:'center'}}>
-        <Text>Swap with {props.user_name} is pending</Text>
-      </CardItem>
-      <CardItem style={{justifyContent:'center'}}>
-        <Text>{props.percentage}%</Text>
+        <Text style={{fontSize:18, textAlign:'center'}}>Your swap of {props.percentage}% with {props.user_name} is pending.</Text>
       </CardItem>
       <CardItem style={{justifyContent:'center'}}>  
         <Button onPress={()=> showAlert()}>

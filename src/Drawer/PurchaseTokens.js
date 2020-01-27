@@ -7,6 +7,41 @@ import _Header from '../View-Components/header'
 
 import {Context} from '../Store/appContext'
 
+const AlertS = (props) => {
+
+  const { store, actions } = useContext(Context)
+
+	const showAlert = () =>{
+    Alert.alert(
+      "Confirmation",
+      'Are you sure you want to buy '+ props.coins + ' coins?',
+      [
+        {
+          text: 'Yes',
+          onPress: () => {actions.coin.buy(props.dollars, props.coins);
+                          Alert.alert(
+                            "Confirmation", 
+                            'You now have ' + store.myProfile.coins + ' coins.',
+                            [{
+                              text: 'OK',
+                              onPress: () => console.log('OK')
+                            }]  
+                          )}
+        },
+        {
+          text: 'No',
+          onPress: () => console.log("Cancel Pressed"),
+        }
+      ]
+    )
+  }
+	return (
+    <Button onPress={()=> showAlert()}>
+      <Text>Buy</Text>
+    </Button>
+	)
+}
+
 PriceOption = (props) => {
   const { store, actions } = useContext(Context)
   return(
@@ -20,9 +55,7 @@ PriceOption = (props) => {
       </Body>
 
       <Right>
-        <Button onPress={()=> actions.coin.buy(props.dollars, props.coins)}>
-          <Text>Buy</Text>
-        </Button>
+        <AlertS coins={props.coins} dollars={props.dollars}/>
       </Right>
     </CardItem>
   )
@@ -32,14 +65,16 @@ export default PurchaseTokens = (props) => {
 
   const { store, actions } = useContext(Context)
 
+  
+
   return(
     <Container>
       <_Header title={'Add Tokens'} 
       drawer={() => props.navigation.toggleDrawer()}
       tutorial={() => props.navigation.push('Tutorial')}/>
-      <Content contentContainerStyle={{flex:1, justifyContent:'center'}}>
+      <Content contentContainerStyle={{flex:1, justifyContent:'center', alignItems:'center'}}>
       <ScrollView style={{ alignSelf: 'stretch' }}>           
-        <Card>
+        <Card transparent>
           <PriceOption dollars={4.99} coins={10}/>
           <PriceOption dollars={9.99} coins={25}/>
           <PriceOption dollars={19.99} coins={60}/>

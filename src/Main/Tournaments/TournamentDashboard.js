@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import { Container, List, ListItem, Text, Header, Icon, Segment, Spinner } from 'native-base';
+import { Container, Content, Text, Header, Icon, Segment, Spinner } from 'native-base';
 import { RefreshControl, FlatList, View} from 'react-native'
 
 import _Header from "../../View-Components/header";
@@ -81,7 +81,7 @@ export default TournamentDashboard = (props) => {
       <Segment>
         <TournamentSearchBar search={search} setSearch={setSearch}/>
       </Segment>
-      
+      <Content contentContainerStyle={{justifyContent:'center'}}>
       {/* TOURNAMENT LIST GENERATOR */}
       {store.tournaments != null ?
         store.tournaments.length != 0 ?
@@ -98,12 +98,14 @@ export default TournamentDashboard = (props) => {
             onEndReachedThreshold={0}
           />
           :
-          <Text> There are no tournamnents under that name in our database</Text>
+          <Segment style={{width:'80%', marginTop:10, alignSelf:'center'}}>
+            <Text style={{textAlign:'center', fontSize:18, justifyContent:'center'}}> There are no tournamnents under that name in our database</Text>
+          </Segment>
         :  
         <Spinner />
 
           }
-      
+      </Content>
     </Container>
   )
 }

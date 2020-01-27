@@ -1,6 +1,6 @@
 import React, {useState, useContext} from 'react';
-import {Image, TextInput, Picker, KeyboardAvoidingView, View, TouchableWithoutFeedback} from 'react-native';
-import {Container, Button, Text, Content, Card, CardItem, Icon} from 'native-base';
+import {Image, TextInput, KeyboardAvoidingView, View, TouchableWithoutFeedback} from 'react-native';
+import {Container, Picker, Button, Text, Form, Content, Card, CardItem, Icon} from 'native-base';
 
 import {request, check, PERMISSIONS} from 'react-native-permissions';
 
@@ -22,10 +22,21 @@ export default VerifyTicket = (props) => {
   const [table, setTable ]= useState('');
   const [seat, setSeat] = useState('');
   const [chips, setChips] = useState('');
-  const [flight_id, setFlight] = useState('')
-
+  const [flight_id, setFlight] = useState('-1')
   var navigation = props.navigation;
+
+  let action = navigation.getParam('action', 'NO-ID');
+  let tournament_id = navigation.getParam('tournament_id', 'NO-ID');
+  let name = navigation.getParam('name', 'default value');
+  let address = navigation.getParam('address', 'default value');
+  let city = navigation.getParam('city', 'default value');
+  let state = navigation.getParam('state', 'default value');
+  let longitude = navigation.getParam('longitude', 'NO-ID');
+  let latitude = navigation.getParam('latitude', 'NO-ID');
+  let start_at = navigation.getParam('start_at', 'NO-ID');
   let flights = navigation.getParam('flights', 'NO-ID');
+  let buy_ins = navigation.getParam('buy_ins', 'NO-ID');
+  let swaps = navigation.getParam('swaps', 'NO-ID');
 
   var FlightSelection = flights.map((flight) => {
       
@@ -37,7 +48,7 @@ export default VerifyTicket = (props) => {
     var day_name = flight.start_at.substring(0,3)
     var day_num = flight.day
 
-
+ 
     var labelTime = 'Day ' + day_num + ' ' + day_name + '.  ' + startMonth + '. ' + startDay + ', ' + startTime 
       
     return(
@@ -49,19 +60,27 @@ export default VerifyTicket = (props) => {
   })
 
   const BuyInStart = async() => {    
-    var answer = await actions.buy_in.add(
-      flight_id,
-      table,
-      seat,
-      chips
-    )
+    var answer = await actions.buy_in.add( flight_id, table, seat, chips )
     var answer2 = await actions.buy_in.uploadPhoto(image)
     PushNotification.localNotificationSchedule({
       //... You can use all the options from localNotifications
       message: "Update Your Buyin", // (required)
       date: new Date(Date.now() + 20 * 1000) // in 60 secs
     });
-    props.navigation.goBack()
+    var answer3 = await props.navigation.push('TourneyLobby', {
+      action: action,
+      tournament_id: tournament_id,
+      name: name,
+      address: address,
+      city: city,
+      state: state,
+      longitude: longitude,
+      latitude: latitude,
+      start_at: start_at,
+      buy_ins: buy_ins,
+      swaps: swaps,
+      flights: flights
+    });
   }
 
   const requestAll = async() => {
@@ -95,8 +114,7 @@ export default VerifyTicket = (props) => {
       }
     });
   };
-
-
+ 
   var x;
 
   const isNumeric = (n) => {
@@ -112,7 +130,7 @@ export default VerifyTicket = (props) => {
 
   let textSeat = null;
   let textChips = null;
-
+  
   return(
     <Container>
       <Content contentContainerStyle={styles.container.main}>
@@ -129,6 +147,7 @@ export default VerifyTicket = (props) => {
               of your tournament buyin ticket.
             </Text>
           </CardItem>
+
           {/* IMAGE UPLOADED  */}
           <CardItem style={{justifyContent:'center', flex:1, flexDirection:'column', alignItems:'center'}}>
             <Image source={image} style={{width:200, height:200}} />
@@ -195,32 +214,31 @@ export default VerifyTicket = (props) => {
           </CardItem>
         </Card>
         
-          
-        <Card transparent style={{ justifyContent:'center'}}>
-          {/* FLIGHT SELECTION */}
-          <CardItem style={{justifyContent:'center', marginVertical:10}}>
-            <Button style={{justifyContent:'center'}} iconRight transparent onPress={()=> navigation.navigate('FlightSelector')}>
-              <Text style={{fontSize:24, marginRight:5, paddingRight:0}}>Select Your Flight</Text>
-              <Icon style={{marginLeft:0}} type='Ionicons' name='ios-arrow-forward'/>
-            </Button>
-            </CardItem>
-            {/* <Picker            
-            
+        <Card transparent style={{ justifyContent:'center', flex:1, flexDirection:'column'}}>
+          <Text style={{textAlign:'center', fontSize:18, marginBottom:5}}>Selected Flight:</Text> 
+          <Form style={{justifyContent:'center', alignSelf:'center'}}>
+            <Picker
+              mode="dropdown"
+              iosIcon={<Icon name="arrow-down" />}
+              placeholder="Please select your flight..."
+              placeholderStyle={{ color: "#bfc6ea" }}
+              placeholderIconColor="#007aff"
+              style={{ width: undefined }}
               selectedValue={flight_id}
               onValueChange={ (itemValue, itemIndex) => setFlight(itemValue) }
             >
-              <Picker.Item label='Please select your flight...' value='-1' />
               {FlightSelection}
-            </Picker> */}
-            
+            </Picker>
+          </Form>
+        </Card>
 
+        <Card transparent>
           {/* SUBMIT BUTTON */}
           <CardItem style={styles.container.button}> 
             <Button large disabled={x} style={styles.button} onPress={() => BuyInStart()}>
               <Text style={styles.text.button}> SUBMIT </Text>
             </Button>
           </CardItem>
-        
         </Card>
         </KeyboardAvoidingView>
 

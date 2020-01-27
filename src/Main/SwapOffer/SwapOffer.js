@@ -172,15 +172,18 @@ var c_subtract = () => {
         backgroundColor:'rgb(56,68,165)'}}
       /> */}
       <Content>
-      
+        <Card transparent style={{ justifyContent:'center'}}>
+          <CardItem style={{justifyContent:'center'}}>
+            <Text style={{textAlign:'center', fontWeight:'600'}}>SELECTED BUY-IN:</Text>
+          </CardItem>
+        </Card>
         {/* HEADER */}
-        <Card transparent style={{justifyContent:'center'}}>
+        <Card  style={{alignSelf:'center', width:'80%', paddingVertical:5}}>
           {/* <TourneyHeader 
             id={tournament_id} tournament_name={tournament_name}
             address={address}
             start_at={start_at} 
           /> */}
-          <CardItem style={{justifyContent:'center'}}><Text style={{textAlign:'center'}}>Selected BuyIn</Text></CardItem>
           <CardItem>
             <Grid>
               <Row style={{justifyContent:'center', marginBottom:10}}><Text style={{textAlign:'center', fontSize:30}}>{user_name}</Text></Row>
