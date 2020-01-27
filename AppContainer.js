@@ -1,4 +1,5 @@
 import React from 'react';
+import {View} from 'react-native'
 import { Icon } from "native-base";
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createDrawerNavigator } from 'react-navigation-drawer'
@@ -286,9 +287,21 @@ const DrawerNav = createDrawerNavigator(
         )
       }
     },
+    // Profile: {
+    //   screen: ProfileScreen,
+    //   navigationOptions: {
+    //     drawerIcon: ({ focused }) => (
+    //       <Icon 
+    //         name="contact" size={24} 
+    //         color={focused ? '#2C2E9B' : 'black'} 
+    //       />
+    //     )
+    //   }
+    // },
     Settings:{
       screen: SettingsStack,
       navigationOptions: {
+        
         drawerIcon: ({ focused }) => (
           <Icon 
             name="cog" size={24} 
@@ -341,21 +354,27 @@ const AppStack = createStackNavigator(
     Drawer: DrawerNav,    
     Profile: {
       screen: ProfileScreen,
-      navigationOptions: {
-        title: 'Profile Screen'
-      }
+      navigationOptions: ({navigation}) => ({
+        title:'Profile',
+        header:<View style={{ height:20,backgroundColor:'blue' }} ></View>,
+        headerMode:'float',
+        headerLeft: <HeaderBackButton onPress={() => navigation.goBack()} />,
+      })
     },
     WebView: {
       screen: WebViewScreen,
-      navigationOptions: {
-        title: 'Profile Screen'
-      }
+      navigationOptions: ({navigation}) => ({
+        title:'WebView',
+        headerMode:'screen',
+        headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)} />,
+      })
     },
     Tutorial: {
       screen: TutorialScreen,
-      navigationOptions: {
-        title: 'Profile Screen'
-      }
+      navigationOptions: ({navigation}) => ({
+        title:'Tutorial',
+        headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)} />,
+      })
     }
 
   },

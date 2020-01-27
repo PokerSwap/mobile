@@ -50,6 +50,8 @@ export default TournamentDashboard = (props) => {
       created_at={item.created_at} 
       updated_at={item.updated_at}
       address={item.address}
+      city={item.city}
+      state={item.state}
       latitude={item.latitude}
       longitude={item.longitude}
       flights={item.flights}

@@ -123,6 +123,7 @@ export default BuyIn = (props) => {
     console.log('profile:',profile)
     navigation.push('Profile',{
       first_name: profile.first_name,
+      nickname: profile.nickname,
       last_name: profile.last_name,
       roi_rating: profile.roi_rating,
       swap_rating: profile.swap_rating,

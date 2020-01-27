@@ -1,6 +1,6 @@
 import React, {} from 'react';
-import { Text } from 'native-base';
-import { Row, Col, Grid } from 'react-native-easy-grid';
+import { Text, Card, CardItem } from 'native-base';
+import {View} from 'react-native'
 
 export default  TourneyHeader = (props) => {
 
@@ -9,19 +9,25 @@ export default  TourneyHeader = (props) => {
   var startDayName = props.start_at.substring(0,3)
 
   return(
-
-    <Grid transparent style={{marginHorizontal:25, marginTop:20, justifyContent:'center'}}>
-      <Col style={{marginBottom:5}}>       
-        <Row style={{justifyContent:'center'}}><Text style={{fontSize:24, textAlign:'center'}}>{props.tournament_name}</Text></Row>        
-        <Row><Text>{props.address}</Text></Row>
-        <Row style={{marginVertical:10}}>
-          <Col>
-            <Row><Text>Begins on:</Text></Row>
-            <Row><Text style={{fontSize:24}}>{startDayName}. {startMonth} {startDay}</Text></Row>
-          </Col>
-          
-        </Row>
-      </Col>
-    </Grid>
+    <Card transparent style={{flex:1, flexDirection:'column',justifyContent:'center'}}>
+      <CardItem style={{justifyContent:'center'}}>
+        <Text style={{fontSize:24, fontWeight:'600', textAlign:'center'}}>
+          {props.name}
+        </Text>
+      </CardItem>
+      <CardItem style={{flex:1, flexDirection:'column', alignItems:'center'}}>
+        <View style={{ justifyContent:'center'}}>
+          <Text style={{textAlign:'center', justifyContent:'center'}}>Hosted At:</Text>
+          <Text style={{marginVertical:5, textAlign:'center'}}>{props.address}</Text>
+          <Text style={{fontSize:20, fontWeight:'500', textAlign:'center'}}>{props.city}, {props.state}</Text>
+        </View>
+        </CardItem>
+        <CardItem>
+        <View>
+          <Text style={{textAlign:'center'}}>Begins on:</Text>
+          <Text style={{fontSize:24, textAlign:'center'}}>{startDayName}. {startMonth} {startDay}</Text>
+        </View>
+      </CardItem>
+    </Card>
   )
 }

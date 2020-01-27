@@ -23,6 +23,32 @@ export default PotTracker = (props) => {
   let theirPercentage = swap.counter_percentage
   let theirWinnings
 
+  let myFinalName
+  let theirFinalName
+
+  myNickName != '' ? 
+    myFinalName = 
+      <View style={{flex:1, flexDirection:'column'}}>
+        <Text style={{textAlign:'center', fontSize:24, fontWeight:'600'}}>{myNickName}</Text>
+        <Text style={{textAlign:'center'}}>{myName}</Text>
+      </View>
+    :
+    myFinalName = 
+      <View>
+        <Text style={{textAlign:'center', fontWeight:'600'}}>{myName}</Text>
+      </View>
+  theirNickName != '' ?
+    theirFinalName = 
+      <View style={{flex:1, flexDirection:'column'}}>
+        <Text style={{textAlign:'center', fontSize:24, fontWeight:'600'}}>{theirNickName}</Text>
+        <Text style={{textAlign:'center'}}>{theirName}</Text>
+      </View>
+    :
+    theirFinalName = 
+      <View style={{alignItems:'flex-start'}}>
+        <Text style={{fontWeight:'600', fontSize:24}}>{theirName}</Text>
+      </View>
+
   return(
     <ListItem noIndent transparent style={{justifyContent:'center'}}>
       <Grid style={{justifyContent:'center', alignItems:'center', marginVertical:40}}>
@@ -30,19 +56,14 @@ export default PotTracker = (props) => {
           <Col style={{alignSelf:'center'}}>
             <Row style={{justifyContent:'center'}}>
            
-  <Image source={{uri: myPicture}} 
+              <Image source={{uri: myPicture}} 
                 style={{
                   height:150, width:150, 
                   borderRadius:500, justifyContent:'center'}}
                 />
               
             </Row>
-            <Row style={{justifyContent:'center'}}>
-              <Text style={{textAlign:'center', fontSize:28, fontWeight:'600', paddingVertical:6}}>{myNickName}</Text>
-              </Row>
-            <Row style={{justifyContent:'center'}}>
-              <Text style={{textAlign:'center', fontSize:18}}>{myName}</Text>
-            </Row>
+            {myFinalName}
             <Row style={{justifyContent:'center'}}>
               <Text style={{textAlign:'center'}}>{myPercentage}%</Text></Row>
           </Col>
@@ -50,14 +71,9 @@ export default PotTracker = (props) => {
             <Row style={{justifyContent:'center'}}>
               <Image source={{uri: theirPicture}} 
               style={{height:150, width:150, borderRadius:500, justifyContent:'center'}}/></Row>
+            {theirFinalName}
             <Row style={{justifyContent:'center'}}>
-              <Text style={{textAlign:'center', fontSize:28, fontWeight:'600', paddingVertical:6}}>{theirNickName}</Text>
-            </Row>
-            <Row style={{justifyContent:'center'}}>
-              <Text style={{textAlign:'center', fontSize:18}}>{theirName}</Text>
-            </Row>
-            <Row style={{justifyContent:'center'}}>
-              <Text style={{textAlign:'center'}}>{theirPercentage}%
+              <Text style={{textAlign:'center',}}>{theirPercentage}%
               </Text>
             </Row>
           </Col>

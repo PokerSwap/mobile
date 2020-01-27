@@ -24,16 +24,14 @@ export default ChangePassword = (props) => {
     
   const regexEmail = new RegExp('^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$');
 
-  if(currentPassword !== '' && newPassword !== ''){
-    isDisabled = false 
-  }else{
-    isDisabled = true 
-  }
+  currentPassword !== '' && newPassword !== '' ?
+    isDisabled = false : isDisabled = true 
     
-
   const changePassword = async() => {
     if (newPassword == confirmPassword ){
-      actions.user.changePassword(currentEmail, currentPassword, newPassword)
+      var answer = await actions.user.changePassword(currentEmail, currentPassword, newPassword)
+    } else {
+      console.log('lol no')
     }
   }
 
@@ -42,7 +40,9 @@ export default ChangePassword = (props) => {
       <Content contentContainerStyle={{justifyContent:'center', alignSelf:'center'}}>
       <Card transparent style={{alignSelf:'center', justifyContent:'center', marginTop:160}} >
         <CardItem style={{flex:1, flexDirection:'column'}}>
-          <Text style={{textAlign:'center'}}>Email:</Text>
+          <Text style={{textAlign:'center'}}>
+            Email:
+          </Text>
           <TextInput 
             style={{fontSize:24, textAlign:'center', width:'100%'}}
             placeholder="Enter Current Email"
@@ -59,7 +59,9 @@ export default ChangePassword = (props) => {
           />
         </CardItem>
         <CardItem style={{flex:1, flexDirection:'column'}}>
-          <Text style={{marginTop:20, textAlign:'center'}}>Enter Current Password:</Text>
+          <Text style={{marginTop:20, textAlign:'center'}}>
+            Enter Current Password:
+            </Text>
           <TextInput 
             style={{fontSize:24, textAlign:'center', width:'100%'}}
             placeholder="Enter Current Password"
@@ -76,7 +78,9 @@ export default ChangePassword = (props) => {
           />
         </CardItem>
         <CardItem style={{flex:1, flexDirection:'column'}}>
-          <Text style={{marginTop:20, textAlign:'center'}}>Enter New Password:</Text>
+          <Text style={{marginTop:20, textAlign:'center'}}>
+            Enter New Password:
+          </Text>
           <TextInput 
             style={{fontSize:24, textAlign:'center', width:'100%'}}
             placeholder="Enter Password"
@@ -94,7 +98,9 @@ export default ChangePassword = (props) => {
           />
         </CardItem>
         <CardItem style={{flex:1, flexDirection:'column'}}>
-          <Text style={{marginTop:20, textAlign:'center'}}>Confirm New Password:</Text>
+          <Text style={{marginTop:20, textAlign:'center'}}>
+            Confirm New Password:
+          </Text>
           <TextInput 
             style={{fontSize:24, textAlign:'center', width:'100%'}}
             placeholder="Confirm New Password"
@@ -113,7 +119,9 @@ export default ChangePassword = (props) => {
         <CardItem style={{justifyContent:'center'}}>
           <Button large disabled={isDisabled} style={{marginTop:40, justifyContent:'center'}}
             onPress={()=> changePassword()}>
-            <Text style={{fontSize:30, fontWeight:'600'}}> SUBMIT </Text>
+            <Text style={{fontSize:30, fontWeight:'600'}}> 
+              SUBMIT 
+            </Text>
           </Button>
         </CardItem>
       </Card>

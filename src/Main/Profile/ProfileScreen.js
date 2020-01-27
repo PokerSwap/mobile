@@ -1,6 +1,9 @@
 import React, {useContext} from 'react';
-import { Container, Content, Icon, Header, Text } from 'native-base';
-import { TouchableOpacity} from 'react-native'
+import { Container, Content, Icon, Button, Left, Header, Text, Card, CardItem } from 'native-base';
+import { TouchableOpacity, View} from 'react-native'
+import { createStackNavigator, HeaderBackButton } from "react-navigation-stack";
+
+
 
 import ProfileBio from './Components/ProfileBio';
 import ProfileHistory from './Components/ProfileHistory'
@@ -14,6 +17,8 @@ export default ProfileScreen = (props) => {
   const { navigation } = props;
   let first_name = navigation.getParam('first_name', 'default_value');
   let last_name = navigation.getParam('last_name', 'NO-ID');
+  let nickname = navigation.getParam('nickname', 'default_value');
+
   let id = navigation.getParam('id', 'NO-ID');
   let roi_rating = navigation.getParam('roi_rating', 'NO-ID');
   let swap_rating = navigation.getParam('swap_rating', 'NO-ID');
@@ -25,28 +30,38 @@ export default ProfileScreen = (props) => {
   let history;
 
   id == store.myProfile.id ? 
-    history = null :
-      history = <ProfileHistory navigation={props.navigation}/>
+    history = <ProfileHistory navigation={props.navigation}/>
+    :
+    history = 
+      <Card transparent >
+        <CardItem style={{ justifyContent:'center'}}>
+          <Text style={{fontSize:24, fontWeight:'600', textAlign:'center'}}> 
+            You haven't swapped with this person before.
+          </Text>
+        </CardItem>
+      </Card> 
+  
   
   return(
     <Container> 
-      <Header style={{justifyContent:'flex-start'}}>
+      <Header head>
+        <Left>
+          <Button transparent  onPress={() => navigation.goBack(null)}>
+            <Icon type='Ionicons' name='ios-arrow-back' />
+          </Button>
+        </Left>
         
-        <TouchableOpacity 
-          onPress={() => props.navigation.goBack()} 
-          style={{flexDirection:'row'}}>
-          <Icon type='FontAwesome5' name='angle-left'/>
-          <Text>Go Back</Text>
-        </TouchableOpacity>
       </Header>
-      <Content>
+      <Content contentContainerStyle={{justifyContent:'center'}}>
+
         <ProfileBio 
           navigation={props.navigation}
-          first_name={first_name} last_name={last_name} 
+          first_name={first_name} nickname={nickname} last_name={last_name} 
           roi_rating={roi_rating} swap_rating={swap_rating}
           total_swaps={total_swaps}
           hendon_url={hendon_url} 
           profile_pic_url={profile_pic_url}/>
+        
         {history}
       </Content>
     </Container>

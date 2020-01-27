@@ -1,24 +1,15 @@
-import React, {} from 'react';
+import React, {useContext} from 'react';
 import { View } from 'react-native';
 import { Text } from 'native-base';
-import {Col, Row } from 'react-native-easy-grid'
+
+import {Context} from '../../../Store/appContext'
 
 import BuyIn from '../../Shared/BuyIn'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default SwapTracker = (props) => {
 
-  let myID = props.my_buyin.user_id
-  let mybID = props.my_buyin.id
-  let myName = props.my_buyin.user_name
-  let myTable = props.my_buyin.table
-  let mySeat = props.my_buyin.seat
-  let myChips = props.my_buyin.chips
-  let myUpdate = props.my_buyin.updated_at
-
-  let tournament_name = props.tournament.name
-  let tournament_id = props.tournament.id
-  let tournament_start = props.tournament.start_at
+  const {store, actions} = useContext(Context)
 
   let other_swaps = props.swaps.map((content, index) => 
     <BuyIn
@@ -37,45 +28,57 @@ export default SwapTracker = (props) => {
       counter_percentage= {content.swap.counter_percentage}
       updated_at = {content.buyin.updated_at}
 
-      tournament_name={tournament_name}
-      tournament_id={tournament_id}
-      start_at={tournament_start}
+      tournament_name={props.tournament.name}
+      tournament_id={props.tournament.id}
+      start_at={props.tournament.start_at}
 
     />
   )
     
+  const enterTournament = async() => {
+    var answer1 = await actions.tournament.getAction(props.tournament.id);
+    var answer2 = console.log('answer', store.action)
+    var answer3 = await props.navigation.push('TourneyLobby', {
+      action: store.action,
+      tournament_id: props.tournament.id,
+      name: props.tournament.name,
+      address: props.tournament.address,
+      city: props.tournament.city,
+      state: props.tournament.state,
+      longitude: props.tournament.longitude,
+      latitude: props.tournament.latitude,
+      start_at: props.tournament.start_at,
+      buy_ins: props.tournament.buy_ins,
+      swaps: props.swaps,
+      flights: props.tournament.flights
+    });
 
-  const enterTournament = () => {
-    props.navigation.push('TourneyLobby', {
-
-    })
   }
-
 
   return(
     <View>
       {/* TOURNAMENT TITLE */}
       <View 
         style={{justifyContent:'center', backgroundColor:'black', paddingVertical:10}}>
-        <TouchableOpacity onPress={()=> console.log('lol')}>
+        <TouchableOpacity onPress={()=> enterTournament()}>
           <Text 
             style={{fontSize:18, fontWeight:'600', width:'75%',
             alignSelf:'center',textAlign:'center', color:'white'}}>
-            {tournament_name}
+            {props.tournament.name}
           </Text>
         </TouchableOpacity>
       </View>
       
       <BuyIn
-        buyin_id = {mybID}
         navigation = {props.navigation}
-        user_id = {myID}
-        user_name = {myName} 
-        table = {myTable}
-        seat = {mySeat}
-        chips = {myChips}
-        tournament_name={tournament_name}
-        updated_at={myUpdate}
+        buyin_id = {props.my_buyin.id}
+        user_id = {props.my_buyin.user_id}
+        user_name = {props.my_buyin.user_name} 
+        table = {props.my_buyin.table}
+        seat = {props.my_buyin.seat}
+        chips = {props.my_buyin.chips}
+        tournament_name={props.tournament.name}
+        updated_at={props.my_buyin.updated_at}
         // flight_id = {props.flight_id}
       />
 

@@ -27,8 +27,8 @@ export default SwapPot = (props) => {
     <Container>
       <Content>
         <List>
-          <ListItem header>
-            <Text>{tournament.name}</Text>
+          <ListItem style={{justifyContent:'center'}} noIndent header>
+            <Text style={{justifyContent:'center', textAlign:'center', fontWeight:'600', fontSize:24}}>{tournament.name}</Text>
           </ListItem>
               {swaps.map((content, index) => {
                 return(

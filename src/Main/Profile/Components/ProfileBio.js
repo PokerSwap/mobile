@@ -1,9 +1,8 @@
 import React, {} from 'react';
 import {Image, View } from 'react-native'
-import { Button, Icon, Text } from 'native-base';
-import { Col, Row } from 'react-native-easy-grid';
+import { Button, Icon, Card, CardItem, Text } from 'native-base';
 
-export default  ProfileBio = (props) => {
+export default ProfileBio = (props) => {
    
   const openHendon = () => {
     props.navigation.push('WebView', {
@@ -11,39 +10,49 @@ export default  ProfileBio = (props) => {
     })
   }
 
-  return(
-    <Col>
+  let ifNickName
 
-      <Row style={{flex:1, justifyContent:"center"}}>
+  props.nickname != '' ?
+    ifNickName = ' "' + props.nickname + '" '
+    :
+    ifNickName = ' '
+
+  return(
+    <Card transparent>
+      <CardItem style={{alignItems:'center', flex:1, flexDirection:'column'}}>
         <View 
-          style={{marginTop:'4%',width: 100, height: 100, position: 'relative',
+          style={{marginTop:'4%', width: 200, height: 200, position: 'relative',
           overflow: 'hidden', borderRadius: 50}}>
           <Image style={{
             display: 'flex', margin: 'auto', 
             height: '100%', width: 'auto'}} 
             source={{uri: props.profile_pic_url}} />
         </View>
-        {/* <Icon name="contact" style={{fontSize: 120}}/> */}
-      </Row>
-      
-      <Row style={{displayFlex:1, justifyContent:"center"}}>
-        <Button transparent onPress={() => openHendon()}>
-          <Text>{props.first_name} {props.last_name}</Text>
-        </Button>
-      </Row>
-      
-      <Row style={{ displayFlex:1, justifyContent:"center", alignItems:"center" }} >
-        <Text> R.O.I.: {props.roi_rating}% </Text>
-      </Row>   
-      
-      <Row style={{ displayFlex:1, justifyContent:"center", alignItems:"center" }} >
-        <Text> Rating: {props.swap_rating} </Text>
-      </Row>   
-      
-      <Row style={{ displayFlex:1, justifyContent:"center", alignItems:"center" }} >
-        <Text> Total Swaps: {props.total_swaps} </Text>
-      </Row>   
+        <View style={{flex:1, justifyContent:'center', height:70}}>
+          <Button style={{flex:1, justifyContent:'center'}} transparent onPress={() => openHendon()}>
+            <Text style={{fontSize:36, textAlign:'center'}}>{props.first_name}{ifNickName}{props.last_name}</Text>
+          </Button>
+        </View>
+      </CardItem>
 
-    </Col>
+      <CardItem style={{flex:1, flexDirection:'row', justifyContent:"space-around"}}>
+        
+        <View style={{flex:1, flexDirection:'column', justifyContent:'center'}}>
+          <Text style={{textAlign:'center', marginBottom:10, fontWeight:'500'}}> R.O.I. </Text>
+          <Text style={{textAlign:'center', fontSize:30, fontWeight:'600'}}> {props.roi_rating}% </Text>
+        </View>
+
+        <View style={{flex:1, flexDirection:'column', justifyContent:'center'}}>
+          <Text style={{textAlign:'center', marginBottom:10, fontWeight:'500'}}> Swap Rating </Text>
+          <Text style={{textAlign:'center', fontSize:30, fontWeight:'600'}}> {props.swap_rating}/5 </Text>
+        </View>  
+        
+        <View style={{flex:1, flexDirection:'column', justifyContent:'center'}}>
+          <Text style={{textAlign:'center', marginBottom:10, fontWeight:'500'}}> Total Swaps </Text>
+          <Text style={{textAlign:'center', fontSize:30, fontWeight:'600'}}> {props.total_swaps} </Text>
+        </View>
+      </CardItem>   
+
+    </Card>
   )
 }

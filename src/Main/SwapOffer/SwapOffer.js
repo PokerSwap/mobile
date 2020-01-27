@@ -38,15 +38,6 @@ export default SwapOffer = (props) => {
   let action = navigation.getParam('action', 'default value');
 
 
-  var buyinEdit = async() => {
-    var answer = await actions.buy_in.edit(
-      buyin_id,
-      table,
-      seat,
-      chips, 
-      props.navigation
-    )
-  }
 
   var swapAdd = async() => {
     var answer = await actions.swap.add(
@@ -98,11 +89,9 @@ var c_subtract = () => {
     currentPath = 
       <EditPath 
         navigation={props.navigation} user_name={user_name}
-        table={table} setTable={setTable}
-        seat={seat} setSeat={setSeat}
-        chips={chips} setChips={setChips}
-        buyin_id={buyin_id}
-        buyinEdit={buyinEdit}/>
+        table={table} seat={seat} chips={chips} buyin_id={buyin_id}
+        user_name={user_name}
+      />
   }    
   // RECEIVED SWAP VIEW
   else if (status=='incoming'){
@@ -191,6 +180,7 @@ var c_subtract = () => {
             address={address}
             start_at={start_at} 
           /> */}
+          <CardItem style={{justifyContent:'center'}}><Text style={{textAlign:'center'}}>Selected BuyIn</Text></CardItem>
           <CardItem>
             <Grid>
               <Row style={{justifyContent:'center', marginBottom:10}}><Text style={{textAlign:'center', fontSize:30}}>{user_name}</Text></Row>

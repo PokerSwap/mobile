@@ -15,6 +15,8 @@ export default TourneyLobby = (props) => {
   let tournament_id = navigation.getParam('tournament_id', 'NO-ID');
   let name = navigation.getParam('name', 'default value');
   let address = navigation.getParam('address', 'default value');
+  let city = navigation.getParam('city', 'default value');
+  let state = navigation.getParam('state', 'default value');
   let longitude = navigation.getParam('longitude', 'NO-ID');
   let latitude = navigation.getParam('latitude', 'NO-ID');
   let start_at = navigation.getParam('start_at', 'NO-ID');
@@ -56,10 +58,8 @@ export default TourneyLobby = (props) => {
           {/* TOURNAMENT HEADER */}
           <ListItem itemHeader first>
             <TourneyHeader 
-              id={tournament_id}
-              name={name} address={address}
-              start_at={start_at}
-            />
+              id={tournament_id} name={name} start_at={start_at}
+              address={address} city={city} state={state}/>
           </ListItem>
 
           {/* TOURNEY BUYIN ENTRIES  */}

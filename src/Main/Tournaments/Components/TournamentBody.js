@@ -21,6 +21,8 @@ export default TournamentBody = (props) => {
       tournament_id: props.id,
       name: props.name,
       address: props.address,
+      city: props.city,
+      state: props.state,
       longitude: props.longitude,
       latitude: props.latitude,
       start_at: props.start_at,

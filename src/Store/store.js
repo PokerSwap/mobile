@@ -60,7 +60,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					}
 				},
 
-				edit: async ( a_buyin_id, a_table, a_seat, some_chips, navigation) => {
+				edit: async ( a_buyin_id, a_table, a_seat, some_chips) => {
 					
 					try{
 						const url = 'https://swapprofit-test.herokuapp.com/me/buy_ins/' + a_buyin_id
@@ -82,7 +82,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 						.then(response => response.json)
 						.then(getActions().tracker.getAll())
-						.then(navigation.goBack())
 						
 
 					}catch(error){
