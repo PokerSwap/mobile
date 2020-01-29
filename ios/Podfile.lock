@@ -328,9 +328,7 @@ PODS:
   - RNVectorIcons (6.6.0):
     - React
   - Stripe (14.0.0)
-  - tipsi-stripe (7.5.1):
-    - React
-    - Stripe (~> 14.0.0)
+
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -379,7 +377,6 @@ DEPENDENCIES:
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - Stripe (~> 14.0.0)
-  - tipsi-stripe (from `../node_modules/tipsi-stripe`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -478,8 +475,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-reanimated"
   RNVectorIcons:
     :path: "../node_modules/react-native-vector-icons"
-  tipsi-stripe:
-    :path: "../node_modules/tipsi-stripe"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -538,7 +533,6 @@ SPEC CHECKSUMS:
   RNReanimated: b2ab0b693dddd2339bd2f300e770f6302d2e960c
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   Stripe: db29ad197c74aca6fb981e4e8355cf7ebd0fca5a
-  tipsi-stripe: 3e0073c7eec0b2bfd1d1d5736d843c22e3024485
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
 PODFILE CHECKSUM: db9c3a755b16d44f1f87993fb46a8465462f0b3d

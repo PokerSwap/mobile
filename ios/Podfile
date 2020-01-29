@@ -46,7 +46,6 @@ target 'SwapProfit' do
 
   pod 'RNCPushNotificationIOS', :path => '../node_modules/@react-native-community/push-notification-ios'
 
-  pod 'tipsi-stripe', :path => '../node_modules/tipsi-stripe'
 
   target 'SwapProfitTests' do
     inherit! :search_paths
