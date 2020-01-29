@@ -133,6 +133,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 4
         versionName "0.2.4"
+        multiDexEnabled true
     }
     splits {
         abi {
@@ -179,10 +180,6 @@ android {
     }
 }
 
-configurations.all {
-    resolutionStrategy {
-        force 'com.android.support:support-v4:27.1.0'
-    }}
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
@@ -190,6 +187,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics:17.2.2'
     implementation 'com.google.android.gms:play-services-wallet:18.0.0'
     implementation 'com.stripe:stripe-android:13.1.3'
+    implementation "androidx.multidex:multidex:2.0.1"
     if (enableHermes) {
         def hermesPath = "../../node_modules/hermes-engine/android/";
         debugImplementation files(hermesPath + "hermes-debug.aar")

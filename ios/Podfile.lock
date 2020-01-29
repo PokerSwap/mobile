@@ -328,7 +328,6 @@ PODS:
   - RNVectorIcons (6.6.0):
     - React
   - Stripe (14.0.0)
-
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -535,6 +534,6 @@ SPEC CHECKSUMS:
   Stripe: db29ad197c74aca6fb981e4e8355cf7ebd0fca5a
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
-PODFILE CHECKSUM: db9c3a755b16d44f1f87993fb46a8465462f0b3d
+PODFILE CHECKSUM: b6b0cbe2f9b40792ff8852791c16b4c4b689b920
 
 COCOAPODS: 1.8.4
