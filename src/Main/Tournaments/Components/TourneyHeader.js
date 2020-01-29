@@ -31,3 +31,12 @@ export default  TourneyHeader = (props) => {
     </Card>
   )
 }
+
+const styles = {
+  container:{
+    
+  },
+  text:{
+
+  }
+}

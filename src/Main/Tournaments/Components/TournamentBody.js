@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import { Context } from '../../../Store/appContext';
-
 import { View } from 'react-native';
 import { ListItem, Text, Icon } from 'native-base';
+
+import { Context } from '../../../Store/appContext';
 import { Col } from 'react-native-easy-grid'
 
 export default TournamentBody = (props) => {  
@@ -12,8 +12,6 @@ export default TournamentBody = (props) => {
   var bgColor, textColor, borderWidths, buttonColor, path;
   var navigation = props.navigation;
  
-  console.log('prop swap', props.swaps)
-
   const enterTournament = async() => {
     var answer1 = await actions.tournament.getAction(props.id);
     var answer2 = console.log('answer', store.action)
