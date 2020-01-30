@@ -65,20 +65,20 @@ export default TournamentDashboard = (props) => {
     <Container>
 
      
-      <Header hasSegment style={{justifyContent:'space-between',alignItems:'center'}}>
+      <Header hasSegment style={{justifyContent:'space-between',alignItems:'center', backgroundColor:'rgb(248,248,248'}}>
         {/* MENU ICON */}
         <Icon name="menu" style={{marginLeft:10}}
           onPress={() => props.navigation.toggleDrawer()}/>
-      
-        {/* TITLE */}
-        <Text style={{fontWeight:'600'}}>Tournament Dashboard</Text>
         
+        {/* TITLE */}
+        <Text style={{fontWeight:'bold'}}>Tournament Dashboard</Text>
+         
         {/* TUTORIAL ICON */}
         <Icon style={{marginRight:10}} type="SimpleLineIcons" 
           name="question" onPress={()=> props.navigation.push('Tutorial')}
         />
       </Header>
-      <Segment>
+      <Segment style={{backgroundColor:('rgb(248,248,248')}}>
         <TournamentSearchBar search={search} setSearch={setSearch}/>
       </Segment>
       <Content contentContainerStyle={{justifyContent:'center'}}>

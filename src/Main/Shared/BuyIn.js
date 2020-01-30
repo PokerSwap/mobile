@@ -144,7 +144,7 @@ export default BuyIn = (props) => {
           {/* PROFILE NAME */}
           <Row style={{justifyContent:'center'}}>
             <Button transparent onPress={()=> enterProfile()}>
-              <Text style={{fontSize:24}}> {props.user_name} </Text>
+              <Text style={{fontSize:24, textTransform:'capitalize'}}> {props.user_name} </Text>
             </Button>
           </Row>
 

@@ -111,7 +111,7 @@ const TournamentsStack = createStackNavigator(
       navigationOptions:{
         title:"Verify Ticket",
       }
-    },
+    }, 
     FlightSelection:{
       screen: FlightSelection,
       navigationOptions: ({navigation}) => ({

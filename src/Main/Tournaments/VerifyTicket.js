@@ -1,6 +1,7 @@
 import React, {useState, useContext} from 'react';
-import {Image, TextInput, KeyboardAvoidingView, View, TouchableWithoutFeedback} from 'react-native';
-import {Container, Picker, Button, Text, Form, Content, Card, CardItem, Icon} from 'native-base';
+import {Image, Dimensions, View, TextInput, KeyboardAvoidingView, Platform, TouchableWithoutFeedback} from 'react-native';
+import {Container,  Button, Text, Form, Picker, Content, Card, CardItem, Icon} from 'native-base';
+
 
 import {request, check, PERMISSIONS} from 'react-native-permissions';
 
@@ -44,20 +45,27 @@ export default VerifyTicket = (props) => {
     var startDay = flight.start_at.substring(5,7)
     
     var startTime = flight.start_at.substring(16,22)
+    var startM 
+    startTime/12 >= 1 ?
+      startM = ' P.M.' : startM = ' A.M.'
 
     var day_name = flight.start_at.substring(0,3)
     var day_num = flight.day
 
  
-    var labelTime = 'Day ' + day_num + ' ' + day_name + '.  ' + startMonth + '. ' + startDay + ', ' + startTime 
+    var labelTime = 'Day ' + day_num + ' ' + day_name + '.  ' + startMonth + '. ' + startDay + ', ' + startTime + startM
       
     return(
         <Picker.Item 
+          style={{justifyContent:'center', textAlign:'center'}}
           label= {labelTime}
           value={flight.id}
         />
       )
   })
+
+  const { width, height } = Dimensions.get('window');
+
 
   const BuyInStart = async() => {    
     var answer = await actions.buy_in.add( flight_id, table, seat, chips )
@@ -142,12 +150,9 @@ export default VerifyTicket = (props) => {
         <Card transparent style={{justifyContent:'center', flex:1}}>
           
           {/* INSTRUCTION TEXT  */}
-          <CardItem style={{textAlign:'center', flex:1, flexDirection:'column'}}>
-            <Text style={{textAlign:'center', fontSize:20}}>
-              Enter the information and upload a photo 
-            </Text>
-            <Text style={{textAlign:'center', fontSize:20}}>  
-              of your tournament buyin ticket.
+          <CardItem style={{selfAlign:'center', flex:1, flexDirection:'column'}}>
+            <Text style={{textAlign:'center', fontSize:20, lineHeight:20, flex:1, flexWrap:'wrap'}}>
+              Enter the information and upload a photo of your tournament buyin ticket.
             </Text>
           </CardItem>
 
@@ -219,20 +224,41 @@ export default VerifyTicket = (props) => {
         
         <Card transparent style={{ justifyContent:'center', flex:1, flexDirection:'column'}}>
           <Text style={{textAlign:'center', fontSize:18, marginBottom:5}}>Selected Flight:</Text> 
-          <Form style={{justifyContent:'center', alignSelf:'center'}}>
+          {Platform.OS =='ios'? 
+            <Form style={{justifyContent:'center', alignSelf:'center'}}>
+              <Picker
+                mode="dropdown"
+                iosIcon={<Icon name="arrow-down" />}
+                placeholder="Please select your flight..."
+                placeholderStyle={{ color: "#bfc6ea" }}
+                placeholderIconColor="#007aff"
+                style={{ width: undefined }}
+                selectedValue={flight_id}
+                onValueChange={ (itemValue, itemIndex) => setFlight(itemValue) }
+              >
+                {FlightSelection}
+              </Picker>
+            </Form>
+            :
+            <Form picker
+            placeholder={'Please slelel'}
+            placeholderLabel='please'
+            style={{justifyContent:'center'}}>
             <Picker
-              mode="dropdown"
-              iosIcon={<Icon name="arrow-down" />}
-              placeholder="Please select your flight..."
+              note
+              mode="dialog"
+              placeholder="Select your SIM"
               placeholderStyle={{ color: "#bfc6ea" }}
-              placeholderIconColor="#007aff"
-              style={{ width: undefined }}
+              style={{width:280,  alignSelf:'center' }}
               selectedValue={flight_id}
               onValueChange={ (itemValue, itemIndex) => setFlight(itemValue) }
-            >
+              >
+              <Picker.Item style={{textAlign:'center'}} label="Please select your flight..." value="-1" />
               {FlightSelection}
+             
             </Picker>
           </Form>
+            }
         </Card>
 
         <Card transparent>

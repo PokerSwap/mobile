@@ -92,7 +92,10 @@ export default SplashScreen = (props) => {
 
 	return(
 		<View style={styles.container}>
-		<StatusBar barStyle='light-content'/>
+		    <StatusBar backgroundColor={'rgb(12,85,32)'}
+				StatusBarAnimation={'none'}
+				/>
+
 			<View style={{flex:1, flexDirection:'column', alignItems:'center', justifyContent:'center'}}>
 			<Icon type="FontAwesome5" name="handshake" style={{fontSize:80,color:'white'}} />
 

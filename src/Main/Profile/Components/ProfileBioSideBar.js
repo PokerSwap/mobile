@@ -52,7 +52,7 @@ export default ProfileBioSideBar = (props) => {
       <CardItem>
         <View style={{flex:1, justifyContent:'flex-start'}}>
           <Button style={{flex:1, justifyContent:'center'}} transparent onPress={() => enterProfile()}>
-            <Text style={{fontSize:20, textAlign:'center'}}>{props.first_name}{ifNickName}{props.last_name}</Text>
+            <Text style={{fontSize:20, textAlign:'center', textTransform:'capitalize'}} >{props.first_name}{ifNickName}{props.last_name}</Text>
           </Button>
         </View>
       </CardItem>

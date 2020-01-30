@@ -63,7 +63,10 @@ export default LoginScreen = (props) => {
 
   return(
     <View style={styles.container.main}>
-    <StatusBar barStyle='light-content'/>
+    <StatusBar 
+      backgroundColor={'rgb(12,85,32)'}
+      StatusBarAnimation={'none'}
+    />
     <Spinner visible={loading} style={styles.spinner}/>
       <KeyboardAvoidingView  behavior='padding' keyboardVerticalOffset={-100}>
         <TouchableWithoutFeedback  onPress={Keyboard.dismiss}>

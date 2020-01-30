@@ -69,7 +69,7 @@ export default SideBar = (props) => {
           )  
         }>
           <Icon name='exit'/>
-          <Text style={{fontWeight: 'bold'}}>Logout</Text>
+          <Text  style={{fontWeight: 'bold',textTransform:'none'}}>Logout</Text>
         </Button>
       </View>
     

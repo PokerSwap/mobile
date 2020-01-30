@@ -1,6 +1,6 @@
 import React, {useContext, useState} from 'react';
-import {RefreshControl} from 'react-native';
-import { Container, Content, List, ListItem, Separator, Text, Button } from 'native-base';
+import {RefreshControl, StatusBar, Text} from 'react-native';
+import { Container, Content, List, ListItem, Separator, Button } from 'native-base';
 import _Header from '../../View-Components/header'
 import { Context } from '../../Store/appContext'
 import SwapTracker from './Components/SwapTracker';
@@ -71,10 +71,12 @@ export default SwapDashboard = (props) => {
 
   return(
     <Container>
+
       <_Header title={'Swap Dashboard'}  
         drawer={() => props.navigation.toggleDrawer()}
         tutorial={() => props.navigation.push('Tutorial')}
         />
+        
       <Content>	
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         {/* SWAPTRACKERS */}
@@ -104,5 +106,5 @@ export default SwapDashboard = (props) => {
       
       </Content>
     </Container>
-)
+  )
 }
