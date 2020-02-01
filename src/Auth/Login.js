@@ -25,7 +25,7 @@ export default LoginScreen = (props) => {
   var {navigate} = props.navigation
 
 	var deviceID = DeviceInfo.getUniqueId();
-
+  console.log('deviceID',deviceID)
 
   loadingSwitch = () => {
     setLoading(!loading)

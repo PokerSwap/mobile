@@ -54,7 +54,7 @@ export default SplashScreen = (props) => {
 		var answer = await firebase.messaging().hasPermission();
 		console.log(answer)
 		if (answer){
-			var answer2 = await firebase.messaging().getToken();
+			var fcmToken = await firebase.messaging().getToken();
 			console.log('fmtoken',fcmToken) 
 			console.log('It has Permission')
 

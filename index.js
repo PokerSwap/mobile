@@ -41,14 +41,14 @@ const androidConfig = {
   persistence: true,
 };
  
-const SwapProfitApp = firebase
-  .initializeApp(
-    // use platform-specific firebase config
-    Platform.OS === 'ios' ? iosConfig : androidConfig,
-    // name of this app
-    'SwapProfitApp'
-  )
-  .then(app => console.log('initialized apps ->', firebase.apps));
+// const SwapProfitApp = firebase
+//   .initializeApp(
+//     // use platform-specific firebase config
+//     Platform.OS === 'ios' ? iosConfig : androidConfig,
+//     // name of this app
+//     // 'SwapProfitApp'
+//   )
+//   .then(app => console.log('initialized apps ->', firebase.apps));
 
 
 if (!firebase.apps.length) {
@@ -136,10 +136,10 @@ messaging().onSendError(event => {
 
 getToken = async()=> {
   var fcmToken = await firebase.messaging().getToken();
-  console.log('fmtoken',fcmToken) 
+  console.log('fcmtoken',fcmToken) 
 }
 
-
+getToken()
 
 import {AppRegistry} from 'react-native';
 import App from './App';
