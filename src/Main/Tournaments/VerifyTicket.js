@@ -2,6 +2,8 @@ import React, {useState, useContext} from 'react';
 import {Image, Dimensions, View, TextInput, KeyboardAvoidingView, Platform, TouchableWithoutFeedback} from 'react-native';
 import {Container,  Button, Text, Form, Picker, Content, Card, CardItem, Icon} from 'native-base';
 
+import {PermissionsAndroid} from 'react-native';
+
 
 import {request, check, PERMISSIONS} from 'react-native-permissions';
 
@@ -94,15 +96,33 @@ export default VerifyTicket = (props) => {
     // });
   }
 
-  const requestAll = async() => {
-    const cameraStatus = await check(PERMISSIONS.IOS.CAMERA);
-    const photosStatus = await check(PERMISSIONS.IOS.PHOTO_LIBRARY);
-    return {cameraStatus, photosStatus};
+ const askPersmission = async () => {
+  if(Platform.OS == 'android'){
+    try {
+      await PermissionsAndroid.requestMultiple
+      ([PermissionsAndroid.PERMISSIONS.CAMERA, PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE, PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE]);
+      if ((await PermissionsAndroid.check('android.permission.CAMERA')) &&
+          (await PermissionsAndroid.check('android.permission.CAMERA')) &&
+          (await PermissionsAndroid.check('android.permission.CAMERA'))) {
+          console.log('You can use the camera');
+          UploadTicketPhoto()
+
+      } else {
+          console.log('all permissions denied');
+          return false;
+      }
+  } catch (err) {
+      console.warn(err);
   }
+} else {
+     var answer2 = await request(PERMISSIONS.IOS.CAMERA)
+     var answer3 = await request(PERMISSIONS.IOS.PHOTO_LIBRARY)
+     UploadTicketPhoto()
+
+   } 
+ }
 
   const UploadTicketPhoto = async() => {
-
-    // var answer = await requestAll().then(statuses => console.log(statuses));;
 
     const options = {
       title: 'Submit Picture',
@@ -159,7 +179,7 @@ export default VerifyTicket = (props) => {
           {/* IMAGE UPLOADED  */}
           <CardItem style={{justifyContent:'center', flex:1, flexDirection:'column', alignItems:'center'}}>
             <Image source={image} style={{width:200, height:200}} />
-            <Button style={{width:200, justifyContent:'center'}} onPress={()=> UploadTicketPhoto()}>
+            <Button style={{width:200, justifyContent:'center'}} onPress={()=> askPersmission()}>
               <Icon type='FontAwesome5' name='plus' style={{color:'white'}}/>
             </Button>
           </CardItem>

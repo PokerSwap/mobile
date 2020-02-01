@@ -21,7 +21,7 @@ export default ActionBar = (props) => {
               alignItems:'center'}}>
             <Text style={{
               textAlign:'center'}}>
-                SWAPS: {!store.action ? <Spinner /> : store.action.swaps}
+                {/* SWAPS: {!store.action ? <Spinner style={{height:100, width:100}} /> : store.action.swaps} */}
             </Text>
           </Button>
         </Col>
@@ -29,7 +29,7 @@ export default ActionBar = (props) => {
         {/* CURRENT USER'S ACTION  */}
         <Col>
           <Button transparent large style={{justifyContent:'center'}}>
-            <Text >ACTION: {!store.action ? <Spinner/> : store.action.actions}%</Text>
+            {/* <Text >ACTION: {!store.action ? <Spinner/> : store.action.actions}%</Text> */}
           </Button>
         </Col>
 

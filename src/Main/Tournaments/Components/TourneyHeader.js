@@ -21,8 +21,8 @@ export default  TourneyHeader = (props) => {
           <Text style={{marginVertical:5, textAlign:'center'}}>{props.address}</Text>
           <Text style={{fontSize:20, fontWeight:'500', textAlign:'center'}}>{props.city}, {props.state}</Text>
         </View>
-        </CardItem>
-        <CardItem>
+      </CardItem>
+      <CardItem>
         <View>
           <Text style={{textAlign:'center'}}>Begins on:</Text>
           <Text style={{fontSize:24, textAlign:'center'}}>{startDayName}. {startMonth} {startDay}</Text>
