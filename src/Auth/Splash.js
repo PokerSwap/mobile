@@ -24,44 +24,44 @@ export default SplashScreen = (props) => {
 			var answer0 = await actions.userToken.store(data)
 			var answer = await actions.profile.get()
 
-			// console.log('profile befroe check', store.myProfile)
-
-			if( Object.keys(store.myProfile)[0] != 'msg' 
-				// store.myProfileObj[0] {msg: "Token has expired"}
-
-				// store.myProfile !== {msg: "Signature verification failed" } 
-					// || store.myProfile !== {msg: "Not enough segments"} 
-					// || 
-					// || store.myProfile !== {msg:  "Bad Authorization header. Expected value 'Bearer <JWT>'"} 
-			){
-				// console.log('we are in')
+			if( Object.keys(store.myProfile)[0] != 'msg'){
 				var answer2 = await actions.user.auto_login()
+
 				var prenotificationData = await AsyncStorage.getItem('notification')
 				var notificationData = JSON.parse(prenotificationData)
+				console.log('notificationData', notificationData, typeof(notificationData))
 
-				console.log('ncsjnsci', notificationData, typeof(notificationData))
-
-				if(notificationData.path !== null){
-
-					var path = notificationData.path
-					var id = notificationData.id
-					var type = notificationData.type
-					var tournament = await actions.tournament.getOne(notificationData.id);
-
-					console.log('tournament', tournament, typeof(tournament))
+				if(notificationData !== null){
 
 					var aiubie = await AsyncStorage.removeItem('notification')
+
+					var id = notificationData.id
+					var type = notificationData.type
+					var initialPath = notificationData.initialPath
+					var finalPath = notificationData.finalPath
+
+					var andwer
+					if (type == 'tournament') {
+						andwer = await actions.tournament.getOne(id)
+						console.log('tour', andwer)
+					} else if(type == 'swap'){
+						andwer = await actions.swap.getOne(id)
+						console.log('swap', andwer)
+					} else{
+						console.log('so what now?')
+					}
+
+					var requestedEntity = store.notificationData;
+					console.log('requestedEntity', requestedEntity, typeof(requestedEntity))
 
 					var answer1 = await actions.tournament.getAction(id);
     			var answer4 = console.log('answer', answer1)
 					
 					const navigateAction = NavigationActions.navigate({
-						routeName: 'Tournaments',
-					
-						params: {},
-					
+						routeName: initialPath,
+						params: {},				
 						action: StackActions.push({ 
-							routeName: 'TourneyLobby',
+							routeName: finalPath,
 							params:{
 								action: store.action,
 								tournament_id: tournament.id,
@@ -110,7 +110,7 @@ export default SplashScreen = (props) => {
 
 	hasPermission = async() => {
 		var answer = await firebase.messaging().hasPermission();
-		console.log(answer)
+		console.log('hasPermission',answer)
 		if (answer){
 			var fcmToken = await firebase.messaging().getToken();
 			// console.log('fmtoken',fcmToken) 

@@ -135,8 +135,8 @@ messaging().onMessage(async (remoteMessage) => {
 });   
  
 messaging().onSendError(event => {
-  console.log(event.messageId);
-  console.log(event.error);
+  console.log('send error id',event.messageId);
+  console.log('send error event',event.error);
 });
 
 getToken = async()=> {

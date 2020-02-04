@@ -112,7 +112,7 @@ export default VerifyTicket = (props) => {
           return false;
       }
   } catch (err) {
-      console.warn(err);
+      console.warn('warning permissions',err);
   }
 } else {
      var answer2 = await request(PERMISSIONS.IOS.CAMERA)

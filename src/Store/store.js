@@ -19,7 +19,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 	  		// OTHER PEOPLE'S PROFILES (ON PROFILE VIEW)
 			profileView:[ ],
 
-			notification:null,
+			notificationData: null,
 
 	  		// ALL TOURNAMETS, FILTERED BY FIRST 10 RESULTS
 			tournaments:[ ],
@@ -211,16 +211,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				}
 
 			},
-			notification:{
-				set: async (data) => {
-					try{
-						setStore({ notification: data })
-					}catch(error){
-						console.log('Something went wrong with notification setting')
-					}
-					
-				}
-			},
+
 
 			profile:{
 				
@@ -389,9 +380,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					}
 				},
 
-				counter: async () => {
-
-				},
+				counter: async () => {},
 
 				statusChange: async ( a_tournament_id, a_recipient_id, is_paid, a_status, a_percentage, a_counter_percentage ) => {
 					try{
@@ -416,7 +405,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}
 						})
 						.then(response => response.json())
-						console.log(response)
+						console.log('statuschamge',response)
 
 					}
 					catch(error){
@@ -502,7 +491,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						setStore({tournaments: null})
 
 						var base_url ='https://swapprofit-test.herokuapp.com/tournaments/all?asc=true&limit=8&page=1'
-						console.log(key1)
+						console.log('key1', key1)
 						var full_url
 						key1 !== undefined ?
 							key2 !== undefined ?
@@ -640,7 +629,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}, 
 						})
 						.then(response => response.json())
-						console.log(response)
+						console.log('added user',response)
 
 
 						
@@ -650,11 +639,13 @@ const getState = ({ getStore, setStore, getActions }) => {
 				},
 
 				auto_login: async( ) => {
-					
-							getActions().tournament.getInitial()
-							getActions().tracker.getAll()
-							getActions().tracker.getPast()
-					
+					try{
+						var auto1 = await getActions().tournament.getInitial()
+						var auto2 = await getActions().tracker.getAll()
+						var auto3 = await getActions().tracker.getPast()
+					}catch(error){
+						console.log('Something went wrong with autologin',error)
+					}
 				},
 
 				login: async ( myEmail, myPassword, myDeviceID, navigation, loading ) => {
@@ -721,7 +712,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}, 
 						})
 						.then(response => response.json())
-						console.log(response)
+						console.log('changeMeail',response)
 					}catch(error){
 						console.log('Something went wrong with changing email', error)
 					}
@@ -749,7 +740,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}, 
 						})
 						.then(response => response.json())
-						console.log(response)
+						console.log('change password', response)
 					}catch(error){
 						console.log('Something went wrong with changing password', error)
 					}
@@ -772,7 +763,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						}, 
 					})
 					.then(response => response.json())
-					console.log(response)
+					console.log('forgotPassword',response)
 				}
 			},
 

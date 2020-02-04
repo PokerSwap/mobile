@@ -26,7 +26,7 @@ export default TournamentSearchBar = (props) => {
   const getByLocation = () => {
     let a_latitude, a_longitude;
     let myCoordinates = Geolocation.getCurrentPosition(info => {
-      console.log(info);
+      console.log('locationinfo',info);
       a_latitude = info.coords.latitude;
       a_longitude = info.coords.longitude;
       getNearest(a_latitude, a_longitude)

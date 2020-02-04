@@ -122,6 +122,7 @@ export default BuyIn = (props) => {
     var profile = store.profileView
     console.log('profile:',profile)
     navigation.push('Profile',{
+      id: profile.id,
       first_name: profile.first_name,
       nickname: profile.nickname,
       last_name: profile.last_name,

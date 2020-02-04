@@ -43,7 +43,9 @@ export default ProfileBioSideBar = (props) => {
             source={{uri: props.profile_pic_url}} />
         </View>
         <View style={{marginRight:15}}>
-          <Button warning style={{justifyContent:'center'}}>
+          <Button warning
+            onPress={()=> props.navigation.navigate('PurchaseTokens')}  
+            style={{justifyContent:'center'}}>
             <Text style={{fontSize:24, fontWeight:'600', paddingRight:5}}>{store.myProfile.coins}</Text>
             <Icon style={{paddingLeft:5, marginLeft:0}} type="FontAwesome5" name="coins" size={24} />
           </Button>

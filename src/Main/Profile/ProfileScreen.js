@@ -55,13 +55,10 @@ export default ProfileScreen = (props) => {
       <Content contentContainerStyle={{justifyContent:'center'}}>
 
         <ProfileBio 
-          navigation={props.navigation}
+          navigation={props.navigation} id={id}
           first_name={first_name} nickname={nickname} last_name={last_name} 
-          roi_rating={roi_rating} swap_rating={swap_rating}
-          total_swaps={total_swaps}
-          hendon_url={hendon_url} 
-          profile_pic_url={profile_pic_url}/>
-        
+          roi_rating={roi_rating} swap_rating={swap_rating} total_swaps={total_swaps}
+          hendon_url={hendon_url} profile_pic_url={profile_pic_url}/>
         {history}
       </Content>
     </Container>

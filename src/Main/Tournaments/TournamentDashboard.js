@@ -44,20 +44,20 @@ export default TournamentDashboard = (props) => {
   var TournamentRow = ({item}) => {
     return(
       <TournamentBody 
-      navigation={props.navigation}
-      id = {item.id}
-      name={item.name} 
-      created_at={item.created_at} 
-      updated_at={item.updated_at}
-      address={item.address}
-      city={item.city}
-      state={item.state}
-      latitude={item.latitude}
-      longitude={item.longitude}
-      flights={item.flights}
-      buy_ins={item.buy_ins}
-      swaps={item.swaps}
-      start_at={item.start_at}
+        navigation={props.navigation}
+        id = {item.id}
+        name={item.name} 
+        created_at={item.created_at} 
+        updated_at={item.updated_at}
+        address={item.address}
+        city={item.city}
+        state={item.state}
+        latitude={item.latitude}
+        longitude={item.longitude}
+        flights={item.flights}
+        buy_ins={item.buy_ins}
+        swaps={item.swaps}
+        start_at={item.start_at}
     />)
   }
 

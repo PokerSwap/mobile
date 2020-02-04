@@ -48,7 +48,7 @@ export default SideBar = (props) => {
             
       {/* DEFAULT BUTTONS */}
       <DrawerItems {...props} />
-      
+
       {/* LOGOUT OPTION */}
       <View>
 
