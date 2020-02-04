@@ -1,6 +1,7 @@
 /**
  * @format
  */
+import React, {useContext} from 'react';
 import { Platform } from 'react-native';
 import firebase from '@react-native-firebase/app';
 
@@ -12,6 +13,7 @@ import PushNotification from 'react-native-push-notification'
 
 import PushNotificationIOS from '@react-native-community/push-notification-ios'
 
+import {Context} from './src/Store/appContext'
 
 // pluck values from your `GoogleService-Info.plist` you created on the firebase console
 const iosConfig = {
@@ -53,6 +55,7 @@ const androidConfig = {
 
 if (!firebase.apps.length) {
   try {
+
     firebase
     .initializeApp(
       // use platform-specific firebase config
@@ -65,7 +68,7 @@ if (!firebase.apps.length) {
       console.error('Firebase initialization error raised', err.stack)
   }
 } 
- 
+
 PushNotification.configure({
   // (optional) Called when Token is generated (iOS and Android)
   onRegister: function(token) {
@@ -73,17 +76,19 @@ PushNotification.configure({
   },
 
   // (required) Called when a remote or local notification is opened or received
-  onNotification: function(notification) {
-    console.log("NOTIFICATION:", notification);
+  onNotification: async function(notificationData) {
+    console.log("NOTIFICATION:", notificationData);
+    var answer1 = await AsyncStorage.removeItem('notification')
 
-    // process the notification
+    var answer2 = await AsyncStorage.setItem('notification', JSON.stringify(notificationData))
+    var ewe = AsyncStorage.getItem('notification')
 
     // required on iOS only (see fetchCompletionHandler docs: https://github.com/react-native-community/react-native-push-notification-ios)
-    notification.finish(PushNotificationIOS.FetchResult.NoData);
+    notificationData.finish(PushNotificationIOS.FetchResult.NoData);
   },
 
   // ANDROID ONLY: GCM or FCM Sender ID (product_number) (optional - not required for local notifications, but is need to receive remote push notifications)
-  senderID: "YOUR GCM (OR FCM) SENDER ID",
+  senderID: '1008390219361',
 
   // IOS ONLY (optional): default: all - Permissions to register.
   permissions: {
@@ -120,13 +125,13 @@ messaging().onMessage(async (remoteMessage) => {
   getToken()
   console.log('FCM Message Data:', remoteMessage);
  
-  var messageArray
-  var currentMessages = await AsyncStorage.getItem('messages');
-  currentMessages != null ? messageArray = JSON.parse(currentMessages) : messageArray =[]
-   messageArray.push(remoteMessage);
-   var answer3 = await AsyncStorage.setItem('messages', JSON.stringify(messageArray));
-   var check3 = await AsyncStorage.getItem('messages')
-   console.log('now', check3)
+  // var messageArray
+  // var currentMessages = await AsyncStorage.getItem('messages');
+  // currentMessages != null ? messageArray = JSON.parse(currentMessages) : messageArray =[]
+  //  messageArray.push(remoteMessage);
+  //  var answer3 = await AsyncStorage.setItem('messages', JSON.stringify(messageArray));
+  //  var check3 = await AsyncStorage.getItem('messages')
+  //  console.log('now', check3)
 });   
  
 messaging().onSendError(event => {

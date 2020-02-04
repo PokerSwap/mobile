@@ -19,8 +19,11 @@ const getState = ({ getStore, setStore, getActions }) => {
 	  		// OTHER PEOPLE'S PROFILES (ON PROFILE VIEW)
 			profileView:[ ],
 
+			notification:null,
+
 	  		// ALL TOURNAMETS, FILTERED BY FIRST 10 RESULTS
 			tournaments:[ ],
+
 
 			userToken: null
 
@@ -208,6 +211,16 @@ const getState = ({ getStore, setStore, getActions }) => {
 				}
 
 			},
+			notification:{
+				set: async (data) => {
+					try{
+						setStore({ notification: data })
+					}catch(error){
+						console.log('Something went wrong with notification setting')
+					}
+					
+				}
+			},
 
 			profile:{
 				
@@ -305,7 +318,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					try {
 						
 						setStore({ myProfile: profileData })
-						console.log('my profile', getStore().myProfile)
+						// console.log('my profile', getStore().myProfile)
 					
 					} catch (error) {
 						console.log('Something went wrong in storing profile', error)
@@ -475,6 +488,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 								'Content-Type':'application/json'
 							}, 
 						})
+						return response.json()
 
 					} catch(error){
 						console.log('Something went wrong with tournament.get', error)
@@ -498,7 +512,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							:
 							full_url = base_url
 
-						console.log('full url', full_url)
+						// console.log('full url', full_url)
 						const accessToken = getStore().userToken.jwt ;
 						
 						let response = await fetch(full_url, {
@@ -511,7 +525,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						var initialTournaments = await response.json()
 						
 						setStore({tournaments: initialTournaments})
-						console.log('initialTournametns:',getStore().tournaments)
+						// console.log('initialTournametns:',getStore().tournaments)
 					} catch(error) {
 						console.log('something went wrong with getting initial tournaments', error)
 					}
@@ -541,7 +555,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}, 
 						})
 						let newData = await response.json()
-						console.log('newData', newData)
+						// console.log('newData', newData)
 						var tournamentData = getStore().tournaments
 						newData != [] ?
 							newData.forEach(tournament => tournamentData.push(tournament))
@@ -635,13 +649,12 @@ const getState = ({ getStore, setStore, getActions }) => {
 					}
 				},
 
-				auto_login: async( navigation ) => {
-					return new Promise(resolve =>
+				auto_login: async( ) => {
+					
 							getActions().tournament.getInitial()
-							.then(() => getActions().tracker.getAll())
-							.then(() => getActions().tracker.getPast())
-							.then(() => navigation.navigate('Swaps'))	
-					)
+							getActions().tracker.getAll()
+							getActions().tracker.getPast()
+					
 				},
 
 				login: async ( myEmail, myPassword, myDeviceID, navigation, loading ) => {
@@ -782,7 +795,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						if (response1.status >= 200 && response1.status < 300) {
 							data.error = "";
 							let user = res;
-							console.log('userToken: ', user, typeof(user))
+							// console.log('userToken: ', user, typeof(user))
 							getActions().userToken.store(user);
 						} else {
 							let error = res;
