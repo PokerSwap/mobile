@@ -4,7 +4,7 @@ import {Container, Content, Button, Text} from 'native-base';
 
 
 import { Context } from '../../Store/appContext';
-import _Header from "../../View-Components/header";
+import _Header from "../../View-Components/HomeHeader";
 import '../../Images/placeholder.jpg';
 
 export default FlightSelection = (props) => {

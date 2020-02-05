@@ -325,7 +325,7 @@ PODS:
     - Firebase/Messaging (~> 6.13.0)
     - React
     - RNFBApp
-  - RNGestureHandler (1.5.2):
+  - RNGestureHandler (1.5.6):
     - React
   - RNPermissions (2.0.8):
     - React
@@ -550,7 +550,7 @@ SPEC CHECKSUMS:
   RNDeviceInfo: e5976ab5c3bed0b5c78f188e0b8abb139b33a9da
   RNFBApp: 5b215aacc09105a1761de31b9a0eb2abcce06253
   RNFBMessaging: be0b936394416ec5503add603f2c0a641c353063
-  RNGestureHandler: 946a7691e41df61e2c4b1884deab41a4cdc3afff
+  RNGestureHandler: 911d3b110a7a233a34c4f800e7188a84b75319c6
   RNPermissions: 409e55ed060f7e35d4a3dfc3a336f94a5811dec1
   RNReanimated: b2ab0b693dddd2339bd2f300e770f6302d2e960c
   RNScreens: 1c7fd499b915c77c21e8e6c327890c5af9b4cf7e

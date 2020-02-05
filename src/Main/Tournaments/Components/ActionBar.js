@@ -19,17 +19,20 @@ export default ActionBar = (props) => {
               justifyContent:'center', 
               alignContent:'center',
               alignItems:'center'}}>
-            <Text style={{
-              textAlign:'center'}}>
-                {/* SWAPS: {!store.action ? <Spinner style={{height:100, width:100}} /> : store.action.swaps} */}
-            </Text>
+            {!store.action ? 
+              <Spinner/> 
+              : 
+              <Text>Swaps: {store.action.swaps}</Text>}
           </Button>
         </Col>
 
         {/* CURRENT USER'S ACTION  */}
         <Col>
           <Button transparent large style={{justifyContent:'center'}}>
-            {/* <Text >ACTION: {!store.action ? <Spinner/> : store.action.actions}%</Text> */}
+            {!store.action ? 
+              <Spinner/> 
+              : 
+              <Text style={{color:'white'}}>Action: {store.action.actions}%</Text>}
           </Button>
         </Col>
 

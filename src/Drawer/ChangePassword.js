@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react';
-import { Container, Content, Button, Text, Card, CardItem } from 'native-base';
+import { Container, Content, Button, Text, Card, CardItem, Toast } from 'native-base';
 
-import {TextInput} from 'react-native'
+import { Alert, TextInput} from 'react-native'
 import {Context } from '../Store/appContext'
 
 import '../Images/placeholder.jpg';
@@ -23,15 +23,33 @@ export default ChangePassword = (props) => {
   var isDisabled 
     
   const regexEmail = new RegExp('^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$');
-
-  currentPassword !== '' && newPassword !== '' ?
-    isDisabled = false : isDisabled = true 
     
+  const showAlert = () =>{
+    Alert.alert(
+      "Confirmation",
+      'For security reasons, you will be logged out once you make these changes.\n\n Do you wish to continue?',
+      [
+        {
+          text: 'Yes',
+          onPress: () => changePassword()
+        },
+        {
+          text: 'No',
+          onPress: () => console.log("Cancel Pressed"),
+        }
+      ]
+    )
+    }
+
   const changePassword = async() => {
     if (newPassword == confirmPassword ){
       var answer = await actions.user.changePassword(currentEmail, currentPassword, newPassword)
     } else {
-      console.log('lol no')
+      Toast.show({
+        text:'Password Change Failed. \n Make sure both new password and confirm password are the same',
+        position:'top',
+        duration:3000
+      })
     }
   }
 
@@ -105,6 +123,7 @@ export default ChangePassword = (props) => {
             style={{fontSize:24, textAlign:'center', width:'100%'}}
             placeholder="Confirm New Password"
             placeholderTextColor='gray'
+
             secureTextEntry          
             blurOnSubmit={true}
             ref={(input) => { txtConfirmPassword = input; }} 
@@ -118,7 +137,7 @@ export default ChangePassword = (props) => {
         </CardItem>
         <CardItem style={{justifyContent:'center'}}>
           <Button large disabled={isDisabled} style={{marginTop:40, justifyContent:'center'}}
-            onPress={()=> changePassword()}>
+            onPress={()=> showAlert()}>
             <Text style={{fontSize:30, fontWeight:'600'}}> 
               SUBMIT 
             </Text>

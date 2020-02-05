@@ -104,6 +104,7 @@ const TournamentsStack = createStackNavigator(
         title:"TournamentDashboard",
         headerMode: 'none',
         header: null,
+        key:'A'
       }
     },
     VerifyTicket:{
@@ -121,9 +122,10 @@ const TournamentsStack = createStackNavigator(
     },
     TourneyLobby:{
       screen: TourneyLobby,
-      navigationOptions:{
-        title:"Tourney Lobby"
-      }
+      navigationOptions: ({navigation}) => ({
+        title:'Tourney Lobby',
+        headerLeft: <HeaderBackButton onPress={() => navigation.popToTop()} />,
+      })
     },
     SwapOffer:{
       screen: SwapOffer,
@@ -245,6 +247,7 @@ const SettingsStack = createStackNavigator({
     navigationOptions:{
       title:'Settings',
       header:null
+
     }
   },
   ChangeEmail:{

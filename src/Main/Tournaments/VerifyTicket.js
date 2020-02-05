@@ -2,20 +2,13 @@ import React, {useState, useContext} from 'react';
 import {Image, Dimensions, View, TextInput, KeyboardAvoidingView, Platform, TouchableWithoutFeedback} from 'react-native';
 import {Container,  Button, Text, Form, Picker, Content, Card, CardItem, Icon} from 'native-base';
 
-import {PermissionsAndroid} from 'react-native';
-
-
-import {request, check, PERMISSIONS} from 'react-native-permissions';
+import {check, PERMISSIONS} from 'react-native-permissions';
 
 import ImagePicker from 'react-native-image-picker';
 
 import { Context } from '../../Store/appContext';
-import _Header from "../../View-Components/header";
+import _Header from "../../View-Components/HomeHeader";
 import '../../Images/placeholder.jpg';
-
-import PushNotificationIOS from '@react-native-community/push-notification-ios'
-import PushNotification from 'react-native-push-notification'
-
 
 export default VerifyTicket = (props) => {
 
@@ -26,20 +19,12 @@ export default VerifyTicket = (props) => {
   const [seat, setSeat] = useState('');
   const [chips, setChips] = useState('');
   const [flight_id, setFlight] = useState('-1')
+
+  console.log('image', image, typeof(image))
   var navigation = props.navigation;
 
-  let action = navigation.getParam('action', 'NO-ID');
-  let tournament_id = navigation.getParam('tournament_id', 'NO-ID');
   let name = navigation.getParam('name', 'default value');
-  let address = navigation.getParam('address', 'default value');
-  let city = navigation.getParam('city', 'default value');
-  let state = navigation.getParam('state', 'default value');
-  let longitude = navigation.getParam('longitude', 'NO-ID');
-  let latitude = navigation.getParam('latitude', 'NO-ID');
-  let start_at = navigation.getParam('start_at', 'NO-ID');
   let flights = navigation.getParam('flights', 'NO-ID');
-  let buy_ins = navigation.getParam('buy_ins', 'NO-ID');
-  let swaps = navigation.getParam('swaps', 'NO-ID');
 
   var FlightSelection = flights.map((flight) => {
       
@@ -68,59 +53,26 @@ export default VerifyTicket = (props) => {
 
   const { width, height } = Dimensions.get('window');
 
+  const askPersmission = async () => {
+    if(Platform.OS == 'ios'){
+      Promise.all([
+        check(PERMISSIONS.IOS.CAMERA),
+        check(PERMISSIONS.IOS.PHOTO_LIBRARY),
+      ]).then(([cameraStatus, photoLibraryStatus]) => {
+        console.log({cameraStatus, photoLibraryStatus});
+      });
+      UploadTicketPhoto()
 
-  const BuyInStart = async() => {    
-    var answer = await actions.buy_in.add( flight_id, table, seat, chips )
-    var answer2 = await actions.buy_in.uploadPhoto(image)
-    PushNotification.localNotificationSchedule({
-      //... You can use all the options from localNotifications
-      message: "Update Your Buyin", // (required)
-      date: new Date(Date.now() + 20 * 1000) // in 60 secs
-    });
-    var answer3 = await actions.tournament.getInitial()
-    var answer4 = await props.navigation.goBack(null)
-    // var answer3 = await props.navigation.push('TourneyLobby', {
-    //   action: action,
-    //   tournament_id: tournament_id,
-    //   name: name,
-    //   address: address,
-    //   city: city,
-    //   state: state,
-    //   longitude: longitude,
-    //   latitude: latitude,
-    //   start_at: start_at,
-    //   buy_ins: buy_ins,
-    //   swaps: swaps,
-    //   flights: flights,
-    //   navigation: props.navigation
-    // });
-  }
-
- const askPersmission = async () => {
-  if(Platform.OS == 'android'){
-    try {
-      await PermissionsAndroid.requestMultiple
-      ([PermissionsAndroid.PERMISSIONS.CAMERA, PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE, PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE]);
-      if ((await PermissionsAndroid.check('android.permission.CAMERA')) &&
-          (await PermissionsAndroid.check('android.permission.CAMERA')) &&
-          (await PermissionsAndroid.check('android.permission.CAMERA'))) {
-          console.log('You can use the camera');
-          UploadTicketPhoto()
-
-      } else {
-          console.log('all permissions denied');
-          return false;
-      }
-  } catch (err) {
-      console.warn('warning permissions',err);
-  }
-} else {
-     var answer2 = await request(PERMISSIONS.IOS.CAMERA)
-     var answer3 = await request(PERMISSIONS.IOS.PHOTO_LIBRARY)
-     UploadTicketPhoto()
-
-   } 
- }
+    } else if (Platform.OS == 'android') {
+      Promise.all([
+        check(PERMISSIONS.ANDROID.CAMERA),
+        check(PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE),
+      ]).then(([cameraStatus, readExternalStorageStatus]) => {
+        console.log({cameraStatus, readExternalStorageStatus});
+      });
+      UploadTicketPhoto()
+    }
+  };
 
   const UploadTicketPhoto = async() => {
 
@@ -145,33 +97,24 @@ export default VerifyTicket = (props) => {
       }
     });
   };
+
+  const BuyInStart = async() => {    
+    var answer = await actions.buy_in.add( flight_id, table, seat, chips, image, props.navigation )
+  };
  
-  var x;
-
-  const isNumeric = (n) => {
-    return !isNaN(parseFloat(n)) && isFinite(n);
-  }
-
-  if (!isNumeric(table) || !isNumeric(seat) || !isNumeric(chips) || flight_id=='' || flight_id==-1 || 
-      image == require('../../Images/placeholder.jpg')){
-    x=true
-  }else{
-    x=false
-  }
-
   let textSeat = null;
   let textChips = null;
    
   return(
     <Container>
-      <Content contentContainerStyle={styles.container.main}>
+      <Content>
       <KeyboardAvoidingView style={{flex:1,}} behavior='position' keyboardVerticalOffset={-180}>
         {/* IMAGE INPUT */}
-        <Card transparent style={{justifyContent:'center', flex:1}}>
+        <Card transparent >
           
           {/* INSTRUCTION TEXT  */}
-          <CardItem style={{selfAlign:'center', flex:1, flexDirection:'column'}}>
-            <Text style={{textAlign:'center', fontSize:20, lineHeight:20, flex:1, flexWrap:'wrap'}}>
+          <CardItem style={{selfAlign:'center', flex:1, justifyContent:'center', flexDirection:'column'}}>
+            <Text style={{textAlign:'center', fontSize:18,  flex:1}}>
               Enter the information and upload a photo of your tournament buyin ticket.
             </Text>
           </CardItem>
@@ -189,7 +132,7 @@ export default VerifyTicket = (props) => {
         {/* ALL BUYIN INPUTS */}
         <Card transparent style={{flex:1, flexDirection:'row', justifyContent:'center'}}>
           {/* TABLE INPUT */}
-          <CardItem style={{flexDirection:'column', alignItems:'flex-end', width:'25%'}}>
+          <CardItem style={{flexDirection:'column', alignItems:'flex-end', width:'33%'}}>
             <Text style={styles.text.input}>Table: </Text>
             <TextInput 
               placeholder="Table #"
@@ -207,7 +150,7 @@ export default VerifyTicket = (props) => {
           </CardItem>
          
           {/* SEAT INPUT */}
-          <CardItem style={{flexDirection:'column', justifyContent:'center', width:'25%'}}>
+          <CardItem style={{flexDirection:'column', justifyContent:'center', width:'33%'}}>
             <Text style={styles.text.input}>Seat: </Text>
             <TextInput 
               placeholder="Seat #"
@@ -228,7 +171,7 @@ export default VerifyTicket = (props) => {
           <CardItem style={{flexDirection:'column', alignItems:'flex-start', width:'33%'}}>
             <Text style={styles.text.input}>Chips: </Text>
             <TextInput 
-              placeholder="Enter Chips"
+              placeholder="Chip #"
               placeholderTextColor='gray'
               keyboardType="number-pad"
               returnKeyType="done"
@@ -261,9 +204,9 @@ export default VerifyTicket = (props) => {
             </Form>
             :
             <Form picker
-            placeholder={'Please slelel'}
-            placeholderLabel='please'
-            style={{justifyContent:'center'}}>
+              placeholder={'Please slelel'}
+              placeholderLabel='please'
+              style={{justifyContent:'center'}}>
             <Picker
               note
               mode="dialog"
@@ -284,7 +227,7 @@ export default VerifyTicket = (props) => {
         <Card transparent>
           {/* SUBMIT BUTTON */}
           <CardItem style={styles.container.button}> 
-            <Button large disabled={x} style={styles.button} onPress={() => BuyInStart()}>
+            <Button large style={styles.button} onPress={() => BuyInStart()}>
               <Text style={styles.text.button}> SUBMIT </Text>
             </Button>
           </CardItem>

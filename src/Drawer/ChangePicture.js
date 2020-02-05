@@ -82,8 +82,6 @@ export default ChangePicture = (props) => {
     });
   };
 
-  var isDisabled 
-
   const changePicture = async() => {
     var answer = await actions.profile.uploadPhoto(imageURI)
   }

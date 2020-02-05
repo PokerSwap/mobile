@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { Header, Text, Icon } from 'native-base';
 
-export default _Header = (props) => {
+export default HomeHeader = (props) => {
 
   return(
     <Header  style={{justifyContent:'space-between', alignItems:'center', backgroundColor:'rgb(248,248,248)'}}>

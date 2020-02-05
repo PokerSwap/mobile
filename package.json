@@ -1,10 +1,10 @@
 {
   "name": "SwapProfit",
-  "version": "0.3.0",
+  "version": "0.2.10",
   "private": true,
   "scripts": {
-    "android": "react-native run-android",
-    "ios": "react-native run-ios",
+    "android": "npx react-native run-android",
+    "ios": "npx react-native run-ios",
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint ."
@@ -29,7 +29,7 @@
     "react-native": "^0.61.5",
     "react-native-device-info": "^5.3.1",
     "react-native-easy-grid": "^0.2.2",
-    "react-native-gesture-handler": "^1.5.2",
+    "react-native-gesture-handler": "^1.5.6",
     "react-native-image-picker": "^2.2.1",
     "react-native-loading-spinner-overlay": "^1.0.1",
     "react-native-permissions": "^2.0.8",
@@ -43,8 +43,8 @@
     "react-native-webview": "^7.6.0",
     "react-navigation": "^4.1.0",
     "react-navigation-drawer": "^2.3.3",
-    "react-navigation-stack": "^2.0.16",
-    "react-navigation-tabs": "^2.6.2",
+    "react-navigation-stack": "^2.1.0",
+    "react-navigation-tabs": "^2.7.0",
     "save": "^2.4.0"
   },
   "devDependencies": {
@@ -54,7 +54,7 @@
     "babel-jest": "^24.9.0",
     "eslint": "^6.7.2",
     "jest": "^24.9.0",
-    "jetifier": "^1.6.4",
+    "jetifier": "^1.6.5",
     "metro-react-native-babel-preset": "^0.57.0",
     "react-test-renderer": "16.9.0"
   },

@@ -3,7 +3,7 @@ import {Platform, Alert, StyleSheet, ScrollView, View} from 'react-native';
 
 import { Body, Container, Content, Card, CardItem, Button,  H3, Left, Right, Text, ActionSheet } from 'native-base';
 import BuyButton from './ConfirmPurchase';
-import _Header from '../View-Components/header'
+import OtherHeader from '../View-Components/OtherHeader'
 
 import {Context} from '../Store/appContext'
 
@@ -69,9 +69,8 @@ export default PurchaseTokens = (props) => {
 
   return(
     <Container>
-      <_Header title={'Add Tokens'} 
-      drawer={() => props.navigation.toggleDrawer()}
-      tutorial={() => props.navigation.push('Tutorial')}/>
+      <OtherHeader title={'Purchase Tokens'} 
+      goBackToHome={() => props.navigation.goBack(null)}/>
       <Content contentContainerStyle={{flex:1, justifyContent:'center', alignItems:'center'}}>
       <ScrollView style={{ alignSelf: 'stretch' }}>           
         <Card transparent>

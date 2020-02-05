@@ -1,3 +1,5 @@
+import {Toast} from 'native-base'
+
 const getState = ({ getStore, setStore, getActions }) => {
 	
 	return {
@@ -33,9 +35,24 @@ const getState = ({ getStore, setStore, getActions }) => {
 			
 			buy_in:{
 
-				add: async ( a_flight_id, a_table, a_seat, some_chips ) => {
-					
+				add: async ( a_flight_id, a_table, a_seat, some_chips, an_image, navigation) => {
 					try{	
+
+						if (an_image == 3){
+							return Toast.show({
+								text:'You need to select a photo of your buyin ticket before submitting',
+								position:'top', 
+								duration:3000
+							})
+						}
+						if (a_flight_id == '-1' || a_table == '' || a_seat == '' || some_chips == ''){
+							return Toast.show({
+								text:'You need to input all fileds before submitting',
+								position:'top', 
+								duration:3000
+							})
+						}
+						
 						let accessToken = getStore().userToken.jwt
 						const url = 'https://swapprofit-test.herokuapp.com/me/buy_ins'		
 						let data = {
@@ -53,13 +70,41 @@ const getState = ({ getStore, setStore, getActions }) => {
 								'Content-Type':'application/json'
 							}, 
 						})
-						.then(response => response.json)
-						.then(getActions().tracker.getAll())
-						.then(getActions().tournament.getMore())
+
+						var tournamentJson = await response.json()
+						
+						var tournament_id = tournamentJson.tournament_id
+						
+						var a1 = await getActions().buy_in.uploadPhoto(an_image)
+
+						var a2 = await getActions().tracker.getAll()
+						var a3 = await getActions().tournament.getInitial()
+						var action = await getActions().tournament.getAction(tournament_id)
+						var tournament = await getActions().tournament.getOne(tournament_id)
+
+						var a5 = await navigation.push('TourneyLobby', {
+							action: action,
+							tournament_id: tournament.id,
+							name: tournament.name,
+							address: tournament.address,
+							city: tournament.city,
+							state: tournament.state,
+							longitude: tournament.longitude,
+							latitude: tournament.latitude,
+							start_at: tournament.start_at,
+							buy_ins: tournament.buy_ins,
+							swaps: tournament.swaps,
+							flights: tournament.flights,
+							navigation: navigation
+						})
 					
 
 					} catch(error) {
 						console.log("Some went wrong in adding a buyin", error)
+						// return(Toast.show({
+						// 	text:'Sorry, you need to enter all fields correctly',
+						// 	duration:3000,
+						// 	position:'top'}))
 					}
 				},
 
@@ -215,7 +260,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 			profile:{
 				
-				add: async ( userName, firstName, lastName, a_hendon_link ) => {
+				add: async ( nickName, firstName, lastName, a_hendon_url, a_Picture ) => {
 					
 					try{
 						
@@ -223,10 +268,10 @@ const getState = ({ getStore, setStore, getActions }) => {
 						const url = 'https://swapprofit-test.herokuapp.com/profiles'
 
 						let data = {
-							nickname: userName,
+							nickname: nickName,
 							first_name: firstName,
 							last_name: lastName,
-							hendon_url: a_hendon_link
+							hendon_url: a_hendon_url
 						}
 
 						let response = await fetch(url, {
@@ -238,6 +283,10 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}, 
 						})
 						.then(response => response.json)
+						
+						var aaa = await getActions().profile.uploadPhoto(a_Picture)
+
+
 					} catch(error) {
 						console.log("Something went wrong in adding a profile", error)
 					}
@@ -741,8 +790,20 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 						.then(response => response.json())
 						console.log('change password', response)
+						return(Toast.show({
+							text:response.message,
+							position:'top',
+							duration:3000,
+
+						}))
 					}catch(error){
 						console.log('Something went wrong with changing password', error)
+						return(Toast.show({
+							text:'Password change failed',
+							position:'top',
+							duration:3000,
+
+						}))
 					}
 					
 				},
@@ -763,7 +824,12 @@ const getState = ({ getStore, setStore, getActions }) => {
 						}, 
 					})
 					.then(response => response.json())
-					console.log('forgotPassword',response)
+					return(Toast.show({
+						text:response.message,
+						position:'top',
+						duration:3000,
+
+					}))
 				}
 			},
 

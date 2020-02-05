@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
 import { Container, Content, Text } from 'native-base';
-import _Header from '../View-Components/header'
+import OtherHeader from '../View-Components/OtherHeader'
 
 export default NotificationsScreen = (props) => {
 
   return(
     <Container>
-      <_Header title={'Notifications'} 
-      drawer={() => props.navigation.toggleDrawer()}
-      tutorial={() => props.navigation.push('Tutorial')}/>
+      <OtherHeader title={'Notifications'} 
+      goBackToHome={() => props.navigation.goBack(null)}
+      />
       <Content>
         <Text>Notifications</Text>
       </Content>

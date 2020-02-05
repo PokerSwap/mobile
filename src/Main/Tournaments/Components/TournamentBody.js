@@ -60,7 +60,7 @@ export default TournamentBody = (props) => {
 
   return(
     <ListItem noIndent 
-      style={{backgroundColor: bgColor, flexDirection:'row', justifyContent:'space-between'}}
+      style={{backgroundColor: bgColor, flexGrow:1, flexDirection:'row', justifyContent:'space-between'}}
       onPress={()=> enterTournament()} 
     >
       

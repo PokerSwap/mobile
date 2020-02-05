@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {Alert,TouchableOpacity} from 'react-native';
 import { Container, View, Content, Text, List, ListItem } from 'native-base';
-import _Header from '../View-Components/header'
+import OtherHeader from '../View-Components/OtherHeader'
 
 import {Context } from '../Store/appContext'
 
@@ -14,9 +14,8 @@ export default SettingsScreen = (props) => {
 
   return(
     <Container>
-      <_Header title={'Settings'} 
-        drawer={() => props.navigation.toggleDrawer()}
-        tutorial={() => props.navigation.push('Tutorial')}
+      <OtherHeader title={'Settings'} 
+        goBackToHome={() => props.navigation.goBack(null)}
       />
       <Content>
         <List>

@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import { Container, Content, List, Separator, Text, ListItem } from 'native-base';
-import _Header from '../../View-Components/header'
+import _Header from '../../View-Components/HomeHeader'
 import { Context } from '../../Store/appContext'
 import WinningsTracker from './Components/WinningsTracker'
 

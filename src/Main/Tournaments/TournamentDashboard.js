@@ -2,7 +2,7 @@ import React, {useContext, useState} from 'react';
 import { Container, Content, Text, Header, Icon, Segment, Spinner } from 'native-base';
 import { RefreshControl, FlatList, View} from 'react-native'
 
-import _Header from "../../View-Components/header";
+import _Header from "../../View-Components/HomeHeader";
 import TournamentBody from './Components/TournamentBody';
 import TournamentSearchBar from './Components/TournamentSearchBar';
 
@@ -45,26 +45,16 @@ export default TournamentDashboard = (props) => {
     return(
       <TournamentBody 
         navigation={props.navigation}
-        id = {item.id}
-        name={item.name} 
-        created_at={item.created_at} 
-        updated_at={item.updated_at}
-        address={item.address}
-        city={item.city}
-        state={item.state}
-        latitude={item.latitude}
-        longitude={item.longitude}
-        flights={item.flights}
-        buy_ins={item.buy_ins}
-        swaps={item.swaps}
-        start_at={item.start_at}
+        id = {item.id} name={item.name} start_at={item.start_at}
+        created_at={item.created_at} updated_at={item.updated_at}
+        address={item.address} city={item.city} state={item.state}
+        latitude={item.latitude} longitude={item.longitude}
+        flights={item.flights} buy_ins={item.buy_ins} swaps={item.swaps}        
     />)
   }
 
   return(
-    <Container>
-
-     
+    <View>
       <Header hasSegment style={{justifyContent:'space-between',alignItems:'center', backgroundColor:'rgb(248,248,248'}}>
         {/* MENU ICON */}
         <Icon name="menu" style={{marginLeft:10}}
@@ -81,7 +71,7 @@ export default TournamentDashboard = (props) => {
       <Segment style={{backgroundColor:('rgb(248,248,248')}}>
         <TournamentSearchBar search={search} setSearch={setSearch}/>
       </Segment>
-      <Content contentContainerStyle={{justifyContent:'center'}}>
+      <View contentContainerStyle={{justifyContent:'center'}}>
       {/* TOURNAMENT LIST GENERATOR */}
       {store.tournaments != null ?
         store.tournaments.length != 0 ?
@@ -105,7 +95,7 @@ export default TournamentDashboard = (props) => {
         <Spinner />
 
           }
-      </Content>
-    </Container>
+      </View>
+    </View>
   )
 }

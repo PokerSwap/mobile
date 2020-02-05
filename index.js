@@ -5,6 +5,8 @@ import React, {useContext} from 'react';
 import { Platform } from 'react-native';
 import firebase from '@react-native-firebase/app';
 
+import 'react-native-gesture-handler';
+
 import messaging from '@react-native-firebase/messaging'
 
 import AsyncStorage from '@react-native-community/async-storage'
