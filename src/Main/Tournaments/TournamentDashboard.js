@@ -41,10 +41,10 @@ export default TournamentDashboard = (props) => {
   
   const [search, setSearch] = useState('')  
 
-  var TournamentRow = ({item}) => {
+  var TournamentRow = ({item, index}) => {
     return(
       <TournamentBody 
-        navigation={props.navigation}
+        key={index} navigation={props.navigation}
         id = {item.id} name={item.name} start_at={item.start_at}
         created_at={item.created_at} updated_at={item.updated_at}
         address={item.address} city={item.city} state={item.state}

@@ -16,85 +16,20 @@ export default SplashScreen = (props) => {
 
 	checkData = async() => {
 		const currentToken = await AsyncStorage.getItem('loginToken')
-		// console.log('currentToken', currentToken)
+		console.log('currentToken', currentToken)
 		if (currentToken){
 
 			var data = {jwt: currentToken}
-
 			var answer0 = await actions.userToken.store(data)
-			var answer = await actions.profile.get()
+			var answer555 = await actions.profile.get()
 
-			if( Object.keys(store.myProfile)[0] != 'msg'){
-				var answer2 = await actions.user.auto_login()
+			console.log('myProfile',answer555)
 
-				var prenotificationData = await AsyncStorage.getItem('notification')
-				var notificationData = JSON.parse(prenotificationData)
-				console.log('notificationData', notificationData, typeof(notificationData))
-
-				if(notificationData !== null){
-
-					var aiubie = await AsyncStorage.removeItem('notification')
-
-					var id = notificationData.id
-					var type = notificationData.type
-					var initialPath = notificationData.initialPath
-					var finalPath = notificationData.finalPath
-
-					var andwer
-					if (type == 'tournament') {
-						andwer = await actions.tournament.getOne(id)
-						console.log('tour', andwer)
-					} else if(type == 'swap'){
-						andwer = await actions.swap.getOne(id)
-						console.log('swap', andwer)
-					} else{
-						console.log('so what now?')
-					}
-
-					var requestedEntity = store.notificationData;
-					console.log('requestedEntity', requestedEntity, typeof(requestedEntity))
-
-					var answer1 = await actions.tournament.getAction(id);
-    			var answer4 = console.log('answer', answer1)
-					
-					const navigateAction = NavigationActions.navigate({
-						routeName: initialPath,
-						params: {},				
-						action: StackActions.push({ 
-							routeName: finalPath,
-							params:{
-								action: store.action,
-								tournament_id: tournament.id,
-								name: tournament.name,
-								address: tournament.address,
-								city: tournament.city,
-								state: tournament.state,
-								longitude: tournament.longitude,
-								latitude: tournament.latitude,
-								start_at: tournament.start_at,
-								buy_ins: tournament.buy_ins,
-								swaps: tournament.swaps,
-								flights: tournament.flights
-							}
-						 }),
-					});
-					
-					props.navigation.dispatch(navigateAction);
-
-					
-
-				
-
-					
-				}else{
-					props.navigation.navigate('Swaps')
-					AsyncStorage.removeItem('notification')
-
-				}
+			if( Object.keys(store.myProfile)[0] != 'msg'&& Object.keys(store.myProfile)[0] != 'message' && store.myProfile !== undefined){
+				var answer2 = await actions.user.auto_login(props.navigation)
 			}else{
 				console.log('badToken')
 				AsyncStorage.removeItem('loginToken')
-
 				props.navigation.navigate('LogIn')
 
 			}

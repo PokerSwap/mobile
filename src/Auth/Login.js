@@ -57,7 +57,7 @@ export default LoginScreen = (props) => {
       deviceID,
       props.navigation
     );
-    storeData();
+    var answer2 = await storeData();
     loadingSwitch();
   }
 
@@ -125,8 +125,7 @@ export default LoginScreen = (props) => {
                 onPress={
                   async() => {
                     Keyboard.dismiss();
-                    var x = await loginStart();
-                    wrong()}
+                    var x = await loginStart()}
                   }
               >
                 <Text style={styles.text.login}> Login </Text>

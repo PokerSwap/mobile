@@ -1,7 +1,10 @@
 import React, {useContext, useState} from 'react'
-import { TextInput, View, TouchableOpacity } from 'react-native';
+import { TextInput, View, TouchableOpacity, Platform } from 'react-native';
 import { Icon, Item, Text} from 'native-base';
 import Geolocation from '@react-native-community/geolocation';
+
+import {check, PERMISSIONS, request} from 'react-native-permissions';
+
 
 import {Context} from '../../../Store/appContext'
 
@@ -22,6 +25,22 @@ export default TournamentSearchBar = (props) => {
       console.log('nope')
     }
   }
+
+  const askPersmission = async () => {
+    
+    try
+    {if(Platform.OS == 'ios'){
+      request(
+        Platform.select({
+          android: PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
+          ios: PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
+        })
+      )
+      var answeer = await getByLocation()
+    }}catch(error){
+      console.log('error', error)
+    }
+  };
 
   const getByLocation = () => {
     let a_latitude, a_longitude;
@@ -61,7 +80,7 @@ export default TournamentSearchBar = (props) => {
 
       {/* SEARCH BY LOCATION BUTTON */}
       <TouchableOpacity style={{marginRight:5}}
-        onPress={()=> getByLocation()}>
+        onPress={()=> askPersmission()}>
         <Icon 
           name='location-arrow' type='FontAwesome5'
           style={{color:'blue', fontSize:18}}

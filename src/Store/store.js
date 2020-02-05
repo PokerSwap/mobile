@@ -1,4 +1,7 @@
 import {Toast} from 'native-base'
+import AsyncStorage from '@react-native-community/async-storage'
+import { StackActions, NavigationActions } from 'react-navigation';
+
 
 const getState = ({ getStore, setStore, getActions }) => {
 	
@@ -257,6 +260,70 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 			},
 
+			notification:{
+				check: async(navigation) => {
+					var prenotificationData = await AsyncStorage.getItem('notification')
+					var notificationData = JSON.parse(prenotificationData)
+					console.log('notificationData', notificationData, typeof(notificationData))
+
+					if(notificationData !== null){
+
+						var aiubie = await AsyncStorage.removeItem('notification')
+	
+						var id = notificationData.id
+						var type = notificationData.type
+						var initialPath = notificationData.initialPath
+						var finalPath = notificationData.finalPath
+	
+						var theAnswer
+						if (type == 'tournament') {
+							theAnswer = await getActions().tournament.getOne(id)
+							console.log('tour', theAnswer)
+						} else if(type == 'swap'){
+							theAnswer = await getActions().swap.getOne(id)
+							console.log('swap', theAnswer)
+						} else{
+							console.log('so what now?')
+						}
+	
+						var tournamentz = getStore().notificationData;
+						console.log('tournamentz', tournamentz, typeof(tournamentz))
+	
+						var action = await getActions().tournament.getAction(id);
+						var answer4 = console.log('answer', tournamentz)
+						console.log('action', action)
+						
+						const navigateAction = NavigationActions.navigate({
+							routeName: initialPath,
+							params: {},				
+							action: StackActions.push({ 
+								routeName: finalPath,
+								params:{
+									action: getStore().action,
+									tournament_id: theAnswer.id,
+									name: theAnswer.name,
+									address: theAnswer.address,
+									city: theAnswer.city,
+									state: theAnswer.state,
+									longitude: theAnswer.longitude,
+									latitude: theAnswer.latitude,
+									start_at: theAnswer.start_at,
+									buy_ins: theAnswer.buy_ins,
+									swaps: theAnswer.swaps,
+									flights: theAnswer.flights
+								}
+							 }),
+						});
+						
+						navigation.dispatch(navigateAction);
+	
+					}else{
+						navigation.navigate('Swaps')
+						AsyncStorage.removeItem('notification')
+	
+					}
+				}
+			},
 
 			profile:{
 				
@@ -563,7 +630,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						var initialTournaments = await response.json()
 						
 						setStore({tournaments: initialTournaments})
-						// console.log('initialTournametns:',getStore().tournaments)
+						console.log('initialTournametns:',getStore().tournaments)
 					} catch(error) {
 						console.log('something went wrong with getting initial tournaments', error)
 					}
@@ -626,6 +693,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 						let trackerData = await response.json()
 						setStore({myTrackers: trackerData})
+						console.log('currnetTackers', trackerData)
 						
 					} catch(error){
 						console.log('something went wrong in tracker.getCurrent', error)
@@ -649,6 +717,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 						let trackerData = await response.json()
 						setStore({pastTrackers: trackerData})
+						console.log
 						
 					}catch(error){
 						console.log('something went wrong in tracker.getCurrent', error)
@@ -687,17 +756,21 @@ const getState = ({ getStore, setStore, getActions }) => {
 					}
 				},
 
-				auto_login: async( ) => {
+				auto_login: async(navigation) => {
 					try{
-						var auto1 = await getActions().tournament.getInitial()
-						var auto2 = await getActions().tracker.getAll()
-						var auto3 = await getActions().tracker.getPast()
+						return new Promise(resolve =>
+						resolve(getActions().tournament.getInitial()
+						.then(() => getActions().tracker.getAll())
+						.then(() => getActions().tracker.getPast())
+						.then(() => getActions().notification.check(navigation))
+							))
 					}catch(error){
 						console.log('Something went wrong with autologin',error)
+						navigation.navigate('Login')
 					}
 				},
 
-				login: async ( myEmail, myPassword, myDeviceID, navigation, loading ) => {
+				login: async ( myEmail, myPassword, myDeviceID, navigation ) => {
 					
 					// 20 DAY EXPIRATION
 					var time = (1000*60*60*24*20)
@@ -719,7 +792,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 									getActions().tournament.getInitial()
 									.then(() => getActions().tracker.getAll())
 									.then(() => getActions().tracker.getPast())
-									.then(() => loading)
 									.then(() => navigation.navigate('Swaps'))
 								} else { 
 									navigation.navigate('ProfileCreation')

@@ -99,6 +99,8 @@ PODS:
   - nanopb/encode (0.3.9011)
   - Permission-Camera (2.0.8):
     - RNPermissions
+  - Permission-LocationWhenInUse (2.0.8):
+    - RNPermissions
   - Permission-PhotoLibrary (2.0.8):
     - RNPermissions
   - Protobuf (3.11.2)
@@ -348,6 +350,7 @@ DEPENDENCIES:
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - Permission-Camera (from `../node_modules/react-native-permissions/ios/Camera.podspec`)
+  - Permission-LocationWhenInUse (from `../node_modules/react-native-permissions/ios/LocationWhenInUse.podspec`)
   - Permission-PhotoLibrary (from `../node_modules/react-native-permissions/ios/PhotoLibrary.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
@@ -422,6 +425,8 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
   Permission-Camera:
     :path: "../node_modules/react-native-permissions/ios/Camera.podspec"
+  Permission-LocationWhenInUse:
+    :path: "../node_modules/react-native-permissions/ios/LocationWhenInUse.podspec"
   Permission-PhotoLibrary:
     :path: "../node_modules/react-native-permissions/ios/PhotoLibrary.podspec"
   RCTRequired:
@@ -518,6 +523,7 @@ SPEC CHECKSUMS:
   GoogleUtilities: 29bd0d8f850efbd28cff6d99e8b7da1f8d236bcf
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   Permission-Camera: a28ff1c93cf77777df695eb632855fad6e155b02
+  Permission-LocationWhenInUse: 17ddf0e359381e42afba5323cfa53f054414e11a
   Permission-PhotoLibrary: 0edbd3bf03a6d72d270cd58253bf4ef49b7e9212
   Protobuf: dd1aaea7140debfe4dd0683fb8ef208e527ae153
   RCTRequired: b153add4da6e7dbc44aebf93f3cf4fcae392ddf1
@@ -558,6 +564,6 @@ SPEC CHECKSUMS:
   Stripe: db29ad197c74aca6fb981e4e8355cf7ebd0fca5a
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
-PODFILE CHECKSUM: b6b0cbe2f9b40792ff8852791c16b4c4b689b920
+PODFILE CHECKSUM: 6e52d2474a31727b63ad13845189780f0f733ef0
 
 COCOAPODS: 1.8.4

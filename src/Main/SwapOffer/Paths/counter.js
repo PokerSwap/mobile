@@ -1,15 +1,13 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext} from 'react'
 
 import {View, Alert, TouchableOpacity} from 'react-native'
 import {Text, Card, Button, CardItem} from 'native-base'
 
 import {Context} from '../../../Store/appContext'
 
-export default IncomingPath = (props) => {
+export default CounterPath = (props) => {
 
   const {store, actions } = useContext(Context)
-
-const [counter, setCounter] = useState(false)
 
   const showAlert = (action, status) =>{
 
@@ -44,64 +42,21 @@ const [counter, setCounter] = useState(false)
     props.navigation.goBack()
   }
 
-  const counterSwitch = async() =>{
-    setCounter(!counter)
-  }
+
 
   return(
     <Card transparent style={{alignSelf:'center', width:'80%', justifyContent:'center'}}>
-      
-      <CardItem style={{ alignSelf:'center'}}>
-        {props.percentage == props.counter_percentage ?
-          <Text style={{fontSize:20, alignText:'center'}}>
-            {props.user_name} wants to swap {props.percentage}% between the both of you
-          </Text>
-          : 
+
+      {props.percentage == props.counter_percentage ?
+        <CardItem style={{ alignSelf:'center'}}>
+          <Text style={{fontSize:20, alignText:'center'}}>{props.user_name} wants to swap {props.percentage}% between the both of you</Text>
+        </CardItem>
+        : 
+        <CardItem>
           <Text style={{fontSize:20, alignText:'center'}}>
             {props.user_name} wants to swap {props.counter_percentage}% while you swap {props.percentage}%
-          </Text>}
-      </CardItem>
-
-      {store.myProfile.coins > 0 ?
-        counter == false ?
-          <View style={{ alignSelf:'center'}}>
-            <CardItem>
-              <Button success large
-                onPress={()=> showAlert('accept','agreed')}>
-                <Text> Accept Offer </Text>
-              </Button>
-            </CardItem>
-          
-            <CardItem>
-              <Button large warning onPress={()=> setCounter(!counter)}>
-                <Text> Counter Offer </Text>
-              </Button>
-            </CardItem>
-
-            <CardItem>
-              <Button>
-                <Text></Text>
-              </Button>
-            </CardItem>
-          </View>
-          :
-          <View>
-            <Button onPress={()=> setCounter(!counter)}>
-              <Text>Changeback</Text>
-            </Button>
-          </View>
-        :
-        <View>
-          <CardItem>
-            <Text style={{textAlign:'center', fontSize:20,}}> In order to accept or counter this swap, you need to purchase tokens.</Text>
-          </CardItem>
-        
-          <CardItem style={{justifyContent:'center'}}>
-            <Button large success onPress={() => props.navigation.navigate('PurchaseTokens')}>
-              <Text>Purchase Tokens</Text>
-            </Button>
-          </CardItem>
-        </View>
+          </Text>
+        </CardItem>
       }
 
       {/* <CardItem style={{justifyContent:'center'}}>

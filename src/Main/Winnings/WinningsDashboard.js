@@ -28,6 +28,7 @@ export default WinningsDashboard = (props) => {
   let aTracker = (e) => e.map((content, index) => {
     return(
       <WinningsTracker 
+      key={index}
           tournament={content.tournament}
           my_buyin={content.my_buyin}
           swaps={content.swaps}
@@ -36,7 +37,9 @@ export default WinningsDashboard = (props) => {
     )
   })
 
-  if( store.pastTrackers.length !== 0){
+  console.log('lwnght',store.pastTrackers.length)
+
+  if( store.pastTrackers.length !== 0 && store.pastTrackers.length !== undefined){
     
     var recentSwaps = store.pastTrackers.filter(
       tracker => moment().isBefore(moment(tracker.tournament.start_at).add(30, 'days')))    

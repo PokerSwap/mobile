@@ -47,7 +47,7 @@ const AuthStack = createStackNavigator(
       screen: SplashScreen, 
       navigationOptions: {
         title: 'Splash',
-        header: null
+        headerShown: false
       }
     },
 
@@ -55,7 +55,7 @@ const AuthStack = createStackNavigator(
       screen: LogInScreen,
       navigationOptions: {
         title: 'Log In',
-        header: null,
+        headerShown: false,
         gesturesEnabled: false,
       }
     },
@@ -103,7 +103,7 @@ const TournamentsStack = createStackNavigator(
       navigationOptions:{
         title:"TournamentDashboard",
         headerMode: 'none',
-        header: null,
+        headerShown: false,
         key:'A'
       }
     },
@@ -117,14 +117,14 @@ const TournamentsStack = createStackNavigator(
       screen: FlightSelection,
       navigationOptions: ({navigation}) => ({
         title:'Flight Selection',
-        headerLeft: <HeaderBackButton text='Back' onPress={() => navigation.goBack(null)} />,
+        headerLeft: () => <HeaderBackButton text='Back' onPress={() => navigation.goBack(null)} />,
       })
     },
     TourneyLobby:{
       screen: TourneyLobby,
       navigationOptions: ({navigation}) => ({
         title:'Tourney Lobby',
-        headerLeft: <HeaderBackButton onPress={() => navigation.popToTop()} />,
+        headerLeft: () => <HeaderBackButton onPress={() => navigation.popToTop()} />,
       })
     },
     SwapOffer:{
@@ -135,7 +135,7 @@ const TournamentsStack = createStackNavigator(
     },
   },{
     initialRouteName:'TournamentDashboard',
-    header: null
+    headerShown: false
   }
 )
 
@@ -146,19 +146,19 @@ const SwapsStack = createStackNavigator(
       screen: SwapDashboard,
       navigationOptions:{
         title:"Swap Dashboard",
-        header: null
+        headerShown: false
       }
     },
     SwapOffer:{
       screen: SwapOffer,
       navigationOptions: ({navigation}) => ({
         title:'Swap Offer',
-        headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)} />,
+        headerLeft: () => <HeaderBackButton onPress={() => navigation.goBack(null)} />,
       })
 
     }
   }, {
-    header: null,
+    headerShown: false,
   }
 )
 
@@ -168,18 +168,18 @@ const WinningsStack = createStackNavigator(
       screen: WinningsDashboard,
       navigationOptions:{
         title:"Winnings Dashboard",
-        header: null
+        headerShown: false
       }
     },
     SwapPot:{
       screen: SwapPot,
       navigationOptions: ({navigation}) => ({
         title:'Swap Pot',
-        headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)} />,
+        headerLeft: () => <HeaderBackButton onPress={() => navigation.goBack(null)} />,
       })
     }
   }, {
-    header: null,
+    headerShown: false
   }
 )
 
@@ -189,7 +189,7 @@ const MainStack = createBottomTabNavigator(
     Swaps: { 
       screen: SwapsStack,
       navigationOptions:{
-        header: null,
+        headerShown: false,
         title: "Swaps",
         tabBarIcon: ({ tintColor }) => 
           <Icon 
@@ -203,7 +203,7 @@ const MainStack = createBottomTabNavigator(
     Tournaments: { 
       screen: TournamentsStack,
       navigationOptions:{
-        header: null,
+        headerShown: false,
         tabBarIcon: ({ tintColor }) => 
           <Icon
             type="FontAwesome5"
@@ -215,7 +215,7 @@ const MainStack = createBottomTabNavigator(
     Winnings: { 
       screen: WinningsStack ,
       navigationOptions:{
-        header: null,
+        headerShown: false,
         tabBarIcon: ({ tintColor }) => 
           <Icon 
             type="FontAwesome5" 
@@ -246,29 +246,28 @@ const SettingsStack = createStackNavigator({
     screen: SettingsScreen,
     navigationOptions:{
       title:'Settings',
-      header:null
-
+      headerShown: false
     }
   },
   ChangeEmail:{
     screen: ChangeEmail,
     navigationOptions: ({navigation}) => ({
       title:'Change Email',
-      headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)} />,
+      headerLeft: () => <HeaderBackButton onPress={() => navigation.goBack(null)} />,
     })
   },
   ChangePassword:{
     screen: ChangePassword,
     navigationOptions: ({navigation}) => ({
       title:'Change Password',
-      headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)} />,
+      headerLeft: () => <HeaderBackButton onPress={() => navigation.goBack(null)} />,
     })
   },
   ChangePicture:{
     screen: ChangePicture,
     navigationOptions: ({navigation}) => ({
       title:'Change Picture',
-      headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)} />,
+      headerLeft: () => <HeaderBackButton onPress={() => navigation.goBack(null)} />,
     })
   },
 },
@@ -361,7 +360,7 @@ const AppStack = createStackNavigator(
         title:'Profile',
         header:<View style={{ height:20,backgroundColor:'blue' }} ></View>,
         headerMode:'float',
-        headerLeft: <HeaderBackButton onPress={() => navigation.goBack()} />,
+        headerLeft: () => <HeaderBackButton onPress={() => navigation.goBack()} />,
       })
     },
     WebView: {
@@ -369,21 +368,21 @@ const AppStack = createStackNavigator(
       navigationOptions: ({navigation}) => ({
         title:'WebView',
         headerMode:'screen',
-        headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)} />,
+        headerLeft: () => <HeaderBackButton onPress={() => navigation.goBack(null)} />,
       })
     },
     Tutorial: {
       screen: TutorialScreen,
       navigationOptions: ({navigation}) => ({
         title:'Tutorial',
-        headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)} />,
+        headerLeft: () => <HeaderBackButton onPress={() => navigation.goBack(null)} />,
       })
     }
 
   },
   {
     initialRouteName: "Auth",
-    header: null,
+    headerShown: false,
     headerMode: 'none'
   }
 )
