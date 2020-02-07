@@ -23,10 +23,11 @@ export default SplashScreen = (props) => {
 			var answer0 = await actions.userToken.store(data)
 			var answer555 = await actions.profile.get()
 
-			console.log('myProfile',answer555)
 
 			if( Object.keys(store.myProfile)[0] != 'msg'&& Object.keys(store.myProfile)[0] != 'message' && store.myProfile !== undefined){
 				var answer2 = await actions.user.auto_login(props.navigation)
+				console.log('myProfile',store.myProfile)
+
 			}else{
 				console.log('badToken')
 				AsyncStorage.removeItem('loginToken')

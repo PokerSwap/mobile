@@ -717,7 +717,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 						let trackerData = await response.json()
 						setStore({pastTrackers: trackerData})
-						console.log
+						console.log('pasttrackers', getStore().pastTrackers)
 						
 					}catch(error){
 						console.log('something went wrong in tracker.getCurrent', error)

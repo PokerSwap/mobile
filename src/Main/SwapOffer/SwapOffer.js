@@ -48,40 +48,6 @@ export default SwapOffer = (props) => {
     )
   }
 
-  // ADDING PERCENT TO SWAP - NO MORE THAN 50%
-  var add = () => {
-    if (percentage < 50){
-    setPercentage(percentage + 1)
-  }else{
-    setPercentage(50)
-    }
-  }
-
-  // SUBTRACTING PERCENT FROM SWAP - NO MORE THAN 50%
-  var subtract = () => {
-    if (percentage > 1){
-      setPercentage(percentage - 1)
-    }else{
-      setPercentage(1)
-    }
-  }
-
-var c_add = () => {
-  if (counter_percentage < 50){
-    setCounterPercentage(counter_percentage + 1)
-  }else{
-    setCounterPercentage(50)
-  }
-}
-
-var c_subtract = () => {
-  if (counter_percentage > 1){
-    setCounterPercentage(counter_percentage - 1)
-  }else{
-    setCounterPercentage(1)
-  }
-}
-
   let currentPath;
 
   // YOUR SWAP VIEW
@@ -102,9 +68,9 @@ var c_subtract = () => {
         user_id={user_id}
         tournament_id={tournament_id}
         percentage={percentage} setPercentage={setPercentage}
-        add={add} subtract={subtract} 
+        // add={add} subtract={subtract} 
         counter_percentage={counter_percentage} setCounterPercentage={setCounterPercentage}
-        c_add={c_add} c_subtract={c_subtract}
+        // c_add={c_add} c_subtract={c_subtract}
         action={action}
       />
   } 

@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, {useContext, useState} from 'react'
 
 import {View, Alert, TouchableOpacity} from 'react-native'
 import {Text, Card, Button, CardItem} from 'native-base'
@@ -9,15 +9,17 @@ export default CounterPath = (props) => {
 
   const {store, actions } = useContext(Context)
 
+  const [percentage, setPercentage] = useState(props.percentage)
+
   const showAlert = (action, status) =>{
 
     Alert.alert(
       "Confirmation",
-      'Are you want to ' + action + ' this swap?',
+      'Are you want to counter this swap?',
       [
         {
           text: 'Yes',
-          onPress: () => swapChange(status)
+          onPress: () => swapCounter()
         },
         {
           text: 'No',
@@ -27,14 +29,14 @@ export default CounterPath = (props) => {
     )
   }
 
-  const swapChange = async(x) => {
+  const swapCounter = async() => {
     var answer = await actions.swap.statusChange(
       props.tournament_id, 
       props.user_id,
       false,
       //status 
-      x,
-      props.percentage,
+      'sending',
+      percentage,
       props.counter_percentage
     )
     if(x=='agreed'){var answer2 = await actions.coin.spend()}
@@ -43,32 +45,44 @@ export default CounterPath = (props) => {
   }
 
 
+  // ADDING PERCENT TO SWAP - NO MORE THAN 50%
+  const add = (x) => {
+    if (x !== 'long'){
+      percentage < 50 ?
+        setPercentage(percentage + 1)
+        :
+        setPercentage(50)
+    } else{
+        setPercentage(percentage + 5)
+      
+    }
+
+    
+      
+  }
+
+  // SUBTRACTING PERCENT FROM SWAP - NO MORE THAN 50%
+  const subtract = (x) => {
+    if (percentage > 1){
+      setPercentage(percentage - 1)
+    }else{
+      setPercentage(1)
+    }
+  }
 
   return(
     <Card transparent style={{alignSelf:'center', width:'80%', justifyContent:'center'}}>
 
-      {props.percentage == props.counter_percentage ?
-        <CardItem style={{ alignSelf:'center'}}>
-          <Text style={{fontSize:20, alignText:'center'}}>{props.user_name} wants to swap {props.percentage}% between the both of you</Text>
-        </CardItem>
-        : 
-        <CardItem>
-          <Text style={{fontSize:20, alignText:'center'}}>
-            {props.user_name} wants to swap {props.counter_percentage}% while you swap {props.percentage}%
-          </Text>
-        </CardItem>
-      }
-
-      {/* <CardItem style={{justifyContent:'center'}}>
-        <TouchableOpacity onPress={()=> props.subtract()}>
+      <CardItem style={{justifyContent:'center'}}>
+        <TouchableOpacity onPress={()=> subtract()} >
           <View style={{width:100, height:100, borderRadius: 5, backgroundColor:'blue'}}>
             <Text style={{fontSize:36, color:'white', textAlign:'center'}}>-</Text>
           </View>
         </TouchableOpacity>
 
-        <Text style={{fontSize:36, marginHorizontal:10}}> {props.percentage}% </Text>
+        <Text style={{fontSize:36, marginHorizontal:10}}> {percentage}% </Text>
 
-        <TouchableOpacity onPress={()=> props.add()}>
+        <TouchableOpacity onPress={()=> add('short')} >
           <View style={{width:100, height:100, borderRadius: 5, backgroundColor:'blue'}}>
             <Text style={{fontSize:36, color:'white', textAlign:'center'}}>+</Text>
           </View>
@@ -76,7 +90,7 @@ export default CounterPath = (props) => {
 
       </CardItem>
 
-      <CardItem style={{justifyContent:'center'}}>
+      {/* <CardItem style={{justifyContent:'center'}}>
             <TouchableOpacity onPress={()=> props.c_subtract()}>
               <View style={{width:100, height:100, borderRadius: 5, backgroundColor:'blue'}}>
                 <Text style={{fontSize:36, color:'white', textAlign:'center'}}>-</Text>
@@ -91,13 +105,23 @@ export default CounterPath = (props) => {
               </View>
             </TouchableOpacity>
 
-          </CardItem> */}
 
-      <CardItem style={{ alignSelf:'center'}}>
-        <Button large danger onPress={()=> showAlert('reject','rejected')}>
-          <Text> Reject Swap </Text>
-        </Button>
-      </CardItem>
+
+          </CardItem>  */}
+
+        <CardItem>
+          <Button large success 
+            onPress={()=> console.log('lol')}>
+            <Text> SEND SWAP </Text>
+          </Button>
+        </CardItem>
+
+        <CardItem>
+          <Button large info 
+            onPress={()=> props.setCounter(!props.counter)}>
+            <Text>Go Back</Text>
+          </Button>
+        </CardItem>
 
     </Card>
   )

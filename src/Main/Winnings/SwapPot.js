@@ -15,14 +15,6 @@ export default SwapPot = (props) => {
   let my_buyin = navigation.getParam('my_buyin', 'NO-ID')
   
 
-  // var aTracker;
-
-  // if( != 0){
-  //   aTracker= 
-  // }else{
-  //   aTracker=<ListItem><Text>You did not </Text></ListItem>
-  // }
-
   return(
     <Container>
       <Content>
@@ -33,6 +25,7 @@ export default SwapPot = (props) => {
               {swaps.map((content, index) => {
                 return(
                 <PotTracker
+                  key={index}
                   swap={content.swap}
                 />
               )})}

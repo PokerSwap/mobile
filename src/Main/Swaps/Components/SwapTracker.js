@@ -11,9 +11,13 @@ export default SwapTracker = (props) => {
 
   const {store, actions} = useContext(Context)
 
+  let test = props.swaps.map(swap => swap.buyin.user_id)
+  console.log('test',test)
+  console.log('endResult')
+
   let other_swaps = props.swaps.map((content, index) => 
     <BuyIn
-      key = {content.buyin.id}      
+      key = {index}      
       navigation = {props.navigation}
       buyin_id = {content.buyin.id}      
       user_id = {content.buyin.user_id}
