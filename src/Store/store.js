@@ -409,7 +409,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 
 						let profileData = await response.json()
-
+						console.log('progile data', profileData)
 						profileData !== 'User not found' ?	
 							getActions().profile.store(profileData)
 							:
@@ -607,7 +607,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 						setStore({tournaments: null})
 
 						var base_url ='https://swapprofit-test.herokuapp.com/tournaments/all?asc=true&limit=8&page=1'
-						console.log('key1', key1)
 						var full_url
 						key1 !== undefined ?
 							key2 !== undefined ?
@@ -617,7 +616,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							:
 							full_url = base_url
 
-						// console.log('full url', full_url)
+						console.log('full url', full_url)
 						const accessToken = getStore().userToken.jwt ;
 						
 						let response = await fetch(full_url, {
@@ -639,7 +638,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				getMore: async ( page, key1, value1, key2, value2 ) => {
 
 					try{
-						var base_url = 'https://swapprofit-test.herokuapp.com/tournaments/all?page='
+						var base_url = 'https://swapprofit-test.herokuapp.com/tournaments/all?asc=true&limit=8&page='
 						
 						var full_url
 						key1 !== undefined ?
@@ -648,7 +647,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 								:
 								full_url = base_url + page + '&' + key1 + '=' + value1
 							:
-							full_url = base_url
+							full_url = base_url + page
 
 						console.log('full updated url', full_url)
 						const accessToken = getStore().userToken.jwt ;

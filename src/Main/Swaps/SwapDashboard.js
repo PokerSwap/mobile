@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react';
 import {RefreshControl, StatusBar, Text} from 'react-native';
 import { Container, Content, List, ListItem, Separator, Button } from 'native-base';
-import _Header from '../../View-Components/HomeHeader'
+import HomeHeader from '../../View-Components/HomeHeader'
 import { Context } from '../../Store/appContext'
 import SwapTracker from './Components/SwapTracker';
 import moment from 'moment'
@@ -72,7 +72,7 @@ export default SwapDashboard = (props) => {
   return(
     <Container>
 
-      <_Header title={'Swap Dashboard'}  
+      <HomeHeader title={'Swap Dashboard'}  
         drawer={() => props.navigation.toggleDrawer()}
         tutorial={() => props.navigation.push('Tutorial')}
         />
