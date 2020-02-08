@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import { Container, Content, List, Separator, Text, ListItem } from 'native-base';
-import _Header from '../../View-Components/HomeHeader'
+import HomeHeader from '../../View-Components/HomeHeader'
 import { Context } from '../../Store/appContext'
 import WinningsTracker from './Components/WinningsTracker'
 
@@ -58,7 +58,7 @@ export default WinningsDashboard = (props) => {
 
   return(
     <Container>
-      <_Header title={'Winnings Dashboard'} 
+      <HomeHeader title={'Winnings Dashboard'} 
       drawer={() => props.navigation.toggleDrawer()}
       tutorial={() => props.navigation.push('Tutorial')}
       />

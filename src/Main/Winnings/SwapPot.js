@@ -9,11 +9,17 @@ export default SwapPot = (props) => {
 
   const {store, actions} = useContext(Context)
 
+
   const { navigation } = props;
   let tournament = navigation.getParam('tournament', 'NO-ID');
   let swaps = navigation.getParam('swaps', 'NO-ID')
   let my_buyin = navigation.getParam('my_buyin', 'NO-ID')
   
+  var start = 0
+  var hey = swaps.forEach(swap => 
+    start += (100*(swap.swap.percentage/100))-(0*(swap.swap.percentage/100))
+    )
+    var final = start.toFixed(2)
 
   return(
     <Container>
@@ -27,10 +33,12 @@ export default SwapPot = (props) => {
                 <PotTracker
                   key={index}
                   swap={content.swap}
+                  yourPayOut={0.00}
+                  theirPayOut={100.00}
                 />
               )})}
           <ListItem>
-            <Text>Your final profits are: </Text>
+            <Text>Your final profits are: ${final}</Text>
           </ListItem>
         </List>
       </Content>
