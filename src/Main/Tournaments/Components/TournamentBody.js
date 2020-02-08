@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { View } from 'react-native';
 import { ListItem, Text, Icon } from 'native-base';
+import { getDistance, convertDistance } from 'geolib';
 
 import { Context } from '../../../Store/appContext';
 import { Col } from 'react-native-easy-grid'
@@ -56,28 +57,57 @@ export default TournamentBody = (props) => {
 
   var month = props.start_at.substring(8,11)
   var day = props.start_at.substring(5,7)
+  var year = props.start_at.substring(12,20)
   var day_name = props.start_at.substring(0,3)
+
+ var city = props.city
+ var faraway = getDistance(
+   props.myCoords,
+   {latitude: props.latitude, longitude:props.longitude}
+ )
+ var distance = convertDistance(faraway, 'mi').toFixed(1)
+
+  var renderedItem 
+  if(props.mode=='byDate' || props.mode=='byName'){
+    renderedItem = null
+  }else if(props.mode=='byZip'){
+    renderedItem = <Text style={{fontWeight:"600", fontSize:12, 
+    color:textColor, marginTop:5}}>{city}</Text>
+  }else if(props.mode=='byLocation'){
+    renderedItem=<Text style={{fontWeight:"600", fontSize:12, 
+    color:textColor, marginTop:5}}>{distance} miles</Text>
+  }else{
+    console.log('somethign went wrong')
+  }
+
 
   return(
     <ListItem noIndent 
       style={{backgroundColor: bgColor, flexGrow:1, flexDirection:'row', justifyContent:'space-between'}}
-      onPress={()=> enterTournament()} 
-    >
+      onPress={()=> enterTournament()}>
       
       {/* TOURNAMENT DATE */}
       <Col style={{width:'28%', alignItems:'center'}}>
 
         {/* TOURNAMENT DATE BOX */}
-        <View  
-          style={{
-            backgroundColor: bgColor,
-            borderColor:buttonColor, borderRadius: borderWidths, alignContent:'center',
-            flexDirection:"column", flex:0, justifyContent:"center", width:85, height:85
-          }}
-        >
+        <View style={{backgroundColor: bgColor, borderColor:buttonColor, 
+          borderRadius: borderWidths, alignContent:'center',
+          flexDirection:"column", flex:0, justifyContent:"center", 
+          width:85, height:85}}>
+
           {/* TOURNAMENT START DATE*/}
-          <Text style={{fontWeight:"600", fontSize:24, color:textColor}}>{month} {day}</Text>
-          <Text style={{fontWeight:"600", fontSize:12, color:textColor, marginTop:5}}>{day_name}</Text>
+          <Text style={{fontWeight:"600", fontSize:24, color:textColor}}>
+            {month} {day}
+          </Text>
+          <Text style={{fontWeight:"600", fontSize:12, 
+            color:textColor, marginTop:5}}>
+            {day_name} {year}
+          </Text>
+
+          {/* TOURNAMENT ADDRESS */}
+        
+          {renderedItem}
+
         </View>        
     
       </Col>
@@ -86,22 +116,13 @@ export default TournamentBody = (props) => {
       <Col style={{width: '62%'}}>
 
         {/* TOURNAMENT TITLE */}
-        <Text 
-          style={{color:textColor, 
-          alignContent:'center',
-          textAlign:'center',
-          fontSize:20, fontWeight:'600'}}> 
+        <Text style={{color:textColor, alignContent:'center',
+          textAlign:'center', fontSize:20, fontWeight:'600'}}> 
           {props.name}
         </Text>
 
-        {/* TOURNAMENT ADDRESS */}
-        <Text 
-          style={{color:textColor, 
-          alignSelf:"flex-start",
-          fontSize:16, fontWeight:'400'}}> 
-          {/* {props.address} */}
-        </Text>
-      
+        
+       
       </Col>
       
       {/* RIGHT ARROW NAVIGATION */}
