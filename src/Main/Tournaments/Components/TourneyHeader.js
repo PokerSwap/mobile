@@ -48,10 +48,10 @@ export default  TourneyHeader = (props) => {
         </View>
       </CardItem>
       <CardItem style={{justifyContent:'center'}}>
-        {/* <View>
+        <View>
           <Text style={{textAlign:'center'}}>Begins on:</Text>
           <Text style={{fontSize:24, textAlign:'center'}}>{startDayName}. {startMonth} {startDay}</Text>
-        </View> */}
+        </View>
         <View >
         </View>
       </CardItem>

@@ -99,12 +99,18 @@ export default BuyIn = (props) => {
     var answer = await actions.tournament.getAction()
     navigation.push('SwapOffer',{
       status: path,
-
+      swap_id: props.swap_id,
       flight_id: props.flight_id,
       user_id: props.user_id,
       user_name: props.user_name,
+
       tournament_id: props.tournament_id,
       tournament_name: props.tournament_name,
+      address: props.address,
+      city: props.city,
+      state: props.state,
+      start_at: props.start_at,
+
       buyin_id: props.buyin_id,
       table: props.table,
       seat: props.seat,

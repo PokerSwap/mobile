@@ -9,11 +9,11 @@ export default InactivePath = (props) => {
 
   const {store, actions} = useContext(Context)
   
-  const showAlert = (actione) =>{
+  const showAlert = (action) =>{
 
     Alert.alert(
       "Confirmation",
-      'Are you want to ' + actione + ' this swap?',
+      'Are you want to ' + action + ' this swap?',
       [
         {
           text: 'Yes',
@@ -29,13 +29,10 @@ export default InactivePath = (props) => {
 
   const swapStart = async() => {
     var answer1 = await actions.swap.add(props.tournament_id, props.user_id, props.percentage);
-    var answer2 = await actions.coin.spend(1)
     var answer3 = await actions.tracker.getAll()
     var answer4 = await actions.profile.get()
     props.navigation.goBack()
   }
-
-  console.log(props.action)
 
   return(
     <Card>

@@ -24,15 +24,14 @@ export default IncomingPath = (props) => {
 
       {counter == false ?
         <OfferPath 
-          user_name={props.user_name} user_id={props.user_id} 
-          tournament_id={props.tournament_id} navigation={props.navigation}
+          navigation={props.navigation}
           percentage={props.percentage} counter_percentage={props.counter_percentage}
           counter={counter} setCounter={setCounter}
+          swap_id={props.swap_id}
         />
         :
         <CounterPath 
-          user_name={props.user_name} user_id={props.user_id} 
-          tournament_id={props.tournament_id} navigation={props.navigation}
+          navigation={props.navigation} swap_id={props.swap_id}
           percentage={props.percentage} counter_percentage={props.counter_percentage}
           counter={counter} setCounter={setCounter}
         />

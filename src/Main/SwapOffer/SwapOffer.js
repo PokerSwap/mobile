@@ -30,21 +30,21 @@ export default SwapOffer = (props) => {
   let user_name = navigation.getParam('user_name', 'default value');
   let user_id = navigation.getParam('user_id', 'default value');
   let buyin_id = navigation.getParam('buyin_id', 'default value');
+  let swap_id =  navigation.getParam('swap_id', 'default value');
   let flight_id = navigation.getParam('flight_id', 'default value');
+  
   let tournament_name = navigation.getParam('tournament_name', 'default value');
   let tournament_id = navigation.getParam('tournament_id', 'default value');
-  let address = navigation.getParam('tournament_id', 'default value');
+  let address = navigation.getParam('address', 'default value');
+  let city = navigation.getParam('city', 'default value');
+  let state = navigation.getParam('state', 'default value');
   let start_at = navigation.getParam('start_at', 'default value');
   let action = navigation.getParam('action', 'default value');
 
 
-
   var swapAdd = async() => {
     var answer = await actions.swap.add(
-      tournament_id, 
-      user_id, 
-      percentage,
-      props.navigation
+      tournament_id, user_id, percentage, props.navigation
     )
   }
 
@@ -63,49 +63,31 @@ export default SwapOffer = (props) => {
   else if (status=='incoming'){
     currentPath = 
       <IncomingPath 
-        navigation={props.navigation} 
-        user_name={user_name} 
-        user_id={user_id}
-        tournament_id={tournament_id}
+        navigation={props.navigation} swap_id={swap_id}
+        user_name={user_name} user_id={user_id}
         percentage={percentage} setPercentage={setPercentage}
-        // add={add} subtract={subtract} 
-        counter_percentage={counter_percentage} setCounterPercentage={setCounterPercentage}
-        // c_add={c_add} c_subtract={c_subtract}
-        action={action}
-      />
+        counter_percentage={counter_percentage} setCounterPercentage={setCounterPercentage}/>
   } 
   // PENDING SWAP VIEW
   else if (status=='pending'){
     currentPath = 
       <PendingPath 
-        navigation={props.navigation} 
-        user_name={user_name}
-        user_id={user_id}
-        tournament_id={tournament_id}
-        percentage={percentage}
-        counter_percentage={counter_percentage}
-      />
+        navigation={props.navigation} user_name={user_name} swap_id={swap_id}
+        percentage={percentage} counter_percentage={counter_percentage}/>
   } 
   // AGREED SWAP VIEW
   else if (status=='agreed'){
     currentPath = 
       <AgreedPath 
-        navigation={props.navigation} 
-        user_name={user_name}
-        user_id={user_id}
-        percentage={percentage} setPercentage={setPercentage}
-        counter_percentage={counter_percentage}
-      />
+        navigation={props.navigation} user_name={user_name}
+        percentage={percentage} counter_percentage={counter_percentage} />
   }
   // REJECTED SWAP VIEW 
   else if (status=='rejected'){
     currentPath = 
       <RejectedPath 
-        navigation={props.navigation} 
-        user_name={user_name}
-        percentage={percentage} 
-        counter_percentage={counter_percentage}
-      />
+        navigation={props.navigation} user_name={user_name}
+        percentage={percentage} counter_percentage={counter_percentage}/>
   }
   // CANCELED SWAP VIEW 
   else if (status=='canceled'){
@@ -124,32 +106,31 @@ export default SwapOffer = (props) => {
         navigation={props.navigation} user_name={user_name}
         tournament_id={tournament_id} user_id={user_id}
         percentage={percentage} setPercentage={setPercentage}
-        add={add} subtract={subtract} 
-        swapAdd={swapAdd}
+        add={add} subtract={subtract} swapAdd={swapAdd}
       />
   }
 
   return(
     <Container>
       
-      {/* <Header style={{
-        justifyContent:'flex-start', 
-        alignItems:'center', 
-        backgroundColor:'rgb(56,68,165)'}}
-      /> */}
       <Content>
+        <Card transparent>
+        <TourneyHeader 
+            name={tournament_name}
+            address={address} city={city} state={state}
+            start_at={start_at} 
+          />
+        </Card>
         <Card transparent style={{ justifyContent:'center'}}>
           <CardItem style={{justifyContent:'center'}}>
-            <Text style={{textAlign:'center', fontWeight:'600'}}>SELECTED BUY-IN:</Text>
+            <Text style={{textAlign:'center', fontWeight:'600'}}>
+              SELECTED BUY-IN:
+            </Text>
           </CardItem>
         </Card>
         {/* HEADER */}
         <Card  style={{alignSelf:'center', width:'80%', paddingVertical:5}}>
-          {/* <TourneyHeader 
-            id={tournament_id} tournament_name={tournament_name}
-            address={address}
-            start_at={start_at} 
-          /> */}
+          
           <CardItem>
             <Grid>
               <Row style={{justifyContent:'center', marginBottom:10}}><Text style={{textAlign:'center', fontSize:30}}>{user_name}</Text></Row>

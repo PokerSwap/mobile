@@ -11,7 +11,7 @@ export default CounterPath = (props) => {
 
   const [percentage, setPercentage] = useState(props.percentage)
 
-  const showAlert = (action, status) =>{
+  const showAlert = () =>{
 
     Alert.alert(
       "Confirmation",
@@ -31,43 +31,28 @@ export default CounterPath = (props) => {
 
   const swapCounter = async() => {
     var answer = await actions.swap.statusChange(
-      props.tournament_id, 
-      props.user_id,
-      false,
-      //status 
-      'sending',
-      percentage,
-      props.counter_percentage
+      'pending',percentage
     )
-    if(x=='agreed'){var answer2 = await actions.coin.spend()}
     var answer3 = await actions.tracker.getAll()
     props.navigation.goBack()
   }
 
 
   // ADDING PERCENT TO SWAP - NO MORE THAN 50%
-  const add = (x) => {
-    if (x !== 'long'){
-      percentage < 50 ?
-        setPercentage(percentage + 1)
-        :
-        setPercentage(50)
-    } else{
-        setPercentage(percentage + 5)
-      
-    }
-
+  const add = () => {
+    percentage < 50 ?
+      setPercentage(percentage + 1)
+      :
+      setPercentage(50)
     
-      
   }
 
   // SUBTRACTING PERCENT FROM SWAP - NO MORE THAN 50%
-  const subtract = (x) => {
-    if (percentage > 1){
+  const subtract = () => {
+    percentage > 1 ?
       setPercentage(percentage - 1)
-    }else{
+      :
       setPercentage(1)
-    }
   }
 
   return(
@@ -82,7 +67,7 @@ export default CounterPath = (props) => {
 
         <Text style={{fontSize:36, marginHorizontal:10}}> {percentage}% </Text>
 
-        <TouchableOpacity onPress={()=> add('short')} >
+        <TouchableOpacity onPress={()=> add()} >
           <View style={{width:100, height:100, borderRadius: 5, backgroundColor:'blue'}}>
             <Text style={{fontSize:36, color:'white', textAlign:'center'}}>+</Text>
           </View>
@@ -90,28 +75,9 @@ export default CounterPath = (props) => {
 
       </CardItem>
 
-      {/* <CardItem style={{justifyContent:'center'}}>
-            <TouchableOpacity onPress={()=> props.c_subtract()}>
-              <View style={{width:100, height:100, borderRadius: 5, backgroundColor:'blue'}}>
-                <Text style={{fontSize:36, color:'white', textAlign:'center'}}>-</Text>
-              </View>
-            </TouchableOpacity>
-
-            <Text style={{fontSize:36, marginHorizontal:10}}> {props.counter_percentage}% </Text>
-
-            <TouchableOpacity onPress={()=> props.c_add()}>
-              <View style={{width:100, height:100, borderRadius: 5, backgroundColor:'blue'}}>
-                <Text style={{fontSize:36, color:'white', textAlign:'center'}}>+</Text>
-              </View>
-            </TouchableOpacity>
-
-
-
-          </CardItem>  */}
-
         <CardItem>
           <Button large success 
-            onPress={()=> console.log('lol')}>
+            onPress={()=> showAlert()}>
             <Text> SEND SWAP </Text>
           </Button>
         </CardItem>

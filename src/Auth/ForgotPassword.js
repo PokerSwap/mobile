@@ -1,5 +1,6 @@
 import React, {useState, useContext} from 'react';
-import {Button , Text, Container, Content, Item, Input} from 'native-base';
+import { TextInput } from 'react-native'
+import {Button , Text, Container, Content, Card, CardItem} from 'native-base';
 
 import {Context} from '../Store/appContext'
 
@@ -13,38 +14,47 @@ export default ForgotPassword = (props) => {
 	
 	const forgotStart = async() => {
 		var answer = await actions.user.forgotPassword(email)
-		if(true){
-			Toast.show({
-				text:'rightEmail',
-				duration:3000})
-		} else{
-			Toast.show({
-				text:'wrongEmail',
-				duration:3000})}
 	}
 
 	return(
-		<Container>
-			<StatusBar barStyle="light-content" />
-				<Content contentContainerStyle={{justifyContent:'center'}}>
-	
-					<Text>Enter the email address associated with your account:</Text>
-					
-					<Item>
-						<Input 
-							placeholder='Email'
-							value={email}
-							onChangeText={a_email => setEmail(a_email)}
-							autoCorrect={false}         
-						/>
-					</Item>
-
-					<Button large onPress={() => forgotPassword()}> 
-						<Text> Send </Text> 
+		<Container style={{justifyContent:'center'}}>
+		<Content contentContainerStyle={{justifyContent:'center', alignSelf:'center'}}>
+			<Card transparent 
+				style={{alignSelf:'center', justifyContent:'center', marginTop:160}} >
+				<CardItem style={{flex:1, flexDirection:'column'}}>
+					<Text style={{textAlign:'center'}}>
+						Enter Your Email:
+					</Text>
+					<TextInput 
+						style={{fontSize:24, textAlign:'center', width:'100%'}}
+						placeholder="Enter Current Email"
+						placeholderTextColor='gray'
+						keyboardType="email-address"
+						blurOnSubmit={true}
+						selectionColor={'black'}
+						returnKeyType="next"
+						autoCapitalize='none'
+						autoCorrect={false} 
+						onSubmitEditing={() => { txtCurrentPassword2.focus(); }}
+						value={email}    
+						onChangeText={emailX => setEmail( emailX )}
+					/>
+				</CardItem>
+				
+				<CardItem style={{justifyContent:'center'}}>
+					<Button large 
+					style={{marginTop:40, justifyContent:'center'}}
+						onPress={()=> forgotStart()}>
+						<Text 
+						style={{fontSize:30, fontWeight:'600'}}> 
+							SUBMIT 
+						</Text>
 					</Button>
+				</CardItem>
 
-				</Content>
-		</Container>
+			</Card>
+		</Content>  
+	</Container>
 	)
 }
 

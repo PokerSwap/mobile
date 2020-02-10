@@ -25,6 +25,7 @@ export default SwapTracker = (props) => {
       chips = {content.buyin.chips}
       flight_id = {content.buyin.flight_id}
 
+      swap_id = {content.swap.id}
       status = {content.swap.status}
       percentage = {content.swap.percentage}
       counter_percentage= {content.swap.counter_percentage}
@@ -32,6 +33,9 @@ export default SwapTracker = (props) => {
 
       tournament_name={props.tournament.name}
       tournament_id={props.tournament.id}
+      address={props.tournament.address}
+      city={props.tournament.city}
+      state={props.tournament.state}
       start_at={props.tournament.start_at}
 
     />
@@ -80,7 +84,11 @@ export default SwapTracker = (props) => {
         seat = {props.my_buyin.seat}
         chips = {props.my_buyin.chips}
         tournament_name={props.tournament.name}
+        address={props.tournament.address}
+        city={props.tournament.city}
+        state={props.tournament.state}
         updated_at={props.my_buyin.updated_at}
+        start_at={props.tournament.start_at}
         // flight_id = {props.flight_id}
       />
 

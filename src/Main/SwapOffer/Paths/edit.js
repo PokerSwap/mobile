@@ -18,10 +18,7 @@ export default EditPath = (props) => {
 
   const buyinEdit = async() => {
     var answer = await actions.buy_in.edit(
-      props.buyin_id,
-      newTable,
-      newSeat,
-      newChips
+      props.buyin_id, newTable, newSeat, newChips
     )
     props.navigation.goBack()
   }

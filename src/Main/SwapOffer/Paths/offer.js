@@ -1,7 +1,6 @@
-import React, {useContext, useState} from 'react'
-
-import {View, Alert, TouchableOpacity} from 'react-native'
-import {Text, Card, Button, CardItem} from 'native-base'
+import React, {useContext} from 'react'
+import {View, Alert } from 'react-native'
+import { Text, Card, Button, CardItem } from 'native-base'
 
 import {Context} from '../../../Store/appContext'
 
@@ -30,13 +29,8 @@ export default OfferPath = (props) => {
 
   const swapChange = async(status) => {
     var answer = await actions.swap.statusChange(
-      props.tournament_id, 
-      props.user_id,
-      false,
-      //status 
+      props.swap_id,
       status,
-      props.percentage,
-      props.counter_percentage
     )
     if(status=='agreed'){var answer2 = await actions.coin.spend()}
     var answer3 = await actions.tracker.getAll()
@@ -57,13 +51,15 @@ export default OfferPath = (props) => {
           </CardItem>
         
           <CardItem>
-            <Button large warning onPress={()=> props.setCounter(!props.counter)}>
+            <Button large warning 
+              onPress={()=> props.setCounter(!props.counter)}>
               <Text> Counter Offer </Text>
             </Button>
           </CardItem>
 
           <CardItem style={{ alignSelf:'center'}}>
-            <Button large danger onPress={()=> showAlert('reject','rejected')}>
+            <Button large danger 
+              onPress={()=> showAlert('reject','rejected')}>
               <Text> Reject Swap </Text>
             </Button>
           </CardItem>

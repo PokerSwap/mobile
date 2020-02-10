@@ -9,11 +9,7 @@ export default  ProfileReview = (props) => {
 
 	let createProfile = async() => {
 		var answer = await actions.profile.add(
-			props.username,
-			props.first_name,
-			props.last_name,
-			props.hendon,
-			props.picture
+			props.username, props.first_name, props.last_name, props.hendon, props.picture
 		)
 		.then(() => actions.profile.get())
 		.then(() => actions.tracker.getAll())
@@ -22,7 +18,6 @@ export default  ProfileReview = (props) => {
 		.then(()=> actions.coin.buy(0,5))
 		.then(()=> props.navigation.navigate('Swaps'))
 	}
-
 
 	return(
 		<Card style={{flexDirection:'column'}}>
@@ -36,15 +31,18 @@ export default  ProfileReview = (props) => {
 				<Text> {props.first_name} "{props.username}" {props.last_name}</Text>
 			</CardItem>
 
-			<CardItem transparent style={{flexDirection:'column',marginVertical:10}}>		
-				<Text style={{fontSize:20,fontWeight:'600'}}>Hendon URL:</Text>
+			<CardItem transparent 
+				style={{flexDirection:'column',marginVertical:10}}>		
+				<Text style={{fontSize:20,fontWeight:'600'}}>
+					Hendon URL:
+				</Text>
 				<Text>{props.hendon}</Text>
 			</CardItem>
 
 			<CardItem transparent style={{justifyContent:'space-around'}}>		
 						
 				<Button light onPress={() => props.prev()}>
-					<Text>Go back</Text>
+					<Text>Go Back</Text>
 				</Button>
 					
 				<Button success large onPress={()=> createProfile()}>

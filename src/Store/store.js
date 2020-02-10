@@ -498,9 +498,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 				counter: async () => {},
 
-				statusChange: async ( a_tournament_id, a_recipient_id, is_paid, a_status, a_percentage, a_counter_percentage ) => {
+				statusChange: async ( my_swap_id, a_tournament_id, a_recipient_id, is_paid, a_status, a_percentage, a_counter_percentage ) => {
 					try{
-						const url = 'https://swapprofit-test.herokuapp.com/me/swaps'
+						const url = 'https://swapprofit-test.herokuapp.com/me/swaps' + my_swap_id
 						let accessToken = getStore().userToken.jwt
 
 						let data = {
