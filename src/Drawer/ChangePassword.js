@@ -9,7 +9,6 @@ import '../Images/placeholder.jpg';
 export default ChangePassword = (props) => {
 
   const { store, actions } = useContext(Context)
-  const { navigation } = props;
 
   const [currentEmail, setCurrentEmail] = useState('')
   const [currentPassword, setCurrentPassword] = useState('')
@@ -43,10 +42,10 @@ export default ChangePassword = (props) => {
 
   const changePassword = async() => {
     if (newPassword == confirmPassword ){
-      var answer = await actions.user.changePassword(currentEmail, currentPassword, newPassword)
+      var answer = await actions.user.changePassword(currentEmail, currentPassword, newPassword, props.navigation)
     } else {
       Toast.show({
-        text:'Password Change Failed. \n Make sure both new password and confirm password are the same',
+        text:'Password Change Failed. Make sure both new password and confirm password are the same',
         position:'top',
         duration:3000
       })

@@ -44,16 +44,6 @@ const androidConfig = {
   // enable persistence by adding the below flag
   persistence: true,
 };
- 
-// const SwapProfitApp = firebase
-//   .initializeApp(
-//     // use platform-specific firebase config
-//     Platform.OS === 'ios' ? iosConfig : androidConfig,
-//     // name of this app
-//     // 'SwapProfitApp'
-//   )
-//   .then(app => console.log('initialized apps ->', firebase.apps));
-
 
 if (!firebase.apps.length) {
   try {

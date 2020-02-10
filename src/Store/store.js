@@ -522,6 +522,15 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 						.then(response => response.json())
 						console.log('statuschamge',response)
+						getActions().tournament.getInitial()
+						getActions().tracker.getCurrent()
+						return(
+							Toast.show({
+								text:'You swapped with XX',
+								duration:3000,
+								position:'top'
+							})
+						)
 
 					}
 					catch(error){
@@ -839,7 +848,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					
 				},
 
-				changePassword: async( myEmail, myPassword, myNewPassword ) => {
+				changePassword: async( myEmail, myPassword, myNewPassword, navigation ) => {
 					try {
 						let data = {
 							email: myEmail,
@@ -861,12 +870,12 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 						.then(response => response.json())
 						console.log('change password', response)
-						return(Toast.show({
+						Toast.show({
 							text:response.message,
 							position:'top',
 							duration:3000,
-
-						}))
+						})
+						return(navigation.navigate('LogIn'))
 					}catch(error){
 						console.log('Something went wrong with changing password', error)
 						return(Toast.show({

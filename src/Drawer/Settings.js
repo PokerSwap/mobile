@@ -26,7 +26,10 @@ export default SettingsScreen = (props) => {
           </ListItem>
 
           <ListItem noIndent 
-            onPress={()=> props.navigation.navigate('ChangePassword')}>
+            onPress={()=> props.navigation.push('ChangePassword', {
+              navigation: props.navigation
+            }
+            )}>
             <Text> Change Password </Text>
           </ListItem>
           

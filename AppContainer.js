@@ -33,6 +33,7 @@ import TutorialScreen from './src/Main/Shared/Tutorial'
 
 
 // DRAWER VIEWS
+import FAQScreen from './src/Drawer/FAQ'
 import SideBar from './src/View-Components/sidebar'
 import SettingsScreen from './src/Drawer/Settings'
 import NotificationsScreen from './src/Drawer/Notifications'
@@ -335,7 +336,19 @@ const DrawerNav = createDrawerNavigator(
         />
         ),
       }
-    }
+    },
+    // FAQs:{
+    //   screen: FAQScreen,
+    //   navigationOptions: {
+    //     title: 'FAQs',
+    //     drawerIcon: ({ focused }) => (
+    //     <Icon 
+    //       type="FontAwesome5" name="wqq" size={24} 
+    //       color={focused ? 'blue' : 'black'} 
+    //     />
+    //     ),
+    //   }
+    // }
   },
   {
     initialRouteName: 'Home',
