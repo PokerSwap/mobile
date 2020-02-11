@@ -32,7 +32,7 @@ export default ActionBar = (props) => {
             {!store.action ? 
               <Spinner/> 
               : 
-              <Text style={{color:'white'}}>Action: {store.action.actions}%</Text>}
+              <Text style={{color:'clue'}}>Action: {store.action.actions}%</Text>}
           </Button>
         </Col>
 

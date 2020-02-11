@@ -1,6 +1,7 @@
-import React, {useEffect, useContext} from 'react';
+import React, { useContext} from 'react';
+import {Container, Content, List, ListItem, Header } from 'native-base';
+import { createStackNavigator, HeaderBackButton } from "react-navigation-stack";
 
-import {Container, Content, List, ListItem } from 'native-base';
 
 import ActionBar from './Components/ActionBar'
 import TourneyHeader from './Components/TourneyHeader'
@@ -23,6 +24,8 @@ export default TourneyLobby = (props) => {
   let flights = navigation.getParam('flights', 'NO-ID');
   let buy_ins = navigation.getParam('buy_ins', 'NO-ID');
   let swaps = navigation.getParam('swaps', 'NO-ID');
+  let previousScreen = navigation.getParam('previousScreen', 'NO-ID');
+
 
   const {store,actions} = useContext(Context)
 
@@ -54,6 +57,11 @@ export default TourneyLobby = (props) => {
 
   return(
     <Container>
+      <Header>
+        <HeaderBackButton onPress={() => navigation.goBack(previousScreen)}/>
+
+      </Header>
+      
       <Content>
         <List>
           {/* TOURNAMENT HEADER */}

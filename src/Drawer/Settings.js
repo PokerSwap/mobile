@@ -6,8 +6,6 @@ import {Context } from '../Store/appContext'
 
 export default SettingsScreen = (props) => {
 
-  const { store, actions } = useContext(Context)
-
   return(
     <Container>
       <OtherHeader title={'Settings'} 
@@ -17,7 +15,9 @@ export default SettingsScreen = (props) => {
         <List>
           
           <ListItem noIndent 
-            onPress={()=> props.navigation.navigate('ChangeEmail')}>
+            onPress={()=> props.navigation.push('ChangeEmail', {
+              navigation: props.navigation
+            })}>
             <Text> Change Email </Text>
           </ListItem>
 

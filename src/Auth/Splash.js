@@ -25,8 +25,9 @@ export default SplashScreen = (props) => {
 
 
 			if( Object.keys(store.myProfile)[0] != 'msg'&& Object.keys(store.myProfile)[0] != 'message' && store.myProfile !== undefined){
-				var answer2 = await actions.user.auto_login(props.navigation)
 				console.log('myProfile',store.myProfile)
+
+				var answer2 = await actions.user.auto_login(props.navigation)
 
 			}else{
 				console.log('badToken')

@@ -23,7 +23,7 @@ export default ProfileScreen = (props) => {
   let profile_pic_url = navigation.getParam('profile_pic_url','NO-ID')
    
   var myPastSwaps = []
-  var x = store.pastTrackers.forEach(
+  var x = store.myPastTrackers.forEach(
     tracker => tracker.swaps.forEach(
       swapBody => myPastSwaps.push(swapBody.swap)
     ))

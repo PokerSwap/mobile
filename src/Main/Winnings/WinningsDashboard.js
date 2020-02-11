@@ -37,16 +37,14 @@ export default WinningsDashboard = (props) => {
     )
   })
 
-  console.log('lwnght',store.pastTrackers.length)
-
-  if( store.pastTrackers.length !== 0 && store.pastTrackers.length !== undefined){
+  if( store.myPastTrackers.length !== 0 && store.myPastTrackers.length !== undefined){
     
-    var recentSwaps = store.pastTrackers.filter(
+    var recentSwaps = store.myPastTrackers.filter(
       tracker => moment().isBefore(moment(tracker.tournament.start_at).add(30, 'days')))    
     recentSwaps.length !== 0  ? 
       recentTracker = aTracker(recentSwaps) : recentTracker = noTracker('recent')
 
-    var historySwaps = store.pastTrackers.filter(
+    var historySwaps = store.myPastTrackers.filter(
       tracker => moment().isAfter(moment(tracker.tournament.start_at).add(1, 'months')))
     historySwaps.length !== 0 ? 
       historyTracker = aTracker(historySwaps) : historyTracker = noTracker('history')

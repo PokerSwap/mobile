@@ -40,23 +40,10 @@ export default LoginScreen = (props) => {
     }
   }
 
-  wrong = () => {
-		if(store.userToken==null){
-			Toast.show({
-        text:'Sorry, you entered the wrong email or password. Please try again',
-      duration:3000,
-    position:'top'})
-		}
-	}
-
   loginStart = async() => {
     loadingSwitch();
     var answer = await actions.user.login(
-      email, 
-      password, 
-      deviceID,
-      props.navigation
-    );
+      email, password, deviceID, props.navigation );
     var answer2 = await storeData();
     loadingSwitch();
   }

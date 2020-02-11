@@ -103,7 +103,7 @@ console.log('NetProfit with '+ theirName + ' is ' + netProfit)
             <Text style={{alignSelf:'flex-end', marginRight:5, fontSize:18}}>
               ${myPayOut}
             </Text>
-          </Col>
+          </Col> 
           <Col>
             <Text style={{alignSelf:'flex-start', marginLeft:5, fontSize:18}}>
               ${theirPayOut}</Text></Col>

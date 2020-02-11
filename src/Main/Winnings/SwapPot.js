@@ -9,26 +9,27 @@ export default SwapPot = (props) => {
 
   const {store, actions} = useContext(Context)
 
-
   const { navigation } = props;
   let tournament = navigation.getParam('tournament', 'NO-ID');
   let swaps = navigation.getParam('swaps', 'NO-ID')
-  let my_buyin = navigation.getParam('my_buyin', 'NO-ID')
   
   var start = 0
   var hey = swaps.forEach(swap => 
     start += (100*(swap.swap.percentage/100))-(0*(swap.swap.percentage/100))
     )
-    var final = start.toFixed(2)
+  var final = start.toFixed(2)
+
+    var agreedSwaps = swaps.filter(swapBody => swapBody.swap.status=='agreed')
+     console.log('agreedSwaps', agreedSwaps)
 
   return(
-    <Container>
+    <Container> 
       <Content>
         <List>
           <ListItem style={{justifyContent:'center'}} noIndent header>
             <Text style={{justifyContent:'center', textAlign:'center', fontWeight:'600', fontSize:24}}>{tournament.name}</Text>
           </ListItem>
-              {swaps.map((content, index) => {
+              {agreedSwaps.map((content, index) => {
                 return(
                 <PotTracker
                   key={index}

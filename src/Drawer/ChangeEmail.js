@@ -21,15 +21,16 @@ export default ChangeEmail = (props) => {
   const regexEmail = new RegExp('^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$');
   var isDisabled 
 
-  regexEmail.test(currentEmail) && regexEmail.test(newEmail) && currentPassword !== ''?
-    newEmail == confirmEmail ?
-      isDisabled = false : isDisabled = true
-    :
-    isDisabled = true 
+  // regexEmail.test(currentEmail) && regexEmail.test(newEmail) && currentPassword !== ''?
+  //   newEmail == confirmEmail ?
+  //     isDisabled = false : isDisabled = true
+  //   :
+  //   isDisabled = true 
 
   const changeEmail = async() => {
     newEmail == confirmEmail ?
-      actions.user.changeEmail(currentEmail, currentPassword, newEmail)
+      actions.user.changeEmail(
+        currentEmail, currentPassword, newEmail, props.navigation)
       :
       Toast.show({
         text:'Make sure both passwords are the same',
@@ -109,9 +110,11 @@ export default ChangeEmail = (props) => {
               onChangeText={email => setConfirmEmail( email )}/>
           </CardItem>
           <CardItem>
-            <Button large disabled={isDisabled} style={{marginTop:40}} 
+            <Button large  style={{marginTop:40}} 
               onPress={() => changeEmail()}>
-              <Text style={{fontSize:30, fontWeight:'600'}}> SUBMIT </Text>
+              <Text style={{fontSize:30, fontWeight:'600'}}> 
+                SUBMIT 
+              </Text>
             </Button>
           </CardItem>
         </Card>

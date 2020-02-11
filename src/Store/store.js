@@ -18,18 +18,24 @@ const getState = ({ getStore, setStore, getActions }) => {
 			// LIVE AND UPCOMING SWAP TRACKER
 			myTrackers:[],
 
-			// PAST/WINNINGS SWAP TRACKER
-			pastTrackers:[],
-			
-	  		// OTHER PEOPLE'S PROFILES (ON PROFILE VIEW)
-			profileView:[ ],
-
+			// FOR MOST RECENT NOTIFICATION, TO GO TO PAGE
 			notificationData: null,
 
-	  		// ALL TOURNAMETS, FILTERED BY FIRST 10 RESULTS
-			tournaments:[ ],
+			// LISTS ALL RECIEVED NOTIFICATIONS
+			notificationList:[],
 
+			// PAST/WINNINGS SWAP TRACKER
+			myPastTrackers:[],
 
+			myWinningsTrackers:[],
+			
+	  	// OTHER PEOPLE'S PROFILES (ON PROFILE VIEW)
+			profileView:[ ],
+
+	  	// ALL TOURNAMETS, FILTERED BY FIRST 10 RESULTS
+			tournaments:[],
+
+			// USED TO GET PROFILE AND ACCESS ALL REQUESTS IN THE APP
 			userToken: null
 
 		},
@@ -261,6 +267,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 			},
 
 			notification:{
+				
 				check: async(navigation) => {
 					var prenotificationData = await AsyncStorage.getItem('notification')
 					var notificationData = JSON.parse(prenotificationData)
@@ -322,6 +329,10 @@ const getState = ({ getStore, setStore, getActions }) => {
 						AsyncStorage.removeItem('notification')
 	
 					}
+				},
+
+				getList: async() => {
+					// setStore({notificationList:data})
 				}
 			},
 
@@ -356,41 +367,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 					} catch(error) {
 						console.log("Something went wrong in adding a profile", error)
-					}
-				},
-
-				uploadPhoto: async ( photo ) => {
-					try {
-						const url ='https://swapprofit-test.herokuapp.com/profiles/image'
-						const accessToken = getStore().userToken.jwt ;
-						const data = new FormData();
-
-						data.append('image', {
-							uri: photo.uri,
-							type: photo.type,
-							name: photo.name
-						});
-						
-						const postData = {
-							method: 'PUT',
-							headers: {
-								'Content-Type': 'multipart/form-data',
-								'Authorization': 'Bearer ' + accessToken,
-							},
-							body: data,
-						}
-				
-						let response = await fetch(url, postData)
-							.then(response => response.json())
-							.then((responseJson) => {
-								console.log('responseJson',responseJson);
-								return responseJson;
-							})
-							.catch((error) => {
-								console.log('error in json',error);
-							});
-					} catch(error) {
-						console.log('Something went wrong with uploading photo:', error)
 					}
 				},
 
@@ -437,6 +413,41 @@ const getState = ({ getStore, setStore, getActions }) => {
 						setStore({myProfile: null})
 					} catch(error) {
 						console.log('Something went wrong in removing userToken', error)
+					}
+				},
+
+				uploadPhoto: async ( photo ) => {
+					try {
+						const url ='https://swapprofit-test.herokuapp.com/profiles/image'
+						const accessToken = getStore().userToken.jwt ;
+						const data = new FormData();
+
+						data.append('image', {
+							uri: photo.uri,
+							type: photo.type,
+							name: photo.name
+						});
+						
+						const postData = {
+							method: 'PUT',
+							headers: {
+								'Content-Type': 'multipart/form-data',
+								'Authorization': 'Bearer ' + accessToken,
+							},
+							body: data,
+						}
+				
+						let response = await fetch(url, postData)
+							.then(response => response.json())
+							.then((responseJson) => {
+								console.log('responseJson',responseJson);
+								return responseJson;
+							})
+							.catch((error) => {
+								console.log('error in json',error);
+							});
+					} catch(error) {
+						console.log('Something went wrong with uploading photo:', error)
 					}
 				},
 
@@ -727,12 +738,16 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 
 						let trackerData = await response.json()
-						setStore({pastTrackers: trackerData})
-						console.log('pasttrackers', getStore().pastTrackers)
+						setStore({myPastTrackers: trackerData})
+						console.log('myPastTrackers', getStore().myPastTrackers)
 						
 					}catch(error){
 						console.log('something went wrong in trackerpast', error)
 					}
+
+				},
+
+				getWinnings: async() => {
 
 				}
 				
@@ -820,10 +835,10 @@ const getState = ({ getStore, setStore, getActions }) => {
 				logout: ( navigation ) => {
 					getActions().userToken.remove();
 					getActions().profile.remove()
-					navigation.navigate("Login")	
+					navigation.goBack("Login")	
 				},
 
-				changeEmail: async ( myEmail, myPassword, myNewEmail ) => {
+				changeEmail: async ( myEmail, myPassword, myNewEmail, navigation ) => {
 					try {
 						let data = {
 							email: myEmail,
@@ -845,8 +860,24 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 						.then(response => response.json())
 						console.log('changeMeail',response)
+						Toast.show({
+							text:response.message,
+							position:'top',
+							duration:3000,
+						})
+						if (response.message == "Please verify your new email"){
+							getActions().user.logout(navigation)
+						}else{
+							console.log('You did not return to login')
+						}
+
 					}catch(error){
 						console.log('Something went wrong with changing email', error)
+						Toast.show({
+							text:error.message,
+							position:'top',
+							duration:3000,
+						})
 					}
 					
 				},
@@ -878,11 +909,15 @@ const getState = ({ getStore, setStore, getActions }) => {
 							position:'top',
 							duration:3000,
 						})
-						return(navigation.navigate('LogIn'))
+						if (response.message == "Your password has been changed"){
+							getActions().user.logout(navigation)
+						}else{
+							console.log('You did not return to login')
+						}
 					}catch(error){
 						console.log('Something went wrong with changing password', error)
 						return(Toast.show({
-							text:'Password change failed',
+							text:error.message,
 							position:'top',
 							duration:3000,
 
@@ -890,6 +925,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 					}
 					
 				},
+
+				changePicture: async() => {},
 
 				forgotPassword: async( myEmail ) => {
 
@@ -907,12 +944,12 @@ const getState = ({ getStore, setStore, getActions }) => {
 						}, 
 					})
 					.then(response => response.json())
-					return(Toast.show({
+					Toast.show({
 						text:response.message,
 						position:'top',
 						duration:3000,
 
-					}))
+					})
 				}
 			},
 
@@ -941,6 +978,11 @@ const getState = ({ getStore, setStore, getActions }) => {
 							let error = res;
 							getActions().userToken.remove();
 							console.log("something went wrong in userToken.get", error, getStore().userToken);
+							Toast.show({
+								position:'top',
+								text:error.message,
+								duration:3000
+							})
 							return false;
 						}
 						
@@ -966,6 +1008,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				remove: async() => {
 					try {
 						setStore({userToken: null})
+						var ann = await AsyncStorage.removeItem('loginToken')
 					} catch(error) {
 						console.log('Something went wrong in removing userToken')
 					}

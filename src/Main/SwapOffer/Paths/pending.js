@@ -30,7 +30,7 @@ export default PendingPath = (props) => {
     var answer = await actions.swap.statusChange(
       props.swap_id, "canceled"
     )
-    var answer2 = await actions.swap.buy(0,1)
+    var answer2 = await actions.coin.buy(0,1)
     var answer3 = await actions.tracker.getAll()
     var answer4 = await actions.profile.get()
     props.navigation.goBack()
@@ -39,7 +39,16 @@ export default PendingPath = (props) => {
   return(
     <Card transparent>
       <CardItem style={{justifyContent:'center'}}>
-        <Text style={{fontSize:18, textAlign:'center'}}>Your swap of {props.percentage}% with {props.user_name} to make a swap of {props.counter_percentage}% is pending.</Text>
+        {props.percentage == props.counter_percentage ?
+          <Text style={{fontSize:18, textAlign:'center'}}>
+            Your swap with {props.user_name} to share {props.percentage}% between the both of you is pending.
+          </Text>
+          :
+          <Text style={{fontSize:18, textAlign:'center'}}>
+            Your swap of {props.percentage}% with {props.user_name} to make a swap of {props.counter_percentage}% is pending.
+          </Text>
+      }
+        
       </CardItem>
       <CardItem style={{justifyContent:'center'}}>  
         <Button onPress={()=> showAlert()}>
