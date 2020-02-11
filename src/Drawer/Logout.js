@@ -6,7 +6,7 @@ const LogOutScreen  = (props) => {
       "Confirmation",
       'Are you sure this is you?',
       [
-        { text: 'Yes', onPress: () => props.navigation.navigate('LogIn')},
+        { text: 'Yes', onPress: () => props.navigation.goBack('LogIn')},
         { text: 'No', onPress: () => console.log("No Pressed")}
       ]
     )

@@ -31,11 +31,16 @@ export default EditPath = (props) => {
 
   return(
     <View>
-      <Text style={{textAlign:'center',alignSelf:'center', marginVertical:10}}>NEW BUYIN</Text>
+      <Text style={{
+        textAlign:'center',alignSelf:'center', marginVertical:10}}>
+          NEW BUYIN
+      </Text>
       
       <Card style={{width:'80%', alignSelf:'center'}}>
         <CardItem style={{justifyContent:'center'}}>
-          <Text style={{textAlign:'center', fontSize:30}}>{props.user_name}</Text>
+          <Text style={{textAlign:'center', fontSize:30}}>
+            {props.user_name}
+          </Text>
         </CardItem>
 
         <CardItem style={{justifyContent:'center', flex:1, flexDirection:'row'}}>
@@ -57,25 +62,23 @@ export default EditPath = (props) => {
           </View>
           
           <View style={{flex:1, flexDirection:'column', justifyContent:'center'}}>
-          <Text style={{fontSize:24, textAlign:'center'}}>Seat: </Text>
-          <TextInput 
-            placeholder={newSeat.toString()}
-            style={{fontSize:24, textAlign:'center'}}
-            placeholderTextColor='gray'
-            keyboardType="number-pad"
-            blurOnSubmit={false}
-            returnKeyType="done"
-            autoCapitalize='none'
-            autoCorrect={false} 
-            ref={(input) => { txtSeat = input; }} 
-            onSubmitEditing={() => { txtChips.focus(); }}
-            value={newSeat}    
-            onChangeText={seat => setNewSeat(seat)}
-          />
-        </View>
+            <Text style={{fontSize:24, textAlign:'center'}}>Seat: </Text>
+            <TextInput 
+              placeholder={newSeat.toString()}
+              style={{fontSize:24, textAlign:'center'}}
+              placeholderTextColor='gray'
+              keyboardType="number-pad"
+              blurOnSubmit={false}
+              returnKeyType="done"
+              autoCapitalize='none'
+              autoCorrect={false} 
+              ref={(input) => { txtSeat = input; }} 
+              onSubmitEditing={() => { txtChips.focus(); }}
+              value={newSeat}    
+              onChangeText={seat => setNewSeat(seat)}/>
+          </View>
 
-        <View style={{flex:1, flexDirection:'column', justifyContent:'center'}}>
-
+          <View style={{flex:1, flexDirection:'column', justifyContent:'center'}}>
             <Text style={{fontSize:24, textAlign:'center'}}>Chips: </Text>
             <TextInput 
               placeholder={newChips.toString()}

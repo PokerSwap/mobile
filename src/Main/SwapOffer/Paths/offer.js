@@ -32,7 +32,7 @@ export default OfferPath = (props) => {
       props.swap_id,
       status,
     )
-    if(status=='agreed'){var answer2 = await actions.coin.spend()}
+    var answer2 = await actions.coin.spend()
     var answer3 = await actions.tracker.getAll()
     props.navigation.goBack()
   }

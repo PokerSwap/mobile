@@ -1,13 +1,13 @@
 import React, {useContext, useState} from 'react';
-import { Container, Content, Button, Text, Card, CardItem } from 'native-base';
+import {TextInput} from 'react-native'
+import { Container, Content, Button, 
+  Text, Card, CardItem, Toast } from 'native-base';
 
-import {TextInput, View} from 'react-native'
 import {Context } from '../Store/appContext'
 
 export default ChangeEmail = (props) => {
 
   const { store, actions } = useContext(Context)
-  const { navigation } = props;
 
   const [currentEmail, setCurrentEmail] = useState('')
   const [newEmail, setNewEmail] = useState('')
@@ -28,9 +28,14 @@ export default ChangeEmail = (props) => {
     isDisabled = true 
 
   const changeEmail = async() => {
-    if (newEmail == confirmEmail ){
+    newEmail == confirmEmail ?
       actions.user.changeEmail(currentEmail, currentPassword, newEmail)
-    }
+      :
+      Toast.show({
+        text:'Make sure both passwords are the same',
+        duration:3000,
+        position:top
+      })
   }
 
   return(

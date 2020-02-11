@@ -1,12 +1,13 @@
 import React, {useContext} from 'react'
 import { DrawerItems } from 'react-navigation-drawer'
-import { Container, Content, Text, Icon, Button, Card, CardItem } from 'native-base'
+import { Container, Content, Text, Icon, Button } from 'native-base'
 import {Alert, View} from 'react-native'
+import AsyncStorage from '@react-native-community/async-storage'
+
 
 import ProfileBioSideBar from '../Main/Profile/Components/ProfileBioSideBar'
 import { Context } from '../Store/appContext'
 
-import AsyncStorage from '@react-native-community/async-storage'
 
 // DRAWER PHYSICAL COMPONENT
 export default SideBar = (props) => {
@@ -32,19 +33,6 @@ export default SideBar = (props) => {
           picture={profile.picture}
           navigation={props.navigation}
         />
-      {/* <Card style={{flex:1, flexDirection:'row'}}>
-      <View style={{alignSelf:'center'}}>
-        <Button iconLeft large warning style={{marginVertical:5, width:100,justifyContent:'center'}}>
-          <Icon type='FontAwesome5' name='coins' style={{color:'white'}}/>
-          <Text style={{color:'white', fontSize:20, fontWeight:'600'}}>{user.coins}</Text>
-        </Button>
-      </View>
-      <View>
-        <Button>
-          <Icon type='FontAwesome5' name='coins' style={{color:'white'}}/>
-        </Button>
-      </View>
-      </Card>  */}
             
       {/* DEFAULT BUTTONS */}
       <DrawerItems {...props} />

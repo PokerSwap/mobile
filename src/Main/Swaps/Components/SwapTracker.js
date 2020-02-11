@@ -11,8 +11,6 @@ export default SwapTracker = (props) => {
 
   const {store, actions} = useContext(Context)
 
-
-
   let other_swaps = props.swaps.map((content, index) => 
     <BuyIn
       key = {index}      
@@ -24,12 +22,13 @@ export default SwapTracker = (props) => {
       seat = {content.buyin.seat}
       chips = {content.buyin.chips}
       flight_id = {content.buyin.flight_id}
+      // updated_at = {content.buyin.updated_at}
 
       swap_id = {content.swap.id}
       status = {content.swap.status}
       percentage = {content.swap.percentage}
       counter_percentage= {content.swap.counter_percentage}
-      updated_at = {content.buyin.updated_at}
+      swap_updated_at={content.swap.updated_at}
 
       tournament_name={props.tournament.name}
       tournament_id={props.tournament.id}

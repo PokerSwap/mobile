@@ -498,19 +498,22 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 				counter: async () => {},
 
-				statusChange: async ( my_swap_id, a_tournament_id, a_recipient_id, is_paid, a_status, a_percentage, a_counter_percentage ) => {
+				statusChange: async ( my_swap_id, a_status, a_percentage ) => {
 					try{
-						const url = 'https://swapprofit-test.herokuapp.com/me/swaps' + my_swap_id
+						const url = 'https://swapprofit-test.herokuapp.com/me/swaps/' + my_swap_id
 						let accessToken = getStore().userToken.jwt
-
-						let data = {
-							tournament_id: a_tournament_id,
-							recipient_id: a_recipient_id,
-							paid: is_paid,
-							status: a_status,
-							percentage: a_percentage,
-							counter_percentage: a_counter_percentage
-						}
+						console.log('the url', my_swap_id)
+						let data 
+						
+						a_percentage == undefined ?
+						 	data = {
+								status: a_status,
+							}
+							:
+							data = {
+								status: a_status,
+								percentage: a_percentage
+							}
 
 						let response = await fetch(url,{
 							method:"PUT",
@@ -521,9 +524,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}
 						})
 						.then(response => response.json())
-						console.log('statuschamge',response)
-						getActions().tournament.getInitial()
-						getActions().tracker.getCurrent()
+						console.log('statuschange',response)
+						var aaa = await getActions().tournament.getInitial()
+						var ddd = await getActions().tracker.getAll()
 						return(
 							Toast.show({
 								text:'You swapped with XX',
@@ -704,7 +707,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						console.log('currnetTackers', trackerData)
 						
 					} catch(error){
-						console.log('something went wrong in tracker.getCurrent', error)
+						console.log('something went wrong in tracker.getAll', error)
 					}
 
 				},
@@ -728,7 +731,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						console.log('pasttrackers', getStore().pastTrackers)
 						
 					}catch(error){
-						console.log('something went wrong in tracker.getCurrent', error)
+						console.log('something went wrong in trackerpast', error)
 					}
 
 				}

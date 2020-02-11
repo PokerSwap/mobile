@@ -103,6 +103,7 @@ export default BuyIn = (props) => {
       flight_id: props.flight_id,
       user_id: props.user_id,
       user_name: props.user_name,
+      updated_at:props.updated_at,
 
       tournament_id: props.tournament_id,
       tournament_name: props.tournament_name,
@@ -110,6 +111,7 @@ export default BuyIn = (props) => {
       city: props.city,
       state: props.state,
       start_at: props.start_at,
+      swap_updated_at:props.swap_updated_at,
 
       buyin_id: props.buyin_id,
       table: props.table,
@@ -172,7 +174,8 @@ export default BuyIn = (props) => {
             style={{backgroundColor:buttonColor, width:70, height:70, justifyContent:'center'}}>
             {lastCol}
           </Button>
-          <Text style={{marginTop:10, textAlign:'center'}}>{x}</Text>
+          <Text style={{marginTop:10, textAlign:'center'}}>
+            {x}</Text>
         </Col>
 
       </Grid>

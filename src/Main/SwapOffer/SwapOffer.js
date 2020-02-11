@@ -31,8 +31,11 @@ export default SwapOffer = (props) => {
   let user_id = navigation.getParam('user_id', 'default value');
   let buyin_id = navigation.getParam('buyin_id', 'default value');
   let swap_id =  navigation.getParam('swap_id', 'default value');
+  let swap_updated_at =  navigation.getParam('swap_updated_at', 'default value');
   let flight_id = navigation.getParam('flight_id', 'default value');
-  
+
+
+  let updated_at =navigation.getParam('updated_at', 'default value');
   let tournament_name = navigation.getParam('tournament_name', 'default value');
   let tournament_id = navigation.getParam('tournament_id', 'default value');
   let address = navigation.getParam('address', 'default value');
@@ -55,39 +58,43 @@ export default SwapOffer = (props) => {
     currentPath = 
       <EditPath 
         navigation={props.navigation} user_name={user_name}
-        table={table} seat={seat} chips={chips} buyin_id={buyin_id}
-        user_name={user_name}
-      />
+        table={table} seat={seat} chips={chips} buyin_id={buyin_id}/>
   }    
   // RECEIVED SWAP VIEW
   else if (status=='incoming'){
     currentPath = 
       <IncomingPath 
-        navigation={props.navigation} swap_id={swap_id}
+        navigation={props.navigation} 
         user_name={user_name} user_id={user_id}
         percentage={percentage} setPercentage={setPercentage}
-        counter_percentage={counter_percentage} setCounterPercentage={setCounterPercentage}/>
+        counter_percentage={counter_percentage} setCounterPercentage={setCounterPercentage}
+        swap_id={swap_id} swap_updated_at={swap_updated_at} />
   } 
   // PENDING SWAP VIEW
   else if (status=='pending'){
     currentPath = 
       <PendingPath 
-        navigation={props.navigation} user_name={user_name} swap_id={swap_id}
-        percentage={percentage} counter_percentage={counter_percentage}/>
+        navigation={props.navigation} user_name={user_name}
+        percentage={percentage} counter_percentage={counter_percentage}
+        swap_id={swap_id} swap_updated_at={swap_updated_at}/>
   } 
   // AGREED SWAP VIEW
   else if (status=='agreed'){
     currentPath = 
       <AgreedPath 
         navigation={props.navigation} user_name={user_name}
-        percentage={percentage} counter_percentage={counter_percentage} />
+        percentage={percentage} counter_percentage={counter_percentage} 
+        swap_updated_at={swap_updated_at}
+        />
   }
   // REJECTED SWAP VIEW 
   else if (status=='rejected'){
     currentPath = 
       <RejectedPath 
         navigation={props.navigation} user_name={user_name}
-        percentage={percentage} counter_percentage={counter_percentage}/>
+        percentage={percentage} counter_percentage={counter_percentage}
+        swap_updated_at={swap_updated_at}
+        />
   }
   // CANCELED SWAP VIEW 
   else if (status=='canceled'){
@@ -97,6 +104,8 @@ export default SwapOffer = (props) => {
         user_name={user_name}
         percentage={percentage}
         counter_percentage={counter_percentage}
+        swap_updated_at={swap_updated_at}
+
       />
   }
   // INACTIVE SWAP VIEW
@@ -110,16 +119,22 @@ export default SwapOffer = (props) => {
       />
   }
 
+  let updated;
+   status == 'edit'?
+    updated = updated_at
+    :
+    updated = swap_updated_at
+
   return(
     <Container>
       
       <Content>
         <Card transparent>
-        <TourneyHeader 
+        {/* <TourneyHeader 
             name={tournament_name}
             address={address} city={city} state={state}
             start_at={start_at} 
-          />
+          /> */}
         </Card>
         <Card transparent style={{ justifyContent:'center'}}>
           <CardItem style={{justifyContent:'center'}}>
@@ -152,7 +167,8 @@ export default SwapOffer = (props) => {
           </CardItem>
 
         </Card>
-
+        <Text> Last Update: </Text>
+          <Text>{updated} </Text>
         {/* BODY */}
         {currentPath}
       </Content>

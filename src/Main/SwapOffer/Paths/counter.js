@@ -10,7 +10,8 @@ export default CounterPath = (props) => {
   const {store, actions } = useContext(Context)
 
   const [percentage, setPercentage] = useState(props.percentage)
-
+  const [new_percentage, setNewPercentage] = useState(0)
+  console.log('eee', new_percentage)
   const showAlert = () =>{
 
     Alert.alert(
@@ -31,7 +32,7 @@ export default CounterPath = (props) => {
 
   const swapCounter = async() => {
     var answer = await actions.swap.statusChange(
-      'pending',percentage
+      props.swap_id, 'pending', new_percentage
     )
     var answer3 = await actions.tracker.getAll()
     props.navigation.goBack()
@@ -40,36 +41,48 @@ export default CounterPath = (props) => {
 
   // ADDING PERCENT TO SWAP - NO MORE THAN 50%
   const add = () => {
-    percentage < 50 ?
+    if(percentage < 50){
       setPercentage(percentage + 1)
-      :
+      setNewPercentage(new_percentage + 1)
+    }else{
       setPercentage(50)
+    }
     
   }
 
   // SUBTRACTING PERCENT FROM SWAP - NO MORE THAN 50%
   const subtract = () => {
-    percentage > 1 ?
+    if (percentage > 1){
       setPercentage(percentage - 1)
-      :
+      setNewPercentage(new_percentage -1)
+    } else{
       setPercentage(1)
+    }
   }
 
   return(
-    <Card transparent style={{alignSelf:'center', width:'80%', justifyContent:'center'}}>
+    <Card transparent style={{
+      alignSelf:'center', width:'80%', justifyContent:'center'}}>
 
       <CardItem style={{justifyContent:'center'}}>
         <TouchableOpacity onPress={()=> subtract()} >
-          <View style={{width:100, height:100, borderRadius: 5, backgroundColor:'blue'}}>
-            <Text style={{fontSize:36, color:'white', textAlign:'center'}}>-</Text>
+          <View style={{
+            width:100, height:100, borderRadius: 5, backgroundColor:'blue'}}>
+            <Text style={{fontSize:36, color:'white', textAlign:'center'}}>
+              -
+            </Text>
           </View>
         </TouchableOpacity>
 
         <Text style={{fontSize:36, marginHorizontal:10}}> {percentage}% </Text>
 
         <TouchableOpacity onPress={()=> add()} >
-          <View style={{width:100, height:100, borderRadius: 5, backgroundColor:'blue'}}>
-            <Text style={{fontSize:36, color:'white', textAlign:'center'}}>+</Text>
+          <View style={{
+            width:100, height:100, borderRadius: 5, backgroundColor:'blue'}}>
+            <Text style={{
+              fontSize:36, color:'white', textAlign:'center'}}>
+              +
+            </Text>
           </View>
         </TouchableOpacity>
 

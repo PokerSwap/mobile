@@ -13,7 +13,6 @@ import '../Images/placeholder.jpg';
 export default ChangePicture = (props) => {
 
   const { store, actions } = useContext(Context)
-  const { navigation } = props;
 
   const [image, setImage ]= useState(require('../Images/placeholder.jpg'));
   // const [imageURI, setImageURI ]= useState(require('../Images/placeholder.jpg'));
