@@ -44,7 +44,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 			
 			buy_in:{
 
-				add: async ( a_flight_id, a_table, a_seat, some_chips, an_image, navigation) => {
+				add: async ( a_flight_id, a_table, a_seat, some_chips, an_image, a_tournament_id, navigation) => {
 					try{	
 
 						if (an_image == 3){
@@ -79,17 +79,18 @@ const getState = ({ getStore, setStore, getActions }) => {
 								'Content-Type':'application/json'
 							}, 
 						})
+						var a1 = await getActions().buy_in.uploadPhoto(an_image)
 
 						var tournamentJson = await response.json()
+
 						
-						var tournament_id = tournamentJson.tournament_id
-						
-						var a1 = await getActions().buy_in.uploadPhoto(an_image)
 
 						var a2 = await getActions().tracker.getAll()
 						var a3 = await getActions().tournament.getInitial()
-						var action = await getActions().tournament.getAction(tournament_id)
-						var tournament = await getActions().tournament.getOne(tournament_id)
+						var action = await getActions().tournament.getAction(a_tournament_id)
+						var tournament = await getActions().tournament.getOne(a_tournament_id)
+						console.log('tournament', tournament)
+
 
 						var a5 = await navigation.push('TourneyLobby', {
 							action: action,
@@ -272,23 +273,58 @@ const getState = ({ getStore, setStore, getActions }) => {
 					var prenotificationData = await AsyncStorage.getItem('notification')
 					var notificationData = JSON.parse(prenotificationData)
 					console.log('notificationData', notificationData, typeof(notificationData))
+					setStore({notificationData: notificationData})
 
 					if(notificationData !== null){
 
-						var aiubie = await AsyncStorage.removeItem('notification')
-	
 						var id = notificationData.id
 						var type = notificationData.type
 						var initialPath = notificationData.initialPath
 						var finalPath = notificationData.finalPath
 	
 						var theAnswer
+						var answerParams;
 						if (type == 'tournament') {
 							theAnswer = await getActions().tournament.getOne(id)
-							console.log('tour', theAnswer)
+							answerParams = {
+									action: getStore().action,
+									tournament_id: theAnswer.id,
+									name: theAnswer.name,
+									address: theAnswer.address,
+									city: theAnswer.city,
+									state: theAnswer.state,
+									longitude: theAnswer.longitude,
+									latitude: theAnswer.latitude,
+									start_at: theAnswer.start_at,
+									buy_ins: theAnswer.buy_ins,
+									swaps: theAnswer.swaps,
+									flights: theAnswer.flights
+							}
 						} else if(type == 'swap'){
 							theAnswer = await getActions().swap.getOne(id)
-							console.log('swap', theAnswer)
+							answerParams = {
+								buyin_id: theAnswer.buyin.id,
+								user_id: theAnswer.buyin.user_id,
+								user_name: theAnswer.buyin.user_name, 
+								table: theAnswer.buyin.table,
+								seat: theAnswer.buyin.seat,
+								chips: theAnswer.buyin.chips,
+
+								swap_id: theAnswer.swap.id,
+								status: theAnswer.swap.status,
+								percentage: theAnswer.swap.percentage,
+								counter_percentage: theAnswer.swap.counter_percentage,
+								swap_updated_at: theAnswer.swap.updated_at,
+
+								tournament_name: theAnswer.tournament.name,
+								tournament_id: theAnswer.tournament.id,
+								address: theAnswer.tournament.address,
+								city: theAnswer.tournament.city,
+								state: theAnswer.tournament.state,
+								start_at: theAnswer.tournament.start_at,
+							}
+						} else if(type == 'winnings'){
+							console.log('under construction')
 						} else{
 							console.log('so what now?')
 						}
@@ -305,34 +341,26 @@ const getState = ({ getStore, setStore, getActions }) => {
 							params: {},				
 							action: StackActions.push({ 
 								routeName: finalPath,
-								params:{
-									action: getStore().action,
-									tournament_id: theAnswer.id,
-									name: theAnswer.name,
-									address: theAnswer.address,
-									city: theAnswer.city,
-									state: theAnswer.state,
-									longitude: theAnswer.longitude,
-									latitude: theAnswer.latitude,
-									start_at: theAnswer.start_at,
-									buy_ins: theAnswer.buy_ins,
-									swaps: theAnswer.swaps,
-									flights: theAnswer.flights
-								}
+								params: answerParams
 							 }),
 						});
-						
 						navigation.dispatch(navigateAction);
-	
+						getActions().notification.remove()
 					}else{
 						navigation.navigate('Swaps')
-						AsyncStorage.removeItem('notification')
+						getActions().notification.remove()
 	
 					}
 				},
 
 				getList: async() => {
 					// setStore({notificationList:data})
+				},
+
+				remove: async() => {
+					var aaa = await AsyncStorage.removeItem('notification')
+					setStore({notificationData:null})
+
 				}
 			},
 
@@ -832,10 +860,16 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 				},
 			
-				logout: ( navigation ) => {
-					getActions().userToken.remove();
-					getActions().profile.remove()
-					navigation.goBack("Login")	
+				logout: async( navigation ) => {
+					const resetAction = StackActions.reset({
+						index: 1,
+						actions: [
+							NavigationActions.navigate({ routeName: 'Auth' })
+					],
+					});
+					navigation.dispatch(resetAction);
+					var asss = await getActions().userToken.remove()
+					var asss = await getActions().profile.remove()
 				},
 
 				changeEmail: async ( myEmail, myPassword, myNewEmail, navigation ) => {

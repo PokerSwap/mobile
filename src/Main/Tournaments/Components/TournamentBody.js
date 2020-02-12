@@ -29,8 +29,7 @@ export default TournamentBody = (props) => {
       buy_ins: props.buy_ins,
       swaps: props.swaps,
       flights: props.flights,
-      navigation: props.navigation,
-      previousScreen: 'Tournaments'
+      navigation: props.navigation
     });
   }
 

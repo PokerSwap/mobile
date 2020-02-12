@@ -2,7 +2,7 @@
  * @format
  */
 import React, {useContext} from 'react';
-import { Platform } from 'react-native';
+import { Platform, Alert } from 'react-native';
 import firebase from '@react-native-firebase/app';
 
 import 'react-native-gesture-handler';
@@ -14,6 +14,9 @@ import AsyncStorage from '@react-native-community/async-storage'
 import PushNotification from 'react-native-push-notification'
 
 import PushNotificationIOS from '@react-native-community/push-notification-ios'
+
+
+
 
 import {Context} from './src/Store/appContext'
 
@@ -70,11 +73,8 @@ PushNotification.configure({
   // (required) Called when a remote or local notification is opened or received
   onNotification: async function(notificationData) {
     console.log("NOTIFICATION:", notificationData);
-    var answer1 = await AsyncStorage.removeItem('notification')
-
     var answer2 = await AsyncStorage.setItem('notification', JSON.stringify(notificationData))
-    var ewe = AsyncStorage.getItem('notification')
-
+    
     // required on iOS only (see fetchCompletionHandler docs: https://github.com/react-native-community/react-native-push-notification-ios)
     notificationData.finish(PushNotificationIOS.FetchResult.NoData);
   },
@@ -117,13 +117,20 @@ messaging().onMessage(async (remoteMessage) => {
   getToken()
   console.log('FCM Message Data:', remoteMessage);
  
-  // var messageArray
-  // var currentMessages = await AsyncStorage.getItem('messages');
-  // currentMessages != null ? messageArray = JSON.parse(currentMessages) : messageArray =[]
-  //  messageArray.push(remoteMessage);
-  //  var answer3 = await AsyncStorage.setItem('messages', JSON.stringify(messageArray));
-  //  var check3 = await AsyncStorage.getItem('messages')
-  //  console.log('now', check3)
+  Alert.alert(
+    "Swap Alert",
+    remoteMessage.data.message,
+    [
+      {
+        text: 'Yes',
+        onPress: () => console.log('yes')
+      },
+      {
+        text: 'No',
+        onPress: () => console.log("Cancel Pressed"),
+      }
+    ]
+  )
 });   
  
 messaging().onSendError(event => {

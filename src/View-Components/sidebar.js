@@ -49,9 +49,7 @@ export default SideBar = (props) => {
             [
               {text: 'Cancel', onPress: () => {return null}},
               {text: 'Confirm', onPress: () => {
-                actions.userToken.remove()
-                actions.profile.remove()
-                props.navigation.goBack('LogIn')
+                actions.user.logout(props.navigation)
               }},
             ],
             { cancelable: false }

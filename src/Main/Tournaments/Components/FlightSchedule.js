@@ -17,6 +17,7 @@ export default FlightSchedule = (props) => {
 
   var mySwapsinTournament = props.mySwapsinTournament
 
+  console.log('buyins',props.buy_ins)
   var Buy_Ins = props.buy_ins.map((buy_in) => {
 
     var a_status, a_percentage, a_firstname, a_counter_percentage;

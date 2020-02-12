@@ -158,7 +158,14 @@ const SwapsStack = createStackNavigator(
         headerLeft: () => <HeaderBackButton onPress={() => navigation.goBack(null)} />,
       })
 
-    }
+    }, 
+    TourneyLobby:{
+      screen: TourneyLobby,
+      navigationOptions: ({navigation}) => ({
+        title:'Tourney Lobby',
+        headerLeft: () => <HeaderBackButton onPress={() => navigation.popToTop()} />,
+      })
+    },
   }, {
     headerShown: false,
   }

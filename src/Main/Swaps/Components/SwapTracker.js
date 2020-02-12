@@ -55,8 +55,7 @@ export default SwapTracker = (props) => {
       start_at: props.tournament.start_at,
       buy_ins: props.tournament.buy_ins,
       swaps: props.swaps,
-      flights: props.tournament.flights, 
-      previousScreen: 'Tournaments'
+      flights: props.tournament.flights
     });
 
   }

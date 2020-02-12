@@ -25,7 +25,9 @@ export default VerifyTicket = (props) => {
 
   let name = navigation.getParam('name', 'default value');
   let flights = navigation.getParam('flights', 'NO-ID');
+  let tournament_id = navigation.getParam('tournament_id', 'NO-ID');
 
+  console.log('flights', flights)
   var FlightSelection = flights.map((flight) => {
       
     var startMonth = flight.start_at.substring(8,11)
@@ -99,7 +101,8 @@ export default VerifyTicket = (props) => {
   };
 
   const BuyInStart = async() => {    
-    var answer = await actions.buy_in.add( flight_id, table, seat, chips, image, props.navigation )
+    var answer = await actions.buy_in.add( 
+      flight_id, table, seat, chips, image, tournament_id, props.navigation )
   };
  
   let textSeat = null;
@@ -145,7 +148,7 @@ export default VerifyTicket = (props) => {
               autoCorrect={false} 
               onSubmitEditing={() => { textSeat.focus({pageYOffset:56})}}
               value={table}    
-              onChangeText={table => setTable( table )}
+              onChangeText={tableX => setTable( tableX )}
             />
           </CardItem>
          
@@ -163,7 +166,7 @@ export default VerifyTicket = (props) => {
               ref={(input) => { textSeat = input; }} 
               onSubmitEditing={() => { textChips.focus(); }}
               value={seat}    
-              onChangeText={seat => setSeat( seat )}
+              onChangeText={seatX => setSeat( seatX )}
             />
           </CardItem>
 

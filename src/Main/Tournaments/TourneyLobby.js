@@ -24,7 +24,6 @@ export default TourneyLobby = (props) => {
   let flights = navigation.getParam('flights', 'NO-ID');
   let buy_ins = navigation.getParam('buy_ins', 'NO-ID');
   let swaps = navigation.getParam('swaps', 'NO-ID');
-  let previousScreen = navigation.getParam('previousScreen', 'NO-ID');
 
 
   const {store,actions} = useContext(Context)
@@ -32,10 +31,15 @@ export default TourneyLobby = (props) => {
   var answer = async() => {
     await actions.tournament.getAction(tournament_id)
   }
-
+  var mySwapsinTournament
   var aa = store.myTrackers.filter(tracker => tracker.tournament.id == tournament_id)
   console.log('aa', aa)
-  var mySwapsinTournament = aa[0].swaps.map(swapBody => swapBody.swap)
+  if (aa.length !== 0){
+    mySwapsinTournament = aa[0].swaps.map(swapBody => swapBody.swap)
+    console.log('this should not work it we just went in')
+  } else {
+    mySwapsinTournament = []
+  }
 
   var Flights = flights.map((flight) => { 
     var their_buy_ins = buy_ins.filter(buy_in => buy_in.flight_id == flight.id)
@@ -56,12 +60,7 @@ export default TourneyLobby = (props) => {
   })
 
   return(
-    <Container>
-      <Header>
-        <HeaderBackButton onPress={() => navigation.goBack(previousScreen)}/>
-
-      </Header>
-      
+    <Container>      
       <Content>
         <List>
           {/* TOURNAMENT HEADER */}
