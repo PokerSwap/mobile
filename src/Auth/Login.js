@@ -1,4 +1,5 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
+import {Platform} from 'react-native'
 import {Button, Text, Toast, Icon } from 'native-base';
 import { Context } from '../Store/appContext';
 
@@ -31,20 +32,21 @@ export default LoginScreen = (props) => {
     setLoading(!loading)
   }
 
-  storeData = async () => {
-    try {
-      await AsyncStorage.setItem('loginToken', store.userToken.jwt)
-    } catch (error) {
-      console.log('could not store dat', error)
-      // saving error
-    }
+  var a_behavior
+  var offBy
+
+  if (Platform.OS == 'ios'){
+    a_behavior='position'
+    offBy=-100
+  }else{
+    a_behavior='padding'
+    offBy=-600
   }
 
   loginStart = async() => {
     loadingSwitch();
     var answer = await actions.user.login(
       email, password, deviceID, props.navigation );
-    var answer2 = await storeData();
     loadingSwitch();
   }
 
@@ -55,7 +57,7 @@ export default LoginScreen = (props) => {
       StatusBarAnimation={'none'}
     />
     <Spinner visible={loading} style={styles.spinner}/>
-      <KeyboardAvoidingView  behavior='padding' keyboardVerticalOffset={-100}>
+      <KeyboardAvoidingView  behavior={a_behavior} keyboardVerticalOffset={offBy}>
         <TouchableWithoutFeedback  onPress={Keyboard.dismiss}>
         <View>
           

@@ -21,17 +21,16 @@ export default CreateUser = (props) => {
 	const createUser = async() => {
 
 		if(email !== ''|| password !== ''){
-			if(password==c_password){}else{
+			if(password==c_password)
 				var answer1 = actions.user.add(email, password);
 				setSubmitted(true)
-			}
 		} else {
-			wrong('Make sure your passwords match')
+			errorMessage('Make sure your passwords match')
 		}
-		wrong('Please type in a usable email and password')
+		
 	}
 
-	const wrong = (x) => {
+	const errorMessage = (x) => {
 		if(store.userToken==null){
 			Toast.show({
 				text:x,
@@ -45,7 +44,6 @@ export default CreateUser = (props) => {
 				<Card transparent style={{justifyContent:'center'}}>
 					<CardItem>
 						<Text>A validation link has been sent to your email at {email}.</Text>
-						<Text>{deviceID}</Text>
 					</CardItem>
 				</Card>
 				:
@@ -106,6 +104,7 @@ export default CreateUser = (props) => {
 							<Text> SUBMIT </Text>
 						</Button>	
 					</CardItem>
+
 				</Card>		
 		
 			}

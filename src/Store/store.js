@@ -862,14 +862,14 @@ const getState = ({ getStore, setStore, getActions }) => {
 			
 				logout: async( navigation ) => {
 					const resetAction = StackActions.reset({
-						index: 1,
+						index: 0,
 						actions: [
 							NavigationActions.navigate({ routeName: 'Auth' })
 					],
 					});
 					navigation.dispatch(resetAction);
 					var asss = await getActions().userToken.remove()
-					var asss = await getActions().profile.remove()
+					// var asss = await getActions().profile.remove()
 				},
 
 				changeEmail: async ( myEmail, myPassword, myNewEmail, navigation ) => {

@@ -11,13 +11,13 @@ BuyInAttribute = (props) => {
     <Col>
 
       <Row style={{justifyContent:'center'}}>
-        <Text style={{textAlign:'center'}}> 
+        <Text style={{textAlign:'center', color:props.txt}}> 
           {props.top} 
         </Text>
       </Row>
 
       <Row style={{justifyContent:'center'}}>
-        <Text style={{textAlign:'center'}}> 
+        <Text style={{textAlign:'center', color:props.txt}}> 
           {props.bottom} 
         </Text>
       </Row>
@@ -46,7 +46,7 @@ export default BuyIn = (props) => {
     lastCol = 
       <Text 
         style={{fontWeight:'600', color:'white'}}> 
-          {props.percentage}% 
+        {props.percentage}% 
       </Text>;
     buttonColor= 'green';
     path = 'agreed'
@@ -143,39 +143,77 @@ export default BuyIn = (props) => {
   }
 
   var x = moment(props.updated_at).fromNow()
+  var y = parseInt(x.replace(/[^0-9\.]/g, ''), 10);
 
+  var since
+  if (x.includes('a few seconds ago')) {
+    since = 'Just Now'
+  } else if(x.includes('minutes ago')){
+    since = y + 'm' 
+  } else if(x.includes('hours ago')){
+    since = y + 'h' 
+  } else if(x.includes('days ago')){
+    since = y + 'd' 
+  } else if(x.includes('weeks ago')){
+    since = y + 'w' 
+  }else if(x.includes('months ago')){
+    since = y + 'M' 
+  }else if(x.includes('years ago')){
+    since = y + 'Y' 
+  }
+  else{
+
+  }
+
+  var bg;
+  var txt;
+  if (props.chips != 0){
+    bg='white' 
+    txt='black'
+  } else{
+    bg='red'
+    txt='white'
+  }
 
   return(
-    <ListItem noIndent>
+    <ListItem noIndent style={{backgroundColor:bg}}>
       <Grid style={{marginVertical:10}}>
         <Col style={{width:'70%'}}>
 
           {/* PROFILE NAME */}
           <Row style={{justifyContent:'center'}}>
             <Button transparent onPress={()=> enterProfile()}>
-              <Text style={{fontSize:24, textTransform:'capitalize'}}> {props.user_name} </Text>
+              <Text style={{fontSize:24, textTransform:'capitalize', color:txt}}> {props.user_name} </Text>
             </Button>
           </Row>
 
           {/* DETAILS */}
           <Row style={{marginTop:10}}>
-            {/* <BuyInAttribute top=' Still In? ' bottom={props.stillIn}/> */}
-            <BuyInAttribute top=' Table ' bottom={props.table}/>
-            <BuyInAttribute top=' Seat ' bottom={props.seat}/>
-            <BuyInAttribute top=' Chips ' bottom={props.chips}/>
+            <BuyInAttribute top=' Table ' 
+              bottom={props.table} txt={txt}/>
+            <BuyInAttribute top=' Seat ' 
+              bottom={props.seat} txt={txt}/>
+            <BuyInAttribute top=' Chips ' 
+              bottom={props.chips} txt={txt}/>
           </Row>
+
         </Col>
 
 
         {/* BUTTON WITH VARIABLE PATHS */}
-        <Col style={{justifyContent:'center', marginLeft:20}}>
+        <Col style={{justifyContent:'center', 
+          marginLeft:20, textAlign:'center'}}>
           <Button 
             onPress={()=> enterSwapOffer()}
-            style={{backgroundColor:buttonColor, width:70, height:70, justifyContent:'center'}}>
+            style={{
+              backgroundColor:buttonColor, width:70, height:70, 
+              justifyContent:'center', alignSelf:'center'}}>
             {lastCol}
           </Button>
-          <Text style={{marginTop:10, textAlign:'center'}}>
-            {x}</Text>
+          <Text style={{
+            marginTop:10, color:txt, textAlign:'center', alignSelf:'center'}}>
+            {since}
+          </Text>
         </Col>
 
       </Grid>

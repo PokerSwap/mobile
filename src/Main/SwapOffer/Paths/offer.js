@@ -38,7 +38,8 @@ export default OfferPath = (props) => {
   }
 
   return(
-    <Card transparent style={{alignSelf:'center', width:'80%', justifyContent:'center'}}>
+    <Card transparent style={{
+      alignSelf:'center', width:'90%', justifyContent:'center'}}>
 
       {store.myProfile.coins > 0 ?
         <View style={{ alignSelf:'center'}}>
@@ -68,11 +69,15 @@ export default OfferPath = (props) => {
         :
         <View>
           <CardItem>
-            <Text style={{textAlign:'center', fontSize:20,}}> In order to accept or counter this swap, you need to purchase tokens.</Text>
+            <Text style={{textAlign:'center', fontSize:20}}> 
+              In order to accept or counter this swap, 
+              you need to purchase tokens.
+            </Text>
           </CardItem>
         
           <CardItem style={{justifyContent:'center'}}>
-            <Button large success onPress={() => props.navigation.navigate('PurchaseTokens')}>
+            <Button large success 
+            onPress={() => props.navigation.navigate('PurchaseTokens')}>
               <Text>Purchase Tokens</Text>
             </Button>
           </CardItem>
