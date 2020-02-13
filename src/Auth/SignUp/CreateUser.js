@@ -1,14 +1,10 @@
 import React, {useContext, useState} from 'react';
 import { TextInput } from 'react-native'
 import { Button, Container, Card, CardItem, Item, Toast, Icon, Text } from 'native-base';
-import { Context } from '../../Store/appContext';
-import DeviceInfo from 'react-native-device-info'
 
-import { getUniqueId, getManufacturer } from 'react-native-device-info'
+import { Context } from '../../Store/appContext';
 
 export default CreateUser = (props) => {
-
-	var deviceID = DeviceInfo.getUniqueId();
 
 	const { store, actions } = useContext(Context)
 
@@ -19,36 +15,39 @@ export default CreateUser = (props) => {
 	const [ submitted, setSubmitted ] = useState(false)
 
 	const createUser = async() => {
-
-		if(email !== ''|| password !== ''){
-			if(password==c_password)
-				var answer1 = actions.user.add(email, password);
-				setSubmitted(true)
-		} else {
-			errorMessage('Make sure your passwords match')
-		}
-		
+		email !== ''|| password !== '' ?
+			password == c_password ?
+				actions.user.add(email, password) || setSubmitted(true)
+				:
+				errorMessage('Make sure your passwords match')
+		:
+		errorMessage('Please enter your desired email and password')
 	}
-
+		
 	const errorMessage = (x) => {
-		if(store.userToken==null){
-			Toast.show({
-				text:x,
-			duration:3000})
-		}
+		Toast.show({
+			text:x,
+			duration:3000
+		})		
 	}
 		
+	let userPassword = null;
+	let confirmPassword = null;
+
 	return(
 		<Container>
 			{submitted ? 
 				<Card transparent style={{justifyContent:'center'}}>
 					<CardItem>
-						<Text>A validation link has been sent to your email at {email}.</Text>
+						<Text>
+							A validation link has been sent to your email at {email}.
+						</Text>
 					</CardItem>
 				</Card>
 				:
 				<Card transparent style={{justifyContent:'center'}}>
-					<CardItem style={{flexDirection:"column", paddingLeft: 30, width:350, justifyContent:"center"}}>
+					<CardItem style={{flexDirection:"column", paddingLeft: 30, 
+						width:350, justifyContent:"center"}}>
 						<Text style={{textAlign:"center", width:300, fontSize:20}}>
 							Please create your Username for when you login and 
 							your personal Password and your Email Address.
@@ -63,7 +62,7 @@ export default CreateUser = (props) => {
 								returnKeyType="next"
 								autoCapitalize='none'
 								autoCorrect={false} 
-								onSubmitEditing={() => { txtPassword.focus(); }}
+								onSubmitEditing={() => { userPassword.focus(); }}
 								value={email}    
 								onChangeText={email => setEmail( email )}
 								/>
@@ -77,8 +76,8 @@ export default CreateUser = (props) => {
 								autoCapitalize='none'
 								returnKeyType="next"
 								autoCorrect={false} 
-								ref={(input) => { txtPassword = input; }} 
-								onSubmitEditing={() => { cfnPassword.focus(); }}
+								ref={(input) => { userPassword = input; }} 
+								onSubmitEditing={() => { confirmPassword.focus(); }}
 								value={password}
 								onChangeText={password => setPassword( password )}
 							/>
@@ -92,7 +91,7 @@ export default CreateUser = (props) => {
 									autoCapitalize='none'
 									returnKeyType="go"
 									autoCorrect={false} 
-									ref={(input) => { cfnPassword = input; }} 
+									ref={(input) => { confirmPassword = input; }} 
 									value={c_password}
 									onChangeText={password => setC_Password( password )}
 								/>
@@ -105,8 +104,7 @@ export default CreateUser = (props) => {
 						</Button>	
 					</CardItem>
 
-				</Card>		
-		
+				</Card>			
 			}
 		</Container>
 	)

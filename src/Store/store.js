@@ -44,44 +44,46 @@ const getState = ({ getStore, setStore, getActions }) => {
 			
 			buy_in:{
 
-				add: async ( a_flight_id, a_table, a_seat, some_chips, an_image, a_tournament_id, navigation) => {
+				add: async ( image, a_flight_id, a_tournament_id, navigation) => {
 					try{	
-
-						if (an_image == 3){
+						
+						if (image == 3){
 							return Toast.show({
 								text:'You need to select a photo of your buyin ticket before submitting',
 								position:'top', 
 								duration:3000
 							})
 						}
-						if (a_flight_id == '-1' || a_table == '' || a_seat == '' || some_chips == ''){
-							return Toast.show({
-								text:'You need to input all fileds before submitting',
-								position:'top', 
-								duration:3000
-							})
-						}
-						
 						let accessToken = getStore().userToken.jwt
-						const url = 'https://swapprofit-test.herokuapp.com/me/buy_ins'		
-						let data = {
-							flight_id: a_flight_id,
-							table: a_table,
-							seat: a_seat,
-							chips: some_chips
-						}
-
-						let response = await fetch(url, {
-							method: 'POST',
-							body: JSON.stringify(data),
+						const url = 'https://swapprofit-test.herokuapp.com/me/buy_ins/flight/'+ a_flight_id +'/image'		
+						const data = new FormData();
+												
+						data.append('image', {
+								uri: image.uri,
+								type: image.type,
+								name: image.name
+						});
+						console.log('wee', data)
+			
+						var postData = {
+							method: 'PUT',
 							headers: {
+								'Content-Type': 'multipart/form-data',
 								'Authorization': 'Bearer ' + accessToken,
-								'Content-Type':'application/json'
-							}, 
+							},
+							body: data,
+						}
+				
+						let response = await fetch(url, postData)
+						.then(response => response.json())
+						.then((responseJson) => {
+							console.log('responseJson',responseJson);
+							return responseJson;
 						})
-						var a1 = await getActions().buy_in.uploadPhoto(an_image)
+						.catch((error) => {
+							console.log('error in json',error);
+						});
 
-						var tournamentJson = await response.json()
 
 						
 
@@ -169,44 +171,44 @@ const getState = ({ getStore, setStore, getActions }) => {
 					}
 				},
 
-				uploadPhoto: async ( image ) => {
+				// uploadPhoto: async ( image ) => {
 					
-					try {
-						const data = new FormData();
-						var an_id = await getActions().buy_in.getMostRecent()
-						var url ='https://swapprofit-test.herokuapp.com/me/buy_ins/' + an_id + '/image'
-						const accessToken = getStore().userToken.jwt ;
+				// 	try {
+				// 		const data = new FormData();
+				// 		var an_id = await getActions().buy_in.getMostRecent()
+				// 		var url ='https://swapprofit-test.herokuapp.com/me/buy_ins/' + an_id + '/image'
+				// 		const accessToken = getStore().userToken.jwt ;
 						
-						data.append('image', {
-								uri: image.uri,
-								type: image.type,
-								name: image.name
-						});
-						console.log('wee', data)
-			
-						var postData = {
-							method: 'PUT',
-							headers: {
-								'Content-Type': 'multipart/form-data',
-								'Authorization': 'Bearer ' + accessToken,
-							},
-							body: data,
-						}
+				// 		data.append('Image', {
+				// 				uri: image.uri,
+				// 				type: image.type,
+				// 				name: image.name
+				// 		});
+				// 		console.log('wee', data)
+
 				
-						let response = await fetch(url, postData)
-						.then(response => response.json())
-						.then((responseJson) => {
-							console.log('responseJson',responseJson);
-							return responseJson;
-						})
-						.catch((error) => {
-							console.log('error in json',error);
-						});
+				// 		let response = await fetch(url, {
+				// 			method: 'PUT',
+				// 			headers: {
+				// 				'Content-Type': 'multipart/form-data',
+				// 				'Authorization': 'Bearer ' + accessToken,
+				// 			},
+				// 			body: data,
+				// 		})
+
+				// 		.then(response => response.json())
+				// 		.then((responseJson) => {
+				// 			console.log('responseJson',responseJson);
+				// 			return responseJson;
+				// 		})
+				// 		.catch((error) => {
+				// 			console.log('error in json',error);
+				// 		});
 				
-					} catch(error) {
-						console.log("Something went wrong with uploading buyin photo:", error)
-					}
-				}
+				// 	} catch(error) {
+				// 		console.log("Something went wrong with uploading buyin photo:", error)
+				// 	}
+				// }
 
 			},
 
@@ -417,7 +419,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						profileData !== 'User not found' ?	
 							getActions().profile.store(profileData)
 							:
-							console.log('hey noew')
+							console.log('this means you couldnt store your profile')
 
 					} catch(error){
 						console.log('Something went wrong in getting profile', error)
@@ -472,7 +474,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 								return responseJson;
 							})
 							.catch((error) => {
-								console.log('error in json',error);
+								console.log('error in json of profile pic',error);
 							});
 					} catch(error) {
 						console.log('Something went wrong with uploading photo:', error)
@@ -842,7 +844,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						.then(()=> your_password = '')
 						.then(()=> {
 							if(getStore().userToken){
-								if(getStore().myProfile.message !== "User not found" ){
+								if(getStore().myProfile.message !== "Profile not found" ){
 									getActions().tournament.getInitial()
 									.then(() => getActions().tracker.getAll())
 									.then(() => getActions().tracker.getPast())
@@ -852,7 +854,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 								}
 											
 							}else{
-									console.log("You did not login");
+								console.log("You did not login");
 							}
 						})
 						.catch((error)=> console.log('something wehnt wrong in login', error))
@@ -1006,7 +1008,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						if (response1.status >= 200 && response1.status < 300) {
 							data.error = "";
 							let user = res;
-							// console.log('userToken: ', user, typeof(user))
+							console.log('userToken: ', user, typeof(user))
 							getActions().userToken.store(user);
 						} else {
 							let error = res;
@@ -1033,6 +1035,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 				store: async( myUserToken ) => {
 					try {
 						setStore({userToken: myUserToken});
+						console.log('userToken saved',myUserToken, typeof(myUserToken))
+						var aaasss = await AsyncStorage.setItem('loginToken', myUserToken.jwt)
 					} catch(error) {
 						console.log('something went wrong in userToken.store', error)
 					}

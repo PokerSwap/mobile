@@ -1,8 +1,6 @@
 import React, {useContext, useEffect} from 'react';
 import { View, StatusBar } from 'react-native';
 import { Text,Icon} from 'native-base';
-import { StackActions, NavigationActions } from 'react-navigation';
-
 
 import { firebase } from '@react-native-firebase/messaging';
 
@@ -14,7 +12,7 @@ export default SplashScreen = (props) => {
 
 	const { store, actions } = useContext(Context)
 
-	checkData = async() => {
+	const checkData = async() => {
 		const currentToken = await AsyncStorage.getItem('loginToken')
 		console.log('currentToken', currentToken)
 		if (currentToken){
@@ -29,7 +27,9 @@ export default SplashScreen = (props) => {
 
 				var answer2 = await actions.user.auto_login(props.navigation)
 
-			}else{
+			}else{				
+				console.log('myProfile',store.myProfile)
+
 				console.log('badToken')
 				AsyncStorage.removeItem('loginToken')
 				props.navigation.navigate('LogIn')
@@ -37,6 +37,7 @@ export default SplashScreen = (props) => {
 			}
 
 		} else{
+			console.log('sss',store.userToken)
 			console.log('token is null')
 			props.navigation.navigate('LogIn')
 
@@ -45,7 +46,7 @@ export default SplashScreen = (props) => {
 	}
 
 
-	hasPermission = async() => {
+	const hasPermission = async() => {
 		var answer = await firebase.messaging().hasPermission();
 		console.log('hasPermission',answer)
 		if (answer){
@@ -59,7 +60,7 @@ export default SplashScreen = (props) => {
 		}
 	}
 
-	registerNotifications = async() => {
+	const registerNotifications = async() => {
 		if (!firebase.messaging().isRegisteredForRemoteNotifications) {
 			var answer33 = await firebase.messaging().registerForRemoteNotifications();
 			console.log('registered for notifications')
@@ -68,7 +69,7 @@ export default SplashScreen = (props) => {
 		}
 	}
 
-	getPermission = async() => {
+	const getPermission = async() => {
 		var answer1 = await firebase.messaging().requestPermission();
 		var answer2 = await registerNotifications()
 		(answer1) ? console.log('access granted') : console.log('access denied')

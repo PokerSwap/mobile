@@ -1,7 +1,5 @@
 import React, {useState} from 'react';
-import { Content, Container, Header, Tab, Tabs } from 'native-base';
-
-import { Context } from '../../Store/appContext'
+import { Content, Container, Tab, Tabs } from 'native-base';
 
 import ProfileReview from './ProfileReview'
 import NameSetup from './NameSetup';
@@ -18,13 +16,13 @@ export default CreateProfile = (props) => {
     const [ hendon, setHendon] = useState('')
 
   // NEXT SIGNUP STEP
-  nextPage = () => {
+  const nextPage = () => {
     if (page >= 0){
       setPage(page + 1)
     } 
 };
   // NEXT SIGNUP STEP
-  prevPage = () => {
+  const prevPage = () => {
     if (page <= 5){
       setPage(page- 1)
     } 

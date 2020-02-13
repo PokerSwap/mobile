@@ -1,19 +1,13 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useCallback } from 'react';
 import {Platform} from 'react-native'
 import {Button, Text, Toast, Icon } from 'native-base';
 import { Context } from '../Store/appContext';
-
+import { debounce } from "lodash";
 
 import Spinner from 'react-native-loading-spinner-overlay';
 import { Keyboard, TouchableWithoutFeedback, TextInput, 
   KeyboardAvoidingView, View, StatusBar } from 'react-native';
-
-import AsyncStorage from '@react-native-community/async-storage'
-
 import DeviceInfo from 'react-native-device-info'
-
-import { getUniqueId, getManufacturer } from 'react-native-device-info'
-
 
 export default LoginScreen = (props) => {
 
@@ -23,33 +17,28 @@ export default LoginScreen = (props) => {
 
   const { store, actions } = useContext(Context)
 
-  var {navigate} = props.navigation
-
 	var deviceID = DeviceInfo.getUniqueId();
   console.log('deviceID',deviceID)
 
-  loadingSwitch = () => {
-    setLoading(!loading)
-  }
 
-  var a_behavior
-  var offBy
+  var a_behavior, offBy
 
-  if (Platform.OS == 'ios'){
-    a_behavior='position'
-    offBy=-100
-  }else{
-    a_behavior='padding'
-    offBy=-600
-  }
+  Platform.OS == 'ios' ?
+    a_behavior='position' || (offBy= -100)
+    :
+    a_behavior='padding' || (offBy = -600)
+  
 
-  loginStart = async() => {
-    loadingSwitch();
+  const loginStart = async() => {
+    setLoading(true)
     var answer = await actions.user.login(
       email, password, deviceID, props.navigation );
-    loadingSwitch();
+    var eee = setLoading(false)
   }
 
+  const handler = () => debounce(loginStart(), 10000);
+
+  let txtPassword = null
   return(
     <View style={styles.container.main}>
     <StatusBar 
@@ -63,9 +52,14 @@ export default LoginScreen = (props) => {
           
         {/* TITLE */}
 
-          <View header style={{flexDirection:'column', alignItems:'center', marginBottom:100}}>
-          <Icon type="FontAwesome5" name="handshake" style={{fontSize:80,color:'white'}} />
-            <Text style={styles.text.title}>Swap Profit</Text>
+          <View header style={{flexDirection:'column', 
+            alignItems:'center', marginBottom:100}}>
+            
+            <Icon type="FontAwesome5" name="handshake" 
+              style={{fontSize:80,color:'white'}} />
+            <Text style={styles.text.title}>
+              Swap Profit
+            </Text>
             
           </View>  
             
@@ -102,27 +96,26 @@ export default LoginScreen = (props) => {
                 selectionColor={'#D3D3D3'}
                 ref={(input) => { txtPassword = input; }} 
                 value={password}
-                onChangeText={password => setPassword( password )}
-              />
+                onChangeText={password => setPassword( password )}/>
             </View>
 
             {/* BUTTONS */}
             <View style={styles.container.button}>
 
               {/* LOGIN BUTTON */}         
-              <Button block large style={styles.button.login}
+              <Button  block large style={styles.button.login}
                 onPress={
                   async() => {
                     Keyboard.dismiss();
-                    var x = await loginStart()}
+                    handler()
                   }
-              >
+                }>
                 <Text style={styles.text.login}> Login </Text>
               </Button>
                   
               {/* SIGN UP BUTTON */}
               <Button  block large style={styles.button.signup} 
-                onPress={()=>navigate("TermsAndConditions")}>
+                onPress={()=> props.navigation.navigate("TermsAndConditions")}>
                 <Text style={styles.text.signup}> 
                   Sign Up 
                 </Text>
@@ -131,7 +124,9 @@ export default LoginScreen = (props) => {
               {/* FORGOT PASSWORD BUTTON */}
               <Button transparent style={styles.button.forgotPassword} 
                 onPress={() => props.navigation.navigate("ForgotPassword")}>
-                <Text style={styles.text.forgotPassword}>Forgot password?</Text>
+                <Text style={styles.text.forgotPassword}>
+                  Forgot password?
+                </Text>
               </Button>
                   
             </View>
@@ -148,20 +143,24 @@ export default LoginScreen = (props) => {
 const styles = {
   container:{
     main:{
-       flex:1,flexDirection:'column', justifyContent:'flex-end', backgroundColor:'rgb(12,85,32)'},
+       flex:1,flexDirection:'column', justifyContent:'flex-end', 
+       backgroundColor:'rgb(12,85,32)'},
     button:{
       backgroundColor:'rgb(12,85,32)',  justifyContent:'center', 
       flexDirection:'column', marginBottom:'12%'
     },
     input:{
-      width:'75%', alignSelf:'center', marginVertical:5, backgroundColor: 'rgba(255,255,255,0.2)'},
+      width:'75%', alignSelf:'center', marginVertical:5, 
+      backgroundColor: 'rgba(255,255,255,0.2)'},
     title:{
-      alignSelf:'center', justifyContent:'center', backgroundColor:'rgb(12,85,32)'
+      alignSelf:'center', justifyContent:'center', 
+      backgroundColor:'rgb(12,85,32)'
     }
   },
   button:{
     login:{
-      width:'75%', alignSelf:'center', paddingVertical: 15, marginTop: 10
+      width:'75%', alignSelf:'center', 
+      paddingVertical: 15, marginTop: 10
     },
     signup:{  
       backgroundColor:'rgb(211,152,35)', width:'75%', 

@@ -145,9 +145,11 @@ export default BuyIn = (props) => {
   var x = moment(props.updated_at).fromNow()
   var y = parseInt(x.replace(/[^0-9\.]/g, ''), 10);
 
+
+
   var since
   if (x.includes('a few seconds ago')) {
-    since = 'Just Now'
+    since = 'Just Now' 
   } else if(x.includes('minutes ago')){
     since = y + 'm' 
   } else if(x.includes('hours ago')){
@@ -165,15 +167,10 @@ export default BuyIn = (props) => {
 
   }
 
-  var bg;
-  var txt;
-  if (props.chips != 0){
-    bg='white' 
-    txt='black'
-  } else{
-    bg='red'
-    txt='white'
-  }
+  var bg, txt;
+  props.chips != 0 ?
+    bg='white' || (txt='black') : bg='red' || (txt='white')
+  
 
   return(
     <ListItem noIndent style={{backgroundColor:bg}}>

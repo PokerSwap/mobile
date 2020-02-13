@@ -9,13 +9,13 @@ export default  ProfileReview = (props) => {
 
 	let createProfile = async() => {
 		var answer = await actions.profile.add(
-			props.username, props.first_name, props.last_name, props.hendon, props.picture
+			props.username, props.first_name, props.last_name, 
+			props.hendon, props.picture
 		)
 		.then(() => actions.profile.get())
 		.then(() => actions.tracker.getAll())
 		.then(() => actions.tracker.getPast())
-		.then(() => actions.tournaments.getInital())
-		.then(()=> actions.coin.buy(0,5))
+		.then(() => actions.tournament.getInitial())
 		.then(()=> props.navigation.navigate('Swaps'))
 	}
 
@@ -23,12 +23,17 @@ export default  ProfileReview = (props) => {
 		<Card style={{flexDirection:'column'}}>
 			
 			<CardItem transparent style={{justifyContent:'center'}}>
-				<Image source={{uri: props.picture.uri}} style={{height:100, width:100, marginTop:25, borderRadius:500}}/>
+				<Image source={{uri: props.picture.uri}} 
+					style={{height:100, width:100, marginTop:25, borderRadius:500}}/>
 			</CardItem>
 
 			<CardItem transparent style={{flexDirection:'column',marginVertical:10}}>
-				<Text style={{fontSize:20,fontWeight:'600'}}>Name</Text>
-				<Text> {props.first_name} "{props.username}" {props.last_name}</Text>
+				<Text style={{fontSize:20,fontWeight:'600'}}>
+					Name
+				</Text>
+				<Text> 
+					{props.first_name} "{props.username}" {props.last_name}
+				</Text>
 			</CardItem>
 
 			<CardItem transparent 

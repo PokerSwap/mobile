@@ -37,9 +37,6 @@ export default  PictureSetup = (props) => {
       } else if (response.error) {
         console.log('ImagePicker Error: ', response.error);
       } else {
-        // props.onChangePicture(response.uri)
-        // setImage( response.uri);
-        // console.log('image',image)
 
         if (!response.uri) return;
 
@@ -84,14 +81,17 @@ export default  PictureSetup = (props) => {
       <CardItem header style={{justifyContent:'center'}}>
         <Image 
           source={{uri:image}}
-          style={{height:300, width:300, marginTop:25, borderRadius:500}}
+          style={{height:300, width:300, 
+            marginTop:25, borderRadius:500}}
         >
           </Image>
       </CardItem>
 
       {/* PICTURE INSTRUCTIONS */}
       <CardItem body style={{justifyContent:'center'}}>
-        <Text style={{fontSize:24}}>Choose a profile picture of yourself to upload.</Text>
+        <Text style={{fontSize:24}}>
+          Choose a profile picture of yourself to upload.
+        </Text>
       </CardItem>
         
       {/* UPLOAD BUTTON */}
@@ -111,7 +111,8 @@ export default  PictureSetup = (props) => {
         </Button>
 
         {/* NEXT BUTTON */}
-        <Button large disabled={x} iconRight onPress={() => props.next()}>
+        <Button large disabled={x} iconRight 
+          onPress={() => props.next()}>
           <Text>Next</Text>
           <Icon name='arrow-forward'/>
         </Button>

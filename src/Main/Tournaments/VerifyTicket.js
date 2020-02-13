@@ -14,7 +14,7 @@ export default VerifyTicket = (props) => {
 
   const { store, actions } = useContext(Context)
  
-  const [image, setImage ]= useState(require('../../Images/placeholder.jpg'));
+  const [image, setImage ]= useState('../../Images/placeholder.jpg');
   const [table, setTable ]= useState('');
   const [seat, setSeat] = useState('');
   const [chips, setChips] = useState('');
@@ -52,8 +52,6 @@ export default VerifyTicket = (props) => {
         />
       )
   })
-
-  const { width, height } = Dimensions.get('window');
 
   const askPersmission = async () => {
     if(Platform.OS == 'ios'){
@@ -94,15 +92,41 @@ export default VerifyTicket = (props) => {
       } else if (response.error) {
         console.log('ImagePicker Error: ', response.error);
       } else {
-        const source = { uri: response.uri };
-        setImage(source);
+
+        if (!response.uri) return;
+
+      let type = response.type;
+
+      if (type === undefined && response.fileName === undefined) {
+        const pos = response.uri.lastIndexOf('.');
+        type = response.uri.substring(pos + 1);
+        if (type) type = `image/${type}`;
+      }
+      if (type === undefined) {
+        const splitted = response.fileName.split('.');
+        type = splitted[splitted.length - 1];
+        if (type) type = `image/${type}`;
+      }
+
+      let name = response.fileName;
+      if (name === undefined && response.fileName === undefined) {
+        const pos = response.uri.lastIndexOf('/');
+        name = response.uri.substring(pos + 1);
+      }
+
+      const selectedImage = {
+        uri: response.uri,
+        type: type.toLowerCase(),
+        name,
+      };
+      setImage(selectedImage.uri );
       }
     });
   };
 
   const BuyInStart = async() => {    
     var answer = await actions.buy_in.add( 
-      flight_id, table, seat, chips, image, tournament_id, props.navigation )
+      image, flight_id, tournament_id, props.navigation )
   };
  
   let textSeat = null;
@@ -111,21 +135,25 @@ export default VerifyTicket = (props) => {
   return(
     <Container>
       <Content>
-      <KeyboardAvoidingView style={{flex:1,}} behavior='position' keyboardVerticalOffset={-180}>
+      <KeyboardAvoidingView style={{flex:1,}} 
+        behavior='position' keyboardVerticalOffset={-180}>
         {/* IMAGE INPUT */}
         <Card transparent >
           
           {/* INSTRUCTION TEXT  */}
-          <CardItem style={{selfAlign:'center', flex:1, justifyContent:'center', flexDirection:'column'}}>
+          <CardItem style={{selfAlign:'center', flex:1, 
+            justifyContent:'center', flexDirection:'column'}}>
             <Text style={{textAlign:'center', fontSize:18,  flex:1}}>
               Enter the information and upload a photo of your tournament buyin ticket.
             </Text>
           </CardItem>
 
           {/* IMAGE UPLOADED  */}
-          <CardItem style={{justifyContent:'center', flex:1, flexDirection:'column', alignItems:'center'}}>
-            <Image source={image} style={{width:200, height:200}} />
-            <Button style={{width:200, justifyContent:'center'}} onPress={()=> askPersmission()}>
+          <CardItem style={{justifyContent:'center', 
+            flex:1, flexDirection:'column', alignItems:'center'}}>
+            <Image source={{uri:image}} style={{width:200, height:200}} />
+            <Button style={{width:200, justifyContent:'center'}} 
+              onPress={()=> askPersmission()}>
               <Icon type='FontAwesome5' name='plus' style={{color:'white'}}/>
             </Button>
           </CardItem>
@@ -133,9 +161,9 @@ export default VerifyTicket = (props) => {
         </Card>
         
         {/* ALL BUYIN INPUTS */}
-        <Card transparent style={{flex:1, flexDirection:'row', justifyContent:'center'}}>
+        {/* <Card transparent style={{flex:1, flexDirection:'row', justifyContent:'center'}}> */}
           {/* TABLE INPUT */}
-          <CardItem style={{flexDirection:'column', alignItems:'flex-end', width:'33%'}}>
+          {/* <CardItem style={{flexDirection:'column', alignItems:'flex-end', width:'33%'}}>
             <Text style={styles.text.input}>Table: </Text>
             <TextInput 
               placeholder="Table #"
@@ -151,9 +179,9 @@ export default VerifyTicket = (props) => {
               onChangeText={tableX => setTable( tableX )}
             />
           </CardItem>
-         
+          */}
           {/* SEAT INPUT */}
-          <CardItem style={{flexDirection:'column', justifyContent:'center', width:'33%'}}>
+          {/* <CardItem style={{flexDirection:'column', justifyContent:'center', width:'33%'}}>
             <Text style={styles.text.input}>Seat: </Text>
             <TextInput 
               placeholder="Seat #"
@@ -168,10 +196,10 @@ export default VerifyTicket = (props) => {
               value={seat}    
               onChangeText={seatX => setSeat( seatX )}
             />
-          </CardItem>
+          </CardItem> */}
 
           {/* CHIPS INPUT */}
-          <CardItem style={{flexDirection:'column', alignItems:'flex-start', width:'33%'}}>
+          {/* <CardItem style={{flexDirection:'column', alignItems:'flex-start', width:'33%'}}>
             <Text style={styles.text.input}>Chips: </Text>
             <TextInput 
               placeholder="Chip #"
@@ -186,10 +214,12 @@ export default VerifyTicket = (props) => {
               onChangeText={chips => setChips( chips )}
             />
           </CardItem>
-        </Card>
+        </Card> */}
         
         <Card transparent style={{ justifyContent:'center', flex:1, flexDirection:'column'}}>
-          <Text style={{textAlign:'center', fontSize:18, marginBottom:5}}>Selected Flight:</Text> 
+          <Text style={{textAlign:'center', fontSize:18, marginBottom:5}}>
+            Selected Flight:
+          </Text> 
           {Platform.OS =='ios'? 
             <Form style={{justifyContent:'center', alignSelf:'center'}}>
               <Picker
