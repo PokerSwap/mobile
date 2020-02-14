@@ -18,7 +18,6 @@ export default LoginScreen = (props) => {
   const { store, actions } = useContext(Context)
 
 	var deviceID = DeviceInfo.getUniqueId();
-  console.log('deviceID',deviceID)
 
 
   var a_behavior, offBy

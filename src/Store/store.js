@@ -13,22 +13,25 @@ const getState = ({ getStore, setStore, getActions }) => {
 			// FOR CURRENT TOURNAMENT ACTION
 			action: null,
 
+			deviceToken: null,
+
 			// CURRENT PROFILE
 			myProfile:{},
 
 			// LIVE AND UPCOMING SWAP TRACKER
 			myTrackers:[],
 
+			// ALL PAST SWAP TRACKER
+			myPastTrackers:[],
+
+			// ALL WINNING TRACKERS
+			myWinningsTrackers:[],
+
 			// FOR MOST RECENT NOTIFICATION, TO GO TO PAGE
 			notificationData: null,
 
 			// LISTS ALL RECIEVED NOTIFICATIONS
 			notificationList:[],
-
-			// PAST/WINNINGS SWAP TRACKER
-			myPastTrackers:[],
-
-			myWinningsTrackers:[],
 			
 	  	// OTHER PEOPLE'S PROFILES (ON PROFILE VIEW)
 			profileView:[ ],
@@ -238,6 +241,61 @@ const getState = ({ getStore, setStore, getActions }) => {
 				// 	}
 				// }
 
+			},
+
+			deviceToken:{
+
+				get: async() => {
+					try {
+						var device_token = await AsyncStorage.getItem('deviceToken')
+						setStore({deviceToken: device_token})
+						console.log('deviceToken', getStore().deviceToken, device_token)
+					} catch (error) {
+						console.log('something went wrong with removing device token', error)
+					}
+				},
+
+				remove: async() => {
+					try {
+						const accessToken = getStore().userToken.jwt;
+						const url = 'https://swapprofit-test.herokuapp.com/users/me/devices'
+
+						var data = {
+							device_token: getStore().deviceToken
+						}
+
+						let response = await fetch(url, {
+							method:'DELETE',
+							headers: {
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							},
+							body: JSON.stringify(data), 
+						})
+						.then(response => response.json)
+
+						console.log('response', response)
+
+						var eree = await AsyncStorage.removeItem('deviceToken')
+						setStore({deviceToken: null})
+
+
+
+					}catch(error){
+						console.log('something went wrong with removing device token', error)
+					}
+				},
+
+				store: async(device_token) => {
+					try{
+						var sss = await AsyncStorage.setItem('deviceToken', device_token)
+						setStore({deviceToken: device_token})
+						console.log('deviceToken', getStore().deviceToken, AsyncStorage.getItem('deviceToken'))
+					}catch(error){
+						console.log('something went wrong with storing device token', error)
+					}
+				}
+				
 			},
 
 			coin:{
@@ -859,7 +917,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 				auto_login: async(navigation) => {
 					try{
 						return new Promise(resolve =>
-						resolve(getActions().tournament.getInitial()
+						resolve(
+						getActions().deviceToken.get()
+						.then(() => getActions().tournament.getInitial())	
 						.then(() => getActions().tracker.getAll())
 						.then(() => getActions().tracker.getPast())
 						.then(() => getActions().notification.check(navigation))
@@ -889,7 +949,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 						.then(()=> {
 							if(getStore().userToken){
 								if(getStore().myProfile.message !== "Profile not found" ){
-									getActions().tournament.getInitial()
+									getActions().deviceToken.store(myDeviceID)
+									.then(() => getActions().tournament.getInitial())
 									.then(() => getActions().tracker.getAll())
 									.then(() => getActions().tracker.getPast())
 									.then(() => navigation.navigate('Swaps'))
@@ -914,6 +975,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					],
 					});
 					navigation.dispatch(resetAction);
+					var ase = await getActions().deviceToken.remove()
 					var asss = await getActions().userToken.remove()
 					// var asss = await getActions().profile.remove()
 				},

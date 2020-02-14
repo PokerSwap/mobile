@@ -1,12 +1,11 @@
 import React, {useContext, useEffect} from 'react';
 import { View, StatusBar } from 'react-native';
 import { Text,Icon} from 'native-base';
-
 import { firebase } from '@react-native-firebase/messaging';
-
-import {Context} from '../Store/appContext'
-
 import AsyncStorage from '@react-native-community/async-storage';
+
+import DeviceInfo from 'react-native-device-info'
+import {Context} from '../Store/appContext'
 
 export default SplashScreen = (props) => {
 
@@ -24,6 +23,8 @@ export default SplashScreen = (props) => {
 
 			if( Object.keys(store.myProfile)[0] != 'msg'&& Object.keys(store.myProfile)[0] != 'message' && store.myProfile !== undefined){
 				console.log('myProfile',store.myProfile)
+
+				var assefg = await actions.deviceToken.get()
 
 				var answer2 = await actions.user.auto_login(props.navigation)
 
