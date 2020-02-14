@@ -28,12 +28,11 @@ export default WinningsDashboard = (props) => {
   let aTracker = (e) => e.map((content, index) => {
     return(
       <WinningsTracker 
-      key={index}
-          tournament={content.tournament}
-          my_buyin={content.my_buyin}
-          swaps={content.swaps}
-          navigation={props.navigation}
-        />
+        key={index}
+        tournament={content.tournament}
+        my_buyin={content.my_buyin}
+        swaps={content.swaps}
+        navigation={props.navigation}/>
     )
   })
 
@@ -57,19 +56,20 @@ export default WinningsDashboard = (props) => {
   return(
     <Container>
       <HomeHeader title={'Winnings Dashboard'} 
-      drawer={() => props.navigation.toggleDrawer()}
-      tutorial={() => props.navigation.push('Tutorial')}
-      />
+        drawer={() => props.navigation.toggleDrawer()}
+        tutorial={() => props.navigation.push('Tutorial')}/>
+      
       <Content>
         <List>
-
-          {/* LIVE SWAPS LIST HEADER */}
+          {/* RECENT WINNINGS LIST HEADER */}
           <Separator bordered style={{height:48, backgroundColor:'rgb(56,68,165)'}}>
             <Text style={{fontSize:20, color:'white', fontWeight:'600', textAlign:'center'}}> 
               RECENT 
             </Text>                
           </Separator>       
           {recentTracker}
+
+          {/* LATER WINNINGS LIST HEADER */}
           <Separator bordered style={{height:48, backgroundColor:'rgb(56,68,165)'}}>
             <Text style={{fontSize:20, color:'white', fontWeight:'600', textAlign:'center'}}> 
               HISTORY 
@@ -78,6 +78,7 @@ export default WinningsDashboard = (props) => {
           {historyTracker}     
         </List>
       </Content>
+
     </Container>
-)
+  )
 }

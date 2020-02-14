@@ -41,22 +41,15 @@ export default FlightSelection = (props) => {
 
   return(
     <Container>
-      <Content >
-        <View            
->
+      <Content>
+        <View>
           <Picker   
             selectedValue={flight_id}
-            onValueChange={ (itemValue, itemIndex) => setFlight(itemValue) }
-          >
+            onValueChange={ (itemValue, itemIndex) => setFlight(itemValue) }>
             <Picker.Item label='Please select your flight...' value='-1' />
             {FlightSelection}
           </Picker>
         </View>
-        
-        {/* <Button onPress={()=> console.log()}>
-          <Text> Select </Text>
-        </Button> */}
-
       </Content>
     </Container>
   )

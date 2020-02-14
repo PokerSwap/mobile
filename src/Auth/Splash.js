@@ -12,7 +12,7 @@ export default SplashScreen = (props) => {
 	const { store, actions } = useContext(Context)
 
 	const checkData = async() => {
-		const currentToken = await AsyncStorage.getItem('loginToken')
+		const currentToken = await AsyncStorage.getItem('userToken')
 		console.log('currentToken', currentToken)
 		if (currentToken){
 
@@ -32,7 +32,7 @@ export default SplashScreen = (props) => {
 				console.log('myProfile',store.myProfile)
 
 				console.log('badToken')
-				AsyncStorage.removeItem('loginToken')
+				AsyncStorage.removeItem('userToken')
 				props.navigation.navigate('LogIn')
 
 			}
