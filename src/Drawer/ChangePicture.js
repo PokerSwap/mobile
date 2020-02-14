@@ -72,26 +72,27 @@ export default ChangePicture = (props) => {
       const selectedImage = {
         uri: response.uri,
         type: type.toLowerCase(),
-        name,
+        name: name,
       };
-      const source = { uri: response.uri };
-      setImage(source)
+
+      setImage(selectedImage)
       // setImageURI(selectedImage.uri );
       }
     });
   };
 
   const changePicture = async() => {
-    var answer = await actions.profile.uploadPhoto(imageURI)
+    var answer = await actions.profile.uploadPhoto(image)
   }
 
   return(
     <Container>
-      <Content contentContainerStyle={{justifyContent:'center', alignItems:'center'}}>
+      <Content contentContainerStyle={{
+        justifyContent:'center', alignItems:'center'}}>
       <Card transparent style={{
           justifyContent:'center', alignItems:'center', 
           flex:1, flexDirection:'column', marginTop:160}}>
-        <Image source={image} style={{width:300, height:300}} />
+        <Image source={{uri: image.uri}} style={{width:300, height:300}} />
         <Button style={{width:300, justifyContent:'center'}} 
           onPress={()=> choosePhoto()}>
           <Icon type='FontAwesome5' name='plus' style={{color:'white'}}/>

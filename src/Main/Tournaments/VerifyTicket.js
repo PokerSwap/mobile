@@ -20,9 +20,7 @@ export default VerifyTicket = (props) => {
   const [chips, setChips] = useState('');
   const [flight_id, setFlight] = useState('-1')
 
-  console.log('image', image, typeof(image))
   var navigation = props.navigation;
-
   let name = navigation.getParam('name', 'default value');
   let flights = navigation.getParam('flights', 'NO-ID');
   let tournament_id = navigation.getParam('tournament_id', 'NO-ID');
@@ -40,8 +38,6 @@ export default VerifyTicket = (props) => {
 
     var day_name = flight.start_at.substring(0,3)
     var day_num = flight.day
-
- 
     var labelTime = 'Day ' + day_num + ' ' + day_name + '.  ' + startMonth + '. ' + startDay + ', ' + startTime + startM
       
     return(
@@ -117,16 +113,16 @@ export default VerifyTicket = (props) => {
       const selectedImage = {
         uri: response.uri,
         type: type.toLowerCase(),
-        name,
+        name: name,
       };
-      setImage(selectedImage.uri );
+      setImage(selectedImage);
       }
     });
   };
 
   const BuyInStart = async() => {    
     var answer = await actions.buy_in.add( 
-      image, flight_id, tournament_id, props.navigation )
+      image, table, seat, chips, flight_id, tournament_id, props.navigation )
   };
  
   let textSeat = null;
@@ -151,7 +147,7 @@ export default VerifyTicket = (props) => {
           {/* IMAGE UPLOADED  */}
           <CardItem style={{justifyContent:'center', 
             flex:1, flexDirection:'column', alignItems:'center'}}>
-            <Image source={{uri:image}} style={{width:200, height:200}} />
+            <Image source={{uri:image.uri}} style={{width:200, height:200}} />
             <Button style={{width:200, justifyContent:'center'}} 
               onPress={()=> askPersmission()}>
               <Icon type='FontAwesome5' name='plus' style={{color:'white'}}/>
@@ -161,10 +157,12 @@ export default VerifyTicket = (props) => {
         </Card>
         
         {/* ALL BUYIN INPUTS */}
-        {/* <Card transparent style={{flex:1, flexDirection:'row', justifyContent:'center'}}> */}
+        <Card transparent style={{flex:1, flexDirection:'row', justifyContent:'center'}}>
           {/* TABLE INPUT */}
-          {/* <CardItem style={{flexDirection:'column', alignItems:'flex-end', width:'33%'}}>
-            <Text style={styles.text.input}>Table: </Text>
+          <CardItem style={{flexDirection:'column', alignItems:'flex-end', width:'33%'}}>
+            <Text style={styles.text.input}>
+              Table: 
+            </Text>
             <TextInput 
               placeholder="Table #"
               placeholderTextColor='gray'
@@ -179,10 +177,12 @@ export default VerifyTicket = (props) => {
               onChangeText={tableX => setTable( tableX )}
             />
           </CardItem>
-          */}
+         
           {/* SEAT INPUT */}
-          {/* <CardItem style={{flexDirection:'column', justifyContent:'center', width:'33%'}}>
-            <Text style={styles.text.input}>Seat: </Text>
+          <CardItem style={{flexDirection:'column', justifyContent:'center', width:'33%'}}>
+            <Text style={styles.text.input}>
+              Seat: 
+            </Text>
             <TextInput 
               placeholder="Seat #"
               placeholderTextColor='gray'
@@ -196,11 +196,13 @@ export default VerifyTicket = (props) => {
               value={seat}    
               onChangeText={seatX => setSeat( seatX )}
             />
-          </CardItem> */}
+          </CardItem>
 
           {/* CHIPS INPUT */}
-          {/* <CardItem style={{flexDirection:'column', alignItems:'flex-start', width:'33%'}}>
-            <Text style={styles.text.input}>Chips: </Text>
+          <CardItem style={{flexDirection:'column', alignItems:'flex-start', width:'33%'}}>
+            <Text style={styles.text.input}>
+              Chips: 
+            </Text>
             <TextInput 
               placeholder="Chip #"
               placeholderTextColor='gray'
@@ -214,7 +216,7 @@ export default VerifyTicket = (props) => {
               onChangeText={chips => setChips( chips )}
             />
           </CardItem>
-        </Card> */}
+        </Card>
         
         <Card transparent style={{ justifyContent:'center', flex:1, flexDirection:'column'}}>
           <Text style={{textAlign:'center', fontSize:18, marginBottom:5}}>
@@ -261,7 +263,9 @@ export default VerifyTicket = (props) => {
           {/* SUBMIT BUTTON */}
           <CardItem style={styles.container.button}> 
             <Button large style={styles.button} onPress={() => BuyInStart()}>
-              <Text style={styles.text.button}> SUBMIT </Text>
+              <Text style={styles.text.button}> 
+                SUBMIT 
+              </Text>
             </Button>
           </CardItem>
         </Card>

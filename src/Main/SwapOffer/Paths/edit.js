@@ -20,7 +20,7 @@ export default EditPath = (props) => {
     var answer = await actions.buy_in.edit(
       props.buyin_id, newTable, newSeat, newChips
     )
-    props.navigation.goBack()
+    .then(()=>props.navigation.goBack())
   }
 
   var isDisabled;
@@ -91,8 +91,7 @@ export default EditPath = (props) => {
               blurOnSubmit={true}
               ref={(input) => { txtChips = input; }} 
               value={newChips}    
-              onChangeText={chips => setNewChips(chips)}
-            />
+              onChangeText={chips => setNewChips(chips)}/>
           </View>
         </CardItem>
 

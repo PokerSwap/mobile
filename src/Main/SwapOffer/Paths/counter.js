@@ -11,7 +11,6 @@ export default CounterPath = (props) => {
 
   const [percentage, setPercentage] = useState(props.percentage)
   const [new_percentage, setNewPercentage] = useState(0)
-  console.log('eee', new_percentage)
   const showAlert = () =>{
 
     Alert.alert(
@@ -32,7 +31,7 @@ export default CounterPath = (props) => {
 
   const swapCounter = async() => {
     var answer = await actions.swap.statusChange(
-      props.swap_id, 'pending', new_percentage
+      props.swap_id, 'pending', percentage
     )
     var answer3 = await actions.tracker.getAll()
     props.navigation.goBack()
@@ -44,6 +43,7 @@ export default CounterPath = (props) => {
     if(percentage < 50){
       setPercentage(percentage + 1)
       setNewPercentage(new_percentage + 1)
+      console.log('newper', new_percentage)
     }else{
       setPercentage(50)
     }
@@ -74,7 +74,9 @@ export default CounterPath = (props) => {
           </View>
         </TouchableOpacity>
 
-        <Text style={{fontSize:36, marginHorizontal:10}}> {percentage}% </Text>
+        <Text style={{fontSize:36, marginHorizontal:10}}> 
+          {percentage}% 
+        </Text>
 
         <TouchableOpacity onPress={()=> add()} >
           <View style={{

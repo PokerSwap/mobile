@@ -44,13 +44,6 @@ export default SwapOffer = (props) => {
   let start_at = navigation.getParam('start_at', 'default value');
   let action = navigation.getParam('action', 'default value');
 
-
-  var swapAdd = async() => {
-    var answer = await actions.swap.add(
-      tournament_id, user_id, percentage, props.navigation
-    )
-  }
-
   let currentPath;
 
   // YOUR SWAP VIEW
@@ -84,8 +77,8 @@ export default SwapOffer = (props) => {
       <AgreedPath 
         navigation={props.navigation} user_name={user_name}
         percentage={percentage} counter_percentage={counter_percentage} 
-        swap_updated_at={swap_updated_at}
-        />
+        user_id={user_id} tournament_id={tournament_id}
+        swap_updated_at={swap_updated_at}/>
   }
   // REJECTED SWAP VIEW 
   else if (status=='rejected'){
@@ -93,8 +86,7 @@ export default SwapOffer = (props) => {
       <RejectedPath 
         navigation={props.navigation} user_name={user_name}
         percentage={percentage} counter_percentage={counter_percentage}
-        swap_updated_at={swap_updated_at}
-        />
+        swap_updated_at={swap_updated_at}/>
   }
   // CANCELED SWAP VIEW 
   else if (status=='canceled'){
@@ -102,21 +94,15 @@ export default SwapOffer = (props) => {
       <CanceledPath
         navigation={props.navigation} 
         user_name={user_name}
-        percentage={percentage}
-        counter_percentage={counter_percentage}
-        swap_updated_at={swap_updated_at}
-
-      />
+        percentage={percentage} counter_percentage={counter_percentage}
+        swap_updated_at={swap_updated_at}/>
   }
   // INACTIVE SWAP VIEW
   else{
     currentPath = 
       <InactivePath 
         navigation={props.navigation} user_name={user_name}
-        tournament_id={tournament_id} user_id={user_id}
-        percentage={percentage} setPercentage={setPercentage}
-        add={add} subtract={subtract} swapAdd={swapAdd}
-      />
+        tournament_id={tournament_id} user_id={user_id}/>
   }
 
   let updated;

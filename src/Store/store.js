@@ -1,6 +1,7 @@
 import {Toast} from 'native-base'
 import AsyncStorage from '@react-native-community/async-storage'
 import { StackActions, NavigationActions } from 'react-navigation';
+import { getAvailableLocationProvidersSync } from 'react-native-device-info';
 
 
 const getState = ({ getStore, setStore, getActions }) => {
@@ -44,7 +45,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 			
 			buy_in:{
 
-				add: async ( image, a_flight_id, a_tournament_id, navigation) => {
+				add: async ( image, a_table, a_seat, some_chips, a_flight_id, a_tournament_id, navigation) => {
 					try{	
 						
 						if (image == 3){
@@ -54,40 +55,67 @@ const getState = ({ getStore, setStore, getActions }) => {
 								duration:3000
 							})
 						}
+
+						if (a_table == '' || a_seat == '' || some_chips == ''){
+							return Toast.show({
+								text:'You need to write in all fields',
+								position:'top', 
+								duration:3000
+							})
+						}
+
+						var newBuyinID
+
 						let accessToken = getStore().userToken.jwt
-						const url = 'https://swapprofit-test.herokuapp.com/me/buy_ins/flight/'+ a_flight_id +'/image'		
-						const data = new FormData();
-												
-						data.append('image', {
+						console.log('image', image)
+						const imageURL = 'https://swapprofit-test.herokuapp.com/me/buy_ins/flight/'+ a_flight_id +'/image'		
+						const imageData = new FormData();
+						imageData.append("image", {
 								uri: image.uri,
 								type: image.type,
 								name: image.name
 						});
-						console.log('wee', data)
-			
-						var postData = {
+						console.log('imageData', imageData)
+						let response = await fetch(imageURL, {
 							method: 'PUT',
 							headers: {
 								'Content-Type': 'multipart/form-data',
 								'Authorization': 'Bearer ' + accessToken,
 							},
-							body: data,
-						}
-				
-						let response = await fetch(url, postData)
+							body: imageData,
+						})
 						.then(response => response.json())
 						.then((responseJson) => {
-							console.log('responseJson',responseJson);
-							return responseJson;
+							console.log('responseJson',responseJson)
+							newBuyinID = responseJson.buyin_id
+							;
 						})
 						.catch((error) => {
 							console.log('error in json',error);
 						});
 
+						// const buyinURL = 'https://swapprofit-test.herokuapp.com/me/buy_ins/' + newBuyinID
+						// console.log('buyinUrl', buyinURL)
+						// const buyinData = {
+						// 	table: parseInt(a_table),
+						// 	seat: parseInt(a_seat),
+						// 	chips: parseInt(some_chips)
+						// }
+						// console.log('buyinData',buyinData)
+						// let response2 = await fetch(buyinURL, {
+						// 	method: 'PUT',
+						// 	headers: {
+						// 		'Content-Type': 'multipart/form-data',
+						// 		'Authorization': 'Bearer ' + accessToken,
+						// 	},
+						// 	body: JSON.stringify(buyinData),
+						// })
+						// .then(response2 => {
+						// 	console.log('response2.json()', response2.json())
+						// 	response2.json()})
 
-						
+						var eeee = await getActions().buy_in.edit(newBuyinID, a_table, a_seat, some_chips)
 
-						var a2 = await getActions().tracker.getAll()
 						var a3 = await getActions().tournament.getInitial()
 						var action = await getActions().tournament.getAction(a_tournament_id)
 						var tournament = await getActions().tournament.getOne(a_tournament_id)
@@ -127,9 +155,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 						let accessToken = getStore().userToken.jwt
 
 						let data = {
-							chips: some_chips,
-							table: a_table,
-							seat: a_seat
+							chips: parseInt(some_chips),
+							table: parseInt(a_table),
+							seat: parseInt(a_seat)
 						}
 
 						let response = await fetch(url, {
@@ -476,8 +504,19 @@ const getState = ({ getStore, setStore, getActions }) => {
 							.catch((error) => {
 								console.log('error in json of profile pic',error);
 							});
+							
+							var eecsrc = await getActions().profile.get()
+							return(Toast.show({
+								text:'Profile Picture Change',
+								duration:3000,
+								position:'top'
+							}))
 					} catch(error) {
-						console.log('Something went wrong with uploading photo:', error)
+						return(Toast.show({
+							text:error.message,
+							duration:3000,
+							position:'top'
+						}))
 					}
 				},
 
@@ -520,6 +559,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 							percentage: a_percentage
 						}
 
+						console.log('data', data)
+
 						let response = await fetch(url,{
 							method:"POST",
 							body: JSON.stringify(data),
@@ -529,8 +570,11 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}
 						})
 						.then(response => response.json())
-						.then(getActions().profile.get())
-						.then(navigation.navigate('TourneyLobby'))
+						console.log('reeeee',  response)
+						var ewewe = await getActions().profile.get()
+						var answer3 = await getActions().tracker.getAll()
+						var answer35 = await getActions().tournament.getInitial()
+						var bbe = await navigation.goBack()
 						
 					}catch(error){
 						console.log('Something went wrong with swap.add', error)
@@ -962,7 +1006,41 @@ const getState = ({ getStore, setStore, getActions }) => {
 					
 				},
 
-				changePicture: async() => {},
+				changePicture: async(image) => {
+
+					let accessToken = getStore().userToken.jwt;
+
+					const imageURL = 'https://swapprofit-test.herokuapp.com//profiles/image'
+					const imageData = new FormData();
+						imageData.append("image", {
+								uri: image.uri,
+								type: image.type,
+								name: image.name
+						});
+						console.log('imageData', imageData)
+						let response = await fetch(imageURL, {
+							method: 'PUT',
+							headers: {
+								'Content-Type': 'multipart/form-data',
+								'Authorization': 'Bearer ' + accessToken,
+							},
+							body: imageData,
+						})
+						.then(response => response.json())
+						.then((responseJson) => {
+							console.log('responseJson',responseJson)
+						})
+						.catch((error) => {
+							console.log('error in json',error);
+						});
+						var errew = await getActions().profile.get()
+						return(Toast({
+							position:'top',
+							text:'Profile Picture Changed',
+							duration:3000
+						}))
+						
+				},
 
 				forgotPassword: async( myEmail ) => {
 
