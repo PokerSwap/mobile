@@ -78,7 +78,7 @@ export default SplashScreen = (props) => {
 	return(
 		<View style={styles.main.container}>
 				<StatusBar 
-					backgroundColor={'rgb(21, 176, 64)'} StatusBarAnimation={'none'}/>
+					backgroundColor={'rgb(38, 171, 75)'} StatusBarAnimation={'none'}/>
 			<View style={styles.image.container}>
 				<Image source={require("../Images/transparent-logo.png")}
 					style={styles.image.image}/>

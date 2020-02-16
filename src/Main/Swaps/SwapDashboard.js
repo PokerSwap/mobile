@@ -1,11 +1,12 @@
-import React, {useContext, useState} from 'react';
-import {RefreshControl,  Text} from 'react-native';
+import React, {useContext, useState, useCallback} from 'react';
+import {RefreshControl,  Text, StatusBar} from 'react-native';
 import { Container, Content, List, ListItem, Separator } from 'native-base';
 import moment from 'moment'
 
 import HomeHeader from '../../View-Components/HomeHeader'
 import { Context } from '../../Store/appContext'
 import SwapTracker from './Components/SwapTracker';
+import BuyIn from '../Shared/BuyIn';
 
 export default SwapDashboard = (props) => {
 
@@ -13,20 +14,18 @@ export default SwapDashboard = (props) => {
 
   let noTracker = (f) =>  {
     return(
-    <ListItem noIndent style={styles.noTracker.listItem}>
-      <Text style={styles.noTracker.text}> 
-        You have no {f} tournaments at the moment. 
-      </Text>
-    </ListItem>)}
+      <ListItem noIndent style={styles.noTracker.listItem}>
+        <Text style={styles.noTracker.text}> 
+          You have no {f} tournaments at the moment. 
+        </Text>
+      </ListItem>)}
 
   let a_tracker = (e) => e.map((content, index) => {
     return(
       <SwapTracker
         key={index} navigation={props.navigation}
         my_buyin= {content.my_buyin} swaps = {content.swaps}
-        tournament={content.tournament}/>
-    )
-  })
+        tournament={content.tournament}/>)})
   
   let liveTracker, upcomingTracker
   let trackers = store.myTrackers
@@ -56,7 +55,7 @@ export default SwapDashboard = (props) => {
 
   const [refreshing, setRefreshing] = useState(false);
 
-  const onRefresh = React.useCallback(() => {
+  const onRefresh = useCallback(() => {
     setRefreshing(true);
     actions.tracker.getAll()
     wait(2000).then(() => setRefreshing(false));
@@ -65,16 +64,14 @@ export default SwapDashboard = (props) => {
 
   return(
     <Container>
-
       <HomeHeader title={'Swap Dashboard'}  
         drawer={() => props.navigation.toggleDrawer()}
-        tutorial={() => props.navigation.push('Tutorial')}
-        />
+        tutorial={() => props.navigation.push('Tutorial')}/>
         
       <Content>	
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        {/* SWAPTRACKERS */}
+        <RefreshControl refreshing={refreshing} onRefresh={() => onRefresh()} />
         
+        {/* SWAPTRACKERS */}
         <List>
 
           {/* LIVE SWAPTRACKER */}
@@ -116,3 +113,55 @@ const styles = {
       justifyContent:'center', textAlign:'center', fontSize:24, width:'80%'}
   }
 }
+
+
+// Winnings : {
+//   my_buy_in:{BuyIn.json},
+//   myplace:14,
+// 	tournament:{tournament.json},
+// 	final_profit:6,
+// 	swaps:{
+//     {
+//       recipient_user:{profile.json},
+//       theirPlace:12,
+//       youWon:100,
+//       theyWon:200,
+//       youOweTotal: 5,
+//       theyOweTotal: 8,
+//       swap_profit: 3, 
+//       agreed_swaps:{
+//         {
+//         percentage:5,
+//         counter_percentage:4,
+//         youOwe:5,
+//         theyOwe:8
+//         },
+//       }
+//     },
+// 		{
+//       youWon:100,
+//       theirPlace:10,
+//       theyWon:100,
+//       youOweTotal: 14,
+//       theyOweTotal: 17,
+//       swap_profit: 3,
+//       agreed_swaps:{
+//             {
+//         percentage:4,
+//             counter_percentage:5,
+//         youOwe:4,
+//         theyOwe:5
+//         },
+//         {
+//         percentage:10,
+//             counter_percentage:12,
+//         youOwe:10,
+//         theyOwe:2
+//         },
+
+
+//       }
+// 		}
+// 	}
+
+// }

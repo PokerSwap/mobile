@@ -1,6 +1,6 @@
-import React, { useState, useContext, useCallback } from 'react';
+import React, { useState, useContext, useRef, useCallback } from 'react';
 import {Platform, Image} from 'react-native'
-import {Button, Text, Toast, Icon } from 'native-base';
+import {Button, Text, Toast } from 'native-base';
 import { Context } from '../Store/appContext';
 import { debounce } from "lodash";
 
@@ -8,6 +8,18 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import { Keyboard, TouchableWithoutFeedback, TextInput, 
   KeyboardAvoidingView, View, StatusBar } from 'react-native';
 import DeviceInfo from 'react-native-device-info'
+
+var a_behavior, offBy, marginee
+
+if (Platform.OS == 'ios'){
+  a_behavior='position' 
+   offBy= -100
+  marginee=20
+}else{
+  a_behavior='padding'
+  offBy = -600
+  marginee = 30}
+
 
 export default LoginScreen = (props) => {
 
@@ -19,52 +31,53 @@ export default LoginScreen = (props) => {
 
 	var deviceID = DeviceInfo.getUniqueId();
 
-
-  var a_behavior, offBy, marginee
-
-  if (Platform.OS == 'ios'){
-    a_behavior='position' 
-     offBy= -100
-    marginee=20
-  }else{
-    a_behavior='padding'
-    offBy = -600
-    marginee = 50}
-  
+  const [loginColor, setLoginColor] = useState('#000099')
+  const [signupColor, setSignupColor] = useState('#FF6600')
 
   const loginStart = async() => {
+    Keyboard.dismiss();
     setLoading(true)
     var answer = await actions.user.login(
       email, password, deviceID, props.navigation );
     var eee = setLoading(false)
   }
 
-
   let txtPassword = null
+
+
+  const [refreshing, setRefreshing] = useState(false);
+
+  function wait(timeout) {
+    return new Promise(resolve => {
+      setTimeout(resolve, timeout);
+    });
+  } 
+
+  const onRefresh = useCallback(() => {
+    Keyboard.dismiss();
+    setLoading(true)
+    actions.user.login(
+      email, password, deviceID, props.navigation )
+    wait(3000).then(() => setLoading(false));
+  }, [loading]);
+  
   return(
-    <View style={styles.container.main}>
+    <View style={styles.mainContainer}>
     <StatusBar 
-      backgroundColor={'rgb(12,85,32)'} StatusBarAnimation={'none'}/>
+      backgroundColor={'rgb(38, 171, 75)'} StatusBarAnimation={'none'}/>
     <Spinner visible={loading} style={styles.spinner}/>
       <KeyboardAvoidingView  behavior={a_behavior} keyboardVerticalOffset={offBy}>
         <TouchableWithoutFeedback  onPress={Keyboard.dismiss}>
         <View>
           
-        {/* TITLE */}
+        {/* LOGO TITLE */}
 
-          <View header style={{flexDirection:'column', 
-            alignItems:'center', marginBottom:marginee}}>
-
-            
-            <Image style={{height:300, width:300}}
-			 source={require("../Images/transparent-logo.png")}/>
-            {/* <Text style={styles.text.title}>
-              SWAP PROFIT
-            </Text> */}
-            
+          <View header style={styles.logo.container}>
+            <Image style={styles.logo.image}
+			        source={require("../Images/transparent-logo.png")}/>
           </View>  
             
-          <View transparent style={{ }}>
+          <View transparent>
           
             {/* EMAIL INPUT */}
             <View style={styles.input.container}>
@@ -91,10 +104,7 @@ export default LoginScreen = (props) => {
                 placeholder="Enter Password"
                 placeholderTextColor='white'
                 secureTextEntry
-                onSubmitEditing={() => {
-                    Keyboard.dismiss();
-                    loginStart()
-                  }}
+                onSubmitEditing={() => loginStart()}
                 autoCapitalize='none'
                 returnKeyType="go"
                 autoCorrect={false} 
@@ -105,26 +115,25 @@ export default LoginScreen = (props) => {
             </View>
 
             {/* BUTTONS */}
-            <View style={styles.container.buttons}>
+            <View style={styles.buttons.container}>
 
               {/* LOGIN BUTTON */}         
-              <Button  block  style={styles.login.button}
-                onPress={
-                  async() => {
-                    Keyboard.dismiss();
-                    loginStart()
-                  }
-                }>
-                <Text style={styles.login.text}> 
+              <Button block onPress={() => onRefresh()}
+                onPressIn={() => setLoginColor('#6699FF')}
+                onPressOut={() => setLoginColor('#000099')}
+                style={[styles.buttons.button, {backgroundColor:loginColor}]}>
+                <Text style={styles.buttons.text}> 
                   Login 
                 </Text>
               </Button>
                   
               {/* SIGN UP BUTTON */}
-              <Button  block  style={styles.signup.button} 
-                onPress={
-                  ()=> props.navigation.navigate("TermsAndConditions")}>
-                <Text style={styles.signup.text}> 
+              <Button block 
+                onPressIn={()=> setSignupColor('#FF8533')}
+                onPressOut={()=> setSignupColor('#FF6600')}
+                style={[styles.buttons.button,{backgroundColor:signupColor}]} 
+                onPress={()=> props.navigation.navigate("TermsAndConditions")}>
+                <Text style={styles.buttons.text}> 
                   Sign Up 
                 </Text>
               </Button>
@@ -148,16 +157,18 @@ export default LoginScreen = (props) => {
   )
 }
 
-
 const styles ={
 
-  container:{
-    buttons:{ 
+  buttons:{
+    container:{
       backgroundColor:'rgb(38, 171, 75)', flexDirection:'column', 
       justifyContent:'center', marginBottom:'12%'},
-    main:{ 
-      flex:1, flexDirection:'column', justifyContent:'flex-end', 
-      backgroundColor:'rgb(38, 171, 75)' }
+    text:{
+      color:'white', justifyContent:'center', 
+      fontWeight:'600', fontSize:20},
+    button:{ 
+      alignSelf:'center',  width:'75%', 
+      paddingVertical: 15, marginTop: 10,},
   },
 
   forgotPassword:{
@@ -176,27 +187,19 @@ const styles ={
       paddingHorizontal: 10, fontWeight:'bold' }
   },
 
-  login:{
-    button:{ 
-      alignSelf:'center', width:'75%', paddingVertical: 15, 
-      marginTop: 10},
-    text:{
-      fontWeight:'600', justifyContent:'center', fontSize:20}
+  logo:{
+    image:{
+      height:300, width:300 },
+    container:{
+      flexDirection:'column', 
+      alignItems:'center', marginBottom: marginee
+    }
   },
 
-  signup:{
-    button:{
-      alignSelf:'center', backgroundColor:'#FF6600', 
-      paddingVertical: 15, marginTop: 10, width:'75%'
-    },
-    text:{
-      color:'white', justifyContent:'center', fontWeight:'600', fontSize:20}
-  },
+  mainContainer:{ 
+    flex:1, flexDirection:'column', justifyContent:'flex-end', 
+    backgroundColor:'rgb(38, 171, 75)' },
 
   spinner:{ 
     color: '#FFF' },
-
-  title:{
-    alignSelf:'center', justifyContent:'center', 
-    backgroundColor:'rgb(21, 176, 64)'}
 }

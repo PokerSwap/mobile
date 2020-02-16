@@ -132,8 +132,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 				edit: async ( a_buyin_id, a_table, a_seat, some_chips) => {
 					
 					try{
-						const url = 'https://swapprofit-test.herokuapp.com/me/buy_ins/' + a_buyin_id
-						let accessToken = getStore().userToken.jwt
+						const url = 'https://swapprofit-test.herokuapp.com/me/buy_ins/' + a_buyin_id + '?validate=true'
+						const accessToken = getStore().userToken.jwt
 
 						let data = {
 							chips: parseInt(some_chips),

@@ -143,35 +143,30 @@ export default BuyIn = (props) => {
   }
 
   var x = moment(props.updated_at).fromNow()
-  var y = parseInt(x.replace(/[^0-9\.]/g, ''), 10);
-
-
-
-  var since
-  if (x.includes('a few seconds ago')) {
+  var y, since
+  x.includes('a ')? y = '1' : y = parseInt(x.replace(/[^0-9\.]/g, ''), 10);
+  if (x.includes('second')) {
     since = 'Just Now' 
-  } else if(x.includes('minutes ago')){
+  } else if(x.includes('minute')){
     since = y + 'm' 
-  } else if(x.includes('hours ago')){
+  } else if(x.includes('hour')){
     since = y + 'h' 
-  } else if(x.includes('days ago')){
+  } else if(x.includes('day')){
     since = y + 'd' 
-  } else if(x.includes('weeks ago')){
+  } else if(x.includes('week')){
     since = y + 'w' 
-  }else if(x.includes('months ago')){
+  }else if(x.includes('month')){
     since = y + 'M' 
-  }else if(x.includes('years ago')){
+  }else if(x.includes('year')){
     since = y + 'Y' 
   }
   else{
-
+null
   }
-
   var bg, txt;
   props.chips != 0 ?
     bg='white' || (txt='black') : bg='red' || (txt='white')
   
-
   return(
     <ListItem noIndent style={{backgroundColor:bg}}>
       <Grid style={{marginVertical:10}}>
@@ -216,4 +211,12 @@ export default BuyIn = (props) => {
       </Grid>
     </ListItem>
   )
+}
+
+const styles ={
+  button:{
+    button:{},
+    container:{},
+    text:{}
+  }
 }
