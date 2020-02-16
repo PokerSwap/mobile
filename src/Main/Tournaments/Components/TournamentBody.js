@@ -11,8 +11,9 @@ export default TournamentBody = (props) => {
   const { store, actions } = useContext(Context);
 
   var bgColor, textColor, borderWidths, buttonColor, path;
-  var navigation = props.navigation;
  
+  var {navigation} = props
+
   const enterTournament = async() => {
     var answer1 = await actions.tournament.getAction(props.id);
     var answer2 = console.log('answer', store.action)
@@ -33,9 +34,12 @@ export default TournamentBody = (props) => {
     });
   }
 
-  var w = []
+  // var t = setStore({tournaments: [...tournamentData, ...newData]})
+
+  var w  = []
   var x = store.myTrackers.forEach((tracker) => 
     w.push(tracker.my_buyin.id));
+    
   var z=[]
   var y = props.buy_ins.forEach((buy_in) => z.push(buy_in.id))
   const matches = w.some(ww=> z.includes(ww))
@@ -116,21 +120,19 @@ export default TournamentBody = (props) => {
       <Col style={{width: '62%'}}>
 
         {/* TOURNAMENT TITLE */}
-        <Text style={{color:textColor, alignContent:'center',
+        <Text style={{
+          color:textColor, alignContent:'center',
           textAlign:'center', fontSize:20, fontWeight:'600'}}> 
           {props.name}
         </Text>
 
-        
-       
       </Col>
       
       {/* RIGHT ARROW NAVIGATION */}
       <Col style={{justifyContent:'flex-end', width:'10%'}}>
         <Icon 
           style={{justifyContent:'flex-end', alignSelf:'flex-end'}} 
-          type="FontAwesome5" name="angle-right"
-        />
+          type="FontAwesome5" name="angle-right"/>
       </Col>
 
     </ListItem>

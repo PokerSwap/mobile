@@ -1,10 +1,11 @@
 import React, {useContext, useState} from 'react';
-import {RefreshControl, StatusBar, Text} from 'react-native';
-import { Container, Content, List, ListItem, Separator, Button } from 'native-base';
+import {RefreshControl,  Text} from 'react-native';
+import { Container, Content, List, ListItem, Separator } from 'native-base';
+import moment from 'moment'
+
 import HomeHeader from '../../View-Components/HomeHeader'
 import { Context } from '../../Store/appContext'
 import SwapTracker from './Components/SwapTracker';
-import moment from 'moment'
 
 export default SwapDashboard = (props) => {
 
@@ -12,10 +13,8 @@ export default SwapDashboard = (props) => {
 
   let noTracker = (f) =>  {
     return(
-    <ListItem noIndent style={{justifyContent:'center'}}>
-      <Text style={{
-        justifyContent:'center', textAlign:'center', 
-        fontSize:24, width:'80%'}}> 
+    <ListItem noIndent style={styles.noTracker.listItem}>
+      <Text style={styles.noTracker.text}> 
         You have no {f} tournaments at the moment. 
       </Text>
     </ListItem>)}
@@ -23,19 +22,14 @@ export default SwapDashboard = (props) => {
   let a_tracker = (e) => e.map((content, index) => {
     return(
       <SwapTracker
-        key={index}
-        navigation={props.navigation}
-        my_buyin= {content.my_buyin}
-        swaps = {content.swaps}
-        tournament={content.tournament}
-      />
+        key={index} navigation={props.navigation}
+        my_buyin= {content.my_buyin} swaps = {content.swaps}
+        tournament={content.tournament}/>
     )
   })
   
-  let liveTracker;
-  let upcomingTracker;
+  let liveTracker, upcomingTracker
   let trackers = store.myTrackers
-  // console.log('tracker nows', trackers)
   
   if(Object.keys(trackers)[0] != "message"){
 
@@ -80,23 +74,20 @@ export default SwapDashboard = (props) => {
       <Content>	
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         {/* SWAPTRACKERS */}
+        
         <List>
 
           {/* LIVE SWAPTRACKER */}
-          <Separator bordered 
-            style={{height:48, backgroundColor:'rgb(56,68,165)'}}>
-            <Text 
-              style={{fontSize:20, color:'white', 
-                fontWeight:'600', textAlign:'center'}}> 
+          <Separator bordered style={styles.separator.live}>
+            <Text style={styles.separator.text}> 
               LIVE 
             </Text>                
           </Separator>
           {liveTracker}
           
           {/* UPCOMING SWAPTRACKER */}
-          <Separator bordered 
-            style={{height:48, backgroundColor:'gray'}}>
-            <Text style={{fontSize:20, color:'white', fontWeight:'600', textAlign:'center'}}> 
+          <Separator bordered style={styles.separator.upcoming}>
+            <Text style={styles.separator.text}> 
               UPCOMING 
             </Text>
           </Separator>
@@ -107,4 +98,21 @@ export default SwapDashboard = (props) => {
       </Content>
     </Container>
   )
+}
+
+const styles = {
+  separator:{
+    live:{
+      height:48, backgroundColor:'rgb(56,68,165)' },
+    upcoming:{
+      height:48, backgroundColor:'gray'},
+    text:{
+      fontSize:20, color:'white', fontWeight:'600', textAlign:'center' }
+  },
+  noTracker:{
+    listItem:{
+      justifyContent:'center'},
+    text:{
+      justifyContent:'center', textAlign:'center', fontSize:24, width:'80%'}
+  }
 }

@@ -37,8 +37,8 @@ export default ProfileScreen = (props) => {
             <Icon type='Ionicons' name='ios-arrow-back' />
           </Button>
         </Left>
-        
       </Header>
+      
       <Content contentContainerStyle={{justifyContent:'center'}}>
 
         <ProfileBio 
@@ -63,9 +63,9 @@ export default ProfileScreen = (props) => {
           })}
         </List>
         :
-        <Text>You haven't had any swaps with this person</Text>
+        <Text>You haven't swapped with this person </Text>
       :
-      null         
+      <Text>This is you</Text>         
     }
       </Content>
     </Container>

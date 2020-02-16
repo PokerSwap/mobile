@@ -61,7 +61,8 @@ export default TournamentSearchBar = (props) => {
   }
 
   return(
-    <View style={{flex:1, flexDirection:'row', alignItems:'center', justifyContent:'space-around', marginBottom:10}}>
+    <View style={{flex:1, flexDirection:'row',
+    alignItems:'center', justifyContent:'space-around', marginVertical:15}}>
       
       {/* SEARCH INPUT */}
       <Item rounded style={{width:'65%', height:40, backgroundColor:'#D3D3D3'}}>

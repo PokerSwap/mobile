@@ -1,11 +1,9 @@
 import React, {useContext} from 'react';
-import { View } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { Text } from 'native-base';
 
 import {Context} from '../../../Store/appContext'
-
 import BuyIn from '../../Shared/BuyIn'
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default SwapTracker = (props) => {
 
@@ -22,18 +20,18 @@ export default SwapTracker = (props) => {
       seat = {content.buyin.seat}
       chips = {content.buyin.chips}
       flight_id = {content.buyin.flight_id}
-      // updated_at = {content.buyin.updated_at}
-
-      swap_id = {content.swap.id}
-      status = {content.swap.status}
-      percentage = {content.swap.percentage}
+      updated_at = {content.buyin.updated_at}
+      
       counter_percentage= {content.swap.counter_percentage}
+      percentage = {content.swap.percentage}
+      status = {content.swap.status}
+      swap_id = {content.swap.id}
       swap_updated_at={content.swap.updated_at}
-
-      tournament_name={props.tournament.name}
-      tournament_id={props.tournament.id}
+      
       address={props.tournament.address}
       city={props.tournament.city}
+      tournament_name={props.tournament.name}
+      tournament_id={props.tournament.id}
       state={props.tournament.state}
       start_at={props.tournament.start_at}
 
@@ -63,12 +61,9 @@ export default SwapTracker = (props) => {
   return(
     <View>
       {/* TOURNAMENT TITLE */}
-      <View 
-        style={{justifyContent:'center', backgroundColor:'black', paddingVertical:10}}>
+      <View style={styles.title.container}>
         <TouchableOpacity onPress={()=> enterTournament()}>
-          <Text 
-            style={{fontSize:18, fontWeight:'600', width:'75%',
-            alignSelf:'center',textAlign:'center', color:'white'}}>
+          <Text style={styles.title.text}>
             {props.tournament.name}
           </Text>
         </TouchableOpacity>
@@ -87,12 +82,22 @@ export default SwapTracker = (props) => {
         city={props.tournament.city}
         state={props.tournament.state}
         updated_at={props.my_buyin.updated_at}
-        start_at={props.tournament.start_at}
-        // flight_id = {props.flight_id}
-      />
+        start_at={props.tournament.start_at}/>
 
       {other_swaps}
       
     </View>
   )
+}
+
+const styles = {
+  title:{
+    container:{
+      justifyContent:'center', backgroundColor:'black', 
+      paddingVertical:10
+    },
+    text:{
+      fontSize:18, fontWeight:'600', width:'75%',
+      alignSelf:'center',textAlign:'center', color:'white'}
+  }
 }

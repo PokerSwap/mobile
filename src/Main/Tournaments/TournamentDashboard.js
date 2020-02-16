@@ -51,8 +51,8 @@ export default TournamentDashboard = (props) => {
         created_at={item.created_at} 
         address={item.address} city={item.city} state={item.state}
         latitude={item.latitude} longitude={item.longitude}
-        flights={item.flights} buy_ins={item.buy_ins} swaps={item.swaps}        
-    />)
+        flights={item.flights} buy_ins={item.buy_ins} swaps={item.swaps}/>
+    )
   }
 
   return(
@@ -60,8 +60,9 @@ export default TournamentDashboard = (props) => {
       
       <HomeHeader title={'Tournament Dashboard'} 
       drawer={() => props.navigation.toggleDrawer()}
-      tutorial={() => props.navigation.push('Tutorial')}/>
-      <Segment style={{backgroundColor:('rgb(248,248,248')}}>
+      tutorial={() => props.navigation.push('Tutorial')}
+      />
+      <Segment style={{backgroundColor:('rgb(248,248,248'), marginVertical:5}}>
         <TournamentSearchBar 
           setMode={setMode} setMyCoords={setMyCoords}
           setPage={setPage}

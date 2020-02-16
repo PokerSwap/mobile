@@ -45,10 +45,13 @@ export default CreateUser = (props) => {
 					</CardItem>
 				</Card>
 				:
-				<Card transparent style={{justifyContent:'center'}}>
-					<CardItem style={{flexDirection:"column", paddingLeft: 30, 
+				<Card transparent 
+					style={{justifyContent:'center'}}>
+					<CardItem style={{
+						flexDirection:"column", paddingLeft: 30, 
 						width:350, justifyContent:"center"}}>
-						<Text style={{textAlign:"center", width:300, fontSize:20}}>
+						<Text style={{
+							textAlign:"center", width:300, fontSize:20}}>
 							Please create your Username for when you login and 
 							your personal Password and your Email Address.
 						</Text>
@@ -67,7 +70,7 @@ export default CreateUser = (props) => {
 								onChangeText={email => setEmail( email )}
 								/>
 						</Item>
-						<Item style={{marginVertical:10}}>
+						<Item style={{marginVertical:10, color:'black'}}>
 						<Icon active name='key' />
 							<TextInput 
 								placeholder="Enter Password"
@@ -87,7 +90,7 @@ export default CreateUser = (props) => {
 							<TextInput 
 									placeholder="Confirm Password"
 									secureTextEntry
-									style={{fontSize:24, width:'80%'}}
+									style={{fontSize:24, width:'80%', color:'black'}}
 									autoCapitalize='none'
 									returnKeyType="go"
 									autoCorrect={false} 

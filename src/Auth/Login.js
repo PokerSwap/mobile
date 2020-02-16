@@ -1,5 +1,5 @@
 import React, { useState, useContext, useCallback } from 'react';
-import {Platform} from 'react-native'
+import {Platform, Image} from 'react-native'
 import {Button, Text, Toast, Icon } from 'native-base';
 import { Context } from '../Store/appContext';
 import { debounce } from "lodash";
@@ -20,12 +20,16 @@ export default LoginScreen = (props) => {
 	var deviceID = DeviceInfo.getUniqueId();
 
 
-  var a_behavior, offBy
+  var a_behavior, offBy, marginee
 
-  Platform.OS == 'ios' ?
-    a_behavior='position' || (offBy= -100)
-    :
-    a_behavior='padding' || (offBy = -600)
+  if (Platform.OS == 'ios'){
+    a_behavior='position' 
+     offBy= -100
+    marginee=20
+  }else{
+    a_behavior='padding'
+    offBy = -600
+    marginee = 50}
   
 
   const loginStart = async() => {
@@ -35,15 +39,12 @@ export default LoginScreen = (props) => {
     var eee = setLoading(false)
   }
 
-  const handler = () => debounce(loginStart(), 10000);
 
   let txtPassword = null
   return(
     <View style={styles.container.main}>
     <StatusBar 
-      backgroundColor={'rgb(12,85,32)'}
-      StatusBarAnimation={'none'}
-    />
+      backgroundColor={'rgb(12,85,32)'} StatusBarAnimation={'none'}/>
     <Spinner visible={loading} style={styles.spinner}/>
       <KeyboardAvoidingView  behavior={a_behavior} keyboardVerticalOffset={offBy}>
         <TouchableWithoutFeedback  onPress={Keyboard.dismiss}>
@@ -52,22 +53,23 @@ export default LoginScreen = (props) => {
         {/* TITLE */}
 
           <View header style={{flexDirection:'column', 
-            alignItems:'center', marginBottom:100}}>
+            alignItems:'center', marginBottom:marginee}}>
+
             
-            <Icon type="FontAwesome5" name="handshake" 
-              style={{fontSize:80,color:'white'}} />
-            <Text style={styles.text.title}>
-              Swap Profit
-            </Text>
+            <Image style={{height:300, width:300}}
+			 source={require("../Images/transparent-logo.png")}/>
+            {/* <Text style={styles.text.title}>
+              SWAP PROFIT
+            </Text> */}
             
           </View>  
             
           <View transparent style={{ }}>
           
             {/* EMAIL INPUT */}
-            <View style={styles.container.input}>
+            <View style={styles.input.container}>
               <TextInput 
-                style={styles.input}
+                style={styles.input.input}
                 placeholder="Enter Email"
                 placeholderTextColor='white'
                 keyboardType="email-address"
@@ -83,12 +85,16 @@ export default LoginScreen = (props) => {
             </View>
             
             {/* PASSWORD INPUT */}
-            <View style={styles.container.input}>
+            <View style={styles.input.container}>
               <TextInput 
-                style={styles.input}
+                style={styles.input.input}
                 placeholder="Enter Password"
                 placeholderTextColor='white'
                 secureTextEntry
+                onSubmitEditing={() => {
+                    Keyboard.dismiss();
+                    loginStart()
+                  }}
                 autoCapitalize='none'
                 returnKeyType="go"
                 autoCorrect={false} 
@@ -99,31 +105,34 @@ export default LoginScreen = (props) => {
             </View>
 
             {/* BUTTONS */}
-            <View style={styles.container.button}>
+            <View style={styles.container.buttons}>
 
               {/* LOGIN BUTTON */}         
-              <Button  block large style={styles.button.login}
+              <Button  block  style={styles.login.button}
                 onPress={
                   async() => {
                     Keyboard.dismiss();
-                    handler()
+                    loginStart()
                   }
                 }>
-                <Text style={styles.text.login}> Login </Text>
+                <Text style={styles.login.text}> 
+                  Login 
+                </Text>
               </Button>
                   
               {/* SIGN UP BUTTON */}
-              <Button  block large style={styles.button.signup} 
-                onPress={()=> props.navigation.navigate("TermsAndConditions")}>
-                <Text style={styles.text.signup}> 
+              <Button  block  style={styles.signup.button} 
+                onPress={
+                  ()=> props.navigation.navigate("TermsAndConditions")}>
+                <Text style={styles.signup.text}> 
                   Sign Up 
                 </Text>
               </Button>
                   
               {/* FORGOT PASSWORD BUTTON */}
-              <Button transparent style={styles.button.forgotPassword} 
+              <Button transparent style={styles.forgotPassword.button} 
                 onPress={() => props.navigation.navigate("ForgotPassword")}>
-                <Text style={styles.text.forgotPassword}>
+                <Text style={styles.forgotPassword.text}>
                   Forgot password?
                 </Text>
               </Button>
@@ -139,50 +148,55 @@ export default LoginScreen = (props) => {
   )
 }
 
-const styles = {
+
+const styles ={
+
   container:{
-    main:{
-       flex:1,flexDirection:'column', justifyContent:'flex-end', 
-       backgroundColor:'rgb(12,85,32)'},
-    button:{
-      backgroundColor:'rgb(12,85,32)',  justifyContent:'center', 
-      flexDirection:'column', marginBottom:'12%'
-    },
-    input:{
+    buttons:{ 
+      backgroundColor:'rgb(38, 171, 75)', flexDirection:'column', 
+      justifyContent:'center', marginBottom:'12%'},
+    main:{ 
+      flex:1, flexDirection:'column', justifyContent:'flex-end', 
+      backgroundColor:'rgb(38, 171, 75)' }
+  },
+
+  forgotPassword:{
+    button: {
+      justifyContent:'center', marginVertical:12 },
+    text:{ 
+      color:'white' }
+  },
+
+  input:{
+    container:{
       width:'75%', alignSelf:'center', marginVertical:5, 
       backgroundColor: 'rgba(255,255,255,0.2)'},
-    title:{
-      alignSelf:'center', justifyContent:'center', 
-      backgroundColor:'rgb(12,85,32)'
-    }
+    input:{
+      height:40, marginTop: 1, color: "#FFF", 
+      paddingHorizontal: 10, fontWeight:'bold' }
   },
-  button:{
-    login:{
-      width:'75%', alignSelf:'center', 
-      paddingVertical: 15, marginTop: 10
+
+  login:{
+    button:{ 
+      alignSelf:'center', width:'75%', paddingVertical: 15, 
+      marginTop: 10},
+    text:{
+      fontWeight:'600', justifyContent:'center', fontSize:20}
+  },
+
+  signup:{
+    button:{
+      alignSelf:'center', backgroundColor:'#FF6600', 
+      paddingVertical: 15, marginTop: 10, width:'75%'
     },
-    signup:{  
-      backgroundColor:'rgb(211,152,35)', width:'75%', 
-      paddingVertical: 15, marginTop: 10, alignSelf:'center'
-    },
-    forgotPassword:{
-      justifyContent:'center', marginVertical:12}
+    text:{
+      color:'white', justifyContent:'center', fontWeight:'600', fontSize:20}
   },
-  input:{
-    height:40, marginTop: 1, 
-    color: "#FFF", paddingHorizontal: 10
-  },
-  text:{
-    title:{
-      color:'white', textAlign:'center', 
-      fontWeight:'600', fontSize:36, justifyContent:'center'},
-    login:{
-      fontWeight:'600', justifyContent:'center'},
-    signup:{
-      color:'black', justifyContent:'center', fontWeight:'600'},
-    forgotPassword:{
-      color:'white'}
-  },
-  spinner:{
-    color: '#FFF'}
+
+  spinner:{ 
+    color: '#FFF' },
+
+  title:{
+    alignSelf:'center', justifyContent:'center', 
+    backgroundColor:'rgb(21, 176, 64)'}
 }

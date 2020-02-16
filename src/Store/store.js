@@ -1,7 +1,6 @@
 import {Toast} from 'native-base'
 import AsyncStorage from '@react-native-community/async-storage'
 import { StackActions, NavigationActions } from 'react-navigation';
-import { getAvailableLocationProvidersSync } from 'react-native-device-info';
 
 
 const getState = ({ getStore, setStore, getActions }) => {
@@ -184,10 +183,17 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 			deviceToken:{
 
-				get: async() => {
+				get: async(newDeviceToken) => {
 					try {
+						console.log('New Device Token', newDeviceToken)
 						var device_token = await AsyncStorage.getItem('deviceToken')
-						setStore({deviceToken: device_token})
+						console.log('stordd Device Token', device_token)
+
+						device_token ? 
+							getActions().deviceToken.store(newDeviceToken)
+						  :
+							setStore({deviceToken: device_token})
+						 
 					} catch (error) {
 						console.log('Something went wrong with removing device token', error)
 					}
@@ -196,10 +202,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 				remove: async() => {
 					try {
 						const accessToken = getStore().userToken.jwt;
-						const url = 'https://swapprofit-test.herokuapp.com/users/me/devices'
-						const data = {
-							device_token: getStore().deviceToken
-						}
+						const url = 'https://swapprofit-test.herokuapp.com/users/me/devices' 
+
+						const data = {device_token: getStore().deviceToken}
 
 						let response = await fetch(url, {
 							method:'DELETE',
@@ -207,7 +212,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 								'Authorization': 'Bearer ' + accessToken,
 								'Content-Type':'application/json'
 							},
-							body: JSON.stringify(data), 
+							body:JSON.stringify(data)
 						})
 						.then(response => response.json)
 
@@ -223,6 +228,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					try{
 						var storingDeviceToken = await AsyncStorage.setItem('deviceToken', device_token)
 						setStore({deviceToken: device_token})
+						console.log('foanl'.getStore().deviceToken)
 					}catch(error){
 						console.log('Something went wrong with storing device token', error)
 					}
@@ -657,7 +663,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 						.then(response => response.json())
 						.then(data => setStore({action: data})
-					)
+						)
 					} catch(error){
 						console.log('Something went wrong in getting action from a tournament', error)
 					}
@@ -684,9 +690,15 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 				},
 
-				getCurrent: async() => {
+				// getCurrent: async() => {
 
-				},
+				// 	try{
+				// 		setStore
+				// 	}catch(error){
+				// 		console.log('Something went wrong with getting currents tournaments', error)
+				// 	}
+
+				// },
 			
 				getInitial: async ( key1, value1, key2, value2 ) => {
 					try {
@@ -743,14 +755,14 @@ const getState = ({ getStore, setStore, getActions }) => {
 								'Content-Type':'application/json'
 							}, 
 						})
-						let newData = await response.json()
 
 						var tournamentData = getStore().tournaments
+						let newData = await response.json()
+
 						newData != [] ?
-							newData.forEach(tournament => tournamentData.push(tournament))
+							setStore({tournaments: [...tournamentData, ...newData]})
 							:
 							console.log('No more tournaments')
-						setStore({tournaments: tournamentData})
 
 					} catch(error){
 						console.log('Something went wrong with getting more tournaments', error)
