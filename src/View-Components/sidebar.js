@@ -2,12 +2,9 @@ import React, {useContext} from 'react'
 import { DrawerItems } from 'react-navigation-drawer'
 import { Container, Content, Text, Icon, Button } from 'native-base'
 import {Alert, View} from 'react-native'
-import AsyncStorage from '@react-native-community/async-storage'
-
 
 import ProfileBioSideBar from '../Main/Profile/Components/ProfileBioSideBar'
 import { Context } from '../Store/appContext'
-
 
 // DRAWER PHYSICAL COMPONENT
 export default SideBar = (props) => {
@@ -31,8 +28,7 @@ export default SideBar = (props) => {
           swap_rating={profile.swap_rating}
           total_swaps={profile.total_swaps}
           picture={profile.picture}
-          navigation={props.navigation}
-        />
+          navigation={props.navigation} />
             
       {/* DEFAULT BUTTONS */}
       <DrawerItems {...props} />
@@ -56,7 +52,8 @@ export default SideBar = (props) => {
           )  
         }>
           <Icon name='exit'/>
-          <Text  style={{fontWeight: 'bold',textTransform:'none'}}>Logout</Text>
+          <Text  style={{fontWeight: 'bold',textTransform:'none'}}>
+            Logout</Text>
         </Button>
       </View>
     

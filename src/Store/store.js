@@ -1098,7 +1098,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 							Toast.show({
 								position:'top',
 								text:error.message,
-								duration:3000
+								duration:3000,
+								type:'warning'		
 							})
 							return false;
 						}

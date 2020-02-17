@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { Header, Text, Icon } from 'native-base';
 
 export default OtherHeader = (props) => {
@@ -7,13 +7,13 @@ export default OtherHeader = (props) => {
     <Header  style={{justifyContent:'space-between', alignItems:'center', backgroundColor:'rgb(248,248,248)'}}>
       
       {/* MENU ICON */}
-      <Icon name="ios-arrow-back"
-        onPress={() => props.goBackToHome()}
-        style={{marginLeft:10}}
-      />
+      <Icon name="ios-arrow-back" style={{marginLeft:10}}
+        onPress={() => props.goBackToHome()} />
       
       {/* TITLE */}
-      <Text style={{fontWeight:'bold', fontSize:20, color:'black'}}>{props.title}</Text>
+      <Text style={{fontWeight:'bold', fontSize:20, color:'black'}}>
+        {props.title}
+      </Text>
       
       {/* TUTORIAL ICON */}
       <Icon 
