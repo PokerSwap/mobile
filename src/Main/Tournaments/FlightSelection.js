@@ -18,7 +18,7 @@ export default FlightSelection = (props) => {
 
   console.log('flights', flights)
 
-  var FlightSelection = flights.map((flight) => {
+  var FlightSelection = flights.map((flight, index) => {
       
     var startMonth = flight.start_at.substring(8,11)
     var startDay = flight.start_at.substring(5,7)
@@ -33,6 +33,7 @@ export default FlightSelection = (props) => {
       
     return(
         <Picker.Item 
+          key={index}
           label= {labelTime}
           value={flight.id}
         />

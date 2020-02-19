@@ -1,5 +1,6 @@
 import React, {useContext} from 'react';
-import {  Text, ListItem, Button, Icon } from 'native-base';
+import {View, TouchableOpacity} from 'react-native'
+import {  Text, ListItem, Button, Icon, Accordion } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid'
 import moment from 'moment'
 
@@ -26,51 +27,204 @@ BuyInAttribute = (props) => {
   )
 }
 
+
+
+
 export default BuyIn = (props) => {
 
   const { store, actions } = useContext(Context)
   const { navigation } = props;
   let path, lastCol, buttonColor;
 
+  var allSwaps
+
+  props.user_id !== undefined || props.user_id !== store.myProfile.id ?
+    props.agreed_swaps.length !== 0 ?
+      props.other_swaps.length !== 0 ?
+        allSwaps = [...props.agreed_swaps, ...props.other_swaps]
+        :
+        allSwaps = [...props.agreed_swaps]
+      :
+      props.other_swaps.length !== 0 || props.other_swaps.length !== undefined ?
+        allSwaps = [...props.other_swaps]
+        :
+        allSwaps = null
+    :
+  null
+
+
+  let dataArray =[{title:'lol'}]
+  
+
+  const _renderHeader = (item, expanded) => {
+    return(
+      <View>
+        {expanded ?
+          <View style={{flexDirection:'column', justifyContent:'center' }}>
+            <Text>Close All</Text>
+            <Icon style={{ fontSize: 24, alignSelf:'center' }}  name='ios-arrow-up'/>
+          </View>
+          : 
+          <View style={{flexDirection:'column', justifyContent:'center'}}>
+            <Text>See All</Text>
+            <Icon style={{ fontSize: 24, alignSelf:'center' }}  name='ios-arrow-down'/>
+          </View>
+        }
+      </View>
+  )
+  }
+
+  const _renderContent= () => {
+    return(
+
+    <Grid style={{width:'100%'}}>
+      {allSwaps.map((swap, index) => {
+
+        if (swap.user_id == store.myProfile.id){
+          lastCol = 
+            <Icon type="Entypo" name="edit"
+              style={{ alignSelf:'center', 
+              fontSize:36, color:'white'}}/>;
+          path = "edit";
+          buttonColor= 'grey';
+        } 
+        // AGREED SWAP VIEW
+        else if (swap.status == 'agreed'){
+          lastCol = 
+            <Text style={{
+              fontWeight:'600', color:'white',
+              fontSize:16, top:8}}> 
+              {swap.percentage}% 
+            </Text>;
+          buttonColor= 'green';
+          path = 'agreed'
+        } 
+        // PENDING SWAP VIEW
+        else if(swap.status == 'pending') {
+          lastCol =  
+            <Text style={{
+              fontWeight:'600', fontSize:16, 
+              color:'white', top:8}}> 
+              {swap.percentage}% 
+            </Text>;
+          path = "pending";
+          buttonColor= 'orange';
+        } 
+        // INCOMING SWAP VIEW
+        else if (swap.status == 'incoming'){
+          lastCol = 
+            <Icon type="FontAwesome5" name="exclamation"
+              style={{alignSelf:'center', fontSize:18, 
+              color:'white' , top:8}}/>;
+          path = 'incoming';
+          buttonColor= 'green';
+        } 
+        // CANCELED SWAP OFFER VIEW
+        else if (swap.status == 'canceled'){
+          lastCol = 
+          <Icon type="FontAwesome5" name="times"
+            style={{alignSelf:'center', fontSize:24, 
+            color:'white', top:8}} />;
+          path = 'canceled';
+          buttonColor= 'grey';
+        }
+        // REJECTED SWAP OFFER VIEW
+        else if (swap.status == 'rejected'){
+          lastCol = 
+          <Icon 
+            style={{alignSelf:'center', fontSize:24, color:'white', top:8}}
+            type="FontAwesome5" name="times" />;
+          path = 'rejected';
+          buttonColor= 'red';
+        }
+        // SWAP OFFER VIEW
+        else {
+          lastCol = 
+            <Icon style={{alignSelf:'center', fontSize:24}} type="FontAwesome5" name="handshake" />;
+          path = "inactive";
+          buttonColor= 'rgb(56,68,165)';
+        } 
+
+        
+        var swapTime = swap.updated_at
+        var day_name = swapTime.substring(0,3)
+        var startMonth = swapTime.substring(8,11)
+        var startDay = swapTime.substring(5,7)
+        var startTime = swapTime.substring(16,22)
+
+        var startHour = parseInt(swapTime.substring(16,19))
+        var startM 
+        if (startHour/12 >= 1){
+          startM = ' P.M.'
+          startHour%=12
+        }
+        else{
+          startM = ' A.M.'
+        }
+          
+        var startTime = startHour + ':' + swapTime.substring(20,22) + startM
+        var labelTime = day_name + '. ' + startMonth + '. ' + startDay + ', ' +   startTime
+        return(
+          <Row key={index} style={{height:60, width:'100%', alignItems:'center', borderTopWidth:1, borderTopColor:'#d3d3d3'}}>
+            <Col style={{width:'20%'}}>
+              <Text style={{textTransform:'capitalize'}}>
+                {swap.status}
+              </Text>
+            </Col>
+            <Col>
+              <Text>{labelTime}</Text>
+            </Col>
+            <Col style={{width:'20%', }}>
+              <TouchableOpacity>
+                <View style={{backgroundColor:buttonColor,height:40, alignItems:'center'}}>
+                  {lastCol}  
+                </View>
+              </TouchableOpacity>
+            </Col>
+          </Row>
+        )
+      })}
+    </Grid>
+    )
+  }
+
+  var allStatuses = allSwaps.map(swap => swap.status)
+  console.log('allStatuses', allStatuses)
+
   // YOUR SWAP VIEW
-  if (props.user_id == store.myProfile.id){
+  if (allStatuses.includes('incoming')){
     lastCol = 
-      <Icon 
-        style={{alignSelf:'center', fontSize:36}}
-        type="Entypo" name="edit" />;
-    path = "edit";
-    buttonColor= 'grey';
-  } 
-  // AGREED SWAP VIEW
-  else if (props.status == 'agreed'){
-    lastCol = 
-      <Text 
-        style={{fontWeight:'600', color:'white'}}> 
-        {props.percentage}% 
-      </Text>;
+      <Icon name='exclamation'
+        style={{alignSelf:'center', fontSize:24}}
+        type="FontAwesome5" name="exclamation"/>;
     buttonColor= 'green';
     path = 'agreed'
   } 
   // PENDING SWAP VIEW
-  else if(props.status == 'pending') {
+  else if(allStatuses.includes('pending')) {
+    var pendingPercentage = 0
+    var comSqaps = allSwaps.filter(swap => swap.status == 'agreed' || swap.status == 'pending')
+    var addingPercentage = comSqaps.forEach(swap => pendingPercentage+= swap.percentage)
     lastCol =  
-      <Icon 
-        style={{alignSelf:'center', fontSize:36}} 
-        type="Ionicons" name="md-time" />;
+    <Text 
+      style={{fontWeight:'600', fontSize:18, color:'white', textAlignVertical:'center'}}> 
+      {pendingPercentage}% 
+    </Text>;
     path = "pending";
     buttonColor= 'orange';
   } 
   // INCOMING SWAP VIEW
-  else if (props.status == 'incoming'){
+  else if (allStatuses.includes('agreed')){
+    var lol = 0
+    var eee = props.agreed_swaps.forEach(swap => lol+=swap.percentage)
     lastCol = 
-      <Icon 
-        style={{alignSelf:'center', fontSize:24}}
-        type="FontAwesome5" name="exclamation" />;
+      <Text style={{fontWeight:'600', fontSize:18,}}>{lol}%</Text>;
     path = 'incoming';
     buttonColor= 'green';
+  
   } 
   // CANCELED SWAP OFFER VIEW
-  else if (props.status == 'canceled'){
+  else if (allStatuses.includes('canceled')){
     lastCol = 
     <Icon 
       style={{alignSelf:'center', fontSize:36}}
@@ -79,7 +233,7 @@ export default BuyIn = (props) => {
     buttonColor= 'grey';
   }
   // REJECTED SWAP OFFER VIEW
-  else if (props.status == 'rejected'){
+  else if (allStatuses.includes('rejected')){
     lastCol = 
     <Icon 
       style={{alignSelf:'center', fontSize:36}}
@@ -168,7 +322,7 @@ null
     bg='white' || (txt='black') : bg='red' || (txt='white')
   
   return(
-    <ListItem noIndent style={{backgroundColor:bg}}>
+    <ListItem noIndent style={{backgroundColor:bg, flexDirection:'column'}}>
       <Grid style={{marginVertical:10}}>
         <Col style={{width:'70%'}}>
 
@@ -209,6 +363,16 @@ null
         </Col>
 
       </Grid>
+
+      <Accordion
+        style={{width:'100%'}}
+        dataArray={dataArray}
+        renderHeader={_renderHeader}
+        renderContent={_renderContent}
+        animation={true}
+        expanded={true}/>
+
+      
     </ListItem>
   )
 }

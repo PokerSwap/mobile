@@ -55,7 +55,7 @@ export default WinningsDashboard = (props) => {
 
   return(
     <Container>
-      <HomeHeader title={'Winnings Dashboard'} 
+      <HomeHeader title={'Swap Results'} 
         drawer={() => props.navigation.toggleDrawer()}
         tutorial={() => props.navigation.push('Tutorial')}/>
       

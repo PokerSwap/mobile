@@ -10,7 +10,7 @@ import {request, PERMISSIONS} from 'react-native-permissions';
 export default  PictureSetup = (props) => {
 
   const [ image, setImage ] = useState(props.picture)
-  
+   
   const requestAll = async() => {
     const cameraStatus = await request(PERMISSIONS.IOS.CAMERA);
     const photosStatus = await request(PERMISSIONS.IOS.PHOTO_LIBRARY);

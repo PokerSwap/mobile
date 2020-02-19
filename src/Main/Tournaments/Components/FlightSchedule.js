@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { ListItem, Text } from 'native-base';
-import BuyIn  from '../../Shared/BuyIn'
+import TournamentBuyIn  from '../../Shared/TournamentBuyIn'
 
 export default FlightSchedule = (props) => {
      
@@ -42,7 +42,7 @@ export default FlightSchedule = (props) => {
     }
 
     return(
-      <BuyIn
+      <TournamentBuyIn
         key = {buy_in.id}
         tournament_id={props.tournament_id}
         user_name={buy_in.user_name}
@@ -64,7 +64,8 @@ export default FlightSchedule = (props) => {
   return(
     <View>
       {/* FLIGHT TIME */}
-      <ListItem noIndent seperator style={{backgroundColor:'lightgray', justifyContent:'space-between'}}>
+      <ListItem noIndent seperator style={{
+        backgroundColor:'lightgray', justifyContent:'space-between'}}>
         <Text> Day {props.day} - {startMonth}. {startDay} </Text>
         <Text>{startTime}  </Text>
       </ListItem> 

@@ -4,29 +4,28 @@ import { Text } from 'native-base';
 
 import {Context} from '../../../Store/appContext'
 import BuyIn from '../../Shared/BuyIn'
+import MyBuyIn from '../../Shared/MyBuyIn'
 
 export default SwapTracker = (props) => {
 
   const {store, actions} = useContext(Context)
 
   let other_swaps = props.swaps.map((content, index) => 
+    
     <BuyIn
       key = {index}      
       navigation = {props.navigation}
-      buyin_id = {content.buyin.id}      
-      user_id = {content.buyin.user_id}
-      user_name = {content.buyin.user_name} 
-      table = {content.buyin.table}
-      seat = {content.buyin.seat}
-      chips = {content.buyin.chips}
-      flight_id = {content.buyin.flight_id}
-      updated_at = {content.buyin.updated_at}
+      buyin_id = {content.recipient_buyin.id}      
+      user_id = {content.recipient_buyin.user_id}
+      user_name = {content.recipient_buyin.user_name} 
+      table = {content.recipient_buyin.table}
+      seat = {content.recipient_buyin.seat}
+      chips = {content.recipient_buyin.chips}
+      flight_id = {content.recipient_buyin.flight_id}
+      updated_at = {content.recipient_buyin.updated_at}
       
-      counter_percentage= {content.swap.counter_percentage}
-      percentage = {content.swap.percentage}
-      status = {content.swap.status}
-      swap_id = {content.swap.id}
-      swap_updated_at={content.swap.updated_at}
+      agreed_swaps = {content.agreed_swaps}
+      other_swaps = {content.other_swaps}
       
       address={props.tournament.address}
       city={props.tournament.city}
@@ -69,7 +68,7 @@ export default SwapTracker = (props) => {
         </TouchableOpacity>
       </View>
       
-      <BuyIn
+      <MyBuyIn
         navigation = {props.navigation}
         buyin_id = {props.my_buyin.id}
         user_id = {props.my_buyin.user_id}
@@ -83,6 +82,7 @@ export default SwapTracker = (props) => {
         state={props.tournament.state}
         updated_at={props.my_buyin.updated_at}
         start_at={props.tournament.start_at}/>
+
 
       {other_swaps}
       

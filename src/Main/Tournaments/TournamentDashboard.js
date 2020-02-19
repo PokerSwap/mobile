@@ -58,7 +58,7 @@ export default TournamentDashboard = (props) => {
   return(
     <View style={{flex:1}}>
       
-      <HomeHeader title={'Tournament Dashboard'} 
+      <HomeHeader title={'Event Listings'} 
       drawer={() => props.navigation.toggleDrawer()}
       tutorial={() => props.navigation.push('Tutorial')}
       />

@@ -34,18 +34,15 @@ export default LoginScreen = (props) => {
   const [loginColor, setLoginColor] = useState('#000099')
   const [signupColor, setSignupColor] = useState('#FF6600')
 
-  const loginStart = async() => {
-    Keyboard.dismiss();
-    setLoading(true)
-    var answer = await actions.user.login(
-      email, password, deviceID, props.navigation );
-    var eee = setLoading(false)
-  }
+  // const loginStart = async() => {
+  //   Keyboard.dismiss();
+  //   setLoading(true)
+  //   var answer = await actions.user.login(
+  //     email, password, deviceID, props.navigation );
+  //   var eee = await setLoading(false)
+  // }
 
   let txtPassword = null
-
-
-  const [refreshing, setRefreshing] = useState(false);
 
   function wait(timeout) {
     return new Promise(resolve => {
@@ -53,13 +50,17 @@ export default LoginScreen = (props) => {
     });
   } 
 
-  const onRefresh = useCallback(() => {
+console.log('email', email, 'paswowrd', password)
+
+
+  const loginStart = () => {
     Keyboard.dismiss();
     setLoading(true)
+    console.log('before goign through', email)
     actions.user.login(
       email, password, deviceID, props.navigation )
     wait(3000).then(() => setLoading(false));
-  }, [loading]);
+  }
   
   return(
     <View style={styles.mainContainer}>
@@ -93,7 +94,7 @@ export default LoginScreen = (props) => {
                 autoCorrect={false} 
                 onSubmitEditing={() => { txtPassword.focus(); }}
                 value={email}    
-                onChangeText={email => setEmail( email )}
+                onChangeText={emailX => setEmail( emailX )}
               />
             </View>
             
@@ -111,14 +112,14 @@ export default LoginScreen = (props) => {
                 selectionColor={'#D3D3D3'}
                 ref={(input) => { txtPassword = input; }} 
                 value={password}
-                onChangeText={password => setPassword( password )}/>
+                onChangeText={passwordX => setPassword( passwordX )}/>
             </View>
 
             {/* BUTTONS */}
             <View style={styles.buttons.container}>
 
               {/* LOGIN BUTTON */}         
-              <Button block onPress={() => onRefresh()}
+              <Button block onPress={() => loginStart()}
                 onPressIn={() => setLoginColor('#6699FF')}
                 onPressOut={() => setLoginColor('#000099')}
                 style={[styles.buttons.button, {backgroundColor:loginColor}]}>

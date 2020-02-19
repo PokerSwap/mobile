@@ -33,7 +33,7 @@ export default EditPath = (props) => {
     <View>
       <Text style={{
         textAlign:'center',alignSelf:'center', marginVertical:10}}>
-          NEW BUYIN
+          STATUS UPDATE
       </Text>
       
       <Card style={{width:'80%', alignSelf:'center'}}>

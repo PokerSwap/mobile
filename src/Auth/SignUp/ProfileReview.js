@@ -11,7 +11,7 @@ export default  ProfileReview = (props) => {
 		var answer = await actions.profile.add(
 			props.username, props.first_name, props.last_name, 
 			props.hendon, props.picture
-		)
+		) 
 		.then(() => actions.profile.get())
 		.then(() => actions.tracker.getAll())
 		.then(() => actions.tracker.getPast())

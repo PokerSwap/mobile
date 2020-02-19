@@ -64,7 +64,7 @@ export default SwapDashboard = (props) => {
 
   return(
     <Container>
-      <HomeHeader title={'Swap Dashboard'}  
+      <HomeHeader title={'Active Swaps'}  
         drawer={() => props.navigation.toggleDrawer()}
         tutorial={() => props.navigation.push('Tutorial')}/>
         
@@ -113,55 +113,3 @@ const styles = {
       justifyContent:'center', textAlign:'center', fontSize:24, width:'80%'}
   }
 }
-
-
-// Winnings : {
-//   my_buy_in:{BuyIn.json},
-//   myplace:14,
-// 	tournament:{tournament.json},
-// 	final_profit:6,
-// 	swaps:{
-//     {
-//       recipient_user:{profile.json},
-//       theirPlace:12,
-//       youWon:100,
-//       theyWon:200,
-//       youOweTotal: 5,
-//       theyOweTotal: 8,
-//       swap_profit: 3, 
-//       agreed_swaps:{
-//         {
-//         percentage:5,
-//         counter_percentage:4,
-//         youOwe:5,
-//         theyOwe:8
-//         },
-//       }
-//     },
-// 		{
-//       youWon:100,
-//       theirPlace:10,
-//       theyWon:100,
-//       youOweTotal: 14,
-//       theyOweTotal: 17,
-//       swap_profit: 3,
-//       agreed_swaps:{
-//             {
-//         percentage:4,
-//             counter_percentage:5,
-//         youOwe:4,
-//         theyOwe:5
-//         },
-//         {
-//         percentage:10,
-//             counter_percentage:12,
-//         youOwe:10,
-//         theyOwe:2
-//         },
-
-
-//       }
-// 		}
-// 	}
-
-// }

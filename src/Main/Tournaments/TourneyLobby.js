@@ -41,11 +41,12 @@ export default TourneyLobby = (props) => {
     mySwapsinTournament = []
   }
 
-  var Flights = flights.map((flight) => { 
+  var Flights = flights.map((flight, index) => { 
     var their_buy_ins = buy_ins.filter(buy_in => buy_in.flight_id == flight.id)
     
     return(
       <FlightSchedule 
+        key={index}
         id = {flight.id}
         navigation={props.navigation}
         tournament_id={tournament_id}

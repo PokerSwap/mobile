@@ -107,9 +107,7 @@ export default SwapOffer = (props) => {
 
   let updated;
    status == 'edit'?
-    updated = updated_at
-    :
-    updated = swap_updated_at
+    updated = updated_at : updated = swap_updated_at
 
   return(
     <Container>
@@ -125,7 +123,7 @@ export default SwapOffer = (props) => {
         <Card transparent style={{ justifyContent:'center'}}>
           <CardItem style={{justifyContent:'center'}}>
             <Text style={{textAlign:'center', fontWeight:'600'}}>
-              SELECTED BUY-IN:
+              CURRENT STATUS:
             </Text>
           </CardItem>
         </Card>

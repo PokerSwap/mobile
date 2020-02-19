@@ -1,10 +1,7 @@
 import React, {useContext, useEffect} from 'react';
 import { View, StatusBar, Image } from 'react-native';
-import { Text,Icon} from 'native-base';
 import { firebase } from '@react-native-firebase/messaging';
 import AsyncStorage from '@react-native-community/async-storage';
-import DeviceInfo from 'react-native-device-info'
-
 
 import {Context} from '../Store/appContext'
 
@@ -17,21 +14,21 @@ export default SplashScreen = (props) => {
 
 		if (currentToken){
 
-			var data = {jwt: currentToken}
-			var answer0 = await actions.userToken.store(data)
+			var answer0 = await actions.userToken.store(currentToken)
 			var answer555 = await actions.profile.get()
 
 			if( Object.keys(store.myProfile)[0] != 'msg'&& Object.keys(store.myProfile)[0] != 'message' && store.myProfile !== undefined){
-				var assefg = await actions.deviceToken.get(DeviceInfo.getUniqueId())
+				console.log('Valid User Token')
 				var answer2 = await actions.user.auto_login(props.navigation)
 			}else{				
-				console.log('badToken')
-				AsyncStorage.removeItem('userToken')
+				console.log('Bad User Token')
+				actions.userToken.remove()
 				props.navigation.navigate('LogIn')
 			}
 
 		} else{
-			console.log('token is null')
+			console.log('Null User Token')
+			actions.userToken.remove()
 			props.navigation.navigate('LogIn')
 		}
 		

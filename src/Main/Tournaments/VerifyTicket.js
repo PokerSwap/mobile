@@ -26,7 +26,7 @@ export default VerifyTicket = (props) => {
   let tournament_id = navigation.getParam('tournament_id', 'NO-ID');
 
   console.log('flights', flights)
-  var FlightSelection = flights.map((flight) => {
+  var FlightSelection = flights.map((flight, index) => {
       
     var startMonth = flight.start_at.substring(8,11)
     var startDay = flight.start_at.substring(5,7)
@@ -42,6 +42,7 @@ export default VerifyTicket = (props) => {
       
     return(
         <Picker.Item 
+          key={index}
           style={{justifyContent:'center', textAlign:'center'}}
           label= {labelTime}
           value={flight.id}
@@ -79,7 +80,7 @@ export default VerifyTicket = (props) => {
         path: 'images',
       },
     };
-    
+     
     ImagePicker.showImagePicker(options, (response) => {
       console.log('Response = ', response);
     

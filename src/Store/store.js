@@ -68,7 +68,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 						var newBuyinID
 
-						let accessToken = getStore().userToken.jwt
+						let accessToken = getStore().userToken
 						console.log('image', image)
 						const imageURL = 'https://swapprofit-test.herokuapp.com/me/buy_ins/flight/'+ a_flight_id +'/image'		
 						const imageData = new FormData();
@@ -133,7 +133,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					
 					try{
 						const url = 'https://swapprofit-test.herokuapp.com/me/buy_ins/' + a_buyin_id + '?validate=true'
-						const accessToken = getStore().userToken.jwt
+						const accessToken = getStore().userToken
 
 						let data = {
 							chips: parseInt(some_chips),
@@ -162,7 +162,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					
 					try {
 						const url = 'https://swapprofit-test.herokuapp.com/me/buy_ins/'
-						let accessToken = getStore().userToken.jwt
+						let accessToken = getStore().userToken
 	
 						let response = await fetch(url, {
 							method: 'GET',
@@ -183,25 +183,19 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 			deviceToken:{
 
-				get: async(newDeviceToken) => {
+				get: async() => {
 					try {
-						console.log('New Device Token', newDeviceToken)
-						var device_token = await AsyncStorage.getItem('deviceToken')
-						console.log('stordd Device Token', device_token)
-
-						device_token ? 
-							getActions().deviceToken.store(newDeviceToken)
-						  :
-							setStore({deviceToken: device_token})
-						 
+						var storedDeviceToken = await AsyncStorage.getItem('deviceToken')
+						setStore({deviceToken: storedDeviceToken})
+						console.log('Current Device Token', getStore().deviceToken)
 					} catch (error) {
-						console.log('Something went wrong with removing device token', error)
+						console.log('Something went wrong with getting device token', error)
 					}
 				},
 
 				remove: async() => {
 					try {
-						const accessToken = getStore().userToken.jwt;
+						const accessToken = getStore().userToken;
 						const url = 'https://swapprofit-test.herokuapp.com/users/me/devices' 
 
 						const data = {device_token: getStore().deviceToken}
@@ -226,9 +220,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 				store: async(device_token) => {
 					try{
+						console.log('Storing this', device_token)
 						var storingDeviceToken = await AsyncStorage.setItem('deviceToken', device_token)
 						setStore({deviceToken: device_token})
-						console.log('foanl'.getStore().deviceToken)
 					}catch(error){
 						console.log('Something went wrong with storing device token', error)
 					}
@@ -241,7 +235,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				buy: async (some_dollars, some_coins) => {
 					
 					try{
-						const accessToken = getStore().userToken.jwt;
+						const accessToken = getStore().userToken;
 						const url = 'https://swapprofit-test.herokuapp.com/users/me/transaction'
 
 						let data = {
@@ -268,7 +262,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				spend: async() => {
 					
 					try{
-						const accessToken = getStore().userToken.jwt;
+						const accessToken = getStore().userToken;
 						const url = 'https://swapprofit-test.herokuapp.com/users/me/transaction'
 
 						let data = {
@@ -395,7 +389,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					
 					try{
 						
-						const accessToken = getStore().userToken.jwt;
+						const accessToken = getStore().userToken;
 						const url = 'https://swapprofit-test.herokuapp.com/profiles'
 
 						let data = {
@@ -413,10 +407,11 @@ const getState = ({ getStore, setStore, getActions }) => {
 								'Content-Type':'application/json'
 							}, 
 						})
-						.then(response => response.json)
+						.then(response => response.json())
+						.then(() => console.log('profile resposen',response))
 						
 						var aaa = await getActions().profile.uploadPhoto(a_Picture)
-
+						var dec = await getActions().profile.get();
 
 					} catch(error) {
 						console.log("Something went wrong in adding a profile", error)
@@ -426,7 +421,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				get: async () => {
 					try{
 
-						const accessToken = getStore().userToken.jwt;
+						const accessToken = getStore().userToken;
 						const url = 'https://swapprofit-test.herokuapp.com/profiles/me';
 
 						let response = await fetch(url, {
@@ -438,7 +433,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 
 						let profileData = await response.json()
-						console.log('progile data', profileData)
+						console.log('Profile data', profileData)
 						profileData !== 'User not found' ?	
 							getActions().profile.store(profileData)
 							:
@@ -469,36 +464,36 @@ const getState = ({ getStore, setStore, getActions }) => {
 					}
 				},
 
-				uploadPhoto: async ( photo ) => {
+				uploadPhoto: async ( image ) => {
 					try {
+						console.log('image in store', image)
+
 						const url ='https://swapprofit-test.herokuapp.com/profiles/image'
-						const accessToken = getStore().userToken.jwt ;
+						const accessToken = getStore().userToken;
 						const data = new FormData();
 
-						data.append('image', {
-							uri: photo.uri,
-							type: photo.type,
-							name: photo.name
+						data.append("image", {
+							uri: image.uri,
+							type: image.type,
+							name: image.fileName
 						});
-						
-						const postData = {
+										
+						let response = await fetch(url, {
 							method: 'PUT',
 							headers: {
 								'Content-Type': 'multipart/form-data',
 								'Authorization': 'Bearer ' + accessToken,
 							},
 							body: data,
-						}
-				
-						let response = await fetch(url, postData)
-							.then(response => response.json())
-							.then((responseJson) => {
-								console.log('responseJson',responseJson);
-								return responseJson;
-							})
-							.catch((error) => {
-								console.log('error in json of profile pic',error);
-							});
+						})
+						.then(response => response.json())
+						.then((responseJson) => {
+							console.log('responseJson',responseJson);
+							return responseJson;
+						})
+						.catch((error) => {
+							console.log('error in json of profile pic',error);
+						});
 							
 							var eecsrc = await getActions().profile.get()
 							return(Toast.show({
@@ -518,7 +513,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				view: async( a_user_id ) => {
 					
 					try {
-						const accessToken = getStore().userToken.jwt;
+						const accessToken = getStore().userToken;
 						const url = 'https://swapprofit-test.herokuapp.com/profiles/'+ a_user_id
 
 						let response = await fetch(url, {
@@ -546,7 +541,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					
 					try{
 						const url = 'https://swapprofit-test.herokuapp.com/me/swaps'
-						let accessToken = getStore().userToken.jwt
+						let accessToken = getStore().userToken
 
 						let data = {
 							tournament_id: a_tournament_id,
@@ -581,7 +576,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				statusChange: async ( my_swap_id, a_status, a_percentage ) => {
 					try{
 						const url = 'https://swapprofit-test.herokuapp.com/me/swaps/' + my_swap_id
-						let accessToken = getStore().userToken.jwt
+						let accessToken = getStore().userToken
 						console.log('the url', my_swap_id)
 						let data 
 						
@@ -622,7 +617,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				paid: async ( a_tournament_id, a_recipient_id, is_paid, navigation) => {
 					try{
 						const url = 'https://swapprofit-test.herokuapp.com/users/me/swaps/4/done'
-						let accessToken = getStore().userToken.jwt
+						let accessToken = getStore().userToken
 
 						let data = {
 							tournament_id: a_tournament_id,
@@ -652,7 +647,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					
 					try{
 						const url = "https://swapprofit-test.herokuapp.com/swaps/me/tournament/" + tournament_id;
-						const accessToken = getStore().userToken.jwt ;
+						const accessToken = getStore().userToken ;
 
 						fetch(url, {
 							method: 'GET',
@@ -673,7 +668,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					
 					try{
 						const url = 'https://swapprofit-test.herokuapp.com/tournaments/' + tournament_id;
-						const accessToken = getStore().userToken.jwt ;
+						const accessToken = getStore().userToken ;
 
 						let response = await fetch(url, {
 							method: 'GET',
@@ -714,7 +709,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							:
 							full_url = base_url
 
-						const accessToken = getStore().userToken.jwt ;
+						const accessToken = getStore().userToken ;
 						
 						let response = await fetch(full_url, {
 							method: 'GET',
@@ -747,7 +742,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							full_url = base_url + page
 
 						console.log('full updated url', full_url)
-						const accessToken = getStore().userToken.jwt ;
+						const accessToken = getStore().userToken ;
 						let response = await fetch(full_url, {
 							method: 'GET',
 							headers: {
@@ -777,7 +772,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					
 					try{
 						const url = 'https://swapprofit-test.herokuapp.com/me/swap_tracker'
-						let accessToken = getStore().userToken.jwt
+						let accessToken = getStore().userToken
 
 						let response = await fetch(url, {
 							method:'GET',
@@ -800,7 +795,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					
 					try{
 						const url = 'https://swapprofit-test.herokuapp.com/me/swap_tracker?history=true'
-						let accessToken = getStore().userToken.jwt
+						let accessToken = getStore().userToken
 
 						let response = await fetch(url, {
 							method:'GET',
@@ -872,7 +867,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				},
 
 				login: async ( myEmail, myPassword, myDeviceID, navigation ) => {
-					
+					console.log('myEmail', myEmail)
 					// 20 DAY EXPIRATION
 					var time = (1000*60*60*24*20)
 
@@ -883,8 +878,12 @@ const getState = ({ getStore, setStore, getActions }) => {
 						exp: time
 					};
 
+					console.log('loginData', data)
+
 					return new Promise(resolve =>
 						resolve(getActions().userToken.get(data)
+						.then(() => getActions().deviceToken.store(myDeviceID))
+
 						.then(()=> getActions().profile.get())
 						.then(()=> your_password = '')
 						.then(()=> {
@@ -929,7 +928,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							new_email: myNewEmail
 						}
 	
-						let accessToken = getStore().userToken.jwt;
+						let accessToken = getStore().userToken;
 	
 						const url = 'https://swapprofit-test.herokuapp.com/users/me/email'
 	
@@ -973,7 +972,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							new_password: myNewPassword
 						}
 	
-						let accessToken = getStore().userToken.jwt;
+						let accessToken = getStore().userToken;
 	
 						const url = 'https://swapprofit-test.herokuapp.com/users/me/password'
 	
@@ -1011,7 +1010,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 				changePicture: async(image) => {
 
-					let accessToken = getStore().userToken.jwt;
+					let accessToken = getStore().userToken;
 
 					const imageURL = 'https://swapprofit-test.herokuapp.com//profiles/image'
 					const imageData = new FormData();
@@ -1090,12 +1089,12 @@ const getState = ({ getStore, setStore, getActions }) => {
 							data.error = "";
 							let user = res;
 							console.log('userToken: ', user, typeof(user))
-							getActions().userToken.store(user);
+							getActions().userToken.store(user.jwt);
 						} else {
 							let error = res;
 							getActions().userToken.remove();
 							console.log("Something went wrong in getting userToken", error, getStore().userToken);
-							Toast.show({
+							Toast.show({ 
 								position:'top',
 								text:error.message,
 								duration:3000,
@@ -1116,8 +1115,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 				// During Login, Stores User Information in the Store
 				store: async( myUserToken ) => {
 					try {
+						console.log(myUserToken)
 						setStore({userToken: myUserToken});
-						var aaasss = await AsyncStorage.setItem('userToken', myUserToken.jwt)
+						var aaasss = await AsyncStorage.setItem('userToken', myUserToken)
 					} catch(error) {
 						console.log('Something went wrong in storing userToken', error)
 					}
@@ -1128,6 +1128,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 					try {
 						setStore({userToken: null})
 						var ann = await AsyncStorage.removeItem('userToken')
+						var ss = await  AsyncStorage.getItem('userToken')
+						console.log('userToken after logout is', ss, getStore().userToken)
 					} catch(error) {
 						console.log('Something went wrong in removing userToken')
 					}
