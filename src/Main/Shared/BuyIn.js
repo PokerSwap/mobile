@@ -27,7 +27,115 @@ BuyInAttribute = (props) => {
   )
 }
 
+SwapList = (props) => {
+  return(
+    <Text>LOL</Text>
+    // <Grid>
+    //   {allSwaps.map((swap, index) => {
 
+    //   if (swap.status == 'agreed'){
+    //     lastCol = 
+    //       <Text style={{
+    //         fontWeight:'600', color:'white',
+    //         fontSize:16, top:8}}> 
+    //         {swap.percentage}% 
+    //       </Text>;
+    //     buttonColor= 'green';
+    //     path = 'agreed'
+    //   } 
+    //   // PENDING SWAP VIEW
+    //   else if(swap.status == 'pending') {
+    //     lastCol =  
+    //       <Text style={{
+    //         fontWeight:'600', fontSize:16, 
+    //         color:'white', top:8}}> 
+    //         {swap.percentage}% 
+    //       </Text>;
+    //     path = "pending";
+    //     buttonColor= 'orange';
+    //   } 
+    //   // INCOMING SWAP VIEW
+    //   else if (swap.status == 'incoming'){
+    //     lastCol = 
+    //       <Icon type="FontAwesome5" name="exclamation"
+    //         style={{alignSelf:'center', fontSize:18, 
+    //         color:'white' , top:8}}/>;
+    //     path = 'incoming';
+    //     buttonColor= 'green';
+    //   } 
+    //   // CANCELED SWAP OFFER VIEW
+    //   else if (swap.status == 'canceled'){
+    //     lastCol = 
+    //     <Icon type="FontAwesome5" name="times"
+    //       style={{alignSelf:'center', fontSize:24, 
+    //       color:'white', top:8}} />;
+    //     path = 'canceled';
+    //     buttonColor= 'grey';
+    //   }
+    //   // REJECTED SWAP OFFER VIEW
+    //   else if (swap.status == 'rejected'){
+    //     lastCol = 
+    //     <Icon type="FontAwesome5" name="times" 
+    //       style={{ alignSelf:'center', fontSize:24, 
+    //       color:'white', top:8}} />;
+    //     path = 'rejected';
+    //     buttonColor= 'red';
+    //   }
+    //   // SWAP OFFER VIEW
+    //   else {
+    //     lastCol = 
+    //       <Icon type="FontAwesome5" name="handshake"
+    //         style={{alignSelf:'center', fontSize:24}} />;
+    //     path = "inactive";
+    //     buttonColor= 'rgb(56,68,165)';
+    //   } 
+
+
+    //   var swapTime = swap.updated_at
+    //   var day_name = swapTime.substring(0,3)
+    //   var startMonth = swapTime.substring(8,11)
+    //   var startDay = swapTime.substring(5,7)
+    //   var startTime = swapTime.substring(16,22)
+
+    //   var startHour = parseInt(swapTime.substring(16,19))
+    //   var startM 
+    //   if (startHour/12 >= 1){
+    //     startM = ' P.M.'
+    //     startHour%=12
+    //   }
+    //   else{
+    //     startM = ' A.M.'
+    //   }
+        
+    //   var startTime = startHour + ':' + swapTime.substring(20,22) + startM
+    //   var labelTime = day_name + '. ' + startMonth + '. ' + startDay + ', ' +   startTime
+    //   return(
+    //     <Row key={index} style={{height:60, width:'100%', alignItems:'center', borderTopWidth:1, borderTopColor:'#d3d3d3'}}>
+    //       <Col style={{width:'20%'}}>
+    //         <Text style={{textTransform:'capitalize'}}>
+    //           {swap.status}
+    //         </Text>
+    //       </Col>
+    //       <Col>
+    //         <Text>{labelTime}</Text>
+    //       </Col>
+    //       <Col style={{width:'20%', }}>
+    //         <TouchableOpacity>
+    //           <View style={{
+    //             backgroundColor:buttonColor, height:40, 
+    //             alignItems:'center'}}>
+    //             {lastCol}  
+    //           </View>
+    //         </TouchableOpacity>
+    //       </Col>
+    //     </Row>
+    //   )
+    //   })}
+    //   )
+    //   }
+    // </Grid>
+  )
+}
 
 
 export default BuyIn = (props) => {
@@ -36,9 +144,10 @@ export default BuyIn = (props) => {
   const { navigation } = props;
   let path, lastCol, buttonColor;
 
-  var allSwaps
 
-  props.user_id !== undefined || props.user_id !== store.myProfile.id ?
+  var allSwaps 
+
+  props.user_id !== undefined || props.user_id !== store.myProfile.id ?   
     props.agreed_swaps.length !== 0 ?
       props.other_swaps.length !== 0 ?
         allSwaps = [...props.agreed_swaps, ...props.other_swaps]
@@ -50,13 +159,13 @@ export default BuyIn = (props) => {
         :
         allSwaps = null
     :
-  null
-
-
-  let dataArray =[{title:'lol'}]
-  
+    null
 
   const _renderHeader = (item, expanded) => {
+
+    var swapNum
+    allSwaps.length > 1 ? swapNum = 'Swaps' : swapNum = 'Swap'
+
     return(
       <View>
         {expanded ?
@@ -66,159 +175,52 @@ export default BuyIn = (props) => {
           </View>
           : 
           <View style={{flexDirection:'column', justifyContent:'center'}}>
-            <Text>See All</Text>
+            <Text>See {allSwaps.length} {swapNum} </Text>
             <Icon style={{ fontSize: 24, alignSelf:'center' }}  name='ios-arrow-down'/>
           </View>
         }
       </View>
-  )
+    )
   }
 
   const _renderContent= () => {
     return(
-
-    <Grid style={{width:'100%'}}>
-      {allSwaps.map((swap, index) => {
-
-        if (swap.user_id == store.myProfile.id){
-          lastCol = 
-            <Icon type="Entypo" name="edit"
-              style={{ alignSelf:'center', 
-              fontSize:36, color:'white'}}/>;
-          path = "edit";
-          buttonColor= 'grey';
-        } 
-        // AGREED SWAP VIEW
-        else if (swap.status == 'agreed'){
-          lastCol = 
-            <Text style={{
-              fontWeight:'600', color:'white',
-              fontSize:16, top:8}}> 
-              {swap.percentage}% 
-            </Text>;
-          buttonColor= 'green';
-          path = 'agreed'
-        } 
-        // PENDING SWAP VIEW
-        else if(swap.status == 'pending') {
-          lastCol =  
-            <Text style={{
-              fontWeight:'600', fontSize:16, 
-              color:'white', top:8}}> 
-              {swap.percentage}% 
-            </Text>;
-          path = "pending";
-          buttonColor= 'orange';
-        } 
-        // INCOMING SWAP VIEW
-        else if (swap.status == 'incoming'){
-          lastCol = 
-            <Icon type="FontAwesome5" name="exclamation"
-              style={{alignSelf:'center', fontSize:18, 
-              color:'white' , top:8}}/>;
-          path = 'incoming';
-          buttonColor= 'green';
-        } 
-        // CANCELED SWAP OFFER VIEW
-        else if (swap.status == 'canceled'){
-          lastCol = 
-          <Icon type="FontAwesome5" name="times"
-            style={{alignSelf:'center', fontSize:24, 
-            color:'white', top:8}} />;
-          path = 'canceled';
-          buttonColor= 'grey';
-        }
-        // REJECTED SWAP OFFER VIEW
-        else if (swap.status == 'rejected'){
-          lastCol = 
-          <Icon 
-            style={{alignSelf:'center', fontSize:24, color:'white', top:8}}
-            type="FontAwesome5" name="times" />;
-          path = 'rejected';
-          buttonColor= 'red';
-        }
-        // SWAP OFFER VIEW
-        else {
-          lastCol = 
-            <Icon style={{alignSelf:'center', fontSize:24}} type="FontAwesome5" name="handshake" />;
-          path = "inactive";
-          buttonColor= 'rgb(56,68,165)';
-        } 
-
-        
-        var swapTime = swap.updated_at
-        var day_name = swapTime.substring(0,3)
-        var startMonth = swapTime.substring(8,11)
-        var startDay = swapTime.substring(5,7)
-        var startTime = swapTime.substring(16,22)
-
-        var startHour = parseInt(swapTime.substring(16,19))
-        var startM 
-        if (startHour/12 >= 1){
-          startM = ' P.M.'
-          startHour%=12
-        }
-        else{
-          startM = ' A.M.'
-        }
-          
-        var startTime = startHour + ':' + swapTime.substring(20,22) + startM
-        var labelTime = day_name + '. ' + startMonth + '. ' + startDay + ', ' +   startTime
-        return(
-          <Row key={index} style={{height:60, width:'100%', alignItems:'center', borderTopWidth:1, borderTopColor:'#d3d3d3'}}>
-            <Col style={{width:'20%'}}>
-              <Text style={{textTransform:'capitalize'}}>
-                {swap.status}
-              </Text>
-            </Col>
-            <Col>
-              <Text>{labelTime}</Text>
-            </Col>
-            <Col style={{width:'20%', }}>
-              <TouchableOpacity>
-                <View style={{backgroundColor:buttonColor,height:40, alignItems:'center'}}>
-                  {lastCol}  
-                </View>
-              </TouchableOpacity>
-            </Col>
-          </Row>
-        )
-      })}
-    </Grid>
-    )
-  }
+      <SwapList
+        allSwaps={allSwaps}
+      />
+    )}
 
   var allStatuses = allSwaps.map(swap => swap.status)
-  console.log('allStatuses', allStatuses)
 
   // YOUR SWAP VIEW
   if (allStatuses.includes('incoming')){
     lastCol = 
-      <Icon name='exclamation'
-        style={{alignSelf:'center', fontSize:24}}
-        type="FontAwesome5" name="exclamation"/>;
+      <Icon type="FontAwesome5" name='exclamation'
+        style={{alignSelf:'center', fontSize:24}}/>;
     buttonColor= 'green';
-    path = 'agreed'
+    path = 'incoming'
   } 
   // PENDING SWAP VIEW
   else if(allStatuses.includes('pending')) {
     var pendingPercentage = 0
-    var comSqaps = allSwaps.filter(swap => swap.status == 'agreed' || swap.status == 'pending')
-    var addingPercentage = comSqaps.forEach(swap => pendingPercentage+= swap.percentage)
+    var gettingpendingagreed = allSwaps.filter(swap => swap.status == 'agreed' || swap.status == 'pending')
+    var addingPercentage = gettingpendingagreed.forEach(swap => pendingPercentage+= swap.percentage)
     lastCol =  
-    <Text 
-      style={{fontWeight:'600', fontSize:18, color:'white', textAlignVertical:'center'}}> 
-      {pendingPercentage}% 
-    </Text>;
+      <Text style={{fontWeight:'600', fontSize:18,
+        color:'white', textAlignVertical:'center'}}> 
+        {pendingPercentage}% 
+      </Text>;
     path = "pending";
     buttonColor= 'orange';
   } 
   // INCOMING SWAP VIEW
   else if (allStatuses.includes('agreed')){
-    var lol = 0
-    var eee = props.agreed_swaps.forEach(swap => lol+=swap.percentage)
+    var totalAgreed = 0
+    var addingAgreedTotal = props.agreed_swaps.forEach(swap => totalAgreed += swap.percentage)
     lastCol = 
-      <Text style={{fontWeight:'600', fontSize:18,}}>{lol}%</Text>;
+      <Text style={{fontWeight:'600', fontSize:18,}}>
+        {totalAgreed}%
+      </Text>;
     path = 'incoming';
     buttonColor= 'green';
   
@@ -226,9 +228,9 @@ export default BuyIn = (props) => {
   // CANCELED SWAP OFFER VIEW
   else if (allStatuses.includes('canceled')){
     lastCol = 
-    <Icon 
-      style={{alignSelf:'center', fontSize:36}}
-      type="FontAwesome5" name="times" />;
+      <Icon 
+        style={{alignSelf:'center', fontSize:36}}
+        type="FontAwesome5" name="times" />;
     path = 'canceled';
     buttonColor= 'grey';
   }
@@ -244,7 +246,8 @@ export default BuyIn = (props) => {
   // SWAP OFFER VIEW
   else {
     lastCol = 
-      <Icon style={{alignSelf:'center', fontSize:24}} type="FontAwesome5" name="handshake" />;
+      <Icon type="FontAwesome5" name="handshake" 
+        style={{alignSelf:'center', fontSize:24}} />;
     path = "inactive";
     buttonColor= 'rgb(56,68,165)';
   } 
@@ -315,12 +318,16 @@ export default BuyIn = (props) => {
     since = y + 'Y' 
   }
   else{
-null
+    null
   }
   var bg, txt;
-  props.chips != 0 ?
-    bg='white' || (txt='black') : bg='red' || (txt='white')
-  
+  if (props.chips !== 0){
+    bg='white'
+    txt='black'
+  }else{
+    bg='red'
+    txt='white'
+  }  
   return(
     <ListItem noIndent style={{backgroundColor:bg, flexDirection:'column'}}>
       <Grid style={{marginVertical:10}}>
@@ -329,7 +336,10 @@ null
           {/* PROFILE NAME */}
           <Row style={{justifyContent:'center'}}>
             <Button transparent onPress={()=> enterProfile()}>
-              <Text style={{fontSize:24, textTransform:'capitalize', color:txt}}> {props.user_name} </Text>
+              <Text style={{
+                fontSize:24, textTransform:'capitalize', color:txt}}> 
+              {props.user_name} 
+              </Text>
             </Button>
           </Row>
 
@@ -345,7 +355,6 @@ null
 
         </Col>
 
-
         {/* BUTTON WITH VARIABLE PATHS */}
         <Col style={{justifyContent:'center', 
           marginLeft:20, textAlign:'center'}}>
@@ -356,8 +365,8 @@ null
               justifyContent:'center', alignSelf:'center'}}>
             {lastCol}
           </Button>
-          <Text style={{
-            marginTop:10, color:txt, textAlign:'center', alignSelf:'center'}}>
+          <Text style={{ marginTop:10, color:txt, 
+            textAlign:'center', alignSelf:'center'}}>
             {since}
           </Text>
         </Col>
@@ -366,13 +375,12 @@ null
 
       <Accordion
         style={{width:'100%'}}
-        dataArray={dataArray}
+        dataArray={[{placeholder:'placeholder'}]}
         renderHeader={_renderHeader}
         renderContent={_renderContent}
         animation={true}
         expanded={true}/>
 
-      
     </ListItem>
   )
 }
