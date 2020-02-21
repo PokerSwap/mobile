@@ -5,7 +5,7 @@ import CountDown from 'react-native-countdown-component';
 
 import moment from 'moment';
 
-export default  TourneyHeader = (props) => {
+export default EventHeader = (props) => {
 
   var startMonth = props.start_at.substring(8,11)
   var startDay = props.start_at.substring(5,7)

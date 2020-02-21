@@ -1,5 +1,5 @@
 import React, {useState, useContext} from 'react';
-import {Image, Dimensions, View, TextInput, KeyboardAvoidingView, Platform, TouchableWithoutFeedback} from 'react-native';
+import {Image,  TextInput, KeyboardAvoidingView, Platform, TouchableWithoutFeedback} from 'react-native';
 import {Container,  Button, Text, Form, Picker, Content, Card, CardItem, Icon} from 'native-base';
 
 import {check, PERMISSIONS} from 'react-native-permissions';
@@ -126,8 +126,7 @@ export default VerifyTicket = (props) => {
       image, table, seat, chips, flight_id, tournament_id, props.navigation )
   };
  
-  let textSeat = null;
-  let textChips = null;
+  let textSeat = null, textChips = null;
    
   return(
     <Container>

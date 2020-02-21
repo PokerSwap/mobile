@@ -1,24 +1,21 @@
 import React, {useContext, useState} from 'react';
-import { Text, Header, Icon, Segment, Spinner, ListItem } from 'native-base';
-import { ScrollView, RefreshControl, FlatList, View} from 'react-native'
+import { Text,  Segment, Spinner, ListItem } from 'native-base';
+import {  RefreshControl, FlatList, View} from 'react-native'
  
 import HomeHeader from "../../View-Components/HomeHeader";
-import TournamentBody from './Components/TournamentBody';
-import TournamentSearchBar from './Components/TournamentSearchBar';
+import EventBody from './Components/EventBody';
+import EventSearchBar from './Components/EventSearchBar';
 import { Context } from '../../Store/appContext';
  
-export default TournamentDashboard = (props) => {
+export default EventListing = (props) => {
 
   const { store, actions } = useContext(Context)
 
   const [refreshing, setRefreshing] = useState(false);
-  const [scrollEnd, setScrollEnd] = useState(false)
   const [page, setPage] = useState(1)
   // 3 modes orderByDistance, byZip, ByLocation
   const [mode, setMode] = useState('byDate')
   const [myCoords, setMyCoords] = useState({})
-
-  console.log('mode is now', mode)
 
   // REFRESH TIMER FOR NEW TOURNAMENTS
   const wait = (timeout) => {
@@ -43,15 +40,13 @@ export default TournamentDashboard = (props) => {
     var answer2 = await actions.tournament.getMore(currentPage)
   }
   // COMPONENT FOR TOURNAMENT BODY
-  var TournamentRow = ({item, index}) => {
+  var EventRow = ({item, index}) => {
     return(
-      <TournamentBody 
-        key={index} navigation={props.navigation} mode={mode} myCoords={myCoords}
-        id = {item.id} name={item.name} start_at={item.start_at}
-        created_at={item.created_at} 
-        address={item.address} city={item.city} state={item.state}
-        latitude={item.latitude} longitude={item.longitude}
-        flights={item.flights} buy_ins={item.buy_ins} swaps={item.swaps}/>
+      <EventBody 
+        key={index} navigation={props.navigation} 
+        mode={mode} myCoords={myCoords}
+        tournament = {item.tournament}
+        buy_ins={item.buy_ins}/>
     )
   }
 
@@ -59,14 +54,11 @@ export default TournamentDashboard = (props) => {
     <View style={{flex:1}}>
       
       <HomeHeader title={'Event Listings'} 
-      drawer={() => props.navigation.toggleDrawer()}
-      tutorial={() => props.navigation.push('Tutorial')}
-      />
+        drawer={() => props.navigation.toggleDrawer()}
+        tutorial={() => props.navigation.push('Tutorial')} />
       <Segment style={{backgroundColor:('rgb(248,248,248'), marginVertical:5}}>
-        <TournamentSearchBar 
-          setMode={setMode} setMyCoords={setMyCoords}
-          setPage={setPage}
-        />
+        <EventSearchBar setMyCoords={setMyCoords} 
+          setMode={setMode} setPage={setPage} />
       </Segment>
       
       {/* MAIN COMPONENT */}
@@ -80,8 +72,7 @@ export default TournamentDashboard = (props) => {
           refreshControl={
             <RefreshControl
               refreshing={refreshing}
-              onRefresh={onRefresh}
-            />}
+              onRefresh={onRefresh} />}
           onEndReachedThreshold={0.99}
           onEndReached ={()=>getMore(page) }
           ListFooterComponent={

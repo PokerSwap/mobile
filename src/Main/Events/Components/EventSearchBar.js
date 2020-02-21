@@ -6,7 +6,7 @@ import {check, PERMISSIONS, request} from 'react-native-permissions';
  
 import {Context} from '../../../Store/appContext'
 
-export default TournamentSearchBar = (props) => {
+export default EventSearchBar = (props) => {
 
   const { store, actions } = useContext(Context)
   const [value, setValue] = useState('')

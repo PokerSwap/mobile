@@ -16,16 +16,16 @@ import CreateUser from './src/Auth/SignUp/CreateUser'
 import ForgotPassword from './src/Auth/ForgotPassword'
 
 // MAIN VIEWS
-import TournamentDashboard from './src/Main/Tournaments/TournamentDashboard'
+import EventListing from './src/Main/Events/EventListing'
 import SwapDashboard from './src/Main/Swaps/SwapDashboard'
 import SwapResults from './src/Main/Results/SwapResults'
 import ProfitResults from './src/Main/Results/ProfitResults'
 
 // TOURNAMENT VIEWS
-import TourneyLobby from './src/Main/Tournaments/TourneyLobby'
-import VerifyTicket from './src/Main/Tournaments/VerifyTicket';
+import EventLobby from './src/Main/Events/EventLobby'
+import VerifyTicket from './src/Main/Events/VerifyTicket';
 import SwapOffer from './src/Main/SwapOffer/SwapOffer';
-import FlightSelection from './src/Main/Tournaments/FlightSelection'
+import FlightSelection from './src/Main/Events/FlightSelection'
 
 import ProfileScreen from './src/Main/Profile/ProfileScreen'
 import WebViewScreen from './src/Main/Shared/WebView'
@@ -97,13 +97,13 @@ const AuthStack = createStackNavigator(
   }
 )
 
-// TOURNAMENT NAVIGATION
-const TournamentsStack = createStackNavigator(
+// EVENT NAVIGATION
+const EventsStack = createStackNavigator(
   {
-    TournamentDashboard:{
-      screen: TournamentDashboard,
+    EventListing:{
+      screen: EventListing,
       navigationOptions:{
-        title:"TournamentDashboard",
+        title:"Event Listing",
         headerMode: 'none',
         headerShown: false,
         key:'A'
@@ -122,10 +122,10 @@ const TournamentsStack = createStackNavigator(
         headerLeft: () => <HeaderBackButton text='Back' onPress={() => navigation.goBack(null)} />,
       })
     },
-    TourneyLobby:{
-      screen: TourneyLobby,
+    EventLobby:{
+      screen: EventLobby,
       navigationOptions: ({navigation}) => ({
-        title:'Tourney Lobby',
+        title:'Event Lobby',
         headerLeft: () => <HeaderBackButton onPress={() => navigation.popToTop()} />,
       })
     },
@@ -159,10 +159,10 @@ const SwapsStack = createStackNavigator(
       })
 
     }, 
-    TourneyLobby:{
-      screen: TourneyLobby,
+    EventLobby:{
+      screen: EventLobby,
       navigationOptions: ({navigation}) => ({
-        title:'Tourney Lobby',
+        title:'Event Lobby',
         headerLeft: () => <HeaderBackButton onPress={() => navigation.popToTop()} />,
       })
     },
