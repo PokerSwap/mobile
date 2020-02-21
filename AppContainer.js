@@ -18,8 +18,8 @@ import ForgotPassword from './src/Auth/ForgotPassword'
 // MAIN VIEWS
 import TournamentDashboard from './src/Main/Tournaments/TournamentDashboard'
 import SwapDashboard from './src/Main/Swaps/SwapDashboard'
-import WinningsDashboard from './src/Main/Winnings/WinningsDashboard'
-import SwapPot from './src/Main/Winnings/SwapPot'
+import SwapResults from './src/Main/Results/SwapResults'
+import ProfitResults from './src/Main/Results/ProfitResults'
 
 // TOURNAMENT VIEWS
 import TourneyLobby from './src/Main/Tournaments/TourneyLobby'
@@ -171,19 +171,19 @@ const SwapsStack = createStackNavigator(
   }
 )
 
-const WinningsStack = createStackNavigator(
+const ResultsStack = createStackNavigator(
   {
-    WinningsDashboard:{
-      screen: WinningsDashboard,
+    SwapResults:{
+      screen: SwapResults,
       navigationOptions:{
-        title:"Winnings Dashboard",
+        title:"Swap Results",
         headerShown: false
       }
     },
-    SwapPot:{
-      screen: SwapPot,
+    ProfitResults:{
+      screen: ProfitResults,
       navigationOptions: ({navigation}) => ({
-        title:'Swap Pot',
+        title:'Profit Results',
         headerLeft: () => <HeaderBackButton onPress={() => navigation.goBack(null)} />,
       })
     }
@@ -201,12 +201,8 @@ const MainStack = createBottomTabNavigator(
         headerShown: false,
         title: "Swaps",
         tabBarIcon: ({ tintColor }) => 
-          <Icon 
-            type="FontAwesome5" 
-            name="handshake" 
-            size={24} 
-            style={{ color: tintColor }}
-          />
+          <Icon type="FontAwesome5" name="handshake" 
+            size={24} style={{ color: tintColor }}/>
       }
     },
     Tournaments: { 
@@ -214,24 +210,17 @@ const MainStack = createBottomTabNavigator(
       navigationOptions:{
         headerShown: false,
         tabBarIcon: ({ tintColor }) => 
-          <Icon
-            type="FontAwesome5"
-            name="trophy"
-            size={24}
-            style={{ color: tintColor }}          />
+          <Icon type="FontAwesome5"  name="trophy"
+            size={24} style={{ color: tintColor }}/>
       }
     },
-    Winnings: { 
-      screen: WinningsStack ,
+    Results: { 
+      screen: ResultsStack ,
       navigationOptions:{
         headerShown: false,
         tabBarIcon: ({ tintColor }) => 
-          <Icon 
-            type="FontAwesome5" 
-            name="comments-dollar" 
-            size={24} 
-            style={{ color: tintColor }}
-          />
+          <Icon type="FontAwesome5" name="comments-dollar" 
+            size={24} style={{ color: tintColor }}/>
       }
     }
   },
@@ -298,17 +287,6 @@ const DrawerNav = createDrawerNavigator(
         )
       }
     },
-    // Profile: {
-    //   screen: ProfileScreen,
-    //   navigationOptions: {
-    //     drawerIcon: ({ focused }) => (
-    //       <Icon 
-    //         name="contact" size={24} 
-    //         color={focused ? '#2C2E9B' : 'black'} 
-    //       />
-    //     )
-    //   }
-    // },
     Settings:{
       screen: SettingsStack,
       navigationOptions: {

@@ -2,7 +2,7 @@ import React, {useContext} from 'react';
 import { Container, Content, List, Separator, Text, ListItem } from 'native-base';
 import HomeHeader from '../../View-Components/HomeHeader'
 import { Context } from '../../Store/appContext'
-import WinningsTracker from './Components/WinningsTracker'
+import WinningsTracker from './Components/ResultsTracker'
 
 import moment from 'moment'
 
@@ -10,8 +10,7 @@ export default WinningsDashboard = (props) => {
 
   const {store, actions} = useContext(Context)
 
-  var recentTracker ;
-  var historyTracker;
+  var recentTracker, historyTracker;
 
   let noTracker = (f) =>  {
     return(
@@ -28,11 +27,10 @@ export default WinningsDashboard = (props) => {
   let aTracker = (e) => e.map((content, index) => {
     return(
       <WinningsTracker 
-        key={index}
-        tournament={content.tournament}
-        my_buyin={content.my_buyin}
-        swaps={content.swaps}
-        navigation={props.navigation}/>
+        key={index} navigation={props.navigation}
+        tournament={content.tournament} 
+        final_profit={content.final_profit}
+        my_buyin={content.my_buyin} buyins={content.buyins}/>
     )
   })
 
