@@ -1,12 +1,11 @@
 import React, {useContext, useState, useCallback} from 'react';
-import {RefreshControl,  Text, StatusBar} from 'react-native';
+import {RefreshControl,  Text} from 'react-native';
 import { Container, Content, List, ListItem, Separator } from 'native-base';
 import moment from 'moment'
 
 import HomeHeader from '../../View-Components/HomeHeader'
 import { Context } from '../../Store/appContext'
 import SwapTracker from './Components/SwapTracker';
-import BuyIn from '../Shared/BuyIn';
 
 export default SwapDashboard = (props) => {
 
@@ -24,21 +23,28 @@ export default SwapDashboard = (props) => {
     return(
       <SwapTracker
         key={index} navigation={props.navigation}
-        my_buyin= {content.my_buyin} swaps = {content.swaps}
+        my_buyin= {content.my_buyin} buyins = {content.buyins}
         tournament={content.tournament}/>)})
   
   let liveTracker, upcomingTracker
   let trackers = store.myTrackers
+
+  console.log('trackers', trackers)
   
   if(Object.keys(trackers)[0] != "message"){
 
     var now = moment()
 
     var currentList = trackers.filter((tracker) => now.isAfter(moment(tracker.tournament.start_at).add(1, 'days')))
+    
+    console.log('currentList', currentList)
     currentList.length !== 0 ? 
       liveTracker = a_tracker(currentList) : liveTracker = noTracker('live')
     
+
     var upcomingList = trackers.filter((tracker) => now.isBefore(tracker.tournament.start_at))
+    console.log('upcomingList', upcomingList)
+
     upcomingList.length !== 0 ? 
       upcomingTracker = a_tracker(upcomingList) : upcomingTracker = noTracker('upcoming')
       

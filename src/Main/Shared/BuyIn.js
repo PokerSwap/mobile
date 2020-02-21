@@ -6,6 +6,10 @@ import moment from 'moment'
 
 import { Context } from '../../Store/appContext'
 
+// import SwapHeader from './Components/SwapHeader'
+// import SwapList from './Components/SwapList'
+// import BuyInAttribute from './Components/BuyInAttribute'
+
 BuyInAttribute = (props) => {
 
   return(
@@ -28,115 +32,172 @@ BuyInAttribute = (props) => {
 }
 
 SwapList = (props) => {
+
+  const {store, actions} = useContext(Context)
+
+  var buttonColor, path, lastCol;
   return(
-    <Text>LOL</Text>
-    // <Grid>
-    //   {allSwaps.map((swap, index) => {
+    <Grid>
+      {props.allSwaps.map((swap, index) => {
 
-    //   if (swap.status == 'agreed'){
-    //     lastCol = 
-    //       <Text style={{
-    //         fontWeight:'600', color:'white',
-    //         fontSize:16, top:8}}> 
-    //         {swap.percentage}% 
-    //       </Text>;
-    //     buttonColor= 'green';
-    //     path = 'agreed'
-    //   } 
-    //   // PENDING SWAP VIEW
-    //   else if(swap.status == 'pending') {
-    //     lastCol =  
-    //       <Text style={{
-    //         fontWeight:'600', fontSize:16, 
-    //         color:'white', top:8}}> 
-    //         {swap.percentage}% 
-    //       </Text>;
-    //     path = "pending";
-    //     buttonColor= 'orange';
-    //   } 
-    //   // INCOMING SWAP VIEW
-    //   else if (swap.status == 'incoming'){
-    //     lastCol = 
-    //       <Icon type="FontAwesome5" name="exclamation"
-    //         style={{alignSelf:'center', fontSize:18, 
-    //         color:'white' , top:8}}/>;
-    //     path = 'incoming';
-    //     buttonColor= 'green';
-    //   } 
-    //   // CANCELED SWAP OFFER VIEW
-    //   else if (swap.status == 'canceled'){
-    //     lastCol = 
-    //     <Icon type="FontAwesome5" name="times"
-    //       style={{alignSelf:'center', fontSize:24, 
-    //       color:'white', top:8}} />;
-    //     path = 'canceled';
-    //     buttonColor= 'grey';
-    //   }
-    //   // REJECTED SWAP OFFER VIEW
-    //   else if (swap.status == 'rejected'){
-    //     lastCol = 
-    //     <Icon type="FontAwesome5" name="times" 
-    //       style={{ alignSelf:'center', fontSize:24, 
-    //       color:'white', top:8}} />;
-    //     path = 'rejected';
-    //     buttonColor= 'red';
-    //   }
-    //   // SWAP OFFER VIEW
-    //   else {
-    //     lastCol = 
-    //       <Icon type="FontAwesome5" name="handshake"
-    //         style={{alignSelf:'center', fontSize:24}} />;
-    //     path = "inactive";
-    //     buttonColor= 'rgb(56,68,165)';
-    //   } 
+        if (swap.status == 'agreed'){
+          lastCol = 
+            <Text style={{
+              fontWeight:'600', color:'white',
+              fontSize:16, top:8}}> 
+              {swap.percentage}% 
+            </Text>;
+          buttonColor= 'green';
+          path = 'agreed'
+        } 
+        // PENDING SWAP VIEW
+        else if(swap.status == 'pending') {
+          lastCol =  
+            <Text style={{
+              fontWeight:'600', fontSize:16, 
+              color:'white', top:8}}> 
+              {swap.percentage}% 
+            </Text>;
+          path = "pending";
+          buttonColor= 'orange';
+        } 
+        // INCOMING SWAP VIEW
+        else if (swap.status == 'incoming'){
+          lastCol = 
+            <Icon type="FontAwesome5" name="exclamation"
+              style={{alignSelf:'center', fontSize:18, 
+              color:'white' , top:8}}/>;
+          path = 'incoming';
+          buttonColor= 'green';
+        } 
+        // CANCELED SWAP OFFER VIEW
+        else if (swap.status == 'canceled'){
+          lastCol = 
+          <Icon type="FontAwesome5" name="times"
+            style={{alignSelf:'center', fontSize:24, 
+            color:'white', top:8}} />;
+          path = 'canceled';
+          buttonColor= 'grey';
+        }
+        // REJECTED SWAP OFFER VIEW
+        else if (swap.status == 'rejected'){
+          lastCol = 
+          <Icon type="FontAwesome5" name="times" 
+            style={{ alignSelf:'center', fontSize:24, 
+            color:'white', top:8}} />;
+          path = 'rejected';
+          buttonColor= 'red';
+        }
+        // SWAP OFFER VIEW
+        else {
+          lastCol = 
+            <Icon type="FontAwesome5" name="handshake"
+              style={{alignSelf:'center', fontSize:24}} />;
+          path = "inactive";
+          buttonColor= 'rgb(56,68,165)';
+        } 
 
+        const enterSwapOffer = async() => {
+          var answer = await actions.tournament.getAction()
+          props.navigation.push('SwapOffer',{
+            status: path,
+            swap_id: swap.id,
+            flight_id: swap.flight_id,
+            user_id: props.user_id,
+            user_name: props.user_name,
+            updated_at:swap.updated_at,
+      
+            tournament_id: swap.tournament_id,
+      
+            buyin_id: props.buyin_id,
+            table: props.table,
+            seat: props.seat,
+            chips: swap.recipient_buyin.chips,
+            counter_percentage: swap.counter_percentage,
+            percentage: swap.percentage,
+            action: store.action
+      
+          });
+        }
 
-    //   var swapTime = swap.updated_at
-    //   var day_name = swapTime.substring(0,3)
-    //   var startMonth = swapTime.substring(8,11)
-    //   var startDay = swapTime.substring(5,7)
-    //   var startTime = swapTime.substring(16,22)
+        var swapTime = swap.updated_at
+        var day_name = swapTime.substring(0,3)
+        var startMonth = swapTime.substring(8,11)
+        var startDay = swapTime.substring(5,7)
+        var startTime = swapTime.substring(16,22)
 
-    //   var startHour = parseInt(swapTime.substring(16,19))
-    //   var startM 
-    //   if (startHour/12 >= 1){
-    //     startM = ' P.M.'
-    //     startHour%=12
-    //   }
-    //   else{
-    //     startM = ' A.M.'
-    //   }
+        var startHour = parseInt(swapTime.substring(16,19))
+        var startM 
+        if (startHour/12 >= 1){
+          startM = ' P.M.'
+          startHour%=12
+        }
+        else{
+          startM = ' A.M.'
+        }
         
-    //   var startTime = startHour + ':' + swapTime.substring(20,22) + startM
-    //   var labelTime = day_name + '. ' + startMonth + '. ' + startDay + ', ' +   startTime
-    //   return(
-    //     <Row key={index} style={{height:60, width:'100%', alignItems:'center', borderTopWidth:1, borderTopColor:'#d3d3d3'}}>
-    //       <Col style={{width:'20%'}}>
-    //         <Text style={{textTransform:'capitalize'}}>
-    //           {swap.status}
-    //         </Text>
-    //       </Col>
-    //       <Col>
-    //         <Text>{labelTime}</Text>
-    //       </Col>
-    //       <Col style={{width:'20%', }}>
-    //         <TouchableOpacity>
-    //           <View style={{
-    //             backgroundColor:buttonColor, height:40, 
-    //             alignItems:'center'}}>
-    //             {lastCol}  
-    //           </View>
-    //         </TouchableOpacity>
-    //       </Col>
-    //     </Row>
-    //   )
-    //   })}
-    //   )
-    //   }
-    // </Grid>
+        var startDate =  day_name + '. ' + startMonth + '. ' + startDay
+        var startTime = startHour + ':' + swapTime.substring(20,22) + startM
+        var labelTime = startDate + ', ' +   startTime
+        return(
+          <Row key={index} style={{
+            height:60, width:'100%', alignItems:'center', 
+            borderTopWidth:1, borderTopColor:'#d3d3d3'}}>
+            <Col style={{width:'20%'}}>
+              <Text style={{textTransform:'capitalize'}}>
+                {swap.status}
+              </Text>
+            </Col>
+            <Col>
+              <Text>{labelTime}</Text>
+            </Col>
+            <Col style={{width:'20%', }}>
+              <TouchableOpacity onPress={() => enterSwapOffer()}>
+                <View style={{
+                  backgroundColor:buttonColor, height:40, 
+                  alignItems:'center'}}>
+                  {lastCol}  
+                </View>
+              </TouchableOpacity>
+            </Col>
+          </Row>
+        )
+      })}
+     
+    </Grid>
   )
 }
 
+SwapHeader = (props) => {
+
+  var swapNum
+  props.allSwaps.length > 1 ?
+      swapNum = 's' : swapNum = ''
+
+  return(
+    <View>
+        {props.expanded ?
+          <View style={{
+            flexDirection:'column', justifyContent:'center' }}>
+            <Text>
+              Close All
+            </Text>
+            <Icon name='ios-arrow-up' style={{ 
+              fontSize: 24, alignSelf:'center' }} />
+          </View>
+          : 
+          <View style={{
+            flexDirection:'column', justifyContent:'center'}}>
+            <Text>
+              See {props.allSwaps.length} Swap{swapNum} 
+            </Text>
+            <Icon name='ios-arrow-down' style={{ 
+              fontSize: 24, alignSelf:'center' }}/>
+          </View>
+        }
+      </View>
+  )
+}
 
 export default BuyIn = (props) => {
 
@@ -147,39 +208,22 @@ export default BuyIn = (props) => {
 
   var allSwaps 
 
-  props.user_id !== undefined || props.user_id !== store.myProfile.id ?   
+  props.buyin.user_id != store.myProfile.id ?   
     props.agreed_swaps.length !== 0 ?
       props.other_swaps.length !== 0 ?
         allSwaps = [...props.agreed_swaps, ...props.other_swaps]
-        :
-        allSwaps = [...props.agreed_swaps]
-      :
-      props.other_swaps.length !== 0 || props.other_swaps.length !== undefined ?
+        : allSwaps = [...props.agreed_swaps]
+      : props.other_swaps.length !== 0 || props.other_swaps.length !== undefined ?
         allSwaps = [...props.other_swaps]
-        :
-        allSwaps = null
-    :
-    null
+        : allSwaps = null
+    : allSwaps = null
+
 
   const _renderHeader = (item, expanded) => {
-
-    var swapNum
-    allSwaps.length > 1 ? swapNum = 'Swaps' : swapNum = 'Swap'
-
     return(
-      <View>
-        {expanded ?
-          <View style={{flexDirection:'column', justifyContent:'center' }}>
-            <Text>Close All</Text>
-            <Icon style={{ fontSize: 24, alignSelf:'center' }}  name='ios-arrow-up'/>
-          </View>
-          : 
-          <View style={{flexDirection:'column', justifyContent:'center'}}>
-            <Text>See {allSwaps.length} {swapNum} </Text>
-            <Icon style={{ fontSize: 24, alignSelf:'center' }}  name='ios-arrow-down'/>
-          </View>
-        }
-      </View>
+      <SwapHeader 
+        allSwaps={allSwaps}
+        expanded={expanded}/>
     )
   }
 
@@ -187,13 +231,32 @@ export default BuyIn = (props) => {
     return(
       <SwapList
         allSwaps={allSwaps}
-      />
+        user_id={props.user_id}
+        user_name={props.user_name}
+        table={props.table}
+        navigation={props.navigation}
+
+        />
     )}
 
-  var allStatuses = allSwaps.map(swap => swap.status)
+  var allStatuses
+
+  allSwaps !== null && allSwaps !== 0 && allSwaps !== undefined ?
+    allStatuses = allSwaps.map(swap => swap.status)
+    : 
+    props.buyin.user_id == store.myProfile.id ?
+      allStatuses = ['edit'] : allStatuses = ['inactive']
 
   // YOUR SWAP VIEW
-  if (allStatuses.includes('incoming')){
+  if (allStatuses.includes('edit')){
+    lastCol = 
+      <Icon type="FontAwesome5" name='edit'
+        style={{alignSelf:'center', fontSize:24}}/>;
+    buttonColor= 'grey';
+    path = 'edit'
+  } 
+  // INCOMING SWAP VIEW
+  else if(allStatuses.includes('incoming')){
     lastCol = 
       <Icon type="FontAwesome5" name='exclamation'
         style={{alignSelf:'center', fontSize:24}}/>;
@@ -254,29 +317,22 @@ export default BuyIn = (props) => {
 
   const enterSwapOffer = async() => {
     var answer = await actions.tournament.getAction()
-    navigation.push('SwapOffer',{
+    props.navigation.push('SwapOffer',{
       status: path,
-      swap_id: props.swap_id,
-      flight_id: props.flight_id,
+      swap_id: swap.id,
+      flight_id: swap.flight_id,
       user_id: props.user_id,
       user_name: props.user_name,
-      updated_at:props.updated_at,
+      updated_at:swap.updated_at,
 
-      tournament_id: props.tournament_id,
-      tournament_name: props.tournament_name,
-      address: props.address,
-      city: props.city,
-      state: props.state,
-      start_at: props.start_at,
-      swap_updated_at:props.swap_updated_at,
+      tournament_id: swap.tournament_id,
 
       buyin_id: props.buyin_id,
       table: props.table,
       seat: props.seat,
-      chips: props.chips,
-      counter_percentage: props.counter_percentage,
-      percentage: props.percentage,
-      start_at: props.start_at,
+      chips: swap.recipient_buyin.chips,
+      counter_percentage: swap.counter_percentage,
+      percentage: swap.percentage,
       action: store.action
 
     });
@@ -320,25 +376,28 @@ export default BuyIn = (props) => {
   else{
     null
   }
+
   var bg, txt;
-  if (props.chips !== 0){
-    bg='white'
-    txt='black'
-  }else{
-    bg='red'
-    txt='white'
-  }  
+  props.chips !== 0 ?
+    props.buyin.user_id == store.myProfile.id ?
+      bg='#D3D3D3' || (txt='black')
+      : bg='white'|| (txt='black')
+    : bg='red' || (txt='white')
+    
   return(
-    <ListItem noIndent style={{backgroundColor:bg, flexDirection:'column'}}>
+    <ListItem noIndent style={{
+      backgroundColor:bg, flexDirection:'column'}}>
       <Grid style={{marginVertical:10}}>
         <Col style={{width:'70%'}}>
 
           {/* PROFILE NAME */}
           <Row style={{justifyContent:'center'}}>
-            <Button transparent onPress={()=> enterProfile()}>
-              <Text style={{
-                fontSize:24, textTransform:'capitalize', color:txt}}> 
-              {props.user_name} 
+            <Button transparent 
+              onPress={()=> enterProfile()}>
+              <Text style={{fontSize:24, color:txt,
+                textTransform:'capitalize'}}> 
+                {props.buyin.user_id !== store.myProfile.id? 
+                  props.buyin.user_name : store.myProfile.nickname} 
               </Text>
             </Button>
           </Row>
@@ -346,11 +405,11 @@ export default BuyIn = (props) => {
           {/* DETAILS */}
           <Row style={{marginTop:10}}>
             <BuyInAttribute top=' Table ' 
-              bottom={props.table} txt={txt}/>
+              bottom={props.buyin.table} txt={txt}/>
             <BuyInAttribute top=' Seat ' 
-              bottom={props.seat} txt={txt}/>
+              bottom={props.buyin.seat} txt={txt}/>
             <BuyInAttribute top=' Chips ' 
-              bottom={props.chips} txt={txt}/>
+              bottom={props.buyin.chips} txt={txt}/>
           </Row>
 
         </Col>
@@ -372,14 +431,16 @@ export default BuyIn = (props) => {
         </Col>
 
       </Grid>
-
-      <Accordion
-        style={{width:'100%'}}
-        dataArray={[{placeholder:'placeholder'}]}
-        renderHeader={_renderHeader}
-        renderContent={_renderContent}
-        animation={true}
-        expanded={true}/>
+      {allSwaps !== null && allSwaps.length !== 0 ?
+        <Accordion
+          style={{width:'100%'}}
+          dataArray={[{placeholder:'placeholder'}]}
+          renderHeader={_renderHeader}
+          renderContent={_renderContent}
+          animation={true}
+          expanded={true}/>
+        :null
+      }
 
     </ListItem>
   )

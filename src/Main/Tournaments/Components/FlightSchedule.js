@@ -17,7 +17,6 @@ export default FlightSchedule = (props) => {
 
   var mySwapsinTournament = props.mySwapsinTournament
 
-  console.log('buyins',props.buy_ins)
   var Buy_Ins = props.buy_ins.map((buy_in) => {
 
     var a_status, a_percentage, a_firstname, a_counter_percentage;
@@ -42,15 +41,11 @@ export default FlightSchedule = (props) => {
     }
 
     return(
-      <TournamentBuyIn
-        key = {buy_in.id}
+      <BuyIn
+        key = {index}  navigation={props.navigation}
+
         tournament_id={props.tournament_id}
-        user_name={buy_in.user_name}
-        user_id={buy_in.user_id}
-        table={buy_in.table} 
-        seat={buy_in.seat}
-        chips={buy_in.chips}
-        navigation={props.navigation}
+        buyin={buy_in}
 
         status={a_status}
         percentage={a_percentage}
