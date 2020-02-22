@@ -9,22 +9,19 @@ export default EventLobby = (props) => {
 
   const { navigation } = props;
   let action = navigation.getParam('action', 'NO-ID');
-  let tournament_id = navigation.getParam('tournament_id', 'NO-ID');
-  let name = navigation.getParam('name', 'default value');
-  let address = navigation.getParam('address', 'default value');
-  let city = navigation.getParam('city', 'default value');
-  let state = navigation.getParam('state', 'default value');
-  let start_at = navigation.getParam('start_at', 'NO-ID');
+  let tournament = navigation.getParam('tournament', 'NO-ID');
   let flights = navigation.getParam('flights', 'NO-ID');
-  let buy_ins = navigation.getParam('buy_ins', 'NO-ID');
+  let buyins = navigation.getParam('buyins', 'NO-ID');
 
   var Flights = flights.map((flight, index) => { 
-      buy_ins.filter(buy_in => buy_in.flight_id == flight.id)
-    console.log('Flights', Flights)
+    
+    var flightBuyins = buyins.filter(buyin => 
+      buyin.recipient_buyin.flight_id == flight.id)
     return(
-      <FlightSchedule 
-        key={index} navigation={props.navigation}
-        flight = {flight} tournament_id={tournament_id}/>)
+      <FlightSchedule key={index} 
+        navigation={props.navigation}
+        buyins={flightBuyins} flight = {flight} 
+        tournament={tournament}/>)
   })
 
   return(
@@ -34,9 +31,7 @@ export default EventLobby = (props) => {
           
           {/* TOURNAMENT HEADER */}
           <ListItem itemHeader first>
-            <EventHeader id={tournament_id} name={name} 
-              start_at={start_at} address={address} 
-              city={city} state={state}/>
+            <EventHeader tournament={tournament}/>
           </ListItem>
  
           {/* TOURNEY BUYIN ENTRIES  */}

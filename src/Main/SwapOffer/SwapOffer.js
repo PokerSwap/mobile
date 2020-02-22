@@ -2,7 +2,7 @@ import React, {useState, useContext} from 'react';
 import {Container, Text, Content, Card, Icon, Header, CardItem } from 'native-base';
 import {TouchableOpacity} from 'react-native'
 
-import TourneyHeader from '../Tournaments/Components/TourneyHeader'
+import EventHeader from '../Events/Components/EventHeader'
 import { Context } from '../../Store/appContext';
 
 import AgreedPath from './Paths/agreed';
@@ -114,7 +114,7 @@ export default SwapOffer = (props) => {
       
       <Content>
         <Card transparent>
-        {/* <TourneyHeader 
+        {/* <EventHeader 
             name={tournament_name}
             address={address} city={city} state={state}
             start_at={start_at} 

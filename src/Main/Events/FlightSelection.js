@@ -1,15 +1,12 @@
-import React, {useState, useContext} from 'react';
+import React, {useContext} from 'react';
 import { View, Picker} from 'react-native';
-import {Container, Content, Button, Text} from 'native-base';
+import {Container, Content} from 'native-base';
 
-
-import { Context } from '../../Store/appContext';
 import _Header from "../../View-Components/HomeHeader";
 import '../../Images/placeholder.jpg';
 
 export default FlightSelection = (props) => {
 
-  const { store, actions } = useContext(Context)
 
   var navigation = props.navigation;
   let flights = navigation.getParam('flightMap', 'NO-ID');

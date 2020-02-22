@@ -46,7 +46,7 @@ export default EventListing = (props) => {
         key={index} navigation={props.navigation} 
         mode={mode} myCoords={myCoords}
         tournament = {item.tournament}
-        buy_ins={item.buy_ins}/>
+        buyins={item.buyins}/>
     )
   }
 
@@ -67,7 +67,7 @@ export default EventListing = (props) => {
         // TOURNAMENT LIST GENERATOR 
         <FlatList
           data={store.tournaments}
-          renderItem={TournamentRow}
+          renderItem={EventRow}
           keyExtractor={(content, index) => index.toString()}
           refreshControl={
             <RefreshControl
@@ -79,7 +79,7 @@ export default EventListing = (props) => {
             <ListItem style={{  
               height:50, justifyContent: 'center' }}>
               <Text style={{textAlign:'center'}}>
-                End of List
+                 
               </Text>
             </ListItem>}
         />

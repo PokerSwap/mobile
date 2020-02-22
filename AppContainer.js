@@ -136,7 +136,7 @@ const EventsStack = createStackNavigator(
       }
     },
   },{
-    initialRouteName:'TournamentDashboard',
+    initialRouteName:'EventListing',
     headerShown: false
   }
 )
@@ -205,8 +205,8 @@ const MainStack = createBottomTabNavigator(
             size={24} style={{ color: tintColor }}/>
       }
     },
-    Tournaments: { 
-      screen: TournamentsStack,
+    Events: { 
+      screen: EventsStack,
       navigationOptions:{
         headerShown: false,
         tabBarIcon: ({ tintColor }) => 

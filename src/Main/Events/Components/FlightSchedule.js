@@ -6,41 +6,39 @@ import BuyIn  from '../../Shared/BuyIn'
 
 export default FlightSchedule = (props) => {
      
-  var startMonth = props.start_at.substring(8,11)
-  var startDay = props.start_at.substring(5,7)
-  var startHour = props.start_at.substring(17,19)
-  var startMinute = props.start_at.substring(20,22)
+  var startMonth = props.flight.start_at.substring(8,11)
+  var startDay = props.flight.start_at.substring(5,7)
+  var startHour = props.flight.start_at.substring(17,19)
+  var startMinute = props.flight.start_at.substring(20,22)
   var startTime
   startHour / 12 >= 1 ?
-    startTime =  (startHour % 12) + ':' + startMinute + ' P.M.'
-    : startTime = (startHour % 12) + ':' + startMinute + ' A.M.'
+    startHour % 12 !== 0 ?
+      startTime =  (startHour % 12) + ':' + startMinute + ' P.M.'
+      : startTime = 12 + ':' + startMinute + ' P.M.'
+    : startHour % 12 !== 0 ?
+      startTime = (startHour % 12) + ':' + startMinute + ' A.M.'
+      : startTime = 12 + ':' + startMinute + ' A.M.'
 
-  var Buy_Ins = props.buy_ins.map((buy_in) => {
+    
 
-    var a_status, a_percentage, a_firstname, a_counter_percentage;
-
+  var Buy_Ins = props.buyins.map((content, index) => {
     return(
       <BuyIn
         key = {index}  navigation={props.navigation}
-        tournament_id={props.tournament_id}
-        buyin={buy_in}
-
-        status={a_status}
-        percentage={a_percentage}
-        first_name={a_firstname}
-        counter_percentage={a_counter_percentage}
-        action={props.action}
-      />
-    )}
-  )
+        tournament={props.tournament}
+        buyin={content.recipient_buyin}
+        agreed_swaps = {content.agreed_swaps}
+        other_swaps = {content.other_swaps}/>
+    )
+  })
     
   return(
     <View>
       {/* FLIGHT TIME */}
       <ListItem noIndent seperator style={{
-        backgroundColor:'lightgray', justifyContent:'space-between'}}>
+        backgroundColor:'#D3D3D3', justifyContent:'space-between'}}>
         <Text> 
-          Day {props.day} - {startMonth}. {startDay} 
+          Day {props.flight.day} - {startMonth}. {startDay} 
         </Text>
         <Text>
           {startTime}  

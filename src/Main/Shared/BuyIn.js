@@ -35,6 +35,31 @@ SwapList = (props) => {
 
   const {store, actions} = useContext(Context)
 
+  const enterSwapOffer = async() => {
+          var answer = await actions.tournament.getAction()
+          props.navigation.push('SwapOffer',{
+            status: path,
+            swap_id: swap.id,
+            flight_id: swap.flight_id,
+            user_id: props.user_id,
+            user_name: props.user_name,
+            updated_at:swap.updated_at,
+      
+            tournament_id: swap.tournament_id,
+      
+            buyin_id: props.buyin_id,
+            table: props.table,
+            seat: props.seat,
+            chips: swap.recipient_buyin.chips,
+            counter_percentage: swap.counter_percentage,
+            percentage: swap.percentage,
+            action: store.action
+      
+          });
+        }
+
+
+
   var buttonColor, path, lastCol;
   return(
     <Grid>
@@ -129,10 +154,8 @@ SwapList = (props) => {
         var startHour = parseInt(swapTime.substring(16,19))
         var startM 
         if (startHour/12 >= 1){
-          startM = ' P.M.'
-          startHour%=12
-        }
-        else{
+          startM = ' P.M.', startHour%=12
+        }  else{
           startM = ' A.M.'
         }
         
@@ -199,15 +222,157 @@ SwapHeader = (props) => {
   )
 }
 
+SwapButton = (props) => {
+
+  const { store, actions } = useContext(Context)
+  var allStatuses
+
+  const enterSwapOffer = async() => {
+    var answer = await actions.tournament.getAction()
+    props.navigation.push('SwapOffer',{
+      status: path,
+      swap_id: swap.id,
+      flight_id: swap.flight_id,
+      user_id: props.user_id,
+      user_name: props.user_name,
+      updated_at:swap.updated_at,
+
+      tournament_id: swap.tournament_id,
+
+      buyin_id: props.buyin_id,
+      table: props.table,
+      seat: props.seat,
+      chips: swap.recipient_buyin.chips,
+      counter_percentage: swap.counter_percentage,
+      percentage: swap.percentage,
+      action: store.action
+
+    });
+  }
+
+  props.allSwaps !== null && props.allSwaps !== 0 && props.allSwaps !== undefined ?
+    allStatuses = props.allSwaps.map(swap => swap.status)
+    : 
+    props.buyin.user_id == store.myProfile.id ?
+      allStatuses = ['edit'] : allStatuses = ['inactive']
+
+
+  console.log('allStatuses', allStatuses)
+  // YOUR SWAP VIEW
+  if (allStatuses.includes('edit')){
+    lastCol = 
+      <Icon type="FontAwesome5" name='edit'
+        style={{alignSelf:'center', fontSize:24}}/>;
+    buttonColor= 'grey';
+    path = 'edit'
+  } 
+  // INCOMING SWAP VIEW
+  else if(allStatuses.includes('incoming')){
+    lastCol = 
+      <Icon type="FontAwesome5" name='exclamation'
+        style={{alignSelf:'center', fontSize:24}}/>;
+    buttonColor= 'green';
+    path = 'incoming'
+  } 
+  // PENDING SWAP VIEW
+  else if(allStatuses.includes('pending')) {
+    var pendingPercentage = 0
+    var gettingpendingagreed = props.allSwaps.filter(swap => swap.status == 'agreed' || swap.status == 'pending')
+    var addingPercentage = gettingpendingagreed.forEach(swap => pendingPercentage+= swap.percentage)
+    lastCol =  
+      <Text style={{fontWeight:'600', fontSize:18,
+        color:'white', textAlignVertical:'center'}}> 
+        {pendingPercentage}% 
+      </Text>;
+    path = "pending";
+    buttonColor= 'orange';
+  } 
+  // INCOMING SWAP VIEW
+  else if (allStatuses.includes('agreed')){
+    var totalAgreed = 0
+    var addingAgreedTotal = props.agreed_swaps.forEach(swap => totalAgreed += swap.percentage)
+    lastCol = 
+      <Text style={{fontWeight:'600', fontSize:18,}}>
+        {totalAgreed}%
+      </Text>;
+    path = 'agreed';
+    buttonColor= 'green';
+  
+  } 
+  // CANCELED SWAP OFFER VIEW
+  else if (allStatuses.includes('canceled')){
+    lastCol = 
+      <Icon 
+        style={{alignSelf:'center', fontSize:36}}
+        type="FontAwesome5" name="times" />;
+    path = 'canceled';
+    buttonColor= 'grey';
+  }
+  // REJECTED SWAP OFFER VIEW
+  else if (allStatuses.includes('rejected')){
+    lastCol = 
+    <Icon 
+      style={{alignSelf:'center', fontSize:36}}
+      type="FontAwesome5" name="times" />;
+    path = 'rejected';
+    buttonColor= 'red';
+  }
+  // SWAP OFFER VIEW
+  else {
+    lastCol = 
+      <Icon type="FontAwesome5" name="handshake" 
+        style={{alignSelf:'center', fontSize:24}} />;
+    path = "inactive";
+    buttonColor= 'rgb(56,68,165)';
+  } 
+
+  var x = moment(props.updated_at).fromNow()
+  var y, since
+  x.includes('a ')? y = '1' : y = parseInt(x.replace(/[^0-9\.]/g, ''), 10);
+  if (x.includes('second')) {
+    since = 'Just Now' 
+  } else if(x.includes('minute')){
+    since = y + 'm' 
+  } else if(x.includes('hour')){
+    since = y + 'h' 
+  } else if(x.includes('day')){
+    since = y + 'd' 
+  } else if(x.includes('week')){
+    since = y + 'w' 
+  }else if(x.includes('month')){
+    since = y + 'M' 
+  }else if(x.includes('year')){
+    since = y + 'Y' 
+  }
+  else{
+    null
+  }
+
+  return(
+    <Col style={{justifyContent:'center', 
+      marginLeft:20, textAlign:'center'}}>
+      <Button 
+        onPress={()=> enterSwapOffer()}
+        style={{
+          backgroundColor:buttonColor, width:70, height:70, 
+          justifyContent:'center', alignSelf:'center'}}>
+        {lastCol}
+      </Button>
+      <Text style={{ marginTop:10, color:props.txt, 
+        textAlign:'center', alignSelf:'center'}}>
+        {since}
+      </Text>
+    </Col>
+
+  )
+}
+
 export default BuyIn = (props) => {
 
   const { store, actions } = useContext(Context)
   const { navigation } = props;
-  let path, lastCol, buttonColor;
-
 
   var allSwaps 
-
   props.buyin.user_id != store.myProfile.id ?   
     props.agreed_swaps.length !== 0 ?
       props.other_swaps.length !== 0 ?
@@ -239,105 +404,6 @@ export default BuyIn = (props) => {
         />
     )}
 
-  var allStatuses
-
-  allSwaps !== null && allSwaps !== 0 && allSwaps !== undefined ?
-    allStatuses = allSwaps.map(swap => swap.status)
-    : 
-    props.buyin.user_id == store.myProfile.id ?
-      allStatuses = ['edit'] : allStatuses = ['inactive']
-
-  // YOUR SWAP VIEW
-  if (allStatuses.includes('edit')){
-    lastCol = 
-      <Icon type="FontAwesome5" name='edit'
-        style={{alignSelf:'center', fontSize:24}}/>;
-    buttonColor= 'grey';
-    path = 'edit'
-  } 
-  // INCOMING SWAP VIEW
-  else if(allStatuses.includes('incoming')){
-    lastCol = 
-      <Icon type="FontAwesome5" name='exclamation'
-        style={{alignSelf:'center', fontSize:24}}/>;
-    buttonColor= 'green';
-    path = 'incoming'
-  } 
-  // PENDING SWAP VIEW
-  else if(allStatuses.includes('pending')) {
-    var pendingPercentage = 0
-    var gettingpendingagreed = allSwaps.filter(swap => swap.status == 'agreed' || swap.status == 'pending')
-    var addingPercentage = gettingpendingagreed.forEach(swap => pendingPercentage+= swap.percentage)
-    lastCol =  
-      <Text style={{fontWeight:'600', fontSize:18,
-        color:'white', textAlignVertical:'center'}}> 
-        {pendingPercentage}% 
-      </Text>;
-    path = "pending";
-    buttonColor= 'orange';
-  } 
-  // INCOMING SWAP VIEW
-  else if (allStatuses.includes('agreed')){
-    var totalAgreed = 0
-    var addingAgreedTotal = props.agreed_swaps.forEach(swap => totalAgreed += swap.percentage)
-    lastCol = 
-      <Text style={{fontWeight:'600', fontSize:18,}}>
-        {totalAgreed}%
-      </Text>;
-    path = 'incoming';
-    buttonColor= 'green';
-  
-  } 
-  // CANCELED SWAP OFFER VIEW
-  else if (allStatuses.includes('canceled')){
-    lastCol = 
-      <Icon 
-        style={{alignSelf:'center', fontSize:36}}
-        type="FontAwesome5" name="times" />;
-    path = 'canceled';
-    buttonColor= 'grey';
-  }
-  // REJECTED SWAP OFFER VIEW
-  else if (allStatuses.includes('rejected')){
-    lastCol = 
-    <Icon 
-      style={{alignSelf:'center', fontSize:36}}
-      type="FontAwesome5" name="times" />;
-    path = 'rejected';
-    buttonColor= 'red';
-  }
-  // SWAP OFFER VIEW
-  else {
-    lastCol = 
-      <Icon type="FontAwesome5" name="handshake" 
-        style={{alignSelf:'center', fontSize:24}} />;
-    path = "inactive";
-    buttonColor= 'rgb(56,68,165)';
-  } 
-
-  const enterSwapOffer = async() => {
-    var answer = await actions.tournament.getAction()
-    props.navigation.push('SwapOffer',{
-      status: path,
-      swap_id: swap.id,
-      flight_id: swap.flight_id,
-      user_id: props.user_id,
-      user_name: props.user_name,
-      updated_at:swap.updated_at,
-
-      tournament_id: swap.tournament_id,
-
-      buyin_id: props.buyin_id,
-      table: props.table,
-      seat: props.seat,
-      chips: swap.recipient_buyin.chips,
-      counter_percentage: swap.counter_percentage,
-      percentage: swap.percentage,
-      action: store.action
-
-    });
-  }
-
   const enterProfile = async() => {
     var answer = await actions.profile.view(props.user_id);
     var profile = store.profileView
@@ -355,34 +421,15 @@ export default BuyIn = (props) => {
     });
   }
 
-  var x = moment(props.updated_at).fromNow()
-  var y, since
-  x.includes('a ')? y = '1' : y = parseInt(x.replace(/[^0-9\.]/g, ''), 10);
-  if (x.includes('second')) {
-    since = 'Just Now' 
-  } else if(x.includes('minute')){
-    since = y + 'm' 
-  } else if(x.includes('hour')){
-    since = y + 'h' 
-  } else if(x.includes('day')){
-    since = y + 'd' 
-  } else if(x.includes('week')){
-    since = y + 'w' 
-  }else if(x.includes('month')){
-    since = y + 'M' 
-  }else if(x.includes('year')){
-    since = y + 'Y' 
-  }
-  else{
-    null
-  }
-
   var bg, txt;
-  props.chips !== 0 ?
-    props.buyin.user_id == store.myProfile.id ?
-      bg='#D3D3D3' || (txt='black')
-      : bg='white'|| (txt='black')
-    : bg='red' || (txt='white')
+  if (props.chips !== 0){
+    if (props.buyin.user_id == store.myProfile.id){
+      bg='#D3D3D3', txt='black'
+    }else{
+      bg='white', txt='black'}
+  }else{
+    bg='red', txt='white'
+  }
     
   return(
     <ListItem noIndent style={{
@@ -415,20 +462,13 @@ export default BuyIn = (props) => {
         </Col>
 
         {/* BUTTON WITH VARIABLE PATHS */}
-        <Col style={{justifyContent:'center', 
-          marginLeft:20, textAlign:'center'}}>
-          <Button 
-            onPress={()=> enterSwapOffer()}
-            style={{
-              backgroundColor:buttonColor, width:70, height:70, 
-              justifyContent:'center', alignSelf:'center'}}>
-            {lastCol}
-          </Button>
-          <Text style={{ marginTop:10, color:txt, 
-            textAlign:'center', alignSelf:'center'}}>
-            {since}
-          </Text>
-        </Col>
+        <SwapButton 
+          allSwaps={allSwaps} 
+          agreed_swaps={props.agreed_swaps}
+          updated_at={props.updated_at}
+          buyin={props.buyin}
+          txt={txt}
+          />
 
       </Grid>
       {allSwaps !== null && allSwaps.length !== 0 ?

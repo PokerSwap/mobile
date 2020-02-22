@@ -103,7 +103,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						var tournament = await getActions().tournament.getOne(a_tournament_id)
 						console.log('tournament', tournament)
 
-						var a5 = await navigation.push('TourneyLobby', {
+						var a5 = await navigation.push('EventLobby', {
 							action: action,
 							tournament_id: tournament.id,
 							name: tournament.name,

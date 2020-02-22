@@ -17,15 +17,10 @@ export default EventBody = (props) => {
     var answer1 = await actions.tournament.getAction(tournament.id);
     var answer3 = await navigation.push(path, {
       action: store.action,
-      tournament_id: tournament.id,
-      name: tournament.name,
-      address: tournament.address,
-      city: tournament.city,
-      state: tournament.state,
-      start_at: tournament.start_at,
-      buy_ins: props.buy_ins,
-      flights: tournament.flights,
-      navigation: props.navigation
+      tournament: tournament,
+      buyins: props.buyins,
+      navigation: props.navigation,
+      flights:tournament.flights
     });
   }
 

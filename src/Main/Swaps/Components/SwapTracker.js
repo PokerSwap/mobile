@@ -20,7 +20,7 @@ export default SwapTracker = (props) => {
     
   const enterTournament = async() => {
     var answer1 = await actions.tournament.getAction(props.tournament.id);
-    var answer3 = await props.navigation.push('TourneyLobby', {
+    var answer3 = await props.navigation.push('EventLobby', {
       action: store.action,
       tournament: props.tournament,
       swaps: props.swaps,

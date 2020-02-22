@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Content, List, Text, ListItem } from 'native-base';
-import _Header from '../../View-Components/HomeHeader'
 
+import _Header from '../../View-Components/HomeHeader'
 import ProfitTracker from './Components/ProfitTracker'
 
 export default ProfitResults = (props) => {
