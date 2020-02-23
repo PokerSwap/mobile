@@ -7,7 +7,7 @@ import EventBody from './Components/EventBody';
 import EventSearchBar from './Components/EventSearchBar';
 import { Context } from '../../Store/appContext';
  
-export default EventListing = (props) => {
+export default EventListings = (props) => {
 
   const { store, actions } = useContext(Context)
 

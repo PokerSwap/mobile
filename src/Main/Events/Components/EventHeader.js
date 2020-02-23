@@ -43,34 +43,20 @@ export default EventHeader = (props) => {
         </Text>
       </CardItem>
       <CardItem style={{
-        flex:1, flexDirection:'column', alignItems:'center'}}>
-        <View style={{ 
-          justifyContent:'center'}}>
+        flex:1, flexDirection:'row', alignItems:'center'}}>
+
           <Text style={{
-            textAlign:'center', justifyContent:'center'}}>
-            Hosted At:
-          </Text>
-          <Text style={{ marginVertical:5, textAlign:'center'}}>
-            {props.tournament.address}
-          </Text>
-          <Text style={{
-            fontSize:20, fontWeight:'500', textAlign:'center'}}>
+            textAlign:'center', justifyContent:'center', width:'50%'}}>
+            Hosted At: {"\n"}
+            {props.tournament.address} {"\n"}{"\n"}
             {props.tournament.city}, {props.tournament.state}
           </Text>
-        </View>
-      </CardItem>
-      <CardItem style={{justifyContent:'center'}}>
-        <View>
-          <Text style={{textAlign:'center'}}>
-            Begins on:
-          </Text>
-          <Text style={{fontSize:24, textAlign:'center'}}>
+          <Text style={{textAlign:'center', width:'50%'}}>
+            Begins on: {"\n"}
             {startDayName}. {startMonth} {startDay}
           </Text>
-        </View>
-        <View >
-        </View>
       </CardItem>
+
     </Card>
   )
 }

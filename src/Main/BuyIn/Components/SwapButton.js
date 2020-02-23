@@ -10,38 +10,28 @@ import { Context } from '../../../Store/appContext'
 export default SwapButton = (props) => {
 
   const { store, actions } = useContext(Context)
-  var allStatuses
 
-  const enterSwapOffer = async() => {
-    var answer = await actions.tournament.getAction()
-    props.navigation.push('SwapOffer',{
-      status: path,
-      swap_id: swap.id,
-      flight_id: props.buyin.flight_id,
-      user_id: props.buyin.user_id,
-      user_name: props.buyin.user_name,
-      updated_at:swap.updated_at,
+  var x = moment(props.updated_at).fromNow()
+  var y, since
+  x.includes('a ')? y = '1' : y = parseInt(x.replace(/[^0-9\.]/g, ''), 10);
+  if (x.includes('second')) { since = 'Just Now' } 
+  else if(x.includes('minute')){ since = y + 'm' } 
+  else if(x.includes('hour')){ since = y + 'h' } 
+  else if(x.includes('day')){ since = y + 'd' } 
+  else if(x.includes('week')){ since = y + 'w' }
+  else if(x.includes('month')){ since = y + 'M' }
+  else if(x.includes('year')){ since = y + 'Y' }
+  else{ null }
 
-      tournament_id: swap.tournament_id,
-
-      buyin_id: props.buyin.buyin_id,
-      table: props.buyin.table,
-      seat: props.buyin.seat,
-      chips: props.buyin.chips,
-      counter_percentage: swap.counter_percentage,
-      percentage: swap.percentage,
-      action: store.action
-
-    });
-  }
-
+  var allStatuses =[]
   props.allSwaps !== null && props.allSwaps !== 0 && props.allSwaps !== undefined ?
-    allStatuses = props.allSwaps.map(swap => swap.status)
+    props.allSwaps.forEach(swap => 
+      allStatuses.push(swap.id,swap.status))
     : 
     props.buyin.user_id == store.myProfile.id ?
       allStatuses = ['edit'] : allStatuses = ['inactive']
 
-
+console.log('allStatuses', allStatuses)
   // YOUR SWAP VIEW
   if (allStatuses.includes('edit')){
     lastCol = 
@@ -110,26 +100,27 @@ export default SwapButton = (props) => {
     buttonColor= 'rgb(56,68,165)';
   } 
 
-  var x = moment(props.updated_at).fromNow()
-  var y, since
-  x.includes('a ')? y = '1' : y = parseInt(x.replace(/[^0-9\.]/g, ''), 10);
-  if (x.includes('second')) {
-    since = 'Just Now' 
-  } else if(x.includes('minute')){
-    since = y + 'm' 
-  } else if(x.includes('hour')){
-    since = y + 'h' 
-  } else if(x.includes('day')){
-    since = y + 'd' 
-  } else if(x.includes('week')){
-    since = y + 'w' 
-  }else if(x.includes('month')){
-    since = y + 'M' 
-  }else if(x.includes('year')){
-    since = y + 'Y' 
-  }
-  else{
-    null
+  const enterSwapOffer = async() => {
+    // var answer = await actions.tournament.getAction()
+    props.navigation.push('SwapOffer',{
+      status: path,
+      swap_id: swap.id,
+      flight_id: props.buyin.flight_id,
+      user_id: props.buyin.user_id,
+      user_name: props.buyin.user_name,
+      updated_at:swap.updated_at,
+
+      tournament_id: swap.tournament_id,
+
+      buyin_id: props.buyin.buyin_id,
+      table: props.buyin.table,
+      seat: props.buyin.seat,
+      chips: props.buyin.chips,
+      counter_percentage: swap.counter_percentage,
+      percentage: swap.percentage,
+      // action: store.action
+
+    });
   }
 
   return(

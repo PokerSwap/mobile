@@ -2,11 +2,11 @@ import React, {useContext} from 'react';
 import { Container, Content, List, Separator, Text, ListItem } from 'native-base';
 import HomeHeader from '../../View-Components/HomeHeader'
 import { Context } from '../../Store/appContext'
-import WinningsTracker from './Components/ResultsTracker'
+import ResultsTracker from './Components/ResultsTracker'
 
 import moment from 'moment'
 
-export default WinningsDashboard = (props) => {
+export default SwapResults = (props) => {
 
   const {store, actions} = useContext(Context)
 
@@ -26,7 +26,7 @@ export default WinningsDashboard = (props) => {
 
   let aTracker = (e) => e.map((content, index) => {
     return(
-      <WinningsTracker 
+      <ResultsTracker 
         key={index} navigation={props.navigation}
         tournament={content.tournament} 
         final_profit={content.final_profit}

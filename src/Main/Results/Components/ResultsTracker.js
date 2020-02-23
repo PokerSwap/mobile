@@ -4,8 +4,8 @@ import { Col } from 'react-native-easy-grid'
 
 export default ResultsTracker = (props) => {  
   
-  const enterWinnings = () => {
-    props.navigation.push('SwapPot', {
+  const enterProfitResults = () => {
+    props.navigation.push('ProfitResults', {
       tournament: props.tournament,
       my_buyin: props.my_buyin,
       buyins: props.buyins,
@@ -14,7 +14,7 @@ export default ResultsTracker = (props) => {
   }
  
   return(
-    <ListItem noIndent onPress={()=> enterWinnings()}>
+    <ListItem noIndent onPress={()=> enterProfitResults()}>
       
       {/* TOURNAMENT TITLE */}
       <Col style={{width:'80%', justifyContent:'center'}}>

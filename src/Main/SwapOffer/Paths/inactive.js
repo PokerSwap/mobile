@@ -12,27 +12,18 @@ export default InactivePath = (props) => {
   const [percentage, setPercentage] = useState(1)
 
   const add = () => {
-    percentage < 50 ? setPercentage(percentage+ 1) : setPercentage(50)
-  }
+    percentage < 50 ? setPercentage(percentage+ 1) : setPercentage(50)}
 
   const subtract = () => {
-    percentage > 1 ? setPercentage(percentage-1) : setPercentage(1)
-  }
+    percentage > 1 ? setPercentage(percentage-1) : setPercentage(1)}
 
   const showAlert = (action) =>{
-
     Alert.alert(
       "Confirmation",
       'Are you want to ' + action + ' this swap?',
       [
-        {
-          text: 'Yes',
-          onPress: () => swapStart()
-        },
-        {
-          text: 'No',
-          onPress: () => console.log("Cancel Pressed"),
-        }
+        { text: 'Yes', onPress: () => swapStart()},
+        { text: 'No', onPress: () => console.log("Cancel Pressed")}
       ]
     )
   }
@@ -60,9 +51,11 @@ export default InactivePath = (props) => {
         <View>
           <CardItem style={{justifyContent:'center'}}>
             {/* SUBTRACT BUTTON */}
-            <Button style={{width:50, height:50, borderRadius: 5, backgroundColor:'blue', alignContent:'center'}} 
+            <Button style={{width:50, height:50, borderRadius: 5, 
+              backgroundColor:'blue', alignContent:'center'}} 
               onPress={()=> subtract()}>
-                <Icon style={{color:'white', fontSize:24}} type='FontAwesome5' name='minus'/>
+                <Icon type='FontAwesome5' name='minus'
+                  style={{color:'white', fontSize:24}}/>
             </Button>
 
             {/* SWAP PERCENTAGE */}
@@ -71,15 +64,19 @@ export default InactivePath = (props) => {
             </Text>
 
             {/* ADD BUTTON */}
-            <Button style={{width:50, height:50, borderRadius: 5, backgroundColor:'blue', alignContent:'center'}} 
+            <Button style={{width:50, height:50, borderRadius: 5, 
+              backgroundColor:'blue', alignContent:'center'}} 
               onPress={()=> add()}>
-                <Icon style={{color:'white', fontSize:24}} type='FontAwesome5' name='plus'/>
+                <Icon type='FontAwesome5' name='plus'
+                  style={{color:'white', fontSize:24}}/>
             </Button>
 
           </CardItem>
 
           <CardItem>
-            <Text>The remaining action you have in this tournament is {props.action}</Text>
+            <Text>
+              The remaining action you have in this tournament 
+              is {props.action}</Text>
           </CardItem>
 
           
@@ -92,11 +89,15 @@ export default InactivePath = (props) => {
         : 
         <View>
           <CardItem>
-            <Text> You need to purchase tokens in order to swap with this person.</Text>
+            <Text> 
+              You need to purchase tokens in order 
+              to swap with this person.
+            </Text>
           </CardItem>
 
           <CardItem>
-            <Button large success onPress={()=> props.navigation.navigate('PurchaseTokens')}>
+            <Button large success 
+              onPress={()=> props.navigation.navigate('PurchaseTokens')}>
               <Text>Purchase Tokens</Text>
             </Button>
           </CardItem>

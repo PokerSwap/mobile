@@ -16,7 +16,7 @@ import CreateUser from './src/Auth/SignUp/CreateUser'
 import ForgotPassword from './src/Auth/ForgotPassword'
 
 // MAIN VIEWS
-import EventListing from './src/Main/Events/EventListing'
+import EventListings from './src/Main/Events/EventListings'
 import SwapDashboard from './src/Main/Swaps/SwapDashboard'
 import SwapResults from './src/Main/Results/SwapResults'
 import ProfitResults from './src/Main/Results/ProfitResults'
@@ -100,10 +100,10 @@ const AuthStack = createStackNavigator(
 // EVENT NAVIGATION
 const EventsStack = createStackNavigator(
   {
-    EventListing:{
-      screen: EventListing,
+    EventListings:{
+      screen: EventListings,
       navigationOptions:{
-        title:"Event Listing",
+        title:"Event Listings",
         headerMode: 'none',
         headerShown: false,
         key:'A'
@@ -136,7 +136,7 @@ const EventsStack = createStackNavigator(
       }
     },
   },{
-    initialRouteName:'EventListing',
+    initialRouteName:'EventListings',
     headerShown: false
   }
 )

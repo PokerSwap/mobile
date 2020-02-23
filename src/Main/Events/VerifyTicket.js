@@ -14,7 +14,7 @@ export default VerifyTicket = (props) => {
 
   const { store, actions } = useContext(Context)
  
-  const [image, setImage ]= useState('../../Images/placeholder.jpg');
+  const [image, setImage ]= useState({uri:'../../Images/placeholder.jpg'});
   const [table, setTable ]= useState('');
   const [seat, setSeat] = useState('');
   const [chips, setChips] = useState('');

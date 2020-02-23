@@ -7,36 +7,29 @@ import {Context} from '../../../Store/appContext'
 
 export default CounterPath = (props) => {
 
-  const {store, actions } = useContext(Context)
+  const { store, actions } = useContext(Context)
 
-  const [percentage, setPercentage] = useState(props.percentage)
-  const [new_percentage, setNewPercentage] = useState(0)
-  const showAlert = () =>{
+  const [ percentage, setPercentage ] = useState( props.percentage )
+  const [ new_percentage, setNewPercentage ] = useState(0)
+  
+  const showAlert = () => {
 
     Alert.alert(
       "Confirmation",
       'Are you want to counter this swap?',
       [
-        {
-          text: 'Yes',
-          onPress: () => swapCounter()
-        },
-        {
-          text: 'No',
-          onPress: () => console.log("Cancel Pressed"),
-        }
+        { text: 'Yes', onPress: () => swapCounter()},
+        { text: 'No', onPress: () => console.log("Cancel Pressed")}
       ]
     )
   }
 
   const swapCounter = async() => {
     var answer = await actions.swap.statusChange(
-      props.swap_id, 'pending', percentage
-    )
+      props.swap_id, 'pending', percentage )
     var answer3 = await actions.tracker.getAll()
     props.navigation.goBack()
   }
-
 
   // ADDING PERCENT TO SWAP - NO MORE THAN 50%
   const add = () => {

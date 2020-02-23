@@ -4,7 +4,6 @@ import { Text, Card, Button, CardItem } from 'native-base'
 
 import {Context} from '../../../Store/appContext'
 
-
 export default OfferPath = (props) => {
 
   const {store, actions } = useContext(Context)
@@ -15,23 +14,15 @@ export default OfferPath = (props) => {
       "Confirmation",
       'Are you want to ' + action + ' this swap?',
       [
-        {
-          text: 'Yes',
-          onPress: () => swapChange(status)
-        },
-        {
-          text: 'No',
-          onPress: () => console.log("Cancel Pressed"),
-        }
+        { text: 'Yes', onPress: () => swapChange(status) },
+        { text: 'No', onPress: () => console.log("Cancel Pressed") }
       ]
     )
   }
 
   const swapChange = async(status) => {
     var answer = await actions.swap.statusChange(
-      props.swap_id,
-      status,
-    )
+      props.swap_id, status, )
     var answer2 = await actions.coin.spend()
     var answer3 = await actions.tracker.getAll()
     props.navigation.goBack()
@@ -67,11 +58,10 @@ export default OfferPath = (props) => {
 
         </View>
         :
-        <View>
+        <View style={{width:'100%'}}>
           <CardItem>
             <Text style={{textAlign:'center', fontSize:20}}> 
-              In order to accept or counter this swap, 
-              you need to purchase tokens.
+              In order to accept or counter this swap, you need to purchase tokens.
             </Text>
           </CardItem>
         
