@@ -1,4 +1,6 @@
-
+import React from 'react'
+import {Text} from 'native-base'
+import {Col, Row} from 'react-native-easy-grid'
 
 export default BuyInAttribute = (props) => {
 

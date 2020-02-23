@@ -20,7 +20,8 @@ export default EventBody = (props) => {
       tournament: tournament,
       buyins: props.buyins,
       navigation: props.navigation,
-      flights:tournament.flights
+      flights: tournament.flights,
+      my_buyin: props.my_buyin
     });
   }
 

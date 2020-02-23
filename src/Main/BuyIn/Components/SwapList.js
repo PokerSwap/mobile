@@ -1,4 +1,15 @@
+import React, { useContext } from 'react';
+import { TouchableOpacity, View } from 'react-native';
+import { Text, Icon } from 'native-base';
+import { Grid, Row, Col } from 'react-native-easy-grid'
+
+import { Context } from '../../../Store/appContext'
+
 export default SwapList = (props) => {
+
+  const {store, actions} = useContext(Context)
+  var buttonColor, path, lastCol;
+
   return(
     <Grid>
       {props.allSwaps.map((swap, index) => {
@@ -60,6 +71,29 @@ export default SwapList = (props) => {
           buttonColor= 'rgb(56,68,165)';
         } 
 
+        const enterSwapOffer = async() => {
+          var answer = await actions.tournament.getAction()
+          props.navigation.push('SwapOffer',{
+            status: path,
+            swap_id: swap.id,
+            flight_id: swap.flight_id,
+            user_id: props.buyin.user_id,
+            user_name: props.buyin.user_name,
+            updated_at:swap.updated_at,
+      
+            tournament_id: swap.tournament_id,
+      
+            buyin_id: props.buyin_id,
+            table: props.buyin.table,
+            seat: props.buyin.seat,
+            chips: props.buyin.chips,
+            counter_percentage: swap.counter_percentage,
+            percentage: swap.percentage,
+            action: store.action
+      
+          });
+        }
+
         var swapTime = swap.updated_at
         var day_name = swapTime.substring(0,3)
         var startMonth = swapTime.substring(8,11)
@@ -69,10 +103,8 @@ export default SwapList = (props) => {
         var startHour = parseInt(swapTime.substring(16,19))
         var startM 
         if (startHour/12 >= 1){
-          startM = ' P.M.'
-          startHour%=12
-        }
-        else{
+          startM = ' P.M.', startHour%=12
+        }  else{
           startM = ' A.M.'
         }
         
@@ -92,7 +124,7 @@ export default SwapList = (props) => {
               <Text>{labelTime}</Text>
             </Col>
             <Col style={{width:'20%', }}>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => enterSwapOffer()}>
                 <View style={{
                   backgroundColor:buttonColor, height:40, 
                   alignItems:'center'}}>

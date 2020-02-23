@@ -12,14 +12,28 @@ export default EventLobby = (props) => {
   let tournament = navigation.getParam('tournament', 'NO-ID');
   let flights = navigation.getParam('flights', 'NO-ID');
   let buyins = navigation.getParam('buyins', 'NO-ID');
+  let my_buyin = navigation.getParam('my_buyin', 'NO-ID');
 
+  console.log('flights', flights)
   var Flights = flights.map((flight, index) => { 
     
-    var flightBuyins = buyins.filter(buyin => 
-      buyin.recipient_buyin.flight_id == flight.id)
+    var flightBuyins =[]
+    var x
+
+    my_buyin.flight_id == flight.id ? 
+      x = my_buyin : x = null
+    
+    var ddd = buyins.forEach(buyin => {
+      if (buyin.recipient_buyin.flight_id == flight.id){
+        flightBuyins.push(buyin)
+      }
+
+    });
+
     return(
       <FlightSchedule key={index} 
         navigation={props.navigation}
+        my_buyin={x}
         buyins={flightBuyins} flight = {flight} 
         tournament={tournament}/>)
   })

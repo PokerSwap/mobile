@@ -1,7 +1,7 @@
 import React from "react";
 import { TouchableOpacity, } from 'react-native'
 import { Container, Content, Header, Text, Icon } from "native-base";
-import i18n from "../../i18n/i18n"; 
+import i18n from "../i18n/i18n"; 
 
 export default TutorialScreen = (props) => {
 

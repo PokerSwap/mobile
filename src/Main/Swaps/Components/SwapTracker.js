@@ -3,7 +3,7 @@ import { View, TouchableOpacity } from 'react-native';
 import { Text } from 'native-base';
 
 import {Context} from '../../../Store/appContext'
-import BuyIn from '../../Shared/BuyIn'
+import BuyIn from '../../BuyIn/BuyIn'
 
 export default SwapTracker = (props) => {
 

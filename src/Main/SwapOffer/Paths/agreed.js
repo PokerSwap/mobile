@@ -11,10 +11,10 @@ export default AgreedPath = (props) => {
   const {store, actions} = useContext(Context)
   const [again, setAgain] = useState(false)
 
-  const swapAdd = async() => {
-    var ee = await actions.swap.add(props.tournament_id, props.user_id, props.percentage, props.navigation)
-    props.navigation.goBack(null)
-  }
+  // const swapAdd = async() => {
+  //   var ee = await actions.swap.add(props.tournament_id, props.user_id, props.percentage, props.navigation)
+  //   props.navigation.goBack(null)
+  // }
 
   return(
     <Card transparent>

@@ -37,9 +37,9 @@ export default InactivePath = (props) => {
     )
   }
 
-  const swapStart = async() => {
-    var answer1 = await actions.swap.add(props.tournament_id, props.user_id, percentage, props.navigation);
-  }
+  // const swapStart = async() => {
+  //   var answer1 = await actions.swap.add(props.tournament_id, props.user_id, percentage, props.navigation);
+  // }
 
   return(
     <Card>

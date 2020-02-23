@@ -28,8 +28,8 @@ import SwapOffer from './src/Main/SwapOffer/SwapOffer';
 import FlightSelection from './src/Main/Events/FlightSelection'
 
 import ProfileScreen from './src/Main/Profile/ProfileScreen'
-import WebViewScreen from './src/Main/Shared/WebView'
-import TutorialScreen from './src/Main/Shared/Tutorial'
+import WebViewScreen from './src/Misc/WebView'
+import TutorialScreen from './src/Misc/Tutorial'
 
 
 // DRAWER VIEWS

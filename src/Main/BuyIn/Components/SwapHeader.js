@@ -1,11 +1,12 @@
 import React from 'react'
-import {View} from 'react-native'
-import {Text, Icon} from 'native-base'
+import { View } from 'react-native'
+import { Text, Icon } from 'native-base'
 
 export default SwapHeader = (props) => {
 
   var swapNum
-  props.allSwaps.length > 1 ? swapNum = 'Swaps' : swapNum = 'Swap'
+  props.allSwaps.length > 1 ?
+      swapNum = 's' : swapNum = ''
 
   return(
     <View>
@@ -22,7 +23,7 @@ export default SwapHeader = (props) => {
           <View style={{
             flexDirection:'column', justifyContent:'center'}}>
             <Text>
-              See {props.allSwaps.length} {swapNum} 
+              See {props.allSwaps.length} Swap{swapNum} 
             </Text>
             <Icon name='ios-arrow-down' style={{ 
               fontSize: 24, alignSelf:'center' }}/>
