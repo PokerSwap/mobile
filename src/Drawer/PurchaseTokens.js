@@ -1,10 +1,13 @@
 import React, { useContext } from 'react';
-import { Alert,  ScrollView} from 'react-native';
-import { Body, Container, Content, Card, CardItem, Button,  H3, Left, Right, Text } from 'native-base';
+import { Alert,  ScrollView, Image} from 'react-native';
+import { Container, Content,  Button, Text } from 'native-base';
+import {Grid, Col, Row} from 'react-native-easy-grid'
+
 import OtherHeader from '../View-Components/OtherHeader'
 
 import {Context} from '../Store/appContext'
 
+import '../Images/5Real.png'
 const AlertS = (props) => {
 
   const { store, actions } = useContext(Context)
@@ -20,42 +23,39 @@ const AlertS = (props) => {
             Alert.alert(
               "Confirmation", 
               'You now have ' + (store.myProfile.coins + props.coins) + ' coins.',
-              [{
-                text: 'OK',
-                onPress: () => console.log('OK')
-              }]  
+              [{text: 'OK', onPress: () => console.log('OK')}]  
             )}
         },
-        {
-          text: 'No',
-          onPress: () => console.log("Cancel Pressed"),
-        }
+        {text: 'No',onPress: () => console.log("Cancel Pressed"), }
       ]
     )
   }
 	return (
-    <Button onPress={()=> showAlert()}>
-      <Text>Buy</Text>
+    <Button style={{width:'50%', alignSelf:'center', marginBottom:30, justifyContent:'center'}} large onPress={()=> showAlert()}>
+      <Text style={{textAlign:'center'}}>${props.dollars}</Text>
     </Button>
 	)
 }
 
 PriceOption = (props) => {
+
   const { store, actions } = useContext(Context)
+
   return(
-    <CardItem>
-      <Left>
-        <H3> {props.coins} coins</H3>
-      </Left>
+    <Col style={{justifyContent:'center', alignItems:'center',
+      height:300, borderColor:'#d3d3d3', borderRightWidth:1, 
+      borderBottomWidth:1, paddingVertical:30}}>
+      
+      <Image source={props.image} style={{
+        width:props.w, height:props.h, alignSelf:'center'}}/>
+      
+      <Text style={{textAlign:'center', fontWeight:'500', 
+        fontSize:24, marginBottom:10}}> 
+        {props.coins} coins
+      </Text>
 
-      <Body>
-        <H3> ${props.dollars} </H3>
-      </Body>
-
-      <Right>
-        <AlertS coins={props.coins} dollars={props.dollars}/>
-      </Right>
-    </CardItem>
+      <AlertS coins={props.coins} dollars={props.dollars}/>
+    </Col>
   )
 }
 
@@ -63,23 +63,37 @@ export default PurchaseTokens = (props) => {
 
   const { store, actions } = useContext(Context)
 
-  
-
   return(
     <Container>
       <OtherHeader title={'Purchase Tokens'} 
         goBackToHome={() => props.navigation.goBack(null)}/>
+
       <Content contentContainerStyle={{
         flex:1, justifyContent:'center', alignItems:'center'}}>
       <ScrollView style={{ alignSelf: 'stretch' }}>           
-        <Card transparent>
-          <PriceOption dollars={4.99} coins={5}/>
-          <PriceOption dollars={9.99} coins={10}/>
-          <PriceOption dollars={19.99} coins={25}/>
-          <PriceOption dollars={34.99} coins={50}/>
-          <PriceOption dollars={59.99} coins={100}/>
-          <PriceOption dollars={99.99} coins={200}/>
-        </Card>
+        <Grid transparent>
+
+          <Row style={{alignItems:'center'}}>
+            <PriceOption dollars={4.99} coins={5} w={100} h={100}
+              image={require('../Images/5Real.png')}/>
+            <PriceOption dollars={9.99} coins={10} w={100} h={100}
+              image={require('../Images/10Real.png')}/>
+          </Row>
+
+          <Row style={{alignItems:'center'}}>
+            <PriceOption dollars={19.99} coins={25} w={200} h={200}
+              image={require('../Images/25Real.png')}/>
+            <PriceOption dollars={34.99} coins={50} w={200} h={200}
+              image={require('../Images/50Real.png')}/>
+          </Row>
+          
+          <Row>
+            <PriceOption dollars={69.99} coins={100} w={200} h={200}
+              image={require('../Images/100Real.png')}/>
+            <PriceOption dollars={99.99} coins={150} w={200} h={200}
+              image={require('../Images/150Real.png')}/>
+          </Row>
+        </Grid>
         
         </ScrollView>
       </Content>
