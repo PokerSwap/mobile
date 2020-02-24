@@ -6,6 +6,7 @@ import { Col } from 'react-native-easy-grid'
 import moment from 'moment'
 
 import { Context } from '../../../Store/appContext'
+import agreed from '../../SwapOffer/Paths/agreed';
 
 export default SwapButton = (props) => {
 
@@ -28,17 +29,56 @@ export default SwapButton = (props) => {
     props.allSwaps.forEach(swap => 
       allStatuses.push(swap.id,swap.status))
     : 
-    props.buyin.user_id == store.myProfile.id ?
-      allStatuses = ['edit'] : allStatuses = ['inactive']
+    allStatuses = ['inactive']
 
-console.log('allStatuses', allStatuses)
+    var lastCol, buttonColor, path;
+
+      // incoming/cincoming/pending = [agreed, agreed][ >incoming, re, can]
+      // agreed = [agreed, agreed][re,can]
+      
+      // rejected/canceled = [][>rej, can/]
+      // inactive = [][]
+
+  var s
+  if(props.buyin.user_id !== store.myProfile.id){
+
+    for (let i = 0; i < props.allSwaps.length; i++) {
+    
+    }
+  var otherCheck = props.allSwaps.forEach(swap => {
+    if (swap.status == 'incoming'){
+      s = swap;
+      return 
+    } else if(swap.status == 'pending') {
+      s= swap;
+      return
+    } else if (swap.status == 'agreed') {
+      s= swap;
+      return
+    } else if (swap.status == 'rejected') {
+      s= swap;
+      return
+    } else if (swap.status == 'canceled') {
+      s= swap;
+      return
+    }
+
+  })}
+
   // YOUR SWAP VIEW
-  if (allStatuses.includes('edit')){
+  if (props.buyin.user_id == store.myProfile.id){
     lastCol = 
       <Icon type="FontAwesome5" name='edit'
         style={{alignSelf:'center', fontSize:24}}/>;
     buttonColor= 'grey';
     path = 'edit'
+  } 
+  else if(allStatuses.includes('counter-incoming')){
+    lastCol = 
+      <Icon type="FontAwesome5" name='exclamation'
+        style={{alignSelf:'center', fontSize:24}}/>;
+    buttonColor= 'green';
+    path = 'incoming'
   } 
   // INCOMING SWAP VIEW
   else if(allStatuses.includes('incoming')){
@@ -46,6 +86,14 @@ console.log('allStatuses', allStatuses)
       <Icon type="FontAwesome5" name='exclamation'
         style={{alignSelf:'center', fontSize:24}}/>;
     buttonColor= 'green';
+    path = 'incoming'
+  } 
+  // COUNTER-INCOMING SWAP VIEW
+  else if(allStatuses.includes('counter-incoming')){
+    lastCol = 
+      <Icon type="FontAwesome5" name='exclamation'
+        style={{alignSelf:'center', fontSize:24}}/>;
+    buttonColor= 'yellow';
     path = 'incoming'
   } 
   // PENDING SWAP VIEW
@@ -99,26 +147,21 @@ console.log('allStatuses', allStatuses)
     path = "inactive";
     buttonColor= 'rgb(56,68,165)';
   } 
+  if (props.buyin.user_id == store.myProfile.id){
+    console.log('XXX', 'this is yours')
+  } else{
+    console.log('XXX', s)
+  }
+
 
   const enterSwapOffer = async() => {
     // var answer = await actions.tournament.getAction()
     props.navigation.push('SwapOffer',{
       status: path,
-      swap_id: swap.id,
-      flight_id: props.buyin.flight_id,
-      user_id: props.buyin.user_id,
-      user_name: props.buyin.user_name,
-      updated_at:swap.updated_at,
-
-      tournament_id: swap.tournament_id,
-
-      buyin_id: props.buyin.buyin_id,
-      table: props.buyin.table,
-      seat: props.buyin.seat,
-      chips: props.buyin.chips,
-      counter_percentage: swap.counter_percentage,
-      percentage: swap.percentage,
-      // action: store.action
+      swap: s,
+      buyin: props.buyin,
+      updated_at: since,
+      tournament: props.tournament,
 
     });
   }

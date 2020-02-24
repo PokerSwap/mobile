@@ -15,23 +15,24 @@ export default IncomingPath = (props) => {
       <CardItem style={{ alignSelf:'center'}}>
         {props.percentage == props.counter_percentage ?
           <Text style={{fontSize:20, textAlign:'center'}}>
-            {props.user_name} wants to swap {props.percentage}% between 
-            the both of you
+            {props.buyin.user_name} wants to swap{' '}
+            {props.swap.percentage}% between the both of you
           </Text>
           : 
           <Text style={{fontSize:20, textAlign:'center'}}>
-            {props.user_name} wants to swap {props.counter_percentage}% 
-            while you swap {props.percentage}%
+            {props.buyin.user_name} wants to swap{' '}
+            {props.swap.counter_percentage}%{' '}
+            while you swap {props.swap.percentage}%
           </Text>}
       </CardItem>
 
       {counter == false ?
         <OfferPath navigation={props.navigation}
           percentage={props.percentage} counter_percentage={props.counter_percentage}
-          counter={counter} setCounter={setCounter} swap_id={props.swap_id} />
+          counter={counter} setCounter={setCounter} swap_id={props.swap.id} />
         :
-        <CounterPath navigation={props.navigation} swap_id={props.swap_id}
-          percentage={props.percentage} counter_percentage={props.counter_percentage}
+        <CounterPath navigation={props.navigation} swap_id={props.swap.id}
+          percentage={props.swap.percentage} counter_percentage={props.swap.counter_percentage}
           counter={counter} setCounter={setCounter} />
       }
     </Card>

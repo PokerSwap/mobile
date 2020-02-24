@@ -13,14 +13,8 @@ export default PendingPath = (props) => {
       "Confirmation",
       'Are you want to cancel this swap?',
       [
-        {
-          text: 'Yes',
-          onPress: () => cancelSwap()
-        },
-        {
-          text: 'No',
-          onPress: () => console.log("Cancel Pressed"),
-        }
+        { text: 'Yes', onPress: () => cancelSwap()},
+        { text: 'No', onPress: () => console.log("Cancel Pressed")}
       ]
     )
   }
@@ -28,7 +22,7 @@ export default PendingPath = (props) => {
   console.log('swap id', props.swap_id)
   var cancelSwap = async() => {
     var answer = await actions.swap.statusChange(
-      props.swap_id, "canceled"
+      props.swap.id, "canceled"
     )
     var answer2 = await actions.coin.buy(0,1)
     var answer3 = await actions.tracker.getAll()
@@ -39,13 +33,16 @@ export default PendingPath = (props) => {
   return(
     <Card transparent>
       <CardItem style={{justifyContent:'center'}}>
-        {props.percentage == props.counter_percentage ?
+        {props.swap.percentage == props.swap.counter_percentage ?
           <Text style={{fontSize:18, textAlign:'center'}}>
-            Your swap with {props.user_name} to share {props.percentage}% between the both of you is pending.
+            Your swap with {props.buyin.user_name} to share{' '}  
+            {props.swap.percentage}% between the both of you is pending.
           </Text>
           :
           <Text style={{fontSize:18, textAlign:'center'}}>
-            Your swap of {props.percentage}% with {props.user_name} to make a swap of {props.counter_percentage}% is pending.
+            Your swap of {props.swap.percentage}% with{' '} 
+             {props.buyin.user_name} to make a swap of{' '} 
+             {props.swap.counter_percentage}% is pending.
           </Text>
       }
         

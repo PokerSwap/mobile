@@ -61,7 +61,8 @@ export default OfferPath = (props) => {
         <View style={{width:'100%'}}>
           <CardItem>
             <Text style={{textAlign:'center', fontSize:20}}> 
-              In order to accept or counter this swap, you need to purchase tokens.
+              In order to accept or counter this swap, 
+              you need to purchase tokens.
             </Text>
           </CardItem>
         

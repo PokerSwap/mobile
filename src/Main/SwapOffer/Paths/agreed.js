@@ -11,31 +11,34 @@ export default AgreedPath = (props) => {
   const {store, actions} = useContext(Context)
   const [again, setAgain] = useState(false)
 
-  // const swapAdd = async() => {
-  //   var ee = await actions.swap.add(props.tournament_id, props.user_id, props.percentage, props.navigation)
-  //   props.navigation.goBack(null)
-  // }
+  const swapAdd = async() => {
+    var ee = await actions.swap.add(
+      props.tournament.id, props.buyin.user_id, props.swap.percentage, props.navigation)
+    props.navigation.goBack(null)
+  }
 
   return(
     <Card transparent>
-      <CardItem style={{justifyContent:'center', flexDirection:'column'}}>
+      <CardItem 
+        style={{justifyContent:'center', flexDirection:'column'}}>
         {!again ?
-          props.percentage == props.counter_percentage ?
+          props.swap.percentage == props.swap.counter_percentage ?
             <Text style={{textAlign:'center', fontSize:24}}>
-              You and {props.user_name} agreed to swap {props.percentage}% while {props.user_name} agreed to swap {props.counter_percentage}%
+              You and {props.buyin.user_name} agreed to swap{' '}
+              {props.swap.percentage}% while {props.buyin.user_name}{' '}
+              agreed to swap {props.swap.counter_percentage}%
             </Text>
             :
             <View style={{flex:1, flexDirection:'column'}}>
               <Text style={{textAlign:'center', fontSize:24}}>
-                You agreed to swap {props.percentage}% while
-              </Text>
-              <Text style={{textAlign:'center', fontSize:24}}>
-                {props.user_name} agreed to swap {props.counter_percentage}%
+                You agreed to swap {props.swap.percentage}% while {'\n'}
+                {props.buyin.user_name} agreed to swap{' '}
+                {props.swap.counter_percentage}%
               </Text>
             </View>
           :
-          <InactivePath navigation={props.navigation} user_name={props.user_name}
-          tournament_id={props.tournament_id} user_id={props.user_id}/>
+          <InactivePath navigation={props.navigation} 
+            buyin={props.buyin} tournament={props.tournament}/>
         }
         {!again ?
           <Button onPress={()=> setAgain(!again)}>
@@ -43,7 +46,7 @@ export default AgreedPath = (props) => {
           </Button>
           :
           <Button onPress={()=> setAgain(!again)}>
-            <Text>NeverMind</Text>
+            <Text>Go Back</Text>
           </Button>
         }
       </CardItem>

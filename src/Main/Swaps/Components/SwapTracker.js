@@ -13,7 +13,7 @@ export default SwapTracker = (props) => {
     <BuyIn
       key = {index} navigation = {props.navigation}
       buyin = {content.recipient_buyin}
-      tournament={props.tournament}
+      tournament= {props.tournament}
       agreed_swaps = {content.agreed_swaps}
       other_swaps = {content.other_swaps}/>
   )
@@ -23,7 +23,10 @@ export default SwapTracker = (props) => {
     var answer3 = await props.navigation.push('EventLobby', {
       action: store.action,
       tournament: props.tournament,
-      swaps: props.swaps,
+      flights: props.tournament.flights,
+      buyins: props.buyins,
+      navigation: props.navigation,
+      my_buyin: props.my_buyin
     });
 
   }

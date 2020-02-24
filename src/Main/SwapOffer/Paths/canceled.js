@@ -6,7 +6,9 @@ export default CanceledPath = (props) => {
     <Card transparent>
       <CardItem style={{justifyContent:'center'}}>
         <Text style={{textAlign:'center', fontSize:20}}> 
-          You canceled this swap of {props.percentage}% with {props.user_name} who offered {props.counter_percentage}%
+          You canceled this swap of {props.swap.percentage}%{' '}
+          with {props.buyin.user_name} who offered{' '}
+          {props.swap.counter_percentage}%
         </Text>
       </CardItem>
     </Card>

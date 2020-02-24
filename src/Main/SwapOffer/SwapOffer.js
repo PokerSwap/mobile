@@ -17,81 +17,65 @@ export default SwapOffer = (props) => {
 
   const { store, actions } = useContext(Context)
 
-  const [percentage, setPercentage] =  useState(props.navigation.getParam('percentage', 'default value'));
-  const [counter_percentage, setCounterPercentage] =  useState(props.navigation.getParam('counter_percentage', 'default value'));
-  const [table, setTable] = useState(props.navigation.getParam('table', 'default value'));
-  const [seat, setSeat] = useState(props.navigation.getParam('seat', 'default value'));
-  const [chips, setChips] = useState(props.navigation.getParam('chips', 'default value'));
+  // const [percentage, setPercentage] =  useState(props.navigation.getParam('percentage', 'default value'));
+  // const [counter_percentage, setCounterPercentage] =  useState(props.navigation.getParam('counter_percentage', 'default value'));
+  // const [table, setTable] = useState(props.navigation.getParam('table', 'default value'));
+  // const [seat, setSeat] = useState(props.navigation.getParam('seat', 'default value'));
+  // const [chips, setChips] = useState(props.navigation.getParam('chips', 'default value'));
 
   const { navigation } = props;
-  let status = navigation.getParam('status', 'NO-ID');
-  let user_name = navigation.getParam('user_name', 'default value');
-  let user_id = navigation.getParam('user_id', 'default value');
-  let buyin_id = navigation.getParam('buyin_id', 'default value');
-  let swap_id =  navigation.getParam('swap_id', 'default value');
-  let swap_updated_at =  navigation.getParam('swap_updated_at', 'default value');
-  let flight_id = navigation.getParam('flight_id', 'default value');
 
+  let status =  navigation.getParam('status', 'default value');
+
+  let swap =  navigation.getParam('swap', 'default value');
+  let buyin =  navigation.getParam('buyin', 'default value');
   let updated_at =navigation.getParam('updated_at', 'default value');
   let tournament = navigation.getParam('tournament', 'default value');
-  let action = navigation.getParam('action', 'default value');
 
-
-  console.log('statussssss', status)
   let currentPath;
 
   // YOUR SWAP VIEW
   if (status=='edit'){ 
     currentPath = 
-      <EditPath navigation={props.navigation} user_name={user_name}
-        table={table} seat={seat} chips={chips} buyin_id={buyin_id}/>
+      <EditPath navigation={props.navigation} 
+        buyin={buyin} tournament={tournament}/>
   }    
   // RECEIVED SWAP VIEW
   else if (status=='incoming'){
     currentPath = 
       <IncomingPath navigation={props.navigation} 
-        user_name={user_name} user_id={user_id}
-        percentage={percentage} setPercentage={setPercentage}
-        counter_percentage={counter_percentage} setCounterPercentage={setCounterPercentage}
-        swap_id={swap_id} swap_updated_at={swap_updated_at} />
+        buyin={buyin} swap={swap}/>
   } 
   // PENDING SWAP VIEW
   else if (status=='pending'){
     currentPath = 
-      <PendingPath navigation={props.navigation} user_name={user_name}
-        percentage={percentage} counter_percentage={counter_percentage}
-        swap_id={swap_id} swap_updated_at={swap_updated_at}/>
+      <PendingPath navigation={props.navigation}
+        swap={swap} tournament={tournament} buyin={buyin}/>
   } 
   // AGREED SWAP VIEW
   else if (status=='agreed'){
     currentPath = 
-      <AgreedPath navigation={props.navigation} user_name={user_name}
-        percentage={percentage} counter_percentage={counter_percentage} 
-        user_id={user_id} tournament_id={tournament_id}
-        swap_updated_at={swap_updated_at}/>
+      <AgreedPath navigation={props.navigation} 
+        swap={swap} tournament={tournament} buyin={buyin}/>
   }
   // REJECTED SWAP VIEW 
   else if (status=='rejected'){
     currentPath = 
-      <RejectedPath navigation={props.navigation} user_name={user_name}
-        percentage={percentage} counter_percentage={counter_percentage}
-        swap_updated_at={swap_updated_at}/>
+      <RejectedPath navigation={props.navigation} 
+        buyin={buyin} swap={swap}/>
   }
   // CANCELED SWAP VIEW 
   else if (status=='canceled'){
     currentPath = 
       <CanceledPath navigation={props.navigation} 
-        user_name={user_name} swap_updated_at={swap_updated_at}
-        percentage={percentage} counter_percentage={counter_percentage}/>
+        swap={swap} buyin={buyin}/>
   }
   // INACTIVE SWAP VIEW
   else{
     currentPath = 
-      <InactivePath navigation={props.navigation} user_name={user_name}
-        tournament_id={tournament_id} user_id={user_id}/>
+      <InactivePath navigation={props.navigation}
+        tournament={tournament} buyin={buyin}/>
   }
-
-
 
   return(
     <Container>
@@ -116,7 +100,7 @@ export default SwapOffer = (props) => {
             <Grid>
               <Row style={{justifyContent:'center', marginBottom:10}}>
                 <Text style={{textAlign:'center', fontSize:30}}>
-                  {user_name}
+                  {buyin.user_name}
                 </Text>
               </Row>
               <Row>
@@ -125,7 +109,7 @@ export default SwapOffer = (props) => {
                     Table:
                   </Text>
                   <Text style={{textAlign:'center', fontSize:24}}>
-                    {table}
+                    {buyin.table}
                   </Text>
                 </Col>
                 <Col style={{justifyContent:'center'}}>
@@ -133,7 +117,7 @@ export default SwapOffer = (props) => {
                     Seat:
                   </Text>
                   <Text style={{textAlign:'center', fontSize:24}}>
-                    {seat}
+                    {buyin.seat}
                   </Text>
                 </Col>
                 <Col style={{justifyContent:'center'}}>
@@ -141,7 +125,7 @@ export default SwapOffer = (props) => {
                     Chips:
                   </Text>
                   <Text style={{textAlign:'center', fontSize:24}}>
-                    {chips}
+                    {buyin.chips}
                   </Text>
                 </Col>
               </Row>

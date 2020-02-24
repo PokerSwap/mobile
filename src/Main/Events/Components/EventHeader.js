@@ -42,7 +42,7 @@ export default EventHeader = (props) => {
           {props.tournament.name}
         </Text>
       </CardItem>
-      <CardItem style={{
+      {/* <CardItem style={{
         flex:1, flexDirection:'row', alignItems:'center'}}>
 
           <Text style={{
@@ -55,7 +55,7 @@ export default EventHeader = (props) => {
             Begins on: {"\n"}
             {startDayName}. {startMonth} {startDay}
           </Text>
-      </CardItem>
+      </CardItem> */}
 
     </Card>
   )

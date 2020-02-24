@@ -6,7 +6,8 @@ export default RejectedPath = (props) => {
     <Card transparent>
       <CardItem style={{justifyContent:'center'}}>
         <Text style={{textAlign:'center', fontSize:20}}> 
-          You rejected a swap of {props.percentage}% with {props.user_name}. 
+          You rejected a swap of {props.swap.percentage}% with{' '}
+          {props.buyin.user_name}. 
         </Text>
       </CardItem>
     </Card>

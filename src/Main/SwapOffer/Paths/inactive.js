@@ -28,9 +28,10 @@ export default InactivePath = (props) => {
     )
   }
 
-  // const swapStart = async() => {
-  //   var answer1 = await actions.swap.add(props.tournament_id, props.user_id, percentage, props.navigation);
-  // }
+  const swapStart = async() => {
+    var answer1 = await actions.swap.add(
+      props.tournament.id, props.buyin.user_id, percentage, props.navigation);
+  }
 
   return(
     <Card>
@@ -43,7 +44,7 @@ export default InactivePath = (props) => {
 
       <CardItem style={{justifyContent:'center'}}>
         <Text style={{marginLeft:5,fontSize:36,justifyContent:'center'}}> 
-          {props.user_name} 
+          {props.buyin.user_name} 
         </Text>
       </CardItem>
       
@@ -73,11 +74,7 @@ export default InactivePath = (props) => {
 
           </CardItem>
 
-          <CardItem>
-            <Text>
-              The remaining action you have in this tournament 
-              is {props.action}</Text>
-          </CardItem>
+ 
 
           
           <CardItem style={{justifyContent:'center'}}>

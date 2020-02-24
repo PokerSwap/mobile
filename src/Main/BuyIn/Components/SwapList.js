@@ -83,24 +83,11 @@ export default SwapList = (props) => {
     const enterSwapOffer = async() => {
       var answer = await actions.tournament.getAction()
       props.navigation.push('SwapOffer',{
+        swap:swap,
         status: swap.status,
-        swap_id: swap.id,
-        flight_id: swap.flight_id,
-        user_id: props.buyin.user_id,
-        user_name: props.buyin.user_name,
+        buyin: props.buyin,
         updated_at: labelTime,
         tournament: props.tournament,
-  
-        tournament_id: swap.tournament_id,
-  
-        buyin_id: props.buyin_id,
-        table: props.buyin.table,
-        seat: props.buyin.seat,
-        chips: props.buyin.chips,
-        counter_percentage: swap.counter_percentage,
-        percentage: swap.percentage,
-        action: store.action
-  
       });
     }
 
