@@ -1,6 +1,7 @@
 import React, {useContext, useState} from 'react';
 import { TextInput } from 'react-native'
-import { Button, Container, Card, CardItem, Item, Toast, Icon, Text } from 'native-base';
+import { Button, Container, Item, Content,
+	Toast, Icon, Text, View } from 'native-base';
 
 import { Context } from '../../Store/appContext';
 
@@ -17,98 +18,94 @@ export default CreateUser = (props) => {
 	const createUser = async() => {
 		email !== ''|| password !== '' ?
 			password == c_password ?
-				actions.user.add(email, password) || setSubmitted(true)
-				:
-				errorMessage('Make sure your passwords match')
-		:
-		errorMessage('Please enter your desired email and password')
+				userStart() : errorMessage('Make sure your passwords match')
+		: errorMessage('Please enter your desired email and password')
+	}
+
+	const userStart = async() => {
+		var answer323 = await actions.user.add(email, password)
+		setSubmitted(true)
 	}
 		
 	const errorMessage = (x) => {
-		Toast.show({
-			text:x,
-			duration:3000
-		})		
-	}
+		Toast.show({text:x, duration:3000, position:'top'})}
 		
-	let userPassword = null;
-	let confirmPassword = null;
+	let userPassword = null, confirmPassword = null;
 
 	return(
-		<Container>
+		<Container >
+			<Content contentContainerStyle={{
+				justifyContent:'center', alignItems:'center', height:'90%'}}>
 			{submitted ? 
-				<Card transparent style={{justifyContent:'center'}}>
-					<CardItem>
-						<Text>
-							A validation link has been sent to your email at {email}.
-						</Text>
-					</CardItem>
-				</Card>
+				<View transparent style={{justifyContent:'center'}}>
+					<Text style={{textAlign:'center', fontSize:24}}>
+						A validation link has been sent to your email at {email}.
+					</Text>
+				</View>
 				:
-				<Card transparent 
-					style={{justifyContent:'center'}}>
-					<CardItem style={{
-						flexDirection:"column", paddingLeft: 30, 
-						width:350, justifyContent:"center"}}>
-						<Text style={{
-							textAlign:"center", width:300, fontSize:20}}>
-							Please create your Username for when you login and 
-							your personal Password and your Email Address.
-						</Text>
-						<Item style={{marginVertical:10}}>
-							<Icon active name='mail' />
-							<TextInput 
-								placeholder="Enter Email"
-								keyboardType="email-address"
-								blurOnSubmit={false}
-								style={{fontSize:24, width:'80%'}}
-								returnKeyType="next"
-								autoCapitalize='none'
-								autoCorrect={false} 
-								onSubmitEditing={() => { userPassword.focus(); }}
-								value={email}    
-								onChangeText={email => setEmail( email )}
-								/>
-						</Item>
-						<Item style={{marginVertical:10, color:'black'}}>
-						<Icon active name='key' />
-							<TextInput 
-								placeholder="Enter Password"
-								secureTextEntry
-								style={{fontSize:24, width:'80%'}}								
-								autoCapitalize='none'
-								returnKeyType="next"
-								autoCorrect={false} 
-								ref={(input) => { userPassword = input; }} 
-								onSubmitEditing={() => { confirmPassword.focus(); }}
-								value={password}
-								onChangeText={password => setPassword( password )}
-							/>
-						</Item>
-						<Item style={{marginVertical:10}}>
-						<Icon active name='key' />
-							<TextInput 
-									placeholder="Confirm Password"
-									secureTextEntry
-									style={{fontSize:24, width:'80%', color:'black'}}
-									autoCapitalize='none'
-									returnKeyType="go"
-									autoCorrect={false} 
-									ref={(input) => { confirmPassword = input; }} 
-									value={c_password}
-									onChangeText={password => setC_Password( password )}
-								/>
-						</Item>
-					</CardItem>
-					
-					<CardItem footer style={{justifyContent:"center"}}>
-						<Button large onPress={() => createUser()}>
-							<Text> SUBMIT </Text>
-						</Button>	
-					</CardItem>
+				<View transparent style={{justifyContent:'center', 
+					alignItems:'center', flexDirection:'column',
+					width:'90%', height:'90%'}}>
 
-				</Card>			
+					<Text style={{textAlign:"center", fontSize:20}}>
+						Please write in your email and password.
+					</Text>
+
+					<Item style={{marginVertical:30, alignSelf:'center'}}>
+						<Icon active name='mail' style={{fontSize:40}}/>
+						<TextInput 
+							placeholder=" Enter Email"
+							keyboardType="email-address"
+							blurOnSubmit={false}
+							style={{fontSize:24, width:'80%'}}
+							returnKeyType="next"
+							autoCapitalize='none'
+							autoCorrect={false} 
+							onSubmitEditing={() => { userPassword.focus(); }}
+							value={email}    
+							onChangeText={email => setEmail( email )}
+							/>
+					</Item>
+
+					<Item style={{marginVertical:30, color:'black',alignSelf:'center'}}>
+						<Icon active name='key' style={{fontSize:40}} />
+						<TextInput 
+							placeholder=" Enter Password"
+							textContentType={'newPassword'}
+  selectTextOnFocus={true}
+  secureTextEntry={true}
+							style={{fontSize:24, width:'80%'}}								
+							autoCapitalize='none'
+							returnKeyType="next"
+							autoCorrect={false} 
+							ref={(input) => { userPassword = input; }} 
+							onSubmitEditing={() => { confirmPassword.focus(); }}
+							value={password}
+							onChangeText={password => setPassword( password )}
+						/>
+					</Item>
+
+					<Item style={{marginVertical:30,alignSelf:'center'}}>
+						<Icon active name='key' style={{fontSize:40}} />
+						<TextInput 
+							placeholder=" Confirm Password"
+							secureTextEntry
+							style={{fontSize:24, width:'80%', color:'black'}}
+							autoCapitalize='none'
+							returnKeyType="go"
+							autoCorrect={false} 
+							ref={(input) => { confirmPassword = input; }} 
+							value={c_password}
+							onChangeText={password => setC_Password( password )}/>
+					</Item>
+					
+					<Button large onPress={() => createUser()} style={{alignSelf:'center'}}>
+						<Text> SUBMIT </Text>
+					</Button>	
+
+				</View>			
 			}
+			</Content>
 		</Container>
 	)
 }

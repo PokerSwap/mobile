@@ -46,7 +46,7 @@ export default ChangeEmail = (props) => {
           <CardItem style={{flex:1, flexDirection:'column'}}>
             <Text>Current Email:</Text>
             <TextInput 
-              style={{fontSize:24, textAlign:'center'}}
+              style={{fontSize:20, textAlign:'center'}}
               placeholder="Enter Current Email"
               placeholderTextColor='gray'
               keyboardType="email-address"
@@ -62,7 +62,7 @@ export default ChangeEmail = (props) => {
           <CardItem style={{flex:1, flexDirection:'column'}}>
             <Text style={{marginTop:20}}>Enter Password:</Text>
             <TextInput 
-              style={{fontSize:24, textAlign:'center'}}
+              style={{fontSize:20, textAlign:'center'}}
               placeholder="Enter Password"
               placeholderTextColor='gray'
               secureTextEntry
@@ -79,7 +79,7 @@ export default ChangeEmail = (props) => {
           <CardItem style={{flex:1, flexDirection:'column'}}>
             <Text style={{marginTop:20}}>New Email:</Text>
             <TextInput 
-              style={{fontSize:24, textAlign:'center'}}
+              style={{fontSize:20, textAlign:'center'}}
               placeholder="Enter New Email Address"
               placeholderTextColor='gray'
               keyboardType="email-address"

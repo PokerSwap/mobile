@@ -130,9 +130,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 				},
 
 				edit: async ( a_buyin_id, a_table, a_seat, some_chips) => {
-					
+					console.log('BUBU ID', a_buyin_id)
 					try{
-						const url = 'https://swapprofit-test.herokuapp.com/me/buy_ins/' + a_buyin_id + '?validate=true'
+						const url = 'https://swapprofit-test.herokuapp.com/me/buy_ins/' + a_buyin_id  + '?validate=true'
 						const accessToken = getStore().userToken
 
 						let data = {
@@ -141,6 +141,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							seat: parseInt(a_seat)
 						}
 
+						console.log('data', data)
 						let response = await fetch(url, {
 							method: 'PUT',
 							body: JSON.stringify(data),
@@ -152,7 +153,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 						.then(response => response.json)
 						.then(getActions().tracker.getAll())
 						
-
 					}catch(error){
 						console.log('Something went wrong with editing a buyin', error)
 					}
@@ -827,7 +827,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 					try{
 						const url = 'https://swapprofit-test.herokuapp.com/users'
-
 						const data = {
 							email: myEmail,
 							password: myPassword
@@ -843,10 +842,19 @@ const getState = ({ getStore, setStore, getActions }) => {
 						.then(response => response.json())
 						console.log('added user',response)
 
-
-						
+						Toast.show({
+							text:response.message,
+							position:'top',
+							duration:3000
+						})
+	
 					} catch(error) {
 						console.log("Something went wrong in adding user", error)
+						Toast.show({
+							text:error.message,
+							position:'top',
+							duration:3000
+						})
 					}
 				},
 
@@ -1045,12 +1053,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 				},
 
 				forgotPassword: async( myEmail ) => {
-
-					const url = 'https://swapprofit-test.herokuapp.com/users/me/password?forgot=true'
-
-					let data = {
-						email: myEmail
-					}
+					try {
+						const url = 'https://swapprofit-test.herokuapp.com/users/me/password?forgot=true'
+					let data = { email: myEmail }
 
 					let response = await fetch(url, {
 						method:'PUT',
@@ -1066,7 +1071,12 @@ const getState = ({ getStore, setStore, getActions }) => {
 						duration:3000,
 
 					})
-				}
+				
+					}catch(error){
+						console.log('Something went wrong with forgot password', error)
+						Toast.show({text:error.message,duration:3000, position:'top'})
+					}
+				}					
 			},
 
 			userToken: {

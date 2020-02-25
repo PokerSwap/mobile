@@ -86,7 +86,7 @@ export default SwapButton = (props) => {
       <Icon type="FontAwesome5" name='exclamation'
         style={{alignSelf:'center', fontSize:24}}/>;
     buttonColor= 'green';
-    path = 'incoming'
+    // path = 'incoming'
   } 
   // COUNTER-INCOMING SWAP VIEW
   else if(allStatuses.includes('counter-incoming')){
@@ -94,7 +94,7 @@ export default SwapButton = (props) => {
       <Icon type="FontAwesome5" name='exclamation'
         style={{alignSelf:'center', fontSize:24}}/>;
     buttonColor= 'yellow';
-    path = 'incoming'
+    // path = 'incoming'
   } 
   // PENDING SWAP VIEW
   else if(allStatuses.includes('pending')) {
@@ -106,7 +106,7 @@ export default SwapButton = (props) => {
         color:'white', textAlignVertical:'center'}}> 
         {pendingPercentage}% 
       </Text>;
-    path = "pending";
+    // path = "pending";
     buttonColor= 'orange';
   } 
   // INCOMING SWAP VIEW
@@ -117,7 +117,7 @@ export default SwapButton = (props) => {
       <Text style={{fontWeight:'600', fontSize:18,}}>
         {totalAgreed}%
       </Text>;
-    path = 'agreed';
+    // path = 'agreed';
     buttonColor= 'green';
   
   } 
@@ -127,7 +127,7 @@ export default SwapButton = (props) => {
       <Icon 
         style={{alignSelf:'center', fontSize:36}}
         type="FontAwesome5" name="times" />;
-    path = 'canceled';
+    // path = 'canceled';
     buttonColor= 'grey';
   }
   // REJECTED SWAP OFFER VIEW
@@ -136,7 +136,7 @@ export default SwapButton = (props) => {
     <Icon 
       style={{alignSelf:'center', fontSize:36}}
       type="FontAwesome5" name="times" />;
-    path = 'rejected';
+    // path = 'rejected';
     buttonColor= 'red';
   }
   // SWAP OFFER VIEW
@@ -147,23 +147,23 @@ export default SwapButton = (props) => {
     path = "inactive";
     buttonColor= 'rgb(56,68,165)';
   } 
-  if (props.buyin.user_id == store.myProfile.id){
-    console.log('XXX', 'this is yours')
-  } else{
-    console.log('XXX', s)
-  }
 
 
   const enterSwapOffer = async() => {
     // var answer = await actions.tournament.getAction()
-    props.navigation.push('SwapOffer',{
-      status: path,
-      swap: s,
-      buyin: props.buyin,
-      updated_at: since,
-      tournament: props.tournament,
+    if (props.buyin.user_id == store.myProfile.id) {
 
-    });
+      console.log('buyyyyyin', props.buyin)
+      props.navigation.push('SwapOffer',{
+        status: path,
+        swap: s,
+        buyin: props.buyin,
+        updated_at: since,
+        tournament: props.tournament,
+  
+      });
+    }
+    
   }
 
   return(
