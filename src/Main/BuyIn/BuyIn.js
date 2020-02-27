@@ -44,9 +44,12 @@ export default BuyIn = (props) => {
     )}
 
 
+
   const enterProfile = async() => {
     var answer = await actions.profile.view(buyin.user_id);
     var profile = store.profileView
+
+
     navigation.push('Profile',{
       id: profile.id,
       first_name: profile.first_name,

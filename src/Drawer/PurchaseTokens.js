@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Alert,  ScrollView, Image} from 'react-native';
-import { Container, Content,  Button, Text } from 'native-base';
+import { Container, Content,  Button, Text, View } from 'native-base';
 import {Grid, Col, Row} from 'react-native-easy-grid'
 
 import OtherHeader from '../View-Components/OtherHeader'
@@ -31,8 +31,12 @@ const AlertS = (props) => {
     )
   }
 	return (
-    <Button style={{width:'50%', alignSelf:'center', marginBottom:30, justifyContent:'center'}} large onPress={()=> showAlert()}>
-      <Text style={{textAlign:'center'}}>${props.dollars}</Text>
+    <Button large style={{width:'50%', alignSelf:'center', 
+      marginBottom:10, justifyContent:'center'}} 
+      onPress={()=> showAlert()}>
+      <Text style={{textAlign:'center'}}>
+        ${props.dollars}
+      </Text>
     </Button>
 	)
 }
@@ -42,13 +46,14 @@ PriceOption = (props) => {
   const { store, actions } = useContext(Context)
 
   return(
-    <Col style={{justifyContent:'center', alignItems:'center',
-      height:300, borderColor:'#d3d3d3', borderRightWidth:1, 
-      borderBottomWidth:1, paddingVertical:30}}>
-      
-      <Image source={props.image} style={{
-        width:props.w, height:props.h, alignSelf:'center'}}/>
-      
+    <Col style={{
+      justifyContent:'center', alignItems:'center',
+       borderColor:'#d3d3d3', borderRightWidth:1, 
+      borderTopWidth:1, paddingVertical:10}}>
+      <View style={{overflow:'hidden', height:props.hx}}>
+        <Image source={props.image} style={{
+          width:props.w, height:props.h, alignSelf:'center'}}/>
+      </View>
       <Text style={{textAlign:'center', fontWeight:'500', 
         fontSize:24, marginBottom:10}}> 
         {props.coins} coins
@@ -74,16 +79,20 @@ export default PurchaseTokens = (props) => {
         <Grid transparent>
 
           <Row style={{alignItems:'center'}}>
-            <PriceOption dollars={4.99} coins={5} w={100} h={100}
+            <PriceOption dollars={4.99} coins={5} 
+              w={100} h={100} hx={100}
               image={require('../Images/5Real.png')}/>
-            <PriceOption dollars={9.99} coins={10} w={100} h={100}
+            <PriceOption dollars={9.99} coins={10} 
+              w={100} h={100} hx={100}
               image={require('../Images/10Real.png')}/>
           </Row>
 
           <Row style={{alignItems:'center'}}>
-            <PriceOption dollars={19.99} coins={25} w={200} h={200}
+            <PriceOption dollars={19.99} coins={25} 
+              w={200} h={200} hx={175}
               image={require('../Images/25Real.png')}/>
-            <PriceOption dollars={34.99} coins={50} w={200} h={200}
+            <PriceOption dollars={34.99} coins={50} 
+              w={200} h={200} hx={175}
               image={require('../Images/50Real.png')}/>
           </Row>
           

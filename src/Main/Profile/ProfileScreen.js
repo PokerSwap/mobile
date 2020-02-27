@@ -1,11 +1,15 @@
-import React, {useContext} from 'react';
-import { Container, Content, Icon, Button, Left, Header, Text, List, ListItem } from 'native-base';
+import React, {useContext, useEffect} from 'react';
+import {View} from 'react-native'
+import { Container, Content, Icon, Button, 
+  Left, Header, Text, List, ListItem } from 'native-base';
 
 import ProfileHistoryCard from './Components/ProfileHistoryCard'
-
 import ProfileBio from './Components/ProfileBio';
+import SwapList from '../../Main/BuyIn/Components/SwapList'
 
 import {Context} from '../../Store/appContext'
+
+
 
 export default ProfileScreen = (props) => {
 
@@ -21,49 +25,87 @@ export default ProfileScreen = (props) => {
   let total_swaps = navigation.getParam('total_swaps', 'NO-ID');
   let hendon_url = navigation.getParam('hendon_url', 'NO-ID');
   let profile_pic_url = navigation.getParam('profile_pic_url','NO-ID')
-   
-  var myPastSwaps = []
-  var x = store.myPastTrackers.forEach(
-    tracker => tracker.swaps.forEach(
-      swapBody => myPastSwaps.push(swapBody.swap)
-    ))
-  var history = myPastSwaps.filter(swapBody => swapBody.recipient_user.id == id)
+
+  
+  console.log('check on profile',store.myPastTrackers)
+  var history = store.myPastTrackers.map(
+
+    tracker => {
+      var x = tracker.tournament
+      var y = tracker.buyins.filter(
+        buyin => buyin.recipient_user.id == id
+      )
+      return({
+        "buyin":y[0],
+        "tournament":x
+
+      })
+    })
+
+    console.log('history', history)
 
   return(
     <Container> 
       <Header head>
         <Left>
-          <Button transparent  onPress={() => navigation.goBack(null)}>
-            <Icon type='Ionicons' name='ios-arrow-back' />
+          <Button transparent  
+            onPress={() => navigation.goBack(null)}>
+            <Icon 
+              type='Ionicons' name='ios-arrow-back' />
           </Button>
         </Left>
       </Header>
       
-      <Content contentContainerStyle={{justifyContent:'center'}}>
+      <Content contentContainerStyle={{
+        justifyContent:'center'}}>
 
-        <ProfileBio 
-          navigation={props.navigation} id={id}
+        <ProfileBio navigation={props.navigation} id={id}
           first_name={first_name} nickname={nickname} last_name={last_name} 
           roi_rating={roi_rating} swap_rating={swap_rating} total_swaps={total_swaps}
           hendon_url={hendon_url} profile_pic_url={profile_pic_url}/>
 
     {id !== store.myProfile.id ? 
-      history.length != 0 ?
+      store.myPastTrackers = [] ?
         <List>
-          <ListItem noIndent itemHeader>
-            <Text>History</Text>
+          <ListItem noIndent itemHeader
+            style={{justifyContent:'center'}}>
+            <Text style={{ textAlign:'center', 
+              fontWeight:'600', fontSize:24}}>
+              History
+            </Text>
           </ListItem>
           {history.map((content, index) => {
+            var allSwaps
+            console.log('ddddd', content)
+            var agreed_swaps = content.buyin.agreed_swaps
+            
+            var other_swaps = content.buyin.other_swaps
+
+            agreed_swaps !== [] ? 
+              other_swaps !== [] ?
+                allSwaps = [...agreed_swaps, ...other_swaps] 
+                : 
+                allSwaps = [...agreed_swaps]
+              : 
+              other_swaps !== [] ?
+                allSwaps = [...other_swaps]
+                : 
+                allSwaps = null
+            
+                console.log('allSwaps',allSwaps)
+
             return(
-              <ProfileHistoryCard 
+              <ProfileHistoryCard
                 key={index}
-                id={content.id}
-              />
+                allSwaps={allSwaps}
+                tournament={content.tournament}
+                buyin={content.buyin}
+                navigation={props.navigation}/>
             )
           })}
         </List>
         :
-        <Text>You haven't swapped with this person </Text>
+        <Text>You haven't swapped had any swaps before </Text>
       :
       <Text>This is you</Text>         
     }

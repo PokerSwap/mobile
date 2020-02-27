@@ -2,6 +2,7 @@ import {Toast} from 'native-base'
 import AsyncStorage from '@react-native-community/async-storage'
 import { StackActions, NavigationActions } from 'react-navigation';
 
+var databaseURL = 'https://swapprofit-test.herokuapp.com/'
 
 const getState = ({ getStore, setStore, getActions }) => {
 	
@@ -70,7 +71,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 						let accessToken = getStore().userToken
 						console.log('image', image)
-						const imageURL = 'https://swapprofit-test.herokuapp.com/me/buy_ins/flight/'+ a_flight_id +'/image'		
+						const imageURL = databaseURL + 'me/buy_ins/flight/'+ a_flight_id +'/image'		
 						const imageData = new FormData();
 						imageData.append("image", {
 								uri: image.uri,
@@ -132,7 +133,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				edit: async ( a_buyin_id, a_table, a_seat, some_chips) => {
 					console.log('BUBU ID', a_buyin_id)
 					try{
-						const url = 'https://swapprofit-test.herokuapp.com/me/buy_ins/' + a_buyin_id  + '?validate=true'
+						const url = databaseURL + 'me/buy_ins/' + a_buyin_id  + '?validate=true'
 						const accessToken = getStore().userToken
 
 						let data = {
@@ -161,7 +162,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				getMostRecent: async() => {
 					
 					try {
-						const url = 'https://swapprofit-test.herokuapp.com/me/buy_ins/'
+						const url = databaseURL + 'me/buy_ins/'
 						let accessToken = getStore().userToken
 	
 						let response = await fetch(url, {
@@ -196,7 +197,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				remove: async() => {
 					try {
 						const accessToken = getStore().userToken;
-						const url = 'https://swapprofit-test.herokuapp.com/users/me/devices' 
+						const url = databaseURL + 'users/me/devices' 
 
 						const data = {device_token: getStore().deviceToken}
 
@@ -236,7 +237,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					
 					try{
 						const accessToken = getStore().userToken;
-						const url = 'https://swapprofit-test.herokuapp.com/users/me/transaction'
+						const url = databaseURL + 'users/me/transaction'
 
 						let data = {
 							dollars: some_dollars,
@@ -263,7 +264,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					
 					try{
 						const accessToken = getStore().userToken;
-						const url = 'https://swapprofit-test.herokuapp.com/users/me/transaction'
+						const url = databaseURL + 'users/me/transaction'
 
 						let data = {
 							coins: -1
@@ -390,7 +391,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					try{
 						
 						const accessToken = getStore().userToken;
-						const url = 'https://swapprofit-test.herokuapp.com/profiles'
+						const url = databaseURL + 'profiles'
 
 						let data = {
 							nickname: nickName,
@@ -422,7 +423,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					try{
 
 						const accessToken = getStore().userToken;
-						const url = 'https://swapprofit-test.herokuapp.com/profiles/me';
+						const url = databaseURL + 'profiles/me';
 
 						let response = await fetch(url, {
 							method:'GET',
@@ -468,7 +469,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					try {
 						console.log('image in store', image)
 
-						const url ='https://swapprofit-test.herokuapp.com/profiles/image'
+						const url =databaseURL + 'profiles/image'
 						const accessToken = getStore().userToken;
 						const data = new FormData();
 
@@ -514,7 +515,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					
 					try {
 						const accessToken = getStore().userToken;
-						const url = 'https://swapprofit-test.herokuapp.com/profiles/'+ a_user_id
+						const url = databaseURL + 'profiles/'+ a_user_id
 
 						let response = await fetch(url, {
 							method:'GET',
@@ -540,7 +541,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				add: async ( a_tournament_id, a_recipient_id, a_percentage, navigation ) => {
 					
 					try{
-						const url = 'https://swapprofit-test.herokuapp.com/me/swaps'
+						const url = databaseURL + 'me/swaps'
 						let accessToken = getStore().userToken
 
 						let data = {
@@ -575,7 +576,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 				statusChange: async ( my_swap_id, a_status, a_percentage ) => {
 					try{
-						const url = 'https://swapprofit-test.herokuapp.com/me/swaps/' + my_swap_id
+						const url = databaseURL + 'me/swaps/' + my_swap_id
 						let accessToken = getStore().userToken
 						console.log('the url', my_swap_id)
 						let data 
@@ -616,7 +617,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 		
 				paid: async ( a_tournament_id, a_recipient_id, is_paid, navigation) => {
 					try{
-						const url = 'https://swapprofit-test.herokuapp.com/users/me/swaps/4/done'
+						const url = databaseURL + 'users/me/swaps/4/done'
 						let accessToken = getStore().userToken
 
 						let data = {
@@ -646,9 +647,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 				getAction: ( tournament_id ) => {
 					
 					try{
-						const url = "https://swapprofit-test.herokuapp.com/swaps/me/tournament/" + tournament_id;
+						const url = databaseURL + 'swaps/me/tournament/' + tournament_id;
 						const accessToken = getStore().userToken ;
-
+						return new res
 						fetch(url, {
 							method: 'GET',
 							headers: {
@@ -667,9 +668,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 				getOne: async ( tournament_id ) => {
 					
 					try{
-						const url = 'https://swapprofit-test.herokuapp.com/tournaments/' + tournament_id;
+						const url = databaseURL + 'tournaments/' + tournament_id;
 						const accessToken = getStore().userToken ;
-
+						
 						let response = await fetch(url, {
 							method: 'GET',
 							headers: {
@@ -677,7 +678,10 @@ const getState = ({ getStore, setStore, getActions }) => {
 								'Content-Type':'application/json'
 							}, 
 						})
-						return response.json()
+						
+						var answer = await response.json()
+						return answer
+						
 
 					} catch(error){
 						console.log('Something went wrong with getting one tournament', error)
@@ -699,7 +703,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					try {
 						setStore({tournaments: null})
 
-						var base_url ='https://swapprofit-test.herokuapp.com/tournaments/all?asc=true&limit=8&page=1'
+						var base_url =databaseURL + 'tournaments/all?asc=true&limit=8&page=1'
 						var full_url
 						key1 !== undefined ?
 							key2 !== undefined ?
@@ -730,7 +734,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				getMore: async ( page, key1, value1, key2, value2 ) => {
 
 					try{
-						var base_url = 'https://swapprofit-test.herokuapp.com/tournaments/all?asc=true&limit=8&page='
+						var base_url = databaseURL + 'tournaments/all?asc=true&limit=8&page='
 						
 						var full_url
 						key1 !== undefined ?
@@ -771,7 +775,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				getAll: async() => {
 					
 					try{
-						const url = 'https://swapprofit-test.herokuapp.com/me/swap_tracker'
+						const url = databaseURL + 'me/swap_tracker'
 						let accessToken = getStore().userToken
 
 						let response = await fetch(url, {
@@ -794,7 +798,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				getPast: async() => {
 					
 					try{
-						const url = 'https://swapprofit-test.herokuapp.com/me/swap_tracker?history=true'
+						const url = databaseURL + 'me/swap_tracker?history=true'
 						let accessToken = getStore().userToken
 
 						let response = await fetch(url, {
@@ -826,7 +830,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				add: async ( myEmail, myPassword ) => {
 
 					try{
-						const url = 'https://swapprofit-test.herokuapp.com/users'
+						const url = databaseURL + 'users'
 						const data = {
 							email: myEmail,
 							password: myPassword
@@ -893,7 +897,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						.then(() => getActions().deviceToken.store(myDeviceID))
 
 						.then(()=> getActions().profile.get())
-						.then(()=> your_password = '')
+						.then(()=> myPassword = '')
 						.then(()=> {
 							if(getStore().userToken){
 								if(getStore().myProfile.message !== "Profile not found" ){
@@ -938,7 +942,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 	
 						let accessToken = getStore().userToken;
 	
-						const url = 'https://swapprofit-test.herokuapp.com/users/me/email'
+						const url = databaseURL + 'users/me/email'
 	
 						let response = await fetch(url, {
 							method:'PUT',
@@ -982,7 +986,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 	
 						let accessToken = getStore().userToken;
 	
-						const url = 'https://swapprofit-test.herokuapp.com/users/me/password'
+						const url = databaseURL + 'users/me/password'
 	
 						let response = await fetch(url, {
 							method:'PUT',
@@ -1020,7 +1024,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 					let accessToken = getStore().userToken;
 
-					const imageURL = 'https://swapprofit-test.herokuapp.com//profiles/image'
+					const imageURL = databaseURL + '/profiles/image'
 					const imageData = new FormData();
 						imageData.append("image", {
 								uri: image.uri,
@@ -1054,7 +1058,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 				forgotPassword: async( myEmail ) => {
 					try {
-						const url = 'https://swapprofit-test.herokuapp.com/users/me/password?forgot=true'
+						const url = databaseURL + 'users/me/password?forgot=true'
 					let data = { email: myEmail }
 
 					let response = await fetch(url, {
@@ -1083,7 +1087,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 				get: async( data ) => {
 					try{
-						const url = 'https://swapprofit-test.herokuapp.com/users/token'
+						const url = databaseURL + 'users/token'
 
 						let response1 = await fetch(url, {
 							method: 'POST',

@@ -1,7 +1,4 @@
-/**
- * @format
- */
-import React, {useContext} from 'react';
+
 import { Platform, Alert } from 'react-native';
 import firebase from '@react-native-firebase/app';
 
@@ -15,26 +12,17 @@ import PushNotification from 'react-native-push-notification'
 
 import PushNotificationIOS from '@react-native-community/push-notification-ios'
 
-
-
-
-import {Context} from './src/Store/appContext'
-
-// pluck values from your `GoogleService-Info.plist` you created on the firebase console
 const iosConfig = {
-  clientId: '1008390219361-iud7lpml96bnaiihn8uhhusoeuc2d9tj.apps.googleusercontent.com',
+  clientId: '1008390219361-a5ve7cvrf95qcg31ttijkovrosfsgrgq.apps.googleusercontent.com',
   appId: '1:1008390219361:ios:097f14f8ce89b396892c20',
   apiKey: 'AIzaSyA-zmma-TLbiYh0F3jA3yH7n5FRvY35Sp4',
   databaseURL: 'https://swapprofitapp.firebaseio.com',
   storageBucket: 'swapprofitapp.appspot.com',
   messagingSenderId: '1008390219361',
   projectId: 'swapprofitapp',
- 
-  // enable persistence by adding the below flag
   persistence: true,
 };
  
-// pluck values from your `google-services.json` file you created on the firebase console
 const androidConfig = {
   clientId: '1008390219361-qfto4dakckbg5lt9n127e5jb2km4asl2.apps.googleusercontent.com',
   appId: '1:1008390219361:android:275a612fed54e03b892c20',
@@ -43,8 +31,6 @@ const androidConfig = {
   storageBucket: 'swapprofitapp.appspot.com',
   messagingSenderId: '1008390219361',
   projectId: 'swapprofitapp',
- 
-  // enable persistence by adding the below flag
   persistence: true,
 };
 
@@ -121,14 +107,8 @@ messaging().onMessage(async (remoteMessage) => {
     "Swap Alert",
     remoteMessage.data.message,
     [
-      {
-        text: 'Yes',
-        onPress: () => console.log('yes')
-      },
-      {
-        text: 'No',
-        onPress: () => console.log("Cancel Pressed"),
-      }
+      { text: 'Yes', onPress: () => console.log('yes') },
+      { text: 'No', onPress: () => console.log("Cancel Pressed"), }
     ]
   )
 });   
@@ -139,6 +119,7 @@ messaging().onSendError(event => {
 });
 
 getToken = async()=> {
+  console.log('fcmtoken staring')
   var fcmToken = await firebase.messaging().getToken();
   console.log('fcmtoken',fcmToken) 
 }

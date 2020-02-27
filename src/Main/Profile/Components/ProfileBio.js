@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {Image, View } from 'react-native'
+import {Image, View, Spinner } from 'react-native'
 import { Button, Icon, Card, CardItem, Text } from 'native-base';
 
 import {Context} from '../../../Store/appContext'
@@ -30,11 +30,17 @@ const {store, actions} = useContext(Context)
           style={{marginTop:'4%', width: 200, 
           height: 200, position: 'relative',
           overflow: 'hidden', borderRadius: 50}}>
-          <Image style={{
-            display: 'flex', margin: 'auto', 
-            height: '100%', width: 'auto'}} 
-            source={{uri: props.profile_pic_url}} />
+          
+          {props.profile_pic_url != null ?
+            <Image style={{
+              display: 'flex', margin: 'auto', 
+              height: '100%', width: 'auto'}} 
+              source={{uri: props.profile_pic_url}} />
+            :
+            <Spinner />}
+
         </View>
+
         <View style={{flex:1, justifyContent:'center', height:70}}>
           <Button transparent 
             style={{flex:1, justifyContent:'center'}}  
