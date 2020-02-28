@@ -7,7 +7,7 @@ import ProfileHistoryCard from './Components/ProfileHistoryCard'
 import ProfileBio from './Components/ProfileBio';
 import SwapList from '../../Main/BuyIn/Components/SwapList'
 
-import {Context} from '../../Store/appContext'
+import Store, {Context} from '../../Store/appContext'
 
 
 
@@ -25,24 +25,26 @@ export default ProfileScreen = (props) => {
   let total_swaps = navigation.getParam('total_swaps', 'NO-ID');
   let hendon_url = navigation.getParam('hendon_url', 'NO-ID');
   let profile_pic_url = navigation.getParam('profile_pic_url','NO-ID')
+  let past = navigation.getParam('past','NO-ID')
+
+
+
+  var history =[]
+  var checkingHistory = past.forEach(
+    tracker =>  {
+      var y = tracker.buyins.filter(buyin => 
+        buyin.recipient_user.id == id)
+      console.log('tracker',tracker)
+      console.log('buyins',tracker.buyins)
+      console.log('y', y, 'this', y[0])
+      if (y.length !== 0) {
+        y[0]["tournament_name"] = tracker.tournament.name
+        history.push(...y)
+       }else {null}
+    }
+  )
 
   
-  console.log('check on profile',store.myPastTrackers)
-  var history = store.myPastTrackers.map(
-
-    tracker => {
-      var x = tracker.tournament
-      var y = tracker.buyins.filter(
-        buyin => buyin.recipient_user.id == id
-      )
-      return({
-        "buyin":y[0],
-        "tournament":x
-
-      })
-    })
-
-    console.log('history', history)
 
   return(
     <Container> 
@@ -65,8 +67,8 @@ export default ProfileScreen = (props) => {
           hendon_url={hendon_url} profile_pic_url={profile_pic_url}/>
 
     {id !== store.myProfile.id ? 
-      store.myPastTrackers = [] ?
-        <List>
+      history !== [] ?
+        <List style={{justifyContent:'center'}}>
           <ListItem noIndent itemHeader
             style={{justifyContent:'center'}}>
             <Text style={{ textAlign:'center', 
@@ -75,11 +77,11 @@ export default ProfileScreen = (props) => {
             </Text>
           </ListItem>
           {history.map((content, index) => {
+
+            console.log('content',content)
             var allSwaps
-            console.log('ddddd', content)
-            var agreed_swaps = content.buyin.agreed_swaps
-            
-            var other_swaps = content.buyin.other_swaps
+            var agreed_swaps = content.agreed_swaps
+            var other_swaps = content.other_swaps
 
             agreed_swaps !== [] ? 
               other_swaps !== [] ?
@@ -98,9 +100,9 @@ export default ProfileScreen = (props) => {
               <ProfileHistoryCard
                 key={index}
                 allSwaps={allSwaps}
-                tournament={content.tournament}
-                buyin={content.buyin}
-                navigation={props.navigation}/>
+                buyin={content}
+                navigation={props.navigation}
+                myTrackers={store.myPastTrackers}/>
             )
           })}
         </List>

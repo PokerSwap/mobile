@@ -48,8 +48,10 @@ export default BuyIn = (props) => {
   const enterProfile = async() => {
     var answer = await actions.profile.view(buyin.user_id);
     var profile = store.profileView
+    var sccs = await actions.tracker.getPast()
+    var past = store.myPastTrackers
 
-
+    console.log('past',past)
     navigation.push('Profile',{
       id: profile.id,
       first_name: profile.first_name,
@@ -59,7 +61,8 @@ export default BuyIn = (props) => {
       swap_rating: profile.swap_rating,
       total_swaps: profile.total_swaps,
       profile_pic_url: profile.profile_pic_url,
-      hendon_url: profile.hendon_url
+      hendon_url: profile.hendon_url,
+      past:past
     });
   }
 

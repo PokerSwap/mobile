@@ -4,6 +4,12 @@ import { StackActions, NavigationActions } from 'react-navigation';
 
 var databaseURL = 'https://swapprofit-test.herokuapp.com/'
 
+var errorMessage = (error) => {
+	Toast.show({
+		text:error, duration:3000, position:'top'
+	})
+}
+
 const getState = ({ getStore, setStore, getActions }) => {
 	
 	return {
@@ -50,7 +56,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 				add: async ( image, a_table, a_seat, some_chips, a_flight_id, a_tournament_id, navigation) => {
 					try{	
-						
 						if (image == 3){
 							return Toast.show({
 								text:'You need to select a photo of your buyin ticket before submitting',
@@ -469,23 +474,26 @@ const getState = ({ getStore, setStore, getActions }) => {
 					try {
 						console.log('image in store', image)
 
-						const url =databaseURL + 'profiles/image'
+						const url = databaseURL + 'profiles/image'
 						const accessToken = getStore().userToken;
-						const data = new FormData();
+						const imageData = new FormData();
 
-						data.append("image", {
+						imageData.append("image", {
 							uri: image.uri,
 							type: image.type,
-							name: image.fileName
+							name: image.name
 						});
-										
+
+						console.log('data', imageData)
+						
+
 						let response = await fetch(url, {
 							method: 'PUT',
 							headers: {
 								'Content-Type': 'multipart/form-data',
 								'Authorization': 'Bearer ' + accessToken,
 							},
-							body: data,
+							body: imageData,
 						})
 						.then(response => response.json())
 						.then((responseJson) => {
@@ -503,11 +511,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 								position:'top'
 							}))
 					} catch(error) {
-						return(Toast.show({
-							text:error.message,
-							duration:3000,
-							position:'top'
-						}))
+						return errorMessage(error.message)
 					}
 				},
 
@@ -649,7 +653,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 					try{
 						const url = databaseURL + 'swaps/me/tournament/' + tournament_id;
 						const accessToken = getStore().userToken ;
-						return new res
 						fetch(url, {
 							method: 'GET',
 							headers: {
@@ -854,11 +857,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 	
 					} catch(error) {
 						console.log("Something went wrong in adding user", error)
-						Toast.show({
-							text:error.message,
-							position:'top',
-							duration:3000
-						})
+						return errorMessage(error.message)
 					}
 				},
 
@@ -967,13 +966,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 					}catch(error){
 						console.log('Something went wrong with changing your email', error)
-						Toast.show({
-							text:error.message,
-							position:'top',
-							duration:3000,
-						})
+						return errorMessage(error.message)
 					}
-					
 				},
 
 				changePassword: async( myEmail, myPassword, myNewPassword, navigation ) => {
@@ -1010,12 +1004,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						}
 					}catch(error){
 						console.log('Something went wrong with changing your password', error)
-						return(Toast.show({
-							text:error.message,
-							position:'top',
-							duration:3000,
-
-						}))
+						return errorMessage(error.message)
 					}
 					
 				},
@@ -1078,7 +1067,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				
 					}catch(error){
 						console.log('Something went wrong with forgot password', error)
-						Toast.show({text:error.message,duration:3000, position:'top'})
+						return errorMessage(error.message)
 					}
 				}					
 			},
@@ -1108,13 +1097,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							let error = res;
 							getActions().userToken.remove();
 							console.log("Something went wrong in getting userToken", error, getStore().userToken);
-							Toast.show({ 
-								position:'top',
-								text:error.message,
-								duration:3000,
-								type:'warning'		
-							})
-							return false;
+							return errorMessage(error.message)
 						}
 						
 					} catch(error) {

@@ -12,7 +12,7 @@ export default ProfitResults = (props) => {
   let buyins = navigation.getParam('buyins', 'NO-ID')
   let final_profit = navigation.getParam('final_profit', 'NO-ID')
 
-  var agreedBuyins = buyins.filter(buyin => buyin.agreed_swaps.length > 0)
+  // var agreedBuyins = buyins.filter(buyin => buyin.agreed_swaps.length > 0)
 
   return(
     <Container> 
@@ -25,7 +25,7 @@ export default ProfitResults = (props) => {
               {tournament.name}
             </Text>
           </ListItem>
-          {agreedBuyins.map((buyin, index) => {
+          {buyins.map((buyin, index) => {
             return(
               <ProfitTracker
                 key={index} navigation={props.navigation}

@@ -24,9 +24,57 @@ export default ChangePicture = (props) => {
     return {cameraStatus, photosStatus};
   }
 
-  const choosePhoto = async() => {
+  const UploadTicketPhoto = async() => {
 
-    // var answer = await requestAll().then(statuses => console.log(statuses));;
+    const options = {
+      title: 'Submit Picture',
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+     
+    ImagePicker.showImagePicker(options, (response) => {
+      console.log('Response = ', response);
+    
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else {
+
+        if (!response.uri) return;
+
+      let type = response.type;
+
+      if (type === undefined && response.fileName === undefined) {
+        const pos = response.uri.lastIndexOf('.');
+        type = response.uri.substring(pos + 1);
+        if (type) type = `image/${type}`;
+      }
+      if (type === undefined) {
+        const splitted = response.fileName.split('.');
+        type = splitted[splitted.length - 1];
+        if (type) type = `image/${type}`;
+      }
+
+      let name = response.fileName;
+      if (name === undefined && response.fileName === undefined) {
+        const pos = response.uri.lastIndexOf('/');
+        name = response.uri.substring(pos + 1);
+      }
+
+      const selectedImage = {
+        uri: response.uri,
+        type: type.toLowerCase(),
+        name: name,
+      };
+      setImage(selectedImage);
+      }
+    });
+  };
+
+  const choosePhoto = async() => {
 
     const options = {
       title: 'Submit Picture',
@@ -44,9 +92,7 @@ export default ChangePicture = (props) => {
       } else if (response.error) {
         console.log('ImagePicker Error: ', response.error);
       } else {
-        // props.onChangePicture(response.uri)
-        // setImage( response.uri);
-        // console.log('image',image)
+
 
         if (!response.uri) return;
 

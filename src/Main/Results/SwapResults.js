@@ -34,17 +34,17 @@ export default SwapResults = (props) => {
     )
   })
 
-  if( store.myPastTrackers.length !== 0 && store.myPastTrackers.length !== undefined){
+  if( store.myPastTrackers !== []){
     
     var recentSwaps = store.myPastTrackers.filter(
       tracker => moment().isBefore(moment(tracker.tournament.start_at).add(30, 'days')))    
     recentSwaps.length !== 0  ? 
       recentTracker = aTracker(recentSwaps) : recentTracker = noTracker('recent')
 
-    var historySwaps = store.myPastTrackers.filter(
-      tracker => moment().isAfter(moment(tracker.tournament.start_at).add(1, 'months')))
-    historySwaps.length !== 0 ? 
-      historyTracker = aTracker(historySwaps) : historyTracker = noTracker('history')
+    // var historySwaps = store.myPastTrackers.filter(
+    //   tracker => moment().isAfter(moment(tracker.tournament.start_at).add(1, 'months')))
+    store.myPastTrackers !== [] ? 
+      historyTracker = aTracker(store.myPastTrackers) : historyTracker = noTracker('history')
 
   } else {
     recentTracker = noTracker('recent')
