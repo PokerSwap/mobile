@@ -117,7 +117,7 @@ export default ProfitTracker = (props) => {
         <Row>
           <Text style={{ fontSize:36, fontWeight:'600',
           textAlign:'center', marginTop:30}}>
-            Swap Profit {"\n"} ${props.buyin.you_won}
+            Swap Profit {"\n"} ${props.buyin.they_owe_total - props.buyin.you_owe_total}
           </Text>
         </Row>
 

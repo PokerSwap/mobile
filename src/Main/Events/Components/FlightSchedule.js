@@ -33,7 +33,14 @@ export default FlightSchedule = (props) => {
     )
   })
     
-  console.log('rbuyin', props.my_buyin)
+
+  var Tournament_Buy_Ins = props.ubuyins.map((content, index) => {
+    return(
+      <BuyIn key = {index}  navigation={props.navigation}
+        allSwaps={null} tournament={props.tournament}
+        buyin={content}/>
+    )
+  })
 
   return(
     <View>
@@ -56,8 +63,11 @@ export default FlightSchedule = (props) => {
         : null
       }
 
-      {/* FLIGHT BUY-INS */}
+      {/* {relatedbuyins} */}
       {Buy_Ins}
+
+      {/* FLIGHT BUY-INS */}
+      {Tournament_Buy_Ins}
               
     </View>
   )

@@ -1,7 +1,12 @@
-import React from 'react'
-import {Text, Card, CardItem} from 'native-base'
+import React, {useContext} from 'react'
+import {Text, Card, CardItem, Button} from 'native-base'
+
+import { Context } from '../../../Store/appContext'
 
 export default CanceledPath = (props) => {
+
+  const { store, actions } = useContext(Context)
+
   return(
     <Card transparent>
       <CardItem style={{justifyContent:'center'}}>
@@ -11,6 +16,15 @@ export default CanceledPath = (props) => {
           {props.swap.counter_percentage}%
         </Text>
       </CardItem>
+
+      {props.tournament_status == 'open' ?
+        <CardItem>
+          <Button success onPress={()=> A}>
+            <Text>Swap Again?</Text>
+          </Button>
+        </CardItem>
+        :
+        null}
     </Card>
   )
 }

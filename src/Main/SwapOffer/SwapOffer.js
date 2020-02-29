@@ -44,36 +44,45 @@ export default SwapOffer = (props) => {
   else if (status=='incoming'){
     currentPath = 
       <IncomingPath navigation={props.navigation} 
+        tournament_status={tournament.tournament_status}
         buyin={buyin} swap={swap}/>
   } 
   // PENDING SWAP VIEW
   else if (status=='pending'){
     currentPath = 
       <PendingPath navigation={props.navigation}
+        tournament_status={tournament.tournament_status}
         swap={swap} tournament={tournament} buyin={buyin}/>
   } 
   // AGREED SWAP VIEW
   else if (status=='agreed'){
     currentPath = 
       <AgreedPath navigation={props.navigation} 
+        tournament_status={tournament.tournament_status}
+
         swap={swap} tournament={tournament} buyin={buyin}/>
   }
   // REJECTED SWAP VIEW 
   else if (status=='rejected'){
     currentPath = 
       <RejectedPath navigation={props.navigation} 
+        tournament_status={tournament.tournament_status}
+
         buyin={buyin} swap={swap}/>
   }
   // CANCELED SWAP VIEW 
   else if (status=='canceled'){
     currentPath = 
       <CanceledPath navigation={props.navigation} 
+        tournament_status={tournament.tournament_status}
+
         swap={swap} buyin={buyin}/>
   }
   // INACTIVE SWAP VIEW
   else{
     currentPath = 
       <InactivePath navigation={props.navigation}
+      tournament_status={tournament.tournament_status}
         tournament={tournament} buyin={buyin}/>
   }
 

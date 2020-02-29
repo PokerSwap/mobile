@@ -29,6 +29,7 @@ export default EventListings = (props) => {
     setPage(1)
     var answer = await actions.tournament.getInitial()
     console.log('page',page)
+    console.log(store.tournaments)
     wait(2000).then(() => setRefreshing(false));
   }
   // FUNCTION TO GET MORE TOURNAMENTS

@@ -13,6 +13,7 @@ export default EventBody = (props) => {
   var {navigation} = props, {tournament} = props;
   var bgColor, textColor, borderWidths, buttonColor, path;
  
+  // console.log('wefwfwfw', props.buyins)
   const enterTournament = async() => {
     var answer1 = await actions.tournament.getAction(tournament.id);
     console.log('action is', store.action)

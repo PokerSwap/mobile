@@ -87,8 +87,11 @@ export default BuyIn = (props) => {
               onPress={()=> enterProfile()}>
               <Text style={{fontSize:24, color:txt,
                 textTransform:'capitalize'}}> 
-                {buyin.user_id !== store.myProfile.id? 
-                  buyin.user_name : store.myProfile.nickname} 
+                {buyin.user_id !== store.myProfile.id ? 
+                  buyin.user_name 
+                  : store.myProfile.user_name == null ?
+                      store.myProfile.first_name
+                      : store.myProfile.user_name} 
               </Text>
             </Button>
           </Row>

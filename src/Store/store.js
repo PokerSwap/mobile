@@ -390,19 +390,18 @@ const getState = ({ getStore, setStore, getActions }) => {
 			},
 
 			profile:{
-				
-				add: async ( nickName, firstName, lastName, a_hendon_url, a_Picture ) => {
-					
+			
+				add: async ( a_username, firstName, lastName, a_hendon_url, a_Picture ) => {
 					try{
-						
 						const accessToken = getStore().userToken;
 						const url = databaseURL + 'profiles'
-
+						const a_devicetoken = getStore().deviceToken
 						let data = {
-							nickname: nickName,
+							username: a_username,
 							first_name: firstName,
 							last_name: lastName,
-							hendon_url: a_hendon_url
+							hendon_url: a_hendon_url,
+							device_token: a_devicetoken
 						}
 
 						let response = await fetch(url, {

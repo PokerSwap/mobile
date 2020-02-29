@@ -24,6 +24,7 @@ export default SwapButton = (props) => {
   else if(x.includes('year')){ since = y + 'Y' }
   else{ null }
 
+  console.log()
   var allStatuses =[]
   props.allSwaps !== null && props.allSwaps !== 0 && props.allSwaps !== undefined ?
     props.allSwaps.forEach(swap => 
@@ -47,7 +48,7 @@ export default SwapButton = (props) => {
       <Icon type="FontAwesome5" name='exclamation'
         style={{alignSelf:'center', fontSize:24}}/>;
     buttonColor= 'green';
-    path = 'incoming'
+    path = 'counter-incoming'
   } 
   // INCOMING SWAP VIEW
   else if(allStatuses.includes('incoming')){
@@ -117,7 +118,6 @@ export default SwapButton = (props) => {
     buttonColor= 'rgb(56,68,165)';
   } 
 
-
   const enterSwapOffer = async() => {
     // var answer = await actions.tournament.getAction()
     if (props.buyin.user_id == store.myProfile.id) {
@@ -125,7 +125,7 @@ export default SwapButton = (props) => {
       // console.log('buyyyyyin', props.buyin)
       props.navigation.push('SwapOffer',{
         status: path,
-        swap: s,
+        // swap: s,
         buyin: props.buyin,
         updated_at: since,
         tournament: props.tournament,
