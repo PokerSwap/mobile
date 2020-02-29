@@ -35,17 +35,16 @@ export default SwapDashboard = (props) => {
 
     var now = moment()
 
-    var currentList = trackers.filter((tracker) => now.isAfter(moment(tracker.tournament.start_at).add(1, 'days')))
-    
-    console.log('currentList', currentList)
-    currentList.length !== 0 ? 
+    var currentList = trackers.filter(tracker => 
+      now.isAfter(moment(tracker.tournament.start_at)))
+    // console.log('currentList', currentList)
+    currentList !== [] ? 
       liveTracker = a_tracker(currentList) : liveTracker = noTracker('live')
     
-
-    var upcomingList = trackers.filter((tracker) => now.isBefore(tracker.tournament.start_at))
-    console.log('upcomingList', upcomingList)
-
-    upcomingList.length !== 0 ? 
+    var upcomingList = trackers.filter((tracker) => 
+      now.isBefore(tracker.tournament.start_at))
+    // console.log('upcomingList', upcomingList)
+    upcomingList !== [] ? 
       upcomingTracker = a_tracker(upcomingList) : upcomingTracker = noTracker('upcoming')
       
   } else{

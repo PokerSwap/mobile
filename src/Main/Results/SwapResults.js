@@ -41,9 +41,9 @@ export default SwapResults = (props) => {
     recentSwaps.length !== 0  ? 
       recentTracker = aTracker(recentSwaps) : recentTracker = noTracker('recent')
 
-    // var historySwaps = store.myPastTrackers.filter(
-    //   tracker => moment().isAfter(moment(tracker.tournament.start_at).add(1, 'months')))
-    store.myPastTrackers !== [] ? 
+    var historySwaps = store.myPastTrackers.filter(
+      tracker => moment().isAfter(moment(tracker.tournament.start_at).add(30, 'days')))
+    historySwaps.length !== 0 ? 
       historyTracker = aTracker(store.myPastTrackers) : historyTracker = noTracker('history')
 
   } else {

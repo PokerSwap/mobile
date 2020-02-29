@@ -32,38 +32,7 @@ export default SwapButton = (props) => {
     allStatuses = ['inactive']
 
     var lastCol, buttonColor, path;
-
-      // incoming/cincoming/pending = [agreed, agreed][ >incoming, re, can]
-      // agreed = [agreed, agreed][re,can]
-      
-      // rejected/canceled = [][>rej, can/]
-      // inactive = [][]
-
-  var s
-  if(props.buyin.user_id !== store.myProfile.id){
-
-    for (let i = 0; i < props.allSwaps.length; i++) {
-    
-    }
-  var otherCheck = props.allSwaps.forEach(swap => {
-    if (swap.status == 'incoming'){
-      s = swap;
-      return 
-    } else if(swap.status == 'pending') {
-      s= swap;
-      return
-    } else if (swap.status == 'agreed') {
-      s= swap;
-      return
-    } else if (swap.status == 'rejected') {
-      s= swap;
-      return
-    } else if (swap.status == 'canceled') {
-      s= swap;
-      return
-    }
-
-  })}
+ 
 
   // YOUR SWAP VIEW
   if (props.buyin.user_id == store.myProfile.id){
@@ -153,7 +122,7 @@ export default SwapButton = (props) => {
     // var answer = await actions.tournament.getAction()
     if (props.buyin.user_id == store.myProfile.id) {
 
-      console.log('buyyyyyin', props.buyin)
+      // console.log('buyyyyyin', props.buyin)
       props.navigation.push('SwapOffer',{
         status: path,
         swap: s,

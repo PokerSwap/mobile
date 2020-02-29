@@ -22,7 +22,9 @@ export default ProfitTracker = (props) => {
             <Image source={{uri: store.myProfile.profile_pic_url}} 
               style={{height:100, width:100, 
                 borderRadius:500, alignSelf:'center'}}/>
-            <Text style={{marginTop:10}}>You</Text>
+            <Text style={{marginTop:10}}>
+              You
+            </Text>
           </Col>
           
           {/* Their Profile */}

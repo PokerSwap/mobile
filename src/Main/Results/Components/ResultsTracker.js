@@ -18,8 +18,8 @@ export default ResultsTracker = (props) => {
       
       {/* TOURNAMENT TITLE */}
       <Col style={{width:'80%', justifyContent:'center'}}>
-        <Text style={{color:'black', alignContent:'center',
-          textAlign:'center', fontSize:20, fontWeight:'600'}}> 
+        <Text style={{color:'black', fontSize:20, fontWeight:'600',
+          alignContent:'center', textAlign:'center' }}> 
           {props.tournament.name}
         </Text>
       </Col>
@@ -27,7 +27,7 @@ export default ResultsTracker = (props) => {
       {/* RIGHT ARROW NAVIGATION */}
       <Col style={{width:'20%'}}>
         <Icon type="FontAwesome5" name="angle-right" 
-        style={{justifyContent:'center', alignSelf:'center'}} />    
+          style={{justifyContent:'center', alignSelf:'center'}} />    
       </Col>
 
     </ListItem>

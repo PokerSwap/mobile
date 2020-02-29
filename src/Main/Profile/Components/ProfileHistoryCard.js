@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import { View } from 'react-native'
-import { ListItem,Text } from 'native-base';
-import {Grid, Row, Col} from 'react-native-easy-grid'
+import { ListItem, Text, Button } from 'native-base';
+import { Row, Col} from 'react-native-easy-grid'
 
 import {Context} from '../../../Store/appContext';
  
@@ -11,16 +11,14 @@ export default ProfileHistoryCard = (props) => {
 
 	return(
 		<View>
-		<ListItem noIndent style={{ flexDirection:'column',
-		paddingVertical:5, 
-			backgroundColor:'black', justifyContent:'center'}}>
-			<Text style={{fontSize:20, width:'90%',
-				color:'white', fontWeight:'600', textAlign:'center'}}>
-				{props.buyin.tournament_name}
-			</Text>
+			<ListItem noIndent style={{ flexDirection:'column',
+				paddingVertical:5, backgroundColor:'black', 
+				justifyContent:'center'}}>
+				<Text style={{fontSize:20, width:'90%',
+					color:'white', fontWeight:'600', textAlign:'center'}}>
+					{props.buyin.tournament_name}
+				</Text>
 			</ListItem>
-			<ListItem>
-			<Grid>
 
 			{props.allSwaps != null ?
 				props.allSwaps.map((swap,index) => {
@@ -43,28 +41,47 @@ export default ProfileHistoryCard = (props) => {
 				var startTime = startHour + ':' + swapTime.substring(20,22) + startM
 				var labelTime = startDate + ', ' +   startTime
 
+				var bgColor, path;
+				if (swap.status == 'agreed'){bgColor = 'green'}
+				else if (swap.status == 'incoming'){bgColor = 'green'}
+				else if (swap.status == 'pending'){bgColor = 'orange'}
+				else if (swap.status == 'counter-incoming'){bgColor = 'orange'}
+				else if (swap.status == 'canceled'){bgColor = 'grey'}
+				else if (swap.status == 'rejected'){bgColor = 'red'}
+
 				return(
-					<Row key={index} style={{marginBottom:10, justifyContent:'space-between'}}>
+					<ListItem noIndent key={index} style={{backgroundColor:bgColor}}>
+					<Row  style={{backgroundColor:bgColor,
+						marginBottom:10, alignItems:'center'}}>
+						<Col style={{width:'20%', color:'white'}}>
+							<Text style={{color:'white',
+								textTransform:'capitalize', fontSize:18}}>
+								{swap.status}
+							</Text>
+						</Col>
 						
-						<Text style={{
-							textTransform:'capitalize', fontSize:20}}>
-							{swap.status}
-						</Text>
+						<Col style={{width:'55%'}}>
+							<Text style={{color:'white',fontSize:18, textAlign:'center'}}>
+								{labelTime}
+							</Text>
+						</Col>
 
-						<Text style={{fontSize:20}}>
-							{labelTime}
-						</Text>
+						<Col style={{width:'20%'}}>
+							<Button bordered light style={{ 
+								paddingVertical:10, justifyContent:'center'}}>
+								<Text style={{textAlign:'center',
+									color:'white', fontSize:18, fontWeight:'600'}}>
+									{swap.percentage}%
+								</Text>
+							</Button>
+						</Col>
 
-						<Text style={{}}>
-							{swap.percentage}
-						</Text>
 					</Row>
+					</ListItem>
 				)})
 				:
 				<Text>You have not swapped with this person</Text>
 			}
-			</Grid>	
-		</ListItem>		
 		</View>		
 	)
 }

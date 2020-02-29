@@ -34,14 +34,6 @@ export default LoginScreen = (props) => {
   const [loginColor, setLoginColor] = useState('#000099')
   const [signupColor, setSignupColor] = useState('#FF6600')
 
-  // const loginStart = async() => {
-  //   Keyboard.dismiss();
-  //   setLoading(true)
-  //   var answer = await actions.user.login(
-  //     email, password, deviceID, props.navigation );
-  //   var eee = await setLoading(false)
-  // }
-
   let txtPassword = null
 
   function wait(timeout) {
@@ -49,9 +41,6 @@ export default LoginScreen = (props) => {
       setTimeout(resolve, timeout);
     });
   } 
-
-console.log('email', email, 'paswowrd', password)
-
 
   const loginStart = () => {
     Keyboard.dismiss();

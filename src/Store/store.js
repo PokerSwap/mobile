@@ -543,18 +543,14 @@ const getState = ({ getStore, setStore, getActions }) => {
 			swap: {
 
 				add: async ( a_tournament_id, a_recipient_id, a_percentage, navigation ) => {
-					
 					try{
 						const url = databaseURL + 'me/swaps'
 						let accessToken = getStore().userToken
-
 						let data = {
 							tournament_id: a_tournament_id,
 							recipient_id: a_recipient_id,
 							percentage: a_percentage
 						}
-
-						console.log('data', data)
 
 						let response = await fetch(url,{
 							method:"POST",
@@ -573,10 +569,31 @@ const getState = ({ getStore, setStore, getActions }) => {
 						
 					}catch(error){
 						console.log('Something went wrong with adding a swap', error)
+						return errorMessage(error.message)
 					}
 				},
 
-				counter: async () => {},
+				convertTime: async (swapTime) => {
+
+					var day_name = swapTime.substring(0,3)
+					var startMonth = swapTime.substring(8,11)
+					var startDay = swapTime.substring(5,7)
+					var startTime = swapTime.substring(16,22)
+			
+					var startHour = parseInt(swapTime.substring(16,19))
+					var startM 
+					if (startHour/12 >= 1){
+						startM = ' P.M.', startHour%=12
+					}  else{
+						startM = ' A.M.'
+					}
+					
+					var startDate =  day_name + '. ' + startMonth + '. ' + startDay
+					var startTime = startHour + ':' + swapTime.substring(20,22) + startM
+					console.log(startDate + ', ' +   startTime)
+					return(startDate + ', ' +   startTime)
+
+				},
 
 				statusChange: async ( my_swap_id, a_status, a_percentage ) => {
 					try{
@@ -615,15 +632,15 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 					}
 					catch(error){
-						console.log('Something went wrong with the staus change of a swap',error
-					)}
+						console.log('Something went wrong with the staus change of a swap',error)
+						errorMessage(error.message)
+					}
 				},
 		
 				paid: async ( a_tournament_id, a_recipient_id, is_paid, navigation) => {
 					try{
 						const url = databaseURL + 'users/me/swaps/4/done'
 						let accessToken = getStore().userToken
-
 						let data = {
 							tournament_id: a_tournament_id,
 							recipient_id: a_recipient_id,
@@ -776,11 +793,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 			tracker: {
 
 				getAll: async() => {
-					
 					try{
 						const url = databaseURL + 'me/swap_tracker'
 						let accessToken = getStore().userToken
-
 						let response = await fetch(url, {
 							method:'GET',
 							headers: {
@@ -799,7 +814,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 				},
 
 				getPast: async() => {
-					
 					try{
 						const url = databaseURL + 'me/swap_tracker?history=true'
 						let accessToken = getStore().userToken

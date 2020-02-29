@@ -17,11 +17,11 @@ export default BuyIn = (props) => {
 
   var allSwaps 
   buyin.user_id != store.myProfile.id ?   
-    props.agreed_swaps.length !== 0 ?
-      props.other_swaps.length !== 0 ?
+    props.agreed_swaps !== [] ?
+      props.other_swaps !== [] ?
         allSwaps = [...props.agreed_swaps, ...props.other_swaps]
         : allSwaps = [...props.agreed_swaps]
-      : props.other_swaps.length !== 0 || props.other_swaps.length !== undefined ?
+      : props.other_swaps !== [] ?
         allSwaps = [...props.other_swaps]
         : allSwaps = null
     : allSwaps = null
@@ -41,9 +41,7 @@ export default BuyIn = (props) => {
         tournament={props.tournament}
         buyin={buyin}
         navigation={props.navigation}/>
-    )}
-
-
+  )}
 
   const enterProfile = async() => {
     var answer = await actions.profile.view(buyin.user_id);
@@ -113,13 +111,12 @@ export default BuyIn = (props) => {
           agreed_swaps={props.agreed_swaps}
           other_swaps={props.other_swaps}
           tournament={props.tournament}
-          updated_at={props.updated_at}
+          updated_at={props.buyin.updated_at}
           buyin={buyin}
-          txt={txt}
-          />
+          txt={txt}/>
 
       </Grid>
-      {allSwaps !== null && allSwaps.length !== 0 ?
+      {allSwaps !== null ?
         <Accordion
           style={{width:'100%'}}
           dataArray={[{placeholder:'placeholder'}]}
