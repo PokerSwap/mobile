@@ -764,7 +764,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							:
 							full_url = base_url + page
 
-						console.log('full updated url', full_url)
+						// console.log('full updated url', full_url)
 						const accessToken = getStore().userToken ;
 						let response = await fetch(full_url, {
 							method: 'GET',

@@ -28,9 +28,9 @@ export default SwapDashboard = (props) => {
   
   let liveTracker, upcomingTracker
   let trackers = store.myTrackers
-  console.log(trackers,'trakcers')
+  // console.log(trackers,'trakcers')
 
-  console.log('trackers', trackers)
+  // console.log('trackers', trackers)
   
   if( Object.keys(trackers)[0] !== "message" && trackers !== []){
 
@@ -38,13 +38,13 @@ export default SwapDashboard = (props) => {
 
     var currentList = trackers.filter(tracker => 
       now.isAfter(moment(tracker.tournament.start_at)))
-    console.log('currentList', currentList)
+    // console.log('currentList', currentList)
     currentList !== [] ? 
       liveTracker = a_tracker(currentList) : liveTracker = noTracker('live')
     
     var upcomingList = trackers.filter((tracker) => 
       now.isBefore(tracker.tournament.start_at))
-    console.log('upcomingList', upcomingList)
+    // console.log('upcomingList', upcomingList)
     upcomingList.length !== 0 ? 
       upcomingTracker = a_tracker(upcomingList) : upcomingTracker = noTracker('upcoming')
       

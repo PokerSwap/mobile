@@ -16,7 +16,7 @@ export default EventBody = (props) => {
   // console.log('wefwfwfw', props.buyins)
   const enterTournament = async() => {
     var answer1 = await actions.tournament.getAction(tournament.id);
-    console.log('action is', store.action)
+    // console.log('action is', store.action)
     var answer3 = await navigation.push(path, {
       action: store.action,
       tournament: tournament,

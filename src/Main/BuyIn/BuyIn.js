@@ -12,8 +12,7 @@ import SwapList from './Components/SwapList'
 export default BuyIn = (props) => {
 
   const { store, actions } = useContext(Context)
-  const { navigation } = props;
-  const {buyin} = props;
+  const { navigation } = props,  {buyin} = props;
 
   var allSwaps 
   buyin.user_id != store.myProfile.id ?   
@@ -30,7 +29,7 @@ export default BuyIn = (props) => {
     return(
       <SwapHeader 
         allSwaps={allSwaps}
-        expanded={expanded}/>
+        expanded={expanded} />
     )
   }
 
@@ -40,7 +39,7 @@ export default BuyIn = (props) => {
         allSwaps={allSwaps}
         tournament={props.tournament}
         buyin={buyin}
-        navigation={props.navigation}/>
+        navigation={props.navigation} />
   )}
 
   const enterProfile = async() => {
@@ -49,7 +48,7 @@ export default BuyIn = (props) => {
     var sccs = await actions.tracker.getPast()
     var past = store.myPastTrackers
 
-    console.log('past',past)
+    // console.log('past',past)
     navigation.push('Profile',{
       id: profile.id,
       first_name: profile.first_name,
@@ -65,7 +64,7 @@ export default BuyIn = (props) => {
   }
 
   var bg, txt;
-  if (props.chips !== 0){
+  if (buyin.chips !== 0){
     if (buyin.user_id == store.myProfile.id){
       bg='#686868', txt='white'
     }else{
@@ -79,46 +78,74 @@ export default BuyIn = (props) => {
     <ListItem noIndent style={{
       backgroundColor:bg, flexDirection:'column'}}>
       <Grid style={{marginVertical:10}}>
-        <Col style={{width:'70%'}}>
+        <Row style={{width:'100%'}}>
+          <Col style={{width:'70%'}}>
 
-          {/* PROFILE NAME */}
-          <Row style={{justifyContent:'center'}}>
-            <Button transparent 
-              onPress={()=> enterProfile()}>
-              <Text style={{fontSize:24, color:txt,
-                textTransform:'capitalize'}}> 
-                {buyin.user_id !== store.myProfile.id ? 
-                  buyin.user_name 
-                  : store.myProfile.user_name == null ?
+            {/* PROFILE NAME */}
+            <Row style={{justifyContent:'center'}}>
+              <Button transparent 
+                onPress={()=> enterProfile()}>
+                <Text style={{fontSize:24, color:txt,
+                  textTransform:'capitalize'}}> 
+                  {buyin.user_id !== store.myProfile.id ? 
+                    buyin.user_name 
+                    : store.myProfile.user_name == null ?
                       store.myProfile.first_name
                       : store.myProfile.user_name} 
-              </Text>
-            </Button>
+                </Text>
+              </Button>
+            </Row>
+
+            {/* DETAILS */}
+            <Row style={{marginTop:10}}>
+              <BuyInAttribute top=' Table ' 
+                bottom={buyin.table} txt={txt}/>
+              <BuyInAttribute top=' Seat ' 
+                bottom={buyin.seat} txt={txt}/>
+              <BuyInAttribute top=' Chips ' 
+                bottom={buyin.chips} txt={txt}/>
+            </Row>
+
+          </Col>
+
+
+          {/* BUTTON WITH VARIABLE PATHS */}
+          {props.agreed_swaps !== undefined ?
+            <SwapButton navigation={props.navigation}
+              allSwaps={allSwaps}  
+              agreed_swaps={props.agreed_swaps}
+              other_swaps={props.other_swaps}
+              tournament={props.tournament}
+              updated_at={props.buyin.updated_at}
+              buyin={buyin}
+              txt={txt}/>
+            : 
+            buyin.user_id !== store.myProfile.id ? 
+              <Text>Buy</Text>
+              :
+              <SwapButton navigation={props.navigation}
+              allSwaps={allSwaps}  
+              agreed_swaps={props.agreed_swaps}
+              other_swaps={props.other_swaps}
+              tournament={props.tournament}
+              updated_at={props.buyin.updated_at}
+              buyin={buyin}
+              txt={txt}/>
+          }  
+        </Row>
+
+        {buyin.chips == 0 ?
+          <Row style={{backgroundColor:'red', 
+            justifyContent:'center', paddingTop:10}}>
+            <Text style={{color:'white', fontSize:24, 
+              fontWeight:'600', textAlign:'center'}}>
+                BUSTED
+            </Text>
           </Row>
-
-          {/* DETAILS */}
-          <Row style={{marginTop:10}}>
-            <BuyInAttribute top=' Table ' 
-              bottom={buyin.table} txt={txt}/>
-            <BuyInAttribute top=' Seat ' 
-              bottom={buyin.seat} txt={txt}/>
-            <BuyInAttribute top=' Chips ' 
-              bottom={buyin.chips} txt={txt}/>
-          </Row>
-
-        </Col>
-
-        {/* BUTTON WITH VARIABLE PATHS */}
-        <SwapButton navigation={props.navigation}
-          allSwaps={allSwaps}  
-          agreed_swaps={props.agreed_swaps}
-          other_swaps={props.other_swaps}
-          tournament={props.tournament}
-          updated_at={props.buyin.updated_at}
-          buyin={buyin}
-          txt={txt}/>
+          : null }
 
       </Grid>
+      
       {allSwaps !== null ?
         <Accordion
           style={{width:'100%'}}
@@ -127,8 +154,7 @@ export default BuyIn = (props) => {
           renderContent={_renderContent}
           animation={true}
           expanded={true}/>
-        :null
-      }
+        :null}
 
     </ListItem>
   )

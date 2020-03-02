@@ -24,8 +24,7 @@ export default SwapList = (props) => {
     // PENDING SWAP VIEW
     else if(swap.status == 'pending') {
       lastCol =  
-        <Text style={{
-          fontWeight:'600', fontSize:16, 
+        <Text style={{fontWeight:'600', fontSize:16, 
           color:'white', top:8}}> 
           {swap.percentage}% 
         </Text>;
@@ -38,6 +37,14 @@ export default SwapList = (props) => {
           style={{alignSelf:'center', fontSize:18, 
           color:'white' , top:8}}/>;
       buttonColor= 'green';
+    } 
+    // COUNTER-INCOMING SWAP VIEW
+    else if (swap.status == 'counter_incoming'){
+      lastCol = 
+        <Icon type="FontAwesome5" name="exclamation"
+          style={{alignSelf:'center', fontSize:18, 
+          color:'white' , top:8}}/>;
+      buttonColor= 'orange';
     } 
     // CANCELED SWAP OFFER VIEW
     else if (swap.status == 'canceled'){
@@ -96,23 +103,26 @@ export default SwapList = (props) => {
       <Row key={index} style={{
         height:60, width:'100%', alignItems:'center', 
         borderTopWidth:1, borderTopColor:'#d3d3d3'}}>
-        <Col style={{width:'20%'}}>
-          <Text style={{textTransform:'capitalize'}}>
+        
+        <Col style={{ width:'20%' }}>
+          <Text style={{ textTransform:'capitalize' }}>
             {swap.status}
           </Text>
         </Col>
+
         <Col>
           <Text>{labelTime}</Text>
         </Col>
-        <Col style={{width:'20%', }}>
+
+        <Col style={{ width:'20%' }}>
           <TouchableOpacity onPress={() => enterSwapOffer()}>
-            <View style={{
-              backgroundColor:buttonColor, height:40, 
-              alignItems:'center'}}>
+            <View style={{backgroundColor:buttonColor, 
+              height:40,alignItems:'center'}}>
               {lastCol}  
             </View>
           </TouchableOpacity>
         </Col>
+
       </Row>
     )
   })
@@ -120,7 +130,6 @@ export default SwapList = (props) => {
   return(
     <Grid>
       {swapRows}
-     
     </Grid>
   )
 }

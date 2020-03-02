@@ -14,27 +14,47 @@ export default EventLobby = (props) => {
   let buyins = navigation.getParam('buyins', 'NO-ID');
   let my_buyin = navigation.getParam('my_buyin', 'NO-ID');
 
+  var toFilterOne  = []
+  var addToFilter = buyins.forEach((buyin) => 
+    toFilterOne.push(buyin.recipient_user.id));
+  
+  var toFilter2 = [my_buyin.user_id, ...toFilterOne]  
+
+  const tournamentBuyins = tournament.buy_ins.filter( buyin => 
+      toFilter2.includes(buyin.user_id) != true
+  )
+
   var Flights = flights.map((flight, index) => { 
-    
-    var swappedBuyins =[]
-    
+        
     var myBuyInFlight
     my_buyin.flight_id == flight.id ? 
-      myBuyInFlight = my_buyin : myBuyInFlight = null
+      myBuyInFlight = my_buyin : myBuyInFlight = []
     
-    var ddd = buyins.forEach(buyin => {
-      if (buyin.recipient_buyin.flight_id == flight.id){
-        swappedBuyins.push(buyin)
-      }
-
+    var swappedBuyins =[]
+    var addingtoSwappedBuyins = buyins.forEach(buyin => {
+      buyin.recipient_buyin.flight_id == flight.id ?
+        swappedBuyins.push(buyin) : null
+    })
+    
+    var unswappedBuyins = []
+    var addingtoSwappedBuyins = tournamentBuyins.forEach(buyin => {
+      buyin.flight_id == flight.id ?
+        unswappedBuyins.push(buyin) : null
+    
     });
-      
+  
+    // console.log('Flight ' + flight.id)
+    // console.log('my_buyin', myBuyInFlight)
+    // console.log('buyins', swappedBuyins)
+    // console.log('unbuyins', unswappedBuyins)
+
+
     return(
       <FlightSchedule key={index} 
         navigation={props.navigation}
         my_buyin={myBuyInFlight}
         buyins={swappedBuyins}
-        ubuyins={tournament.buy_ins}
+        unbuyins={unswappedBuyins}
         flight = {flight} 
         tournament={tournament}/>)
   })

@@ -2,7 +2,8 @@ import React from 'react';
 import { View } from 'react-native';
 import { ListItem, Text } from 'native-base';
 
-import BuyIn  from '../../BuyIn/BuyIn'
+import BuyIn from '../../BuyIn/BuyIn'
+import TournamentBuyIn from '../../BuyIn/TournamentBuyIn'
 
 export default FlightSchedule = (props) => {
      
@@ -19,8 +20,6 @@ export default FlightSchedule = (props) => {
       startTime = (startHour % 12) + ':' + startMinute + ' A.M.'
       : startTime = 12 + ':' + startMinute + ' A.M.'
 
-    
-
   var Buy_Ins = props.buyins.map((content, index) => {
     
     return(
@@ -34,13 +33,16 @@ export default FlightSchedule = (props) => {
   })
     
 
-  var Tournament_Buy_Ins = props.ubuyins.map((content, index) => {
+  var Tournament_Buy_Ins = props.unbuyins.map((content, index) => {
     return(
-      <BuyIn key = {index}  navigation={props.navigation}
-        allSwaps={null} tournament={props.tournament}
+      <TournamentBuyIn key = {index}  
+      navigation={props.navigation}
+        tournament={props.tournament}
         buyin={content}/>
     )
   })
+
+  // console.log('eeee', props.my_buyin)
 
   return(
     <View>
@@ -54,7 +56,7 @@ export default FlightSchedule = (props) => {
           {startTime}  
         </Text>
       </ListItem> 
-      {props.my_buyin !== null?
+      {props.my_buyin.length !== 0?
         <BuyIn 
         navigation = {props.navigation}
         buyin = {props.my_buyin}

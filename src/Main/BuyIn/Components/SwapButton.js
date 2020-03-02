@@ -1,12 +1,11 @@
 
 import React, { useContext } from 'react';
 import { Text, Button, Icon } from 'native-base';
-
 import { Col } from 'react-native-easy-grid'
+
 import moment from 'moment'
 
 import { Context } from '../../../Store/appContext'
-import agreed from '../../SwapOffer/Paths/agreed';
 
 export default SwapButton = (props) => {
 
@@ -24,15 +23,13 @@ export default SwapButton = (props) => {
   else if(x.includes('year')){ since = y + 'Y' }
   else{ null }
 
-  console.log()
   var allStatuses =[]
   props.allSwaps !== null && props.allSwaps !== 0 && props.allSwaps !== undefined ?
     props.allSwaps.forEach(swap => 
       allStatuses.push(swap.id,swap.status))
-    : 
-    allStatuses = ['inactive']
+    :allStatuses = ['inactive']
 
-    var lastCol, buttonColor, path;
+  var lastCol, buttonColor, path;
  
 
   // YOUR SWAP VIEW
@@ -56,15 +53,15 @@ export default SwapButton = (props) => {
       <Icon type="FontAwesome5" name='exclamation'
         style={{alignSelf:'center', fontSize:24}}/>;
     buttonColor= 'green';
-    // path = 'incoming'
+    path = 'incoming'
   } 
   // COUNTER-INCOMING SWAP VIEW
-  else if(allStatuses.includes('counter-incoming')){
+  else if(allStatuses.includes('counter_incoming')){
     lastCol = 
       <Icon type="FontAwesome5" name='exclamation'
         style={{alignSelf:'center', fontSize:24}}/>;
-    buttonColor= 'yellow';
-    // path = 'incoming'
+    buttonColor= 'orange';
+    path = 'counter_incoming'
   } 
   // PENDING SWAP VIEW
   else if(allStatuses.includes('pending')) {
@@ -77,7 +74,7 @@ export default SwapButton = (props) => {
         {pendingPercentage}% 
       </Text>;
     // path = "pending";
-    buttonColor= 'orange';
+    buttonColor = 'orange';
   } 
   // INCOMING SWAP VIEW
   else if (allStatuses.includes('agreed')){
@@ -88,7 +85,7 @@ export default SwapButton = (props) => {
         {totalAgreed}%
       </Text>;
     // path = 'agreed';
-    buttonColor= 'green';
+    buttonColor = 'green';
   
   } 
   // CANCELED SWAP OFFER VIEW
@@ -98,7 +95,7 @@ export default SwapButton = (props) => {
         style={{alignSelf:'center', fontSize:36}}
         type="FontAwesome5" name="times" />;
     // path = 'canceled';
-    buttonColor= 'grey';
+    buttonColor = 'grey';
   }
   // REJECTED SWAP OFFER VIEW
   else if (allStatuses.includes('rejected')){
@@ -107,7 +104,7 @@ export default SwapButton = (props) => {
       style={{alignSelf:'center', fontSize:36}}
       type="FontAwesome5" name="times" />;
     // path = 'rejected';
-    buttonColor= 'red';
+    buttonColor = 'red';
   }
   // SWAP OFFER VIEW
   else {
@@ -115,7 +112,7 @@ export default SwapButton = (props) => {
       <Icon type="FontAwesome5" name="handshake" 
         style={{alignSelf:'center', fontSize:24}} />;
     path = "inactive";
-    buttonColor= 'rgb(56,68,165)';
+    buttonColor = 'rgb(56,68,165)';
   } 
 
   const enterSwapOffer = async() => {

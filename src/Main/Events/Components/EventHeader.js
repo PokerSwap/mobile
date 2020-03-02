@@ -12,8 +12,8 @@ export default EventHeader = (props) => {
   var startDayName = props.tournament.start_at.substring(0,3)
 
   var inSeconds = -(moment().diff(moment(props.tournament.start_at), "seconds"))
-  console.log('start', props.tournament.start_at)
-  console.log('inSeconds', inSeconds, typeof(inSeconds))
+  // console.log('start', props.tournament.start_at)
+  // console.log('inSeconds', inSeconds, typeof(inSeconds))
   // var CountDownz
 
   // if(0 < inSeconds < 604800){

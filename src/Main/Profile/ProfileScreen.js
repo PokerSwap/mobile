@@ -34,9 +34,9 @@ export default ProfileScreen = (props) => {
     tracker =>  {
       var y = tracker.buyins.filter(buyin => 
         buyin.recipient_user.id == id)
-      console.log('tracker',tracker)
-      console.log('buyins',tracker.buyins)
-      console.log('y', y, 'this', y[0])
+      // console.log('tracker',tracker)
+      // console.log('buyins',tracker.buyins)
+      // console.log('y', y, 'this', y[0])
       if (y.length !== 0) {
         y[0]["tournament_name"] = tracker.tournament.name
         history.push(...y)

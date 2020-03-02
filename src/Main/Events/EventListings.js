@@ -34,10 +34,10 @@ export default EventListings = (props) => {
   }
   // FUNCTION TO GET MORE TOURNAMENTS
   const getMore = async( currentPage ) => {
-    console.log('page before', currentPage)
+    // console.log('page before', currentPage)
     currentPage += 8
     setPage(currentPage)
-    console.log('page after', currentPage)
+    // console.log('page after', currentPage)
     var answer2 = await actions.tournament.getMore(currentPage)
   }
   // COMPONENT FOR TOURNAMENT BODY

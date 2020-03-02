@@ -25,7 +25,7 @@ export default VerifyTicket = (props) => {
   let flights = navigation.getParam('flights', 'NO-ID');
   let tournament_id = navigation.getParam('tournament_id', 'NO-ID');
 
-  console.log('flights', flights)
+  // console.log('flights', flights)
   var FlightSelection = flights.map((flight, index) => {
       
     var startMonth = flight.start_at.substring(8,11)

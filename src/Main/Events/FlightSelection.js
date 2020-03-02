@@ -13,7 +13,7 @@ export default FlightSelection = (props) => {
   let flight_id = navigation.getParam('flight_id', 'NO-ID');
   let setFlight = navigation.getParam('setFlight', 'NO-ID');
 
-  console.log('flights', flights)
+  // console.log('flights', flights)
 
   var FlightSelection = flights.map((flight, index) => {
       
