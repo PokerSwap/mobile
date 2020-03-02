@@ -34,12 +34,12 @@ export default PendingPath = (props) => {
     <Card transparent>
       <CardItem style={{justifyContent:'center'}}>
         {props.swap.percentage == props.swap.counter_percentage ?
-          <Text style={{fontSize:18, textAlign:'center'}}>
+          <Text style={{fontSize:24, textAlign:'center'}}>
             Your swap with {props.buyin.user_name} to share{' '}  
             {props.swap.percentage}% between the both of you is pending.
           </Text>
           :
-          <Text style={{fontSize:18, textAlign:'center'}}>
+          <Text style={{fontSize:24, textAlign:'center'}}>
             Your swap of {props.swap.percentage}% with{' '} 
              {props.buyin.user_name} to make a swap of{' '} 
              {props.swap.counter_percentage}% is pending.
@@ -48,7 +48,7 @@ export default PendingPath = (props) => {
         
       </CardItem>
       <CardItem style={{justifyContent:'center'}}>  
-        <Button onPress={()=> showAlert()}>
+        <Button large onPress={()=> showAlert()}>
           <Text>Cancel</Text>
         </Button>
       </CardItem>

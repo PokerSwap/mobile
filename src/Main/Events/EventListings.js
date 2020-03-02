@@ -47,9 +47,7 @@ export default EventListings = (props) => {
         key={index} navigation={props.navigation} 
         mode={mode} myCoords={myCoords}
         tournament = {item.tournament}
-        buyins={item.buyins}
-        my_buyin={item.my_buyin}
-        />
+        buyins={item.buyins} my_buyin={item.my_buyin}  />
     )
   }
 

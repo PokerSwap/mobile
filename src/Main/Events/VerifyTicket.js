@@ -23,11 +23,17 @@ export default VerifyTicket = (props) => {
   var navigation = props.navigation;
   let name = navigation.getParam('name', 'default value');
   let flights = navigation.getParam('flights', 'NO-ID');
-  let tournament_id = navigation.getParam('tournament_id', 'NO-ID');
+  let buyins = navigation.getParam('buyins', 'NO-ID');
+  let tournament = navigation.getParam('tournament', 'NO-ID');
+  let my_buyin = navigation.getParam('my_buyin', 'NO-ID');
+  let action = navigation.getParam('action', 'NO-ID');
+
+
+  let tournament_id = tournament.id
 
   // console.log('flights', flights)
   var FlightSelection = flights.map((flight, index) => {
-      
+    // console.log('flight', flight)
     var startMonth = flight.start_at.substring(8,11)
     var startDay = flight.start_at.substring(5,7)
     
@@ -121,7 +127,8 @@ export default VerifyTicket = (props) => {
     });
   };
 
-  const BuyInStart = async() => {    
+  const BuyInStart = async() => {
+    console.log('tID', tournament_id)
     var answer = await actions.buy_in.add( 
       image, table, seat, chips, flight_id, tournament_id, props.navigation )
   };

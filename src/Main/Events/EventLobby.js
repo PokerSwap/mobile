@@ -20,9 +20,16 @@ export default EventLobby = (props) => {
   
   var toFilter2 = [my_buyin.user_id, ...toFilterOne]  
 
-  const tournamentBuyins = tournament.buy_ins.filter( buyin => 
-      toFilter2.includes(buyin.user_id) != true
-  )
+
+  let tournamentBuyins 
+  console.log('tournament.buy_ins.length', tournament.buyins)
+  if (tournament.buy_ins.length !== 0){
+    tournamentBuyins = tournament.buy_ins.filter( buyin => 
+      toFilter2.includes(buyin.user_id) != true)
+  }else{
+    tournamentBuyins = []
+  }
+  
 
   var Flights = flights.map((flight, index) => { 
         
@@ -42,11 +49,6 @@ export default EventLobby = (props) => {
         unswappedBuyins.push(buyin) : null
     
     });
-  
-    // console.log('Flight ' + flight.id)
-    // console.log('my_buyin', myBuyInFlight)
-    // console.log('buyins', swappedBuyins)
-    // console.log('unbuyins', unswappedBuyins)
 
 
     return(

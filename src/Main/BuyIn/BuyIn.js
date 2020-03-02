@@ -111,14 +111,14 @@ export default BuyIn = (props) => {
 
           {/* BUTTON WITH VARIABLE PATHS */}
           {props.agreed_swaps !== undefined ?
+          //Buyins you have with swaps
             <SwapButton navigation={props.navigation}
               allSwaps={allSwaps}  
               agreed_swaps={props.agreed_swaps}
               other_swaps={props.other_swaps}
               tournament={props.tournament}
               updated_at={props.buyin.updated_at}
-              buyin={buyin}
-              txt={txt}/>
+              buyin={buyin} txt={txt}/>
             : 
             buyin.user_id !== store.myProfile.id ? 
               <Text>Buy</Text>

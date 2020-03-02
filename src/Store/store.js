@@ -56,6 +56,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 				add: async ( image, a_table, a_seat, some_chips, a_flight_id, a_tournament_id, navigation) => {
 					try{	
+						console.log('tID in store', a_tournament_id)
 						if (image == 3){
 							return Toast.show({
 								text:'You need to select a photo of your buyin ticket before submitting',
@@ -111,27 +112,17 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 						var a5 = await navigation.push('EventLobby', {
 							action: action,
-							tournament_id: tournament.id,
-							name: tournament.name,
-							address: tournament.address,
-							city: tournament.city,
-							state: tournament.state,
-							longitude: tournament.longitude,
-							latitude: tournament.latitude,
-							start_at: tournament.start_at,
-							buy_ins: tournament.buy_ins,
-							swaps: tournament.swaps,
-							flights: tournament.flights,
+							tournament: tournament.tournament,
+							buyins: tournament.buyins,
+							flights: tournament.tournament.flights,
+							my_buyin: tournament.my_buyin,
 							navigation: navigation
 						})
 					
 
 					} catch(error) {
 						console.log("Some went wrong in adding a buyin", error)
-						// return(Toast.show({
-						// 	text:'Sorry, you need to enter all fields correctly',
-						// 	duration:3000,
-						// 	position:'top'}))
+						return errorMessage(error.message)
 					}
 				},
 
@@ -560,6 +551,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}
 						})
 						.then(response => response.json())
+						console.log('response', response)
 
 						var gettingProfile = await getActions().profile.get()
 						var gettingAllTrackers = await getActions().tracker.getAll()
@@ -751,10 +743,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 				},
 
 				getMore: async ( page, key1, value1, key2, value2 ) => {
-
 					try{
 						var base_url = databaseURL + 'tournaments/all?asc=true&limit=8&page='
-						
 						var full_url
 						key1 !== undefined ?
 							key2 !== undefined ?

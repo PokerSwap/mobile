@@ -74,7 +74,7 @@ export default EventBody = (props) => {
     console.log('somethign went wrong')
   }
 
-
+ 
   return(
     <ListItem noIndent 
       style={{backgroundColor: bgColor, flexGrow:1, 

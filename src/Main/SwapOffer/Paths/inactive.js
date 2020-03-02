@@ -29,6 +29,7 @@ export default InactivePath = (props) => {
   }
 
   const swapStart = async() => {
+    
     var answer1 = await actions.swap.add(
       props.tournament.id, props.buyin.user_id, percentage, props.navigation);
   }
@@ -74,9 +75,6 @@ export default InactivePath = (props) => {
 
           </CardItem>
 
- 
-
-          
           <CardItem style={{justifyContent:'center'}}>
             <Button large onPress={() => showAlert('offer')}>
               <Text> Offer Swap </Text>

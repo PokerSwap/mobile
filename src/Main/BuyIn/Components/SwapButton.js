@@ -13,7 +13,11 @@ export default SwapButton = (props) => {
 
   var x = moment(props.updated_at).fromNow()
   var y, since
-  x.includes('a ')? y = '1' : y = parseInt(x.replace(/[^0-9\.]/g, ''), 10);
+  if (x.includes('a ') || x.includes('an ')) { 
+    y = '1'
+  } else{
+    y = parseInt(x.replace(/[^0-9\.]/g, ''), 10);
+  }
   if (x.includes('second')) { since = 'Just Now' } 
   else if(x.includes('minute')){ since = y + 'm' } 
   else if(x.includes('hour')){ since = y + 'h' } 
@@ -45,7 +49,7 @@ export default SwapButton = (props) => {
       <Icon type="FontAwesome5" name='exclamation'
         style={{alignSelf:'center', fontSize:24}}/>;
     buttonColor= 'green';
-    path = 'counter-incoming'
+    path = 'counter_incoming'
   } 
   // INCOMING SWAP VIEW
   else if(allStatuses.includes('incoming')){
@@ -115,10 +119,11 @@ export default SwapButton = (props) => {
     buttonColor = 'rgb(56,68,165)';
   } 
 
+// console.log('eeeeee', props.buyin)
+
   const enterSwapOffer = async() => {
     // var answer = await actions.tournament.getAction()
-    if (props.buyin.user_id == store.myProfile.id) {
-
+    if (props.buyin.user_id == store.myProfile.id || props.agreed_swaps == undefined) {
       // console.log('buyyyyyin', props.buyin)
       props.navigation.push('SwapOffer',{
         status: path,
@@ -126,7 +131,6 @@ export default SwapButton = (props) => {
         buyin: props.buyin,
         updated_at: since,
         tournament: props.tournament,
-  
       });
     }
     
