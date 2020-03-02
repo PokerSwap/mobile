@@ -36,18 +36,18 @@ export default SwapResults = (props) => {
 
   if( store.myPastTrackers !== []){
     
-    var recentSwaps = store.myPastTrackers.filter(
-      tracker => moment().isBefore(moment(tracker.tournament.start_at).add(30, 'days')))    
-    recentSwaps.length !== 0  ? 
-      recentTracker = aTracker(recentSwaps) : recentTracker = noTracker('recent')
+    // var recentSwaps = store.myPastTrackers.filter(
+    //   tracker => moment().isBefore(moment(tracker.tournament.start_at).add(30, 'days')))    
+    // recentSwaps.length !== 0  ? 
+    //   recentTracker = aTracker(recentSwaps) : recentTracker = noTracker('recent')
 
-    var historySwaps = store.myPastTrackers.filter(
-      tracker => moment().isAfter(moment(tracker.tournament.start_at).add(30, 'days')))
-    historySwaps.length !== 0 ? 
+    // var historySwaps = store.myPastTrackers.filter(
+    //   tracker => moment().isAfter(moment(tracker.tournament.start_at).add(30, 'days')))
+    store.myPastTrackers.length !== 0 ? 
       historyTracker = aTracker(store.myPastTrackers) : historyTracker = noTracker('history')
 
   } else {
-    recentTracker = noTracker('recent')
+    // recentTracker = noTracker('recent')
     historyTracker = noTracker('history')
   } 
 
@@ -60,12 +60,12 @@ export default SwapResults = (props) => {
       <Content>
         <List>
           {/* RECENT WINNINGS LIST HEADER */}
-          <Separator bordered style={{height:48, backgroundColor:'rgb(56,68,165)'}}>
+          {/* <Separator bordered style={{height:48, backgroundColor:'rgb(56,68,165)'}}>
             <Text style={{fontSize:20, color:'white', fontWeight:'600', textAlign:'center'}}> 
               RECENT 
             </Text>                
           </Separator>       
-          {recentTracker}
+          {recentTracker} */}
 
           {/* LATER WINNINGS LIST HEADER */}
           <Separator bordered style={{height:48, backgroundColor:'rgb(56,68,165)'}}>

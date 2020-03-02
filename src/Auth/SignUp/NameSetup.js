@@ -13,7 +13,7 @@ export default NameSetup = (props) => {
 
         {/* NAME INSTRUCTIONS */}
         <CardItem>
-          <Text>
+          <Text style={{fontSize:20}}>
             Please enter your First and Last Name in the 
             fields below AS IT APPEARS ON YOUR TOURNAMENT RECEIPTS.
           </Text>
@@ -41,10 +41,12 @@ export default NameSetup = (props) => {
               />
             </Item>
 
+          <Text style={{alignSelf:'flex-start',textAlign:'left', fontSize:20, paddingTop:20}}>
+            (Optional) Enter any other name that may show up on your receipt. </Text>
           {/* NICK NAME INPUT */}
           <Item>
             <Input 
-              placeholder='Nick Name'
+              placeholder='Enter Buyin Alias'
               value={props.username}    
               onChangeText={props.onChangeUserName} 
               autoCorrect={false} 

@@ -24,8 +24,11 @@ export default ForgotPassword = (props) => {
 					</Text>
 					<Item style={{width:'90%'}}>
 					<TextInput 
-						style={{fontSize:24, textAlign:'left', width:'90%'}}
-						placeholder="Enter Current Email"
+						style={{fontSize:24, 
+							textAlign:'left', width:'90%', 
+							borderWidth:1, borderColor:'gray',
+							padding:20}}
+						placeholder="Enter Email"
 						placeholderTextColor='gray'
 						keyboardType="email-address"
 						blurOnSubmit={true}

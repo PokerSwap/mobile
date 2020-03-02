@@ -45,7 +45,7 @@ export default EventBody = (props) => {
   }
   var month = tournament.start_at.substring(8,11)
   var day = tournament.start_at.substring(5,7)
-  var year = tournament.start_at.substring(12,20)
+  var year = tournament.start_at.substring(12,16)
   var day_name = tournament.start_at.substring(0,3)
 
  var faraway = getDistance(

@@ -41,6 +41,7 @@ import PurchaseTokens from './src/Drawer/PurchaseTokens'
 import ChangeEmail from './src/Drawer/ChangeEmail'
 import ChangePassword from './src/Drawer/ChangePassword'
 import ChangePicture from './src/Drawer/ChangePicture'
+
 // LOGIN AND SIGNUP NAVIGATION
 const AuthStack = createStackNavigator(
   {
@@ -63,9 +64,10 @@ const AuthStack = createStackNavigator(
 
     UserCreation:{
       screen: CreateUser,
-      navigationOptions: {
-        title:'Create User'
-      }
+      navigationOptions: ({navigation}) => ({
+        title:'Create Email',
+        headerLeft: () => <HeaderBackButton onPress={() => navigation.pop(2)} />,
+      })
     },
 
     ForgotPassword:{
@@ -126,7 +128,7 @@ const EventsStack = createStackNavigator(
       screen: EventLobby,
       navigationOptions: ({navigation}) => ({
         title:'Event Lobby',
-        headerLeft: () => <HeaderBackButton onPress={() => navigation.popToTop()} />,
+        headerLeft: () => <HeaderBackButton onPress={() => navigation.pop(2)} />,
       })
     },
     SwapOffer:{
@@ -292,10 +294,8 @@ const DrawerNav = createDrawerNavigator(
       navigationOptions: {
         
         drawerIcon: ({ focused }) => (
-          <Icon 
-            name="cog" size={24} 
-            color={focused ? '#2C2E9B' : 'black'} 
-          />
+          <Icon name="cog" size={24} 
+            color={focused ? '#2C2E9B' : 'black'} />
         )
       }
     },
@@ -304,10 +304,8 @@ const DrawerNav = createDrawerNavigator(
       navigationOptions: {
         title: 'Notifications',
         drawerIcon: ({ focused }) => (
-        <Icon 
-          name="ios-notifications" size={24} 
-          color={focused ? 'blue' : 'black'} 
-        />
+        <Icon name="ios-notifications" size={24} 
+          color={focused ? 'blue' : 'black'} />
         ),
       }
     },
@@ -316,10 +314,8 @@ const DrawerNav = createDrawerNavigator(
       navigationOptions: {
         title: 'Purchase Tokens',
         drawerIcon: ({ focused }) => (
-        <Icon 
-          type="FontAwesome5" name="coins" size={24} 
-          color={focused ? 'blue' : 'black'} 
-        />
+        <Icon type="FontAwesome5" name="coins" size={24} 
+          color={focused ? 'blue' : 'black'} />
         ),
       }
     },

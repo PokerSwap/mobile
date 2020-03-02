@@ -23,13 +23,17 @@ export default SplashScreen = (props) => {
 			}else{				
 				console.log('Bad User Token')
 				actions.userToken.remove()
+				// props.navigation.navigate({name:'LogIn', key:'SCREEN_KEY_A'})
 				props.navigation.navigate('LogIn')
+
 			}
 
 		} else{
 			console.log('Null User Token')
 			actions.userToken.remove()
+			// props.navigation.navigate({name:'LogIn', key:'SCREEN_KEY_A'})
 			props.navigation.navigate('LogIn')
+
 		}
 		
 	}

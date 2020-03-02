@@ -45,10 +45,11 @@ export default CreateUser = (props) => {
 				:
 				<View transparent style={{justifyContent:'center', 
 					alignItems:'center', flexDirection:'column',
-					width:'90%', height:'90%'}}>
+					width:'80%', height:'90%'}}>
 
 					<Text style={{textAlign:"center", fontSize:20}}>
-						Please write in your email and password.
+					Please enter your personal email address and create a password for your Swap account.
+
 					</Text>
 
 					<Item style={{marginVertical:30, alignSelf:'center'}}>
@@ -72,8 +73,8 @@ export default CreateUser = (props) => {
 						<TextInput 
 							placeholder=" Enter Password"
 							textContentType={'newPassword'}
-  selectTextOnFocus={true}
-  secureTextEntry={true}
+  						selectTextOnFocus={true}
+  						secureTextEntry={true}
 							style={{fontSize:24, width:'80%'}}								
 							autoCapitalize='none'
 							returnKeyType="next"

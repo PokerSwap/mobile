@@ -14,10 +14,11 @@ export default ResultsTracker = (props) => {
   }
  
   return(
-    <ListItem noIndent onPress={()=> enterProfitResults()}>
+    <ListItem noIndent onPress={()=> enterProfitResults()}
+    style={{justifyContent:'flex-end'}}>
       
       {/* TOURNAMENT TITLE */}
-      <Col style={{width:'80%', justifyContent:'center'}}>
+      <Col style={{width:'77%', justifyContent:'flex-end'}}>
         <Text style={{color:'black', fontSize:20, fontWeight:'600',
           alignContent:'center', textAlign:'center' }}> 
           {props.tournament.name}
@@ -25,7 +26,7 @@ export default ResultsTracker = (props) => {
       </Col>
 
       {/* RIGHT ARROW NAVIGATION */}
-      <Col style={{width:'20%'}}>
+      <Col style={{width:'20%', justifyContent:'flex-end'}}>
         <Icon type="FontAwesome5" name="angle-right" 
           style={{justifyContent:'center', alignSelf:'center'}} />    
       </Col>

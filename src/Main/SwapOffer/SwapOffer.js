@@ -8,6 +8,7 @@ import { Context } from '../../Store/appContext';
 import AgreedPath from './Paths/agreed';
 import CanceledPath from './Paths/canceled';
 import IncomingPath from './Paths/incoming';
+import CounterIncoming from './Paths/counter_incoming';
 import EditPath from './Paths/edit';
 import InactivePath from './Paths/inactive';
 import RejectedPath from './Paths/rejected';
@@ -16,17 +17,9 @@ import PendingPath from './Paths/pending';
 export default SwapOffer = (props) => {
 
   const { store, actions } = useContext(Context)
-
-  // const [percentage, setPercentage] =  useState(props.navigation.getParam('percentage', 'default value'));
-  // const [counter_percentage, setCounterPercentage] =  useState(props.navigation.getParam('counter_percentage', 'default value'));
-  // const [table, setTable] = useState(props.navigation.getParam('table', 'default value'));
-  // const [seat, setSeat] = useState(props.navigation.getParam('seat', 'default value'));
-  // const [chips, setChips] = useState(props.navigation.getParam('chips', 'default value'));
-
   const { navigation } = props;
 
   let status =  navigation.getParam('status', 'default value');
-
   let swap =  navigation.getParam('swap', 'default value');
   let buyin =  navigation.getParam('buyin', 'default value');
   let updated_at =navigation.getParam('updated_at', 'default value');
@@ -35,47 +28,51 @@ export default SwapOffer = (props) => {
   let currentPath;
 
   // YOUR SWAP VIEW
-  if (status=='edit'){ 
+  if (status == 'edit'){ 
     currentPath = 
       <EditPath navigation={props.navigation} 
         buyin={buyin} tournament={tournament}/>
   }    
-  // RECEIVED SWAP VIEW
-  else if (status=='incoming'){
+  // INCOMING SWAP VIEW
+  else if (status == 'incoming'){
     currentPath = 
       <IncomingPath navigation={props.navigation} 
         tournament_status={tournament.tournament_status}
         buyin={buyin} swap={swap}/>
   } 
+  // COUNTER INCOMING SWAP VIEW
+  else if (status == 'incoming'){
+    currentPath = 
+      <CounterIncomingPath navigation={props.navigation} 
+        tournament_status={tournament.tournament_status}
+        buyin={buyin} swap={swap}/>
+  }
   // PENDING SWAP VIEW
-  else if (status=='pending'){
+  else if (status == 'pending'){
     currentPath = 
       <PendingPath navigation={props.navigation}
         tournament_status={tournament.tournament_status}
         swap={swap} tournament={tournament} buyin={buyin}/>
   } 
   // AGREED SWAP VIEW
-  else if (status=='agreed'){
+  else if (status == 'agreed'){
     currentPath = 
       <AgreedPath navigation={props.navigation} 
         tournament_status={tournament.tournament_status}
-
         swap={swap} tournament={tournament} buyin={buyin}/>
   }
   // REJECTED SWAP VIEW 
-  else if (status=='rejected'){
+  else if (status == 'rejected'){
     currentPath = 
       <RejectedPath navigation={props.navigation} 
         tournament_status={tournament.tournament_status}
-
         buyin={buyin} swap={swap}/>
   }
   // CANCELED SWAP VIEW 
-  else if (status=='canceled'){
+  else if (status == 'canceled'){
     currentPath = 
       <CanceledPath navigation={props.navigation} 
         tournament_status={tournament.tournament_status}
-
         swap={swap} buyin={buyin}/>
   }
   // INACTIVE SWAP VIEW
@@ -104,39 +101,53 @@ export default SwapOffer = (props) => {
         </Card>
         
         {/* CURRENT STATUS OF BUYIN */}
-        <Card style={{
-          alignSelf:'center', width:'80%', paddingVertical:15}}>
+        <Card style={{alignSelf:'center', width:'80%', 
+          paddingVertical:15, backgroundColor:'rgb(38, 171, 75)'}}>
             <Grid>
-              <Row style={{justifyContent:'center', marginBottom:10}}>
-                <Text style={{textAlign:'center', fontSize:30}}>
+              <Row style={{
+                justifyContent:'center', marginBottom:10}}>
+                <Text style={{color:'white',
+                  textAlign:'center', fontSize:30}}>
                   {buyin.user_name}
                 </Text>
               </Row>
+              
+              
               <Row>
+
                 <Col style={{justifyContent:'center'}}>
-                  <Text style={{textAlign:'center', fontSize:18}}>
+                  <Text style={{color:'white',
+                    textAlign:'center', fontSize:18}}>
                     Table:
                   </Text>
-                  <Text style={{textAlign:'center', fontSize:24}}>
+                  <Text style={{color:'white',
+                    textAlign:'center', fontSize:24}}>
                     {buyin.table}
                   </Text>
                 </Col>
+
                 <Col style={{justifyContent:'center'}}>
-                  <Text style={{textAlign:'center', fontSize:18}}>
+                  <Text style={{color:'white',
+                    textAlign:'center', fontSize:18}}>
                     Seat:
                   </Text>
-                  <Text style={{textAlign:'center', fontSize:24}}>
+                  <Text style={{color:'white',
+                    textAlign:'center', fontSize:24}}>
                     {buyin.seat}
                   </Text>
                 </Col>
+
                 <Col style={{justifyContent:'center'}}>
-                  <Text style={{textAlign:'center', fontSize:18}}>
+                  <Text style={{color:'white',
+                    textAlign:'center', fontSize:18}}>
                     Chips:
                   </Text>
-                  <Text style={{textAlign:'center', fontSize:24}}>
+                  <Text style={{color:'white',
+                    textAlign:'center', fontSize:24}}>
                     {buyin.chips}
                   </Text>
                 </Col>
+                
               </Row>
             </Grid>
 
@@ -144,7 +155,8 @@ export default SwapOffer = (props) => {
         
         {/* LAST UPDATED STATUS */}
         <Card transparent style={{justifyContent:'center'}}>
-          <Text style={{textAlign:'center', fontSize:24, lineHeight:50, textTransform:'capitalize'}}> 
+          <Text style={{textAlign:'center', fontSize:24, 
+            lineHeight:50, textTransform:'capitalize'}}> 
             {status} Since: {"\n"} {updated_at}
           </Text>
         </Card>
