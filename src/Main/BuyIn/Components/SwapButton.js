@@ -1,5 +1,6 @@
 
 import React, { useContext } from 'react';
+import { View } from 'react-native'
 import { Text, Button, Icon } from 'native-base';
 import { Col } from 'react-native-easy-grid'
 
@@ -88,7 +89,7 @@ export default SwapButton = (props) => {
       <Text style={{fontWeight:'600', fontSize:18,}}>
         {totalAgreed}%
       </Text>;
-    // path = 'agreed';
+    path = 'agreed';
     buttonColor = 'green';
   
   } 
@@ -98,7 +99,7 @@ export default SwapButton = (props) => {
       <Icon 
         style={{alignSelf:'center', fontSize:36}}
         type="FontAwesome5" name="times" />;
-    // path = 'canceled';
+    path = 'canceled';
     buttonColor = 'grey';
   }
   // REJECTED SWAP OFFER VIEW
@@ -107,7 +108,7 @@ export default SwapButton = (props) => {
     <Icon 
       style={{alignSelf:'center', fontSize:36}}
       type="FontAwesome5" name="times" />;
-    // path = 'rejected';
+    path = 'rejected';
     buttonColor = 'red';
   }
   // SWAP OFFER VIEW
@@ -119,7 +120,7 @@ export default SwapButton = (props) => {
     buttonColor = 'rgb(56,68,165)';
   } 
 
-// console.log('eeeeee', props.buyin)
+// console.log('eeeeee', props.action.actions)
 
   const enterSwapOffer = async() => {
     // var answer = await actions.tournament.getAction()
@@ -146,6 +147,14 @@ export default SwapButton = (props) => {
           justifyContent:'center', alignSelf:'center'}}>
         {lastCol}
       </Button>
+      {path == 'rejected' || path == 'canceled' || path == 'agreed' ?
+        // props.action.actions <= 50 ?
+          <Button style={{width:70, height:30, justifyContent:'center', alignSelf:'center'}}>
+            <Text style={{textAlign:'center'}}>+</Text>
+          </Button>
+          // :null
+        :null }
+
       <Text style={{ marginTop:10, color:props.txt, 
         textAlign:'center', alignSelf:'center'}}>
         {since}

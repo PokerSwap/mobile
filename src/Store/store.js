@@ -657,7 +657,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 			tournament:{
 
 				getAction: ( tournament_id ) => {
-					
 					try{
 						const url = databaseURL + 'swaps/me/tournament/' + tournament_id;
 						const accessToken = getStore().userToken ;
@@ -671,6 +670,26 @@ const getState = ({ getStore, setStore, getActions }) => {
 						.then(response => response.json())
 						.then(data => setStore({action: data})
 						)
+					} catch(error){
+						console.log('Something went wrong in getting action from a tournament', error)
+					}
+				},
+
+				getgetAction: async( tournament_id ) => {
+					try{
+						const url = databaseURL + 'swaps/me/tournament/' + tournament_id;
+						const accessToken = getStore().userToken ;
+						let response = await fetch(url, {
+							method: 'GET',
+							headers: {
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							}, 
+						})
+						.then(response => response.json())
+						console.log('response', response)
+						return response
+						
 					} catch(error){
 						console.log('Something went wrong in getting action from a tournament', error)
 					}

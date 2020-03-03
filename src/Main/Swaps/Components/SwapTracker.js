@@ -7,16 +7,24 @@ import BuyIn from '../../BuyIn/BuyIn'
 
 export default SwapTracker = (props) => {
 
-  const {store, actions} = useContext(Context)
+  const {store, actions} = useContext(Context) 
+  var x
+  let a_action = async() => {
+     x = await actions.tournament.getgetAction(props.tournament.id)}
+  console.log('action be', x)
+  let other_swaps = props.buyins.map((content, index) => {
 
-  let other_swaps = props.buyins.map((content, index) => 
+    return(
     <BuyIn
       key = {index} navigation = {props.navigation}
       buyin = {content.recipient_buyin}
       tournament= {props.tournament}
       agreed_swaps = {content.agreed_swaps}
-      other_swaps = {content.other_swaps}/>
+      other_swaps = {content.other_swaps}
+      action={x}
+      />)}
   )
+
     
   const enterTournament = async() => {
     var answer1 = await actions.tournament.getAction(props.tournament.id);

@@ -14,6 +14,7 @@ export default BuyIn = (props) => {
   const { store, actions } = useContext(Context)
   const { navigation } = props,  {buyin} = props;
 
+
   var allSwaps 
   buyin.user_id != store.myProfile.id ?   
     props.agreed_swaps !== [] ?
@@ -117,6 +118,7 @@ export default BuyIn = (props) => {
               agreed_swaps={props.agreed_swaps}
               other_swaps={props.other_swaps}
               tournament={props.tournament}
+              action={props.action}
               updated_at={props.buyin.updated_at}
               buyin={buyin} txt={txt}/>
             : 
@@ -125,6 +127,7 @@ export default BuyIn = (props) => {
               :
               <SwapButton navigation={props.navigation}
               allSwaps={allSwaps}  
+              action={props.action}
               agreed_swaps={props.agreed_swaps}
               other_swaps={props.other_swaps}
               tournament={props.tournament}

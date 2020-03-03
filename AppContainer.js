@@ -25,7 +25,7 @@ import ProfitResults from './src/Main/Results/ProfitResults'
 import EventLobby from './src/Main/Events/EventLobby'
 import VerifyTicket from './src/Main/Events/VerifyTicket';
 import SwapOffer from './src/Main/SwapOffer/SwapOffer';
-import FlightSelection from './src/Main/Events/FlightSelection'
+// import FlightSelection from './src/Main/Events/FlightSelection'
 
 import ProfileScreen from './src/Main/Profile/ProfileScreen'
 import WebViewScreen from './src/Misc/WebView'
@@ -117,13 +117,6 @@ const EventsStack = createStackNavigator(
         title:"Verify Ticket",
       }
     }, 
-    FlightSelection:{
-      screen: FlightSelection,
-      navigationOptions: ({navigation}) => ({
-        title:'Flight Selection',
-        headerLeft: () => <HeaderBackButton text='Back' onPress={() => navigation.goBack(null)} />,
-      })
-    },
     EventLobby:{
       screen: EventLobby,
       navigationOptions: ({navigation}) => ({
