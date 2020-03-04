@@ -19,14 +19,10 @@ export default PendingPath = (props) => {
     )
   }
 
-  console.log('swap id', props.swap_id)
   var cancelSwap = async() => {
     var answer = await actions.swap.statusChange(
-      props.swap.id, "canceled"
+      props.tournament.id, props.swap.id, "canceled"
     )
-    var answer2 = await actions.coin.buy(0,1)
-    var answer3 = await actions.tracker.getAll()
-    var answer4 = await actions.profile.get()
     props.navigation.goBack()
   }
 

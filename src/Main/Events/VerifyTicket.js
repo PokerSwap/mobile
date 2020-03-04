@@ -21,13 +21,8 @@ export default VerifyTicket = (props) => {
   const [flight_id, setFlight] = useState('-1')
 
   var navigation = props.navigation;
-  let name = navigation.getParam('name', 'default value');
   let flights = navigation.getParam('flights', 'NO-ID');
-  let buyins = navigation.getParam('buyins', 'NO-ID');
   let tournament = navigation.getParam('tournament', 'NO-ID');
-  let my_buyin = navigation.getParam('my_buyin', 'NO-ID');
-  let action = navigation.getParam('action', 'NO-ID');
-
 
   let tournament_id = tournament.id
 
@@ -128,7 +123,6 @@ export default VerifyTicket = (props) => {
   };
 
   const BuyInStart = async() => {
-    console.log('tID', tournament_id)
     var answer = await actions.buy_in.add( 
       image, table, seat, chips, flight_id, tournament_id, props.navigation )
   };

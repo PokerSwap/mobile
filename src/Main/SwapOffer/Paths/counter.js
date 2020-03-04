@@ -26,8 +26,7 @@ export default CounterPath = (props) => {
 
   const swapCounter = async() => {
     var answer = await actions.swap.statusChange(
-      props.swap_id, 'pending', percentage )
-    var answer3 = await actions.tracker.getAll()
+      props.tournament_id, props.swap_id, 'pending', percentage )
     props.navigation.goBack()
   }
 

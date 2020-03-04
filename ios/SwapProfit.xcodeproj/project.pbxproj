@@ -22,7 +22,7 @@
 		5EE3623AEEDEBFC2AF0AEAFA /* libPods-SwapProfit-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 174CCE3AA276317901A10513 /* libPods-SwapProfit-tvOS.a */; };
 		AC2859FE925C40635352212A /* libPods-SwapProfit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 65C9FDBBFBF0F435847F3051 /* libPods-SwapProfit.a */; };
 		C005724B238313BD00E132EC /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C005724A238313BD00E132EC /* StoreKit.framework */; };
-		C0CB76AC2406D73F008C1FAB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C0CB76AB2406D73F008C1FAB /* GoogleService-Info.plist */; };
+		C073C41C240DE7A8002F2155 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C073C41B240DE7A8002F2155 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,8 +83,8 @@
 		B970F6139515CB89B5403892 /* Pods-SwapProfit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwapProfit.debug.xcconfig"; path = "Target Support Files/Pods-SwapProfit/Pods-SwapProfit.debug.xcconfig"; sourceTree = "<group>"; };
 		BB4F1522740A46529C3FAA8C /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/native-base/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		C005724A238313BD00E132EC /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		C073C41B240DE7A8002F2155 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../Code Keys/SP Keys/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C074F32CE6634E0E9752B62A /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/native-base/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
-		C0CB76AB2406D73F008C1FAB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C0F33CA7237C9B8C0041B597 /* SwapProfit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = SwapProfit.entitlements; path = SwapProfit/SwapProfit.entitlements; sourceTree = "<group>"; };
 		D113B4893372C4715185847F /* Pods-SwapProfit-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwapProfit-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-SwapProfit-tvOSTests/Pods-SwapProfit-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D402553450224737BBAFF713 /* rubicon-icon-font.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "rubicon-icon-font.ttf"; path = "../node_modules/native-base/Fonts/rubicon-icon-font.ttf"; sourceTree = "<group>"; };
@@ -152,8 +152,8 @@
 		13B07FAE1A68108700A75B9A /* SwapProfit */ = {
 			isa = PBXGroup;
 			children = (
-				C0CB76AB2406D73F008C1FAB /* GoogleService-Info.plist */,
 				C0F33CA7237C9B8C0041B597 /* SwapProfit.entitlements */,
+				C073C41B240DE7A8002F2155 /* GoogleService-Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -396,7 +396,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				C0CB76AC2406D73F008C1FAB /* GoogleService-Info.plist in Resources */,
+				C073C41C240DE7A8002F2155 /* GoogleService-Info.plist in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				004C3B0A236E1283000445F9 /* Default-568h@2x.png in Resources */,
 			);
@@ -740,7 +740,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.swapprofitllc.swapprofit;
+				PRODUCT_BUNDLE_IDENTIFIER = com.swapprofitllc.swapprofitapp;
 				PRODUCT_NAME = SwapProfit;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -767,7 +767,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.swapprofitllc.swapprofit;
+				PRODUCT_BUNDLE_IDENTIFIER = com.swapprofitllc.swapprofitapp;
 				PRODUCT_NAME = SwapProfit;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";

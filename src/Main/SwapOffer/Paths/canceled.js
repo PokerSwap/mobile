@@ -17,14 +17,6 @@ export default CanceledPath = (props) => {
         </Text>
       </CardItem>
 
-      {props.tournament_status == 'open' ?
-        <CardItem style={{justifyContent:'center', marginTop:30}}>
-          <Button large success onPress={()=> A}>
-            <Text>Swap Again?</Text>
-          </Button>
-        </CardItem>
-        : null}
-
     </Card>
   )
 }

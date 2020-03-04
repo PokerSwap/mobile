@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import { Text,  Segment, Spinner, ListItem } from 'native-base';
 import {  RefreshControl, FlatList, View} from 'react-native'
  
@@ -17,6 +17,9 @@ export default EventListings = (props) => {
   const [mode, setMode] = useState('byDate')
   const [myCoords, setMyCoords] = useState({})
 
+
+
+
   // REFRESH TIMER FOR NEW TOURNAMENTS
   const wait = (timeout) => {
     return new Promise(resolve => {
@@ -29,7 +32,7 @@ export default EventListings = (props) => {
     setPage(1)
     var answer = await actions.tournament.getInitial()
     console.log('page',page)
-    console.log(store.tournaments)
+    console.log(store.tournamentList)
     wait(2000).then(() => setRefreshing(false));
   }
   // FUNCTION TO GET MORE TOURNAMENTS
@@ -63,11 +66,11 @@ export default EventListings = (props) => {
       </Segment>
       
       {/* MAIN COMPONENT */}
-      {store.tournaments != null ?
-        store.tournaments.length != 0 ?
+      {store.tournamentList != null ?
+        store.tournamentList.length != 0 ?
         // TOURNAMENT LIST GENERATOR 
         <FlatList
-          data={store.tournaments}
+          data={store.tournamentList}
           renderItem={EventRow}
           keyExtractor={(content, index) => index.toString()}
           refreshControl={

@@ -38,14 +38,14 @@ export default SwapOffer = (props) => {
     currentPath = 
       <IncomingPath navigation={props.navigation} 
         tournament_status={tournament.tournament_status}
-        buyin={buyin} swap={swap}/>
+        tournament_id={tournament.id} buyin={buyin} swap={swap}/>
   } 
   // COUNTER INCOMING SWAP VIEW
-  else if (status == 'incoming'){
+  else if (status == 'counter_incoming'){
     currentPath = 
       <CounterIncomingPath navigation={props.navigation} 
         tournament_status={tournament.tournament_status}
-        buyin={buyin} swap={swap}/>
+        tournament_id={tournament.id} buyin={buyin} swap={swap}/>
   }
   // PENDING SWAP VIEW
   else if (status == 'pending'){

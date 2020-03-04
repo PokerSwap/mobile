@@ -10,12 +10,10 @@ const AlertS = (props) => {
       'Are you sure this is you?',
       [
         {
-          text: 'Yes',
-          onPress: () => props.next()
+          text: 'Yes', onPress: () => props.next()
         },
         {
-          text: 'No',
-          onPress: () => console.log("Cancel Pressed"),
+          text: 'No', onPress: () => console.log("Cancel Pressed"),
         }
       ]
     )
@@ -33,6 +31,27 @@ export default HendonSetup = (props) => {
 
 	return(
 		<Card transparent>
+
+			{/* HENDON INSTRUCTIONS */}
+			<CardItem style={{flexDirection:"column", justifyContent:"center"}}>
+				<Text style={{textAlign:'center'}}>
+					Please enter your name as it appears on your Hendon Mob profile.
+				</Text>
+			</CardItem>
+			
+			{/* OPTION BUTTONS */}
+			<CardItem style={{justifyContent:'space-around'}}>
+				<AlertS  next={props.next}/>
+				
+				<Button large danger style={{}} 
+					onPress={() => {
+						props.onChangeHendon('');
+						props.next();
+					}}>
+					<Text>LATER</Text>
+				</Button>
+
+			</CardItem> 
 
 			{/* HENDON WEBVIEW */}
 			<CardItem style={{height:400}}>
@@ -66,26 +85,7 @@ export default HendonSetup = (props) => {
 					</View>
 				</CardItem>
 
-			{/* HENDON INSTRUCTIONS */}
-			<CardItem style={{flexDirection:"column", justifyContent:"center"}}>
-				<Text style={{textAlign:'center'}}>
-					Please enter your name as it appears on your Hendon Mob profile.
-				</Text>
-			</CardItem>
-			
-			{/* OPTION BUTTONS */}
-			<CardItem style={{justifyContent:'space-around'}}>
-				<AlertS  next={props.next}/>
-				
-				<Button large danger style={{}} 
-					onPress={() => {
-						props.onChangeHendon('');
-						props.next();
-					}}>
-					<Text>LATER</Text>
-				</Button>
-
-			</CardItem>  
+ 
 
 			{/* PREV BUTTON */}
 			<CardItem style={{justifyContent:'center'}}>

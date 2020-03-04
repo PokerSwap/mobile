@@ -29,11 +29,11 @@ export default CounterIncomingPath = (props) => {
       {counter == false ?
         <OfferPath navigation={props.navigation}
           percentage={props.percentage} counter_percentage={props.counter_percentage}
-          counter={counter} setCounter={setCounter} swap_id={props.swap.id} />
+          tournament_id={props.tournament_id}counter={counter} setCounter={setCounter} swap_id={props.swap.id} />
         :
         <CounterPath navigation={props.navigation} swap_id={props.swap.id}
           percentage={props.swap.percentage} counter_percentage={props.swap.counter_percentage}
-          counter={counter} setCounter={setCounter} />
+          tournament_id={props.tournament_id} counter={counter} setCounter={setCounter} />
       }
     </Card>
   )

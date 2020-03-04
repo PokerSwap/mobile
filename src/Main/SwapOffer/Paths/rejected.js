@@ -1,5 +1,5 @@
 import React from 'react'
-import {Text, Card, CardItem, Button} from 'native-base'
+import {Text, Card, CardItem} from 'native-base'
 
 export default RejectedPath = (props) => {
   return(
@@ -10,15 +10,6 @@ export default RejectedPath = (props) => {
           {props.buyin.user_name}. 
         </Text>
       </CardItem>
-
-      {props.tournament_status == 'open' ?
-        <CardItem  style={{justifyContent:'center', marginTop:30}}>
-          <Button large success onPress={()=> A}>
-            <Text>Swap Again?</Text>
-          </Button>
-        </CardItem>
-        : null}
-
     </Card>
   )
 }

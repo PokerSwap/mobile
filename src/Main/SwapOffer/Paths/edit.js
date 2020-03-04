@@ -18,11 +18,11 @@ export default EditPath = (props) => {
 
   const buyinEdit = async() => {
     var answer = await actions.buy_in.edit(
-      props.buyin.id, newTable, newSeat, newChips
+      props.buyin.id, newTable, newSeat, newChips, props.buyin.tournament_id
     )
     .then(()=>props.navigation.goBack())
   }
-
+ 
   var isDisabled;
 
   newTable != '' && newSeat != '' && newChips != '' ?

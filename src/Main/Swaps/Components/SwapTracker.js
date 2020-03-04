@@ -10,8 +10,7 @@ export default SwapTracker = (props) => {
   const {store, actions} = useContext(Context) 
   var x
   let a_action = async() => {
-     x = await actions.tournament.getgetAction(props.tournament.id)}
-  console.log('action be', x)
+     x = await actions.tournament.getAction(props.tournament.id)}
   let other_swaps = props.buyins.map((content, index) => {
 
     return(
@@ -25,16 +24,16 @@ export default SwapTracker = (props) => {
       />)}
   )
 
-    
   const enterTournament = async() => {
     var answer1 = await actions.tournament.getAction(props.tournament.id);
+    var answer2 = await actions.tournament.getCurrent(props.tournament.id);
     var answer3 = await props.navigation.push('EventLobby', {
       action: store.action,
-      tournament: props.tournament,
-      flights: props.tournament.flights,
-      buyins: props.buyins,
+      tournament: store.currentTournament.tournament,
+      flights: store.currentTournament.tournament.flights,
+      buyins: store.currentTournament.buyins,
       navigation: props.navigation,
-      my_buyin: props.my_buyin
+      my_buyin: store.currentTournament.my_buyin
     });
 
   }

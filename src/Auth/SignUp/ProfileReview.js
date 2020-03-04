@@ -7,6 +7,15 @@ export default  ProfileReview = (props) => {
 
 	const { store, actions } = useContext(Context)
 
+	let lol = new RegExp('^https:\/\/pokerdb.thehendonmob.com')
+	
+
+	let username
+	props.username !== '' ?
+	username = ' ' + props.username + ' '
+	: username = ' '
+
+	console.log('testing',props.hendon, typeof(props.hendon), lol.test(props.hendon))
 	let createProfile = async() => {
 		var answer = await actions.profile.add(
 			props.username, props.first_name, props.last_name, 
@@ -29,19 +38,20 @@ export default  ProfileReview = (props) => {
 
 			<CardItem transparent style={{flexDirection:'column',marginVertical:10}}>
 				<Text style={{fontSize:20,fontWeight:'600'}}>
-					Name
-				</Text>
-				<Text> 
-					{props.first_name} "{props.username}" {props.last_name}
+					Name {'\n'}{props.first_name}{username}{props.last_name}
 				</Text>
 			</CardItem>
 
 			<CardItem transparent 
 				style={{flexDirection:'column',marginVertical:10}}>		
-				<Text style={{fontSize:20,fontWeight:'600'}}>
-					Hendon URL:
-				</Text>
-				<Text>{props.hendon}</Text>
+				{props.hendon !== '' ?
+					props.hendon !== 'https://www.thehendonmob.com/search/' ?
+						<Text style={{fontSize:20,fontWeight:'600'}}>
+							Hendon URL: {'\n'} {props.hendon}
+						</Text>
+					:<Text>You did not submit a valid hendon profile</Text>
+				: <Text>You did not submit a hendon profile</Text>
+				}
 			</CardItem>
 
 			<CardItem transparent style={{justifyContent:'space-around'}}>		

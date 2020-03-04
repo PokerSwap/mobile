@@ -1,18 +1,48 @@
-import React from 'react';
+import React, {useEffect, useContext} from 'react';
 import {Container, Content, List, ListItem } from 'native-base';
 
 import EventHeader from './Components/EventHeader'
 import FlightSchedule from './Components/FlightSchedule';
 import ActionBar from './Components/ActionBar'
 
+import { Context } from '../../Store/appContext'
+
 export default EventLobby = (props) => {
 
+  const { store, actions } = useContext(Context)
+
   const { navigation } = props;
-  let action = navigation.getParam('action', 'NO-ID');
-  let tournament = navigation.getParam('tournament', 'NO-ID');
-  let flights = navigation.getParam('flights', 'NO-ID');
-  let buyins = navigation.getParam('buyins', 'NO-ID');
-  let my_buyin = navigation.getParam('my_buyin', 'NO-ID');
+  // let action = navigation.getParam('action', 'NO-ID');
+  // let tournament = navigation.getParam('tournament', 'NO-ID');
+  // let flights = navigation.getParam('flights', 'NO-ID');
+  // let buyins = navigation.getParam('buyins', 'NO-ID');
+  // let my_buyin = navigation.getParam('my_buyin', 'NO-ID');
+
+  let tournament = store.currentTournament.tournament
+  let my_buyin = store.currentTournament.my_buyin
+  let buyins = store.currentTournament.buyins
+  let flights = store.currentTournament.tournament.flights
+  let action = store.action
+
+  var refreshTournament = async() => {
+    try{
+      tournament = store.currentTournament.tournament
+      my_buyin = store.currentTournament.my_buyin
+      buyins = store.currentTournament.buyins
+      flights = store.currentTournament.tournament.flights
+      action = store.action
+    }catch(error){
+      console.log('Something went wrong with refresh Tournaent',error)
+    }
+  }
+
+
+  useEffect(() => {
+    refreshTournament()
+    return () => {
+      // console.log()
+    };
+  }, [])
 
   var toFilterOne  = []
   var addToFilter = buyins.forEach((buyin) => 

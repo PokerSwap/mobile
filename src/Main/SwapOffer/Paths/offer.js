@@ -21,8 +21,9 @@ export default OfferPath = (props) => {
   }
 
   const swapChange = async(status) => {
+    console.log('all', props.tournament_id, props.swap_id, status)
     var answer = await actions.swap.statusChange(
-      props.swap_id, status, )
+      props.tournament_id, props.swap_id, status)
     var answer2 = await actions.coin.spend()
     var answer3 = await actions.tracker.getAll()
     props.navigation.goBack()
@@ -68,7 +69,7 @@ export default OfferPath = (props) => {
         
           <CardItem style={{justifyContent:'center'}}>
             <Button large success 
-            onPress={() => props.navigation.navigate('PurchaseTokens')}>
+              onPress={() => props.navigation.navigate('PurchaseTokens')}>
               <Text>Purchase Tokens</Text>
             </Button>
           </CardItem>

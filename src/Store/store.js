@@ -19,6 +19,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 			// FOR CURRENT TOURNAMENT ACTION
 			action: null,
 
+			currentTournament:{},
+
 			deviceToken: null,
 
 			// CURRENT PROFILE
@@ -43,7 +45,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 			profileView:[ ],
 
 	  	// ALL TOURNAMETS, FILTERED BY FIRST 10 RESULTS
-			tournaments:[],
+			tournamentsList:[],
 
 			// USED TO GET PROFILE AND ACCESS ALL REQUESTS IN THE APP
 			userToken: null
@@ -105,13 +107,14 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 						var eeee = await getActions().buy_in.edit(newBuyinID, a_table, a_seat, some_chips)
 
-						var a3 = await getActions().tournament.getInitial()
-						var action = await getActions().tournament.getAction(a_tournament_id)
-						var tournament = await getActions().tournament.getOne(a_tournament_id)
-						console.log('tournament', tournament)
+						var answer1 = await getActions().tournament.getInitial()
+						var answer2 = await getActions().tournament.getAction(a_tournament_id)
+						var answer3 = await getActions().tournament.getCurrent(a_tournament_id)
+
+						var tournament = getStore().currentTournament
 
 						var a5 = await navigation.push('EventLobby', {
-							action: action,
+							action: store.action,
 							tournament: tournament.tournament,
 							buyins: tournament.buyins,
 							flights: tournament.tournament.flights,
@@ -126,19 +129,16 @@ const getState = ({ getStore, setStore, getActions }) => {
 					}
 				},
 
-				edit: async ( a_buyin_id, a_table, a_seat, some_chips) => {
-					console.log('BUBU ID', a_buyin_id)
+				edit: async ( a_buyin_id, a_table, a_seat, some_chips, a_tournament_id) => {
 					try{
 						const url = databaseURL + 'me/buy_ins/' + a_buyin_id  + '?validate=true'
 						const accessToken = getStore().userToken
-
 						let data = {
 							chips: parseInt(some_chips),
 							table: parseInt(a_table),
 							seat: parseInt(a_seat)
 						}
 
-						console.log('data', data)
 						let response = await fetch(url, {
 							method: 'PUT',
 							body: JSON.stringify(data),
@@ -150,6 +150,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 						.then(response => response.json)
 						.then(getActions().tracker.getAll())
 						
+
+
 					}catch(error){
 						console.log('Something went wrong with editing a buyin', error)
 					}
@@ -495,11 +497,11 @@ const getState = ({ getStore, setStore, getActions }) => {
 						});
 							
 							var eecsrc = await getActions().profile.get()
-							return(Toast.show({
-								text:'Profile Picture Change',
-								duration:3000,
-								position:'top'
-							}))
+							// return(Toast.show({
+							// 	text:'Profile Picture Change',
+							// 	duration:3000,
+							// 	position:'top'
+							// }))
 					} catch(error) {
 						return errorMessage(error.message)
 					}
@@ -555,7 +557,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 						var gettingProfile = await getActions().profile.get()
 						var gettingAllTrackers = await getActions().tracker.getAll()
-						var gettingInitialTournaments = await getActions().tournament.getInitial()
+						var gettingAllTrackers = await getActions().tournament.getCurrent(a_tournament_id)						
 						navigation.goBack()
 						
 					}catch(error){
@@ -586,11 +588,10 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 				},
 
-				statusChange: async ( my_swap_id, a_status, a_percentage ) => {
+				statusChange: async ( a_tournament_id, my_swap_id, a_status, a_percentage ) => {
 					try{
 						const url = databaseURL + 'me/swaps/' + my_swap_id
 						let accessToken = getStore().userToken
-						console.log('the url', my_swap_id)
 						let data 
 						
 						a_percentage == undefined ?
@@ -611,8 +612,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 						.then(response => response.json())
 
-						var aaa = await getActions().tournament.getInitial()
-						var ddd = await getActions().tracker.getAll()
+						var answer1 = await getActions().tracker.getAll()
+						var answer2 = await getActions().tournament.getCurrent(a_tournament_id)
+
 						return(
 							Toast.show({
 								text:'You swapped with XX',
@@ -719,20 +721,20 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 				},
 
-				// getCurrent: async() => {
-
-				// 	try{
-				// 		setStore
-				// 	}catch(error){
-				// 		console.log('Something went wrong with getting currents tournaments', error)
-				// 	}
-
-				// },
+				getCurrent: async( a_tournament_id ) => {
+					try{
+						var aCurrentTournament = await getActions().tournament.getOne(a_tournament_id)
+						setStore({currentTournament: aCurrentTournament})
+						console.log("Tournament you're on:", getStore().currentTournament)
+					}catch(error){
+						console.log('Something went wrong with getting currents tournaments', error)
+						return errorMessage(error.message)
+					}
+				},
 			
 				getInitial: async ( key1, value1, key2, value2 ) => {
 					try {
-						setStore({tournaments: null})
-
+						setStore({tournamentList: null})
 						var base_url =databaseURL + 'tournaments/all?asc=true&limit=8&page=1'
 						var full_url
 						key1 !== undefined ?
@@ -752,12 +754,11 @@ const getState = ({ getStore, setStore, getActions }) => {
 								'Content-Type':'application/json'
 							}, 
 						})
-
 						var initialTournaments = await response.json()
-						setStore({tournaments: initialTournaments})
-
+						setStore({tournamentList: initialTournaments})
 					} catch(error) {
 						console.log('Something went wrong with getting initial tournaments', error)
+						return errorMessage(error.message)
 					}
 				},
 
@@ -783,11 +784,11 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}, 
 						})
 
-						var tournamentData = getStore().tournaments
+						var tournamentData = getStore().tournamentList
 						let newData = await response.json()
 
 						newData != [] ?
-							setStore({tournaments: [...tournamentData, ...newData]})
+							setStore({tournamentList: [...tournamentData, ...newData]})
 							:
 							console.log('No more tournaments')
 

@@ -12,10 +12,10 @@ export default NameSetup = (props) => {
       <Card transparent>
 
         {/* NAME INSTRUCTIONS */}
-        <CardItem>
-          <Text style={{fontSize:20}}>
-            Please enter your First and Last Name in the 
-            fields below AS IT APPEARS ON YOUR TOURNAMENT RECEIPTS.
+        <CardItem style={{justifyContent:'center'}}>
+          <Text style={{fontSize:20,textAlign:'center', width:'90%'}}>
+            Please enter your first and last name in the 
+            fields below as it appears on your tournament reciepts.
           </Text>
         </CardItem>
 

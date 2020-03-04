@@ -23,8 +23,8 @@ if (Platform.OS == 'ios'){
 
 export default LoginScreen = (props) => {
 
-  const [email, setEmail] = useState('lou@gmail.com')
-  const [password, setPassword] = useState('loustadler')
+  const [email, setEmail] = useState('gherndon5@gmail.com')
+  const [password, setPassword] = useState('Tryagain5!')
   const [loading, setLoading] = useState(false)
 
   const { store, actions } = useContext(Context)

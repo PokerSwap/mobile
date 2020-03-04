@@ -9,21 +9,19 @@ import { Context } from '../../../Store/appContext';
 export default EventBody = (props) => {  
 
   const { store, actions } = useContext(Context);
-  
   var {navigation} = props, {tournament} = props;
   var bgColor, textColor, borderWidths, buttonColor, path;
  
-  // console.log('wefwfwfw', props.buyins)
   const enterTournament = async() => {
     var answer1 = await actions.tournament.getAction(tournament.id);
-    // console.log('action is', store.action)
+    var answer2 = await actions.tournament.getCurrent(tournament.id);
     var answer3 = await navigation.push(path, {
       action: store.action,
-      tournament: tournament,
-      buyins: props.buyins,
+      tournament: store.currentTournament.tournament,
+      buyins: store.currentTournament.buyins,
       navigation: props.navigation,
-      flights: tournament.flights,
-      my_buyin: props.my_buyin
+      flights: store.currentTournament.tournament.flights,
+      my_buyin: store.currentTournament.my_buyin
     });
   }
 
