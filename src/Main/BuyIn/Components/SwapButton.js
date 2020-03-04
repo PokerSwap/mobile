@@ -1,6 +1,6 @@
 
 import React, { useContext } from 'react';
-import { View } from 'react-native'
+import { View, TouchableOpacity } from 'react-native'
 import { Text, Button, Icon } from 'native-base';
 import { Col } from 'react-native-easy-grid'
 
@@ -86,32 +86,24 @@ export default SwapButton = (props) => {
     var totalAgreed = 0
     var addingAgreedTotal = props.agreed_swaps.forEach(swap => totalAgreed += swap.percentage)
     lastCol = 
-      <Text style={{fontWeight:'600', fontSize:18,}}>
-        {totalAgreed}%
-      </Text>;
-    path = 'agreed';
-    buttonColor = 'green';
+      <View style={{flexDirection:'column'}}>
+        <View style={{width:70, height:50, alignContent:'center', borderTopLeftRadius:10, borderTopRightRadius:10, 
+          backgroundColor:'green', paddingTop:13}}>
+          <Text style={{width:'100%',textAlign:'center', textAlignVertical:'center', fontSize:20, fontWeight:'600'}}>
+            {totalAgreed}%
+          </Text>
+        </View>
+        <View style={{width:70, height:20, backgroundColor:'rgb(38, 171, 75)',
+          borderBottomLeftRadius:10, borderBottomRightRadius:10,}}>
+          <Icon type='FontAwesome5' name='plus' 
+            style={{fontSize:12,paddingTop:3,color:'white', textAlign:'center'}} />
+        </View>
+      </View>
+    path = "inactive";
+    buttonColor = null;
   
   } 
-  // CANCELED SWAP OFFER VIEW
-  else if (allStatuses.includes('canceled')){
-    lastCol = 
-      <Icon 
-        style={{alignSelf:'center', fontSize:36}}
-        type="FontAwesome5" name="times" />;
-    path = 'canceled';
-    buttonColor = 'grey';
-  }
-  // REJECTED SWAP OFFER VIEW
-  else if (allStatuses.includes('rejected')){
-    lastCol = 
-    <Icon 
-      style={{alignSelf:'center', fontSize:36}}
-      type="FontAwesome5" name="times" />;
-    path = 'rejected';
-    buttonColor = 'red';
-  }
-  // SWAP OFFER VIEW
+  // INACTIVE SWAP OFFER VIEW
   else {
     lastCol = 
       <Icon type="FontAwesome5" name="handshake" 
@@ -120,12 +112,9 @@ export default SwapButton = (props) => {
     buttonColor = 'rgb(56,68,165)';
   } 
 
-// console.log('eeeeee', props.action.actions)
-
   const enterSwapOffer = async() => {
     // var answer = await actions.tournament.getAction()
     if (props.buyin.user_id == store.myProfile.id || props.agreed_swaps == undefined) {
-      // console.log('buyyyyyin', props.buyin)
       props.navigation.push('SwapOffer',{
         status: path,
         // swap: s,
@@ -147,13 +136,6 @@ export default SwapButton = (props) => {
           justifyContent:'center', alignSelf:'center'}}>
         {lastCol}
       </Button>
-      {path == 'rejected' || path == 'canceled' || path == 'agreed' ?
-        // props.action.actions <= 50 ?
-          <Button style={{width:70, height:30, justifyContent:'center', alignSelf:'center'}}>
-            <Text style={{textAlign:'center'}}>+</Text>
-          </Button>
-          // :null
-        :null }
 
       <Text style={{ marginTop:10, color:props.txt, 
         textAlign:'center', alignSelf:'center'}}>

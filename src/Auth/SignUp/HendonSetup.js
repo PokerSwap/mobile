@@ -35,7 +35,8 @@ export default HendonSetup = (props) => {
 			{/* HENDON INSTRUCTIONS */}
 			<CardItem style={{flexDirection:"column", justifyContent:"center"}}>
 				<Text style={{textAlign:'center'}}>
-					Please enter your name as it appears on your Hendon Mob profile.
+				If you have a Hendon Mob profile, please enter your name {}
+				in the search engine in the live Hendon Mob search below.
 				</Text>
 			</CardItem>
 			

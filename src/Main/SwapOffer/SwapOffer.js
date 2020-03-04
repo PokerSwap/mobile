@@ -1,4 +1,5 @@
 import React, {useState, useContext} from 'react';
+import {Modal, View} from 'react-native'
 import {Container, Text, Content, Card } from 'native-base';
 import { Grid, Row, Col } from 'react-native-easy-grid'
 
@@ -13,6 +14,7 @@ import EditPath from './Paths/edit';
 import InactivePath from './Paths/inactive';
 import RejectedPath from './Paths/rejected';
 import PendingPath from './Paths/pending';
+
 
 export default SwapOffer = (props) => {
 
@@ -79,7 +81,7 @@ export default SwapOffer = (props) => {
   else{
     currentPath = 
       <InactivePath navigation={props.navigation}
-      tournament_status={tournament.tournament_status}
+        tournament_status={tournament.tournament_status}
         tournament={tournament} buyin={buyin}/>
   }
 
@@ -87,7 +89,6 @@ export default SwapOffer = (props) => {
     <Container>
       
       <Content>
-
         {/* EVENT HEADER */}
         <Card transparent>
           <EventHeader tournament={tournament} />

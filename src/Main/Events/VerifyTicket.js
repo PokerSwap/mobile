@@ -8,13 +8,15 @@ import ImagePicker from 'react-native-image-picker';
 
 import { Context } from '../../Store/appContext';
 import _Header from "../../View-Components/HomeHeader";
-import '../../Images/placeholder.jpg';
+import placeholder from '../../Images/placeholder.jpg';
 
 export default VerifyTicket = (props) => {
 
   const { store, actions } = useContext(Context)
+
+  const de = require('../../Images/placeholder.jpg');
  
-  const [image, setImage ]= useState({uri:'../../Images/placeholder.jpg'});
+  const [image, setImage ]= useState(de);
   const [table, setTable ]= useState('');
   const [seat, setSeat] = useState('');
   const [chips, setChips] = useState('');
@@ -134,6 +136,7 @@ export default VerifyTicket = (props) => {
       <Content>
       <KeyboardAvoidingView style={{flex:1,}} 
         behavior='position' keyboardVerticalOffset={-180}>
+        
         {/* IMAGE INPUT */}
         <Card transparent >
           
@@ -148,7 +151,7 @@ export default VerifyTicket = (props) => {
           {/* IMAGE UPLOADED  */}
           <CardItem style={{justifyContent:'center', 
             flex:1, flexDirection:'column', alignItems:'center'}}>
-            <Image source={{uri:image.uri}} style={{width:200, height:200}} />
+            <Image source={image} style={{width:200, height:200}} />
             <Button style={{width:200, justifyContent:'center'}} 
               onPress={()=> askPersmission()}>
               <Icon type='FontAwesome5' name='plus' style={{color:'white'}}/>
@@ -259,17 +262,23 @@ export default VerifyTicket = (props) => {
           </Form>
             }
         </Card>
-
-        <Card transparent>
-          {/* SUBMIT BUTTON */}
+        <Button large style={styles.button} 
+              onPress={() => BuyInStart()}>
+              <Text style={styles.text.button}> 
+                SUBMIT 
+              </Text>
+            </Button>
+        {/* <Card transparent style={{width:'100%', justifyContent:'center'}}>
+          {/* SUBMIT BUTTON 
           <CardItem style={styles.container.button}> 
-            <Button large style={styles.button} onPress={() => BuyInStart()}>
+            <Button large style={styles.button} 
+              onPress={() => BuyInStart()}>
               <Text style={styles.text.button}> 
                 SUBMIT 
               </Text>
             </Button>
           </CardItem>
-        </Card>
+        </Card> */}
         </KeyboardAvoidingView>
 
       </Content>
@@ -279,10 +288,10 @@ export default VerifyTicket = (props) => {
 
 const styles = {
   button:{
-    padding:20},
+    paddingVertical:20, width:'100%', justifyContent:'center'},
   container:{
     button:{
-      justifyContent:'center', width:500},
+      justifyContent:'center', width:1000, paddingRight:0, paddingLeft:0},
     main:{
       alignItems:'center', justifyContent:'center'},
     image:{
@@ -301,6 +310,6 @@ const styles = {
     instruction:{
        fontSize:20, textAlign:'center', marginTop:10},
     button:{
-      fontWeight:'600', fontSize:24}
+      fontWeight:'600', fontSize:24, textAlign:'center'}
   }
 }

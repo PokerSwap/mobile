@@ -144,6 +144,8 @@ export default BuyIn = (props) => {
               fontWeight:'600', textAlign:'center'}}>
                 BUSTED
             </Text>
+            <Text>Place: </Text>
+            <Text>Cashed Out: </Text>
           </Row>
           : null }
 

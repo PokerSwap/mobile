@@ -114,7 +114,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						var tournament = getStore().currentTournament
 
 						var a5 = await navigation.push('EventLobby', {
-							action: store.action,
+							action: getStore().action,
 							tournament: tournament.tournament,
 							buyins: tournament.buyins,
 							flights: tournament.tournament.flights,
