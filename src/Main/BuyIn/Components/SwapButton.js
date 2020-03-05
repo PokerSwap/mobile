@@ -34,8 +34,9 @@ export default SwapButton = (props) => {
       allStatuses.push(swap.id,swap.status))
     :allStatuses = ['inactive']
 
-  var lastCol, buttonColor, path;
+  var lastCol, buttonColor, path, sWAP;
  
+  // console.log('allStatuses',allStatuses)
 
   // YOUR SWAP VIEW
   if (props.buyin.user_id == store.myProfile.id){
@@ -45,13 +46,6 @@ export default SwapButton = (props) => {
     buttonColor= 'grey';
     path = 'edit'
   } 
-  else if(allStatuses.includes('counter-incoming')){
-    lastCol = 
-      <Icon type="FontAwesome5" name='exclamation'
-        style={{alignSelf:'center', fontSize:24}}/>;
-    buttonColor= 'green';
-    path = 'counter_incoming'
-  } 
   // INCOMING SWAP VIEW
   else if(allStatuses.includes('incoming')){
     lastCol = 
@@ -59,6 +53,7 @@ export default SwapButton = (props) => {
         style={{alignSelf:'center', fontSize:24}}/>;
     buttonColor= 'green';
     path = 'incoming'
+    sWAP = allStatuses[allStatuses.indexOf('incoming')-1]
   } 
   // COUNTER-INCOMING SWAP VIEW
   else if(allStatuses.includes('counter_incoming')){
@@ -67,6 +62,7 @@ export default SwapButton = (props) => {
         style={{alignSelf:'center', fontSize:24}}/>;
     buttonColor= 'orange';
     path = 'counter_incoming'
+    sWAP = allStatuses[allStatuses.indexOf('counter_incoming')-1]
   } 
   // PENDING SWAP VIEW
   else if(allStatuses.includes('pending')) {
@@ -78,8 +74,9 @@ export default SwapButton = (props) => {
         color:'white', textAlignVertical:'center'}}> 
         {pendingPercentage}% 
       </Text>;
-    // path = "pending";
+    path = "pending";
     buttonColor = 'orange';
+    sWAP = allStatuses[allStatuses.indexOf('pending')-1]
   } 
   // INCOMING SWAP VIEW
   else if (allStatuses.includes('agreed')){
@@ -113,16 +110,23 @@ export default SwapButton = (props) => {
   } 
 
   const enterSwapOffer = async() => {
-    // var answer = await actions.tournament.getAction()
-    if (props.buyin.user_id == store.myProfile.id || props.agreed_swaps == undefined) {
-      props.navigation.push('SwapOffer',{
+    console.log('sss', sWAP)
+    var answer = await actions.swap.getCurrent(sWAP)
+    // if (props.buyin.user_id == store.myProfile.id || props.agreed_swaps == undefined) {
+      console.log('swapaner', answer)
+ 
+    
+    props.navigation.push('SwapOffer',{
         status: path,
-        // swap: s,
+        swap: store.currentSwap,
         buyin: props.buyin,
         updated_at: since,
         tournament: props.tournament,
-      });
-    }
+      })
+    // }else{
+      console.log('nope')
+    
+    // }
     
   }
 

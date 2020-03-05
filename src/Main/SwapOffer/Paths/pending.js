@@ -22,7 +22,7 @@ export default PendingPath = (props) => {
   var cancelSwap = async() => {
     var answer = await actions.swap.statusChange(
       props.tournament.id, props.swap.id, "canceled"
-    )
+    ) 
     props.navigation.goBack()
   }
 

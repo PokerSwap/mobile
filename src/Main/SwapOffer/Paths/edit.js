@@ -127,10 +127,16 @@ export default EditPath = (props) => {
 
   return(
     <View>
-      <Text style={{
+      <View style={{flexDirection:'row', justifyContent:'center', alignItems:'center'}}>
+      <Icon type='FontAwesome5' name='angle-double-down'
+        style={{marginRight:10, fontSize:16}}/>
+      <Text style={{fontWeight:'600',
         textAlign:'center',alignSelf:'center', marginVertical:10}}>
           STATUS UPDATE
       </Text>
+      <Icon type='FontAwesome5' name='angle-double-down'
+        style={{marginLeft:10, fontSize:16}}/>
+      </View>
 
       <Modal
         animationType='fade'

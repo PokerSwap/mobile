@@ -87,6 +87,7 @@ export default SwapList = (props) => {
     var startDate =  day_name + '. ' + startMonth + '. ' + startDay
     var startTime = startHour + ':' + swapTime.substring(20,22) + startM
     var labelTime = startDate + ', ' +   startTime
+    
     const enterSwapOffer = async() => {
       var answer = await actions.tournament.getAction()
       props.navigation.push('SwapOffer',{

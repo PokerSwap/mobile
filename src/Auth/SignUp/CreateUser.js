@@ -48,8 +48,8 @@ export default CreateUser = (props) => {
 					width:'80%', height:'90%'}}>
 
 					<Text style={{textAlign:"center", fontSize:20}}>
-					Please enter your personal email address and create a password for your Swap account.
-
+						Please enter your personal email address and {}
+						create a password for your Swap account.
 					</Text>
 
 					<Item style={{marginVertical:30, alignSelf:'center'}}>
@@ -94,6 +94,7 @@ export default CreateUser = (props) => {
 							style={{fontSize:24, width:'80%', color:'black'}}
 							autoCapitalize='none'
 							returnKeyType="go"
+							onSubmitEditing={() => createUser() }
 							autoCorrect={false} 
 							ref={(input) => { confirmPassword = input; }} 
 							value={c_password}

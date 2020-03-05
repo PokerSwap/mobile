@@ -15,6 +15,7 @@ export default BuyIn = (props) => {
   const { navigation } = props,  {buyin} = props;
 
 
+
   var allSwaps 
   buyin.user_id != store.myProfile.id ?   
     props.agreed_swaps !== [] ?
@@ -138,15 +139,20 @@ export default BuyIn = (props) => {
         </Row>
 
         {buyin.chips == 0 ?
-          <Row style={{backgroundColor:'red', 
-            justifyContent:'center', paddingTop:10}}>
-            <Text style={{color:'white', fontSize:24, 
-              fontWeight:'600', textAlign:'center'}}>
+          <View>
+            <Row style={{backgroundColor:'red', 
+              justifyContent:'center', paddingTop:10}}>
+              <Text style={{color:'white', fontSize:24, 
+                fontWeight:'600', textAlign:'center'}}>
                 BUSTED
-            </Text>
-            <Text>Place: </Text>
-            <Text>Cashed Out: </Text>
-          </Row>
+              </Text>
+            </Row>
+            <Row>
+              <Text>Place: </Text>
+              <Text>Cashed Out: </Text>
+            </Row>
+          </View>
+          
           : null }
 
       </Grid>

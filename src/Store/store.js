@@ -21,6 +21,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 			currentTournament:{},
 
+			currentSwap:{},
+
 			deviceToken: null,
 
 			// CURRENT PROFILE
@@ -588,6 +590,26 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 				},
 
+				getCurrent: async ( a_swap_id ) => {
+					try{
+						const url = databaseURL + 'swaps/' + a_swap_id;
+						const accessToken = getStore().userToken ;
+						
+						let response = await fetch(url, {
+							method: 'GET',
+							headers: {
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							}, 
+						})
+						
+						var answer = await response.json()
+						setStore({currentSwap:answer})
+					}catch(error){
+						console.log("SOmething went wrong with getting a swap", error)
+					}
+				},
+
 				statusChange: async ( a_tournament_id, my_swap_id, a_status, a_percentage ) => {
 					try{
 						const url = databaseURL + 'me/swaps/' + my_swap_id
@@ -602,6 +624,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 								percentage: a_percentage
 							}
 
+							console.log('data',data)
+
 						let response = await fetch(url,{
 							method:"PUT",
 							body: JSON.stringify(data),
@@ -611,7 +635,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}
 						})
 						.then(response => response.json())
-
+						console.log('response',response)
 						var answer1 = await getActions().tracker.getAll()
 						var answer2 = await getActions().tournament.getCurrent(a_tournament_id)
 
