@@ -11,6 +11,18 @@ var errorMessage = (error) => {
 	})
 }
 
+var responseMessage = (response) => {
+	Toast.show({
+		text:response, duration:3000, position:'top'
+	})
+}
+
+var customMessage = (custom) => {
+	Toast.show({
+		text:custom, duration:3000, position:'top'
+	})
+}
+
 const getState = ({ getStore, setStore, getActions }) => {
 	
 	return {
@@ -110,6 +122,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 						var tournament = getStore().currentTournament
 						
+						console.log('eeee',tournament.my_buyin, tournament)
+
 						var a5 = await navigation.push('EventLobby', {
 							action: getStore().action,
 							tournament: tournament.tournament,
@@ -118,7 +132,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 							my_buyin: tournament.my_buyin,
 							navigation: navigation
 						})
-					
+
+						// return customMessage('Your buyin has been added')
+
 
 					} catch(error) {
 						console.log("Some went wrong in adding a buyin", error)
@@ -126,14 +142,16 @@ const getState = ({ getStore, setStore, getActions }) => {
 					}
 				},
 
-				busted: async ( a_buyin_id, a_place, some_cash ) => {
+				busted: async ( a_buyin_id, a_place, some_cash, a_tournament_id ) => {
 					try{
 						let url = databaseURL + '/buy_ins/' + a_buyin_id
 						let accessToken = getStore().userToken
 						let data = {
 							place: parseInt(a_place),
-							table: some_cash.toString()
+							winnings: some_cash.toString()
 						}
+
+						console.log('weweew', data)
 	
 						let response = await fetch(url, {
 							method: 'PUT',
@@ -143,8 +161,13 @@ const getState = ({ getStore, setStore, getActions }) => {
 								'Content-Type':'application/json'
 							}, 
 						})
-						.then(response => response.json)
-						console.log('busted response',response)
+						var aaa = await response.json()
+						console.log('busted response',aaa)
+
+						var answer0 = await getActions().tracker.getAll()
+						var answer1 = await getActions().tournament.getInitial()
+						var answer2 = await getActions().tournament.getAction(a_tournament_id)
+						var answer3 = await getActions().tournament.getCurrent(a_tournament_id)
 					}catch(error){
 						console.log('Something went wrong with busting my buyin', error)
 					}
@@ -156,27 +179,50 @@ const getState = ({ getStore, setStore, getActions }) => {
 					try{
 						const url = databaseURL + 'me/buy_ins/' + a_buyin_id  + '?validate=true'
 						const accessToken = getStore().userToken
-						let data = {
-							chips: parseInt(some_chips),
-							table: parseInt(a_table),
-							seat: parseInt(a_seat)
-						}
+						
+						let data
+						// if (special == 'bust'){
+						// 	data= {
+						// 		chips: parseInt(some_chips),
+						// 		table: parseInt(some_chips),
+						// 		seat: parseInt(a_seat)
+						// 	}
+						// }else{
 
-						console.log('data', data)
+						console.log('atave', a_table)
+							data= {
+								table: a_table.toString(),
+								seat: parseInt(a_seat),
+								chips: parseInt(some_chips),
+								
+							}
+						// }
+						
+						 
 
 						let response = await fetch(url, {
 							method: 'PUT',
-							body: JSON.stringify(data),
 							headers: {
+								'Content-Type': 'application/json',
 								'Authorization': 'Bearer ' + accessToken,
-								'Content-Type':'application/json'
-							}, 
+							},
+							body: JSON.stringify(data),
 						})
-						let answer = await response.json()
+						.then(response => response.json())
+						.then((responseJson) => {
+							console.log('added buyin',responseJson)
+						})
+						.catch((error) => {
+							console.log('error in json',error);
+						});
+
+						var answer0 = await getActions().tracker.getAll()
 						var answer1 = await getActions().tournament.getInitial()
 						var answer2 = await getActions().tournament.getAction(a_tournament_id)
 						var answer3 = await getActions().tournament.getCurrent(a_tournament_id)
 						
+						return customMessage('Your buyin has been updated')
+
 					}catch(error){
 						console.log('Something went wrong with editing a buyin', error)
 					}

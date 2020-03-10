@@ -12,6 +12,8 @@ export default TournamentBuyIn = (props) => {
   const { store, actions } = useContext(Context)
   const { navigation } = props, {buyin} = props;
 
+  console.log('bbbb', buyin)
+
   const enterProfile = async() => {
     var answer = await actions.profile.view(buyin.user_id);
     var profile = store.profileView

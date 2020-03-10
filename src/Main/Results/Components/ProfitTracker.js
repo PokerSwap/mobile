@@ -8,7 +8,7 @@ import {Context} from '../../../Store/appContext'
 import { Dropdown } from 'react-native-material-dropdown';
 
 
-AModal = (props) => {
+AnModal = (props) => {
   const {store, actions} = useContext(Context)
 
   const paySwap = async() => {
@@ -127,7 +127,7 @@ export default ProfitTracker = (props) => {
         visible={visible}
         presentationStyle='overFullScreen'
         transparent={true}>
-        <AModal setVisible={setVisible}/>  
+        <AnModal setVisible={setVisible}/>  
       </Modal>
       <Grid style={{justifyContent:'center',
         alignItems:'center', marginVertical:40}}>

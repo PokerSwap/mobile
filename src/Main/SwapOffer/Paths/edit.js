@@ -15,11 +15,14 @@ AModal = (props) => {
   const [winnings, setWinnings] = useState('')
 
 
+
   var bustedComplete = async() => {
+    console.log(props.newTable, props.newSeat, props.newChips)
+    props.setNewChips(0)
     var answer1 = await actions.buy_in.edit(
       props.buyin_id, props.newTable, props.newSeat, 0, props.tournament_id)
-    var answer2 = actions.buy_in.busted(
-      props.buyin_id, place, winnings)
+    var answer2 = await actions.buy_in.busted(
+      props.buyin_id, place, winnings, props.tournament_id )
 
     props.setVisible(false)
   } 
@@ -111,15 +114,14 @@ export default EditPath = (props) => {
 
   const { store, actions } = useContext(Context)
 
-  const [newTable, setNewTable] = useState(props.table)
-  const [newSeat, setNewSeat] = useState(props.seat)
-  const [newChips, setNewChips] = useState(props.chips)
+  const [newTable, setNewTable] = useState(props.buyin.table)
+  const [newSeat, setNewSeat] = useState(props.buyin.seat)
+  const [newChips, setNewChips] = useState(props.buyin.chips)
   const [visible, setVisible] = useState(false)
 
   let txtSeat = null, txtChips = null;
 
   const buyinEdit = async() => {
-    console.log('newChips',newChips, typeof(newChips))
     if(newChips !== '0'){
     var answer = await actions.buy_in.edit(
       props.buyin.id, newTable, newSeat, newChips, props.buyin.tournament_id
@@ -158,6 +160,7 @@ export default EditPath = (props) => {
         });
       }
 
+      console.log('ee',newTable)
       
 
       const rebuyAlert = () =>{
@@ -192,6 +195,7 @@ export default EditPath = (props) => {
         transparent={true}>
         <AModal setVisible={setVisible} buyin_id={props.buyin.id} 
         newTable={newTable} newSeat={newSeat} newChips={newChips} 
+        setNewChips={setNewChips}
         tournament_id={props.buyin.tournament_id}/>  
       </Modal>
 
@@ -213,7 +217,8 @@ export default EditPath = (props) => {
               placeholder={props.buyin.table.toString()}
               style={{alignSelf:'center',fontSize:24, width:'60%', textAlign:'center', 
               paddingVertical:5, borderColor:'rgba(0,0,0,0.2)',
-               borderWidth:1, borderRadius:10}}              placeholderTextColor='red'
+               borderWidth:1, borderRadius:10}}              
+               placeholderTextColor='red'
               keyboardType="number-pad"
               blurOnSubmit={false}
               returnKeyType="done"

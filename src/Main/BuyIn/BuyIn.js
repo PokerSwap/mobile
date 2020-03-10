@@ -152,8 +152,8 @@ export default BuyIn = (props) => {
 
       {buyin.chips == 0 ?
         <Row style={{justifyContent:'space-around'}}>
-          <Text style={{color:'white'}}>Place: 2nd</Text>
-              <Text style={{color:'white'}}>Cashed Out: $300</Text>
+          <Text style={{color:'white'}}>Place: {buyin.place}</Text>
+      <Text style={{color:'white'}}>Cashed Out: {buyin.winnings}</Text>
         </Row>
 
       : null }
