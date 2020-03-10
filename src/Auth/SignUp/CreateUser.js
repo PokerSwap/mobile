@@ -34,31 +34,29 @@ export default CreateUser = (props) => {
 
 	return(
 		<Container >
-			<Content contentContainerStyle={{
-				justifyContent:'center', alignItems:'center', height:'90%'}}>
+			<Content contentContainerStyle={styles.mainContainer}>
 			{submitted ? 
 				<View transparent style={{justifyContent:'center'}}>
 					<Text style={{textAlign:'center', fontSize:24}}>
-						A validation link has been sent to your email at {email}.
+						A validation link has been sent to your{} 
+						email at {email}.
 					</Text>
 				</View>
 				:
-				<View transparent style={{justifyContent:'center', 
-					alignItems:'center', flexDirection:'column',
-					width:'80%', height:'90%'}}>
+				<View transparent style={styles.validateContainer}>
 
 					<Text style={{textAlign:"center", fontSize:20}}>
 						Please enter your personal email address and {}
 						create a password for your Swap account.
 					</Text>
 
-					<Item style={{marginVertical:30, alignSelf:'center'}}>
+					<Item style={styles.item}>
 						<Icon active name='mail' style={{fontSize:40}}/>
 						<TextInput 
 							placeholder=" Enter Email"
 							keyboardType="email-address"
 							blurOnSubmit={false}
-							style={{fontSize:24, width:'80%'}}
+							style={styles.textInput}
 							returnKeyType="next"
 							autoCapitalize='none'
 							autoCorrect={false} 
@@ -68,14 +66,14 @@ export default CreateUser = (props) => {
 							/>
 					</Item>
 
-					<Item style={{marginVertical:30, color:'black',alignSelf:'center'}}>
-						<Icon active name='key' style={{fontSize:40}} />
+					<Item style={styles.item}>
+						<Icon active name='key' style={{fontSize:40}}/>
 						<TextInput 
 							placeholder=" Enter Password"
 							textContentType={'newPassword'}
   						selectTextOnFocus={true}
   						secureTextEntry={true}
-							style={{fontSize:24, width:'80%'}}								
+							style={styles.textInput}								
 							autoCapitalize='none'
 							returnKeyType="next"
 							autoCorrect={false} 
@@ -86,12 +84,12 @@ export default CreateUser = (props) => {
 						/>
 					</Item>
 
-					<Item style={{marginVertical:30,alignSelf:'center'}}>
+					<Item style={styles.item}>
 						<Icon active name='key' style={{fontSize:40}} />
 						<TextInput 
 							placeholder=" Confirm Password"
 							secureTextEntry
-							style={{fontSize:24, width:'80%', color:'black'}}
+							style={styles.textInput}
 							autoCapitalize='none'
 							returnKeyType="go"
 							onSubmitEditing={() => createUser() }
@@ -101,7 +99,8 @@ export default CreateUser = (props) => {
 							onChangeText={password => setC_Password( password )}/>
 					</Item>
 					
-					<Button large onPress={() => createUser()} style={{alignSelf:'center'}}>
+					<Button large style={{alignSelf:'center'}}
+						onPress={() => createUser()} >
 						<Text> SUBMIT </Text>
 					</Button>	
 
@@ -110,4 +109,17 @@ export default CreateUser = (props) => {
 			</Content>
 		</Container>
 	)
+}
+
+const styles = {
+		mainContainer:{
+			justifyContent:'center', alignItems:'center', 
+			height:'90%'},
+		validateontainer:{
+			justifyContent:'center', alignItems:'center', 
+			flexDirection:'column', width:'80%', height:'90%' },
+		textInput:{
+			fontSize:24, width:'80%' },
+		item:{
+			marginVertical:30, alignSelf:'center' }
 }

@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {  Text, ListItem, Button, Accordion } from 'native-base';
+import {  Text, ListItem, Button, Accordion, View } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid'
 
 import { Context } from '../../Store/appContext'
@@ -139,21 +139,24 @@ export default BuyIn = (props) => {
         </Row>
 
         {buyin.chips == 0 ?
-          <View>
             <Row style={{backgroundColor:'red', 
               justifyContent:'center', paddingTop:10}}>
               <Text style={{color:'white', fontSize:24, 
                 fontWeight:'600', textAlign:'center'}}>
                 BUSTED
               </Text>
+
             </Row>
-            <Row>
-              <Text>Place: </Text>
-              <Text>Cashed Out: </Text>
-            </Row>
-          </View>
           
           : null }
+
+      {buyin.chips == 0 ?
+        <Row style={{justifyContent:'space-around'}}>
+          <Text style={{color:'white'}}>Place: 2nd</Text>
+              <Text style={{color:'white'}}>Cashed Out: $300</Text>
+        </Row>
+
+      : null }
 
       </Grid>
       

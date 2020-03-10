@@ -158,7 +158,7 @@ export default SwapOffer = (props) => {
         <Card transparent style={{justifyContent:'center'}}>
           <Text style={{textAlign:'center', fontSize:24, 
             lineHeight:50, textTransform:'capitalize'}}> 
-            {status} Since: {"\n"} {updated_at}
+            Updated Since: {"\n"} {updated_at}
           </Text>
         </Card>
         

@@ -113,9 +113,10 @@ const EventsStack = createStackNavigator(
     },
     VerifyTicket:{
       screen: VerifyTicket,
-      navigationOptions:{
-        title:"Verify Ticket",
-      }
+      navigationOptions: ({navigation}) => ({
+        title:'Verify Ticket',
+        headerLeft: () => <HeaderBackButton onPress={() => navigation.pop()} />,
+      })
     }, 
     EventLobby:{
       screen: EventLobby,

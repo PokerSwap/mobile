@@ -262,23 +262,14 @@ export default VerifyTicket = (props) => {
           </Form>
             }
         </Card>
+        
         <Button large style={styles.button} 
-              onPress={() => BuyInStart()}>
-              <Text style={styles.text.button}> 
-                SUBMIT 
-              </Text>
-            </Button>
-        {/* <Card transparent style={{width:'100%', justifyContent:'center'}}>
-          {/* SUBMIT BUTTON 
-          <CardItem style={styles.container.button}> 
-            <Button large style={styles.button} 
-              onPress={() => BuyInStart()}>
-              <Text style={styles.text.button}> 
-                SUBMIT 
-              </Text>
-            </Button>
-          </CardItem>
-        </Card> */}
+          onPress={() => BuyInStart()}>
+          <Text style={styles.text.button}> 
+            SUBMIT 
+          </Text>
+        </Button>
+
         </KeyboardAvoidingView>
 
       </Content>

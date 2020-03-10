@@ -8,7 +8,23 @@ import {Context} from '../../../Store/appContext'
 import {Grid, Row, Col} from 'react-native-easy-grid'
 
 AModal = (props) => {
-  const [modal, setModal] = useState(props.visible)
+
+  const { store, actions } = useContext(Context)
+
+  const [place, setPlace] = useState('')
+  const [winnings, setWinnings] = useState('')
+
+
+  var bustedComplete = async() => {
+    var answer1 = await actions.buy_in.edit(
+      props.buyin_id, props.newTable, props.newSeat, 0, props.tournament_id)
+    var answer2 = actions.buy_in.busted(
+      props.buyin_id, place, winnings)
+
+    props.setVisible(false)
+  } 
+
+  var txtWinnings = null
 
   return(
 
@@ -28,7 +44,6 @@ AModal = (props) => {
               
               <View style={{flexDirection:'row', justifyContent:'center', marginVertical:10}}>
                 <Icon type='Ionicons' name='ios-ribbon'/>
-
                 <Text style={{fontSize:24, textAlign:'center'}}>
                 {'  '}Place
                 </Text>
@@ -37,10 +52,16 @@ AModal = (props) => {
               <TextInput 
                 style={{
                   padding:10, borderRadius:10, alignSelf:'center',fontSize:24, borderWidth:1, width:'50%', 
-                  textAlign:'center',
-                  borderColor:'rgba(0,0,0,0.2)'}}
-                  placeholder='Place #'
-                  placeholderTextColor='gray' />
+                  textAlign:'center', borderColor:'rgba(0,0,0,0.2)'}}
+                  placeholder={'5'}
+                  keyboardType='number-pad'
+                  placeholderTextColor='grey'
+                  blurOnSubmit={false}
+                  returnKeyType="done"
+
+                  onSubmitEditing={() => { txtWinnings.focus(); }}
+                  value={place}    
+                  onChangeText={placeX => setPlace( placeX )}/>
            
               <View style={{flexDirection:'row', justifyContent:'center', marginBottom:10, marginTop:25}}>
                 <Icon type='FontAwesome5' name='dollar-sign'/>
@@ -54,25 +75,29 @@ AModal = (props) => {
                   padding:10, borderRadius:10, alignSelf:'center',fontSize:24, borderWidth:1, width:'50%', 
                   textAlign:'center',
                   borderColor:'rgba(0,0,0,0.2)'}}
-                  placeholder='$100.00'
-                  placeholderTextColor='gray' />
+                  keyboardType='decimal-pad'
+                  returnKeyType="done"
 
-            <Row style={{marginTop:20}}>
-              <Col>
-               <TouchableOpacity onPress={()=>props.setVisible(false)}>
+                  placeholderTextColor='grey'
+                  placeholder={'$100.00'}
+                  ref={(input) => { txtWinnings = input; }} 
+                  blurOnSubmit={true}
+                  value={winnings}    
+                  onChangeText={winningsX => setWinnings( winningsX )}
+                  />
+
+            <Row style={{marginTop:20, justifyContent:'space-around'}}>
+               <TouchableOpacity onPress={()=>bustedComplete()}>
                 <Text style={{textAlign:'center', fontSize:24}}>
                   Submit
                 </Text>
                </TouchableOpacity>
-              </Col>
-              <Col>
               <TouchableOpacity onPress={()=>props.setVisible(false)}>
 
                 <Text style={{textAlign:'center', fontSize:24}}>
                   Cancel
                 </Text>
                 </TouchableOpacity>
-              </Col>
             </Row>
             </Col>
           </Grid>
@@ -110,20 +135,42 @@ export default EditPath = (props) => {
 
     const bustedAlert = () =>{
       Alert.alert(
-        "Confirmation",
+        "Busted Confirmation",
         "Are you officially busted out of the tournament?",
         [
-          {
-            text: 'Yes',
-            onPress: () => setVisible(true)
-          },
-          {
-            text: 'No',
-            onPress: () => console.log("Cancel Pressed"),
-          }
+          { text: 'Yes', onPress: () => rebuyAlert() },
+          { text: 'No', onPress: () => console.log("Cancel Pressed"), }
         ]
       )
       }
+
+      let rebuyEnter = async() => {
+        console.log(props.buyin.tournament_id, props.buyin)
+        var answer1 = await actions.tournament.getAction(props.buyin.tournament_id);
+        var answer2 = await actions.tournament.getCurrent(props.buyin.tournament_id);
+        props.navigation.push('VerifyTicket', {
+            action: store.action,
+            tournament: store.currentTournament.tournament,
+            buyins: store.currentTournament.buyins,
+            navigation: props.navigation,
+            flights: store.currentTournament.tournament.flights,
+            my_buyin: store.currentTournament.my_buyin
+        });
+      }
+
+      
+
+      const rebuyAlert = () =>{
+        Alert.alert(
+          "Rebuy Confirmation",
+          "Are you going re-enter?",
+          [
+            { text: 'Yes', onPress: () => rebuyEnter() },
+            { text: 'No', onPress: () => setVisible(true) },
+            {text:'Cancel', onPress: ()=> console.log('Cancel Pressed')}
+          ]
+        )
+        }
 
   return(
     <View>
@@ -143,7 +190,9 @@ export default EditPath = (props) => {
         visible={visible}
         presentationStyle='overFullScreen'
         transparent={true}>
-        <AModal setVisible={setVisible}/>  
+        <AModal setVisible={setVisible} buyin_id={props.buyin.id} 
+        newTable={newTable} newSeat={newSeat} newChips={newChips} 
+        tournament_id={props.buyin.tournament_id}/>  
       </Modal>
 
       <Card style={{width:'80%', alignSelf:'center', paddingVertical:10}}>
@@ -183,9 +232,12 @@ export default EditPath = (props) => {
             </Text>
             <TextInput 
               placeholder={props.buyin.seat.toString()}
-              style={{alignSelf:'center',fontSize:24, width:'60%', textAlign:'center', 
-              paddingVertical:5, borderColor:'rgba(0,0,0,0.2)',
-               borderWidth:1, borderRadius:10}}              placeholderTextColor='red'
+              style={{
+                alignSelf:'center',fontSize:24, 
+                width:'60%', textAlign:'center', 
+                paddingVertical:5, borderColor:'rgba(0,0,0,0.2)',
+                borderWidth:1, borderRadius:10}}              
+              placeholderTextColor='red'
               keyboardType="number-pad"
               blurOnSubmit={false}
               returnKeyType="done"
@@ -199,14 +251,17 @@ export default EditPath = (props) => {
 
           <View style={{
             flex:1, flexDirection:'column', justifyContent:'center'}}>
-            <Text style={{ fontSize:24, textAlign:'center', marginBottom:10}}>
-                Chips: 
+            <Text style={{ 
+              fontSize:24, textAlign:'center', marginBottom:10}}>
+              Chips: 
             </Text>
             <TextInput 
               placeholder={props.buyin.chips.toString()}
-              style={{alignSelf:'center',fontSize:24, textAlign:'center', 
-                paddingVertical:5, width:100, borderColor:'rgba(0,0,0,0.2)',
-                 borderWidth:1, borderRadius:10}}
+              style={{
+                alignSelf:'center',fontSize:24, 
+                textAlign:'center', paddingVertical:5, 
+                width:100, borderColor:'rgba(0,0,0,0.2)',
+                borderWidth:1, borderRadius:10}}
               placeholderTextColor='red'
               keyboardType="number-pad"
               returnKeyType="done"
@@ -225,7 +280,8 @@ export default EditPath = (props) => {
       <Button large 
       style={{ marginVertical:30, width:'100%', justifyContent:'center'}}
         disabled={isDisabled} onPress={()=> buyinEdit()}>
-        <Text style={{fontWeight:'600',textAlign:'center', textAlign:'center'}}>
+        <Text style={{fontWeight:'600',textAlign:'center', 
+        textAlign:'center'}}>
           UPDATE 
         </Text>
       </Button>

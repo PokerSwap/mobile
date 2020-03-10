@@ -39,7 +39,6 @@ export default CounterPath = (props) => {
     }else{
       setPercentage(50)
     }
-    
   }
 
   // SUBTRACTING PERCENT FROM SWAP - NO MORE THAN 50%

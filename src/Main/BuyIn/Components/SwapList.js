@@ -14,9 +14,7 @@ export default SwapList = (props) => {
 
     if (swap.status == 'agreed'){
       lastCol = 
-        <Text style={{
-          fontWeight:'600', color:'white',
-          fontSize:16, top:8}}> 
+        <Text style={styles.agreed}> 
           {swap.percentage}% 
         </Text>;
       buttonColor= 'green';
@@ -24,8 +22,7 @@ export default SwapList = (props) => {
     // PENDING SWAP VIEW
     else if(swap.status == 'pending') {
       lastCol =  
-        <Text style={{fontWeight:'600', fontSize:16, 
-          color:'white', top:8}}> 
+        <Text style={styles.pending}> 
           {swap.percentage}% 
         </Text>;
       buttonColor= 'orange';
@@ -34,32 +31,28 @@ export default SwapList = (props) => {
     else if (swap.status == 'incoming'){
       lastCol = 
         <Icon type="FontAwesome5" name="exclamation"
-          style={{alignSelf:'center', fontSize:18, 
-          color:'white' , top:8}}/>;
+          style={styles.incoming}/>;
       buttonColor= 'green';
     } 
     // COUNTER-INCOMING SWAP VIEW
     else if (swap.status == 'counter_incoming'){
       lastCol = 
         <Icon type="FontAwesome5" name="exclamation"
-          style={{alignSelf:'center', fontSize:18, 
-          color:'white' , top:8}}/>;
+          style={styles.counter_incoming}/>;
       buttonColor= 'orange';
     } 
     // CANCELED SWAP OFFER VIEW
     else if (swap.status == 'canceled'){
       lastCol = 
       <Icon type="FontAwesome5" name="times"
-        style={{alignSelf:'center', fontSize:24, 
-        color:'white', top:8}} />;
+        style={styles.canceled} />;
       buttonColor= 'grey';
     }
     // REJECTED SWAP OFFER VIEW
     else if (swap.status == 'rejected'){
       lastCol = 
       <Icon type="FontAwesome5" name="times" 
-        style={{ alignSelf:'center', fontSize:24, 
-        color:'white', top:8}} />;
+        style={styles.rejected} />;
       buttonColor= 'red';
     }
     // SWAP OFFER VIEW
@@ -78,10 +71,18 @@ export default SwapList = (props) => {
 
     var startHour = parseInt(swapTime.substring(16,19))
     var startM 
-    if (startHour/12 >= 1){
-      startM = ' P.M.', startHour%=12
-    }  else{
-      startM = ' A.M.'
+    if (startHour % 12!==0){
+      if(startHour/12 >= 1){
+        startM = ' P.M.', startHour%=12
+      }else{
+        startM = ' A.M.'
+      }
+    } else{
+      if(startHour == 0){
+        startM = ' A.M.', startHour=12
+      }else{
+        startM = ' P.M.'
+      }
     }
     
     var startDate =  day_name + '. ' + startMonth + '. ' + startDay
@@ -101,9 +102,7 @@ export default SwapList = (props) => {
 
     
     return(
-      <Row key={index} style={{
-        height:60, width:'100%', alignItems:'center', 
-        borderTopWidth:1, borderTopColor:'#d3d3d3'}}>
+      <Row key={index} style={styles.rowContainer}>
         
         <Col style={{ width:'20%' }}>
           <Text style={{ textTransform:'capitalize' }}>
@@ -117,8 +116,7 @@ export default SwapList = (props) => {
 
         <Col style={{ width:'20%' }}>
           <TouchableOpacity onPress={() => enterSwapOffer()}>
-            <View style={{backgroundColor:buttonColor, 
-              height:40,alignItems:'center'}}>
+            <View style={{backgroundColor:buttonColor, height:40,alignItems:'center'} }>
               {lastCol}  
             </View>
           </TouchableOpacity>
@@ -133,4 +131,24 @@ export default SwapList = (props) => {
       {swapRows}
     </Grid>
   )
+}
+
+const styles = {
+  
+  rowContainer:{
+    height:60, width:'100%', alignItems:'center', 
+    borderTopWidth:1, borderTopColor:'#d3d3d3'},
+    
+  agreed:{
+    fontWeight:'600',  fontSize:16, color:'white', top:8},
+  pending:{
+    fontWeight:'600', fontSize:16, color:'white', top:8},
+  counter_incoming:{
+    alignSelf:'center', fontSize:18, color:'white' , top:8},
+  incoming:{
+    alignSelf:'center', fontSize:18, color:'white' , top:8},
+  rejected:{ 
+    alignSelf:'center', fontSize:24, color:'white', top:8},
+  canceled:{
+    alignSelf:'center', fontSize:24, color:'white', top:8},
 }

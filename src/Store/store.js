@@ -1,6 +1,7 @@
 import {Toast} from 'native-base'
 import AsyncStorage from '@react-native-community/async-storage'
 import { StackActions, NavigationActions } from 'react-navigation';
+import { computeDestinationPoint } from 'geolib';
 
 var databaseURL = 'https://swapprofit-test.herokuapp.com/'
 
@@ -80,7 +81,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 						var newBuyinID
 
 						let accessToken = getStore().userToken
-						console.log('image', image)
 						const imageURL = databaseURL + 'me/buy_ins/flight/'+ a_flight_id +'/image'		
 						const imageData = new FormData();
 						imageData.append("image", {
@@ -100,21 +100,16 @@ const getState = ({ getStore, setStore, getActions }) => {
 						.then(response => response.json())
 						.then((responseJson) => {
 							console.log('responseJson',responseJson)
-							newBuyinID = responseJson.buyin_id
-							;
+							newBuyinID = responseJson.buyin_id;
 						})
 						.catch((error) => {
 							console.log('error in json',error);
 						});
 
-						var eeee = await getActions().buy_in.edit(newBuyinID, a_table, a_seat, some_chips)
-
-						var answer1 = await getActions().tournament.getInitial()
-						var answer2 = await getActions().tournament.getAction(a_tournament_id)
-						var answer3 = await getActions().tournament.getCurrent(a_tournament_id)
+						var eeee = await getActions().buy_in.edit(newBuyinID, a_table, a_seat, some_chips, a_tournament_id)
 
 						var tournament = getStore().currentTournament
-
+						
 						var a5 = await navigation.push('EventLobby', {
 							action: getStore().action,
 							tournament: tournament.tournament,
@@ -131,6 +126,32 @@ const getState = ({ getStore, setStore, getActions }) => {
 					}
 				},
 
+				busted: async ( a_buyin_id, a_place, some_cash ) => {
+					try{
+						let url = databaseURL + '/buy_ins/' + a_buyin_id
+						let accessToken = getStore().userToken
+						let data = {
+							place: parseInt(a_place),
+							table: some_cash.toString()
+						}
+	
+						let response = await fetch(url, {
+							method: 'PUT',
+							body: JSON.stringify(data),
+							headers: {
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							}, 
+						})
+						.then(response => response.json)
+						console.log('busted response',response)
+					}catch(error){
+						console.log('Something went wrong with busting my buyin', error)
+					}
+					
+
+				},
+
 				edit: async ( a_buyin_id, a_table, a_seat, some_chips, a_tournament_id) => {
 					try{
 						const url = databaseURL + 'me/buy_ins/' + a_buyin_id  + '?validate=true'
@@ -141,6 +162,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 							seat: parseInt(a_seat)
 						}
 
+						console.log('data', data)
+
 						let response = await fetch(url, {
 							method: 'PUT',
 							body: JSON.stringify(data),
@@ -149,11 +172,11 @@ const getState = ({ getStore, setStore, getActions }) => {
 								'Content-Type':'application/json'
 							}, 
 						})
-						.then(response => response.json)
-						.then(getActions().tracker.getAll())
+						let answer = await response.json()
+						var answer1 = await getActions().tournament.getInitial()
+						var answer2 = await getActions().tournament.getAction(a_tournament_id)
+						var answer3 = await getActions().tournament.getCurrent(a_tournament_id)
 						
-
-
 					}catch(error){
 						console.log('Something went wrong with editing a buyin', error)
 					}
@@ -536,15 +559,24 @@ const getState = ({ getStore, setStore, getActions }) => {
 			
 			swap: {
 
-				add: async ( a_tournament_id, a_recipient_id, a_percentage, navigation ) => {
+				add: async ( a_tournament_id, a_recipient_id, a_percentage, navigation, a_counter_percentage ) => {
 					try{
 						const url = databaseURL + 'me/swaps'
 						let accessToken = getStore().userToken
-						let data = {
-							tournament_id: a_tournament_id,
-							recipient_id: a_recipient_id,
-							percentage: a_percentage
-						}
+						let data
+						a_counter_percentage !== undefined ?
+							data = {
+								tournament_id: a_tournament_id,
+								recipient_id: a_recipient_id,
+								percentage: a_percentage,
+								counter_percentage: a_counter_percentage
+							}
+							:
+							data = {
+								tournament_id: a_tournament_id,
+								recipient_id: a_recipient_id,
+								percentage: a_percentage
+							}
 
 						let response = await fetch(url,{
 							method:"POST",
@@ -559,7 +591,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 						var gettingProfile = await getActions().profile.get()
 						var gettingAllTrackers = await getActions().tracker.getAll()
-						var gettingAllTrackers = await getActions().tournament.getCurrent(a_tournament_id)						
+						var gettingAllTrackers = await getActions().tournament.getCurrent(a_tournament_id)		
+						var answer3 = await getActions().tournament.getAction(a_tournament_id)				
 						navigation.goBack()
 						
 					}catch(error){
@@ -638,7 +671,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 						console.log('response',response)
 						var answer1 = await getActions().tracker.getAll()
 						var answer2 = await getActions().tournament.getCurrent(a_tournament_id)
-
+						var answer3 = await getActions().tournament.getAction(a_tournament_id)
+						console.log(getStore().action)
 						return(
 							Toast.show({
 								text:'You swapped with XX',
@@ -838,6 +872,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 
 						let trackerData = await response.json()
+						console.log(trackerData)
 						setStore({myTrackers: trackerData})
 						
 					} catch(error){

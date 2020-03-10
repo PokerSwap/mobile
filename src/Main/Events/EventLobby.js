@@ -12,12 +12,7 @@ export default EventLobby = (props) => {
   const { store, actions } = useContext(Context)
 
   const { navigation } = props;
-  // let action = navigation.getParam('action', 'NO-ID');
-  // let tournament = navigation.getParam('tournament', 'NO-ID');
-  // let flights = navigation.getParam('flights', 'NO-ID');
-  // let buyins = navigation.getParam('buyins', 'NO-ID');
-  // let my_buyin = navigation.getParam('my_buyin', 'NO-ID');
-
+  
   let tournament = store.currentTournament.tournament
   let my_buyin = store.currentTournament.my_buyin
   let buyins = store.currentTournament.buyins
@@ -35,7 +30,6 @@ export default EventLobby = (props) => {
       console.log('Something went wrong with refresh Tournaent',error)
     }
   }
-
 
   useEffect(() => {
     refreshTournament()
@@ -58,7 +52,6 @@ export default EventLobby = (props) => {
     tournamentBuyins = []
   }
   
-
   var Flights = flights.map((flight, index) => { 
         
     var myBuyInFlight
@@ -78,9 +71,9 @@ export default EventLobby = (props) => {
     
     });
 
-
     return(
-      <FlightSchedule key={index} 
+      <FlightSchedule 
+        key={index} 
         navigation={props.navigation}
         my_buyin={myBuyInFlight}
         buyins={swappedBuyins}

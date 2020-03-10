@@ -5,17 +5,187 @@ import {Text, Button, Card, CardItem, Icon} from 'native-base'
 
 import {Context} from '../../../Store/appContext'
 
+SpecialOffer = (props) => {
+  return(
+    <View>
+      <View style={{flexDirection:'row', justifyContent:'center'}}>
+        <CardItem style={{justifyContent:'center', flexDirection:'column'}}>
+          {/* SWAP PERCENTAGE */}
+          <Text style={{fontSize:36}}> 
+            You
+          </Text>
+          <Text style={{fontSize:36}}> 
+            {props.percentage}%
+          </Text>
+          <View style={{flexDirection:'row', alignItems:'center'}}>
+
+          {/* SUBTRACT BUTTON */}
+          <Button style={{width:50, height:50, borderRadius: 5, 
+            backgroundColor:'blue', alignContent:'center'}} 
+            onPress={()=> props.pSubtract()}>
+              <Icon type='FontAwesome5' name='minus'
+                style={{color:'white', fontSize:24}}/>
+          </Button>
+
+
+
+          {/* ADD BUTTON */}
+          <Button style={{width:50, height:50, borderRadius: 5, 
+            backgroundColor:'blue', alignContent:'center'}} 
+            onPress={()=> props.pAdd()}>
+              <Icon type='FontAwesome5' name='plus'
+                style={{color:'white', fontSize:24}}/>
+          </Button>
+
+          </View>
+          
+
+        </CardItem>
+
+        <CardItem style={{justifyContent:'center', flexDirection:'column'}}>
+          
+          <Text style={{fontSize:36}}> 
+            {props.otherUser}
+          </Text>
+
+          <Text style={{fontSize:36}}> 
+            {props.counterPercentage}%
+          </Text>
+
+          {/* SUBTRACT BUTTON */}
+          <View style={{flexDirection:'row', alignItems:'center'}}>
+            <Button style={{width:50, height:50, borderRadius: 5, 
+              backgroundColor:'blue', alignContent:'center'}} 
+              onPress={()=> props.cSubtract()}>
+                <Icon type='FontAwesome5' name='minus'
+                  style={{color:'white', fontSize:24}}/>
+            </Button>
+
+            {/* ADD BUTTON */}
+            <Button style={{width:50, height:50, borderRadius: 5, 
+              backgroundColor:'blue', alignContent:'center'}} 
+              onPress={()=> props.cAdd()}>
+                <Icon type='FontAwesome5' name='plus'
+                  style={{color:'white', fontSize:24}}/>
+            </Button>
+          </View>
+
+        </CardItem>
+      </View>
+
+      <Button onPress={()=>props.counterSwitch()}>
+        <Text>
+          CHANGE NOW
+        </Text>
+      </Button>
+
+      <CardItem style={{justifyContent:'center'}}>
+        <Button large 
+          onPress={() => props.showAlert('offer')}>
+          <Text> Offer Swap </Text>
+        </Button>
+      </CardItem>
+    </View>
+  )
+}
+
+StandardOffer = (props) => {
+  return(
+    <View>
+      <CardItem style={{justifyContent:'center'}}>
+        {/* SUBTRACT BUTTON */}
+        <Button style={{width:50, height:50, borderRadius: 5, 
+          backgroundColor:'blue', alignContent:'center'}} 
+          onPress={()=> props.tSubtract()}>
+            <Icon type='FontAwesome5' name='minus'
+              style={{color:'white', fontSize:24}}/>
+        </Button>
+
+        {/* SWAP PERCENTAGE */}
+        <Text style={{fontSize:36, marginHorizontal:10}}> 
+          {props.percentage}% 
+        </Text>
+
+        {/* ADD BUTTON */}
+        <Button style={{width:50, height:50, borderRadius: 5, 
+          backgroundColor:'blue', alignContent:'center'}} 
+          onPress={()=> props.tAdd()}>
+            <Icon type='FontAwesome5' name='plus'
+              style={{color:'white', fontSize:24}}/>
+        </Button>
+
+      </CardItem>
+
+      <Button onPress={()=>props.counterSwitch()}>
+        <Text>
+          CHANGE NOW
+        </Text>
+      </Button>
+
+      <CardItem style={{justifyContent:'center'}}>
+        <Button large 
+          onPress={() => props.showAlert('offer')}>
+          <Text> Offer Swap </Text>
+        </Button>
+      </CardItem>
+    </View>)
+}
+
 export default InactivePath = (props) => {
 
   const {store, actions} = useContext(Context)
   
   const [percentage, setPercentage] = useState(1)
+  const [counterPercentage, setCounterPercentage] = useState(1)
 
-  const add = () => {
-    percentage < 50 ? setPercentage(percentage+ 1) : setPercentage(50)}
+  const [visible, setVisible] = useState(false)
 
-  const subtract = () => {
-    percentage > 1 ? setPercentage(percentage-1) : setPercentage(1)}
+  var counterSwitch = () => {
+    setVisible(!visible)
+    setCounterPercentage(percentage)
+  }
+
+
+  const pAdd = () => {
+    percentage < 50 ? 
+      setPercentage(percentage+ 1) : setPercentage(50)
+  }
+
+  const pSubtract = () => {
+    percentage > 1 ? 
+      setPercentage(percentage-1) : setPercentage(1)
+  }
+
+  const cAdd = () => {
+    counterPercentage < 50 ? 
+      setCounterPercentage(counterPercentage+ 1) 
+      : setCounterPercentage(50)
+  }
+
+  const cSubtract = () => {
+    counterPercentage > 1 ? 
+      setCounterPercentage(counterPercentage-1) 
+      : setCounterPercentage(1)
+  }
+
+  const tAdd = () => {
+    if(percentage < 50){
+      setPercentage(percentage + 1) 
+      setCounterPercentage(percentage) 
+    } else {
+      setPercentage(50), setCounterPercentage(50)
+    }     
+  }
+
+  const tSubtract = () => {
+    if(percentage > 1){
+      setPercentage(percentage - 1) 
+      setCounterPercentage(percentage) 
+    } else {
+      setPercentage(1), setCounterPercentage(1)
+    }     
+  }
+
 
   const showAlert = (action) =>{
     Alert.alert(
@@ -36,51 +206,22 @@ export default InactivePath = (props) => {
 
   return(
     <Card>
-
-      <CardItem style={{justifyContent:'center'}}>
-        <Text style={{marginRight:5,fontSize:24, textAlign:'center'}}>
-          Swap With:
-        </Text>    
-      </CardItem>
-
-      <CardItem style={{justifyContent:'center'}}>
-        <Text style={{marginLeft:5,fontSize:36,justifyContent:'center'}}> 
-          {props.buyin.user_name} 
-        </Text>
-      </CardItem>
       
       {store.myProfile.coins > 0 ? 
-        <View>
-          <CardItem style={{justifyContent:'center'}}>
-            {/* SUBTRACT BUTTON */}
-            <Button style={{width:50, height:50, borderRadius: 5, 
-              backgroundColor:'blue', alignContent:'center'}} 
-              onPress={()=> subtract()}>
-                <Icon type='FontAwesome5' name='minus'
-                  style={{color:'white', fontSize:24}}/>
-            </Button>
+        !visible ?
+          <StandardOffer showAlert={showAlert}
+            counterSwitch={counterSwitch}
+            percentage={percentage}
+            tAdd={tAdd} tSubtract={tSubtract} />
+          :
+          <SpecialOffer showAlert={showAlert}
+            otherUser={props.buyin.user_name} 
+            counterSwitch={counterSwitch}
+            percentage={percentage}
+            counterPercentage={counterPercentage}
+            pAdd={pAdd} pSubtract={pSubtract}
+            cAdd={cAdd} cSubtract={cSubtract} />
 
-            {/* SWAP PERCENTAGE */}
-            <Text style={{fontSize:36, marginHorizontal:10}}> 
-              {percentage}% 
-            </Text>
-
-            {/* ADD BUTTON */}
-            <Button style={{width:50, height:50, borderRadius: 5, 
-              backgroundColor:'blue', alignContent:'center'}} 
-              onPress={()=> add()}>
-                <Icon type='FontAwesome5' name='plus'
-                  style={{color:'white', fontSize:24}}/>
-            </Button>
-
-          </CardItem>
-
-          <CardItem style={{justifyContent:'center'}}>
-            <Button large onPress={() => showAlert('offer')}>
-              <Text> Offer Swap </Text>
-            </Button>
-          </CardItem>
-        </View>
         : 
         <View>
           <CardItem>

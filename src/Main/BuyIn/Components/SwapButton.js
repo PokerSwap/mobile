@@ -34,10 +34,8 @@ export default SwapButton = (props) => {
       allStatuses.push(swap.id,swap.status))
     :allStatuses = ['inactive']
 
-  var lastCol, buttonColor, path, sWAP;
+  var lastCol, buttonColor, path, swapID;
  
-  // console.log('allStatuses',allStatuses)
-
   // YOUR SWAP VIEW
   if (props.buyin.user_id == store.myProfile.id){
     lastCol = 
@@ -53,7 +51,7 @@ export default SwapButton = (props) => {
         style={{alignSelf:'center', fontSize:24}}/>;
     buttonColor= 'green';
     path = 'incoming'
-    sWAP = allStatuses[allStatuses.indexOf('incoming')-1]
+    swapID = allStatuses[allStatuses.indexOf('incoming')-1]
   } 
   // COUNTER-INCOMING SWAP VIEW
   else if(allStatuses.includes('counter_incoming')){
@@ -62,7 +60,7 @@ export default SwapButton = (props) => {
         style={{alignSelf:'center', fontSize:24}}/>;
     buttonColor= 'orange';
     path = 'counter_incoming'
-    sWAP = allStatuses[allStatuses.indexOf('counter_incoming')-1]
+    swapID = allStatuses[allStatuses.indexOf('counter_incoming')-1]
   } 
   // PENDING SWAP VIEW
   else if(allStatuses.includes('pending')) {
@@ -76,7 +74,7 @@ export default SwapButton = (props) => {
       </Text>;
     path = "pending";
     buttonColor = 'orange';
-    sWAP = allStatuses[allStatuses.indexOf('pending')-1]
+    swapID = allStatuses[allStatuses.indexOf('pending')-1]
   } 
   // INCOMING SWAP VIEW
   else if (allStatuses.includes('agreed')){
@@ -98,6 +96,7 @@ export default SwapButton = (props) => {
       </View>
     path = "inactive";
     buttonColor = null;
+    swapID = allStatuses[allStatuses.indexOf('incoming')-1] 
   
   } 
   // INACTIVE SWAP OFFER VIEW
@@ -110,42 +109,68 @@ export default SwapButton = (props) => {
   } 
 
   const enterSwapOffer = async() => {
-    console.log('sss', sWAP)
-    var answer = await actions.swap.getCurrent(sWAP)
-    // if (props.buyin.user_id == store.myProfile.id || props.agreed_swaps == undefined) {
-      console.log('swapaner', answer)
- 
+
+    var swapTime
+    if (path !== 'edit'){
+      var answer = await actions.swap.getCurrent(swapID)
+      var swapTime = store.currentSwap.updated_at
+
+    } else{
+      swapTime = props.updated_at
+    }
+    var day_name = swapTime.substring(0,3)
+    var startMonth = swapTime.substring(8,11)
+    var startDay = swapTime.substring(5,7)
+    var startTime = swapTime.substring(16,22)
+
+    var startHour = parseInt(swapTime.substring(16,19))
+    var startM 
+    if (startHour % 12!==0){
+      if(startHour/12 >= 1){
+        startM = ' P.M.', startHour%=12
+      }else{
+        startM = ' A.M.'
+      }
+    } else{
+      if(startHour == 0){
+        startM = ' A.M.', startHour=12
+      }else{
+        startM = ' P.M.'
+      }
+    }
     
+    var startDate =  day_name + '. ' + startMonth + '. ' + startDay
+    var startTime = startHour + ':' + swapTime.substring(20,22) + startM
+    var labelTime = startDate + ', ' +   startTime
     props.navigation.push('SwapOffer',{
         status: path,
         swap: store.currentSwap,
         buyin: props.buyin,
-        updated_at: since,
+        updated_at: labelTime,
         tournament: props.tournament,
-      })
-    // }else{
-      console.log('nope')
-    
-    // }
-    
+      })  
   }
 
   return(
-    <Col style={{justifyContent:'center', 
-      marginLeft:20, textAlign:'center'}}>
-      <Button 
-        onPress={()=> enterSwapOffer()}
-        style={{
-          backgroundColor:buttonColor, width:70, height:70, 
-          justifyContent:'center', alignSelf:'center'}}>
+    <Col style={styles.container}>
+      <Button style={{backgroundColor:buttonColor, width:70, height:70, 
+    justifyContent:'center', alignSelf:'center'}}
+        onPress={()=> enterSwapOffer()}>
         {lastCol}
       </Button>
-
-      <Text style={{ marginTop:10, color:props.txt, 
-        textAlign:'center', alignSelf:'center'}}>
+      <Text style={{marginTop:10, color:props.txt, 
+    textAlign:'center', alignSelf:'center'}}>
         {since}
       </Text>
     </Col>
-
   )
+}
+
+const styles = {
+
+  container:{
+    justifyContent:'center', marginLeft:20, 
+    textAlign:'center' },
+
+  
 }
