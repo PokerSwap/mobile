@@ -46,6 +46,24 @@ export default EventBody = (props) => {
   var year = tournament.start_at.substring(12,16)
   var day_name = tournament.start_at.substring(0,3)
 
+  var startHour = parseInt(tournament.start_at.substring(16,19))
+    var startM 
+    if (startHour % 12!==0){
+      if(startHour/12 >= 1){
+        startM = ' PM', startHour%=12
+      }else{
+        startM = ' AM'
+      }
+    } else{
+      if(startHour == 0){
+        startM = ' AM', startHour=12
+      }else{
+        startM = ' PM'
+      }
+    }
+  var startTime = startHour + ':' + tournament.start_at.substring(20,22) + startM
+
+
  var faraway = getDistance(
    props.myCoords,
    {latitude: tournament.latitude, 
@@ -88,16 +106,19 @@ export default EventBody = (props) => {
           alignContent:'center', flexDirection:"column", 
           flex:0, width:85, height:85, justifyContent:"center"}}>
 
+<Text style={{fontWeight:"600", fontSize:16, fontWeight:'400',
+            color:textColor, marginBottom:2, textAlign:'center'}}>
+            {day_name} 
+          </Text>
           {/* TOURNAMENT START DATE*/}
           <Text style={{fontWeight:"600", 
             fontSize:24, color:textColor}}>
             {month} {day}
           </Text>
-          <Text style={{fontWeight:"600", fontSize:12, 
-            color:textColor, marginTop:5}}>
-            {day_name} {year}
+          <Text style={{fontWeight:"400", fontSize:16, 
+            color:textColor, marginTop:5, textAlign:'center'}}>
+            {startTime}
           </Text>
-
           {/* TOURNAMENT ADDRESS */}
         
           {renderedItem}

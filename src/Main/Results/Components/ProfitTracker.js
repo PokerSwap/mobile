@@ -122,7 +122,7 @@ export default ProfitTracker = (props) => {
     <ListItem noIndent transparent 
       style={{justifyContent:'center'}}>
 
-<Modal
+      <Modal
         animationType='fade'
         visible={visible}
         presentationStyle='overFullScreen'

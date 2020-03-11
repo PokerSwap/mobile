@@ -1,5 +1,4 @@
 import React, {useContext, useEffect} from 'react';
-import {View} from 'react-native'
 import { Container, Content, Icon, Button, 
   Left, Header, Text, List, ListItem } from 'native-base';
 
@@ -7,7 +6,8 @@ import ProfileHistoryCard from './Components/ProfileHistoryCard'
 import ProfileBio from './Components/ProfileBio';
 import SwapList from '../../Main/BuyIn/Components/SwapList'
 
-import Store, {Context} from '../../Store/appContext'
+import {Context} from '../../Store/appContext'
+import MyProfileHistoryCard from './Components/MyProfileHistoryCard'
 
 
 
@@ -43,7 +43,7 @@ export default ProfileScreen = (props) => {
     )
   } else{
     history=store.myPastTrackers
-    console.log('wait')
+    console.log('history', history)
   }
   
 
@@ -110,20 +110,37 @@ export default ProfileScreen = (props) => {
           })}
         </List>
         :
-        <Text>You haven't swapped had any swaps before </Text>
+        <Text> 
+          You haven't swapped with this person before 
+        </Text>
       :
-      // <List style={{justifyContent:'center'}}>
-      //   <ListItem noIndent itemHeader
-      //     style={{justifyContent:'center'}}>
-      //     <Text style={{ textAlign:'center', 
-      //       fontWeight:'600', fontSize:24}}>
-      //       History
-      //     </Text>
-      //   </ListItem>
-      //   {history.}
-      // </List>
-      <Text> This is you </Text>
-             
+      store.myPastTrackers.length !== 0 ?
+        <List style={{justifyContent:'center'}}>
+          <ListItem noIndent itemHeader
+            style={{justifyContent:'center'}}>
+            <Text style={{ textAlign:'center', 
+              fontWeight:'600', fontSize:24}}>
+              History
+            </Text>
+          </ListItem>
+          {history.map((content, index) =>{
+            return(
+              <MyProfileHistoryCard 
+                key={index}
+                tournament={content.tournament}
+                my_buyin={content.my_buyin}
+                buyins={content.buyins}
+                final_profit={content.final_profit}
+              />
+            )
+            })}
+        </List>
+        :
+        <Text style={{
+          textAlign:'center', fontSize:24, 
+          fontWeight:'600', marginTop:10}}> 
+          Start Swapping Today!
+        </Text>
     }
       </Content>
     </Container>

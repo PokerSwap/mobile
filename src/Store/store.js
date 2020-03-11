@@ -115,7 +115,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							newBuyinID = responseJson.buyin_id;
 						})
 						.catch((error) => {
-							console.log('error in json',error);
+							console.log('error in json of image',error);
 						});
 
 						var eeee = await getActions().buy_in.edit(newBuyinID, a_table, a_seat, some_chips, a_tournament_id)
@@ -719,11 +719,28 @@ const getState = ({ getStore, setStore, getActions }) => {
 						var answer2 = await getActions().tournament.getCurrent(a_tournament_id)
 						var answer3 = await getActions().tournament.getAction(a_tournament_id)
 						console.log(getStore().action)
+
+						var f
+						if (false){
+							f = 'lol'
+						}else if (a_status == 'agreed'){
+							f = 'You agreed to this swap offer'
+						}else if (a_status == 'pending'){
+							f = 'Your swap offer was sent'
+						}else if (a_status == 'rejected'){
+							f = 'You rejected this swap offer'
+						}else if (a_status == 'canceled'){
+							f = 'You canceled this swap offer'
+						}else if (a_status == 'counter'){
+							f = 'You countered this swap offer'
+						}else if (a_status == 'agreed'){
+						}else if (a_status == 'agreed'){}else{}
 						return(
 							Toast.show({
-								text:'You swapped with XX',
+								text:f,
 								duration:3000,
-								position:'top'
+								style:{bottom:90,backgroundColor:'#008000'}
+
 							})
 						)
 

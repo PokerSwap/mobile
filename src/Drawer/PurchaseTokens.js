@@ -2,6 +2,13 @@ import React, { useContext } from 'react';
 import { Alert,  ScrollView, Image} from 'react-native';
 import { Container, Content,  Button, Text, View } from 'native-base';
 import {Grid, Col, Row} from 'react-native-easy-grid'
+// import stripe from 'tipsi-stripe'
+
+// stripe.setOptions({
+//   publishableKey: 'PUBLISHABLE_KEY',
+//   merchantId: 'MERCHANT_ID', // Optional
+//   androidPayMode: 'test', // Android only
+// })
 
 import OtherHeader from '../View-Components/OtherHeader'
 

@@ -48,7 +48,8 @@
     "react-navigation-drawer": "^2.3.3",
     "react-navigation-stack": "^2.1.0",
     "react-navigation-tabs": "^2.7.0",
-    "save": "^2.4.0"
+    "save": "^2.4.0",
+    "tipsi-stripe": "^7.5.1"
   },
   "devDependencies": {
     "@babel/core": "^7.6.4",
