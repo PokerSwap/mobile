@@ -30,19 +30,22 @@ export default ProfileScreen = (props) => {
 
 
   var history =[]
-  var checkingHistory = past.forEach(
-    tracker =>  {
-      var y = tracker.buyins.filter(buyin => 
-        buyin.recipient_user.id == id)
-      // console.log('tracker',tracker)
-      // console.log('buyins',tracker.buyins)
-      // console.log('y', y, 'this', y[0])
-      if (y.length !== 0) {
-        y[0]["tournament_name"] = tracker.tournament.name
-        history.push(...y)
-       }else {null}
-    }
-  )
+  if(id !== store.myProfile.id ){
+    var checkingHistory = past.forEach(
+      tracker =>  {
+        var y = tracker.buyins.filter(buyin => 
+          buyin.recipient_user.id == id)
+        if (y.length !== 0) {
+          y[0]["tournament_name"] = tracker.tournament.name
+          history.push(...y)
+         }else {null}
+      }
+    )
+  } else{
+    history=store.myPastTrackers
+    console.log('wait')
+  }
+  
 
   
 
@@ -109,7 +112,18 @@ export default ProfileScreen = (props) => {
         :
         <Text>You haven't swapped had any swaps before </Text>
       :
-      <Text>This is you</Text>         
+      // <List style={{justifyContent:'center'}}>
+      //   <ListItem noIndent itemHeader
+      //     style={{justifyContent:'center'}}>
+      //     <Text style={{ textAlign:'center', 
+      //       fontWeight:'600', fontSize:24}}>
+      //       History
+      //     </Text>
+      //   </ListItem>
+      //   {history.}
+      // </List>
+      <Text> This is you </Text>
+             
     }
       </Content>
     </Container>

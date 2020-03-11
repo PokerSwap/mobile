@@ -50,33 +50,33 @@ export default ProfileHistoryCard = (props) => {
 				else if (swap.status == 'rejected'){bgColor = 'red'}
 
 				return(
-					<ListItem noIndent key={index} style={{backgroundColor:bgColor}}>
-					<Row  style={{backgroundColor:bgColor,
-						marginBottom:10, alignItems:'center'}}>
-						<Col style={{width:'20%', color:'white'}}>
-							<Text style={{color:'white',
-								textTransform:'capitalize', fontSize:18}}>
-								{swap.status}
-							</Text>
-						</Col>
-						
-						<Col style={{width:'55%'}}>
-							<Text style={{color:'white',fontSize:18, textAlign:'center'}}>
-								{labelTime}
-							</Text>
-						</Col>
-
-						<Col style={{width:'20%'}}>
-							<Button bordered light style={{ 
-								paddingVertical:10, justifyContent:'center'}}>
-								<Text style={{textAlign:'center',
-									color:'white', fontSize:18, fontWeight:'600'}}>
-									{swap.percentage}%
+					<ListItem noIndent key={index} 
+						style={{backgroundColor:bgColor}}>
+						<Row style={{marginBottom:10, 
+							alignItems:'center', backgroundColor:bgColor}}>
+							
+							<Col style={time.container}>
+								<Text style={time.text}>
+									{swap.status}
 								</Text>
-							</Button>
-						</Col>
+							</Col>
+							
+							<Col style={styles.time.container}>
+								<Text style={styles.time.text}>
+									{labelTime}
+								</Text>
+							</Col>
 
-					</Row>
+							<Col style={styles.percentage.container}>
+								<Button bordered light 
+									style={styles.percentage.button}>
+									<Text style={styles.percentage.text}>
+										{swap.percentage}%
+									</Text>
+								</Button>
+							</Col>
+
+						</Row>
 					</ListItem>
 				)})
 				:
@@ -84,4 +84,30 @@ export default ProfileHistoryCard = (props) => {
 			}
 		</View>		
 	)
+}
+
+const styles = {
+	mainContainer:{
+		marginBottom:10, alignItems:'center'},
+	percentage:{
+		container:{
+			width:'20%' },
+		text:{
+			textAlign:'center', color:'white', 
+			fontSize:18, fontWeight:'600' },
+		button:{
+			paddingVertical:10, justifyContent:'center' }
+	},
+	status:{
+		container:{
+			width:'20%', color:'white'},
+		text:{
+			color:'white', textTransform:'capitalize', fontSize:18}
+	},
+	time:{
+		container:{
+			width:'55%'},
+		text:{
+			color:'white',fontSize:18, textAlign:'center'}
+	},
 }

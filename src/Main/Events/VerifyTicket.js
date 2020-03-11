@@ -246,21 +246,22 @@ export default VerifyTicket = (props) => {
               placeholder={'Please slelel'}
               placeholderLabel='please'
               style={{justifyContent:'center'}}>
-            <Picker
-              note
-              mode="dialog"
-              placeholder="Select your SIM"
-              placeholderStyle={{ color: "#bfc6ea" }}
-              style={{width:280,  alignSelf:'center' }}
-              selectedValue={flight_id}
-              onValueChange={ (itemValue, itemIndex) => setFlight(itemValue) }
-              >
-              <Picker.Item style={{textAlign:'center'}} label="Please select your flight..." value="-1" />
-              {FlightSelection}
-             
-            </Picker>
-          </Form>
-            }
+              <Picker
+                note
+                mode="dialog"
+                placeholder="Select your SIM"
+                placeholderStyle={{ color: "#bfc6ea" }}
+                style={{width:280,  alignSelf:'center' }}
+                selectedValue={flight_id}
+                onValueChange={ (itemValue, itemIndex) => setFlight(itemValue) }>
+                
+                <Picker.Item style={{textAlign:'center'}} 
+                  label="Please select your flight..." value="-1" />
+                  
+                  {FlightSelection}
+              </Picker>
+            </Form>
+          }
         </Card>
         
         <Button large style={styles.button} 
