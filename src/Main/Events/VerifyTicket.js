@@ -20,10 +20,12 @@ export default VerifyTicket = (props) => {
   const [table, setTable ]= useState('');
   const [seat, setSeat] = useState('');
   const [chips, setChips] = useState('');
-  const [flight_id, setFlight] = useState('-1')
 
   var navigation = props.navigation;
   let flights = navigation.getParam('flights', 'NO-ID');
+  let name = navigation.getParam('name', 'NO-ID');
+
+  let flight_id = navigation.getParam('flight_id', 'NO-ID');
   let tournament = navigation.getParam('tournament', 'NO-ID');
 
   let tournament_id = tournament.id
@@ -139,6 +141,12 @@ export default VerifyTicket = (props) => {
         
         {/* IMAGE INPUT */}
         <Card transparent >
+
+          <CardItem style={{justifyContent:'center'}}>
+            <Text style={{textAlign:'center', fontSize:24, fontWeight:'bold'}}>
+              {name} 
+            </Text>
+          </CardItem>
           
           {/* INSTRUCTION TEXT  */}
           <CardItem style={{selfAlign:'center', flex:1, 
@@ -222,47 +230,7 @@ export default VerifyTicket = (props) => {
           </CardItem>
         </Card>
         
-        <Card transparent style={{ justifyContent:'center', flex:1, flexDirection:'column'}}>
-          <Text style={{textAlign:'center', fontSize:18, marginBottom:5}}>
-            Selected Flight:
-          </Text> 
-          {Platform.OS =='ios'? 
-            <Form style={{justifyContent:'center', alignSelf:'center'}}>
-              <Picker
-                mode="dropdown"
-                iosIcon={<Icon name="arrow-down" />}
-                placeholder="Please select your flight..."
-                placeholderStyle={{ color: "#bfc6ea" }}
-                placeholderIconColor="#007aff"
-                style={{ width: undefined }}
-                selectedValue={flight_id}
-                onValueChange={ (itemValue, itemIndex) => setFlight(itemValue) }
-              >
-                {FlightSelection}
-              </Picker>
-            </Form>
-            :
-            <Form picker
-              placeholder={'Please slelel'}
-              placeholderLabel='please'
-              style={{justifyContent:'center'}}>
-              <Picker
-                note
-                mode="dialog"
-                placeholder="Select your SIM"
-                placeholderStyle={{ color: "#bfc6ea" }}
-                style={{width:280,  alignSelf:'center' }}
-                selectedValue={flight_id}
-                onValueChange={ (itemValue, itemIndex) => setFlight(itemValue) }>
-                
-                <Picker.Item style={{textAlign:'center'}} 
-                  label="Please select your flight..." value="-1" />
-                  
-                  {FlightSelection}
-              </Picker>
-            </Form>
-          }
-        </Card>
+        {/*  */}
         
         <Button large style={styles.button} 
           onPress={() => BuyInStart()}>

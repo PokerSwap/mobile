@@ -21,6 +21,8 @@ export default EventBody = (props) => {
       buyins: store.currentTournament.buyins,
       navigation: props.navigation,
       flights: store.currentTournament.tournament.flights,
+      flight_id: props.flight_id,
+      name: props.name,
       my_buyin: store.currentTournament.my_buyin
     });
   }
@@ -133,7 +135,7 @@ export default EventBody = (props) => {
         {/* TOURNAMENT TITLE */}
         <Text style={{ color:textColor, alignContent:'center',
           textAlign:'center', fontSize:20, fontWeight:'600'}}> 
-          {tournament.name}
+          {props.name}
         </Text>
 
       </Col>

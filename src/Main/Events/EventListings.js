@@ -18,8 +18,6 @@ export default EventListings = (props) => {
   const [myCoords, setMyCoords] = useState({})
 
 
-
-
   // REFRESH TIMER FOR NEW TOURNAMENTS
   const wait = (timeout) => {
     return new Promise(resolve => {
@@ -45,11 +43,13 @@ export default EventListings = (props) => {
   }
   // COMPONENT FOR TOURNAMENT BODY
   var EventRow = ({item, index}) => {
+
     return(
       <EventBody 
         key={index} navigation={props.navigation} 
         mode={mode} myCoords={myCoords}
         tournament = {item.tournament}
+        name = {item.name} flight_id = {item.flight_id}
         buyins={item.buyins} my_buyin={item.my_buyin}  />
     )
   }

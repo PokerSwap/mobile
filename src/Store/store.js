@@ -60,7 +60,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 			profileView:[ ],
 
 	  	// ALL TOURNAMETS, FILTERED BY FIRST 10 RESULTS
-			tournamentsList:[],
+			tournamentList:[],
 
 			// USED TO GET PROFILE AND ACCESS ALL REQUESTS IN THE APP
 			userToken: null
@@ -75,25 +75,19 @@ const getState = ({ getStore, setStore, getActions }) => {
 					try{	
 						console.log('tID in store', a_tournament_id)
 						if (image == 3){
-							return Toast.show({
-								text:'You need to select a photo of your buyin ticket before submitting',
-								position:'top', 
-								duration:3000
-							})
+							return customMessage('You need to select an image ifrst')
 						}
 
 						if (a_table == '' || a_seat == '' || some_chips == ''){
-							return Toast.show({
-								text:'You need to write in all fields',
-								position:'top', 
-								duration:3000
-							})
+							return customMessage('You need to fill in all yhe fields first')
+
 						}
 
 						var newBuyinID
 
 						let accessToken = getStore().userToken
 						const imageURL = databaseURL + 'me/buy_ins/flight/'+ a_flight_id +'/image'		
+						console.log('url is', imageURL)
 						const imageData = new FormData();
 						imageData.append("image", {
 								uri: image.uri,
@@ -111,14 +105,14 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 						.then(response => response.json())
 						.then((responseJson) => {
-							console.log('responseJson',responseJson)
+							console.log('responseJson',responseJson, response)
 							newBuyinID = responseJson.buyin_id;
 						})
 						.catch((error) => {
 							console.log('error in json of image',error);
 						});
 
-						var eeee = await getActions().buy_in.edit(newBuyinID, a_table, a_seat, some_chips, a_tournament_id)
+						var eeee = await getActions().buy_in.edit(newBuyinID, a_table, a_seat, some_chips, a_tournament_id, true)
 
 						var tournament = getStore().currentTournament
 						
@@ -175,30 +169,19 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 				},
 
-				edit: async ( a_buyin_id, a_table, a_seat, some_chips, a_tournament_id) => {
+				edit: async ( a_buyin_id, a_table, a_seat, some_chips, a_tournament_id, special) => {
 					try{
-						const url = databaseURL + 'me/buy_ins/' + a_buyin_id  + '?validate=true'
 						const accessToken = getStore().userToken
+						let url
+						special == true ?
+							url = databaseURL + 'me/buy_ins/' + a_buyin_id  + '?validate=true'
+							: url = databaseURL + 'me/buy_ins/' + a_buyin_id  
 						
-						let data
-						// if (special == 'bust'){
-						// 	data= {
-						// 		chips: parseInt(some_chips),
-						// 		table: parseInt(some_chips),
-						// 		seat: parseInt(a_seat)
-						// 	}
-						// }else{
-
-						console.log('atave', a_table)
-							data= {
-								table: a_table.toString(),
-								seat: parseInt(a_seat),
-								chips: parseInt(some_chips),
-								
-							}
-						// }
-						
-						 
+						let data= {
+							table: a_table,
+							seat: parseInt(a_seat),
+							chips: parseInt(some_chips),
+						}
 
 						let response = await fetch(url, {
 							method: 'PUT',
@@ -210,10 +193,10 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 						.then(response => response.json())
 						.then((responseJson) => {
-							console.log('added buyin',responseJson)
+							console.log('added buyin',response, responseJson)
 						})
 						.catch((error) => {
-							console.log('error in json',error);
+							console.log('error in json of edit buyin',error);
 						});
 
 						var answer0 = await getActions().tracker.getAll()
@@ -489,7 +472,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 				get: async () => {
 					try{
-
 						const accessToken = getStore().userToken;
 						const url = databaseURL + 'profiles/me';
 
@@ -510,6 +492,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 					} catch(error){
 						console.log('Something went wrong in getting profile', error)
+						setStore({myProfile:'Error'})
 					}
 				},
 
@@ -876,7 +859,26 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}, 
 						})
 						var initialTournaments = await response.json()
-						setStore({tournamentList: initialTournaments})
+						console.log('iii', initialTournaments)
+						var aaaa = []
+
+						var allInitialTournaments =  initialTournaments.forEach(tournament =>{
+							tournament.tournament.flights.forEach( (flight)=>{
+								var x
+								flight.day !== null ? 
+									x = ' - Day '+ flight.day : x = ''
+								
+								aaaa.push({
+									'name': tournament.tournament.name + x,
+									'tournament': tournament.tournament,
+									'buyins': tournament.buyins,
+									'my_buyin': tournament.my_buyin, 
+									'flight_id': flight.id
+								})
+							})
+						})
+						setStore({tournamentList: aaaa})
+						console.log('tournaments inital', getStore().tournamentList)
 					} catch(error) {
 						console.log('Something went wrong with getting initial tournaments', error)
 						return errorMessage(error.message)
@@ -908,8 +910,27 @@ const getState = ({ getStore, setStore, getActions }) => {
 						var tournamentData = getStore().tournamentList
 						let newData = await response.json()
 
+						var aaaa = []
+
+						var allInitialTournaments =  newData.forEach(tournament =>{
+							tournament.tournament.flights.forEach( (flight)=>{
+								var x
+								flight.day !== null ? 
+									x = ' - Day '+ flight.day : x = ''
+								
+								
+								aaaa.push({
+									'name': tournament.tournament.name + x,
+									'flight_id': flight.id,
+									'tournament': tournament.tournament,
+									'buyins': tournament.buyins,
+									'my_buyin': tournament.my_buyin
+								})
+							})
+						})
+
 						newData != [] ?
-							setStore({tournamentList: [...tournamentData, ...newData]})
+							setStore({tournamentList: [...tournamentData, ...aaaa]})
 							:
 							console.log('No more tournaments')
 
@@ -1044,7 +1065,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						.then(()=> myPassword = '')
 						.then(()=> {
 							if(getStore().userToken){
-								if(getStore().myProfile.message !== "Profile not found" ){
+								if(getStore().myProfile != 'error' && getStore().myProfile){
 									getActions().deviceToken.store(myDeviceID)
 									.then(() => getActions().tournament.getInitial())
 									.then(() => getActions().tracker.getAll())
