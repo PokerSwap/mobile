@@ -36,15 +36,7 @@ export default AgreedPath = (props) => {
           <InactivePath navigation={props.navigation} 
             buyin={props.buyin} tournament={props.tournament}/>}
 
-        {!again ?
-          <Button large style={{marginTop:30}}
-           onPress={()=> setAgain(!again)}>
-            <Text>Swap Again?</Text>
-          </Button>
-          :
-          <Button onPress={()=> setAgain(!again)}>
-            <Text>Go Back</Text>
-          </Button>}
+
       </CardItem>
     </Card>
   )

@@ -21,98 +21,88 @@ export default MyProfileHistoryCard = (props) => {
 			</ListItem>
 
 			{props.buyins.map((buyin, index) => {
-				var fullName = buyin.recipient_buyin.first_name + ' ' + buyin.recipient_buyin.last_name
-				var allSwaps = [...buyin.agreedSwaps, ...buyinOtherSwaps]
+				console.log('buyin', buyin)
+				var fullName = buyin.recipient_buyin.user_name
+				var allSwaps 
+				if (buyin.agreed_swaps.length !== 0){
+					if (buyin.other_swaps.length !== 0){
+						allSwaps = [ ...buyin.agreed_swaps, ...buyin.other_swaps ]
+					}else{
+						allSwaps = [ ...buyin.agreed_swaps ]
+					}
+				}else{
+					if (buyin.other_swaps.length !== 0){
+						allSwaps = [ ...buyin.other_swaps ]
+					}else{
+						allSwaps = null
+					}
+				}
 
 				return(
 					<ListItem key={index}>
-						<Row>
-							<Text>{fullName}</Text>
+						<Col>
+						<Row style={{justifyContent:'center'}}>
+							<Text style={{textAlign:'center', fontSize:20, fontWeight:'500', marginVertical:7 }}>{fullName}</Text>
 						</Row>
-						{allSwaps.map((swap, sIndex)=>{
-							return(
-								<MyHistoryAccordion 
-									swap={swap} key={sIndex} />
-							)
-						})}
+
+						{allSwaps != null ?
+							allSwaps.map((swap, sIndex)=>{
+								console.log('swap',swap)
+								return(
+									<MyHistoryAccordion 
+										swap={swap} key={sIndex} />
+								)
+							})
+							:
+							<Row>
+								<Text>
+									You did not make any swaps in this tournament
+								</Text>
+							</Row>}
+							</Col>
 					</ListItem>
 				)
 			})}
 
-			{props.allSwaps != null ?
-				props.allSwaps.map((swap,index) => {
-
-				var swapTime = swap.updated_at
-				var day_name = swapTime.substring(0,3)
-				var startMonth = swapTime.substring(8,11)
-				var startDay = swapTime.substring(5,7)
-				var startTime = swapTime.substring(16,22)
-		
-				var startHour = parseInt(swapTime.substring(16,19))
-				var startM 
-				if (startHour/12 >= 1){
-					startM = ' P.M.', startHour%=12
-				}  else{
-					startM = ' A.M.'
-				}
-				
-				var startDate =  day_name + '. ' + startMonth + '. ' + startDay
-				var startTime = startHour + ':' + swapTime.substring(20,22) + startM
-				var labelTime = startDate + ', ' +   startTime
-
-				var bgColor, path;
-				if (swap.status == 'agreed'){bgColor = 'green'}
-				else if (swap.status == 'incoming'){bgColor = 'green'}
-				else if (swap.status == 'pending'){bgColor = 'orange'}
-				else if (swap.status == 'counter-incoming'){bgColor = 'orange'}
-				else if (swap.status == 'canceled'){bgColor = 'grey'}
-				else if (swap.status == 'rejected'){bgColor = 'red'}
-
-				return(
-					<ListItem noIndent key={index} 
-						style={{backgroundColor:bgColor}}>
-						<Row style={{marginBottom:10, 
-							alignItems:'center', backgroundColor:bgColor}}>
-							
-							<Col style={time.container}>
-								<Text style={time.text}>
-									{swap.status}
-								</Text>
-							</Col>
-							
-							<Col style={styles.time.container}>
-								<Text style={styles.time.text}>
-									{labelTime}
-								</Text>
-							</Col>
-
-							<Col style={styles.percentage.container}>
-								<Button bordered light 
-									style={styles.percentage.button}>
-									<Text style={styles.percentage.text}>
-										{swap.percentage}%
-									</Text>
-								</Button>
-							</Col>
-
-						</Row>
-					</ListItem>
-				)})
-				:
-				<Text>You have not swapped with this person</Text>
-			}
-		</View>		
-	)
-}
+			</View>)}
 
 MyHistoryAccordion = (props) => {
+	
+	var swapTime = props.swap.updated_at
+
+	var day_name = swapTime.substring(0,3)
+	var startMonth = swapTime.substring(8,11)
+	var startDay = swapTime.substring(5,7)
+	var startTime = swapTime.substring(16,22)
+	var startYear = swapTime.substring(12,16)
+
+	var startHour = parseInt(swapTime.substring(16,19))
+	var startM 
+	if (startHour % 12!==0){
+		if(startHour/12 >= 1){
+			startM = ' P.M.', startHour%=12
+		}else{
+			startM = ' A.M.'
+		}
+	} else{
+		if(startHour == 0){
+			startM = ' A.M.', startHour=12
+		}else{
+			startM = ' P.M.'
+		}
+	}
+
+	var startDate = startMonth + '. ' + startDay + ', ' + startYear
+	var startTime = day_name + ' ' + startHour + ':' + swapTime.substring(20,22) + startM
+
+
 	return(
 		<Row>
 			<Col>
-				<Text>{props.swap.status}</Text>
+				<Text style={{textTransform:'capitalize'}}>{props.swap.status}</Text>
 			</Col>
 			<Col>
-				<Text>{props.swap.updated_at}</Text>
+				<Text style={{textAlign:'center'}}>{startDate}{'\n'}{startTime}</Text>
 			</Col>
 			<Col>
 				<Text>{props.swap.percentage}</Text>

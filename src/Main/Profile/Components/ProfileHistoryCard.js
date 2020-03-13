@@ -55,8 +55,8 @@ export default ProfileHistoryCard = (props) => {
 						<Row style={{marginBottom:10, 
 							alignItems:'center', backgroundColor:bgColor}}>
 							
-							<Col style={time.container}>
-								<Text style={time.text}>
+							<Col style={styles.status.container}>
+								<Text style={styles.status.text}>
 									{swap.status}
 								</Text>
 							</Col>

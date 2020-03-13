@@ -20,7 +20,7 @@ AModal = (props) => {
     console.log(props.newTable, props.newSeat, props.newChips)
     props.setNewChips(0)
     var answer1 = await actions.buy_in.edit(
-      props.buyin_id, props.newTable, props.newSeat, 0, props.tournament_id)
+      props.buyin_id, props.newTable, props.newSeat, 0, props.tournament_id, false)
     var answer2 = await actions.buy_in.busted(
       props.buyin_id, place, winnings, props.tournament_id )
 
@@ -124,7 +124,7 @@ export default EditPath = (props) => {
   const buyinEdit = async() => {
     if(newChips !== '0'){
     var answer = await actions.buy_in.edit(
-      props.buyin.id, newTable, newSeat, newChips, props.buyin.tournament_id
+      props.buyin.id, newTable, newSeat, newChips, props.buyin.tournament_id, false
     )}else{
       bustedAlert()
     }
