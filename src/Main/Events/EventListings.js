@@ -50,6 +50,7 @@ export default EventListings = (props) => {
         mode={mode} myCoords={myCoords}
         tournament = {item.tournament}
         name = {item.name} flight_id = {item.flight_id}
+        start_at = {item.start_at}
         buyins={item.buyins} my_buyin={item.my_buyin}  />
     )
   }

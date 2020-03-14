@@ -9,12 +9,14 @@ import { Context } from '../../../Store/appContext';
 export default EventBody = (props) => {  
 
   const { store, actions } = useContext(Context);
-  var {navigation} = props, {tournament} = props;
+  var {navigation} = props, {tournament} = props, {start_at} = props;
   var bgColor, textColor, borderWidths, buttonColor, path;
  
   const enterTournament = async() => {
     var answer1 = await actions.tournament.getAction(tournament.id);
     var answer2 = await actions.tournament.getCurrent(tournament.id);
+    console.log("Tournament2 you're on:", props.flight_id)
+
     var answer3 = await navigation.push(path, {
       action: store.action,
       tournament: store.currentTournament.tournament,
@@ -43,12 +45,12 @@ export default EventBody = (props) => {
     bgColor = 'white',textColor = 'black', buttonColor = null,
      borderWidths = 2, path = 'VerifyTicket'
   }
-  var month = tournament.start_at.substring(8,11)
-  var day = tournament.start_at.substring(5,7)
-  var year = tournament.start_at.substring(12,16)
-  var day_name = tournament.start_at.substring(0,3)
+  var month = start_at.substring(8,11)
+  var day = start_at.substring(5,7)
+  var year = start_at.substring(12,16)
+  var day_name = start_at.substring(0,3)
 
-  var startHour = parseInt(tournament.start_at.substring(16,19))
+  var startHour = parseInt(start_at.substring(16,19))
     var startM 
     if (startHour % 12!==0){
       if(startHour/12 >= 1){
@@ -63,7 +65,7 @@ export default EventBody = (props) => {
         startM = ' PM'
       }
     }
-  var startTime = startHour + ':' + tournament.start_at.substring(20,22) + startM
+  var startTime = startHour + ':' + start_at.substring(20,22) + startM
 
 
  var faraway = getDistance(

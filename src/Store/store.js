@@ -1,7 +1,8 @@
 import {Toast} from 'native-base'
 import AsyncStorage from '@react-native-community/async-storage'
 import { StackActions, NavigationActions } from 'react-navigation';
-import { computeDestinationPoint } from 'geolib';
+
+import moment from 'moment'
 
 var databaseURL = 'https://swapprofit-test.herokuapp.com/'
 
@@ -88,7 +89,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 						}
 
-						var newBuyinID
+						var newBuyin
 
 						let accessToken = getStore().userToken
 						const imageURL = databaseURL + 'me/buy_ins/flight/'+ a_flight_id +'/image'		
@@ -110,14 +111,17 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 						.then(response => response.json())
 						.then((responseJson) => {
-							console.log('responseJson',responseJson, response)
-							newBuyinID = responseJson.buyin_id;
+							console.log('responseJson',responseJson)
+								newBuyin = responseJson;
 						})
 						.catch((error) => {
 							console.log('error in json of image',error);
 						});
 
-						var eeee = await getActions().buy_in.edit(newBuyinID, a_table, a_seat, some_chips, a_tournament_id, true)
+						if(newBuyin.message == "Take another photo"){
+							return errorMessage(newBuyin.message)}
+
+						var eeee = await getActions().buy_in.edit(newBuyin.id, a_table, a_seat, some_chips, a_tournament_id, true)
 						var tournament = getStore().currentTournament
 						
 						var a5 = await navigation.push('EventLobby', {
@@ -828,7 +832,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				getInitial: async ( key1, value1, key2, value2 ) => {
 					try {
 						setStore({tournamentList: null})
-						var base_url =databaseURL + 'tournaments/all?asc=true&limit=8&page=1'
+						var base_url =databaseURL + 'tournaments/all?asc=true&limit=12&page=1'
 						var full_url
 						key1 !== undefined ?
 							key2 !== undefined ?
@@ -862,11 +866,14 @@ const getState = ({ getStore, setStore, getActions }) => {
 									'tournament': tournament.tournament,
 									'buyins': tournament.buyins,
 									'my_buyin': tournament.my_buyin, 
-									'flight_id': flight.id
+									'flight_id': flight.id,
+									'start_at': flight.start_at,
 								})
 							})
 						})
-						setStore({tournamentList: aaaa})
+						var now = moment()
+						var aaaab = aaaa.filter(x => now.isBefore(moment(x.start_at).add(17, 'hours')))
+						setStore({tournamentList: aaaab})
 						console.log('tournaments inital', getStore().tournamentList)
 					} catch(error) {
 						console.log('Something went wrong with getting initial tournaments', error)
@@ -876,7 +883,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 				getMore: async ( page, key1, value1, key2, value2 ) => {
 					try{
-						var base_url = databaseURL + 'tournaments/all?asc=true&limit=8&page='
+						var base_url = databaseURL + 'tournaments/all?asc=true&limit=12&page='
 						var full_url
 						key1 !== undefined ?
 							key2 !== undefined ?
@@ -901,27 +908,32 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 						var aaaa = []
 
-						var allInitialTournaments =  newData.forEach(tournament =>{
-							tournament.tournament.flights.forEach( (flight)=>{
-								var x
-								flight.day !== null ? 
-									x = ' - Day '+ flight.day : x = ''
-								
-								
-								aaaa.push({
-									'name': tournament.tournament.name + x,
-									'flight_id': flight.id,
-									'tournament': tournament.tournament,
-									'buyins': tournament.buyins,
-									'my_buyin': tournament.my_buyin
+						
+
+						if(newData != []){ 
+							var allInitialTournaments =  newData.forEach(tournament =>{
+								tournament.tournament.flights.forEach( (flight)=>{
+									var x
+									flight.day !== null ? 
+										x = ' - Day '+ flight.day : x = ''
+									
+									
+									aaaa.push({
+										'name': tournament.tournament.name + x,
+										'flight_id': flight.id,
+										'start_at': flight.start_at,
+										'tournament': tournament.tournament,
+										'buyins': tournament.buyins,
+										'my_buyin': tournament.my_buyin
+									})
 								})
 							})
-						})
-
-						newData != [] ?
-							setStore({tournamentList: [...tournamentData, ...aaaa]})
-							:
-							console.log('No more tournaments')
+							var now = moment()
+							var aaaab = aaaa.filter(x => now.isBefore(moment(x.start_at).add(17, 'hours')))
+							var currentTournaments = [...tournamentData, ...aaaab]
+							setStore({tournamentList: currentTournaments})
+						}else{
+							console.log('No more tournaments')}
 
 					} catch(error){
 						console.log('Something went wrong with getting more tournaments', error)
