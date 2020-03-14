@@ -39,15 +39,29 @@ export default MyProfileHistoryCard = (props) => {
 				}
 
 				return(
-					<ListItem key={index}>
-						<Col>
-						<Row style={{justifyContent:'center'}}>
-							<Text style={{textAlign:'center', fontSize:20, fontWeight:'500', marginVertical:7 }}>{fullName}</Text>
-						</Row>
+					<View>
+						<ListItem key={index} style={{flexDirection:'column'}}>
+							<Text style={{textAlign:'center', fontSize:20, fontWeight:'500', marginVertical:7 }}>
+								{fullName}
+							</Text>
+							<Row>
+								<Col style={{width:'30%'}}>
+									<Text>Status</Text>
+								</Col>
+								<Col style={{width:'30%'}}>
+									<Text>Date {'&'} Time</Text>
+								</Col>
+								<Col style={{width:'20%'}}>
+									<Text>Your %</Text>
+								</Col>
+								<Col style={{width:'20%'}}>
+									<Text>Their %</Text>
+								</Col>
+							</Row>
+						</ListItem>
 
 						{allSwaps != null ?
 							allSwaps.map((swap, sIndex)=>{
-								console.log('swap',swap)
 								return(
 									<MyHistoryAccordion 
 										swap={swap} key={sIndex} />
@@ -59,8 +73,8 @@ export default MyProfileHistoryCard = (props) => {
 									You did not make any swaps in this tournament
 								</Text>
 							</Row>}
-							</Col>
-					</ListItem>
+					
+					</View>
 				)
 			})}
 
@@ -94,20 +108,39 @@ MyHistoryAccordion = (props) => {
 
 	var startDate = startMonth + '. ' + startDay + ', ' + startYear
 	var startTime = day_name + ' ' + startHour + ':' + swapTime.substring(20,22) + startM
-
+	let d
+	var swap = props.swap
+	var bgColor, path;
+				if (swap.status == 'agreed'){bgColor = 'green'}
+				else if (swap.status == 'incoming'){bgColor = 'green'}
+				else if (swap.status == 'pending'){bgColor = 'orange'}
+				else if (swap.status == 'counter_incoming'){bgColor = 'orange', d="Counter\nIncoming"}
+				else if (swap.status == 'canceled'){bgColor = 'grey'}
+				else if (swap.status == 'rejected'){bgColor = 'red'}
 
 	return(
-		<Row>
+		<ListItem noIndent style={{backgroundColor:bgColor, paddingVertical:5}}>
 			<Col>
-				<Text style={{textTransform:'capitalize'}}>{props.swap.status}</Text>
+				{props.swap.status !== 'counter_incoming' ?
+					<Text style={{textTransform:'capitalize', color:'white'}}>
+						{props.swap.status}
+					</Text>
+					: 
+					<Text style={{ color:'white', textAlign:'center'}}>
+						Counter{'\n'}Incoming
+					</Text>}
+				
 			</Col>
 			<Col>
-				<Text style={{textAlign:'center'}}>{startDate}{'\n'}{startTime}</Text>
+				<Text style={{textAlign:'center', color:'white'}}>{startDate}{'\n'}{startTime}</Text>
 			</Col>
-			<Col>
-				<Text>{props.swap.percentage}</Text>
+			<Col style={{width:'20%'}}>
+				<Text style={{color:'white'}}>{props.swap.percentage}%</Text>
 			</Col>
-		</Row>
+			<Col style={{width:'20%'}}>
+				<Text style={{color:'white'}}>{props.swap.counter_percentage}%</Text>
+			</Col>
+		</ListItem>
 	)
 }
 

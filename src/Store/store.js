@@ -7,13 +7,19 @@ var databaseURL = 'https://swapprofit-test.herokuapp.com/'
 
 var errorMessage = (error) => {
 	Toast.show({
-		text:error, duration:3000, position:'top'
+		text:error, 
+		duration:3000, 
+		style:{bottom:90,backgroundColor:'red'}
+
 	})
 }
 
 var responseMessage = (response) => {
 	Toast.show({
-		text:response, duration:3000, position:'top'
+		text:response, 
+		duration:3000, 
+		style:{bottom:90,backgroundColor:'#008000'}
+
 	})
 }
 
@@ -73,7 +79,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 				add: async ( image, a_table, a_seat, some_chips, a_flight_id, a_tournament_id, navigation) => {
 					try{	
-						console.log('tID in store', a_tournament_id)
 						if (image == 3){
 							return customMessage('You need to select an image ifrst')
 						}
@@ -87,7 +92,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 						let accessToken = getStore().userToken
 						const imageURL = databaseURL + 'me/buy_ins/flight/'+ a_flight_id +'/image'		
-						console.log('url is', imageURL)
+
 						const imageData = new FormData();
 						imageData.append("image", {
 								uri: image.uri,
@@ -113,11 +118,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 						});
 
 						var eeee = await getActions().buy_in.edit(newBuyinID, a_table, a_seat, some_chips, a_tournament_id, true)
-
 						var tournament = getStore().currentTournament
 						
-						console.log('eeee',tournament.my_buyin, tournament)
-
 						var a5 = await navigation.push('EventLobby', {
 							action: getStore().action,
 							tournament: tournament.tournament,
@@ -126,9 +128,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 							my_buyin: tournament.my_buyin,
 							navigation: navigation
 						})
-
-						// return customMessage('Your buyin has been added')
-
 
 					} catch(error) {
 						console.log("Some went wrong in adding a buyin", error)
@@ -144,8 +143,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 							place: parseInt(a_place),
 							winnings: some_cash.toString()
 						}
-
-						console.log('weweew', data)
 	
 						let response = await fetch(url, {
 							method: 'PUT',
@@ -165,8 +162,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 					}catch(error){
 						console.log('Something went wrong with busting my buyin', error)
 					}
-					
-
 				},
 
 				edit: async ( a_buyin_id, a_table, a_seat, some_chips, a_tournament_id, special) => {
@@ -718,14 +713,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 							f = 'You countered this swap offer'
 						}else if (a_status == 'agreed'){
 						}else if (a_status == 'agreed'){}else{}
-						return(
-							Toast.show({
-								text:f,
-								duration:3000,
-								style:{bottom:90,backgroundColor:'#008000'}
-
-							})
-						)
+						return responseMessage(f)
+						
 
 					}
 					catch(error){
