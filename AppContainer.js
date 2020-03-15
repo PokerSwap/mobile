@@ -41,6 +41,7 @@ import PurchaseTokens from './src/Drawer/PurchaseTokens'
 import ChangeEmail from './src/Drawer/ChangeEmail'
 import ChangePassword from './src/Drawer/ChangePassword'
 import ChangePicture from './src/Drawer/ChangePicture'
+import Categories from './src/Drawer/Categories'
 
 // LOGIN AND SIGNUP NAVIGATION
 const AuthStack = createStackNavigator(
@@ -309,6 +310,16 @@ const DrawerNav = createDrawerNavigator(
         title: 'Purchase Tokens',
         drawerIcon: ({ focused }) => (
         <Icon type="FontAwesome5" name="coins" size={24} 
+          color={focused ? 'blue' : 'black'} />
+        ),
+      }
+    },
+    Categories: { 
+      screen: Categories,
+      navigationOptions: {
+        title: 'Categories',
+        drawerIcon: ({ focused }) => (
+        <Icon type="MaterialCommunityIcons" name="view-grid" size={24} 
           color={focused ? 'blue' : 'black'} />
         ),
       }

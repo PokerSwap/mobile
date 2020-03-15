@@ -28,19 +28,19 @@ PODS:
     - GoogleUtilities/Network (~> 6.0)
     - "GoogleUtilities/NSData+zlib (~> 6.0)"
     - nanopb (= 0.3.9011)
-  - FirebaseAnalyticsInterop (1.4.0)
+  - FirebaseAnalyticsInterop (1.5.0)
   - FirebaseCore (6.4.0):
     - FirebaseCoreDiagnostics (~> 1.0)
     - FirebaseCoreDiagnosticsInterop (~> 1.0)
     - GoogleUtilities/Environment (~> 6.2)
     - GoogleUtilities/Logger (~> 6.2)
-  - FirebaseCoreDiagnostics (1.1.2):
-    - FirebaseCoreDiagnosticsInterop (~> 1.0)
-    - GoogleDataTransportCCTSupport (~> 1.0)
-    - GoogleUtilities/Environment (~> 6.2)
-    - GoogleUtilities/Logger (~> 6.2)
+  - FirebaseCoreDiagnostics (1.2.2):
+    - FirebaseCoreDiagnosticsInterop (~> 1.2)
+    - GoogleDataTransportCCTSupport (~> 2.0)
+    - GoogleUtilities/Environment (~> 6.5)
+    - GoogleUtilities/Logger (~> 6.5)
     - nanopb (~> 0.3.901)
-  - FirebaseCoreDiagnosticsInterop (1.1.0)
+  - FirebaseCoreDiagnosticsInterop (1.2.0)
   - FirebaseInstanceID (4.2.7):
     - FirebaseCore (~> 6.0)
     - GoogleUtilities/Environment (~> 6.0)
@@ -70,27 +70,27 @@ PODS:
     - GoogleUtilities/Network (~> 6.0)
     - "GoogleUtilities/NSData+zlib (~> 6.0)"
     - nanopb (= 0.3.9011)
-  - GoogleDataTransport (3.2.0)
-  - GoogleDataTransportCCTSupport (1.2.3):
-    - GoogleDataTransport (~> 3.2)
+  - GoogleDataTransport (5.0.0)
+  - GoogleDataTransportCCTSupport (2.0.0):
+    - GoogleDataTransport (~> 5.0)
     - nanopb (~> 0.3.901)
-  - GoogleUtilities/AppDelegateSwizzler (6.4.0):
+  - GoogleUtilities/AppDelegateSwizzler (6.5.1):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
     - GoogleUtilities/Network
-  - GoogleUtilities/Environment (6.4.0)
-  - GoogleUtilities/Logger (6.4.0):
+  - GoogleUtilities/Environment (6.5.1)
+  - GoogleUtilities/Logger (6.5.1):
     - GoogleUtilities/Environment
-  - GoogleUtilities/MethodSwizzler (6.4.0):
+  - GoogleUtilities/MethodSwizzler (6.5.1):
     - GoogleUtilities/Logger
-  - GoogleUtilities/Network (6.4.0):
+  - GoogleUtilities/Network (6.5.1):
     - GoogleUtilities/Logger
     - "GoogleUtilities/NSData+zlib"
     - GoogleUtilities/Reachability
-  - "GoogleUtilities/NSData+zlib (6.4.0)"
-  - GoogleUtilities/Reachability (6.4.0):
+  - "GoogleUtilities/NSData+zlib (6.5.1)"
+  - GoogleUtilities/Reachability (6.5.1):
     - GoogleUtilities/Logger
-  - GoogleUtilities/UserDefaults (6.4.0):
+  - GoogleUtilities/UserDefaults (6.5.1):
     - GoogleUtilities/Logger
   - nanopb (0.3.9011):
     - nanopb/decode (= 0.3.9011)
@@ -103,7 +103,7 @@ PODS:
     - RNPermissions
   - Permission-PhotoLibrary (2.0.8):
     - RNPermissions
-  - Protobuf (3.11.2)
+  - Protobuf (3.11.4)
   - RCTRequired (0.61.5)
   - RCTTypeSafety (0.61.5):
     - FBLazyVector (= 0.61.5)
@@ -316,14 +316,14 @@ PODS:
     - React
   - RNCPicker (1.2.0):
     - React
-  - RNCPushNotificationIOS (1.0.5):
+  - RNCPushNotificationIOS (1.0.7):
     - React
   - RNDeviceInfo (5.3.1):
     - React
-  - RNFBApp (6.2.0):
+  - RNFBApp (6.3.4):
     - Firebase/Core (~> 6.13.0)
     - React
-  - RNFBMessaging (6.2.0):
+  - RNFBMessaging (6.3.4):
     - Firebase/Messaging (~> 6.13.0)
     - React
     - RNFBApp
@@ -515,23 +515,23 @@ SPEC CHECKSUMS:
   FBReactNativeSpec: 118d0d177724c2d67f08a59136eb29ef5943ec75
   Firebase: 458d109512200d1aca2e1b9b6cf7d68a869a4a46
   FirebaseAnalytics: 45f36d9c429fc91d206283900ab75390cd05ee8a
-  FirebaseAnalyticsInterop: d48b6ab67bcf016a05e55b71fc39c61c0cb6b7f3
+  FirebaseAnalyticsInterop: 3f86269c38ae41f47afeb43ebf32a001f58fcdae
   FirebaseCore: 307ea2508df730c5865334e41965bd9ea344b0e5
-  FirebaseCoreDiagnostics: 511f4f3ed7d440bb69127e8b97c2bc8befae639e
-  FirebaseCoreDiagnosticsInterop: e9b1b023157e3a2fc6418b5cb601e79b9af7b3a0
+  FirebaseCoreDiagnostics: e9b4cd8ba60dee0f2d13347332e4b7898cca5b61
+  FirebaseCoreDiagnosticsInterop: 296e2c5f5314500a850ad0b83e9e7c10b011a850
   FirebaseInstanceID: ebd2ea79ee38db0cb5f5167b17a0d387e1cc7b6e
   FirebaseMessaging: 089b7a4991425783384acc8bcefcd78c0af913bd
   Folly: 30e7936e1c45c08d884aa59369ed951a8e68cf51
   glog: 1f3da668190260b06b429bb211bfbee5cd790c28
   GoogleAppMeasurement: dfe55efa543e899d906309eaaac6ca26d249862f
-  GoogleDataTransport: 8e9b210c97d55fbff306cc5468ff91b9cb32dcf5
-  GoogleDataTransportCCTSupport: 202d7cdf9c4a7d81a2bb7f7e7e1ba6faa421b1f2
-  GoogleUtilities: 29bd0d8f850efbd28cff6d99e8b7da1f8d236bcf
+  GoogleDataTransport: a857c6a002d201b524dd4bc2ed7e7355ed07e785
+  GoogleDataTransportCCTSupport: 32f75fbe904c82772fcbb6b6bd4525bfb6f2a862
+  GoogleUtilities: 06eb53bb579efe7099152735900dd04bf09e7275
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   Permission-Camera: a28ff1c93cf77777df695eb632855fad6e155b02
   Permission-LocationWhenInUse: 17ddf0e359381e42afba5323cfa53f054414e11a
   Permission-PhotoLibrary: 0edbd3bf03a6d72d270cd58253bf4ef49b7e9212
-  Protobuf: dd1aaea7140debfe4dd0683fb8ef208e527ae153
+  Protobuf: 176220c526ad8bd09ab1fb40a978eac3fef665f7
   RCTRequired: b153add4da6e7dbc44aebf93f3cf4fcae392ddf1
   RCTTypeSafety: 9aa1b91d7f9310fc6eadc3cf95126ffe818af320
   React: b6a59ef847b2b40bb6e0180a97d0ca716969ac78
@@ -558,10 +558,10 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: 8539fc80a0075fcc9c8e2dff84cd22dc5bf1dacf
   RNCMaskedView: e5b99bc191945f157adeede68da9d424462de177
   RNCPicker: 5440da9d4f36508353e4a43f3fcbb11a8ddab4a0
-  RNCPushNotificationIOS: 30ed75aa2981a4ee00b8a2c46599ff18a9c7fcf6
+  RNCPushNotificationIOS: 107404643700c0a0db042fa6058e5e2a4c16bc6e
   RNDeviceInfo: e5976ab5c3bed0b5c78f188e0b8abb139b33a9da
-  RNFBApp: 5b215aacc09105a1761de31b9a0eb2abcce06253
-  RNFBMessaging: be0b936394416ec5503add603f2c0a641c353063
+  RNFBApp: 7d4006751de8bb5cafa2e8d2e7d94ee250df81db
+  RNFBMessaging: 51cc7f6beaf4c4feac6f18ea941bba5854e3d9c6
   RNGestureHandler: 911d3b110a7a233a34c4f800e7188a84b75319c6
   RNPermissions: 409e55ed060f7e35d4a3dfc3a336f94a5811dec1
   RNReanimated: b2ab0b693dddd2339bd2f300e770f6302d2e960c

@@ -1,6 +1,6 @@
 {
-  "name": "SwapProfit",
-  "version": "0.3.2",
+  "name": "Swap Profit",
+  "version": "0.4.0",
   "private": true,
   "scripts": {
     "android": "npx react-native run-android",
@@ -14,9 +14,9 @@
     "@react-native-community/geolocation": "^2.0.2",
     "@react-native-community/masked-view": "^0.1.6",
     "@react-native-community/picker": "^1.2.0",
-    "@react-native-community/push-notification-ios": "^1.0.5",
-    "@react-native-firebase/app": "^6.2.0",
-    "@react-native-firebase/messaging": "^6.2.0",
+    "@react-native-community/push-notification-ios": "^1.0.7",
+    "@react-native-firebase/app": "^6.3.4",
+    "@react-native-firebase/messaging": "^6.3.4",
     "apsl-react-native-button": "^3.1.1",
     "core-js": "^3.3.6",
     "geolib": "^3.2.1",

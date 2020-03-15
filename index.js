@@ -1,9 +1,10 @@
+import {AppRegistry} from 'react-native';
+import App from './App';
+import {name as appName} from './app.json';
+
 
 import { Platform, Alert } from 'react-native';
 import firebase from '@react-native-firebase/app';
-
-import 'react-native-gesture-handler';
-
 import messaging from '@react-native-firebase/messaging'
 
 import AsyncStorage from '@react-native-community/async-storage'
@@ -14,8 +15,8 @@ import PushNotificationIOS from '@react-native-community/push-notification-ios'
 
 const iosConfig = {
   clientId: '1008390219361-a5ve7cvrf95qcg31ttijkovrosfsgrgq.apps.googleusercontent.com',
-  appId: '1:1008390219361:ios:097f14f8ce89b396892c20',
-  apiKey: 'AIzaSyCvNF-yswD4kqWJS3EEa6A7iYYOyRYJtiQ',
+  appId: '1:1008390219361:ios:bc948e772c2b965d892c20',
+  apiKey: 'AIzaSyA-zmma-TLbiYh0F3jA3yH7n5FRvY35Sp4',
   databaseURL: 'https://swapprofitapp.firebaseio.com',
   storageBucket: 'swapprofitapp.appspot.com',
   messagingSenderId: '1008390219361',
@@ -120,14 +121,14 @@ messaging().onSendError(event => {
 
 getToken = async()=> {
   console.log('fcmtoken staring')
+  var fcmTeoken = await firebase.messaging().requestPermission();
+
   var fcmToken = await firebase.messaging().getToken();
   console.log('fcmtoken',fcmToken) 
 }
 
 getToken()
 
-import {AppRegistry} from 'react-native';
-import App from './App';
-import {name as appName} from './app.json';
+
 
 AppRegistry.registerComponent(appName, () => App);
