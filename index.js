@@ -15,7 +15,7 @@ import PushNotificationIOS from '@react-native-community/push-notification-ios'
 const iosConfig = {
   clientId: '1008390219361-a5ve7cvrf95qcg31ttijkovrosfsgrgq.apps.googleusercontent.com',
   appId: '1:1008390219361:ios:097f14f8ce89b396892c20',
-  apiKey: 'AIzaSyA-zmma-TLbiYh0F3jA3yH7n5FRvY35Sp4',
+  apiKey: 'AIzaSyCvNF-yswD4kqWJS3EEa6A7iYYOyRYJtiQ',
   databaseURL: 'https://swapprofitapp.firebaseio.com',
   storageBucket: 'swapprofitapp.appspot.com',
   messagingSenderId: '1008390219361',

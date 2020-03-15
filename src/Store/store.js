@@ -4,7 +4,7 @@ import { StackActions, NavigationActions } from 'react-navigation';
 
 import moment from 'moment'
 
-var databaseURL = 'https://swapprofit-test.herokuapp.com/'
+var databaseURL = 'https://swapprofit-beta.herokuapp.com/'
 
 var errorMessage = (error) => {
 	Toast.show({
@@ -81,11 +81,11 @@ const getState = ({ getStore, setStore, getActions }) => {
 				add: async ( image, a_table, a_seat, some_chips, a_flight_id, a_tournament_id, navigation) => {
 					try{	
 						if (image == 3){
-							return customMessage('You need to select an image ifrst')
+							return customMessage('You need to select an image of your buyin ticket')
 						}
 
 						if (a_table == '' || a_seat == '' || some_chips == ''){
-							return customMessage('You need to fill in all yhe fields first')
+							return customMessage('You need to fill in all the fields listed')
 
 						}
 
@@ -203,7 +203,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						var answer2 = await getActions().tournament.getAction(a_tournament_id)
 						var answer3 = await getActions().tournament.getCurrent(a_tournament_id)
 						
-						return customMessage('Your buyin has been updated')
+						return customMessage('Your buyin has been updated.')
 
 					}catch(error){
 						console.log('Something went wrong with editing a buyin', error)
