@@ -21,6 +21,7 @@ target 'SwapProfit' do
   pod 'React-RCTText', :path => '../node_modules/react-native/Libraries/Text'
   pod 'React-RCTVibration', :path => '../node_modules/react-native/Libraries/Vibration'
   pod 'React-Core/RCTWebSocket', :path => '../node_modules/react-native/'
+  # pod 'React-RCTFabric', :path => '../node_modules/react-native/React'
 
   pod 'React-cxxreact', :path => '../node_modules/react-native/ReactCommon/cxxreact'
   pod 'React-jsi', :path => '../node_modules/react-native/ReactCommon/jsi'
@@ -32,6 +33,7 @@ target 'SwapProfit' do
   pod 'Firebase/Core'
   pod 'Firebase/Analytics'
   pod 'Firebase/Messaging'
+  # pod 'RNFBInAppMessaging', :path => '../node_modules/@react-native-firebase/in-app-messaging'
 
 
   pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
@@ -39,18 +41,12 @@ target 'SwapProfit' do
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
   permissions_path = '../node_modules/react-native-permissions/ios'
-
   pod 'Permission-Camera', :path => "#{permissions_path}/Camera.podspec"
   pod 'Permission-PhotoLibrary', :path => "#{permissions_path}/PhotoLibrary.podspec"
   pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse.podspec"
 
-  
   pod 'Stripe', '~> 14.0.0'
-
   pod 'RNCPushNotificationIOS', :path => '../node_modules/@react-native-community/push-notification-ios'
-
-
-
 
   target 'SwapProfitTests' do
     inherit! :search_paths
