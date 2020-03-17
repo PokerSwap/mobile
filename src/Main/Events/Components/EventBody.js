@@ -33,7 +33,7 @@ export default EventBody = (props) => {
 
 
   // ACTIVE TOURNAMENT VIEW
-  if (tournament.buyin) {
+  if (tournament.buy_in) {
     bgColor = 'green', textColor = 'white', buttonColor = 'white',
     borderWidths = 4, path = 'EventLobby'
   } else {
