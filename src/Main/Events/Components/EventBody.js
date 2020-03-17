@@ -9,13 +9,13 @@ import { Context } from '../../../Store/appContext';
 export default EventBody = (props) => {  
 
   const { store, actions } = useContext(Context);
-  var {navigation} = props, {tournament} = props, {start_at} = props;
+  var {navigation} = props, {tournament} = props;
+  var start_at = props.tournament.start_at
   var bgColor, textColor, borderWidths, buttonColor, path;
  
   const enterTournament = async() => {
-    var answer1 = await actions.tournament.getAction(tournament.id);
-    var answer2 = await actions.tournament.getCurrent(tournament.id);
-    console.log("Tournament2 you're on:", props.flight_id)
+    var answer1 = await actions.tournament.getAction(tournament.tournament_id);
+    var answer2 = await actions.tournament.getCurrent(tournament.tournament_id);
 
     var answer3 = await navigation.push(path, {
       action: store.action,
@@ -23,22 +23,17 @@ export default EventBody = (props) => {
       buyins: store.currentTournament.buyins,
       navigation: props.navigation,
       flights: store.currentTournament.tournament.flights,
-      flight_id: props.flight_id,
-      name: props.name,
+      flight_id: tournament.id,
+      tournament_id: tournament.tournament_id,
+
+      name: tournament.name,
       my_buyin: store.currentTournament.my_buyin
     });
   }
 
-  var w  = []
-  var x = store.myTrackers.forEach((tracker) => 
-    w.push(tracker.my_buyin.id));
-    
-  var z=[]
-  var y = tournament.buy_ins.forEach((buy_in) => z.push(buy_in.id))
-  const matches = w.some(ww=> z.includes(ww))
 
   // ACTIVE TOURNAMENT VIEW
-  if (matches) {
+  if (tournament.buyin) {
     bgColor = 'green', textColor = 'white', buttonColor = 'white',
     borderWidths = 4, path = 'EventLobby'
   } else {
@@ -47,33 +42,25 @@ export default EventBody = (props) => {
   }
   var month = start_at.substring(8,11)
   var day = start_at.substring(5,7)
-  var year = start_at.substring(12,16)
   var day_name = start_at.substring(0,3)
 
   var startHour = parseInt(start_at.substring(16,19))
     var startM 
     if (startHour % 12!==0){
-      if(startHour/12 >= 1){
-        startM = ' PM', startHour%=12
-      }else{
-        startM = ' AM'
-      }
+      if(startHour/12 >= 1){ startM = ' PM', startHour%=12 }
+      else{ startM = ' AM' }
     } else{
-      if(startHour == 0){
-        startM = ' AM', startHour=12
-      }else{
-        startM = ' PM'
-      }
+      if(startHour == 0){ startM = ' AM', startHour=12 }
+      else{ startM = ' PM' }
     }
   var startTime = startHour + ':' + start_at.substring(20,22) + startM
 
-
- var faraway = getDistance(
-   props.myCoords,
-   {latitude: tournament.latitude, 
-    longitude: tournament.longitude}
- )
- var distance = convertDistance(faraway, 'mi').toFixed(1)
+//  var faraway = getDistance(
+//    props.myCoords,
+//    {latitude: tournament.latitude, 
+//     longitude: tournament.longitude}
+//  )
+//  var distance = convertDistance(faraway, 'mi').toFixed(1)
 
   var renderedItem 
   if(props.mode=='byDate' || props.mode=='byName'){
@@ -88,7 +75,7 @@ export default EventBody = (props) => {
     renderedItem=
       <Text style={{fontWeight:"600", fontSize:12, 
         color:textColor, marginTop:5}}>
-        {distance} miles
+        {/* {distance} miles */}
       </Text>
   }else{
     console.log('somethign went wrong')
@@ -130,16 +117,13 @@ export default EventBody = (props) => {
         </View>        
     
       </Col>
-              
-      {/* TOURNAMENT DETAILS */}
+      
+      {/* TOURNAMENT TITLE */}    
       <Col style={{width: '62%'}}>
-
-        {/* TOURNAMENT TITLE */}
-        <Text style={{ color:textColor, alignContent:'center',
-          textAlign:'center', fontSize:20, fontWeight:'600'}}> 
-          {props.name}
+        <Text style={{color:textColor, alignContent:'center',
+     textAlign:'center', fontSize:20, fontWeight:'600'}}> 
+          {tournament.name}
         </Text>
-
       </Col>
       
       {/* RIGHT ARROW NAVIGATION */}
@@ -152,3 +136,14 @@ export default EventBody = (props) => {
     </ListItem>
   )
 }
+
+// const styles = {
+//   date:{
+//     day:{},
+
+//   },
+//   name:{ 
+//      alignContent:'center',
+//     textAlign:'center', fontSize:20, fontWeight:'600'}
+
+// }

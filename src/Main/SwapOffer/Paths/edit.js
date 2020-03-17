@@ -216,7 +216,7 @@ export default EditPath = (props) => {
               Table: 
             </Text>
             <TextInput 
-              placeholder={props.buyin.table.toString()}
+              // placeholder={props.buyin.table.toString()}
               style={ styles.field.textInput }              
               placeholderTextColor='red'
               keyboardType="number-pad"
@@ -235,7 +235,7 @@ export default EditPath = (props) => {
               Seat: 
             </Text>
             <TextInput 
-              placeholder={props.buyin.seat.toString()}
+              // placeholder={props.buyin.seat.toString()}
               style={ styles.field.textInput }              
               placeholderTextColor='red'
               keyboardType="number-pad"
@@ -254,7 +254,7 @@ export default EditPath = (props) => {
               Chips: 
             </Text>
             <TextInput 
-              placeholder={props.buyin.chips.toString()}
+              // placeholder={props.buyin.chips.toString()}
               style={ styles.field.textInput }
               placeholderTextColor='red'
               keyboardType="number-pad"

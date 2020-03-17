@@ -22,38 +22,9 @@ export default VerifyTicket = (props) => {
   const [chips, setChips] = useState('');
 
   var navigation = props.navigation;
-  let flights = navigation.getParam('flights', 'NO-ID');
   let name = navigation.getParam('name', 'NO-ID');
-
   let flight_id = navigation.getParam('flight_id', 'NO-ID');
-  let tournament = navigation.getParam('tournament', 'NO-ID');
-
-  let tournament_id = tournament.id
-
-  // console.log('flights', flights)
-  var FlightSelection = flights.map((flight, index) => {
-    // console.log('flight', flight)
-    var startMonth = flight.start_at.substring(8,11)
-    var startDay = flight.start_at.substring(5,7)
-    
-    var startTime = flight.start_at.substring(16,22)
-    var startM 
-    startTime/12 >= 1 ?
-      startM = ' P.M.' : startM = ' A.M.'
-
-    var day_name = flight.start_at.substring(0,3)
-    var day_num = flight.day
-    var labelTime = 'Day ' + day_num + ' ' + day_name + '.  ' + startMonth + '. ' + startDay + ', ' + startTime + startM
-      
-    return(
-        <Picker.Item 
-          key={index}
-          style={{justifyContent:'center', textAlign:'center'}}
-          label= {labelTime}
-          value={flight.id}
-        />
-      )
-  })
+  let tournament_id = navigation.getParam('tournament_id', 'NO-ID');
 
   const askPersmission = async () => {
     if(Platform.OS == 'ios'){

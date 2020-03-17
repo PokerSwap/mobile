@@ -35,23 +35,17 @@ export default EventListings = (props) => {
   }
   // FUNCTION TO GET MORE TOURNAMENTS
   const getMore = async( currentPage ) => {
-    // console.log('page before', currentPage)
-    currentPage += 8
+    currentPage += 12
     setPage(currentPage)
-    // console.log('page after', currentPage)
     var answer2 = await actions.tournament.getMore(currentPage)
   }
   // COMPONENT FOR TOURNAMENT BODY
   var EventRow = ({item, index}) => {
-
     return(
       <EventBody 
         key={index} navigation={props.navigation} 
         mode={mode} myCoords={myCoords}
-        tournament = {item.tournament}
-        name = {item.name} flight_id = {item.flight_id}
-        start_at = {item.start_at}
-        buyins={item.buyins} my_buyin={item.my_buyin}  />
+        tournament={item} />
     )
   }
 

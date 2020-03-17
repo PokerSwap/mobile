@@ -2,13 +2,13 @@ import React, { useContext } from 'react';
 import { Alert,  ScrollView, Image} from 'react-native';
 import { Container, Content,  Button, Text, View } from 'native-base';
 import {Grid, Col, Row} from 'react-native-easy-grid'
-// import stripe from 'tipsi-stripe'
+import stripe from 'tipsi-stripe'
 
-// stripe.setOptions({
-//   publishableKey: 'PUBLISHABLE_KEY',
-//   merchantId: 'MERCHANT_ID', // Optional
-//   androidPayMode: 'test', // Android only
-// })
+stripe.setOptions({
+  publishableKey: 'pk_live_No3ckprr71PnxOP2MGPqRDO500aYv6i73M',
+  merchantId: 'MERCHANT_ID', // Optional
+  androidPayMode: 'test', // Android only
+})
 
 import OtherHeader from '../View-Components/OtherHeader'
 
@@ -83,6 +83,10 @@ export default PurchaseTokens = (props) => {
       <Content contentContainerStyle={{
         flex:1, justifyContent:'center', alignItems:'center'}}>
       <ScrollView style={{ alignSelf: 'stretch' }}>           
+        
+        <Button onPress={()=> stripe.openApplePaySetup() }>
+          <Text>Test</Text>
+        </Button>
         <Grid transparent>
 
           <Row style={{alignItems:'center'}}>

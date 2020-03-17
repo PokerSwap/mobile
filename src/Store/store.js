@@ -121,8 +121,13 @@ const getState = ({ getStore, setStore, getActions }) => {
 						if(newBuyin.message == "Take another photo"){
 							return errorMessage(newBuyin.message)}
 
-						var eeee = await getActions().buy_in.edit(newBuyin.id, a_table, a_seat, some_chips, a_tournament_id, true)
+							console.log('check',newBuyin)
+
+						var eeee = await getActions().buy_in.edit(newBuyin.buyin_id, a_table, a_seat, some_chips, a_tournament_id, true)
+						var rreee = await getActions().tournament.getCurrent(a_tournament_id)
 						var tournament = getStore().currentTournament
+
+						console.log('rrreeeeerrrr', tournament)
 						
 						var a5 = await navigation.push('EventLobby', {
 							action: getStore().action,
@@ -182,6 +187,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 							chips: parseInt(some_chips),
 						}
 
+						console.log('data', data)
+
 						let response = await fetch(url, {
 							method: 'PUT',
 							headers: {
@@ -197,6 +204,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 						.catch((error) => {
 							console.log('error in json of edit buyin',error);
 						});
+
+						console.log('dddd', a_tournament_id)
 
 						var answer0 = await getActions().tracker.getAll()
 						var answer1 = await getActions().tournament.getInitial()
@@ -856,24 +865,17 @@ const getState = ({ getStore, setStore, getActions }) => {
 						var aaaa = []
 
 						var allInitialTournaments =  initialTournaments.forEach(tournament =>{
-							tournament.tournament.flights.forEach( (flight)=>{
-								var x
-								flight.day !== null ? 
-									x = ' - Day '+ flight.day : x = ''
-								
-								aaaa.push({
-									'name': tournament.tournament.name + x,
-									'tournament': tournament.tournament,
-									'buyins': tournament.buyins,
-									'my_buyin': tournament.my_buyin, 
-									'flight_id': flight.id,
-									'start_at': flight.start_at,
-								})
+							var x
+							tournament.day !== null ? 
+								x = ' - Day '+ tournament.day : x = ''
+							aaaa.push({
+								'name': tournament.tournament + x,
+								...tournament
 							})
 						})
-						var now = moment()
-						var aaaab = aaaa.filter(x => now.isBefore(moment(x.start_at).add(17, 'hours')))
-						setStore({tournamentList: aaaab})
+						// var now = moment()
+						// var aaaab = aaaa.filter(x => now.isBefore(moment(x.start_at).add(17, 'hours')))
+						setStore({tournamentList: aaaa})
 						console.log('tournaments inital', getStore().tournamentList)
 					} catch(error) {
 						console.log('Something went wrong with getting initial tournaments', error)
@@ -893,7 +895,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 							:
 							full_url = base_url + page
 
-						// console.log('full updated url', full_url)
 						const accessToken = getStore().userToken ;
 						let response = await fetch(full_url, {
 							method: 'GET',
@@ -908,29 +909,21 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 						var aaaa = []
 
-						
-
 						if(newData != []){ 
-							var allInitialTournaments =  newData.forEach(tournament =>{
-								tournament.tournament.flights.forEach( (flight)=>{
+							var allInitialTournaments =  newData.forEach(tournament => {
 									var x
-									flight.day !== null ? 
-										x = ' - Day '+ flight.day : x = ''
-									
-									
+									tournament.day !== null ? 
+										x = ' - Day '+ tournament.day : x = ''
+																		
 									aaaa.push({
-										'name': tournament.tournament.name + x,
-										'flight_id': flight.id,
-										'start_at': flight.start_at,
-										'tournament': tournament.tournament,
-										'buyins': tournament.buyins,
-										'my_buyin': tournament.my_buyin
+										'name': tournament.tournament + x,
+										...tournament
 									})
-								})
+								
 							})
-							var now = moment()
-							var aaaab = aaaa.filter(x => now.isBefore(moment(x.start_at).add(17, 'hours')))
-							var currentTournaments = [...tournamentData, ...aaaab]
+							// var now = moment()
+							// var aaaab = aaaa.filter(x => now.isBefore(moment(x.start_at).add(17, 'hours')))
+							var currentTournaments = [...tournamentData, ...aaaa]
 							setStore({tournamentList: currentTournaments})
 						}else{
 							console.log('No more tournaments')}
