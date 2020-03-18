@@ -26,11 +26,10 @@ export default ProfileHistoryCard = (props) => {
 				<Col style={{width:'30%'}}>
 					<Text style={{color:'white'}}>Date {'&'} Time</Text>
 				</Col>
-				<Col style={{width:'20%'}}>
-					<Text style={{color:'white'}}>Your %</Text>
-				</Col>
-				<Col style={{width:'20%'}}>
-					<Text style={{color:'white'}}>Their %</Text>
+				<Col style={{width:'40%'}}>
+					<Text style={{color:'white'}}>
+						Your's / Their's %
+					</Text>
 				</Col>
 			</ListItem>
 
@@ -89,12 +88,7 @@ export default ProfileHistoryCard = (props) => {
 
 							<Col style={styles.percentage.container}>
 								<Text style={styles.percentage.text}>
-									{swap.percentage}%
-								</Text>
-							</Col>
-							<Col style={styles.percentage.container}>
-								<Text style={styles.percentage.text}>
-									{swap.counter_percentage}%
+									{swap.percentage}% / {swap.counter_percentage}%
 								</Text>
 							</Col>
 
@@ -113,7 +107,7 @@ const styles = {
 		marginBottom:10, alignItems:'center'},
 	percentage:{
 		container:{
-			width:'20%' },
+			width:'40%' },
 		text:{
 			textAlign:'center', color:'white', 
 			fontSize:18, fontWeight:'600' },

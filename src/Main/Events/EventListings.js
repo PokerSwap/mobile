@@ -28,16 +28,21 @@ export default EventListings = (props) => {
   const onRefresh = async() => {
     setRefreshing(true);
     setPage(1)
+    setMode('byDate')
     var answer = await actions.tournament.getInitial()
-    console.log('page',page)
-    console.log(store.tournamentList)
     wait(2000).then(() => setRefreshing(false));
   }
   // FUNCTION TO GET MORE TOURNAMENTS
   const getMore = async( currentPage ) => {
     currentPage += 12
     setPage(currentPage)
-    var answer2 = await actions.tournament.getMore(currentPage)
+    if (mode == 'byLocation'){
+
+      var answer1 = await actions.tournament.getMore(
+        currentPage, 'lon', myCoords.longitude, 'lat', myCoords.latitude)
+    }else {
+      var answer2 = await actions.tournament.getMore(currentPage)
+    }
   }
   // COMPONENT FOR TOURNAMENT BODY
   var EventRow = ({item, index}) => {

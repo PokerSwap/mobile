@@ -51,11 +51,8 @@ export default MyProfileHistoryCard = (props) => {
 								<Col style={{width:'30%'}}>
 									<Text>Date {'&'} Time</Text>
 								</Col>
-								<Col style={{width:'20%'}}>
-									<Text>Your %</Text>
-								</Col>
-								<Col style={{width:'20%'}}>
-									<Text>Their %</Text>
+								<Col style={{width:'40%'}}>
+									<Text>Yours / Theirs %</Text>
 								</Col>
 							</Row>
 						</ListItem>
@@ -132,13 +129,13 @@ MyHistoryAccordion = (props) => {
 				
 			</Col>
 			<Col>
-				<Text style={{textAlign:'center', color:'white'}}>{startDate}{'\n'}{startTime}</Text>
+				<Text style={{textAlign:'center', color:'white'}}>
+					{startDate}{'\n'}{startTime}</Text>
 			</Col>
-			<Col style={{width:'20%'}}>
-				<Text style={{color:'white'}}>{props.swap.percentage}%</Text>
-			</Col>
-			<Col style={{width:'20%'}}>
-				<Text style={{color:'white'}}>{props.swap.counter_percentage}%</Text>
+			<Col style={{width:'40%'}}>
+			<Text style={{color:'white'}}>
+				{props.swap.percentage}%{' / '}
+					{props.swap.counter_percentage}%</Text>
 			</Col>
 		</ListItem>
 	)
@@ -149,7 +146,7 @@ const styles = {
 		marginBottom:10, alignItems:'center'},
 	percentage:{
 		container:{
-			width:'20%' },
+			width:'40%' },
 		text:{
 			textAlign:'center', color:'white', 
 			fontSize:18, fontWeight:'600' },

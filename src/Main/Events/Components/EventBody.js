@@ -75,7 +75,11 @@ export default EventBody = (props) => {
     renderedItem=
       <Text style={{fontWeight:"600", fontSize:12, 
         color:textColor, marginTop:5}}>
-        {/* {distance} miles */}
+        {tournament.distance !== undefined ?
+          tournament.distance < 10 ?
+            tournament.distance.toFixed(1)
+            : tournament.distance.toFixed(0)
+        :null	} mi.						
       </Text>
   }else{
     console.log('somethign went wrong')

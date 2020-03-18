@@ -244,6 +244,26 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 			deviceToken:{
 
+				retrieve: async( user_id ) => {
+					try{
+						var url =  databaseURL + 'users/' + user_id + '/devices'
+						var accessToken = getStore().userToken
+						
+						let response = await fetch(url, {
+							method: 'GET',
+							headers: {
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							}, 
+						})
+						var answer = await response.json()
+						return answer
+
+					}catch(error){
+						console.log('error', error)
+					}
+				},
+
 				get: async() => {
 					try {
 						var storedDeviceToken = await AsyncStorage.getItem('deviceToken')
@@ -429,6 +449,33 @@ const getState = ({ getStore, setStore, getActions }) => {
 					var aaa = await AsyncStorage.removeItem('notification')
 					setStore({notificationData:null})
 
+				},
+
+				send: async( a_token, a_title, a_body, a_data ) => {
+					try{
+						var url = databaseURL + 'sendfcm'
+						let accessToken = getStore().userToken
+						var data ={
+							device_token: a_token,
+							title: a_title,
+							body: a_body,
+							data: a_data
+						}
+						console.log('not data',data)
+
+						let response = await fetch(url,{
+							method:"POST",
+							body: JSON.stringify(data),
+							headers:{
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							}
+						})
+						.then(response => response.json())
+						console.log('message sent', response)
+					}catch (error) {
+						console.log('error in sending notification',error)
+					}
 				}
 			},
 
@@ -617,7 +664,19 @@ const getState = ({ getStore, setStore, getActions }) => {
 						var gettingProfile = await getActions().profile.get()
 						var gettingAllTrackers = await getActions().tracker.getAll()
 						var gettingAllTrackers = await getActions().tournament.getCurrent(a_tournament_id)		
-						var answer3 = await getActions().tournament.getAction(a_tournament_id)				
+						var answer3 = await getActions().tournament.getAction(a_tournament_id)	
+						var answer4 = await getActions().deviceToken.retrieve(a_recipient_id)
+						var notifData = {
+							id: a_tournament_id,
+							type: 'event',
+							initialPath: 'EventListings', 
+							finalPath: 'EventLobby'
+						}
+						var title = 'New Swap'
+						var body = getStore().myProfile.first_name + ' ' + getStore().myProfile.last_name
+							+ ' just sent you a swap'
+						var answer4 = await getActions().notification.send( 
+							answer4, title, body, notifData )
 						navigation.goBack()
 						
 					}catch(error){
@@ -839,6 +898,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 							:
 							full_url = base_url
 
+							console.log('full url', full_url)
+
 						const accessToken = getStore().userToken ;
 						
 						let response = await fetch(full_url, {
@@ -853,9 +914,10 @@ const getState = ({ getStore, setStore, getActions }) => {
 						var aaaa = []
 
 						var allInitialTournaments =  initialTournaments.forEach(tournament =>{
-							var x
+							var x, special;
 							tournament.day !== null ? 
 								x = ' - Day '+ tournament.day : x = ''
+							
 							aaaa.push({
 								'name': tournament.tournament + x,
 								...tournament
@@ -899,10 +961,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 						if(newData != []){ 
 							var allInitialTournaments =  newData.forEach(tournament => {
-									var x
+									var x, special;
 									tournament.day !== null ? 
 										x = ' - Day '+ tournament.day : x = ''
-																		
 									aaaa.push({
 										'name': tournament.tournament + x,
 										...tournament

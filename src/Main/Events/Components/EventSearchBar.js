@@ -32,19 +32,20 @@ export default EventSearchBar = (props) => {
   const askPersmission = async () => {
     
     try{
-      request(
-        Platform.select({
-          android: PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
-          ios: PERMISSIONS.IOS.LOCATION_WHEN_IN_USE
-        })
-      )
-      var answeer = await getByLocation()
+      var x, answer
+      Platform.OS === 'ios' ?
+        x = PERMISSIONS.IOS.LOCATION_WHEN_IN_USE
+        : x = PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION;
+      const locationStatus = await request(x);
+      getByLocation()    
     }catch(error){
       console.log('error', error)
     }
+    
+
   };
 
-  const getByLocation = () => {
+  let getByLocation = () => {
     let a_latitude, a_longitude;
     let myCoordinates = Geolocation.getCurrentPosition(info => {
       console.log('locationinfo',info);

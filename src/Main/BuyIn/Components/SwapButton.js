@@ -111,7 +111,7 @@ export default SwapButton = (props) => {
   const enterSwapOffer = async() => {
 
     var swapTime
-    if (path !== 'edit'){
+    if (path !== 'edit'  && path !== 'inactive'){
       var answer = await actions.swap.getCurrent(swapID)
       var swapTime = store.currentSwap.updated_at
 
