@@ -9,6 +9,9 @@ import { Keyboard, TouchableWithoutFeedback, TextInput,
   KeyboardAvoidingView, View, StatusBar } from 'react-native';
 import DeviceInfo from 'react-native-device-info'
 
+import firebase from '@react-native-firebase/app';
+import messaging from '@react-native-firebase/messaging'
+
 var a_behavior, offBy, marginee
 
 if (Platform.OS == 'ios'){
@@ -29,7 +32,8 @@ export default LoginScreen = (props) => {
 
   const { store, actions } = useContext(Context)
 
-	var deviceID = DeviceInfo.getUniqueId();
+  
+
 
   const [loginColor, setLoginColor] = useState('#000099')
   const [signupColor, setSignupColor] = useState('#FF6600')
@@ -42,10 +46,18 @@ export default LoginScreen = (props) => {
     });
   } 
 
+  var deviceID
+
+  getToken = async()=> {
+    deviceID = await firebase.messaging().getToken();
+  }
+  
+  getToken()
+
   const loginStart = () => {
     Keyboard.dismiss();
     setLoading(true)
-    console.log('before goign through', email)
+    console.log('before goign through', deviceID)
     actions.user.login(
       email, password, deviceID, props.navigation )
     wait(3000).then(() => setLoading(false));
@@ -83,8 +95,7 @@ export default LoginScreen = (props) => {
                 autoCorrect={false} 
                 onSubmitEditing={() => { txtPassword.focus(); }}
                 value={email}    
-                onChangeText={emailX => setEmail( emailX )}
-              />
+                onChangeText={emailX => setEmail( emailX )} />
             </View>
             
             {/* PASSWORD INPUT */}

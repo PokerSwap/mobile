@@ -8,6 +8,7 @@ buildscript {
         androidXAnnotation = "1.1.0"
         androidXBrowser = "1.0.0"
         reactNativeVersion = '0.61.5'
+        firebaseVersion = '11.8.0'
     }
     repositories {
         google()

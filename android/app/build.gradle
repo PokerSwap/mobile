@@ -131,8 +131,8 @@ android {
         applicationId "com.swapprofitllc.swapprofit"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 8
-        versionName "0.3.3"
+        versionCode 9
+        versionName "0.4.2"
         multiDexEnabled true
     }
     splits {
@@ -183,7 +183,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation project(path: ":@react-native-firebase_inAppMessaging")
     implementation 'com.facebook.react:react-native:0.61.5'  // From node_modules
     implementation 'com.google.firebase:firebase-analytics:17.2.3'
     implementation 'com.google.android.gms:play-services-wallet:18.0.0'
@@ -192,6 +191,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0-alpha03'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-beta01'
     implementation project(path: ':react-native-gesture-handler')
+    // implementation project(':tipsi-stripe')
     if (enableHermes) {
         def hermesPath = "../../node_modules/hermes-engine/android/";
         debugImplementation files(hermesPath + "hermes-debug.aar")

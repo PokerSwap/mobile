@@ -357,28 +357,23 @@ const getState = ({ getStore, setStore, getActions }) => {
 					setStore({notificationData: notificationData})
 
 					if(notificationData !== null){
-
 						var id = notificationData.id
 						var type = notificationData.type
 						var initialPath = notificationData.initialPath
 						var finalPath = notificationData.finalPath
 	
 						var theAnswer, answerParams;
-						if (type == 'tournament') {
-							theAnswer = await getActions().tournament.getOne(id)
+						if (type == 'event') {
+							var anAction = await getActions().tournament.getAction(id);
+							theAnswer = await getActions().tournament.getCurrent(id);
+							var currentTournament = getStore().currentTournament
 							answerParams = {
-									action: getStore().action,
-									tournament_id: theAnswer.id,
-									name: theAnswer.name,
-									address: theAnswer.address,
-									city: theAnswer.city,
-									state: theAnswer.state,
-									longitude: theAnswer.longitude,
-									latitude: theAnswer.latitude,
-									start_at: theAnswer.start_at,
-									buy_ins: theAnswer.buy_ins,
-									swaps: theAnswer.swaps,
-									flights: theAnswer.flights
+								action: getStore().action,
+								tournament: currentTournament.tournament,
+								buyins: currentTournament.buyins,
+								flights: currentTournament.tournament.flights,
+								my_buyin: currentTournament.my_buyin,
+								navigation: navigation
 							}
 						} else if(type == 'swap'){
 							theAnswer = await getActions().swap.getOne(id)
@@ -408,13 +403,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 						} else{
 							console.log('so what now?')
 						}
-	
-						var tournamentz = getStore().notificationData;
-						console.log('tournamentz', tournamentz, typeof(tournamentz))
-	
-						var action = await getActions().tournament.getAction(id);
-						var answer4 = console.log('answer', tournamentz)
-						console.log('action', action)
 						
 						const navigateAction = NavigationActions.navigate({
 							routeName: initialPath,
@@ -1272,7 +1260,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				// During Login, Stores User Information in the Store
 				store: async( myUserToken ) => {
 					try {
-						console.log(myUserToken)
+						console.log('userToken',myUserToken)
 						setStore({userToken: myUserToken});
 						var aaasss = await AsyncStorage.setItem('userToken', myUserToken)
 					} catch(error) {
