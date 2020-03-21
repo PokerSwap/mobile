@@ -41,6 +41,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 			currentTournament:{},
 
+			currentBuyin:{},
+
 			currentSwap:{},
 
 			deviceToken: null,
@@ -219,6 +221,26 @@ const getState = ({ getStore, setStore, getActions }) => {
 					}
 				},
 
+				getCurrent: async ( a_buyin_id ) => {
+					try{
+						var url = databaseURL + 'buyins/' + a_buyin_id
+						var accessToken = getStore().userToken
+
+						let response = await fetch(url, {
+							method: 'GET',
+							headers: {
+								'Content-Type': 'application/json',
+								'Authorization': 'Bearer ' + accessToken,
+							},
+						})
+
+						var theBuyin = await response.json()						
+						setStore({currentBuyin: theBuyin})
+					}catch(error){
+						console.log()
+					}
+				},
+
 				getMostRecent: async() => {
 					
 					try {
@@ -257,7 +279,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}, 
 						})
 						var answer = await response.json()
-						return answer
+						return answer[0].token
 
 					}catch(error){
 						console.log('error', error)
@@ -371,18 +393,20 @@ const getState = ({ getStore, setStore, getActions }) => {
 			notification:{
 				
 				check: async(navigation) => {
-					var prenotificationData = await AsyncStorage.getItem('notification')
+					try {
+						var prenotificationData = await AsyncStorage.getItem('notification')
 					var notificationData = JSON.parse(prenotificationData)
 					console.log('notificationData', notificationData, typeof(notificationData))
 					setStore({notificationData: notificationData})
 
 					if(notificationData !== null){
 						var id = notificationData.id
+						var buyinID = notificationData.buyinID
 						var type = notificationData.type
 						var initialPath = notificationData.initialPath
 						var finalPath = notificationData.finalPath
 	
-						var theAnswer, answerParams;
+						var theAnswer1, theAnswer2, answerParams;
 						if (type == 'event') {
 							var anAction = await getActions().tournament.getAction(id);
 							theAnswer = await getActions().tournament.getCurrent(id);
@@ -396,27 +420,35 @@ const getState = ({ getStore, setStore, getActions }) => {
 								navigation: navigation
 							}
 						} else if(type == 'swap'){
-							theAnswer = await getActions().swap.getOne(id)
+
+							theAnswer1 = await getActions().buyin.getCurrent(buyin_id)
+							theAnswer2 = await getActions().swap.getCurrent(id)
+							var theBuyin = getStore().currentBuyin
+							var theSwap = getStore().currentSwap
 							answerParams = {
-								buyin_id: theAnswer.buyin.id,
-								user_id: theAnswer.buyin.user_id,
-								user_name: theAnswer.buyin.user_name, 
-								table: theAnswer.buyin.table,
-								seat: theAnswer.buyin.seat,
-								chips: theAnswer.buyin.chips,
-
-								swap_id: theAnswer.swap.id,
-								status: theAnswer.swap.status,
-								percentage: theAnswer.swap.percentage,
-								counter_percentage: theAnswer.swap.counter_percentage,
-								swap_updated_at: theAnswer.swap.updated_at,
-
-								tournament_name: theAnswer.tournament.name,
-								tournament_id: theAnswer.tournament.id,
-								address: theAnswer.tournament.address,
-								city: theAnswer.tournament.city,
-								state: theAnswer.tournament.state,
-								start_at: theAnswer.tournament.start_at,
+								status: path,
+								swap: getStore().currentSwap,
+								buyin: getStore().currentBuyinuyin,
+								updated_at: getStore().currentSwap.updated_at,
+								tournament: getStore().currentTournament,
+								// buyin_id: theAnswer.buyin.id,
+								// user_id: theAnswer.buyin.user_id,
+								// user_name: theAnswer.buyin.user_name, 
+								// table: theAnswer2.table,
+								// seat: theAnswer2.seat,
+								// chips: theAnswer2.chips,
+								// swap_id: theAnswer.id,
+								// status: theAnswer1.status,
+								// percentage: theAnswer1.percentage,
+								// counter_percentage: theAnswer1.counter_percentage,
+								// swap_updated_at: theAnswer.swap.updated_at,
+								// tournament_name: theAnswer.tournament.name,
+								// tournament_name: theAnswer.tournament.status,
+								// tournament_id: theAnswer.tournament_id,
+								// address: theAnswer.tournament.address,
+								// city: theAnswer.tournament.city,
+								// state: theAnswer.tournament.state,
+								// start_at: theAnswer.tournament.start_at,
 							}
 						} else if(type == 'winnings'){
 							console.log('under construction')
@@ -433,12 +465,20 @@ const getState = ({ getStore, setStore, getActions }) => {
 							 }),
 						});
 						navigation.dispatch(navigateAction);
-						getActions().notification.remove()
+						var answerrr = await getActions().notification.remove();
+						console.log('erased data', getStore().notificationData)
 					}else{
-						navigation.navigate('Swaps')
+						navigation.navigate('SwapDashboard')
 						getActions().notification.remove()
 	
 					}
+						
+					} catch(error) {
+						console.log('nevermind', error)
+						getActions().notification.remove()
+						navigation.navigate('Login')
+					}
+					
 				},
 
 				getList: async() => {
@@ -668,15 +708,15 @@ const getState = ({ getStore, setStore, getActions }) => {
 						var answer4 = await getActions().deviceToken.retrieve(a_recipient_id)
 						var notifData = {
 							id: a_tournament_id,
-							type: 'event',
-							initialPath: 'EventListings', 
-							finalPath: 'EventLobby'
+							type: 'swap',
+							initialPath: 'SwapDashboard', 
+							finalPath: 'SwapOffer'
 						}
 						var title = 'New Swap'
 						var body = getStore().myProfile.first_name + ' ' + getStore().myProfile.last_name
 							+ ' just sent you a swap'
-						var answer4 = await getActions().notification.send( 
-							answer4, title, body, notifData )
+						// var answer4 = await getActions().notification.send( 
+						// 	answer4, title, body, notifData )
 						navigation.goBack()
 						
 					}catch(error){
