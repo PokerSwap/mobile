@@ -59,6 +59,8 @@ PushNotification.configure({
 
   // (required) Called when a remote or local notification is opened or received
   onNotification: async function(notificationData) {
+    var answer1 = await AsyncStorage.removeItem('notification')
+
     console.log("NOTIFICATION:", notificationData);
     var answer2 = await AsyncStorage.setItem('notification', JSON.stringify(notificationData))
     
@@ -91,13 +93,14 @@ PushNotification.configure({
 
 messaging().setBackgroundMessageHandler(async (remoteMessage) => {
   // Update a users messages list using AsyncStorage
-  console.log('remoteMessage',remoteMessage)
-  const currentMessages = await AsyncStorage.getItem('messages');
-  var messageArray
-  currentMessages==null ? messageArray = [] :  messageArray = JSON.parse(currentMessages);
-  messageArray.push(remoteMessage.data);
-  console.log('messagearrayabco', messageArray)
-  await AsyncStorage.setItem('messages', JSON.stringify(messageArray));
+  console.log('remote message coming in', remoteMessage)
+  // console.log('remoteMessage',remoteMessage)
+  // const currentMessages = await AsyncStorage.getItem('messages');
+  // var messageArray
+  // currentMessages==null ? messageArray = [] :  messageArray = JSON.parse(currentMessages);
+  // messageArray.push(remoteMessage.data);
+  // console.log('messagearrayabco', messageArray)
+  // await AsyncStorage.setItem('messages', JSON.stringify(messageArray));
 });
 
 messaging().onMessage(async (remoteMessage) => {
