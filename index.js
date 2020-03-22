@@ -109,7 +109,7 @@ messaging().onMessage(async (remoteMessage) => {
  
   Alert.alert(
     "Swap Alert",
-    remoteMessage.data.message,
+    remoteMessage.data.alert,
     [
       { text: 'Yes', onPress: () => console.log('yes') },
       { text: 'No', onPress: () => console.log("Cancel Pressed"), }

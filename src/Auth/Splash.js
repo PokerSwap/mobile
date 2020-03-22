@@ -16,7 +16,6 @@ export default SplashScreen = (props) => {
 
 			var answer0 = await actions.userToken.store(currentToken)
 			var answer555 = await actions.profile.get()
-			console.log('answer555', store.myProfile)
 			if(store.myProfile){
 				console.log('Valid User Token')
 				var answer2 = await actions.user.auto_login(props.navigation)

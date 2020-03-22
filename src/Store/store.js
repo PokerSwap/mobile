@@ -36,18 +36,22 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 		store: {
 			
-			// FOR CURRENT TOURNAMENT ACTION
-			action: null,
+			// FOR CURRENT ACTION IN A TOURNAMENT
+			currentAction: null,
 
-			currentTournament:{},
-
+			// CURRENT BUYIN ON SCREEN
 			currentBuyin:{},
 
+			// CURRENT SWAP ON SCREEN
 			currentSwap:{},
 
+			// CURRENT BUYIN ON SCREEN
+			currentTournament:{},
+
+			// MY DEVICE TOKEN
 			deviceToken: null,
 
-			// CURRENT PROFILE
+			// MY PROFILE
 			myProfile:{},
 
 			// LIVE AND UPCOMING SWAP TRACKER
@@ -132,7 +136,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						console.log('rrreeeeerrrr', tournament)
 						
 						var a5 = await navigation.push('EventLobby', {
-							action: getStore().action,
+							action: getStore().currentAction,
 							tournament: tournament.tournament,
 							buyins: tournament.buyins,
 							flights: tournament.tournament.flights,
@@ -164,7 +168,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}, 
 						})
 						var aaa = await response.json()
-						console.log('busted response',aaa)
 
 						var answer0 = await getActions().tracker.getAll()
 						var answer1 = await getActions().tournament.getInitial()
@@ -223,45 +226,23 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 				getCurrent: async ( a_buyin_id ) => {
 					try{
-						var url = databaseURL + 'buyins/' + a_buyin_id
-						var accessToken = getStore().userToken
-
+						var url = databaseURL + 'buy_ins/' + a_buyin_id
+						console.log('url', url)
 						let response = await fetch(url, {
 							method: 'GET',
 							headers: {
 								'Content-Type': 'application/json',
-								'Authorization': 'Bearer ' + accessToken,
 							},
 						})
 
-						var theBuyin = await response.json()						
+						var theBuyin = await response.json()	
+						console.log('theBuyin', theBuyin)					
 						setStore({currentBuyin: theBuyin})
 					}catch(error){
-						console.log()
+						console.log('problem with getting the current buyin:', error)
 					}
 				},
 
-				getMostRecent: async() => {
-					
-					try {
-						const url = databaseURL + 'me/buy_ins/'
-						let accessToken = getStore().userToken
-	
-						let response = await fetch(url, {
-							method: 'GET',
-							headers: {
-								'Authorization': 'Bearer ' + accessToken,
-								'Content-Type':'application/json'
-							}, 
-						})
-						
-						let buyinList = await response.json()
-						return buyinList
-					
-					} catch(error) {
-						console.log('Something went wrong with getting most recent buyin:', error)
-					}
-				},
 			},
 
 			deviceToken:{
@@ -390,88 +371,85 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 			},
 
-			notification:{
-				
-				check: async(navigation) => {
+			navigate:{
+				toEvent: async(data, navigation) => {
 					try {
-						var prenotificationData = await AsyncStorage.getItem('notification')
-					var notificationData = JSON.parse(prenotificationData)
-					console.log('notificationData', notificationData, typeof(notificationData))
-					setStore({notificationData: notificationData})
-
-					if(notificationData !== null){
-						var id = notificationData.id
-						var buyinID = notificationData.buyinID
-						var type = notificationData.type
-						var initialPath = notificationData.initialPath
-						var finalPath = notificationData.finalPath
-	
-						var theAnswer1, theAnswer2, answerParams;
-						if (type == 'event') {
-							var anAction = await getActions().tournament.getAction(id);
-							theAnswer = await getActions().tournament.getCurrent(id);
+						var anAction = await getActions().tournament.getAction(data.id);
+							theAnswer = await getActions().tournament.getCurrent(data.id);
 							var currentTournament = getStore().currentTournament
 							answerParams = {
-								action: getStore().action,
+								action: getStore().currentAction,
 								tournament: currentTournament.tournament,
 								buyins: currentTournament.buyins,
 								flights: currentTournament.tournament.flights,
 								my_buyin: currentTournament.my_buyin,
 								navigation: navigation
 							}
-						} else if(type == 'swap'){
-
-							theAnswer1 = await getActions().buyin.getCurrent(buyin_id)
-							theAnswer2 = await getActions().swap.getCurrent(id)
-							var theBuyin = getStore().currentBuyin
-							var theSwap = getStore().currentSwap
-							answerParams = {
-								status: path,
-								swap: getStore().currentSwap,
-								buyin: getStore().currentBuyinuyin,
-								updated_at: getStore().currentSwap.updated_at,
-								tournament: getStore().currentTournament,
-								// buyin_id: theAnswer.buyin.id,
-								// user_id: theAnswer.buyin.user_id,
-								// user_name: theAnswer.buyin.user_name, 
-								// table: theAnswer2.table,
-								// seat: theAnswer2.seat,
-								// chips: theAnswer2.chips,
-								// swap_id: theAnswer.id,
-								// status: theAnswer1.status,
-								// percentage: theAnswer1.percentage,
-								// counter_percentage: theAnswer1.counter_percentage,
-								// swap_updated_at: theAnswer.swap.updated_at,
-								// tournament_name: theAnswer.tournament.name,
-								// tournament_name: theAnswer.tournament.status,
-								// tournament_id: theAnswer.tournament_id,
-								// address: theAnswer.tournament.address,
-								// city: theAnswer.tournament.city,
-								// state: theAnswer.tournament.state,
-								// start_at: theAnswer.tournament.start_at,
-							}
-						} else if(type == 'winnings'){
-							console.log('under construction')
-						} else{
-							console.log('so what now?')
-						}
-						
-						const navigateAction = NavigationActions.navigate({
-							routeName: initialPath,
-							params: {},				
-							action: StackActions.push({ 
-								routeName: finalPath,
-								params: answerParams
-							 }),
-						});
-						navigation.dispatch(navigateAction);
-						var answerrr = await getActions().notification.remove();
-						console.log('erased data', getStore().notificationData)
-					}else{
-						navigation.navigate('SwapDashboard')
-						getActions().notification.remove()
-	
+					}catch(error){
+						console.log("Something went wrong with navigating to event:", error)
 					}
+
+				},
+				toSwap: async( data, navigation ) => {
+					try {
+
+						var gettingBuyin = await getActions().buy_in.getCurrent(data.buyin_id)
+						var gettingSwap = await getActions().swap.getCurrent(data.id)
+						var gettingTournament = await getActions().tournament.getCurrent(getStore().currentBuyin.tournament_id)
+						var labelTime = await getActions().swap.convertTime(getStore().currentSwap.updated_at)
+						var answerParams = {
+							status: getStore().currentSwap.status,
+							swap: getStore().currentSwap,
+							buyin: getStore().currentBuyin,
+							updated_at: labelTime,
+							tournament: getStore().currentTournament
+						}
+
+						var navigateAction = NavigationActions.navigate({
+							routeName: 'SwapOffer',
+							params:  answerParams 
+						});
+
+						try{
+							navigation.dispatch(navigateAction);
+							console.log('did it work')
+
+						} catch(error){
+							console.log('cant navigate', error)
+						}
+ 						var answerrr = await getActions().notification.remove();
+					}catch(error){
+						console.log("Something went wrong with navigating to event:", error)
+					}
+				}
+			},
+
+			notification:{
+				
+				check: async(navigation) => {
+					try {
+						var prenotificationData = await AsyncStorage.getItem('notification')
+						var notificationData = JSON.parse(prenotificationData)
+						console.log('notificationData', notificationData, typeof(notificationData))
+						setStore({notificationData: notificationData})
+
+						if(notificationData !== null){
+
+							var type = notificationData.type
+
+							if (type == 'event'){
+								getActions().navigate.toEvent(notificationData, navigation)
+							}else if(type == 'swap'){
+								getActions().navigate.toSwap(notificationData, navigation)
+							}else{
+								console.log('there was an error in getting notification')
+							}
+
+						}else{
+							navigation.navigate('SwapDashboard')
+							getActions().notification.remove()
+		
+						}
 						
 					} catch(error) {
 						console.log('nevermind', error)
@@ -481,42 +459,12 @@ const getState = ({ getStore, setStore, getActions }) => {
 					
 				},
 
-				getList: async() => {
-					// setStore({notificationList:data})
-				},
-
 				remove: async() => {
 					var aaa = await AsyncStorage.removeItem('notification')
 					setStore({notificationData:null})
 
 				},
 
-				send: async( a_token, a_title, a_body, a_data ) => {
-					try{
-						var url = databaseURL + 'sendfcm'
-						let accessToken = getStore().userToken
-						var data ={
-							device_token: a_token,
-							title: a_title,
-							body: a_body,
-							data: a_data
-						}
-						console.log('not data',data)
-
-						let response = await fetch(url,{
-							method:"POST",
-							body: JSON.stringify(data),
-							headers:{
-								'Authorization': 'Bearer ' + accessToken,
-								'Content-Type':'application/json'
-							}
-						})
-						.then(response => response.json())
-						console.log('message sent', response)
-					}catch (error) {
-						console.log('error in sending notification',error)
-					}
-				}
 			},
 
 			profile:{
@@ -567,7 +515,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 
 						let profileData = await response.json()
-						console.log('Profile data', profileData)
+						// console.log('Profile data', profileData)
 						profileData !== 'User not found' ?	
 							getActions().profile.store(profileData)
 							:
@@ -725,7 +673,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					}
 				},
 
-				convertTime: async (swapTime) => {
+				convertTime: async ( swapTime ) => {
 
 					var day_name = swapTime.substring(0,3)
 					var startMonth = swapTime.substring(8,11)
@@ -796,7 +744,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						var answer1 = await getActions().tracker.getAll()
 						var answer2 = await getActions().tournament.getCurrent(a_tournament_id)
 						var answer3 = await getActions().tournament.getAction(a_tournament_id)
-						console.log(getStore().action)
+						console.log(getStore().currentAction)
 
 						var f
 						if (false){
@@ -814,8 +762,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						}else if (a_status == 'agreed'){
 						}else if (a_status == 'agreed'){}else{}
 						return responseMessage(f)
-						
-
+			
 					}
 					catch(error){
 						console.log('Something went wrong with the staus change of a swap',error)
@@ -851,9 +798,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 		
 			tournament:{
 
-				getAction: ( tournament_id ) => {
+				getAction: ( a_tournament_id ) => {
 					try{
-						const url = databaseURL + 'swaps/me/tournament/' + tournament_id;
+						const url = databaseURL + 'swaps/me/tournament/' + a_tournament_id;
 						const accessToken = getStore().userToken ;
 						fetch(url, {
 							method: 'GET',
@@ -868,57 +815,25 @@ const getState = ({ getStore, setStore, getActions }) => {
 					} catch(error){
 						console.log('Something went wrong in getting action from a tournament', error)
 					}
-				},
-
-				getgetAction: async( tournament_id ) => {
-					try{
-						const url = databaseURL + 'swaps/me/tournament/' + tournament_id;
-						const accessToken = getStore().userToken ;
-						let response = await fetch(url, {
-							method: 'GET',
-							headers: {
-								'Authorization': 'Bearer ' + accessToken,
-								'Content-Type':'application/json'
-							}, 
-						})
-						.then(response => response.json())
-						console.log('response', response)
-						return response
-						
-					} catch(error){
-						console.log('Something went wrong in getting action from a tournament', error)
-					}
-				},
-
-				getOne: async ( tournament_id ) => {
-					
-					try{
-						const url = databaseURL + 'tournaments/' + tournament_id;
-						const accessToken = getStore().userToken ;
-						
-						let response = await fetch(url, {
-							method: 'GET',
-							headers: {
-								'Authorization': 'Bearer ' + accessToken,
-								'Content-Type':'application/json'
-							}, 
-						})
-						
-						var answer = await response.json()
-						return answer
-						
-
-					} catch(error){
-						console.log('Something went wrong with getting one tournament', error)
-					}
-
-				},
+				},			
 
 				getCurrent: async( a_tournament_id ) => {
 					try{
-						var aCurrentTournament = await getActions().tournament.getOne(a_tournament_id)
+						const url = databaseURL + 'tournaments/' + a_tournament_id;
+						const accessToken = getStore().userToken ;
+						
+						let response = await fetch(url, {
+							method: 'GET',
+							headers: {
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							}, 
+						})
+						
+						var aCurrentTournament = await response.json()
+
 						setStore({currentTournament: aCurrentTournament})
-						console.log("Tournament you're on:", getStore().currentTournament)
+						// console.log("Tournament you're on:", getStore().currentTournament)
 					}catch(error){
 						console.log('Something went wrong with getting currents tournaments', error)
 						return errorMessage(error.message)
@@ -938,7 +853,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							:
 							full_url = base_url
 
-							console.log('full url', full_url)
+							// console.log('full url', full_url)
 
 						const accessToken = getStore().userToken ;
 						
@@ -950,7 +865,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}, 
 						})
 						var initialTournaments = await response.json()
-						console.log('iii', initialTournaments)
+						// console.log('iii', initialTournaments)
 						var aaaa = []
 
 						var allInitialTournaments =  initialTournaments.forEach(tournament =>{
@@ -966,7 +881,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						// var now = moment()
 						// var aaaab = aaaa.filter(x => now.isBefore(moment(x.start_at).add(17, 'hours')))
 						setStore({tournamentList: aaaa})
-						console.log('tournaments inital', getStore().tournamentList)
+						// console.log('tournaments inital', getStore().tournamentList)
 					} catch(error) {
 						console.log('Something went wrong with getting initial tournaments', error)
 						return errorMessage(error.message)
@@ -1039,7 +954,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 
 						let trackerData = await response.json()
-						console.log(trackerData)
+						// console.log('trackerData',trackerData)
 						setStore({myTrackers: trackerData})
 						
 					} catch(error){
@@ -1063,24 +978,19 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 						let trackerData = await response.json()
 						setStore({myPastTrackers: trackerData})
-						console.log('myPastTrackers', getStore().myPastTrackers)
+						// console.log('myPastTrackers', getStore().myPastTrackers)
 						
 					}catch(error){
 						console.log('Something went wrong in getting past trackers', error)
 					}
 
 				},
-
-				getWinnings: async() => {
-
-				}
 				
 			},
 
 			user: {
 
 				add: async ( myEmail, myPassword ) => {
-
 					try{
 						const url = databaseURL + 'users'
 						const data = {

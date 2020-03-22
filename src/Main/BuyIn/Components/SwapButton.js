@@ -113,35 +113,13 @@ export default SwapButton = (props) => {
     var swapTime
     if (path !== 'edit'  && path !== 'inactive'){
       var answer = await actions.swap.getCurrent(swapID)
-      var swapTime = store.currentSwap.updated_at
-
+      swapTime = store.currentSwap.updated_at
     } else{
       swapTime = props.updated_at
     }
-    var day_name = swapTime.substring(0,3)
-    var startMonth = swapTime.substring(8,11)
-    var startDay = swapTime.substring(5,7)
-    var startTime = swapTime.substring(16,22)
 
-    var startHour = parseInt(swapTime.substring(16,19))
-    var startM 
-    if (startHour % 12!==0){
-      if(startHour/12 >= 1){
-        startM = ' P.M.', startHour%=12
-      }else{
-        startM = ' A.M.'
-      }
-    } else{
-      if(startHour == 0){
-        startM = ' A.M.', startHour=12
-      }else{
-        startM = ' P.M.'
-      }
-    }
-    
-    var startDate =  day_name + '. ' + startMonth + '. ' + startDay
-    var startTime = startHour + ':' + swapTime.substring(20,22) + startM
-    var labelTime = startDate + ', ' +   startTime
+    var labelTime = await actions.swap.convertTime(swapTime)
+
     props.navigation.push('SwapOffer',{
         status: path,
         swap: store.currentSwap,
