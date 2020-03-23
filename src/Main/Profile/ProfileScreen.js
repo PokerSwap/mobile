@@ -8,6 +8,7 @@ import SwapList from '../../Main/BuyIn/Components/SwapList'
 
 import {Context} from '../../Store/appContext'
 import MyProfileHistoryCard from './Components/MyProfileHistoryCard'
+import { HeaderBackButton } from 'react-navigation-stack';
 
 
 
@@ -51,14 +52,8 @@ export default ProfileScreen = (props) => {
 
   return(
     <Container> 
-      <Header head>
-        <Left>
-          <Button transparent  
-            onPress={() => navigation.goBack(null)}>
-            <Icon 
-              type='Ionicons' name='ios-arrow-back' />
-          </Button>
-        </Left>
+      <Header style={{justifyContent:'flex-start'}}>
+          <HeaderBackButton tintColor='white' onPress={()=> props.navigation.goBack()} />
       </Header>
       
       <Content contentContainerStyle={{

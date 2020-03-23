@@ -1,3 +1,5 @@
+
+import { Alert } from 'react-native'
 import {Toast} from 'native-base'
 import AsyncStorage from '@react-native-community/async-storage'
 import { StackActions, NavigationActions } from 'react-navigation';
@@ -28,6 +30,18 @@ var customMessage = (custom) => {
 	Toast.show({
 		text:custom, duration:3000, position:'top'
 	})
+}
+
+var alertMessage = (alert) => {
+	Alert.alert(
+		"Alert",
+		alert,
+		[
+			{
+				text: 'OK', onPress: () => console.log('OK')
+			},
+		]
+	)
 }
 
 const getState = ({ getStore, setStore, getActions }) => {
@@ -744,11 +758,10 @@ const getState = ({ getStore, setStore, getActions }) => {
 						var answer1 = await getActions().tracker.getAll()
 						var answer2 = await getActions().tournament.getCurrent(a_tournament_id)
 						var answer3 = await getActions().tournament.getAction(a_tournament_id)
-						console.log(getStore().currentAction)
-
+						console.log('eee', response.message, typeof(response.message))
 						var f
-						if (false){
-							f = 'lol'
+						if (response.message.includes('too large')){
+							return alertMessage(response.message)
 						}else if (a_status == 'agreed'){
 							f = 'You agreed to this swap offer'
 						}else if (a_status == 'pending'){

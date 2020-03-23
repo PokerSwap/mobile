@@ -324,18 +324,8 @@ const DrawerNav = createDrawerNavigator(
     //     ),
     //   }
     // },
-    // FAQs:{
-    //   screen: FAQScreen,
-    //   navigationOptions: {
-    //     title: 'FAQs',
-    //     drawerIcon: ({ focused }) => (
-    //     <Icon 
-    //       type="FontAwesome5" name="wqq" size={24} 
-    //       color={focused ? 'blue' : 'black'} 
-    //     />
-    //     ),
-    //   }
-    // }
+
+
   },
   {
     initialRouteName: 'Home',
@@ -348,7 +338,6 @@ const DrawerNav = createDrawerNavigator(
 )
 
 
-
 // MAIN NAVIGATION STACK
 const AppStack = createStackNavigator(
   {
@@ -358,8 +347,7 @@ const AppStack = createStackNavigator(
       screen: ProfileScreen,
       navigationOptions: ({navigation}) => ({
         title:'Profile',
-        header:<View style={{ height:20,backgroundColor:'blue' }} ></View>,
-        headerMode:'float',
+        headerMode:'screen',
         headerLeft: () => <HeaderBackButton onPress={() => navigation.goBack()} />,
       })
     },

@@ -3,6 +3,7 @@ import App from './App';
 import {name as appName} from './app.json';
 
 
+
 import { Platform, Alert } from 'react-native';
 import firebase from '@react-native-firebase/app';
 import messaging from '@react-native-firebase/messaging'
@@ -92,30 +93,11 @@ PushNotification.configure({
 
 
 messaging().setBackgroundMessageHandler(async (remoteMessage) => {
-  // Update a users messages list using AsyncStorage
   console.log('remote message coming in', remoteMessage)
-  // console.log('remoteMessage',remoteMessage)
-  // const currentMessages = await AsyncStorage.getItem('messages');
-  // var messageArray
-  // currentMessages==null ? messageArray = [] :  messageArray = JSON.parse(currentMessages);
-  // messageArray.push(remoteMessage.data);
-  // console.log('messagearrayabco', messageArray)
-  // await AsyncStorage.setItem('messages', JSON.stringify(messageArray));
+ 
 });
 
-messaging().onMessage(async (remoteMessage) => {
-  getToken()
-  console.log('FCM Message Data:', remoteMessage);
- 
-  Alert.alert(
-    "Swap Alert",
-    remoteMessage.data.alert,
-    [
-      { text: 'Yes', onPress: () => console.log('yes') },
-      { text: 'No', onPress: () => console.log("Cancel Pressed"), }
-    ]
-  )
-});   
+
  
 messaging().onSendError(event => {
   console.log('send error id',event.messageId);

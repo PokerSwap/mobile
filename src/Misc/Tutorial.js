@@ -1,7 +1,8 @@
 import React from "react";
-import { TouchableOpacity, } from 'react-native'
+import { TouchableOpacity, ScrollView } from 'react-native'
 import { Container, Content, Header, Text, Icon } from "native-base";
 import i18n from "../i18n/i18n"; 
+
 
 import { WebView } from 'react-native-webview';
 
@@ -28,12 +29,13 @@ export default TutorialScreen = (props) => {
 
       </Header>
 			<Content>
+				<ScrollView>
 			<WebView
 				source={{uri: url}}
-				style={{height:1000}}
+				style={{height:610}}
 			/> 
-				
-			</Content>
+				</ScrollView>
+				</Content>
 		</Container>
 	)
 }

@@ -15,7 +15,7 @@ export default EventHeader = (props) => {
       <CardItem style={{justifyContent:'center'}}>
         <Text style={{
           fontSize:24, fontWeight:'600', textAlign:'center'}}>
-          {props.tournament.name}
+          {/* {props.tournament.name} */}
         </Text>
       </CardItem>
 

@@ -3,7 +3,7 @@ import { ListItem, Text, Icon } from 'native-base';
 import { Col } from 'react-native-easy-grid'
 
 export default ResultsTracker = (props) => {  
-  
+   console.log('444',props.tournament)
   const enterProfitResults = () => {
     props.navigation.push('ProfitResults', {
       tournament: props.tournament,

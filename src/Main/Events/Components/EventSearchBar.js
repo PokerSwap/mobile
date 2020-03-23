@@ -37,6 +37,7 @@ export default EventSearchBar = (props) => {
         x = PERMISSIONS.IOS.LOCATION_WHEN_IN_USE
         : x = PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION;
       const locationStatus = await request(x);
+      console.log(x, locationStatus)
       getByLocation()    
     }catch(error){
       console.log('error', error)

@@ -78,9 +78,9 @@ export default PurchaseTokens = (props) => {
         flex:1, justifyContent:'center', alignItems:'center'}}>
       <ScrollView style={{ alignSelf: 'stretch' }}>           
         
-        <Button onPress={()=> stripe.openNativePaySetup() }>
+        {/* <Button onPress={()=> stripe.openNativePaySetup() }>
           <Text>Test</Text>
-        </Button>
+        </Button> */}
         <Grid transparent>
 
           <Row style={{alignItems:'center'}}>

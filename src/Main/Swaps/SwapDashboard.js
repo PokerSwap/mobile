@@ -1,5 +1,5 @@
 import React, {useContext, useState, useCallback} from 'react';
-import {RefreshControl,  Text} from 'react-native';
+import {RefreshControl, Alert, Text} from 'react-native';
 import { Container, Content, List, ListItem, Separator } from 'native-base';
 import moment from 'moment'
 
@@ -7,9 +7,50 @@ import HomeHeader from '../../View-Components/HomeHeader'
 import { Context } from '../../Store/appContext'
 import SwapTracker from './Components/SwapTracker';
 
+import messaging from '@react-native-firebase/messaging'
+
+import { StackActions, NavigationActions } from 'react-navigation';
+
+
+
 export default SwapDashboard = (props) => {
 
   const { store, actions } = useContext(Context)
+
+  messaging().onMessage(async (remoteMessage) => {
+    console.log('FCM Message Data:', remoteMessage);
+    
+    var gettingBuyin = await actions.buy_in.getCurrent(remoteMessage.data.buyin_id)
+    var gettingSwap = await actions.swap.getCurrent(remoteMessage.data.id)
+    var gettingTournament = await actions.tournament.getCurrent(store.currentBuyin.tournament_id)
+    var labelTime = await actions.swap.convertTime(store.currentSwap.updated_at)
+    
+    var answer = await actions.tracker.getAll()
+
+    var answerParams = {
+      status: store.currentSwap.status,
+      swap: store.currentSwap,
+      buyin: store.currentBuyin,
+      updated_at: labelTime,
+      tournament: store.currentTournament
+    }
+
+    var navigateAction = NavigationActions.navigate({
+      routeName: 'SwapOffer',
+      params:  answerParams 
+    });
+
+
+
+    Alert.alert(
+      "Swap Alert",
+      remoteMessage.data.alert,
+      [
+        { text: 'Open', onPress: () => props.navigation.dispatch(navigateAction) },
+        { text: 'Close', onPress: () => console.log("Cancel Pressed"), }
+      ]
+    )
+  });
 
   let noTracker = (f) =>  {
     return(

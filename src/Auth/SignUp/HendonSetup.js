@@ -9,12 +9,8 @@ const AlertS = (props) => {
       "Confirmation",
       'Are you sure this is you?',
       [
-        {
-          text: 'Yes', onPress: () => props.next()
-        },
-        {
-          text: 'No', onPress: () => console.log("Cancel Pressed"),
-        }
+        { text: 'Yes', onPress: () => props.next() },
+        { text: 'No', onPress: () => console.log("Cancel Pressed"), }
       ]
     )
   }
@@ -35,8 +31,8 @@ export default HendonSetup = (props) => {
 			{/* HENDON INSTRUCTIONS */}
 			<CardItem style={{flexDirection:"column", justifyContent:"center"}}>
 				<Text style={{textAlign:'center'}}>
-				If you have a Hendon Mob profile, please enter your name {}
-				in the search engine in the live Hendon Mob search below.
+					If you have a Hendon Mob profile, please enter your name {}
+					in the search engine in the live Hendon Mob search below.
 				</Text>
 			</CardItem>
 			
@@ -72,16 +68,13 @@ export default HendonSetup = (props) => {
 				
 			{/* HENDON URL INPUT */}
 			<CardItem footer style={{flexDirection:"row", justifyContent:"center"}}> 
-					<View
-						style={{borderWidth:1, width:'85%', paddingVertical:12, marginVertical:10}}
-					>
+					<View style={{borderWidth:1, width:'85%', paddingVertical:12, marginVertical:10}} >
 					<TextInput
 						style={{paddingHorizontal:10}}
 						placeholder='Enter Your Hendon User URL'
 						placeholderTextColor='gray'
 						value={props.hendon}
-						onChangeText={props.onChangeHendon}
-					/>
+						onChangeText={props.onChangeHendon} />
 					
 					</View>
 				</CardItem>
