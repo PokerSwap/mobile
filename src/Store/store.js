@@ -1057,7 +1057,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 					var data = {
 						email: myEmail,
 						password: myPassword,
-						device_token: myDeviceID,
+						// device_token: myDeviceID,
+						device_token: 'lol',
 						exp: time
 					};
 

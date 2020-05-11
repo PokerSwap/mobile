@@ -19,6 +19,7 @@
     "@react-native-firebase/messaging": "^6.3.4",
     "apsl-react-native-button": "^3.1.1",
     "core-js": "^3.3.6",
+    "docusaurus": "^1.14.4",
     "geolib": "^3.2.1",
     "i18n-js": "^3.3.0",
     "jest-changed-files": "^24.9.0",
@@ -49,7 +50,8 @@
     "react-navigation-stack": "^2.1.0",
     "react-navigation-tabs": "^2.7.0",
     "save": "^2.4.0",
-    "stripe": "^8.32.0"
+    "stripe": "^8.38.0",
+    "tipsi-stripe": "^7.5.3"
   },
   "devDependencies": {
     "@babel/core": "^7.6.4",

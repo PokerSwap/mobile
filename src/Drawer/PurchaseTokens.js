@@ -2,7 +2,11 @@ import React, { useContext } from 'react';
 import { Alert,  ScrollView, Image} from 'react-native';
 import { Container, Content,  Button, Text, View } from 'native-base';
 import {Grid, Col, Row} from 'react-native-easy-grid'
+import stripe from 'tipsi-stripe';
 
+stripe.setOptions({
+  publishableKey: 'pk_live_No3ckprr7lPnxOP2MGPqRDO500aYv6i73M',
+});
 
 import OtherHeader from '../View-Components/OtherHeader'
 
@@ -69,6 +73,33 @@ export default PurchaseTokens = (props) => {
 
   const { store, actions } = useContext(Context)
 
+  requestPayment = () => {
+    return stripe
+      .paymentRequestWithCardForm()
+      .then(stripeTokenInfo => {
+        console.warn('Token created', { stripeTokenInfo });
+      })
+      .catch(error => {
+        console.warn('Payment failed', { error });
+      });
+  };
+
+  const check = () => {
+    stripe.canMakeNativePayPayments() ? console.log('yes') : console.log('no')
+  }
+
+  const items = [{
+    label: '10 Tokens',
+    amount: '1.99',
+  }]
+
+  const options = {
+    requiredBillingAddressFields: ['all'],
+    requiredShippingAddressFields: ['phone', 'postal_address'],
+  }
+
+  const token = async() => await stripe.paymentRequestWithApplePay(items, options)
+
   return(
     <Container>
       <OtherHeader title={'Purchase Tokens'} 
@@ -78,9 +109,9 @@ export default PurchaseTokens = (props) => {
         flex:1, justifyContent:'center', alignItems:'center'}}>
       <ScrollView style={{ alignSelf: 'stretch' }}>           
         
-        {/* <Button onPress={()=> stripe.openNativePaySetup() }>
+        <Button onPress={()=>  token() }>
           <Text>Test</Text>
-        </Button> */}
+        </Button>
         <Grid transparent>
 
           <Row style={{alignItems:'center'}}>

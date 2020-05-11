@@ -35,7 +35,6 @@ target 'SwapProfit' do
   pod 'Firebase/Messaging'
   # pod 'RNFBInAppMessaging', :path => '../node_modules/@react-native-firebase/in-app-messaging'
 
-
   pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
@@ -45,7 +44,7 @@ target 'SwapProfit' do
   pod 'Permission-PhotoLibrary', :path => "#{permissions_path}/PhotoLibrary.podspec"
   pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse.podspec"
 
-  pod 'Stripe', '~> 14.0.0'
+  pod 'Stripe', '~> 14.0.1'
   pod 'RNCPushNotificationIOS', :path => '../node_modules/@react-native-community/push-notification-ios'
 
   target 'SwapProfitTests' do

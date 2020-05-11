@@ -282,7 +282,7 @@ export default EditPath = (props) => {
       <Button large danger
         style={styles.busted.button}
         onPress={()=> bustedAlert()} >
-        <Text style={styles.button.text}> 
+        <Text style={styles.busted.text}> 
           BUSTED? 
         </Text>
       </Button>
