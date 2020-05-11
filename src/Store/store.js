@@ -760,7 +760,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						var answer3 = await getActions().tournament.getAction(a_tournament_id)
 						console.log('eee', response.message, typeof(response.message))
 						var f
-						if (response.message.includes('too large')){
+						if (response.message !== undefined){
 							return alertMessage(response.message)
 						}else if (a_status == 'agreed'){
 							f = 'You agreed to this swap offer'

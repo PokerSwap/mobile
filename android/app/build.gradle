@@ -131,8 +131,8 @@ android {
         applicationId "com.swapprofitllc.swapprofit"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 9
-        versionName "0.4.2"
+        versionCode 10
+        versionName "0.5.2"
         multiDexEnabled true
     }
     splits {
@@ -189,7 +189,7 @@ dependencies {
     implementation 'com.stripe:stripe-android:14.2.0'
     implementation "androidx.multidex:multidex:2.0.1"
     implementation 'androidx.appcompat:appcompat:1.2.0-beta01'
-    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-beta01'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-rc01'
     implementation project(path: ':react-native-gesture-handler')
     // implementation project(':tipsi-stripe')
     if (enableHermes) {
