@@ -19,6 +19,9 @@ export default EventLobby = (props) => {
   let flights = store.currentTournament.tournament.flights
   let action = store.action
 
+  console.log('1st my_biyin', my_buyin)
+
+
   var refreshTournament = async() => {
     try{
       tournament = store.currentTournament.tournament
@@ -42,7 +45,10 @@ export default EventLobby = (props) => {
   var addToFilter = buyins.forEach((buyin) => 
     toFilterOne.push(buyin.recipient_user.id));
   
+  console.log('my_biyin', my_buyin)
+  console.log('id', my_buyin.user_id)
   var toFilter2 = [my_buyin.user_id, ...toFilterOne]  
+  console.log('toFilter2', toFilter2)
 
   let tournamentBuyins 
   if (tournament.buy_ins.length !== 0){
@@ -51,7 +57,7 @@ export default EventLobby = (props) => {
   }else{
     tournamentBuyins = []
   }
-  
+  console.log('tttt', tournamentBuyins)
   var Flights = flights.map((flight, index) => { 
         
     var myBuyInFlight

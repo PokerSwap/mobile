@@ -1,15 +1,15 @@
 import React, {useContext, useState} from 'react'
-import { TextInput, View, TouchableOpacity, Platform } from 'react-native';
+import { TextInput, View, TouchableOpacity, Platform, Alert } from 'react-native';
 import { Icon, Item, Text} from 'native-base';
 import Geolocation from '@react-native-community/geolocation';
-import {check, PERMISSIONS, request} from 'react-native-permissions';
+import {openSettings, request, PERMISSIONS} from 'react-native-permissions';
  
 import {Context} from '../../../Store/appContext'
 
 export default EventSearchBar = (props) => {
 
   const { store, actions } = useContext(Context)
-  const [value, setValue] = useState('')
+  const [ value, setValue ] = useState('')
 
   const testValue = async(value) => {
     const regexZip = new RegExp('^\\d{5}$');
@@ -27,23 +27,33 @@ export default EventSearchBar = (props) => {
     }
   }
 
+  const openSets = () => {
+    openSettings().catch(() => console.warn('cannot open settings'));
+  }
 
+  const showAlert = () =>{
+    Alert.alert(
+      "Permissions Needed",
+      'In order to proceed, you must have Location Services permissions allowed',
+      [
+        { text: 'Go To Settings', onPress: () => openSets() },
+        { text: 'Cancel', onPress: () => console.log("Cancel Pressed"), }
+      ]
+    )
+  }
 
   const askPersmission = async () => {
+    var locationStatus;
     
-    try{
-      var x, answer
-      Platform.OS === 'ios' ?
-        x = PERMISSIONS.IOS.LOCATION_WHEN_IN_USE
-        : x = PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION;
-      const locationStatus = await request(x);
-      console.log(x, locationStatus)
-      getByLocation()    
-    }catch(error){
-      console.log('error', error)
-    }
-    
-
+    Platform.OS == 'ios' ?
+      locationStatus = PERMISSIONS.IOS.LOCATION_WHEN_IN_USE
+      : locationStatus = PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION;
+      
+    request(locationStatus).then(
+      (status) => {
+        console.log('staus', status);
+        status == 'granted' ? getByLocation() : showAlert()
+    })
   };
 
   let getByLocation = () => {
@@ -90,8 +100,7 @@ export default EventSearchBar = (props) => {
         onPress={()=> askPersmission()}>
         <Icon 
           name='location-arrow' type='FontAwesome5'
-          style={{color:'blue', fontSize:18}}
-        />
+          style={{color:'blue', fontSize:18}} />
       </TouchableOpacity>
     </View>
   )

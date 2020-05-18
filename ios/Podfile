@@ -45,7 +45,6 @@ target 'SwapProfit' do
   pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse.podspec"
 
   pod 'Stripe', '~> 14.0.1'
-  pod 'RNCPushNotificationIOS', :path => '../node_modules/@react-native-community/push-notification-ios'
 
   target 'SwapProfitTests' do
     inherit! :search_paths

@@ -1,25 +1,59 @@
 import React, {useState} from 'react';
-import { Image } from 'react-native';
+import { Image, Platform } from 'react-native';
 import { Button, Card, CardItem, Text, Icon } from 'native-base';
 import ImagePicker from 'react-native-image-picker';
 import '../../Images/placeholder.jpg';
 
-import {request, PERMISSIONS} from 'react-native-permissions';
-
+import {openSettings, requestMultiple, PERMISSIONS} from 'react-native-permissions';
 
 export default  PictureSetup = (props) => {
 
   const [ image, setImage ] = useState(props.picture)
    
-  const requestAll = async() => {
-    const cameraStatus = await request(PERMISSIONS.IOS.CAMERA);
-    const photosStatus = await request(PERMISSIONS.IOS.PHOTO_LIBRARY);
-    return {cameraStatus, photosStatus};
+  const openSets = () => {
+    openSettings().catch(() => console.warn('cannot open settings'));
   }
 
-  const choosePhoto = async() => {
+  const showAlert = () =>{
+    Alert.alert(
+      "Permissions Needed",
+      'In order to proceed you must have Camera and Photo Library permissions',
+      [
+        { text: 'Go To Settings', onPress: () => openSets() },
+        { text: 'Cancel', onPress: () => console.log("Cancel Pressed"), }
+      ]
+    )
+  }
 
-    var answer = await requestAll().then(statuses => console.log(statuses));;
+  const askPersmission = async () => {
+
+    if(Platform.OS == 'ios'){
+      var cameraStatus = PERMISSIONS.IOS.CAMERA;
+      var libraryStatus = PERMISSIONS.IOS.PHOTO_LIBRARY;
+      
+      requestMultiple([cameraStatus, libraryStatus]).then(
+        (statuses) => {
+          console.log('Camera', statuses[cameraStatus]);
+          console.log('Library', statuses[libraryStatus]);
+          statuses[cameraStatus] == 'granted' && statuses[libraryStatus] == 'granted' ? 
+            choosePhoto() : showAlert()
+      })
+    }
+      
+     else if (Platform.OS == 'android') {
+      var cameraStatus = PERMISSIONS.ANDROID.CAMERA
+      var libraryStatus = PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE
+      requestMultiple([cameraStatus, libraryStatus]).then(
+        (statuses) => {
+          console.log('Camera', statuses[cameraStatus]);
+          console.log('Library', statuses[libraryStatus]);
+          statuses[cameraStatus] == 'granted' && statuses[libraryStatus] == 'granted' ? 
+            choosePhoto() : showAlert()
+      })
+    }
+  };
+
+  const choosePhoto = async() => {
 
     const options = {
       title: 'Submit Picture',

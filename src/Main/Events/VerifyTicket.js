@@ -1,8 +1,8 @@
 import React, {useState, useContext} from 'react';
-import {Image,  TextInput, KeyboardAvoidingView, Platform, TouchableWithoutFeedback} from 'react-native';
+import {Image,  TextInput, KeyboardAvoidingView, Platform, Alert} from 'react-native';
 import {Container,  Button, Text, Form, Picker, Content, Card, CardItem, Icon} from 'native-base';
 
-import {check, PERMISSIONS} from 'react-native-permissions';
+import {openSettings, requestMultiple, PERMISSIONS} from 'react-native-permissions';
 
 import ImagePicker from 'react-native-image-picker';
 
@@ -26,25 +26,38 @@ export default VerifyTicket = (props) => {
   let flight_id = navigation.getParam('flight_id', 'NO-ID');
   let tournament_id = navigation.getParam('tournament_id', 'NO-ID');
 
-  const askPersmission = async () => {
-    if(Platform.OS == 'ios'){
-      Promise.all([
-        check(PERMISSIONS.IOS.CAMERA),
-        check(PERMISSIONS.IOS.PHOTO_LIBRARY),
-      ]).then(([cameraStatus, photoLibraryStatus]) => {
-        console.log({cameraStatus, photoLibraryStatus});
-      });
-      UploadTicketPhoto()
+  const openSets = () => {
+    openSettings().catch(() => console.warn('cannot open settings'));
+  }
 
-    } else if (Platform.OS == 'android') {
-      Promise.all([
-        check(PERMISSIONS.ANDROID.CAMERA),
-        check(PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE),
-      ]).then(([cameraStatus, readExternalStorageStatus]) => {
-        console.log({cameraStatus, readExternalStorageStatus});
-      });
-      UploadTicketPhoto()
-    }
+  const showAlert = () =>{
+    Alert.alert(
+      "Permissions Needed",
+      'In order to proceed you must have Camera and Photo Library permissions',
+      [
+        { text: 'Go To Settings', onPress: () => openSets() },
+        { text: 'Cancel', onPress: () => console.log("Cancel Pressed"), }
+      ]
+    )
+  }
+
+  const askPersmission = async () => {
+    var cameraStatus, libraryStatus;
+    Platform.OS == 'ios' ? 
+      cameraStatus = PERMISSIONS.IOS.CAMERA 
+      : cameraStatus = PERMISSIONS.ANDROID.CAMERA
+    Platform.OS == 'ios' ? 
+      libraryStatus = PERMISSIONS.IOS.PHOTO_LIBRARY 
+      : libraryStatus = PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE
+    
+    requestMultiple([cameraStatus, libraryStatus]).then(
+      (statuses) => {
+        console.log('Camera', statuses[cameraStatus]);
+        console.log('Library', statuses[libraryStatus]);
+        statuses[cameraStatus] == 'granted' && statuses[libraryStatus] == 'granted' ? 
+          UploadTicketPhoto() : showAlert()
+      }
+    )
   };
 
   const UploadTicketPhoto = async() => {

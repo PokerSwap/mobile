@@ -120,7 +120,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 								type: image.type,
 								name: image.name
 						});
-						console.log('imageData', imageData)
+						// console.log('imageData', imageData)
 						let response = await fetch(imageURL, {
 							method: 'PUT',
 							headers: {
@@ -141,13 +141,13 @@ const getState = ({ getStore, setStore, getActions }) => {
 						if(newBuyin.message == "Take another photo"){
 							return errorMessage(newBuyin.message)}
 
-							console.log('check',newBuyin)
+							// console.log('check',newBuyin)
 
 						var eeee = await getActions().buy_in.edit(newBuyin.buyin_id, a_table, a_seat, some_chips, a_tournament_id, true)
 						var rreee = await getActions().tournament.getCurrent(a_tournament_id)
 						var tournament = getStore().currentTournament
 
-						console.log('rrreeeeerrrr', tournament)
+						// console.log('rrreeeeerrrr', tournament)
 						
 						var a5 = await navigation.push('EventLobby', {
 							action: getStore().currentAction,
@@ -218,7 +218,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 						.then(response => response.json())
 						.then((responseJson) => {
-							console.log('added buyin',response, responseJson)
+							console.log('added buyin', responseJson)
 						})
 						.catch((error) => {
 							console.log('error in json of edit buyin',error);
