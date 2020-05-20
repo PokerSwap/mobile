@@ -19,7 +19,7 @@ export default EventLobby = (props) => {
   let flights = store.currentTournament.tournament.flights
   let action = store.action
 
-  console.log('1st my_biyin', my_buyin)
+  console.log('tournament', tournament)
 
 
   var refreshTournament = async() => {
@@ -57,7 +57,6 @@ export default EventLobby = (props) => {
   }else{
     tournamentBuyins = []
   }
-  console.log('tttt', tournamentBuyins)
   var Flights = flights.map((flight, index) => { 
         
     var myBuyInFlight

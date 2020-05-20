@@ -14,8 +14,8 @@ export default EventHeader = (props) => {
       flex:1, flexDirection:'column',justifyContent:'center'}}>
       <CardItem style={{justifyContent:'center'}}>
         <Text style={{
-          fontSize:24, fontWeight:'600', textAlign:'center'}}>
-          {/* {props.tournament.name} */}
+          fontSize:18, fontWeight:'600', textAlign:'center'}}>
+          {props.tournament.name}
         </Text>
       </CardItem>
 

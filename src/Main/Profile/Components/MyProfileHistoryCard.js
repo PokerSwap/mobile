@@ -40,19 +40,22 @@ export default MyProfileHistoryCard = (props) => {
 
 				return(
 					<View>
-						<ListItem key={index} style={{flexDirection:'column'}}>
-							<Text style={{textAlign:'center', fontSize:20, fontWeight:'500', marginVertical:7 }}>
+						<ListItem noIndent key={index} style={{flexDirection:'column', backgroundColor:'black'}}>
+							<Text style={{textAlign:'center', fontSize:20, 
+							fontWeight:'500', marginVertical:7, color:'white' }}>
 								{fullName}
 							</Text>
 							<Row>
-								<Col style={{width:'30%'}}>
-									<Text>Status</Text>
+								<Col style={{width:'25%', justifyContent:'center'}}>
+									<Text style={{textAlign:'center', color:'white'}}>
+										Status
+									</Text>
 								</Col>
-								<Col style={{width:'30%'}}>
-									<Text>Date {'&'} Time</Text>
+								<Col style={{width:'35%'}}>
+									<Text style={{color:'white'}}>Date {'&'} Time</Text>
 								</Col>
 								<Col style={{width:'40%'}}>
-									<Text>Yours / Theirs %</Text>
+									<Text style={{color:'white'}}>Yours / Theirs %</Text>
 								</Col>
 							</Row>
 						</ListItem>
@@ -108,16 +111,16 @@ MyHistoryAccordion = (props) => {
 	let d
 	var swap = props.swap
 	var bgColor, path;
-				if (swap.status == 'agreed'){bgColor = 'green'}
-				else if (swap.status == 'incoming'){bgColor = 'green'}
-				else if (swap.status == 'pending'){bgColor = 'orange'}
-				else if (swap.status == 'counter_incoming'){bgColor = 'orange', d="Counter\nIncoming"}
-				else if (swap.status == 'canceled'){bgColor = 'grey'}
-				else if (swap.status == 'rejected'){bgColor = 'red'}
+	if (swap.status == 'agreed'){bgColor = 'green'}
+	else if (swap.status == 'incoming'){bgColor = 'green'}
+	else if (swap.status == 'pending'){bgColor = 'orange'}
+	else if (swap.status == 'counter_incoming'){bgColor = 'orange', d="Counter\nIncoming"}
+	else if (swap.status == 'canceled'){bgColor = 'grey'}
+	else if (swap.status == 'rejected'){bgColor = 'red'}
 
 	return(
 		<ListItem noIndent style={{backgroundColor:bgColor, paddingVertical:5}}>
-			<Col>
+			<Col style={{width:'25%'}}>
 				{props.swap.status !== 'counter_incoming' ?
 					<Text style={{textTransform:'capitalize', color:'white'}}>
 						{props.swap.status}
@@ -128,14 +131,15 @@ MyHistoryAccordion = (props) => {
 					</Text>}
 				
 			</Col>
-			<Col>
+			<Col style={{width:'35%'}}>
 				<Text style={{textAlign:'center', color:'white'}}>
 					{startDate}{'\n'}{startTime}</Text>
 			</Col>
 			<Col style={{width:'40%'}}>
-			<Text style={{color:'white'}}>
-				{props.swap.percentage}%{' / '}
-					{props.swap.counter_percentage}%</Text>
+				<Text style={{color:'white'}}>
+					{props.swap.percentage}%{' / '}
+					{props.swap.counter_percentage}%
+				</Text>
 			</Col>
 		</ListItem>
 	)

@@ -154,6 +154,6 @@ const styles = {
     listItem:{
       justifyContent:'center'},
     text:{
-      justifyContent:'center', textAlign:'center', fontSize:24, width:'80%'}
+      justifyContent:'center', textAlign:'center', fontSize:24, width:'90%'}
   }
 }

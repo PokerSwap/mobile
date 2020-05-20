@@ -20,10 +20,10 @@ export default ProfileHistoryCard = (props) => {
 				</Text>
 			</ListItem>
 			<ListItem noIndent style={{flexDirection:'row', backgroundColor:'black'}}>
-				<Col style={{width:'30%'}}>
+				<Col style={{width:'25%'}}>
 					<Text style={{color:'white'}}>Status</Text>
 				</Col>
-				<Col style={{width:'30%'}}>
+				<Col style={{width:'35%'}}>
 					<Text style={{color:'white'}}>Date {'&'} Time</Text>
 				</Col>
 				<Col style={{width:'40%'}}>
@@ -116,13 +116,13 @@ const styles = {
 	},
 	status:{
 		container:{
-			width:'30%', color:'white'},
+			width:'25%', color:'white'},
 		text:{
 			color:'white', textTransform:'capitalize', fontSize:18}
 	},
 	time:{
 		container:{
-			width:'30%'},
+			width:'35%'},
 		text:{
 			color:'white',fontSize:18, textAlign:'center'}
 	},

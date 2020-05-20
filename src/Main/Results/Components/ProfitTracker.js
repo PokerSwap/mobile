@@ -181,42 +181,37 @@ export default ProfitTracker = (props) => {
               borderColor:'#D3D3D3' }}>
               <Col style={{width:'33%', alignSelf:'center'}}>
                 <Text style={{textAlign:'center',  fontSize:24}}>
-                  Swap {index +1}
+                  Swap {index + 1}
                 </Text>
               </Col>
               <Col>
-                <Text style={{ fontSize:24, alignSelf:'center'}}>
+                <Text style={{ fontSize:24, alignSelf:'center', marginBottom:5}}>
                   {swap.percentage}%
                 </Text>
                 <Text style={{fontSize:24, alignSelf:'center'}}>
                   ${swap.you_owe}
                 </Text>
-                </Col>
-                <Col style={{justifyContent:'flex-start'}}>
-                  <Text style={{alignSelf:'center', fontSize:24}}>
-                    {swap.counter_percentage}%
+              </Col>
+              <Col style={{justifyContent:'flex-start'}}>
+                <Text style={{alignSelf:'center', fontSize:24, marginBottom:5, textAlign:'center'}}>
+                  {swap.counter_percentage}%
+                </Text>
+                <Text style={{fontSize:24, alignSelf:'center', textAlign:'center'}}>
+                  ${swap.they_owe}
                   </Text>
-                  <Text style={{fontSize:24, alignSelf:'center'}}>
-                    ${swap.they_owe}
-                    </Text>
-                </Col>
-              
+              </Col>
             </Row>
           )
-
         })}
 
         {/* TOTAL OWE ROW */}
         <Row style={{paddingTop:20, 
           borderTopWidth:1, borderColor:'#D3D3D3'}}>
           <Col>
-            <Text style={{fontSize:24}}>
-              Total
-            </Text>
+            <Text style={{fontSize:24}}>Total</Text>
           </Col>
           <Col >
-            <Text style={{
-              fontSize:24, fontWeight:'600',textAlign:'center'}}>
+            <Text style={{fontSize:24, fontWeight:'600',textAlign:'center'}}>
               ${props.buyin.you_owe_total}
             </Text>
           </Col>
@@ -238,17 +233,26 @@ export default ProfitTracker = (props) => {
           </Text>
         </Row>
         
-        <Row>
-            {swap_profit !== 0 ?
-              swap_profit > 0 ?
-                <Button success onPress={()=>paidAlert()}>
-                  <Text>PAID</Text> 
-                </Button>
-                : 
-                <Button success onPress={()=>payAlert()}>
-                  <Text>PAY</Text>
-                </Button>
-              :null}
+        <Row style={{marginTop:30}}>
+          {swap_profit !== 0 ?
+            swap_profit > 0 ?
+              <Button success large 
+                style={{height:60, width:100, justifyContent:'center'}} 
+                onPress={()=> paidAlert()}>
+                <Text style={{textAlign:'center', fontWeight:'600'}}>
+                  PAID
+                </Text> 
+              </Button>
+              : 
+              <Button warning large 
+                style={{height:60, width:100, justifyContent:'center'}} 
+                onPress={()=> payAlert()}>
+                <Text style={{textAlign:'center', fontWeight:'600'}}>
+                  PAY
+                </Text> 
+              </Button>
+            :
+          null}
         </Row>
 
       </Grid>

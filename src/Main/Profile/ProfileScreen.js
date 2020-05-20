@@ -47,17 +47,17 @@ export default ProfileScreen = (props) => {
     console.log('history', history)
   }
   
+  console.log('history', history)
 
   
 
   return(
     <Container> 
       <Header style={{justifyContent:'flex-start'}}>
-          <HeaderBackButton tintColor='white' onPress={()=> props.navigation.goBack()} />
+          <HeaderBackButton onPress={()=> props.navigation.goBack()} />
       </Header>
       
-      <Content contentContainerStyle={{
-        justifyContent:'center'}}>
+      <Content contentContainerStyle={{ justifyContent:'center'}}>
 
         <ProfileBio navigation={props.navigation} id={id}
           first_name={first_name} nickname={nickname} last_name={last_name} 

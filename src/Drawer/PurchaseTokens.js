@@ -6,6 +6,7 @@ import stripe from 'tipsi-stripe';
 
 stripe.setOptions({
   publishableKey: 'pk_live_No3ckprr7lPnxOP2MGPqRDO500aYv6i73M',
+  merchantId:'merchant.com.swapprofitllc.swapprofitapp'
 });
 
 import OtherHeader from '../View-Components/OtherHeader'
@@ -99,7 +100,9 @@ export default PurchaseTokens = (props) => {
   }
 
   const token = async() => await stripe.paymentRequestWithApplePay(items, options)
-
+  // .then( stripe.completeApplePayRequest())
+  .then(console.log('hey'))
+  .catch((error)=>{console.log('error:', error)})
   return(
     <Container>
       <OtherHeader title={'Purchase Tokens'} 
@@ -109,7 +112,7 @@ export default PurchaseTokens = (props) => {
         flex:1, justifyContent:'center', alignItems:'center'}}>
       <ScrollView style={{ alignSelf: 'stretch' }}>           
         
-        <Button onPress={()=>  token() }>
+        <Button onPress={()=>  {check();token();} }>
           <Text>Test</Text>
         </Button>
         <Grid transparent>

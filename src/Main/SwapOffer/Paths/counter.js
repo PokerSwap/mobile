@@ -56,6 +56,10 @@ export default CounterPath = (props) => {
       alignSelf:'center', width:'80%', justifyContent:'center'}}>
 
       <CardItem style={{justifyContent:'center'}}>
+        
+        <Text style={{fontSize:36, marginHorizontal:10}}> 
+          {percentage}% 
+        </Text>
         <TouchableOpacity onPress={()=> subtract()} >
           <View style={{
             width:100, height:100, borderRadius: 5, backgroundColor:'blue'}}>
@@ -64,10 +68,6 @@ export default CounterPath = (props) => {
             </Text>
           </View>
         </TouchableOpacity>
-
-        <Text style={{fontSize:36, marginHorizontal:10}}> 
-          {percentage}% 
-        </Text>
 
         <TouchableOpacity onPress={()=> add()} >
           <View style={{

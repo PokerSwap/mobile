@@ -1,6 +1,7 @@
-import React, {useState, useContext} from 'react';
-import {Image,  TextInput, KeyboardAvoidingView, Platform, Alert} from 'react-native';
-import {Container,  Button, Text, Form, Picker, Content, Card, CardItem, Icon} from 'native-base';
+import React, { useState, useContext } from 'react';
+import { Image,  TextInput, KeyboardAvoidingView, Platform, Alert} from 'react-native';
+import { Container,  Button, Text, Content, Card, CardItem, Icon} from 'native-base';
+import { Grid, Row, Col } from 'react-native-easy-grid';
 
 import {openSettings, requestMultiple, PERMISSIONS} from 'react-native-permissions';
 
@@ -127,7 +128,7 @@ export default VerifyTicket = (props) => {
         <Card transparent >
 
           <CardItem style={{justifyContent:'center'}}>
-            <Text style={{textAlign:'center', fontSize:24, fontWeight:'bold'}}>
+            <Text style={{textAlign:'center', fontSize:18, fontWeight:'bold'}}>
               {name} 
             </Text>
           </CardItem>
@@ -139,23 +140,21 @@ export default VerifyTicket = (props) => {
               Enter the information and upload a photo of your tournament buyin ticket.
             </Text>
           </CardItem>
-
-          {/* IMAGE UPLOADED  */}
-          <CardItem style={{justifyContent:'center', 
-            flex:1, flexDirection:'column', alignItems:'center'}}>
-            <Image source={image} style={{width:200, height:200}} />
-            <Button style={{width:200, justifyContent:'center'}} 
-              onPress={()=> askPersmission()}>
-              <Icon type='FontAwesome5' name='plus' style={{color:'white'}}/>
-            </Button>
-          </CardItem>
-
         </Card>
-        
+        <Card transparent>
+          <CardItem>
+          <Grid>
+            <Col style={{justifyContent:'center'}}>
+              {/* IMAGE UPLOADED  */}
+              <Image source={image} style={{width:175, height:175}} />
+              <Button style={{width:175, justifyContent:'center'}} 
+                onPress={()=> askPersmission()}>
+                <Icon type='FontAwesome5' name='plus' style={{color:'white'}}/>
+              </Button>
+            </Col>
         {/* ALL BUYIN INPUTS */}
-        <Card transparent style={{flex:1, flexDirection:'row', justifyContent:'center'}}>
+        <Col style={{justifyContent:'center'}}>
           {/* TABLE INPUT */}
-          <CardItem style={{flexDirection:'column', alignItems:'flex-end', width:'33%'}}>
             <Text style={styles.text.input}>
               Table: 
             </Text>
@@ -172,10 +171,8 @@ export default VerifyTicket = (props) => {
               value={table}    
               onChangeText={tableX => setTable( tableX )}
             />
-          </CardItem>
          
           {/* SEAT INPUT */}
-          <CardItem style={{flexDirection:'column', justifyContent:'center', width:'33%'}}>
             <Text style={styles.text.input}>
               Seat: 
             </Text>
@@ -192,10 +189,8 @@ export default VerifyTicket = (props) => {
               value={seat}    
               onChangeText={seatX => setSeat( seatX )}
             />
-          </CardItem>
 
           {/* CHIPS INPUT */}
-          <CardItem style={{flexDirection:'column', alignItems:'flex-start', width:'33%'}}>
             <Text style={styles.text.input}>
               Chips: 
             </Text>
@@ -211,11 +206,11 @@ export default VerifyTicket = (props) => {
               value={chips}    
               onChangeText={chips => setChips( chips )}
             />
+          </Col>
+          </Grid>
           </CardItem>
         </Card>
-        
-        {/*  */}
-        
+                
         <Button large style={styles.button} 
           onPress={() => BuyInStart()}>
           <Text style={styles.text.button}> 
@@ -247,10 +242,10 @@ const styles = {
   image:{
     height:200, width:200, marginTop:10},
   input:{
-    justifyContent:'center', fontSize:24, color:'black'},
+    justifyContent:'center', fontSize:24, color:'black', textAlign:'center'},
   text:{
     input:{
-      fontSize:24, marginVertical:10},
+      fontSize:24, marginVertical:10, textAlign:'center'},
     instruction:{
        fontSize:20, textAlign:'center', marginTop:10},
     button:{

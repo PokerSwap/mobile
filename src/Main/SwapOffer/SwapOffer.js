@@ -95,11 +95,11 @@ export default SwapOffer = (props) => {
         </Card>
 
         {/* CURRENT STATUS TITLE */}
-        <Card transparent style={{ justifyContent:'center'}}>
+        {/* <Card transparent style={{ justifyContent:'center'}}>
           <Text style={{textAlign:'center', fontWeight:'600'}}>
             CURRENT STATUS:
           </Text>
-        </Card>
+        </Card> */}
         
         {/* CURRENT STATUS OF BUYIN */}
         <Card style={{alignSelf:'center', width:'80%', 
@@ -156,9 +156,9 @@ export default SwapOffer = (props) => {
         
         {/* LAST UPDATED STATUS */}
         <Card transparent style={{justifyContent:'center'}}>
-          <Text style={{textAlign:'center', fontSize:24, 
-            lineHeight:50, textTransform:'capitalize'}}> 
-            Updated Since: {"\n"} {updated_at}
+          <Text style={{textAlign:'center', fontSize:18, 
+            lineHeight:30, textTransform:'capitalize'}}> 
+            Last Update:  {updated_at}
           </Text>
         </Card>
         
