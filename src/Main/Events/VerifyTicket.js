@@ -1,7 +1,8 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useCallback } from 'react';
 import { Image,  TextInput, KeyboardAvoidingView, Platform, Alert} from 'react-native';
 import { Container,  Button, Text, Content, Card, CardItem, Icon} from 'native-base';
 import { Grid, Row, Col } from 'react-native-easy-grid';
+import { debounce } from 'lodash'
 
 import {openSettings, requestMultiple, PERMISSIONS} from 'react-native-permissions';
 
@@ -116,6 +117,9 @@ export default VerifyTicket = (props) => {
       image, table, seat, chips, flight_id, tournament_id, props.navigation )
   };
  
+  const handler = useCallback(debounce(BuyInStart, 1000, { leading: false, trailing: true }));
+
+  
   let textSeat = null, textChips = null;
    
   return(
@@ -212,7 +216,7 @@ export default VerifyTicket = (props) => {
         </Card>
                 
         <Button large style={styles.button} 
-          onPress={() => BuyInStart()}>
+          onPress={() => handler()}>
           <Text style={styles.text.button}> 
             SUBMIT 
           </Text>

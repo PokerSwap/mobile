@@ -155,12 +155,12 @@ export default SwapOffer = (props) => {
         </Card>
         
         {/* LAST UPDATED STATUS */}
-        <Card transparent style={{justifyContent:'center'}}>
+        {/* <Card transparent style={{justifyContent:'center'}}>
           <Text style={{textAlign:'center', fontSize:18, 
             lineHeight:30, textTransform:'capitalize'}}> 
             Last Update:  {updated_at}
           </Text>
-        </Card>
+        </Card> */}
         
         {/* SWAP BODY PATH */}
         {currentPath}

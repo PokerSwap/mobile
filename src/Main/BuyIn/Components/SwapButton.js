@@ -1,8 +1,9 @@
 
-import React, { useContext } from 'react';
+import React, { useContext, useCallback } from 'react';
 import { View, TouchableOpacity } from 'react-native'
 import { Text, Button, Icon } from 'native-base';
 import { Col } from 'react-native-easy-grid'
+import { debounce } from 'lodash'
 
 import moment from 'moment'
 
@@ -129,11 +130,14 @@ export default SwapButton = (props) => {
       })  
   }
 
+  const handler = useCallback(debounce(enterSwapOffer, 1000, { leading: false, trailing: true }));
+
+
   return(
     <Col style={styles.container}>
       <Button style={{backgroundColor:buttonColor, width:70, height:70, 
-    justifyContent:'center', alignSelf:'center'}}
-        onPress={()=> enterSwapOffer()}>
+        justifyContent:'center', alignSelf:'center'}}
+        onPress={()=> handler()}>
         {lastCol}
       </Button>
       <Text style={{marginTop:10, color:props.txt, 

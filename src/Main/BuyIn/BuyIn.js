@@ -1,6 +1,8 @@
-import React, {useContext} from 'react';
+import React, {useContext, useCallback} from 'react';
 import {  Text, ListItem, Button, Accordion, View } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid'
+
+import {debounce} from 'lodash'
 
 import { Context } from '../../Store/appContext'
 
@@ -65,6 +67,9 @@ export default BuyIn = (props) => {
     });
   }
 
+  const handler = useCallback(debounce(enterProfile, 1000, { leading: false, trailing: true }));
+
+
   var bg, txt;
   if (buyin.chips !== 0){
     if (buyin.user_id == store.myProfile.id){
@@ -86,7 +91,7 @@ export default BuyIn = (props) => {
             {/* PROFILE NAME */}
             <Row style={{justifyContent:'center'}}>
               <Button transparent 
-                onPress={()=> enterProfile()}>
+                onPress={()=> handler()}>
                 <Text style={{fontSize:24, color:txt,
                   textTransform:'capitalize'}}> 
                   {buyin.user_id !== store.myProfile.id ? 

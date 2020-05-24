@@ -269,7 +269,7 @@ PODS:
   - React-jsinspector (0.61.5)
   - react-native-geolocation (2.0.2):
     - React
-  - react-native-image-picker (2.3.0):
+  - react-native-image-picker (2.3.1):
     - React
   - react-native-safe-area-context (0.6.4):
     - React
@@ -542,7 +542,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: d5525f9ed5f782fdbacb64b9b01a43a9323d2386
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
   react-native-geolocation: cbd9d6bd06bac411eed2671810f454d4908484a8
-  react-native-image-picker: e0b118c84e76f590a9d918baf06b0b043cbc5212
+  react-native-image-picker: 668e72d0277dc8c12ae90e835507c1eddd2e4f85
   react-native-safe-area-context: 042dfc9d4db17196841df962ba9497f6e7a5bd02
   react-native-webview: 711cef318a554093b09a5b871894011435d87a8d
   React-RCTActionSheet: 600b4d10e3aea0913b5a92256d2719c0cdd26d76
@@ -571,6 +571,6 @@ SPEC CHECKSUMS:
   tipsi-stripe: 41299d30e9b906413315eeb1b94607aaac9b6781
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
-PODFILE CHECKSUM: e51d68721320efb6e966f7f57682b3d21796b12a
+PODFILE CHECKSUM: 012c2fda369ced4c4d3e8087353f310a42e340e6
 
 COCOAPODS: 1.8.4

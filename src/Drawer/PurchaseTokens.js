@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Alert,  ScrollView, Image} from 'react-native';
 import { Container, Content,  Button, Text, View } from 'native-base';
-import {Grid, Col, Row} from 'react-native-easy-grid'
+import { Grid, Col, Row} from 'react-native-easy-grid'
 import stripe from 'tipsi-stripe';
 
 stripe.setOptions({
@@ -74,6 +74,7 @@ export default PurchaseTokens = (props) => {
 
   const { store, actions } = useContext(Context)
 
+  const [ complete, setComplete ] = useState(true)
   requestPayment = () => {
     return stripe
       .paymentRequestWithCardForm()
@@ -98,11 +99,18 @@ export default PurchaseTokens = (props) => {
     requiredBillingAddressFields: ['all'],
     requiredShippingAddressFields: ['phone', 'postal_address'],
   }
+  const start = async () => {
 
-  const token = async() => await stripe.paymentRequestWithApplePay(items, options)
-  // .then( stripe.completeApplePayRequest())
-  .then(console.log('hey'))
-  .catch((error)=>{console.log('error:', error)})
+    const token = await stripe.paymentRequestWithApplePay(items, options)
+      
+    if(complete){        
+      await stripe.completeApplePayRequest()
+      console.log('ITT SHOULD WORKKKKK')
+    } else{
+      await stripe.completeApplePayRequest()
+      console.log('CUT MY LIFE int PIECCES')
+    }
+  }
   return(
     <Container>
       <OtherHeader title={'Purchase Tokens'} 
@@ -112,7 +120,7 @@ export default PurchaseTokens = (props) => {
         flex:1, justifyContent:'center', alignItems:'center'}}>
       <ScrollView style={{ alignSelf: 'stretch' }}>           
         
-        <Button onPress={()=>  {check();token();} }>
+        <Button onPress={()=> start()}>
           <Text>Test</Text>
         </Button>
         <Grid transparent>

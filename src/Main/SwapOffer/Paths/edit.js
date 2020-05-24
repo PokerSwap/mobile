@@ -184,7 +184,7 @@ export default EditPath = (props) => {
         <Icon type='FontAwesome5' name='angle-double-down'
           style={ styles.update.icon } />
         <Text style={ styles.update.title }>
-          STATUS UPDATE
+        {' '}STATUS UPDATE
         </Text>
         <Icon type='FontAwesome5' name='angle-double-down'
           style={ styles.update.icon } />
@@ -202,60 +202,60 @@ export default EditPath = (props) => {
           tournament_id={props.buyin.tournament_id}/>  
       </Modal>
 
-      <Card style={{width:'80%', alignSelf:'center', paddingVertical:10}}>
-        <CardItem style={{justifyContent:'center'}}>
+      <Card style={{width:'90%', alignSelf:'center', paddingBottom:10}}>
+        
+        <CardItem style={{justifyContent:'center', paddingVertical:0}}>
           <Text style={{textAlign:'center', fontSize:30}}>
             {props.buyin.user_name}
           </Text>
         </CardItem>
 
         <CardItem style={ styles.field.container }>
-          
-          <View style={ styles.field.view }>
-            <Text style={ styles.field.text }>
-              Table: 
-            </Text>
-            <TextInput 
-              // placeholder={props.buyin.table.toString()}
-              style={ styles.field.textInput }              
-              placeholderTextColor='red'
-              keyboardType="number-pad"
-              blurOnSubmit={false}
-              returnKeyType="done"
-              autoCapitalize='none'
-              autoCorrect={false} 
-              onSubmitEditing={() => { txtSeat.focus(); }}          
-              value={newTable}    
-              onChangeText={table => setNewTable( table )}
-            />
-          </View>
-          
-          <View style={ styles.field.view }>
-            <Text style={ styles.field.text }>
-              Seat: 
-            </Text>
-            <TextInput 
-              // placeholder={props.buyin.seat.toString()}
-              style={ styles.field.textInput }              
-              placeholderTextColor='red'
-              keyboardType="number-pad"
-              blurOnSubmit={false}
-              returnKeyType="done"
-              autoCapitalize='none'
-              autoCorrect={false} 
-              ref={(input) => { txtSeat = input; }} 
-              onSubmitEditing={() => { txtChips.focus(); }}
-              value={newSeat}    
-              onChangeText={seat => setNewSeat(seat)}/>
-          </View>
+          <Row style={{alignItems:'center'}}>
+              <Text style={ styles.field.text }>
+                Table:{'  '}
+              </Text>
+              <TextInput 
+                // placeholder={props.buyin.table.toString()}
+                style={ [styles.field.textInput, {width:'20%', marginRight:'5%'}] }              
+                placeholderTextColor='red'
+                keyboardType="number-pad"
+                blurOnSubmit={false}
+                returnKeyType="done"
+                autoCapitalize='none'
+                autoCorrect={false} 
+                onSubmitEditing={() => { txtSeat.focus(); }}          
+                value={newTable}    
+                onChangeText={table => setNewTable( table )}
+              />
+              
+            
+              <Text style={ styles.field.text }>
+                Seat: {'  '}
+              </Text>
 
-          <View style={ styles.field.view }>
+              <TextInput 
+                // placeholder={props.buyin.seat.toString()}
+                style={ [styles.field.textInput, {width:'20%'}] }              
+                placeholderTextColor='red'
+                keyboardType="number-pad"
+                blurOnSubmit={false}
+                returnKeyType="done"
+                autoCapitalize='none'
+                autoCorrect={false} 
+                ref={(input) => { txtSeat = input; }} 
+                onSubmitEditing={() => { txtChips.focus(); }}
+                value={newSeat}    
+                onChangeText={seat => setNewSeat(seat)}/>
+          </Row>
+
+          <Row style={{marginTop:30, alignItems:'center', alignItems:'center'}}>
             <Text style={ styles.field.text }>
-              Chips: 
+              Chips:{'  '} 
             </Text>
             <TextInput 
               // placeholder={props.buyin.chips.toString()}
-              style={ styles.field.textInput }
+              style={ [styles.field.textInput, {width:'40%', paddingRight:'2%', height:40, textAlign:'right'}]  }
               placeholderTextColor='red'
               keyboardType="number-pad"
               returnKeyType="done"
@@ -265,12 +265,16 @@ export default EditPath = (props) => {
               ref={(input) => { txtChips = input; }} 
               value={newChips}    
               onChangeText={chips => setNewChips(chips)}/>
-          </View>
-        
-        </CardItem>
-
+            <Button danger
+              style={styles.busted.button}
+              onPress={()=> bustedAlert()} >
+              <Text style={styles.busted.text}> 
+                BUSTED? 
+              </Text>
+            </Button>
+          </Row>
+        </CardItem>     
       </Card>
-     
       <Button large 
         style={ styles.update.button }
         onPress={()=> buyinEdit()}>
@@ -279,13 +283,6 @@ export default EditPath = (props) => {
         </Text>
       </Button>
 
-      <Button large danger
-        style={styles.busted.button}
-        onPress={()=> bustedAlert()} >
-        <Text style={styles.busted.text}> 
-          BUSTED? 
-        </Text>
-      </Button>
         
     </View>
   )
@@ -294,26 +291,24 @@ export default EditPath = (props) => {
 const styles = {
   busted:{
     button:{
-      marginBottom:30, width:'40%', 
-      alignSelf:'center', justifyContent:'center' },
+      alignSelf:'center', borderRadius:0, justifyContent:'center', height:40 },
     text:{
-      textAlign:'center', fontWeight:'bold'}
+      textAlign:'center', fontSize:12, fontWeight:'bold'}
   },
   field:{
     container:{
-      justifyContent:'center', flex:1, flexDirection:'row' },
+      justifyContent:'center', flex:1, flexDirection:'column', paddingHorizontal:0 },
     text:{
-      fontSize:24, textAlign:'center', marginBottom:10 },
+      fontSize:24, alignItems:'center', textAlign:'center', marginBottom:10 },
     textInput:{
-      alignSelf:'center',fontSize:24, textAlign:'center', 
-      paddingVertical:5,borderWidth:1, borderRadius:10,
-      width:100, borderColor:'rgba(0,0,0,0.2)' },
+      alignSelf:'center',fontSize:20, textAlign:'center', 
+      paddingVertical:5,borderWidth:1, borderColor:'rgba(0,0,0,0.2)' },
     view:{
-      flex:1, flexDirection:'column', justifyContent:'center' }
+      flex:1, justifyContent:'center' }
   },
   update:{
     button:{
-      marginVertical:30, width:'100%', 
+      marginTop:10, width:'100%', 
       justifyContent:'center' },
     icon:{
       marginLeft:10, fontSize:16 },

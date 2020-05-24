@@ -46,6 +46,8 @@ target 'SwapProfit' do
 
   pod 'Stripe', '~> 14.0.1'
 
+  pod 'tipsi-stripe', :path => '../node_modules/tipsi-stripe'
+
   target 'SwapProfitTests' do
     inherit! :search_paths
     # Pods for testing
