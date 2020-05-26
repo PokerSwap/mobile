@@ -10,52 +10,37 @@ stripe.setOptions({
 });
 
 import OtherHeader from '../View-Components/OtherHeader'
-
 import {Context} from '../Store/appContext'
-
-import '../Images/5Real.png'
-const AlertS = (props) => {
-
-  const { store, actions } = useContext(Context)
-
-	const showAlert = () =>{
-    Alert.alert(
-      "Confirmation",
-      'Are you sure you want to buy '+ props.coins + ' coins?',
-      [
-        {
-          text: 'Yes',
-          onPress: () => {actions.coin.buy(props.dollars, props.coins);
-            Alert.alert(
-              "Confirmation", 
-              'You now have ' + (store.myProfile.coins + props.coins) + ' coins.',
-              [{text: 'OK', onPress: () => console.log('OK')}]  
-            )}
-        },
-        {text: 'No',onPress: () => console.log("Cancel Pressed"), }
-      ]
-    )
-  }
-	return (
-    <Button large style={{width:'50%', alignSelf:'center', 
-      marginBottom:10, justifyContent:'center'}} 
-      onPress={()=> showAlert()}>
-      <Text style={{textAlign:'center'}}>
-        ${props.dollars}
-      </Text>
-    </Button>
-	)
-}
 
 PriceOption = (props) => {
 
   const { store, actions } = useContext(Context)
+  const [ complete, setComplete ] = useState(true)
+
+  const startBuying = async (description, amount) => {
+
+    const options = {
+      requiredBillingAddressFields: ['all'],
+      requiredShippingAddressFields: ['phone', 'postal_address'],
+    }
+    const items = [{ label: description, amount: amount }]
+    const token = await stripe.paymentRequestWithApplePay(items, options)
+      
+    if(complete){        
+      await stripe.completeApplePayRequest()
+      console.log('ITT SHOULD WORKKKKK')
+      var answer2 = await actions.coins.buy(props.coins)
+    } else{
+      await stripe.completeApplePayRequest()
+      console.log('CUT MY LIFE int PIECCES')
+    }
+  }
 
   return(
-    <Col style={{
+    <Col style={{ 
       justifyContent:'center', alignItems:'center',
        borderColor:'#d3d3d3', borderRightWidth:1, 
-      borderTopWidth:1, paddingVertical:10}}>
+      borderTopWidth:1}}>
       <View style={{overflow:'hidden', height:props.hx}}>
         <Image source={props.image} style={{
           width:props.w, height:props.h, alignSelf:'center'}}/>
@@ -65,7 +50,12 @@ PriceOption = (props) => {
         {props.coins} coins
       </Text>
 
-      <AlertS coins={props.coins} dollars={props.dollars}/>
+      <Button full style={{ alignSelf:'center', justifyContent:'center', width:'100%'}} 
+       onPress={()=> startBuying('for ' + props.coins.toString() + ' Swap Tokens', props.dollars.toString())}>
+        <Text style={{textAlign:'center'}}>
+          ${props.dollars}
+        </Text>
+      </Button>
     </Col>
   )
 }
@@ -74,7 +64,6 @@ export default PurchaseTokens = (props) => {
 
   const { store, actions } = useContext(Context)
 
-  const [ complete, setComplete ] = useState(true)
   requestPayment = () => {
     return stripe
       .paymentRequestWithCardForm()
@@ -84,33 +73,12 @@ export default PurchaseTokens = (props) => {
       .catch(error => {
         console.warn('Payment failed', { error });
       });
-  };
-
-  const check = () => {
-    stripe.canMakeNativePayPayments() ? console.log('yes') : console.log('no')
-  }
-
-  const items = [{
+  };[{
     label: '10 Tokens',
     amount: '1.99',
   }]
 
-  const options = {
-    requiredBillingAddressFields: ['all'],
-    requiredShippingAddressFields: ['phone', 'postal_address'],
-  }
-  const start = async () => {
 
-    const token = await stripe.paymentRequestWithApplePay(items, options)
-      
-    if(complete){        
-      await stripe.completeApplePayRequest()
-      console.log('ITT SHOULD WORKKKKK')
-    } else{
-      await stripe.completeApplePayRequest()
-      console.log('CUT MY LIFE int PIECCES')
-    }
-  }
   return(
     <Container>
       <OtherHeader title={'Purchase Tokens'} 
@@ -119,35 +87,28 @@ export default PurchaseTokens = (props) => {
       <Content contentContainerStyle={{
         flex:1, justifyContent:'center', alignItems:'center'}}>
       <ScrollView style={{ alignSelf: 'stretch' }}>           
-        
-        <Button onPress={()=> start()}>
-          <Text>Test</Text>
-        </Button>
+
         <Grid transparent>
 
           <Row style={{alignItems:'center'}}>
-            <PriceOption dollars={4.99} coins={5} 
-              w={100} h={100} hx={100}
-              image={require('../Images/5Real.png')}/>
-            <PriceOption dollars={9.99} coins={10} 
-              w={100} h={100} hx={100}
-              image={require('../Images/10Real.png')}/>
+            <PriceOption image={require('../Images/5Real.png')}
+              dollars={4.99} coins={5} w={100} h={100} hx={100} />
+            <PriceOption image={require('../Images/10Real.png')}
+              dollars={9.99} coins={10} w={100} h={100} hx={100} />
           </Row>
 
           <Row style={{alignItems:'center'}}>
-            <PriceOption dollars={19.99} coins={25} 
-              w={200} h={200} hx={175}
-              image={require('../Images/25Real.png')}/>
-            <PriceOption dollars={34.99} coins={50} 
-              w={200} h={200} hx={175}
-              image={require('../Images/50Real.png')}/>
+            <PriceOption image={require('../Images/25Real.png')}
+              dollars={19.99} coins={25} w={100} h={100} hx={100}/>
+            <PriceOption image={require('../Images/50Real.png')}
+              dollars={34.99} coins={50}  w={100} h={100} hx={100}/>
           </Row>
           
           <Row>
-            <PriceOption dollars={69.99} coins={100} w={200} h={200}
-              image={require('../Images/100Real.png')}/>
-            <PriceOption dollars={99.99} coins={150} w={200} h={200}
-              image={require('../Images/150Real.png')}/>
+            <PriceOption image={require('../Images/100Real.png')}
+              dollars={69.99} coins={100} w={100} h={100} />
+            <PriceOption image={require('../Images/150Real.png')}
+              dollars={99.99} coins={150} w={100} h={100} />
           </Row>
         </Grid>
         

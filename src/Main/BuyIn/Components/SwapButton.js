@@ -1,10 +1,9 @@
 
-import React, { useContext, useCallback } from 'react';
-import { View, TouchableOpacity } from 'react-native'
+import React, { useContext } from 'react';
+import { View } from 'react-native'
 import { Text, Button, Icon } from 'native-base';
 import { Col } from 'react-native-easy-grid'
-import { debounce } from 'lodash'
-
+import { throttle } from 'lodash'
 import moment from 'moment'
 
 import { Context } from '../../../Store/appContext'
@@ -35,7 +34,7 @@ export default SwapButton = (props) => {
       allStatuses.push(swap.id,swap.status))
     :allStatuses = ['inactive']
 
-  var lastCol, buttonColor, path, swapID;
+  var lastCol, buttonColor, path;
  
   // YOUR SWAP VIEW
   if (props.buyin.user_id == store.myProfile.id){
@@ -110,49 +109,28 @@ export default SwapButton = (props) => {
   } 
 
   const enterSwapOffer = async() => {
-
-    var swapTime
-    if (path !== 'edit'  && path !== 'inactive'){
-      var answer = await actions.swap.getCurrent(swapID)
-      swapTime = store.currentSwap.updated_at
-    } else{
-      swapTime = props.updated_at
-    }
-
-    var labelTime = await actions.swap.convertTime(swapTime)
-
     props.navigation.push('SwapOffer',{
         status: path,
-        swap: store.currentSwap,
         buyin: props.buyin,
-        updated_at: labelTime,
         tournament: props.tournament,
-      })  
+    })  
   }
 
-  const handler = useCallback(debounce(enterSwapOffer, 1000, { leading: false, trailing: true }));
-
+  const handler = throttle(enterSwapOffer, 1000, { leading: true, trailing: false });
 
   return(
-    <Col style={styles.container}>
+    <Col style={{ justifyContent:'center', marginLeft:20, textAlign:'center'}}>
+      {/* SWAP BUTTON */}
       <Button style={{backgroundColor:buttonColor, width:70, height:70, 
         justifyContent:'center', alignSelf:'center'}}
         onPress={()=> handler()}>
         {lastCol}
       </Button>
+      {/* LAST UPDATE DESCRIPTOR */}
       <Text style={{marginTop:10, color:props.txt, 
-    textAlign:'center', alignSelf:'center'}}>
+        textAlign:'center', alignSelf:'center'}}>
         {since}
       </Text>
     </Col>
   )
-}
-
-const styles = {
-
-  container:{
-    justifyContent:'center', marginLeft:20, 
-    textAlign:'center' },
-
-  
 }

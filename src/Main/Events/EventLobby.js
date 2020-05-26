@@ -1,16 +1,14 @@
-import React, {useEffect, useContext} from 'react';
-import {Container, Content, List, ListItem } from 'native-base';
+import React, { useEffect, useContext } from 'react';
+import { Container, Content, List } from 'native-base';
+
+import { Context } from '../../Store/appContext'
 
 import EventHeader from './Components/EventHeader'
 import FlightSchedule from './Components/FlightSchedule';
 import ActionBar from './Components/ActionBar'
 
-import { Context } from '../../Store/appContext'
-
 export default EventLobby = (props) => {
-
   const { store, actions } = useContext(Context)
-
   const { navigation } = props;
   
   let tournament = store.currentTournament.tournament
@@ -18,9 +16,6 @@ export default EventLobby = (props) => {
   let buyins = store.currentTournament.buyins
   let flights = store.currentTournament.tournament.flights
   let action = store.action
-
-  console.log('tournament', tournament)
-
 
   var refreshTournament = async() => {
     try{
@@ -44,11 +39,7 @@ export default EventLobby = (props) => {
   var toFilterOne  = []
   var addToFilter = buyins.forEach((buyin) => 
     toFilterOne.push(buyin.recipient_user.id));
-  
-  console.log('my_biyin', my_buyin)
-  console.log('id', my_buyin.user_id)
   var toFilter2 = [my_buyin.user_id, ...toFilterOne]  
-  console.log('toFilter2', toFilter2)
 
   let tournamentBuyins 
   if (tournament.buy_ins.length !== 0){
@@ -57,8 +48,8 @@ export default EventLobby = (props) => {
   }else{
     tournamentBuyins = []
   }
-  var Flights = flights.map((flight, index) => { 
-        
+
+  var Flights = flights.map((flight, index) => {       
     var myBuyInFlight
     my_buyin.flight_id == flight.id ? 
       myBuyInFlight = my_buyin : myBuyInFlight = []
@@ -73,37 +64,25 @@ export default EventLobby = (props) => {
     var addingtoSwappedBuyins = tournamentBuyins.forEach(buyin => {
       buyin.flight_id == flight.id ?
         unswappedBuyins.push(buyin) : null
-    
-    });
+  });
 
     return(
-      <FlightSchedule 
-        key={index} 
-        navigation={props.navigation}
+      <FlightSchedule key={index} navigation={props.navigation}
         my_buyin={myBuyInFlight}
-        buyins={swappedBuyins}
-        unbuyins={unswappedBuyins}
-        flight = {flight} 
-        tournament={tournament}/>)
+        buyins={swappedBuyins} unbuyins={unswappedBuyins}
+        flight = {flight} tournament={tournament}/>)
   })
 
   return(
     <Container>      
       <Content>
         <List>
-          
           {/* TOURNAMENT HEADER */}
-          <ListItem itemHeader first>
-            <EventHeader tournament={tournament}/>
-          </ListItem>
- 
+          <EventHeader tournament={tournament}/>
           {/* TOURNEY BUYIN ENTRIES  */}
           {Flights}
-             
         </List>
-
       </Content>
-
       {/* FOOTER CONTAINS NUMBER OF SWAPS AND ACTION  */}
       <ActionBar action={action} />
     </Container>

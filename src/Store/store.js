@@ -330,14 +330,13 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 			coin:{
 
-				buy: async (some_dollars, some_coins) => {
+				buy: async ( some_coins ) => {
 					
 					try{
 						const accessToken = getStore().userToken;
 						const url = databaseURL + 'users/me/transaction'
 
 						let data = {
-							dollars: some_dollars,
 							coins: some_coins
 						}
 

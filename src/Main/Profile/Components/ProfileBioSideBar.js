@@ -32,20 +32,18 @@ export default ProfileBioSideBar = (props) => {
     ifNickName = ' "' + props.nickname + '" '
     : ifNickName = ' '
 
-  var goPurchase = async() => {
-    var answer = await props.navigation.navigate('PurchaseTokens')
-  }
-
+  var goPurchase = () => props.navigation.navigate('PurchaseTokens')
+  
   return(
-    <Card transparent style={{flex:1, flexDirection:'column'}}>
-      
+    <Card transparent style={{flex:1, flexDirection:'column', paddingTop:20}}>
+      {/* YOUR PICTURE AND COINS */}
       <CardItem style={styles.topContainer}>
-        
+        {/* YOUR PICTURE */}
         <View style={styles.picture.container}>
           <Image source={{uri: props.profile_pic_url}} 
             style={styles.picture.image} />
         </View>
-        
+        {/* YOUR COINS */}
         <View style={styles.coins.container}>
           <Button large warning onPress={()=> goPurchase()}  
             style={styles.coins.button}>
@@ -56,9 +54,8 @@ export default ProfileBioSideBar = (props) => {
               style={styles.coins.text} />
           </Button>
         </View>
-
       </CardItem>
-
+      {/* YOUR NAME */}
       <CardItem style={styles.name.container}>
         <Button style={styles.name.button} 
           transparent onPress={() => enterProfile()}>
@@ -67,7 +64,6 @@ export default ProfileBioSideBar = (props) => {
           </Text>
         </Button>
       </CardItem>
-
     </Card>
   )
 }

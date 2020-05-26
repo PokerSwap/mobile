@@ -1,42 +1,25 @@
-import React, { useContext, useCallback }  from 'react'
+import React, { useContext }  from 'react'
 import {  Text, ListItem, Button } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid'
-import {debounce, throttle} from 'lodash'
+import { throttle } from 'lodash'
 
 import { Context } from '../../Store/appContext'
 
 import BuyInAttribute from './Components/BuyInAttribute'
 import SwapButton from './Components/SwapButton'
 
-import PreventDoubleClick from '../../Functional/PreventDoubleClick';
-
 export default TournamentBuyIn = (props) => {
-
   const { store, actions } = useContext(Context)
   const { navigation } = props, {buyin} = props;
 
-
-  const enterProfile = async() => {
-    var answer = await actions.profile.view(buyin.user_id);
-    var profile = store.profileView
-    var sccs = await actions.tracker.getPast()
-    var past = store.myPastTrackers
-
+  const enterProfile = () => {
     navigation.push('Profile',{
-      id: profile.id,
-      first_name: profile.first_name,
-      nickname: profile.nickname,
-      last_name: profile.last_name,
-      roi_rating: profile.roi_rating,
-      swap_rating: profile.swap_rating,
-      total_swaps: profile.total_swaps,
-      profile_pic_url: profile.profile_pic_url,
-      hendon_url: profile.hendon_url,
-      past:past
+      id: buyin.user_id,
+      nickname: buyin.user_name
     });
   }
 
-  const handler = useCallback(debounce(enterProfile, 1000, { leading: false, trailing: true }));
+  const handler = throttle(enterProfile, 1000, { leading: true, trailing: false });
 
   var bg, txt;
   if (props.chips !== 0){
@@ -48,13 +31,12 @@ export default TournamentBuyIn = (props) => {
     bg='red', txt='white'
   }
 
-
   return(
     <ListItem noIndent style={{
       backgroundColor:bg, flexDirection:'column'}}>
       <Grid style={{marginVertical:10}}>
+        {/* BUYIN INFORMATION */}
         <Col style={{width:'70%'}}>
-
           {/* PROFILE NAME */}
           <Row style={{justifyContent:'center'}}>
             <Button transparent 
@@ -64,10 +46,8 @@ export default TournamentBuyIn = (props) => {
                 {buyin.user_name}
               </Text>
             </Button> 
-
           </Row>
-
-          {/* DETAILS */}
+          {/* BUYIN DETAILS */}
           <Row style={{marginTop:10}}>
             <BuyInAttribute top=' Table ' 
               bottom={buyin.table} txt={txt}/>
@@ -76,9 +56,8 @@ export default TournamentBuyIn = (props) => {
             <BuyInAttribute top=' Chips ' 
               bottom={buyin.chips} txt={txt}/>
           </Row>
-
         </Col>
-        
+        {/* SWAP BUTTON */}
         <Col>
           <SwapButton navigation={props.navigation}
             tournament={props.tournament}
@@ -86,9 +65,7 @@ export default TournamentBuyIn = (props) => {
             buyin={buyin}
             txt={txt}/>
         </Col>
-
       </Grid>
-
     </ListItem>
   )
 }

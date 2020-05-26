@@ -1,8 +1,7 @@
-import React, {useContext, useCallback} from 'react';
-import {  Text, ListItem, Button, Accordion, View } from 'native-base';
+import React, { useContext } from 'react';
+import {  Accordion, Button, ListItem, Text } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid'
-
-import {debounce} from 'lodash'
+import { throttle } from 'lodash'
 
 import { Context } from '../../Store/appContext'
 
@@ -12,11 +11,8 @@ import SwapHeader from './Components/SwapHeader'
 import SwapList from './Components/SwapList'
 
 export default BuyIn = (props) => {
-
   const { store, actions } = useContext(Context)
   const { navigation } = props,  {buyin} = props;
-
-
 
   var allSwaps 
   buyin.user_id != store.myProfile.id ?   
@@ -47,27 +43,13 @@ export default BuyIn = (props) => {
   )}
 
   const enterProfile = async() => {
-    var answer = await actions.profile.view(buyin.user_id);
-    var profile = store.profileView
-    var sccs = await actions.tracker.getPast()
-    var past = store.myPastTrackers
-
-    // console.log('past',past)
     navigation.push('Profile',{
-      id: profile.id,
-      first_name: profile.first_name,
-      nickname: profile.nickname,
-      last_name: profile.last_name,
-      roi_rating: profile.roi_rating,
-      swap_rating: profile.swap_rating,
-      total_swaps: profile.total_swaps,
-      profile_pic_url: profile.profile_pic_url,
-      hendon_url: profile.hendon_url,
-      past:past
+      id: buyin.id,
+      nickname: buyin.user_name
     });
   }
 
-  const handler = useCallback(debounce(enterProfile, 1000, { leading: false, trailing: true }));
+  const handler = throttle(enterProfile, 1000, { leading: true, trailing: false });
 
 
   var bg, txt;
@@ -79,15 +61,13 @@ export default BuyIn = (props) => {
   }else{
     bg='red', txt='white'
   }
-
     
   return(
-    <ListItem noIndent style={{
-      backgroundColor:bg, flexDirection:'column'}}>
+    <ListItem noIndent style={{ backgroundColor:bg, flexDirection:'column'}}>
       <Grid style={{marginVertical:10}}>
         <Row style={{width:'100%'}}>
+          {/* BUYIN INFORMATION */}
           <Col style={{width:'70%'}}>
-
             {/* PROFILE NAME */}
             <Row style={{justifyContent:'center'}}>
               <Button transparent 
@@ -102,8 +82,7 @@ export default BuyIn = (props) => {
                 </Text>
               </Button>
             </Row>
-
-            {/* DETAILS */}
+            {/* BUYIN DETAILS */}
             <Row style={{marginTop:10}}>
               <BuyInAttribute top=' Table ' 
                 bottom={buyin.table} txt={txt}/>
@@ -112,7 +91,6 @@ export default BuyIn = (props) => {
               <BuyInAttribute top=' Chips ' 
                 bottom={buyin.chips} txt={txt}/>
             </Row>
-
           </Col>
 
 
@@ -142,47 +120,34 @@ export default BuyIn = (props) => {
               txt={txt}/>
           }  
         </Row>
-
+        {/* BUSTED TITLE */}
         {buyin.chips == 0 ?
-            <Row style={{backgroundColor:'red', 
-              justifyContent:'center', paddingTop:10}}>
-              <Text style={{color:'white', fontSize:24, 
-                fontWeight:'600', textAlign:'center'}}>
-                BUSTED
-              </Text>
-
-            </Row>
-          
+          <Row style={{backgroundColor:'red', 
+            justifyContent:'center', paddingTop:10}}>
+            <Text style={{color:'white', fontSize:24, 
+              fontWeight:'600', textAlign:'center'}}>
+              BUSTED
+            </Text>
+          </Row>
           : null }
-
-      {buyin.chips == 0 ?
-        <Row style={{justifyContent:'space-around'}}>
-          <Text style={{color:'white'}}>Place: {buyin.place}</Text>
-      <Text style={{color:'white'}}>Cashed Out: {buyin.winnings}</Text>
-        </Row>
-
-      : null }
-
+        {/* BUSTED INFORMATION */}
+        { buyin.chips == 0 ?
+          <Row style={{justifyContent:'space-around'}}>
+            <Text style={{color:'white'}}>Place: {buyin.place}</Text>
+            <Text style={{color:'white'}}>Cashed Out: {buyin.winnings}</Text>
+          </Row>
+          : 
+          null }
       </Grid>
-      
-      {allSwaps !== null ?
-        <Accordion
-          style={{width:'100%'}}
+      {/* BUTTON ACCORDION */}
+      { allSwaps !== null ?
+        <Accordion style={{width:'100%'}}
           dataArray={[{placeholder:'placeholder'}]}
           renderHeader={_renderHeader}
           renderContent={_renderContent}
           animation={true}
           expanded={true}/>
-        :null}
-
+        : null }
     </ListItem>
   )
-}
-
-const styles ={
-  button:{
-    button:{},
-    container:{},
-    text:{}
-  }
 }
