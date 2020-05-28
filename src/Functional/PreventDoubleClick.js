@@ -1,21 +1,33 @@
 import React, { useCallback }  from 'react'
-import { debounce } from 'lodash';
+import { throttle } from 'lodash';
 
-export default PreventDoubleClick = (WrappedComponent) => {
-
-  class PreventDoubleClick extends React.PureComponent {
-
-    debouncedOnPress = () => {
-      this.props.onPress && this.props.onPress();
-    }
-
-    onPress = debounce(this.debouncedOnPress, 300, { leading: true, trailing: false });
-
-    render() {
-      return <WrappedComponent {...this.props} onPress={this.onPress} />;
-    }
-  }
-
-  PreventDoubleClick.displayName = `withPreventDoubleClick(${WrappedComponent.displayName ||WrappedComponent.name})`
-  return PreventDoubleClick;
+const Store = (PassedComponent) =>{
+	class StoreWrapper extends React.Component{
+		constructor(props) {
+		super(props);
+		this.state = getState({
+			getStore: () => this.state.store,
+			getActions: () => this.state.actions,
+			setStore: updatedStore =>
+				this.setState({
+					store: Object.assign(this.state.store, updatedStore)
+			})
+	});
 }
+
+		componentDidMount() {
+			// The place to fetch.
+
+		}
+
+		render(){
+			return(
+				<Context.Provider value={this.state}>
+					<PassedComponent {...this.props} />
+				</Context.Provider>
+					);
+		}
+	}
+
+	return StoreWrapper;
+};

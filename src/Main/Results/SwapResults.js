@@ -1,13 +1,12 @@
 import React, {useContext} from 'react';
 import { Container, Content, List, Separator, Text, ListItem } from 'native-base';
-import HomeHeader from '../../View-Components/HomeHeader'
+
 import { Context } from '../../Store/appContext'
+
+import HomeHeader from '../../View-Components/HomeHeader'
 import ResultsTracker from './Components/ResultsTracker'
 
-import moment from 'moment'
-
 export default SwapResults = (props) => {
-
   const {store, actions} = useContext(Context)
 
   var recentTracker, historyTracker;
@@ -66,7 +65,6 @@ export default SwapResults = (props) => {
             </Text>                
           </Separator>       
           {recentTracker} */}
-
           {/* LATER WINNINGS LIST HEADER */}
           <Separator bordered style={{height:48, backgroundColor:'rgb(56,68,165)'}}>
             <Text style={{fontSize:20, color:'white', fontWeight:'600', textAlign:'center'}}> 

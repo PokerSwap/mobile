@@ -330,14 +330,13 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 			coin:{
 
-				buy: async (some_dollars, some_coins) => {
+				buy: async ( some_coins ) => {
 					
 					try{
 						const accessToken = getStore().userToken;
 						const url = databaseURL + 'users/me/transaction'
 
 						let data = {
-							dollars: some_dollars,
 							coins: some_coins
 						}
 
@@ -844,10 +843,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 						
 						var aCurrentTournament = await response.json()
-
 						setStore({currentTournament: aCurrentTournament})
-						// console.log("Tournament you're on:", getStore().currentTournament)
-					}catch(error){
+					} catch(error){
 						console.log('Something went wrong with getting currents tournaments', error)
 						return errorMessage(error.message)
 					}

@@ -1,54 +1,48 @@
-import React, {useEffect, useContext} from 'react';
-import {Container, Content, List, ListItem } from 'native-base';
+import React, { useEffect, useContext } from 'react';
+import { Container, Content, List, Spinner } from 'native-base';
+
+import { Context } from '../../Store/appContext'
 
 import EventHeader from './Components/EventHeader'
 import FlightSchedule from './Components/FlightSchedule';
 import ActionBar from './Components/ActionBar'
 
-import { Context } from '../../Store/appContext'
-
 export default EventLobby = (props) => {
-
   const { store, actions } = useContext(Context)
-
-  const { navigation } = props;
-  
-  let tournament = store.currentTournament.tournament
-  let my_buyin = store.currentTournament.my_buyin
-  let buyins = store.currentTournament.buyins
-  let flights = store.currentTournament.tournament.flights
-  let action = store.action
-
-  console.log('tournament', tournament)
-
-
-  var refreshTournament = async() => {
-    try{
-      tournament = store.currentTournament.tournament
-      my_buyin = store.currentTournament.my_buyin
-      buyins = store.currentTournament.buyins
-      flights = store.currentTournament.tournament.flights
-      action = store.action
-    }catch(error){
-      console.log('Something went wrong with refresh Tournaent',error)
-    }
-  }
+  let tournament = props.navigation.getParam('tournament', 'NO-ID');
 
   useEffect(() => {
-    refreshTournament()
+    getTournament()
     return () => {
       // console.log()
     };
   }, [])
 
-  var toFilterOne  = []
+  console.log('tournamnet', tournament)
+   var Flights = null
+
+   console.log('curretnt', store.currentTournament)
+
+  var getTournament = async() => {
+    try{
+      var answer1 = await actions.tournament.getCurrent(tournament.id)
+      var answer2 = await actions.tournament.getAction(tournament.id)
+      console.log('curretnt', store.currentTournament)
+    } catch(error){
+      console.log('Something went wrong with getting Tournaent',error)
+    }
+  }
+  if(store.currentTournament !=={}){
+    let currentTournament = store.currentTournament.tournament
+    let my_buyin = store.currentTournament.my_buyin
+    let buyins = store.currentTournament.buyins
+    let flights = store.currentTournament.tournament.flights
+    let action = store.action
+
+    var toFilterOne  = []
   var addToFilter = buyins.forEach((buyin) => 
     toFilterOne.push(buyin.recipient_user.id));
-  
-  console.log('my_biyin', my_buyin)
-  console.log('id', my_buyin.user_id)
   var toFilter2 = [my_buyin.user_id, ...toFilterOne]  
-  console.log('toFilter2', toFilter2)
 
   let tournamentBuyins 
   if (tournament.buy_ins.length !== 0){
@@ -57,8 +51,8 @@ export default EventLobby = (props) => {
   }else{
     tournamentBuyins = []
   }
-  var Flights = flights.map((flight, index) => { 
-        
+
+  var Flights = flights.map((flight, index) => {       
     var myBuyInFlight
     my_buyin.flight_id == flight.id ? 
       myBuyInFlight = my_buyin : myBuyInFlight = []
@@ -73,39 +67,33 @@ export default EventLobby = (props) => {
     var addingtoSwappedBuyins = tournamentBuyins.forEach(buyin => {
       buyin.flight_id == flight.id ?
         unswappedBuyins.push(buyin) : null
-    
-    });
+  });
 
     return(
       <FlightSchedule 
-        key={index} 
-        navigation={props.navigation}
+        key={index} navigation={props.navigation}
         my_buyin={myBuyInFlight}
-        buyins={swappedBuyins}
-        unbuyins={unswappedBuyins}
-        flight = {flight} 
-        tournament={tournament}/>)
+        buyins={swappedBuyins} unbuyins={unswappedBuyins}
+        flight = {flight} tournament={tournament}/>)
   })
+  }else{
+
+  }
 
   return(
     <Container>      
       <Content>
         <List>
-          
           {/* TOURNAMENT HEADER */}
-          <ListItem itemHeader first>
-            <EventHeader tournament={tournament}/>
-          </ListItem>
- 
+          <EventHeader tournament={tournament}/>
           {/* TOURNEY BUYIN ENTRIES  */}
-          {Flights}
-             
+          {store.currentTournament !=={} ?
+            Flights :
+            <Spinner/>}
         </List>
-
       </Content>
-
       {/* FOOTER CONTAINS NUMBER OF SWAPS AND ACTION  */}
-      <ActionBar action={action} />
+      {/* <ActionBar action={action} /> */}
     </Container>
   )
 }

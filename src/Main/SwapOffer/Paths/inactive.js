@@ -13,57 +13,60 @@ SpecialOffer = (props) => {
       <CardItem style={{justifyContent:'center', flexDirection:'column'}}>
         <Grid>         
           {/* MY PERCENTAGE */}
-          <Col style={{width:'50%', backgroundColor:'blue'}}>
-            <Row style={{justifyContent:'center', marginRight:20, marginTop:10}}>
-              <Text style={{fontSize:40, fontWeight:'600', textAlign:'center', color:'white'}}>
+          <Col style={{width:'50%'}}>
+            <Row style={{justifyContent:'center'}}>
+              <Text style={{fontSize:40, fontWeight:'600', textAlign:'center'}}>
                 You
               </Text>
             </Row>
-            <Row style={{justifyContent:'flex-start',  alignItems:'center', backgroundColor:'blue'}}>
+            <Row style={{justifyContent:'center',  alignItems:'center'}}>
               <View style={{flexDirection:'column', justifyContent:'space-around'}}>
                 {/* ADD BUTTON */}
-                <Button style={{width:60, height:50, justifyContent:'center', 
+                <Button style={{width:'100%', height:50, justifyContent:'center', 
                   backgroundColor:'blue', alignContent:'center'}} 
                   onPress={()=> props.pAdd()}>
                   <Icon type='FontAwesome5' name='plus'
                     style={{color:'white', fontSize:24}}/>
                 </Button>
+                <Text style={{fontSize:40, paddingVertical:4, fontWeight:'600', textAlign:'center'}}>
+                {'  '}{props.percentage}%
+                </Text>
                 {/* SUBTRACT BUTTON */}
-                <Button style={{width:60, height:50, justifyContent:'center', 
-                backgroundColor:'blue', alignContent:'center'}} 
-                onPress={()=> props.pSubtract()}>
+                <Button style={{width:'100%', height:50, justifyContent:'center', 
+                  backgroundColor:'blue', alignContent:'center'}} 
+                  onPress={()=> props.pSubtract()}>
                   <Icon type='FontAwesome5' name='minus'
                     style={{color:'white', fontSize:24}}/>
-              </Button>
+                </Button>
               </View>
-              <Text style={{fontSize:40, fontWeight:'600', color:'white', marginBottom:10, marginLeft:10}}>{props.percentage}%</Text>
+              
             </Row>
           </Col>
           {/* THEIR PERCENTAGE */}
-          <Col style={{width:'50%', justifyContent:'center', backgroundColor:'rgb(38, 171, 75)'}}>
-            <Row style={{justifyContent:'center', marginTop:10}}>
-              <Text style={{fontSize:40, fontWeight:'600', color:'white', textAlign:'center'}}> 
+          <Col style={{width:'50%', justifyContent:'center', }}>
+            <Row style={{justifyContent:'center'}}>
+              <Text style={{fontSize:40, fontWeight:'600', textAlign:'center'}}> 
                 Them
               </Text>
             </Row>
-            <Row style={{justifyContent:'flex-end',  alignItems:'center'}}>
-              <Text style={{fontSize:40, fontWeight:'600', color:'white',  marginBottom:10}}> 
-                {props.counterPercentage}%
-              </Text>
-              <View style={{flexDirection:'column'}}>
+            <Row style={{justifyContent:'center',  alignItems:'center'}}>
+              <View style={{flexDirection:'column', justifyContent:'center'}}>
                 {/* ADD BUTTON */}
-                <Button  style={{width:60, height:50, justifyContent:'center',
+                <Button  style={{width:'100%', height:50, justifyContent:'center',
                    backgroundColor:'rgb(38, 171, 75)', alignContent:'center'}} 
                   onPress={()=> props.cAdd()}>
                   <Icon type='FontAwesome5' name='plus'
-                    style={{color:'white', fontSize:24}}/>
+                    style={{ fontSize:24}}/>
                 </Button>
+                <Text style={{fontSize:40, paddingVertical:4, fontWeight:'600', textAlign:'center'}}> 
+                  {'  '}{props.counterPercentage}%
+                </Text>
                 {/* SUBTRACT BUTTON */}
-                <Button info style={{width:60, height:50, justifyContent:'center',
+                <Button info style={{width:'100%', height:50, justifyContent:'center',
                    backgroundColor:'rgb(38, 171, 75)', alignContent:'center'}} 
                   onPress={()=> props.cSubtract()}>
                   <Icon type='FontAwesome5' name='minus'
-                    style={{color:'white', fontSize:24}}/>
+                    style={{ fontSize:24}}/>
                 </Button>
               </View>
 
@@ -98,21 +101,21 @@ StandardOffer = (props) => {
       </CardItem>
       {/* BOTH SWAP PERCENTAGE */}
       <CardItem style={{flex:1, justifyContent:'space-around'}}>
-        <View style={{  paddingLeft:'20%',backgroundColor:'blue', flexDirection:'row', alignItems:'center'}}>
           {/* THE PERCENTAGE */}
-          <View>
-            <Text style={{fontSize:48,  fontWeight:'600', color:'white',  textAlign:'left'}}> 
-              {props.percentage}% 
-            </Text>
-          </View>
-          <View style={{flexDirection:'column', alignItems:'flex-end', justifyContent:'flex-end'}}>
+          
+          <View style={{flexDirection:'column', alignItems:'center', justifyContent:'center'}}>
             {/* ADD BUTTON */}
             <Button style={{width:'100%', height:50, justifyContent:'center', alignSelf:'flex-end',
               backgroundColor:'blue', alignContent:'center'}} 
               onPress={()=> props.tAdd()}>
                 <Icon type='FontAwesome5' name='plus'
                   style={{color:'white', fontSize:24}}/>
-          </Button>
+            </Button>
+            <View style={{justifyContent:'center',paddingVertical:2}}>
+              <Text style={{fontSize:48,  fontWeight:'600', color:'black',  textAlign:'center'}}> 
+                {'  '}{props.percentage}% 
+              </Text>
+            </View>
             {/* SUBTRACT BUTTON */}
             <Button style={{width:'100%', height:50, justifyContent:'center', alignSelf:'flex-end',
               backgroundColor:'blue', alignContent:'center'}} 
@@ -121,7 +124,6 @@ StandardOffer = (props) => {
                 style={{color:'white', fontSize:24}}/>
             </Button>
           </View>
-        </View>
       </CardItem>
       {/* SWAP BUTTONS */}
       <CardItem style={{justifyContent:'space-around'}}>

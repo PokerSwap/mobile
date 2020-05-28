@@ -1,52 +1,38 @@
-import React, {useContext, useEffect} from 'react';
+import React, { useContext } from 'react';
 
-import { Button, Footer, Text, Spinner } from 'native-base';
-import { Col, Row } from 'react-native-easy-grid'
-import {Context} from '../../../Store/appContext'
+import { Footer, Text, Spinner } from 'native-base';
+import { Col } from 'react-native-easy-grid'
 
+import { Context } from '../../../Store/appContext'
 
-
-export default ActionBar = (props) => {
-
+export default ActionBar = () => {
   const { store, actions} = useContext(Context)
 
   var bg;
   !store.action ?
-    null
-    : store.action.actions < 50 ?
+    null : store.action.actions < 50 ?
       bg ='green' : bg='red'
   
-
   return(
-    // {/* FOOTER CONTAINS NUMBER OF SWAPS AND ACTION  */}
     <Footer style={{maxHeight:60}}>
       {/* CURRENT USER'S NUMBER OF TOURNAMENT SWAPS  */}
-      <Row>
-        <Col>
-          <Button  large
-            style={{
-              justifyContent:'center', 
-              alignContent:'center',
-              alignItems:'center'}}>
-            {!store.action ? 
-              <Spinner/> 
-              : 
-              <Text>Swaps: {store.action.swaps}</Text>}
-          </Button>
-        </Col>
-
-        {/* CURRENT USER'S ACTION  */}
-        <Col>
-          <Button transparent large style={{justifyContent:'center', backgroundColor:bg}}>
-            {!store.action ? 
-              <Spinner/> 
-              : 
-              
-              <Text style={{color:'white'}}>Action: {store.action.actions}%</Text>}
-          </Button>
-        </Col>
-
-      </Row>
+      <Col style={{width:'50%', backgroundColor:'blue', justifyContent:'center'}}>
+        {!store.action ? 
+          <Spinner/> 
+          : 
+          <Text style={{fontSize:24, fontWeight:'600', color:'white', textAlign:'center'}}>
+              Swaps: {store.action.swaps}
+          </Text>}
+      </Col>
+      {/* CURRENT USER'S ACTION  */}
+      <Col style={{width:'50%', backgroundColor:'green', justifyContent:'center'}}>
+        {!store.action ? 
+          <Spinner/> 
+          : 
+          <Text style={{fontSize:24, fontWeight:'600', color:'white', textAlign:'center'}}>
+            Action: {store.action.actions}%
+          </Text>}
+      </Col>
     </Footer> 
   )
 }

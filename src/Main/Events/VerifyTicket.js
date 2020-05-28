@@ -117,7 +117,7 @@ export default VerifyTicket = (props) => {
       image, table, seat, chips, flight_id, tournament_id, props.navigation )
   };
  
-  const handler = useCallback(debounce(BuyInStart, 1000, { leading: false, trailing: true }));
+  const handler = throttle(BuyInStart, 1000, { leading: true, trailing: false });
 
   
   let textSeat = null, textChips = null;
