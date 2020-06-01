@@ -1,39 +1,43 @@
 import React, {useState} from 'react'
-import {Card, CardItem, Text} from 'native-base'
+import {Card, CardItem, Text, Spinner} from 'native-base'
 
 import CounterPath from './counter'
 import OfferPath from './offer'
 
 export default CounterIncomingPath = (props) => {
-
   const [counter, setCounter] = useState(false)
+  var {swap} = props, {buyin} = props;
 
   return(
     <Card transparent style={{
       alignSelf:'center', width:'95%', justifyContent:'center'}}>
       
       <CardItem style={{ alignSelf:'center'}}>
-        {props.percentage == props.counter_percentage ?
-          <Text style={{fontSize:20, textAlign:'center'}}>
-            {props.buyin.user_name} wants to swap{' '}
-            {props.swap.percentage}% between the both of you
-          </Text>
-          : 
-          <Text style={{fontSize:20, textAlign:'center'}}>
-            {props.buyin.user_name} wants to swap{' '}
-            {props.swap.counter_percentage}%{' '}
-            while you swap {props.swap.percentage}%
-          </Text>}
+        {swap ?
+          swap.percentage == swap.counter_percentage ?
+            <Text style={{fontSize:20, textAlign:'center'}}>
+              {buyin.user_name} wants to swap{' '}
+              {swap.percentage}% between the both of you
+            </Text>
+            : 
+            <Text style={{fontSize:20, textAlign:'center'}}>
+              {buyin.user_name} wants to swap{' '}
+              {swap.counter_percentage}%{' '}
+              while you swap {swap.percentage}%
+            </Text>
+          : <Spinner />}
       </CardItem>
 
-      {counter == false ?
-        <OfferPath navigation={props.navigation}
-          percentage={props.percentage} counter_percentage={props.counter_percentage}
-          tournament_id={props.tournament_id}counter={counter} setCounter={setCounter} swap_id={props.swap.id} />
-        :
-        <CounterPath navigation={props.navigation} swap_id={props.swap.id}
-          percentage={props.swap.percentage} counter_percentage={props.swap.counter_percentage}
-          tournament_id={props.tournament_id} counter={counter} setCounter={setCounter} />
+      {swap ? 
+        counter == false ?
+          <OfferPath navigation={props.navigation}
+            percentage={swap.percentage} counter_percentage={swap.counter_percentage}
+            tournament_id={props.tournament_id}counter={counter} setCounter={setCounter} swap_id={swap.id} />
+          :
+          <CounterPath navigation={props.navigation} swap_id={swap.id}
+            percentage={swap.percentage} counter_percentage={swap.counter_percentage}
+            tournament_id={props.tournament_id} counter={counter} setCounter={setCounter} />
+        : null
       }
     </Card>
   )

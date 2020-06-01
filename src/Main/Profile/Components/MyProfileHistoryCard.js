@@ -10,7 +10,7 @@ export default MyProfileHistoryCard = (props) => {
 	const { store, actions } = useContext(Context)
 
 	return(
-		<View>
+		<View style={{marginVertical:10}}>
 			<ListItem noIndent style={{ flexDirection:'column',
 				paddingVertical:5, backgroundColor:'black', 
 				justifyContent:'center'}}>
@@ -40,24 +40,24 @@ export default MyProfileHistoryCard = (props) => {
 
 				return(
 					<View>
-						<ListItem noIndent key={index} style={{flexDirection:'column', backgroundColor:'black'}}>
-							<Text style={{textAlign:'center', fontSize:20, 
-							fontWeight:'500', marginVertical:7, color:'white' }}>
+						<ListItem noIndent key={index} style={{flexDirection:'column', backgroundColor:'#fffafa'}}>
+							<Text style={{textAlign:'center', fontSize:24, 
+							fontWeight:'500', marginVertical:7, color:'black' }}>
 								{fullName}
 							</Text>
-							<Row>
-								<Col style={{width:'25%', justifyContent:'center'}}>
-									<Text style={{textAlign:'center', color:'white'}}>
-										Status
-									</Text>
-								</Col>
-								<Col style={{width:'35%'}}>
-									<Text style={{color:'white'}}>Date {'&'} Time</Text>
-								</Col>
-								<Col style={{width:'40%'}}>
-									<Text style={{color:'white'}}>Yours / Theirs %</Text>
-								</Col>
-							</Row>
+						</ListItem>
+						<ListItem noIndent style={{backgroundColor:'#a3a3a3'}}>
+							<Col style={{width:'25%', justifyContent:'center'}}>
+								<Text style={{textAlign:'center', color:'white'}}>
+									Status
+								</Text>
+							</Col>
+							<Col style={{width:'35%'}}>
+								<Text style={{color:'white'}}>Date {'&'} Time</Text>
+							</Col>
+							<Col style={{width:'40%'}}>
+								<Text style={{color:'white'}}>Yours / Theirs %</Text>
+							</Col>
 						</ListItem>
 
 						{allSwaps != null ?

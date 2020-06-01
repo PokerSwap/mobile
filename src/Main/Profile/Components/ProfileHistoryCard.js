@@ -19,7 +19,7 @@ export default ProfileHistoryCard = (props) => {
 					{props.buyin.tournament_name}
 				</Text>
 			</ListItem>
-			<ListItem noIndent style={{flexDirection:'row', backgroundColor:'black'}}>
+			<ListItem noIndent style={{flexDirection:'row', backgroundColor:'#a3a3a3'}}>
 				<Col style={{width:'25%'}}>
 					<Text style={{color:'white'}}>Status</Text>
 				</Col>

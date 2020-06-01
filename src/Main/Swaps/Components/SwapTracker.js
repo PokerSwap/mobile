@@ -11,8 +11,8 @@ export default SwapTracker = (props) => {
   const {store, actions} = useContext(Context) 
   
   var x
-  let a_action = async() => {
-     x = await actions.tournament.getAction(props.tournament.id)
+  let a_action = () => {
+     x = actions.tournament.getAction(props.tournament.id)
   }
   
   let other_swaps = props.buyins.map((content, index) => {
@@ -28,7 +28,10 @@ export default SwapTracker = (props) => {
 
   const enterTournament = () => {
     props.navigation.push('EventLobby', {
-      name: props.tournament.name
+      tournament_name: props.tournament.name,
+      tournament_id: props.tournament.id,
+      tournament_start: props.tournament.start_at,
+      action: null
     });
   }
 
@@ -38,7 +41,7 @@ export default SwapTracker = (props) => {
     <View>
       {/* TOURNAMENT TITLE */}
       <View style={styles.title.container}>
-        <TouchableOpacity onPress={()=> enterTournament()}>
+        <TouchableOpacity onPress={()=> handler()}>
           <Text style={styles.title.text}>
             {props.tournament.name}
           </Text>

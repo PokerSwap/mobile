@@ -3,9 +3,12 @@ import { ListItem, Text } from 'native-base';
 
 export default EventHeader = (props) => {
   return(
-    <ListItem itemHeader first>
+    <ListItem itemHeader first style={{flexDirection:'column'}}>
       <Text style={{ fontSize:18, fontWeight:'600', textAlign:'center'}}>
-        {props.tournament.name}
+        {props.tournament_name}
+      </Text>
+      <Text style={{fontSize:18, marginTop:10}}>
+        {props.tournament_start}
       </Text>
     </ListItem>
   )

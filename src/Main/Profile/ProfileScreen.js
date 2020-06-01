@@ -8,17 +8,12 @@ import ProfileBio from './Components/ProfileBio';
 import HistoryList from './Components/HistoryList'
 
 export default ProfileScreen = (props) => {
-  const { store, actions } = useContext(Context)
   const { navigation } = props;
 
   let nickname = navigation.getParam('nickname', 'default_value');
-  let id = navigation.getParam('id', 'NO-ID');
-
-  useEffect(() => {
-    var x = actions.profile.view(id)
-    console.log(store.profile.view)
-  });
+  let user_id = props.navigation.getParam('user_id', 'NO-ID');
   
+
   return(
     <Container> 
       <Header style={{justifyContent:'flex-start'}}>
@@ -26,9 +21,9 @@ export default ProfileScreen = (props) => {
       </Header>
       <Content contentContainerStyle={{ justifyContent:'center'}}>
         {/* PROFILE BIO */}
-        <ProfileBio navigation={props.navigation} />
+        <ProfileBio user_id={user_id} navigation={props.navigation} />
         {/* HISTORY LIST */}
-        <HistoryList />
+        <HistoryList user_id={user_id}/>
       </Content>
     </Container>
   )

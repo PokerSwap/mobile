@@ -42,9 +42,9 @@ export default BuyIn = (props) => {
         navigation={props.navigation} />
   )}
 
-  const enterProfile = async() => {
+  const enterProfile = () => {
     navigation.push('Profile',{
-      id: buyin.id,
+      user_id: buyin.user_id,
       nickname: buyin.user_name
     });
   }
@@ -84,6 +84,7 @@ export default BuyIn = (props) => {
             </Row>
             {/* BUYIN DETAILS */}
             <Row style={{marginTop:10}}>
+              
               <BuyInAttribute top=' Table ' 
                 bottom={buyin.table} txt={txt}/>
               <BuyInAttribute top=' Seat ' 

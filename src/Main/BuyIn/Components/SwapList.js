@@ -90,7 +90,6 @@ export default SwapList = (props) => {
     var labelTime = startDate + ', ' +   startTime
     
     const enterSwapOffer = async() => {
-      var answer = await actions.tournament.getAction()
       props.navigation.push('SwapOffer',{
         swap:swap,
         status: swap.status,

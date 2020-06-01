@@ -9,7 +9,6 @@ import moment from 'moment'
 import { Context } from '../../../Store/appContext'
 
 export default SwapButton = (props) => {
-
   const { store, actions } = useContext(Context)
 
   var x = moment(props.updated_at).fromNow()
@@ -34,7 +33,7 @@ export default SwapButton = (props) => {
       allStatuses.push(swap.id,swap.status))
     :allStatuses = ['inactive']
 
-  var lastCol, buttonColor, path;
+  var lastCol, buttonColor, path, swapID;
  
   // YOUR SWAP VIEW
   if (props.buyin.user_id == store.myProfile.id){
@@ -76,7 +75,7 @@ export default SwapButton = (props) => {
     buttonColor = 'orange';
     swapID = allStatuses[allStatuses.indexOf('pending')-1]
   } 
-  // INCOMING SWAP VIEW
+  // AGREED SWAP VIEW
   else if (allStatuses.includes('agreed')){
     var totalAgreed = 0
     var addingAgreedTotal = props.agreed_swaps.forEach(swap => totalAgreed += swap.percentage)
@@ -109,10 +108,12 @@ export default SwapButton = (props) => {
   } 
 
   const enterSwapOffer = async() => {
+    console.log('swapID',swapID)
     props.navigation.push('SwapOffer',{
         status: path,
         buyin: props.buyin,
         tournament: props.tournament,
+        swapID: swapID
     })  
   }
 

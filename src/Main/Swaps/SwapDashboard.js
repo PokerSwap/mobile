@@ -117,7 +117,6 @@ export default SwapDashboard = (props) => {
         
         {/* SWAPTRACKERS */}
         <List>
-
           {/* LIVE SWAPTRACKER */}
           <Separator bordered style={styles.separator.live}>
             <Text style={styles.separator.text}> 
@@ -125,7 +124,6 @@ export default SwapDashboard = (props) => {
             </Text>                
           </Separator>
           {liveTracker}
-          
           {/* UPCOMING SWAPTRACKER */}
           <Separator bordered style={styles.separator.upcoming}>
             <Text style={styles.separator.text}> 
@@ -133,9 +131,7 @@ export default SwapDashboard = (props) => {
             </Text>
           </Separator>
           {upcomingTracker}
-         
         </List>
-      
       </Content>
     </Container>
   )

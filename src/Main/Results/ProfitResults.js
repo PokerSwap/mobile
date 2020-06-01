@@ -19,10 +19,14 @@ export default ProfitResults = (props) => {
       <Content>
         <List>
           <ListItem noIndent header
-          style={{justifyContent:'center'}}>
+          style={{justifyContent:'center', flexDirection:'column'}}>
             <Text style={{justifyContent:'center', textAlign:'center',
               fontWeight:'600', fontSize:24}}>
               {tournament.name}
+            </Text>
+            <Text style={{justifyContent:'center', marginTop:10, textAlign:'center',
+               fontSize:20}}>
+              {tournament.start_at}
             </Text>
           </ListItem>
           {agreedBuyins.map((buyin, index) => {

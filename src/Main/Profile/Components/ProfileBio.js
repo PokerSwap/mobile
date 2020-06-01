@@ -1,24 +1,42 @@
-import React, {useContext} from 'react';
-import {Image, View, Spinner } from 'react-native'
+import React, { useContext, useEffect, useState } from 'react';
+import { Image, View, Spinner } from 'react-native'
 import { Button, Icon, Card, CardItem, Text } from 'native-base';
 
-import {Context} from '../../../Store/appContext'
+import { Context } from '../../../Store/appContext'
 
-export default ProfileBio = (props) => {
-   
-const {store, actions} = useContext(Context)
+// import  Grey  from '../../../Images/grey.png'
+
+export default ProfileBio = (props) => { 
+  const { store, actions } = useContext(Context)
+  const [ profile, setProfile ] = useState(null)
+
+  useEffect(() => {
+    getProfile()
+    return () => {
+      // cleanup
+    }
+  }, [])
+
+  var aProfile
+  var getProfile = async() =>{
+      console.log('eeee',props.user_id)
+      var ass = await actions.profile.view(props.user_id)
+      console.log('profile', profile, store.profileView)
+      var x = await setProfile(store.profileView)
+      aProfile = store.profileView
+  }
 
   const openHendon = () => {
     props.navigation.push('WebView', {
-      url: props.hendon_url
+      url: aProfile.hendon_url
     })
   }
 
-  let ifNickName
-  props.nickname != '' ?
-    ifNickName = ' "' + props.nickname + '" '
-    :
-    ifNickName = ' '
+  // let ifNickName
+  // props.nickname != '' ?
+  //   ifNickName = ' "' + props.nickname + '" '
+  //   :
+  //   ifNickName = ' '
 
   
   return(
@@ -31,28 +49,34 @@ const {store, actions} = useContext(Context)
           height: 200, position: 'relative',
           overflow: 'hidden', borderRadius: 50}}>
           
-          {props.profile_pic_url != null ?
+          {profile ?
             <Image style={{
               display: 'flex', margin: 'auto', 
               height: '100%', width: 'auto'}} 
-              source={{uri: props.profile_pic_url}} />
+              source={{uri: store.profileView.profile_pic_url}} />
             :
-            <Spinner />}
+            null}
+             {/* <Image style={{
+               display: 'flex', backgroundColor:'grey', margin: 'auto', 
+               height: '100%', width: 'auto'}} />} */}
 
         </View>
 
         <View style={{flex:1, justifyContent:'center', height:70}}>
+        {store.profileView ?
           <Button transparent 
             style={{flex:1, justifyContent:'center'}}  
             onPress={() => openHendon()}>
             <Text style={{fontSize:36, textAlign:'center'}}>
-              {props.first_name}{ifNickName}{props.last_name}
+              {store.profileView.first_name} {store.profileView.last_name}
             </Text>
           </Button>
+          :
+          <Spinner />}
         </View>
       </CardItem>
 
-      {props.id == store.myProfile.id ?
+      {props.user_id == store.myProfile.id ?
         <CardItem style={{justifyContent:'center'}}>
           <Button iconLeft warning onPress={() => props.navigation.navigate("PurchaseTokens")}>
             <Icon type='FontAwesome5' name='coins'/>
@@ -60,8 +84,7 @@ const {store, actions} = useContext(Context)
           </Button>
         </CardItem>
         :
-        null
-      }
+        null}
 
       <CardItem style={{flex:1, flexDirection:'row',justifyContent:"space-around"}}>
         
@@ -70,32 +93,39 @@ const {store, actions} = useContext(Context)
             textAlign:'center', marginBottom:10, fontWeight:'500'}}> 
             R.O.I. 
           </Text>
-
-          <Text style={{
-            textAlign:'center', fontSize:30, fontWeight:'600'}}> 
-            {props.roi_rating}% 
-          </Text>
+          {store.profileView ?
+            <Text style={{
+              textAlign:'center', fontSize:30, fontWeight:'600'}}> 
+              {store.profileView.roi_rating}% 
+            </Text>
+            :
+            <Spinner/>}
         </View>
 
         <View style={{flex:1, flexDirection:'column', justifyContent:'center'}}>
           <Text style={{textAlign:'center', marginBottom:10, fontWeight:'500'}}> 
             Swap Rating 
           </Text>
-          <Text style={{textAlign:'center', fontSize:30, fontWeight:'600'}}> 
-            {props.swap_rating} 
-          </Text>
+          {store.profileView ?
+            <Text style={{textAlign:'center', fontSize:30, fontWeight:'600'}}> 
+              {store.profileView.swap_rating}
+            </Text>
+            :
+            <Spinner /> }
         </View>  
         
         <View style={{flex:1, flexDirection:'column', justifyContent:'center'}}>
           <Text style={{textAlign:'center', marginBottom:10, fontWeight:'500'}}> 
             Total Swaps 
           </Text>
-          <Text style={{textAlign:'center', fontSize:30, fontWeight:'600'}}> 
-          {props.total_swaps} 
-          </Text>
+          {store.profileView ?
+            <Text style={{textAlign:'center', fontSize:30, fontWeight:'600'}}> 
+              {store.profileView.total_swaps} 
+            </Text>
+            :
+            <Spinner />}
         </View>
       </CardItem>   
-
     </Card>
   )
 }

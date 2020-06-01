@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Text, List, ListItem } from 'native-base';
 
 import { Context } from '../../../Store/appContext'
@@ -9,56 +9,73 @@ import ProfileHistoryCard from './ProfileHistoryCard'
 export default HistoryList = (props) => {
   const { store, actions } = useContext(Context)
   const { navigation } = props;
+  const [ history, setHistory ] = useState(null)
 
-  var history =[]
-  if(id !== store.myProfile.id ){
-    var checkingHistory = past.forEach(
-      tracker =>  {
-        var y = tracker.buyins.filter(buyin => 
-          buyin.recipient_user.id == id)
-        if (y.length !== 0) {
-          y[0]["tournament_name"] = tracker.tournament.name
-          history.push(...y)
-         }else {null}
-      }
-    )
-  } else{
-    history = store.myPastTrackers
+  var past = store.myPastTrackers
+
+  useEffect(() => {
+    getHistory()
+  }, [])
+
+  const getHistory = () => {
+    var aHistory =[]
+    if(props.user_id !== store.myProfile.id ){
+      var checkingHistory = past.forEach(
+        tracker =>  {
+          var y = tracker.buyins.filter(buyin => 
+            buyin.recipient_user.id == props.user_id)
+          if (y.length !== 0) {
+            y[0]["tournament_name"] = tracker.tournament.name
+            aHistory.push(...y)
+            
+           }else {null}
+        }
+      )
+      setHistory(aHistory)
+    } else{
+      setHistory(store.myPastTrackers)
+    }
   }
 
-  var myHistory = history.map((content, index) =>{
-    return(
-      <MyProfileHistoryCard 
-        key={index}
-        tournament={content.tournament}
-        my_buyin={content.my_buyin}
-        buyins={content.buyins}
-        final_profit={content.final_profit}
-      />
-    )
-  })
+  if(history){
+    var myHistory = history.map((content, index) =>{
+      return(
+        <MyProfileHistoryCard 
+          key={index}
+          tournament={content.tournament}
+          my_buyin={content.my_buyin}
+          buyins={content.buyins}
+          final_profit={content.final_profit}
+        />
+      )
+    })
+  
+    var theirHistory = history.map((content, index) => {
+      var allSwaps
+      var agreed_swaps = content.agreed_swaps
+      var other_swaps = content.other_swaps
+  
+      agreed_swaps !== [] ? 
+        other_swaps !== [] ?
+          allSwaps = [...agreed_swaps, ...other_swaps] 
+          : allSwaps = [...agreed_swaps]
+        : 
+        other_swaps !== [] ?
+          allSwaps = [...other_swaps]
+          : allSwaps = null
+      
+      return(
+        <ProfileHistoryCard key={index}
+          allSwaps={allSwaps} buyin={content}
+          navigation={props.navigation}
+          myTrackers={store.myPastTrackers}/>
+      )
+    })
 
-  var theirHistory = history.map((content, index) => {
-    var allSwaps
-    var agreed_swaps = content.agreed_swaps
-    var other_swaps = content.other_swaps
+  }else{
+    null
+  }
 
-    agreed_swaps !== [] ? 
-      other_swaps !== [] ?
-        allSwaps = [...agreed_swaps, ...other_swaps] 
-        : allSwaps = [...agreed_swaps]
-      : 
-      other_swaps !== [] ?
-        allSwaps = [...other_swaps]
-        : allSwaps = null
-    
-    return(
-      <ProfileHistoryCard key={index}
-        allSwaps={allSwaps} buyin={content}
-        navigation={props.navigation}
-        myTrackers={store.myPastTrackers}/>
-    )
-  })
   
   return(
     <List style={{justifyContent:'center'}}>
@@ -67,7 +84,7 @@ export default HistoryList = (props) => {
           History
         </Text>
       </ListItem>
-      {id !== store.myProfile.id ?
+      {props.user_id !== store.myProfile.id ?
         history ?
           theirHistory : <Text>You have not swapped with this user</Text>
         : 

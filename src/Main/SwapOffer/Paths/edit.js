@@ -5,6 +5,8 @@ import { TextInput, View,
 import { Text, Card, CardItem, Button, Icon } from 'native-base'
 import { Grid, Row, Col } from 'react-native-easy-grid'
 
+import Spinner from 'react-native-loading-spinner-overlay'
+
 import {Context} from '../../../Store/appContext'
 
 AModal = (props) => {
@@ -127,6 +129,9 @@ export default EditPath = (props) => {
   const [newChips, setNewChips] = useState(props.buyin.chips)
   const [visible, setVisible] = useState(false)
 
+  const [loading, setLoading] = useState(false)
+
+
   let txtSeat = null, txtChips = null, isDisabled;
 
   newTable != '' && newSeat != '' && newChips != '' ?
@@ -134,9 +139,12 @@ export default EditPath = (props) => {
 
   const buyinEdit = async() => {
     if(newChips !== '0'){
+    setLoading(!loading)
     var answer = await actions.buy_in.edit(
       props.buyin.id, newTable, newSeat, newChips, props.buyin.tournament_id, false
-    )}else{
+    )
+    var x = setLoading(false)
+    }else{
       bustedAlert()
     }
   }
@@ -158,6 +166,8 @@ export default EditPath = (props) => {
     var answer2 = await actions.tournament.getCurrent(props.buyin.tournament_id);
     props.navigation.push('VerifyTicket', {
         action: store.action,
+        tournament_name: store.currentTournament.tournament.name,
+        tournament_start: store.currentTournament.tournament.start_at,
         tournament: store.currentTournament.tournament,
         buyins: store.currentTournament.buyins,
         navigation: props.navigation,
@@ -180,6 +190,7 @@ export default EditPath = (props) => {
 
   return(
     <View>
+
       <View style={ styles.update.view }>
         <Icon type='FontAwesome5' name='angle-double-down'
           style={ styles.update.icon } />
@@ -201,14 +212,14 @@ export default EditPath = (props) => {
           setNewChips={setNewChips}
           tournament_id={props.buyin.tournament_id}/>  
       </Modal>
-
+      <Spinner visible={loading}/>
       <Card style={{width:'90%', alignSelf:'center', paddingBottom:10}}>
         
-        <CardItem style={{justifyContent:'center', paddingVertical:0}}>
+        {/* <CardItem style={{justifyContent:'center', paddingVertical:0}}>
           <Text style={{textAlign:'center', fontSize:30}}>
             {props.buyin.user_name}
           </Text>
-        </CardItem>
+        </CardItem> */}
 
         <CardItem style={ styles.field.container }>
           <Row style={{alignItems:'center'}}>

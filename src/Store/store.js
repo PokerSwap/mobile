@@ -141,21 +141,16 @@ const getState = ({ getStore, setStore, getActions }) => {
 						if(newBuyin.message == "Take another photo"){
 							return errorMessage(newBuyin.message)}
 
-							// console.log('check',newBuyin)
-
 						var eeee = await getActions().buy_in.edit(newBuyin.buyin_id, a_table, a_seat, some_chips, a_tournament_id, true)
 						var rreee = await getActions().tournament.getCurrent(a_tournament_id)
 						var tournament = getStore().currentTournament
 
-						// console.log('rrreeeeerrrr', tournament)
 						
 						var a5 = await navigation.push('EventLobby', {
-							action: getStore().currentAction,
-							tournament: tournament.tournament,
-							buyins: tournament.buyins,
-							flights: tournament.tournament.flights,
-							my_buyin: tournament.my_buyin,
-							navigation: navigation
+							tournament_name: tournament.name,
+							tournament_id: tournament.id,
+							tournament_start: tournament.start_at,
+							action: null
 						})
 
 					} catch(error) {
@@ -199,9 +194,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 						special == true ?
 							url = databaseURL + 'me/buy_ins/' + a_buyin_id  + '?validate=true'
 							: url = databaseURL + 'me/buy_ins/' + a_buyin_id  
-						
+
 						let data= {
-							table: a_table,
+							table: a_table.toString(),
 							seat: parseInt(a_seat),
 							chips: parseInt(some_chips),
 						}
@@ -230,7 +225,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						var answer1 = await getActions().tournament.getInitial()
 						var answer2 = await getActions().tournament.getAction(a_tournament_id)
 						var answer3 = await getActions().tournament.getCurrent(a_tournament_id)
-						
+						var answer4 = await getActions().buyin.getCurrent(a_buyin_id)
 						return customMessage('Your buyin has been updated.')
 
 					}catch(error){
@@ -810,20 +805,19 @@ const getState = ({ getStore, setStore, getActions }) => {
 		
 			tournament:{
 
-				getAction: ( a_tournament_id ) => {
+				getAction: async ( a_tournament_id ) => {
 					try{
 						const url = databaseURL + 'swaps/me/tournament/' + a_tournament_id;
 						const accessToken = getStore().userToken ;
-						fetch(url, {
+						let response = await fetch(url, {
 							method: 'GET',
 							headers: {
 								'Authorization': 'Bearer ' + accessToken,
 								'Content-Type':'application/json'
 							}, 
 						})
-						.then(response => response.json())
-						.then(data => setStore({action: data})
-						)
+						var aCurrentAction = await response.json()
+						setStore({currentAction: aCurrentAction})
 					} catch(error){
 						console.log('Something went wrong in getting action from a tournament', error)
 					}

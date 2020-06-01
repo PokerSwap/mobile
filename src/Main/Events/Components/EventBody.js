@@ -9,10 +9,12 @@ export default EventBody = (props) => {
   var {tournament} = props;
   var start_at = props.tournament.start_at
   var bgColor, textColor, borderWidths, buttonColor, path;
- 
+  
   const enterTournament = () => {
     props.navigation.push(path, {
-      tournament: tournament
+      tournament_name: tournament.name,
+      tournament_id: tournament.tournament_id,
+      tournament_start: tournament.start_at
     });
   }
 
@@ -106,7 +108,6 @@ export default EventBody = (props) => {
         <Icon type="FontAwesome5" name="angle-right"
           style={{justifyContent:'flex-end', alignSelf:'flex-end', color:textColor}}/>
       </Col>
-
     </ListItem>
   )
 }

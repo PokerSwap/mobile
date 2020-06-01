@@ -2,7 +2,7 @@ import React, { useState, useContext, useRef, useCallback } from 'react';
 import {Platform, Image} from 'react-native'
 import {Button, Text, Toast } from 'native-base';
 import { Context } from '../Store/appContext';
-import { debounce } from "lodash";
+import { throttle } from "lodash";
 
 import Spinner from 'react-native-loading-spinner-overlay';
 import { Keyboard, TouchableWithoutFeedback, TextInput, 

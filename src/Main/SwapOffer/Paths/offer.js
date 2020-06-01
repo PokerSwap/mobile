@@ -1,15 +1,16 @@
-import React, {useContext} from 'react'
-import {View, Alert } from 'react-native'
-import { Text, Card, Button, CardItem } from 'native-base'
+import React, { useContext, useState } from 'react'
+import { View, Alert } from 'react-native'
+import { Button, Card, CardItem, Icon, Text } from 'native-base'
+import Spinner from 'react-native-loading-spinner-overlay'
 
-import {Context} from '../../../Store/appContext'
+
+import { Context } from '../../../Store/appContext'
 
 export default OfferPath = (props) => {
-
   const {store, actions } = useContext(Context)
+  const [loading, setLoading] = useState(false)
 
-  const showAlert = (action, status) =>{
-
+  const confirmationAlert = (action, status) => {
     Alert.alert(
       "Confirmation",
       'Are you want to ' + action + ' this swap?',
@@ -21,59 +22,62 @@ export default OfferPath = (props) => {
   }
 
   const swapChange = async(status) => {
+    setLoading(true)
     console.log('all', props.tournament_id, props.swap_id, status)
     var answer = await actions.swap.statusChange(
       props.tournament_id, props.swap_id, status)
     var answer2 = await actions.coin.spend()
     var answer3 = await actions.tracker.getAll()
     props.navigation.goBack()
+    setLoading(false)
+
   }
 
   return(
     <Card transparent style={{
       alignSelf:'center', width:'90%', justifyContent:'center'}}>
-
+        <Spinner visible={loading}  />
       {store.myProfile.coins > 0 ?
-        <View style={{ alignSelf:'center'}}>
-          
-          <CardItem>
-            <Button success large
-              onPress={()=> showAlert('accept','agreed')}>
-              <Text> Accept Offer </Text>
-            </Button>
-          </CardItem>
-        
-          <CardItem>
-            <Button large warning 
+        // WHEN YOU HAVE ENOUGH COINS
+        <View style={{ alignSelf:'center', flexDirection:'column'}}>
+          {/* COUNTER AND REJECT BUTTONS */}
+          <CardItem style={{justifyContent:'space-between'}}>
+            {/* COUNTER BUTTON */}
+            <Button large warning style={{justifyContent:'center'}}
               onPress={()=> props.setCounter(!props.counter)}>
-              <Text> Counter Offer </Text>
+              <Text style={{fontWeight:'600'}}> Counter </Text>
+              <Icon style={{marginLeft:-10}} type='Ionicons' name='ios-swap'/>
             </Button>
-          </CardItem>
-
-          <CardItem style={{ alignSelf:'center'}}>
+            {/* REJECT BUTTON */}
             <Button large danger 
-              onPress={()=> showAlert('reject','rejected')}>
-              <Text> Reject Swap </Text>
+              onPress={()=> confirmationAlert('reject','rejected')}>
+              <Text style={{fontWeight:'600'}}> Reject </Text>
+              <Icon style={{marginLeft:-10}} type='Entypo' name='circle-with-cross'/>
             </Button>
           </CardItem>
-
+          {/* ACCEPT BUTTON */}
+          <CardItem>
+            <Button success full large style={{width:'100%'}}
+              onPress={()=> confirmationAlert('accept','agreed')}>
+              <Text style={{fontWeight:'600', fontSize:24}}> Accept </Text>
+              <Icon style={{marginLeft:-10, fontSize:36}} type='Ionicons' name='md-checkmark'/>
+            </Button>
+          </CardItem>
         </View>
         :
-        <View style={{width:'100%'}}>
-          <CardItem>
-            <Text style={{textAlign:'center', fontSize:20}}> 
-              In order to accept or counter this swap, 
-              you need to purchase tokens.
-            </Text>
-          </CardItem>
-        
-          <CardItem style={{justifyContent:'center'}}>
-            <Button large success 
-              onPress={() => props.navigation.navigate('PurchaseTokens')}>
-              <Text>Purchase Tokens</Text>
-            </Button>
-          </CardItem>
-        </View>
+        // WHEN YOU HAVE ZERO COINS
+        <CardItem>
+          {/* NO COINS WARNING */}
+          <Text style={{textAlign:'center', fontSize:20}}> 
+            In order to accept or counter this swap, 
+            you need to purchase tokens.
+          </Text>
+          {/* PURCHASE TOKENS BUTTON */}
+          <Button large success 
+            onPress={() => props.navigation.navigate('PurchaseTokens')}>
+            <Text>Purchase Tokens</Text>
+          </Button>
+        </CardItem>
       }
     </Card>
   )

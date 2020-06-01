@@ -2,8 +2,7 @@ import React, { useState, useContext, useCallback } from 'react';
 import { Image,  TextInput, KeyboardAvoidingView, Platform, Alert} from 'react-native';
 import { Container,  Button, Text, Content, Card, CardItem, Icon} from 'native-base';
 import { Grid, Row, Col } from 'react-native-easy-grid';
-import { debounce } from 'lodash'
-
+import { throttle } from 'lodash'
 import {openSettings, requestMultiple, PERMISSIONS} from 'react-native-permissions';
 
 import ImagePicker from 'react-native-image-picker';
@@ -24,7 +23,8 @@ export default VerifyTicket = (props) => {
   const [chips, setChips] = useState('');
 
   var navigation = props.navigation;
-  let name = navigation.getParam('name', 'NO-ID');
+  let tournament_name = navigation.getParam('tournament_name', 'NO-ID');
+  let tournament_start = navigation.getParam('tournament_start', 'NO-ID');
   let flight_id = navigation.getParam('flight_id', 'NO-ID');
   let tournament_id = navigation.getParam('tournament_id', 'NO-ID');
 
@@ -112,14 +112,11 @@ export default VerifyTicket = (props) => {
     });
   };
 
-  const BuyInStart = async() => {
-    var answer = await actions.buy_in.add( 
-      image, table, seat, chips, flight_id, tournament_id, props.navigation )
-  };
+  const BuyInStart = async() => await actions.buy_in.add( 
+    image, table, seat, chips, flight_id, tournament_id, props.navigation )
  
   const handler = throttle(BuyInStart, 1000, { leading: true, trailing: false });
-
-  
+ 
   let textSeat = null, textChips = null;
    
   return(
@@ -127,16 +124,17 @@ export default VerifyTicket = (props) => {
       <Content>
       <KeyboardAvoidingView style={{flex:1,}} 
         behavior='position' keyboardVerticalOffset={-180}>
-        
-        {/* IMAGE INPUT */}
+        {/* TOURNEY INFO */}
         <Card transparent >
-
-          <CardItem style={{justifyContent:'center'}}>
-            <Text style={{textAlign:'center', fontSize:18, fontWeight:'bold'}}>
-              {name} 
+          {/* TOURNAMENT INFO */}
+          <CardItem style={{justifyContent:'center', flexDirection:'column'}}>
+            <Text style={{textAlign:'center', fontSize:24, fontWeight:'bold'}}>
+              {tournament_name} 
+            </Text>
+            <Text style={{textAlign:'center', fontSize:18, marginTop:10}}>
+              {tournament_start}
             </Text>
           </CardItem>
-          
           {/* INSTRUCTION TEXT  */}
           <CardItem style={{selfAlign:'center', flex:1, 
             justifyContent:'center', flexDirection:'column'}}>
@@ -145,6 +143,7 @@ export default VerifyTicket = (props) => {
             </Text>
           </CardItem>
         </Card>
+        {/* TICKET INPUT */}
         <Card transparent>
           <CardItem>
           <Grid>
@@ -214,16 +213,18 @@ export default VerifyTicket = (props) => {
           </Grid>
           </CardItem>
         </Card>
-                
-        <Button large style={styles.button} 
-          onPress={() => handler()}>
-          <Text style={styles.text.button}> 
-            SUBMIT 
-          </Text>
-        </Button>
-
-        </KeyboardAvoidingView>
-
+        {/* SUBMIT BUTTON */}
+        <Card transparent >
+          <CardItem>
+            <Button large style={styles.button} 
+              onPress={() => handler()}>
+              <Text style={styles.text.button}> 
+                SUBMIT 
+              </Text>
+            </Button>
+          </CardItem>
+        </Card>     
+      </KeyboardAvoidingView>
       </Content>
     </Container>
   )
@@ -239,7 +240,6 @@ const styles = {
       alignItems:'center', justifyContent:'center'},
     image:{
       justifyContent:'center', width:200, flex:1, flexDirection:'column'},
-    
     picker:{
       width:'80%'}
   },

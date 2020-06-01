@@ -1,7 +1,8 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import {Modal, View} from 'react-native'
 import {Container, Text, Content, Card } from 'native-base';
 import { Grid, Row, Col } from 'react-native-easy-grid'
+import Spinner from 'react-native-loading-spinner-overlay'
 
 import EventHeader from '../Events/Components/EventHeader'
 import { Context } from '../../Store/appContext';
@@ -15,17 +16,42 @@ import InactivePath from './Paths/inactive';
 import RejectedPath from './Paths/rejected';
 import PendingPath from './Paths/pending';
 
-
 export default SwapOffer = (props) => {
-
   const { store, actions } = useContext(Context)
   const { navigation } = props;
 
+  const [loading, setLoading] = useState(false)
+  const [currentSwap, setCurrentSwap] = useState(null)
+  const [time, setTime] = useState(null)
+
+
+  var getSwap = async() => {
+    var x = await actions.swap.getCurrent(swapID)
+    setCurrentSwap(store.currentSwap)
+    console.log('stop', currentSwap)
+  }
+
+  useEffect(() => {
+    getSwap()
+    getTime()
+    return () => {
+      // cleanup
+    }
+  }, [null])
+
+  let getTime = async() => {
+    var x = await actions.swap.convertTime(tournament.start_at)
+    setTime(x)
+  }
+
   let status =  navigation.getParam('status', 'default value');
   let swap =  navigation.getParam('swap', 'default value');
+  let swapID = navigation.getParam('swapID', 'default value');
   let buyin =  navigation.getParam('buyin', 'default value');
   let updated_at =navigation.getParam('updated_at', 'default value');
   let tournament = navigation.getParam('tournament', 'default value');
+
+console.log('eeeeeee', tournament)
 
   let currentPath;
 
@@ -40,42 +66,42 @@ export default SwapOffer = (props) => {
     currentPath = 
       <IncomingPath navigation={props.navigation} 
         tournament_status={tournament.tournament_status}
-        tournament_id={tournament.id} buyin={buyin} swap={swap}/>
+        tournament_id={tournament.id} buyin={buyin} swap={currentSwap}/>
   } 
   // COUNTER INCOMING SWAP VIEW
   else if (status == 'counter_incoming'){
     currentPath = 
       <CounterIncomingPath navigation={props.navigation} 
         tournament_status={tournament.tournament_status}
-        tournament_id={tournament.id} buyin={buyin} swap={swap}/>
+        tournament_id={tournament.id} buyin={buyin} swap={currentSwap}/>
   }
   // PENDING SWAP VIEW
   else if (status == 'pending'){
     currentPath = 
       <PendingPath navigation={props.navigation}
         tournament_status={tournament.tournament_status}
-        swap={swap} tournament={tournament} buyin={buyin}/>
+        swap={currentSwap} tournament={tournament} buyin={buyin}/>
   } 
   // AGREED SWAP VIEW
   else if (status == 'agreed'){
     currentPath = 
       <AgreedPath navigation={props.navigation} 
         tournament_status={tournament.tournament_status}
-        swap={swap} tournament={tournament} buyin={buyin}/>
+        swap={currentSwap} tournament={tournament} buyin={buyin}/>
   }
   // REJECTED SWAP VIEW 
   else if (status == 'rejected'){
     currentPath = 
       <RejectedPath navigation={props.navigation} 
         tournament_status={tournament.tournament_status}
-        buyin={buyin} swap={swap}/>
+        buyin={buyin} swap={currentSwap}/>
   }
   // CANCELED SWAP VIEW 
   else if (status == 'canceled'){
     currentPath = 
       <CanceledPath navigation={props.navigation} 
         tournament_status={tournament.tournament_status}
-        swap={swap} buyin={buyin}/>
+        swap={currentSwap} buyin={buyin}/>
   }
   // INACTIVE SWAP VIEW
   else{
@@ -85,21 +111,17 @@ export default SwapOffer = (props) => {
         tournament={tournament} buyin={buyin}/>
   }
 
+
   return(
     <Container>
-      
+    <Spinner visible={loading}/>
       <Content>
         {/* EVENT HEADER */}
         <Card transparent>
-          <EventHeader tournament={tournament} />
+          <EventHeader 
+          tournament_name={tournament.name}
+          tournament_start={time}/>
         </Card>
-
-        {/* CURRENT STATUS TITLE */}
-        {/* <Card transparent style={{ justifyContent:'center'}}>
-          <Text style={{textAlign:'center', fontWeight:'600'}}>
-            CURRENT STATUS:
-          </Text>
-        </Card> */}
         
         {/* CURRENT STATUS OF BUYIN */}
         <Card style={{alignSelf:'center', width:'80%', 

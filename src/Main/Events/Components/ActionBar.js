@@ -1,37 +1,37 @@
-import React, { useContext } from 'react';
-
+import React from 'react';
 import { Footer, Text, Spinner } from 'native-base';
 import { Col } from 'react-native-easy-grid'
 
-import { Context } from '../../../Store/appContext'
-
-export default ActionBar = () => {
-  const { store, actions} = useContext(Context)
+export default ActionBar = (props) => {
+  var action = props.action
 
   var bg;
-  !store.action ?
-    null : store.action.actions < 50 ?
+  !action ?
+    null : action.actions <= 50 ?
       bg ='green' : bg='red'
-  
+
   return(
     <Footer style={{maxHeight:60}}>
       {/* CURRENT USER'S NUMBER OF TOURNAMENT SWAPS  */}
-      <Col style={{width:'50%', backgroundColor:'blue', justifyContent:'center'}}>
-        {!store.action ? 
+      <Col style={{width:'50%', backgroundColor:'blue', alignItems:'center', justifyContent:'center', flexDirection:'row'}}>
+      <Text style={{fontSize:24, fontWeight:'600', color:'white', textAlign:'center'}}>
+        Swaps:{' '}</Text>
+        {!action ? 
           <Spinner/> 
           : 
           <Text style={{fontSize:24, fontWeight:'600', color:'white', textAlign:'center'}}>
-              Swaps: {store.action.swaps}
+            {action.swaps}
           </Text>}
       </Col>
       {/* CURRENT USER'S ACTION  */}
-      <Col style={{width:'50%', backgroundColor:'green', justifyContent:'center'}}>
-        {!store.action ? 
+      <Col style={{width:'50%', backgroundColor:'green', alignItems:'center', justifyContent:'center', flexDirection:'row'}}>
+      <Text style={{fontSize:24, fontWeight:'600', color:'white', textAlign:'center'}}>
+            Action:{' '}</Text>
+        {!action ? 
           <Spinner/> 
           : 
-          <Text style={{fontSize:24, fontWeight:'600', color:'white', textAlign:'center'}}>
-            Action: {store.action.actions}%
-          </Text>}
+           <Text style={{fontSize:24, fontWeight:'600', color:'white', textAlign:'center'}}>
+             {action.actions}%</Text>}
       </Col>
     </Footer> 
   )
