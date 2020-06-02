@@ -1,12 +1,14 @@
-import React, {useContext} from 'react'
+import React, {useContext, useState} from 'react'
 import {Alert} from 'react-native'
 import {Text, Card, Button, CardItem, Spinner} from 'native-base'
 
 import {Context} from '../../../Store/appContext'
 
+import Spinnerx from 'react-native-loading-spinner-overlay'
+
 export default PendingPath = (props) => {
   const { store, actions } = useContext(Context)
-
+  const [loading, setLoading] = useState(false)
   const {swap} = props, {buyin} = props;
 
   const showAlert = () =>{
@@ -21,14 +23,19 @@ export default PendingPath = (props) => {
   }
 
   var cancelSwap = async() => {
+    setLoading(true)
     var answer = await actions.swap.statusChange(
       props.tournament.id, swap.id, "canceled"
     ) 
+    var act = await actions.coin.spend()
     props.navigation.goBack()
+    setLoading(false)
+
   }
 
   return(
     <Card transparent>
+      <Spinnerx visible={loading}/>
       <CardItem style={{justifyContent:'center'}}>
         {swap ?
           swap.percentage == swap.counter_percentage ?
@@ -46,7 +53,7 @@ export default PendingPath = (props) => {
       </CardItem>
       {swap ?
         <CardItem style={{justifyContent:'center'}}>  
-          <Button large onPress={()=> showAlert()}>
+          <Button full large style={{width:'100%', backgroundColor:'#a3a3a3'}}onPress={()=> showAlert()}>
             <Text>Cancel</Text>
           </Button>
         </CardItem>

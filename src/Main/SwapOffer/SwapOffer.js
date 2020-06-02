@@ -10,7 +10,7 @@ import { Context } from '../../Store/appContext';
 import AgreedPath from './Paths/agreed';
 import CanceledPath from './Paths/canceled';
 import IncomingPath from './Paths/incoming';
-import CounterIncoming from './Paths/counter_incoming';
+import CounterIncomingPath from './Paths/counter_incoming';
 import EditPath from './Paths/edit';
 import InactivePath from './Paths/inactive';
 import RejectedPath from './Paths/rejected';
@@ -23,7 +23,6 @@ export default SwapOffer = (props) => {
   const [loading, setLoading] = useState(false)
   const [currentSwap, setCurrentSwap] = useState(null)
   const [time, setTime] = useState(null)
-
 
   var getSwap = async() => {
     var x = await actions.swap.getCurrent(swapID)
@@ -45,13 +44,9 @@ export default SwapOffer = (props) => {
   }
 
   let status =  navigation.getParam('status', 'default value');
-  let swap =  navigation.getParam('swap', 'default value');
   let swapID = navigation.getParam('swapID', 'default value');
   let buyin =  navigation.getParam('buyin', 'default value');
-  let updated_at =navigation.getParam('updated_at', 'default value');
   let tournament = navigation.getParam('tournament', 'default value');
-
-console.log('eeeeeee', tournament)
 
   let currentPath;
 
@@ -111,7 +106,6 @@ console.log('eeeeeee', tournament)
         tournament={tournament} buyin={buyin}/>
   }
 
-
   return(
     <Container>
     <Spinner visible={loading}/>
@@ -122,11 +116,11 @@ console.log('eeeeeee', tournament)
           tournament_name={tournament.name}
           tournament_start={time}/>
         </Card>
-        
         {/* CURRENT STATUS OF BUYIN */}
         <Card style={{alignSelf:'center', width:'80%', 
           paddingVertical:15, backgroundColor:'rgb(38, 171, 75)'}}>
             <Grid>
+              {/* USERNAME */}
               <Row style={{
                 justifyContent:'center', marginBottom:10}}>
                 <Text style={{color:'white',
@@ -134,10 +128,9 @@ console.log('eeeeeee', tournament)
                   {buyin.user_name}
                 </Text>
               </Row>
-              
-              
+              {/* BUYIN INFO */}
               <Row>
-
+                {/* TABLE */}
                 <Col style={{justifyContent:'center'}}>
                   <Text style={{color:'white',
                     textAlign:'center', fontSize:18}}>
@@ -148,7 +141,7 @@ console.log('eeeeeee', tournament)
                     {buyin.table}
                   </Text>
                 </Col>
-
+                {/* SEAT */}
                 <Col style={{justifyContent:'center'}}>
                   <Text style={{color:'white',
                     textAlign:'center', fontSize:18}}>
@@ -159,7 +152,7 @@ console.log('eeeeeee', tournament)
                     {buyin.seat}
                   </Text>
                 </Col>
-
+                {/* CHIPS */}
                 <Col style={{justifyContent:'center'}}>
                   <Text style={{color:'white',
                     textAlign:'center', fontSize:18}}>
@@ -170,20 +163,9 @@ console.log('eeeeeee', tournament)
                     {buyin.chips}
                   </Text>
                 </Col>
-                
               </Row>
             </Grid>
-
-        </Card>
-        
-        {/* LAST UPDATED STATUS */}
-        {/* <Card transparent style={{justifyContent:'center'}}>
-          <Text style={{textAlign:'center', fontSize:18, 
-            lineHeight:30, textTransform:'capitalize'}}> 
-            Last Update:  {updated_at}
-          </Text>
-        </Card> */}
-        
+        </Card>        
         {/* SWAP BODY PATH */}
         {currentPath}
       </Content>

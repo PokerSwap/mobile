@@ -9,20 +9,10 @@ export default ProfileBioSideBar = (props) => {
   const {store, actions} = useContext(Context)
 
   const enterProfile = async() => {
-    var answer = await actions.profile.view(props.user_id);
-    var profile = store.profileView
-    console.log('profile:',profile)
+
     props.navigation.push('Profile',{
-      first_name: profile.first_name,
-      nickname: profile.nickname,
-      last_name: profile.last_name,
-      roi_rating: profile.roi_rating,
-      swap_rating: profile.swap_rating,
-      total_swaps: profile.total_swaps,
-      profile_pic_url: profile.profile_pic_url,
-      hendon_url: profile.hendon_url,
-      id: profile.id,
-      past: []
+      nickname: store.myProfile.nickname,
+      user_id: store.myProfile.id
     });
   }
 

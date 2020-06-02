@@ -1,136 +1,21 @@
 import React, { useState, useContext } from 'react'
 
-import { TextInput, View, 
-  Alert, Modal, TouchableOpacity } from 'react-native'
+import { TextInput, View, Alert, Modal } from 'react-native'
 import { Text, Card, CardItem, Button, Icon } from 'native-base'
 import { Grid, Row, Col } from 'react-native-easy-grid'
-
 import Spinner from 'react-native-loading-spinner-overlay'
 
 import {Context} from '../../../Store/appContext'
 
-AModal = (props) => {
-  const { store, actions } = useContext(Context)
-  const [place, setPlace] = useState('')
-  const [winnings, setWinnings] = useState('')
-
-  var bustedComplete = async() => {
-    props.setNewChips(0)
-    var answer1 = await actions.buy_in.edit(
-      props.buyin_id, props.newTable, props.newSeat, 0, props.tournament_id, false)
-    var answer2 = await actions.buy_in.busted(
-      props.buyin_id, place, winnings, props.tournament_id )
-    props.setVisible(false)
-  } 
-
-  var txtWinnings = null
-
-  return(
-
-      <View style={modalStyles.background}>
-        <View style={ modalStyles.main }>        
-          
-          <Text style={{fontSize:24, textAlign:'center'}}>
-            Enter your place and cash amount you won.
-          </Text>
-
-          <Grid style={{marginVertical:10}}>
-            
-            <Col style={{justifyContent:'center'}}>             
-              <View style={ modalStyles.field.view }>
-                <Icon type='Ionicons' name='ios-ribbon'/>
-                <Text style={ modalStyles.field.text }>
-                {'  '}Place
-                </Text>
-              </View>
-
-              <TextInput 
-                style={ modalStyles.field.textInput }
-                placeholder={'5'}
-                keyboardType='number-pad'
-                placeholderTextColor='grey'
-                blurOnSubmit={false}
-                returnKeyType="done"
-                onSubmitEditing={() => { txtWinnings.focus(); }}
-                value={place}    
-                onChangeText={placeX => setPlace( placeX )}/>
-           
-              <View style={modalStyles.field.view}>
-                <Icon type='FontAwesome5' name='dollar-sign'/>
-                <Text style={modalStyles.field.text}>
-                  {'  '}Cash Amount
-                </Text>
-              </View>
-
-              <TextInput 
-                style={modalStyles.field.textInput}
-                keyboardType='decimal-pad'
-                returnKeyType="done"
-                placeholderTextColor='grey'
-                placeholder={'$100.00'}
-                ref={(input) => { txtWinnings = input; }} 
-                blurOnSubmit={true}
-                value={winnings}    
-                onChangeText={winningsX => setWinnings( winningsX )} />
-
-              <Row style={{marginTop:20, justifyContent:'space-around'}}>
-              
-                <TouchableOpacity onPress={()=>bustedComplete()}>
-                  <Text style={modalStyles.button.text}>
-                    Submit
-                  </Text>
-                </TouchableOpacity>
-              
-                <TouchableOpacity onPress={()=>props.setVisible(false)}>
-                  <Text style={modalStyles.button.text}>
-                    Cancel
-                  </Text>
-                </TouchableOpacity>
-              </Row>
-            </Col>
-          </Grid>
-          
-        </View>
-      </View>
-  )
-}
-
-const modalStyles = {
-  background:{
-    backgroundColor:'rgba(0,0,0,0.6)', 
-    height:'100%', alignContent:'center' },
-  button:{
-    text:{
-      textAlign:'center', fontSize:24}
-  },
-  field:{
-    text:{
-      fontSize:24, textAlign:'center'},
-    textInput:{
-      padding:10, borderRadius:10, alignSelf:'center',
-      fontSize:24, borderWidth:1, width:'50%', 
-      textAlign:'center', borderColor:'rgba(0,0,0,0.2)' },
-    view:{
-      flexDirection:'row', justifyContent:'center', 
-      marginBottom:10, marginTop:25 }
-  },
-  main:{ 
-    padding:15, alignSelf:'center', backgroundColor:'white', 
-    width:'80%', height:'45%', margin: 'auto', position: 'relative',
-    top: '25%', left: 0, bottom: 0, right: 0}
-}
+import BustedModal from '../Components/BustedModal'
 
 export default EditPath = (props) => {
-
   const { store, actions } = useContext(Context)
-
   const [newTable, setNewTable] = useState(parseInt(props.buyin.table))
   const [newSeat, setNewSeat] = useState(props.buyin.seat)
   const [newChips, setNewChips] = useState(props.buyin.chips)
   const [visible, setVisible] = useState(false)
-
   const [loading, setLoading] = useState(false)
-
 
   let txtSeat = null, txtChips = null, isDisabled;
 
@@ -160,8 +45,19 @@ export default EditPath = (props) => {
     )
   }
 
+  const rebuyAlert = () =>{
+    Alert.alert(
+      "Rebuy Confirmation",
+      "Are you going re-enter?",
+      [
+        { text: 'Yes', onPress: () => rebuyEnter() },
+        { text: 'No', onPress: () => setVisible(true) },
+        { text:'Cancel', onPress: () => console.log('Cancel Pressed') }
+      ]
+    )
+  }
+
   const rebuyEnter = async() => {
-    console.log(props.buyin.tournament_id, props.buyin)
     var answer1 = await actions.tournament.getAction(props.buyin.tournament_id);
     var answer2 = await actions.tournament.getCurrent(props.buyin.tournament_id);
     props.navigation.push('VerifyTicket', {
@@ -176,21 +72,20 @@ export default EditPath = (props) => {
     });
   }
 
-  const rebuyAlert = () =>{
-    Alert.alert(
-      "Rebuy Confirmation",
-      "Are you going re-enter?",
-      [
-        { text: 'Yes', onPress: () => rebuyEnter() },
-        { text: 'No', onPress: () => setVisible(true) },
-        {text:'Cancel', onPress: ()=> console.log('Cancel Pressed')}
-      ]
-    )
-  }
+  var bustedEnter = async() => {
+    setNewChips(0)
+    setLoading(true)
+    var answer1 = await actions.buy_in.edit(
+      props.buyin_id, props.newTable, props.newSeat, 0, props.tournament_id, false)
+    var answer2 = await actions.buy_in.busted(
+      props.buyin_id, place, winnings, props.tournament_id )
+    setLoading(false)
+    setVisible(false)
+  } 
 
   return(
     <View>
-
+      <Spinner visible={loading}/>
       <View style={ styles.update.view }>
         <Icon type='FontAwesome5' name='angle-double-down'
           style={ styles.update.icon } />
@@ -206,21 +101,16 @@ export default EditPath = (props) => {
         visible={visible}
         presentationStyle='overFullScreen'
         transparent={true}>
-        <AModal 
-          setVisible={setVisible} buyin_id={props.buyin.id} 
+        <BustedModal 
+          setNewChips={setNewChips} 
+          setVisible={setVisible} setLoading={setLoading}
+          buyin_id={props.buyin.id} 
           newTable={newTable} newSeat={newSeat} newChips={newChips} 
-          setNewChips={setNewChips}
+          bustedEnter={bustedEnter}
           tournament_id={props.buyin.tournament_id}/>  
       </Modal>
       <Spinner visible={loading}/>
       <Card style={{width:'90%', alignSelf:'center', paddingBottom:10}}>
-        
-        {/* <CardItem style={{justifyContent:'center', paddingVertical:0}}>
-          <Text style={{textAlign:'center', fontSize:30}}>
-            {props.buyin.user_name}
-          </Text>
-        </CardItem> */}
-
         <CardItem style={ styles.field.container }>
           <Row style={{alignItems:'center'}}>
               <Text style={ styles.field.text }>

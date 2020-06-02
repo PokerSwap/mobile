@@ -1,11 +1,7 @@
-import React, {useContext} from 'react'
+import React from 'react'
 import {Text, Card, CardItem, Spinner} from 'native-base'
 
-import { Context } from '../../../Store/appContext'
-
 export default CanceledPath = (props) => {
-  const { store, actions } = useContext(Context)
-
   var {swap} = props, {buyin} = props;
 
   return(
@@ -17,11 +13,8 @@ export default CanceledPath = (props) => {
             with {buyin.user_name} that you asked for{' '}
             {swap.counter_percentage}%
           </Text>
-          : <Spinner />
-        }
-        
+          : <Spinner /> }
       </CardItem>
-
     </Card>
   )
 }

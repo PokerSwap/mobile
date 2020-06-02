@@ -98,7 +98,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 			
 			buy_in:{
 
-				add: async ( image, a_table, a_seat, some_chips, a_flight_id, a_tournament_id, navigation) => {
+				add: async ( image, a_table, a_seat, some_chips, a_flight_id, a_tournament_id, a_tournament_name, a_tournament_start, navigation) => {
 					try{	
 						if (image == 3){
 							return customMessage('You need to select an image of your buyin ticket')
@@ -133,23 +133,18 @@ const getState = ({ getStore, setStore, getActions }) => {
 						.then((responseJson) => {
 							console.log('responseJson',responseJson)
 								newBuyin = responseJson;
+								console.log('newBuyin',newBuyin)
 						})
 						.catch((error) => {
 							console.log('error in json of image',error);
 						});
 
-						if(newBuyin.message == "Take another photo"){
-							return errorMessage(newBuyin.message)}
+						var validatingBuyin = await getActions().buy_in.edit(newBuyin.buyin_id, a_table, a_seat, some_chips, a_tournament_id, true)
 
-						var eeee = await getActions().buy_in.edit(newBuyin.buyin_id, a_table, a_seat, some_chips, a_tournament_id, true)
-						var rreee = await getActions().tournament.getCurrent(a_tournament_id)
-						var tournament = getStore().currentTournament
-
-						
-						var a5 = await navigation.push('EventLobby', {
-							tournament_name: tournament.name,
-							tournament_id: tournament.id,
-							tournament_start: tournament.start_at,
+						var enteringTournament = await navigation.push('EventLobby', {
+							tournament_name: a_tournament_name,
+							tournament_id: a_tournament_id,
+							tournament_start: a_tournament_start,
 							action: null
 						})
 
@@ -219,13 +214,11 @@ const getState = ({ getStore, setStore, getActions }) => {
 							console.log('error in json of edit buyin',error);
 						});
 
-						console.log('dddd', a_tournament_id)
-
-						var answer0 = await getActions().tracker.getAll()
-						var answer1 = await getActions().tournament.getInitial()
-						var answer2 = await getActions().tournament.getAction(a_tournament_id)
-						var answer3 = await getActions().tournament.getCurrent(a_tournament_id)
-						var answer4 = await getActions().buyin.getCurrent(a_buyin_id)
+						var refreshTrackers = await getActions().tracker.getAll()
+						var refreshTournaments = await getActions().tournament.getInitial()
+						var refreshAction = await getActions().tournament.getAction(a_tournament_id)
+						var refreshBuyin = await getActions().tournament.getCurrent(a_tournament_id)
+						var refreshSwap = await getActions().buyin.getCurrent(a_buyin_id)
 						return customMessage('Your buyin has been updated.')
 
 					}catch(error){
@@ -369,8 +362,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 								'Content-Type':'application/json'
 							}, 
 						})
-						.then(response => response.json)
-						.then(() => getActions().profile.get())
+						.then(response => response.json())
+						console.log('respond', response)
+						var x = await getActions().profile.get()
 
 					}catch(error){
 						console.log('Something went wrong with spending coins', error)
@@ -673,7 +667,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							+ ' just sent you a swap'
 						// var answer4 = await getActions().notification.send( 
 						// 	answer4, title, body, notifData )
-						navigation.goBack()
+						return responseMessage("Your swap was sent")
 						
 					}catch(error){
 						console.log('Something went wrong with adding a swap', error)
@@ -777,14 +771,13 @@ const getState = ({ getStore, setStore, getActions }) => {
 					}
 				},
 		
-				paid: async ( a_tournament_id, a_recipient_id, is_paid, navigation) => {
+				paid: async ( a_tournament_id, a_recipient_id, a_swap_id) => {
 					try{
-						const url = databaseURL + 'users/me/swaps/4/done'
+						const url = databaseURL + 'users/me/swaps/'+ a_swap_id + '/done'
 						let accessToken = getStore().userToken
 						let data = {
 							tournament_id: a_tournament_id,
-							recipient_id: a_recipient_id,
-							paid: is_paid
+							recipient_id: a_recipient_id
 						}
 
 						let response = await fetch(url,{
@@ -796,6 +789,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}
 						})
 						.then(response => response.json())
+						console.log('response', response)
+
+						var x = await getActions().tracker.getPast()
 
 					}catch(error){
 						console.log('Something went wrong with paying a swap', error)
@@ -1044,7 +1040,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					console.log('myEmail', myEmail)
 					// 20 DAY EXPIRATION
 					var time = (1000*60*60*24*20)
-
+					// console.log('deviceID', deviceID)
 					var data = {
 						email: myEmail,
 						password: myPassword,

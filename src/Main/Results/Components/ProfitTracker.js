@@ -1,96 +1,16 @@
-import React, { useContext, useState } from 'react';
-import {  ListItem, Text, Button, Icon  } from 'native-base';
-import { Image, Modal, Alert, View, TextInput, TouchableOpacity } from 'react-native'
+import React, { useContext, useState, useEffect } from 'react';
+import { ListItem, Text, Button } from 'native-base';
+import { Image, Modal, Alert } from 'react-native'
 import { Grid, Row, Col} from 'react-native-easy-grid'
+import  Spinner  from 'react-native-loading-spinner-overlay'
 
-import {Context} from '../../../Store/appContext'
+import { Context } from '../../../Store/appContext'
 
-import { Dropdown } from 'react-native-material-dropdown';
-
-
-AnModal = (props) => {
-  const {store, actions} = useContext(Context)
-
-  const paySwap = async() => {
-    var answer = actions.swap.paid(props.buyin.id)
-  }
-
-
-  return(
-
-      <View style={{
-        backgroundColor:'rgba(0,0,0,0.6)', 
-        height:'150%', alignContent:'stretch'}}>
-
-        <View style={{ 
-          alignSelf:'center', backgroundColor:'white', 
-          width:'80%', height:'40%', margin: 'auto',
-          position: 'relative',
-          top: '13%', left: 0, bottom: 0, right: 0}}>        
-          <Grid style={{marginVertical:10}}>
-            <Col style={{justifyContent:'center'}}>
-              <Row style={{justifyContent:'center', alignSelf:'center', width:'80%'}}>
-                <Text style={{fontSize:20, textAlign:'center'}}>
-                  Enter the type and amount of cash you're being paid
-                </Text>
-              </Row>
-              <Row style={{ justifyContent:'center', alignItems:'center', paddingTop:0}}>
-                <Icon type='FontAwesome5' name='money-bill-wave'/>
-                <Text style={{fontSize:24, textAlign:'center'}}>
-                {'  '}Payment Type
-                </Text>
-              </Row>
-
-              <View style={{width:'70%', alignSelf:'center', marginTop:-30}}>
-                <Dropdown label='Payment Type'
-                  style={{alignSelf:'center', width:'50%', fontSize:24}}
-                  data={[{value:'Cash'}, {value:'PayPal'}, {value:'Other'}]}/>
-              </View>
-
-              <View style={{flexDirection:'row', justifyContent:'center', marginBottom:10, marginTop:25}}>
-                <Icon type='FontAwesome5' name='dollar-sign'/>
-                <Text style={{fontSize:24, textAlign:'center'}}>
-                  {'  '}Cash Paid
-                </Text>
-              </View>
-
-              <TextInput style={{
-                padding:10, borderRadius:10, alignSelf:'center',fontSize:24, borderWidth:1, width:'50%', 
-                textAlign:'center',
-                borderColor:'rgba(0,0,0,0.2)'}}
-                placeholder='$100.00'
-                placeholderTextColor='gray' />
-
-            <Row style={{marginTop:20}}>
-              
-              <Col>
-                <TouchableOpacity onPress={()=>props.setVisible(false)}>
-                  <Text style={{textAlign:'center', fontSize:24}}>
-                    Submit
-                  </Text>
-                </TouchableOpacity>
-              </Col>
-
-              <Col>
-                <TouchableOpacity onPress={()=>props.setVisible(false)}>
-                  <Text style={{textAlign:'center', fontSize:24}}>
-                    Cancel
-                  </Text>
-                </TouchableOpacity>
-              </Col>
-              
-            </Row>
-            </Col>
-          </Grid>
-          
-        </View>
-      </View>
-  )
-}
+import PayModal from './PayModal'
 
 PayButton = (props) => {
   return(
-    <Button large 
+    <Button large onPress={() => props.fn()}
       style={{height:60, justifyContent:'center', backgroundColor:props.color}} >
       <Text style={{textAlign:'center', fontWeight:'600'}}>
         {props.message}
@@ -99,55 +19,65 @@ PayButton = (props) => {
   )
 }
 
-
 export default ProfitTracker = (props) => {
-
   const {store, actions} = useContext(Context)
-
   const [visible, setVisible] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [paid, setPaid] = useState(props.buyin.agreed_swaps[0].paid)
 
+  const paidAlert = () => {
+    Alert.alert(
+      "Paid Confirmation",
+      "Are you sure this person paid what they owe?",
+      [
+        {text: 'Yes', onPress: () => paySwap()},
+        {text: 'No', onPress: () => console.log("Cancel Pressed"),}
+      ]
+    )
+  }
 
-    const paidAlert = () => {
-      Alert.alert(
-        "Paid Confirmation",
-        "Are you sure this person paid what they owe?",
-        [
-          {text: 'Yes', onPress: () => setVisible(true)},
-          {text: 'No', onPress: () => console.log("Cancel Pressed"),}
-        ]
-      )
-    }
+  const payAlert = () => {
+    Alert.alert(
+      "Pay Confirmation",
+      "Are you sure you paid what you owe to this person?",
+      [
+        {text: 'Yes', onPress: () => setVisible(true)},
+        {text: 'No', onPress: () => console.log("Cancel Pressed"),}
+      ]
+    )
+  }
 
-    const payAlert = () => {
-      Alert.alert(
-        "Pay Confirmation",
-        "Are you sure you paid what you owe to this person?",
-        [
-          {text: 'Yes', onPress: () => setVisible(true)},
-          {text: 'No', onPress: () => console.log("Cancel Pressed"),}
-        ]
-      )
-    }
+  const paySwap = async() => {
+    setLoading(true)
+    var answer = actions.swap.paid(
+      props.buyin.recipient_buyin.tournament_id, props.buyin.recipient_user.id, props.buyin.agreed_swaps[0].id)
+    setPaid(true)
+    setVisible(false)
+    setLoading(false)
+  }
 
-    let swap_profit = props.buyin.they_owe_total - props.buyin.you_owe_total
+  const a = () => {
+    console.log('nothing')
+  }
 
-
-    console.log('buyin here',props.buyin)
+  let swap_profit = props.buyin.they_owe_total - props.buyin.you_owe_total
 
   return(
     <ListItem noIndent transparent 
       style={{justifyContent:'center'}}>
-
+      <Spinner visible={loading}/>
+      {/* MODAL */}
       <Modal
         animationType='fade'
         visible={visible}
         presentationStyle='overFullScreen'
         transparent={true}>
-        <AnModal setVisible={setVisible}/>  
+        <PayModal fn={paySwap} />  
       </Modal>
+      {/* MAIN BODY */}
       <Grid style={{justifyContent:'center',
         alignItems:'center', marginVertical:40}}>
-        
+        {/* USERS ROW */}
         <Row style={{justifyContent:'center'}}>
           <Col style={{width:'33%'}}></Col>
           {/* Your Profile */}
@@ -170,7 +100,6 @@ export default ProfitTracker = (props) => {
             </Text>
           </Col>
         </Row>
-
         {/* WINNINGS ROW */}
         <Row style={{padding:15}}>
           <Col style={{width:'33%'}}>
@@ -178,18 +107,23 @@ export default ProfitTracker = (props) => {
               Winnings
             </Text>
           </Col>
-          <Col style={{}}>
+          <Col>
+                {props.buyin.you_won ? 
             <Text style={{alignSelf:'center',  fontSize:24}}>
               ${props.buyin.you_won}
             </Text>
+            : <Text> Pending </Text>
+            }
           </Col> 
           <Col>
-            <Text style={{alignSelf:'center', fontSize:24}}>
+          {props.buyin.they_won ? 
+            <Text style={{alignSelf:'center',  fontSize:24}}>
               ${props.buyin.they_won}
             </Text>
-          </Col>
+            : <Text> Pending </Text>
+            }
+            </Col>
         </Row>
-        
         {/* INDIVIDUAL SWAPS ROW */}
         {props.agreed_swaps.map((swap, index) =>{
           return(
@@ -205,21 +139,25 @@ export default ProfitTracker = (props) => {
                   {swap.percentage}%
                 </Text>
                 <Text style={{fontSize:24, alignSelf:'center'}}>
-                  ${swap.you_owe}
+                  ${swap.you_owe.toFixed(2)}
                 </Text>
               </Col>
-              <Col style={{justifyContent:'flex-start'}}>
-                <Text style={{alignSelf:'center', fontSize:24, marginBottom:5, textAlign:'center'}}>
-                  {swap.counter_percentage}%
-                </Text>
-                <Text style={{fontSize:24, alignSelf:'center', textAlign:'center'}}>
-                  ${swap.they_owe}
+              {swap.they_owe ?
+                <Col style={{justifyContent:'flex-start'}}>
+                  <Text style={{alignSelf:'center', fontSize:24, marginBottom:5, textAlign:'center'}}>
+                    {swap.counter_percentage}%
                   </Text>
-              </Col>
+                  <Text style={{fontSize:24, alignSelf:'center', textAlign:'center'}}>
+                    ${swap.they_owe.toFixed(2)}
+                  </Text>
+                </Col>
+                :
+                <Col style={{justifyContent:'flex-start'}}>
+                  <Text style={{fontSize:36}}>-</Text>                
+                </Col>}
             </Row>
           )
         })}
-
         {/* TOTAL OWE ROW */}
         <Row style={{paddingTop:20, 
           borderTopWidth:1, borderColor:'#D3D3D3'}}>
@@ -228,43 +166,50 @@ export default ProfitTracker = (props) => {
           </Col>
           <Col >
             <Text style={{fontSize:24, fontWeight:'600',textAlign:'center'}}>
-              ${props.buyin.you_owe_total}
+              ${props.buyin.you_owe_total.toFixed(2)}
             </Text>
           </Col>
           
-          <Col>
-            <Text style={{
-              fontSize:24, fontWeight:'600',textAlign:'center'}}>
-              ${props.buyin.they_owe_total}
-            </Text>
+          <Col style={{justifyContent:'flex-start'}}>
+            {props.buyin.they_owe_total ?
+              <Text style={{
+                fontSize:24, fontWeight:'600',textAlign:'center'}}>
+                ${props.buyin.they_owe_total}
+              </Text>
+              :
+              <Text style={{fontSize:36, textAlign:'left'}}>-</Text>}
+            
           </Col>
           
         </Row>
-        
         {/* SWAP PROFIT OWE */}
         <Row>
+          {props.buyin.they_owe_total && props.buyin.you_owe_total ?
           <Text style={{ fontSize:36, fontWeight:'600',
           textAlign:'center', marginTop:30}}>
             Swap Profit {"\n"} ${swap_profit}
           </Text>
-        </Row>
-        
-        <Row style={{marginTop:30}}>
-          {swap_profit !== 0 ?
-            swap_profit > 0 ?
-              props.buyin.agreed_swaps[0].paid ?
-                <PayButton message={"You were Paid"} color={'green'}/>
-                : 
-                <PayButton message={"Waiting on Them"} color={'rgb(241, 191, 86)'}/>
-              :  
-              props.buyin.agreed_swaps[0].paid ?
-                <PayButton message={"You Paid"} color={'green'}/>
-                :
-                <PayButton message={"Pay Now"} color={'green'}/>
-            :
-          null}
-        </Row>
+          :
+          <Text style={{ fontSize:36, fontWeight:'600',
+          textAlign:'center', marginTop:30}}>
+            Swap Profit {"\n"} Pending
+          </Text>
+          }
 
+        </Row>
+        {/* PAY/PAID BUTTON */}
+        <Row style={{marginTop:30}}>
+          {swap_profit !== 0 && (props.buyin.they_owe_total && props.buyin.you_owe_total) ?
+            swap_profit > 0 ?
+              paid ?
+                <PayButton message={"You were Paid"} color={'green'} fn={a}/>
+                : <PayButton message={"Confirm Payment"} color={'rgb(241, 191, 86)'} fn={paidAlert}/>
+              :  
+              paid ?
+                <PayButton message={"You Paid"} color={'green'} fn={a}/>
+                : <PayButton message={"Pay Now"} color={'rgb(241, 191, 86)'} fn={payAlert} />
+            : null}
+        </Row>
       </Grid>
     </ListItem>
   )

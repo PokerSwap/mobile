@@ -10,11 +10,13 @@ export default EventBody = (props) => {
   var start_at = props.tournament.start_at
   var bgColor, textColor, borderWidths, buttonColor, path;
   
+
   const enterTournament = () => {
     props.navigation.push(path, {
       tournament_name: tournament.name,
       tournament_id: tournament.tournament_id,
-      tournament_start: tournament.start_at
+      tournament_start: tournament.start_at,
+      flight_id: tournament.id
     });
   }
 

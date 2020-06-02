@@ -23,7 +23,7 @@ export default EventLobby = (props) => {
       // cleanup
     }
   }, [null])
-
+ 
   const getTournament = async() => {
     try{
       var answer1 = await actions.tournament.getCurrent(tournament_id)

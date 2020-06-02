@@ -46,20 +46,21 @@ export default LoginScreen = (props) => {
     });
   } 
 
-  var deviceID
+  // var deviceID
 
-  getToken = async()=> {
-    deviceID = await firebase.messaging().getToken();
-  }
+  // getToken = async()=> {
+  //   deviceID = await firebase.messaging().getToken();
+  // }
   
-  getToken()
 
-  const loginStart = () => {
+
+  const loginStart = async() => {
     Keyboard.dismiss();
+    // var x = await getToken();
     setLoading(true)
-    console.log('before goign through', deviceID)
+    // console.log('before goign through', deviceID)
     actions.user.login(
-      email, password, deviceID, props.navigation )
+      email, password, 'deviceID', props.navigation )
     wait(3000).then(() => setLoading(false));
   }
   
@@ -69,15 +70,14 @@ export default LoginScreen = (props) => {
       backgroundColor={'rgb(38, 171, 75)'} StatusBarAnimation={'none'}/>
     <Spinner visible={loading} style={styles.spinner}/>
       <KeyboardAvoidingView  behavior={a_behavior} keyboardVerticalOffset={offBy}>
-        <TouchableWithoutFeedback  onPress={Keyboard.dismiss}>
-        <View>
+      <TouchableWithoutFeedback  onPress={Keyboard.dismiss}>
+      <View>
           
         {/* LOGO TITLE */}
-
-          <View header style={styles.logo.container}>
-            <Image style={styles.logo.image}
-			        source={require("../Images/transparent-logo.png")}/>
-          </View>  
+        <View header style={styles.logo.container}>
+          <Image style={styles.logo.image}
+            source={require("../Images/transparent-logo.png")}/>
+        </View>  
             
           <View transparent>
           

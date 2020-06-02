@@ -111,9 +111,9 @@ export default VerifyTicket = (props) => {
       }
     });
   };
-
+ 
   const BuyInStart = async() => await actions.buy_in.add( 
-    image, table, seat, chips, flight_id, tournament_id, props.navigation )
+    image, table, seat, chips, flight_id, tournament_id, tournament_name, tournament_start, props.navigation )
  
   const handler = throttle(BuyInStart, 1000, { leading: true, trailing: false });
  

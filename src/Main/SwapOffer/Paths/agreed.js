@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react'
-import {Text, Button, Card, CardItem} from 'native-base'
+import {Text, Button, Card, CardItem, Spinner} from 'native-base'
 
 import InactivePath from './inactive'
 
@@ -10,31 +10,26 @@ export default AgreedPath = (props) => {
   const {store, actions} = useContext(Context)
   const [again, setAgain] = useState(false)
 
-  const swapAdd = async() => {
-    var ee = await actions.swap.add(
-      props.tournament.id, props.buyin.user_id, props.swap.percentage, props.navigation)
-    props.navigation.goBack(null)
-  }
+  var {swap} = props, {buyin} = props;
 
   return(
     <Card transparent>
       <CardItem 
         style={{justifyContent:'center', flexDirection:'column'}}>
-        {!again ?
-          props.swap.percentage == props.swap.counter_percentage ?
+        {swap ?
+          swap.percentage == swap.counter_percentage ?
             <Text style={{textAlign:'center', fontSize:24, width:'80%'}}>
-              You and {props.buyin.user_name} agreed to swap{' '}
-              {props.swap.percentage}% 
+              You and {buyin.user_name} both agreed to swap{' '}
+              {swap.percentage}% 
             </Text>
             :
             <Text style={{textAlign:'center', fontSize:24}}>
-              You agreed to swap {props.swap.percentage}% while {'\n'}
-              {props.buyin.user_name} agreed to swap{' '}
-              {props.swap.counter_percentage}%
+              You agreed to swap {swap.percentage}% while {'\n'}
+              {buyin.user_name} agreed to swap{' '}
+              {swap.counter_percentage}%
             </Text>
           :
-          <InactivePath navigation={props.navigation} 
-            buyin={props.buyin} tournament={props.tournament}/>}
+          <Spinner/>}
 
 
       </CardItem>

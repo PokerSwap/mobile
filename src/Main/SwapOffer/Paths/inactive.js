@@ -6,6 +6,8 @@ import { Grid, Row, Col } from 'react-native-easy-grid'
 
 import { Context } from '../../../Store/appContext'
 
+import Spinner from 'react-native-loading-spinner-overlay'
+
 SpecialOffer = (props) => {
   return(
     <View>
@@ -147,6 +149,7 @@ export default InactivePath = (props) => {
   
   const [percentage, setPercentage] = useState(1)
   const [counterPercentage, setCounterPercentage] = useState(1)
+  const [loading, setLoading] = useState(false)
 
   const [visible, setVisible] = useState(false)
 
@@ -209,14 +212,17 @@ export default InactivePath = (props) => {
   }
 
   const swapStart = async() => {
-    
+    setLoading(true)
     var answer1 = await actions.swap.add(
       props.tournament.id, props.buyin.user_id, percentage, props.navigation);
-  }
+    setLoading(false)
+    props.navigation.goBack()
+
+ }
 
   return(
     <Card transparent>
-      
+      <Spinner visible={loading}/>
       {store.myProfile.coins > 0 ? 
         !visible ?
           <StandardOffer showAlert={showAlert}

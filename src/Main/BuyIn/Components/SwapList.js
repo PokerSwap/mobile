@@ -10,6 +10,7 @@ export default SwapList = (props) => {
   const {store, actions} = useContext(Context)
   var buttonColor, path, lastCol;
 
+
   var swapRows = props.allSwaps.map((swap, index) => {
 
     if (swap.status == 'agreed'){
@@ -91,11 +92,11 @@ export default SwapList = (props) => {
     
     const enterSwapOffer = async() => {
       props.navigation.push('SwapOffer',{
-        swap:swap,
+
         status: swap.status,
         buyin: props.buyin,
-        updated_at: labelTime,
         tournament: props.tournament,
+        swapID: swap.id
       });
     }
 
