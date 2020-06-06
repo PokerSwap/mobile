@@ -24,11 +24,11 @@ export default PendingPath = (props) => {
 
   var cancelSwap = async() => {
     setLoading(true)
+    props.setRefreshing(true)
     var answer = await actions.swap.statusChange(
-      props.tournament.id, swap.id, "canceled"
-    ) 
-    var act = await actions.coin.spend()
-    props.navigation.goBack()
+      props.tournament.id, swap.id, "canceled") 
+      props.setRefreshing(false)
+
     setLoading(false)
 
   }

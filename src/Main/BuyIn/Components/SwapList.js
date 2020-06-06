@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { Text, Icon } from 'native-base';
 import { Grid, Row, Col } from 'react-native-easy-grid'
+import moment from 'moment';
 
 import { Context } from '../../../Store/appContext'
 
@@ -89,6 +90,22 @@ export default SwapList = (props) => {
     var startDate =  day_name + '. ' + startMonth + '. ' + startDay
     var startTime = startHour + ':' + swapTime.substring(20,22) + startM
     var labelTime = startDate + ', ' +   startTime
+
+    var x = moment(props.buyin.updated_at).fromNow()
+    var y, since
+    if (x.includes('a ') || x.includes('an ')) { 
+      y = '1'
+    } else{
+      y = parseInt(x.replace(/[^0-9\.]/g, ''), 10);
+    }
+    if (x.includes('second')) { since = 'Just Now' } 
+    else if(x.includes('minute')){ since = y + 'm' } 
+    else if(x.includes('hour')){ since = y + 'h' } 
+    else if(x.includes('day')){ since = y + 'd' } 
+    else if(x.includes('week')){ since = y + 'w' }
+    else if(x.includes('month')){ since = y + 'M' }
+    else if(x.includes('year')){ since = y + 'Y' }
+    else{ null }
     
     const enterSwapOffer = async() => {
       props.navigation.push('SwapOffer',{
@@ -96,7 +113,9 @@ export default SwapList = (props) => {
         status: swap.status,
         buyin: props.buyin,
         tournament: props.tournament,
-        swapID: swap.id
+        swapID: swap.id,
+        buyinSince: since,
+        swapSince: labelTime
       });
     }
 

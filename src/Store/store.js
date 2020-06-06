@@ -172,13 +172,40 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}, 
 						})
 						var aaa = await response.json()
+						
 
-						var answer0 = await getActions().tracker.getAll()
+						var answer0 = await getActions().tracker.getCurrent()
 						var answer1 = await getActions().tournament.getInitial()
-						var answer2 = await getActions().tournament.getAction(a_tournament_id)
 						var answer3 = await getActions().tournament.getCurrent(a_tournament_id)
 					}catch(error){
 						console.log('Something went wrong with busting my buyin', error)
+					}
+				},
+
+				entry: async( a_buyin_id, a_place, some_cash, a_tournament_id ) => {
+					try {
+						let url = databaseURL + '/buy_ins/' + a_buyin_id
+						let accessToken = getStore().userToken
+						let data = {
+							place: parseInt(a_place),
+							winnings: some_cash.toString()
+						}
+	
+						let response = await fetch(url, {
+							method: 'PUT',
+							body: JSON.stringify(data),
+							headers: {
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							}, 
+						})
+						var aaa = await response.json()
+
+						var answer0 = await getActions().tracker.getPast()
+
+						
+					}catch(error){
+						
 					}
 				},
 
@@ -213,12 +240,13 @@ const getState = ({ getStore, setStore, getActions }) => {
 						.catch((error) => {
 							console.log('error in json of edit buyin',error);
 						});
+						console.log('a')
 
-						var refreshTrackers = await getActions().tracker.getAll()
+						var refreshTrackers = await getActions().tracker.getCurrent()
 						var refreshTournaments = await getActions().tournament.getInitial()
 						var refreshAction = await getActions().tournament.getAction(a_tournament_id)
 						var refreshBuyin = await getActions().tournament.getCurrent(a_tournament_id)
-						var refreshSwap = await getActions().buyin.getCurrent(a_buyin_id)
+						var refreshSwap = await getActions().buy_in.getCurrent(a_buyin_id)
 						return customMessage('Your buyin has been updated.')
 
 					}catch(error){
@@ -322,7 +350,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					
 					try{
 						const accessToken = getStore().userToken;
-						const url = databaseURL + 'users/me/transaction'
+						const url = databaseURL + '/me/transactions'
 
 						let data = {
 							coins: some_coins
@@ -348,7 +376,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					
 					try{
 						const accessToken = getStore().userToken;
-						const url = databaseURL + 'users/me/transaction'
+						const url = databaseURL + '/me/transactions'
 
 						let data = {
 							coins: -1
@@ -652,7 +680,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						console.log('response', response)
 
 						var gettingProfile = await getActions().profile.get()
-						var gettingAllTrackers = await getActions().tracker.getAll()
+						var gettingAllTrackers = await getActions().tracker.getCurrent()
 						var gettingAllTrackers = await getActions().tournament.getCurrent(a_tournament_id)		
 						var answer3 = await getActions().tournament.getAction(a_tournament_id)	
 						var answer4 = await getActions().deviceToken.retrieve(a_recipient_id)
@@ -667,6 +695,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							+ ' just sent you a swap'
 						// var answer4 = await getActions().notification.send( 
 						// 	answer4, title, body, notifData )
+						var ss = await getActions().swap.getCurrent(response[0].id) 
 						return responseMessage("Your swap was sent")
 						
 					}catch(error){
@@ -717,19 +746,26 @@ const getState = ({ getStore, setStore, getActions }) => {
 					}
 				},
 
-				statusChange: async ( a_tournament_id, my_swap_id, a_status, a_percentage ) => {
+				statusChange: async ( a_tournament_id, my_swap_id, a_status, a_percentage, a_counter_percentage ) => {
 					try{
 						const url = databaseURL + 'me/swaps/' + my_swap_id
 						let accessToken = getStore().userToken
 						let data 
 						
-						a_percentage == undefined ?
+						!a_percentage ?
 						 	data = { status: a_status }
-							:
-							data = {
-								status: a_status,
-								percentage: a_percentage
-							}
+							: 
+							a_counter_percentage ?
+								data ={
+									status: a_status,
+									percentage: a_percentage,
+									counter_percentage: a_counter_percentage
+								}
+								:
+								data = {
+									status: a_status,
+									percentage: a_percentage
+								}
 
 							console.log('data',data)
 
@@ -743,9 +779,14 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 						.then(response => response.json())
 						console.log('response',response)
-						var answer1 = await getActions().tracker.getAll()
-						var answer2 = await getActions().tournament.getCurrent(a_tournament_id)
-						var answer3 = await getActions().tournament.getAction(a_tournament_id)
+						if (a_status == 'canceled'){
+							var a = await getActions().coin.spend()
+						}else{null}
+						var getSwap = await getActions().swap.getCurrent(my_swap_id)
+						var getProfule = await getActions().profile.get()
+						var getCurrentTrackers = await getActions().tracker.getCurrent()
+						var getCurrentTournament = await getActions().tournament.getCurrent(a_tournament_id)
+						var getCurrentAction = await getActions().tournament.getAction(a_tournament_id)
 						console.log('eee', response.message, typeof(response.message))
 						var f
 						if (response.message !== undefined){
@@ -817,7 +858,25 @@ const getState = ({ getStore, setStore, getActions }) => {
 					} catch(error){
 						console.log('Something went wrong in getting action from a tournament', error)
 					}
-				},			
+				},	
+				
+				retrieveAction: async ( a_tournament_id ) => {
+					try{
+						const url = databaseURL + 'swaps/me/tournament/' + a_tournament_id;
+						const accessToken = getStore().userToken ;
+						let response = await fetch(url, {
+							method: 'GET',
+							headers: {
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							}, 
+						})
+						var aCurrentAction = await response.json()
+						return(aCurrentAction)
+					} catch(error){
+						console.log('Something went wrong in getting action from a tournament', error)
+					}
+				},	
 
 				getCurrent: async( a_tournament_id ) => {
 					try{
@@ -941,7 +1000,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 			tracker: {
 
-				getAll: async() => {
+				getCurrent: async() => {
 					try{
 						const url = databaseURL + 'me/swap_tracker'
 						let accessToken = getStore().userToken
@@ -954,8 +1013,22 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 
 						let trackerData = await response.json()
-						// console.log('trackerData',trackerData)
-						setStore({myTrackers: trackerData})
+						
+						var getIds = trackerData.map(tracker => tracker.tournament.id)
+						
+						const asyncRes = await Promise.all(getIds.map(async (i) => {
+							 var e = await getActions().tournament.retrieveAction(i);
+							return e;
+						}));
+						
+						var newTrackerData = trackerData.map((tracker, index)=> {						
+							return({
+								...tracker,
+								action:asyncRes[index].actions
+							})
+						})
+
+						setStore({myTrackers: newTrackerData})
 						
 					} catch(error){
 						console.log('Something went wrong in getting all trackers', error)
@@ -1026,7 +1099,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						resolve(
 						getActions().deviceToken.get()
 						.then(() => getActions().tournament.getInitial())	
-						.then(() => getActions().tracker.getAll())
+						.then(() => getActions().tracker.getCurrent())
 						.then(() => getActions().tracker.getPast())
 						.then(() => getActions().notification.check(navigation))
 							))
@@ -1062,7 +1135,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 								if(getStore().myProfile != 'error' && getStore().myProfile){
 									getActions().deviceToken.store(myDeviceID)
 									.then(() => getActions().tournament.getInitial())
-									.then(() => getActions().tracker.getAll())
+									.then(() => getActions().tracker.getCurrent())
 									.then(() => getActions().tracker.getPast())
 									.then(() => navigation.navigate('Swaps'))
 								} else { 
@@ -1194,7 +1267,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							console.log('responseJson',responseJson)
 						})
 						.catch((error) => {
-							console.log('error in json',error);
+							console.log('error in changing json',error);
 						});
 						var errew = await getActions().profile.get()
 						return(Toast({

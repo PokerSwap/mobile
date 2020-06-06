@@ -19,7 +19,6 @@ export default ProfileBio = (props) => {
 
   var aProfile
   var getProfile = async() =>{
-      console.log('eeee',props.user_id)
       var ass = await actions.profile.view(props.user_id)
       console.log('profile', profile, store.profileView)
       var x = await setProfile(store.profileView)

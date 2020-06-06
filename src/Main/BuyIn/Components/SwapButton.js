@@ -1,5 +1,5 @@
 
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { View } from 'react-native'
 import { Text, Button, Icon } from 'native-base';
 import { Col } from 'react-native-easy-grid'
@@ -10,6 +10,16 @@ import { Context } from '../../../Store/appContext'
 
 export default SwapButton = (props) => {
   const { store, actions } = useContext(Context)
+
+  const [busted, setBusted] = useState(false)
+
+  useEffect(() => {
+    props.buyin.chips == 0 ? setBusted(true) : setBusted(false)
+
+    return () => {
+      // cleanup
+    }
+  }, [busted])
 
   var x = moment(props.updated_at).fromNow()
   var y, since
@@ -35,6 +45,7 @@ export default SwapButton = (props) => {
 
   var lastCol, buttonColor, path, swapID;
  
+  var page = "SwapOffer"
   // YOUR SWAP VIEW
   if (props.buyin.user_id == store.myProfile.id){
     lastCol = 
@@ -93,13 +104,21 @@ export default SwapButton = (props) => {
             style={{fontSize:12,paddingTop:3,color:'white', textAlign:'center'}} />
         </View>
       </View>
-    path = "inactive";
+    props.action !== 50 ? path = "inactive" : path = null
     buttonColor = null;
     swapID = allStatuses[allStatuses.indexOf('incoming')-1] 
   
-  } 
+  } else if (props.action == 50){
+    lastCol = 
+      <Text style={{alignSelf:'center', fontSize:18, fontWeight:'bold'}}>
+        Full
+      </Text>;
+    buttonColor= 'red';
+    path = null
+  }
   // INACTIVE SWAP OFFER VIEW
   else {
+
     lastCol = 
       <Icon type="FontAwesome5" name="handshake" 
         style={{alignSelf:'center', fontSize:24}} />;
@@ -109,12 +128,26 @@ export default SwapButton = (props) => {
 
   const enterSwapOffer = async() => {
     console.log('swapID',swapID)
-    props.navigation.push('SwapOffer',{
-        status: path,
-        buyin: props.buyin,
-        tournament: props.tournament,
-        swapID: swapID
+    if(props.buyin.chips !== 0){
+      if(path){
+        props.navigation.push('SwapOffer',{
+          status: path,
+          buyin: props.buyin,
+          tournament: props.tournament,
+          buyinSince: since,
+          swapID: swapID
+      })}else{null} 
+    } else{
+      props.navigation.push('VerifyTicket',{
+        tournament_name: props.tournament.name,
+        tournament_id: props.buyin.tournament_id,
+        tournament_start: props.tournament.start_at,
+        flight_id: props.buyin.flight_id
+        
     })  
+      
+    }
+    
   }
 
   const handler = throttle(enterSwapOffer, 1000, { leading: true, trailing: false });

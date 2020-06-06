@@ -35,7 +35,7 @@ export default Categories = (props) => {
   const { store, actions } = useContext(Context)  
 
   const goToCategory = async() => {
-    var answer1 = await actions.tracker.getAll()
+    var answer1 = await actions.tracker.getCurrent()
     var answer2 = await actions.tracker.getPast()
     var answer3 = await actions.tournament.getInitial()
     props.navigation.navigate('SwapDashboard')

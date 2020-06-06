@@ -24,8 +24,7 @@ export default SettingsScreen = (props) => {
           <ListItem noIndent 
             onPress={()=> props.navigation.push('ChangePassword', {
               navigation: props.navigation
-            }
-            )}>
+            })}>
             <Text> Change Password </Text>
           </ListItem>
           
@@ -33,15 +32,6 @@ export default SettingsScreen = (props) => {
             onPress={()=> props.navigation.navigate('ChangePicture')}>
             <Text> Change Profile Picture </Text>
           </ListItem>
-          
-          
-          
-          {/* <ListItem noIndent 
-            onPress={()=> props.navigation.push('SettingsChanger', {
-              setting:'leaveFeedback'
-            })}>
-            <Text> Leave Feedback </Text>
-          </ListItem> */}
           
         </List>
        

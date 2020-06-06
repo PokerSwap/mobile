@@ -17,24 +17,36 @@ PriceOption = (props) => {
   const { store, actions } = useContext(Context)
   const [ complete, setComplete ] = useState(true)
 
-  const startBuying = async (description, amount) => {
+  // const startBuying = async (description, amount) => {
 
-    const options = {
-      requiredBillingAddressFields: ['all'],
-      requiredShippingAddressFields: ['phone', 'postal_address'],
-    }
-    const items = [{ label: description, amount: amount }]
-    const token = await stripe.paymentRequestWithApplePay(items, options)
+  //   const options = {
+  //     requiredBillingAddressFields: ['all'],
+  //     requiredShippingAddressFields: ['phone', 'postal_address'],
+  //   }
+  //   const items = [{ label: description, amount: amount }]
+  //   const token = await stripe.paymentRequestWithApplePay(items, options)
       
-    if(complete){        
-      await stripe.completeApplePayRequest()
-      console.log('ITT SHOULD WORKKKKK')
-      var answer2 = await actions.coins.buy(props.coins)
-    } else{
-      await stripe.completeApplePayRequest()
-      console.log('CUT MY LIFE int PIECCES')
+  //   if(complete){        
+  //     await stripe.completeApplePayRequest()
+  //     console.log('ITT SHOULD WORKKKKK')
+  //     var answer2 = await actions.coins.buy(props.coins)
+  //   } else{
+  //     await stripe.completeApplePayRequest()
+  //     console.log('CUT MY LIFE int PIECCES')
+  //   }
+  // }
+
+    // CONFIRMATION ALERT
+    const confirmationAlert = () => {
+      Alert.alert(
+        "Confirmation",
+        'Are you want to counter this swap?',
+        [
+          { text: 'Yes', onPress: () => actions.coin.buy(props.coins)},
+          { text: 'No', onPress: () => console.log("Cancel Pressed")}
+        ]
+      )
     }
-  }
 
   return(
     <Col style={{ 
@@ -51,7 +63,9 @@ PriceOption = (props) => {
       </Text>
 
       <Button full style={{ alignSelf:'center', justifyContent:'center', width:'100%'}} 
-       onPress={()=> startBuying('for ' + props.coins.toString() + ' Swap Tokens', props.dollars.toString())}>
+        //  onPress={()=> startBuying('for ' + props.coins.toString() + ' Swap Tokens', props.dollars.toString())}
+       onPress={() => confirmationAlert()}
+       >
         <Text style={{textAlign:'center'}}>
           ${props.dollars}
         </Text>
@@ -64,19 +78,19 @@ export default PurchaseTokens = (props) => {
 
   const { store, actions } = useContext(Context)
 
-  requestPayment = () => {
-    return stripe
-      .paymentRequestWithCardForm()
-      .then(stripeTokenInfo => {
-        console.warn('Token created', { stripeTokenInfo });
-      })
-      .catch(error => {
-        console.warn('Payment failed', { error });
-      });
-  };[{
-    label: '10 Tokens',
-    amount: '1.99',
-  }]
+  // requestPayment = () => {
+  //   return stripe
+  //     .paymentRequestWithCardForm()
+  //     .then(stripeTokenInfo => {
+  //       console.warn('Token created', { stripeTokenInfo });
+  //     })
+  //     .catch(error => {
+  //       console.warn('Payment failed', { error });
+  //     });
+  // };[{
+  //   label: '10 Tokens',
+  //   amount: '1.99',
+  // }]
 
 
   return(

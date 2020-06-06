@@ -1,15 +1,11 @@
-import React, {useState, useContext } from 'react'
-import {Card, CardItem, Text, Spinner} from 'native-base'
-
-import { Context } from '../../../Store/appContext'
+import React, { useState } from 'react'
+import { Card, CardItem, Text, Spinner } from 'native-base'
 
 import CounterPath from './counter'
 import OfferPath from './offer'
 
 export default IncomingPath = (props) => {
-  const { store, actions } = useContext(Context)
   const [counter, setCounter] = useState(false)
-
   var {swap} = props;
 
   return(
@@ -29,22 +25,25 @@ export default IncomingPath = (props) => {
               {swap.counter_percentage}%{' '}
               while you swap {swap.percentage}%
             </Text>
-          : <Spinner />
-          } 
+          : <Spinner />} 
       </CardItem>
 
       {swap ?
-        counter == false ?
+        !counter ?
           <OfferPath navigation={props.navigation}
-            percentage={swap.percentage} counter_percentage={swap.counter_percentage}
-            tournament_id={props.tournament_id} counter={counter} setCounter={setCounter} swap_id={swap.id} />
+            swap_id={swap.id}
+            percentage={swap.percentage} 
+            counter_percentage={swap.counter_percentage}
+            tournament_id={props.tournament_id} 
+            counter={counter} setCounter={setCounter}/>
           :
-          <CounterPath navigation={props.navigation} swap_id={swap.id}
-            percentage={swap.percentage} counter_percentage={swap.counter_percentage}
-          
-            tournament_id={props.tournament_id} counter={counter} setCounter={setCounter} />
-        : null
-      } 
+          <CounterPath navigation={props.navigation} 
+            swap_id={swap.id}
+            percentage={swap.percentage} 
+            counter_percentage={swap.counter_percentage}
+            tournament_id={props.tournament_id} 
+            counter={counter} setCounter={setCounter} />
+        : null} 
     </Card>
   )
 }

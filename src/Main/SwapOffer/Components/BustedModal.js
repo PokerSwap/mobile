@@ -1,42 +1,71 @@
 import React, { useState, useContext } from 'react'
-import { TextInput, View, TouchableOpacity } from 'react-native'
+import { KeyboardAvoidingView, TextInput, View, TouchableOpacity } from 'react-native'
 import { Text, Icon } from 'native-base'
 import { Grid, Row, Col } from 'react-native-easy-grid'
 
 import {Context} from '../../../Store/appContext'
 
+import Spinner from 'react-native-loading-spinner-overlay'
+
+
 export default BustedModal = (props) => {
   const { store, actions } = useContext(Context)
   const [place, setPlace] = useState('')
   const [winnings, setWinnings] = useState('')
+  const [mode, setMode] = useState(props.mode)
 
+  const [loading, setLoading] = useState(false)
   var txtWinnings = null
-console.log('a', props.buyin_id)
-console.log('b', props.newTable)
 
-console.log('c', props.newSeat)
+  var a_behavior, offBy;
 
-console.log('d', props.newChips)
-
-console.log('e', props.tournament_id)
-
+  if (Platform.OS == 'ios'){
+    a_behavior='position' 
+     offBy= -300
+    // marginee=20
+  }else{
+    a_behavior='padding'
+    offBy = -600
+    // marginee = 30
+  }
 
   var bustedComplete = async() => {
-    props.setNewChips(0)
-    props.setLoading(true)
+    if (mode=='busted'){
+      props.setNewChips(0)
+      setLoading(true)
+      var answer1 = await actions.buy_in.edit(
+        props.buyin_id, props.newTable, props.newSeat, 0, props.tournament_id, false)
+      var answer2 = await actions.buy_in.busted(
+        props.buyin_id, place, winnings, props.tournament_id )
+      console.log('done')
+        setLoading(false)
+        props.navigation.goBack()
+      props.setVisible(false)
+    }else if(mode=='entry'){
+      setLoading(true)
+      var answer2 = await actions.buy_in.entry(
+        props.buyin_id, place, winnings, props.tournament_id )
+      
+      setLoading(false)
+      props.setVisible(false)
+    }else{
+      null
+    }
+
     var answer1 = await actions.buy_in.edit(
       props.buyin_id, props.newTable, props.newSeat, 0, props.tournament_id, false)
-    var answer2 = await actions.buy_in.busted(
-      props.buyin_id, place, winnings, props.tournament_id )
-    props.setLoading(false)
-    props.setVisible(false)
+
   } 
 
   return(
+    <KeyboardAvoidingView  behavior={a_behavior} keyboardVerticalOffset={offBy}>
+         <View style={modalStyles.background}>
 
-      <View style={modalStyles.background}>
+
         <View style={ modalStyles.main }>        
-          
+         
+         <Spinner visible={loading}/>
+
           <Text style={{fontSize:24, textAlign:'center'}}>
             Enter your place and cash amount you won.
           </Text>
@@ -49,7 +78,6 @@ console.log('e', props.tournament_id)
                 <Text style={ modalStyles.field.text }>
                 {'  '}Place
                 </Text>
-              </View>
 
               <TextInput 
                 style={ modalStyles.field.textInput }
@@ -61,13 +89,13 @@ console.log('e', props.tournament_id)
                 onSubmitEditing={() => { txtWinnings.focus(); }}
                 value={place}    
                 onChangeText={placeX => setPlace( placeX )}/>
-           
+              </View>
+
               <View style={modalStyles.field.view}>
                 <Icon type='FontAwesome5' name='dollar-sign'/>
                 <Text style={modalStyles.field.text}>
-                  {'  '}Cash Amount
+                  {'  '}Cash
                 </Text>
-              </View>
 
               <TextInput 
                 style={modalStyles.field.textInput}
@@ -79,6 +107,7 @@ console.log('e', props.tournament_id)
                 blurOnSubmit={true}
                 value={winnings}    
                 onChangeText={winningsX => setWinnings( winningsX )} />
+              </View>
 
               <Row style={{marginTop:20, justifyContent:'space-around'}}>
               
@@ -96,9 +125,12 @@ console.log('e', props.tournament_id)
               </Row>
             </Col>
           </Grid>
-          
+
         </View>
+
       </View>
+      </KeyboardAvoidingView> 
+
   )
 }
 
@@ -112,17 +144,17 @@ const modalStyles = {
   },
   field:{
     text:{
-      fontSize:24, textAlign:'center'},
+      fontSize:24, textAlign:'center', marginRight:15},
     textInput:{
       padding:10, borderRadius:10, alignSelf:'center',
       fontSize:24, borderWidth:1, width:'50%', 
       textAlign:'center', borderColor:'rgba(0,0,0,0.2)' },
     view:{
-      flexDirection:'row', justifyContent:'center', 
+      flexDirection:'row', justifyContent:'center', alignItems:'center',
       marginBottom:10, marginTop:25 }
   },
   main:{ 
     padding:15, alignSelf:'center', backgroundColor:'white', 
-    width:'80%', height:'65%', margin: 'auto', position: 'relative',
-    top: '25%', left: 0, bottom: 0, right: 0}
+    width:'80%', height:'50%', margin: 'auto', position: 'relative',
+    top: '10%', left: 0, bottom: 0, right: 0}
 }

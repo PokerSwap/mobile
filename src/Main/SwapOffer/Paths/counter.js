@@ -1,19 +1,30 @@
 import React, {useContext, useState} from 'react'
-
-import {View, Alert, TouchableOpacity} from 'react-native'
+import { Alert } from 'react-native'
 import {Text, Card, Button, CardItem} from 'native-base'
 
 import {Context} from '../../../Store/appContext'
+import StandardOffer from './standardOffer'
+import SpecialOffer from './specialOffer'
+
 
 export default CounterPath = (props) => {
-
   const { store, actions } = useContext(Context)
-
   const [ percentage, setPercentage ] = useState( props.percentage )
-  const [ new_percentage, setNewPercentage ] = useState(0)
-  
-  const showAlert = () => {
+  const [ cPercentage, setCPercentage ] = useState( props.counter_percentage )
 
+  const [ offerPath, setOfferPath] = useState(true)
+  
+  const [visible, setVisible] = useState(false)
+
+
+  var counterSwitch = () => {
+    setOfferPath(!offerPath)
+    setVisible(!visible)
+    setCPercentage(percentage)
+  }
+
+  // CONFIRMATION ALERT
+  const confirmationAlert = () => {
     Alert.alert(
       "Confirmation",
       'Are you want to counter this swap?',
@@ -25,74 +36,79 @@ export default CounterPath = (props) => {
   }
 
   const swapCounter = async() => {
-    var answer = await actions.swap.statusChange(
-      props.tournament_id, props.swap_id, 'pending', percentage )
-    props.navigation.goBack()
-  }
-
-  // ADDING PERCENT TO SWAP - NO MORE THAN 50%
-  const add = () => {
-    if(percentage < 50){
-      setPercentage(percentage + 1)
-      setNewPercentage(new_percentage + 1)
-      console.log('newper', new_percentage)
+    if(offerPath){
+      var answer = await actions.swap.statusChange(
+        props.tournament_id, props.swap_id, 'pending', percentage )
     }else{
-      setPercentage(50)
+      var answer2 = await actions.swap.statusChange(
+        props.tournament_id, props.swap_id, 'pending', percentage, cPercentage )
     }
   }
 
-  // SUBTRACTING PERCENT FROM SWAP - NO MORE THAN 50%
-  const subtract = () => {
-    if (percentage > 1){
-      setPercentage(percentage - 1)
-      setNewPercentage(new_percentage -1)
-    } else{
-      setPercentage(1)
-    }
+  const pAdd = () => {
+    percentage < 50 ? 
+      setPercentage(percentage+ 1) : setPercentage(50)
+  }
+
+  const pSubtract = () => {
+    percentage > 1 ? 
+      setPercentage(percentage-1) : setPercentage(1)
+  }
+
+  const cAdd = () => {
+    cPercentage < 50 ? 
+      setCounterPercentage(cPercentage+ 1) 
+      : setCPercentage(50)
+  }
+
+  const cSubtract = () => {
+    cPercentage > 1 ? 
+      setCPercentage(cPercentage-1) 
+      : setCPercentage(1)
+  }
+
+  const tAdd = () => {
+    if(percentage < 50){
+      setPercentage(percentage + 1) 
+      setCPercentage(percentage) 
+    } else {
+      setPercentage(50), setCPercentage(50)
+    }     
+  }
+
+  const tSubtract = () => {
+    if(percentage > 1){
+      setPercentage(percentage - 1) 
+      setCPercentage(percentage) 
+    } else {
+      setPercentage(1), setCPercentage(1)
+    }     
   }
 
   return(
     <Card transparent style={{
-      alignSelf:'center', width:'80%', justifyContent:'center'}}>
-
-      <CardItem style={{justifyContent:'center'}}>
+      alignSelf:'center', width:'90%', justifyContent:'center'}}>
+      {offerPath ?
+        <StandardOffer confirmationAlert={confirmationAlert}
+        counterSwitch={counterSwitch}
+        percentage={percentage}
+        tAdd={tAdd} tSubtract={tSubtract} />
+        :
+        <SpecialOffer confirmationAlert={confirmationAlert}
+          counterSwitch={counterSwitch}
+          percentage={percentage}
+          counterPercentage={cPercentage}
+          pAdd={pAdd} pSubtract={pSubtract}
+          cAdd={cAdd} cSubtract={cSubtract} />}
         
-        <Text style={{fontSize:36, marginHorizontal:10}}> 
-          {props.percentage}% 
-        </Text>
-        <TouchableOpacity onPress={()=> subtract()} >
-          <View style={{
-            width:100, height:100, borderRadius: 5, backgroundColor:'blue'}}>
-            <Text style={{fontSize:36, color:'white', textAlign:'center'}}>
-              -
-            </Text>
-          </View>
-        </TouchableOpacity>
 
-        <TouchableOpacity onPress={()=> add()} >
-          <View style={{
-            width:100, height:100, borderRadius: 5, backgroundColor:'blue'}}>
-            <Text style={{
-              fontSize:36, color:'white', textAlign:'center'}}>
-              +
-            </Text>
-          </View>
-        </TouchableOpacity>
-
-      </CardItem>
-
-        <CardItem>
-          <Button large success 
-            onPress={()=> showAlert()}>
-            <Text> SEND SWAP </Text>
-          </Button>
-        </CardItem>
 
         <CardItem>
           <Button large info 
             onPress={()=> props.setCounter(!props.counter)}>
             <Text>Go Back</Text>
           </Button>
+
         </CardItem>
 
     </Card>

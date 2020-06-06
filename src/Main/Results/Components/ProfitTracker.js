@@ -25,6 +25,10 @@ export default ProfitTracker = (props) => {
   const [loading, setLoading] = useState(false)
   const [paid, setPaid] = useState(props.buyin.agreed_swaps[0].paid)
 
+  // const [loading, setLoading] = useState(false)
+  // const [loading, setLoading] = useState(false)
+
+
   const paidAlert = () => {
     Alert.alert(
       "Paid Confirmation",
@@ -62,6 +66,10 @@ export default ProfitTracker = (props) => {
 
   let swap_profit = props.buyin.they_owe_total - props.buyin.you_owe_total
 
+  let final_swap_profit
+  swap_profit < 0 ?
+    final_swap_profit = '-$' + Math.abs(swap_profit).toFixed(2)
+    : final_swap_profit = "$" + Math.abs(swap_profit).toFixed(2)
   return(
     <ListItem noIndent transparent 
       style={{justifyContent:'center'}}>
@@ -108,21 +116,19 @@ export default ProfitTracker = (props) => {
             </Text>
           </Col>
           <Col>
-                {props.buyin.you_won ? 
-            <Text style={{alignSelf:'center',  fontSize:24}}>
-              ${props.buyin.you_won}
-            </Text>
-            : <Text> Pending </Text>
-            }
+            {props.buyin.you_won ? 
+              <Text style={{alignSelf:'center',  fontSize:24}}>
+                ${parseInt(props.buyin.you_won).toFixed(2)}
+              </Text>
+              : <Text> Pending </Text>}
           </Col> 
           <Col>
-          {props.buyin.they_won ? 
-            <Text style={{alignSelf:'center',  fontSize:24}}>
-              ${props.buyin.they_won}
-            </Text>
-            : <Text> Pending </Text>
-            }
-            </Col>
+            {props.buyin.they_won ? 
+              <Text style={{alignSelf:'center',  fontSize:24}}>
+                ${parseInt(props.buyin.they_won).toFixed(2)}
+              </Text>
+              : <Text> Pending </Text>}
+          </Col>
         </Row>
         {/* INDIVIDUAL SWAPS ROW */}
         {props.agreed_swaps.map((swap, index) =>{
@@ -134,6 +140,7 @@ export default ProfitTracker = (props) => {
                   Swap {index + 1}
                 </Text>
               </Col>
+              {swap.you_owe ?
               <Col>
                 <Text style={{ fontSize:24, alignSelf:'center', marginBottom:5}}>
                   {swap.percentage}%
@@ -142,6 +149,13 @@ export default ProfitTracker = (props) => {
                   ${swap.you_owe.toFixed(2)}
                 </Text>
               </Col>
+              :
+              <Col style={{justifyContent:'flex-start'}}>
+                <Text style={{alignSelf:'center', fontSize:24, marginBottom:5, textAlign:'center'}}>
+                  {swap.counter_percentage}%
+                </Text>
+                <Text style={{fontSize:36}}>-</Text>                
+              </Col>}
               {swap.they_owe ?
                 <Col style={{justifyContent:'flex-start'}}>
                   <Text style={{alignSelf:'center', fontSize:24, marginBottom:5, textAlign:'center'}}>
@@ -153,6 +167,9 @@ export default ProfitTracker = (props) => {
                 </Col>
                 :
                 <Col style={{justifyContent:'flex-start'}}>
+                  <Text style={{alignSelf:'center', fontSize:24, marginBottom:5, textAlign:'center'}}>
+                    {swap.counter_percentage}%
+                  </Text>
                   <Text style={{fontSize:36}}>-</Text>                
                 </Col>}
             </Row>
@@ -165,16 +182,19 @@ export default ProfitTracker = (props) => {
             <Text style={{fontSize:24}}>Total</Text>
           </Col>
           <Col >
-            <Text style={{fontSize:24, fontWeight:'600',textAlign:'center'}}>
-              ${props.buyin.you_owe_total.toFixed(2)}
-            </Text>
+            {props.buyin.you_owe_total ?
+              <Text style={{fontSize:24, fontWeight:'600',textAlign:'center'}}>
+                ${props.buyin.you_owe_total.toFixed(2)}
+              </Text>
+              :
+              <Text style={{fontSize:36, textAlign:'left'}}>-</Text>}
           </Col>
           
           <Col style={{justifyContent:'flex-start'}}>
             {props.buyin.they_owe_total ?
               <Text style={{
                 fontSize:24, fontWeight:'600',textAlign:'center'}}>
-                ${props.buyin.they_owe_total}
+                ${props.buyin.they_owe_total.toFixed(2)}
               </Text>
               :
               <Text style={{fontSize:36, textAlign:'left'}}>-</Text>}
@@ -185,16 +205,15 @@ export default ProfitTracker = (props) => {
         {/* SWAP PROFIT OWE */}
         <Row>
           {props.buyin.they_owe_total && props.buyin.you_owe_total ?
-          <Text style={{ fontSize:36, fontWeight:'600',
-          textAlign:'center', marginTop:30}}>
-            Swap Profit {"\n"} ${swap_profit}
-          </Text>
-          :
-          <Text style={{ fontSize:36, fontWeight:'600',
-          textAlign:'center', marginTop:30}}>
-            Swap Profit {"\n"} Pending
-          </Text>
-          }
+            <Text style={{ fontSize:36, fontWeight:'600',
+            textAlign:'center', marginTop:30}}>
+              Swap Profit {"\n"} {final_swap_profit}
+            </Text>
+            :
+            <Text style={{ fontSize:36, fontWeight:'600',
+            textAlign:'center', marginTop:30}}>
+              Swap Profit {"\n"} Pending
+            </Text>}
 
         </Row>
         {/* PAY/PAID BUTTON */}

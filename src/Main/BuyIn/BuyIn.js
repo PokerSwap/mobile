@@ -124,21 +124,16 @@ export default BuyIn = (props) => {
         {/* BUSTED TITLE */}
         {buyin.chips == 0 ?
           <Row style={{backgroundColor:'red', 
-            justifyContent:'center', paddingTop:10}}>
-            <Text style={{color:'white', fontSize:24, 
+            justifyContent:'space-around', paddingTop:10}}>
+            <Text style={{color:'white', fontSize:16, 
               fontWeight:'600', textAlign:'center'}}>
               BUSTED
             </Text>
+            <Text style={{fontWeight:'600',color:'white'}}>Place: {buyin.place}</Text>
+            <Text style={{fontWeight:'600',color:'white'}}>Cashed: ${parseInt(buyin.winnings).toFixed(2)}</Text>
           </Row>
           : null }
-        {/* BUSTED INFORMATION */}
-        { buyin.chips == 0 ?
-          <Row style={{justifyContent:'space-around'}}>
-            <Text style={{color:'white'}}>Place: {buyin.place}</Text>
-            <Text style={{color:'white'}}>Cashed Out: {buyin.winnings}</Text>
-          </Row>
-          : 
-          null }
+
       </Grid>
       {/* BUTTON ACCORDION */}
       { allSwaps !== null ?

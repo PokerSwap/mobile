@@ -24,11 +24,12 @@ export default EditPath = (props) => {
 
   const buyinEdit = async() => {
     if(newChips !== '0'){
-    setLoading(!loading)
+    setLoading(true)
     var answer = await actions.buy_in.edit(
       props.buyin.id, newTable, newSeat, newChips, props.buyin.tournament_id, false
     )
-    var x = setLoading(false)
+    props.setRefreshing(true)
+    setLoading(false)
     }else{
       bustedAlert()
     }
@@ -74,13 +75,12 @@ export default EditPath = (props) => {
 
   var bustedEnter = async() => {
     setNewChips(0)
-    setLoading(true)
     var answer1 = await actions.buy_in.edit(
       props.buyin_id, props.newTable, props.newSeat, 0, props.tournament_id, false)
     var answer2 = await actions.buy_in.busted(
       props.buyin_id, place, winnings, props.tournament_id )
-    setLoading(false)
     setVisible(false)
+    props.navigation.goBack()
   } 
 
   return(
@@ -102,12 +102,15 @@ export default EditPath = (props) => {
         presentationStyle='overFullScreen'
         transparent={true}>
         <BustedModal 
+          navigation = {props.navigation}
           setNewChips={setNewChips} 
           setVisible={setVisible} setLoading={setLoading}
           buyin_id={props.buyin.id} 
           newTable={newTable} newSeat={newSeat} newChips={newChips} 
           bustedEnter={bustedEnter}
-          tournament_id={props.buyin.tournament_id}/>  
+          tournament_id={props.buyin.tournament_id}
+          mode={'busted'}
+          />  
       </Modal>
       <Spinner visible={loading}/>
       <Card style={{width:'90%', alignSelf:'center', paddingBottom:10}}>

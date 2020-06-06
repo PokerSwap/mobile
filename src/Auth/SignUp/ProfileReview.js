@@ -22,7 +22,7 @@ export default  ProfileReview = (props) => {
 			props.hendon, props.picture
 		) 
 		.then(() => actions.profile.get())
-		.then(() => actions.tracker.getAll())
+		.then(() => actions.tracker.getCurrent())
 		.then(() => actions.tracker.getPast())
 		.then(() => actions.tournament.getInitial())
 		.then(()=> props.navigation.navigate('Swaps'))

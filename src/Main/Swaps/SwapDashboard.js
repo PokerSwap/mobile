@@ -25,7 +25,7 @@ export default SwapDashboard = (props) => {
     var gettingTournament = await actions.tournament.getCurrent(store.currentBuyin.tournament_id)
     var labelTime = await actions.swap.convertTime(store.currentSwap.updated_at)
     
-    var answer = await actions.tracker.getAll()
+    var answer = await actions.tracker.getCurrent()
 
     var answerParams = {
       status: store.currentSwap.status,
@@ -61,11 +61,12 @@ export default SwapDashboard = (props) => {
       </ListItem>)}
 
   let a_tracker = (e) => e.map((content, index) => {
+    
     return(
       <SwapTracker
         key={index} navigation={props.navigation}
         my_buyin= {content.my_buyin} buyins = {content.buyins}
-        tournament={content.tournament}/>)})
+        tournament={content.tournament} action={content.action}/>)})
   
   let liveTracker, upcomingTracker
   let trackers = store.myTrackers
@@ -101,7 +102,7 @@ export default SwapDashboard = (props) => {
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
-    actions.tracker.getAll()
+    actions.tracker.getCurrent()
     wait(2000).then(() => setRefreshing(false));
   }, [refreshing]);
 

@@ -26,9 +26,6 @@ export default OfferPath = (props) => {
     console.log('all', props.tournament_id, props.swap_id, status)
     var answer = await actions.swap.statusChange(
       props.tournament_id, props.swap_id, status)
-    var answer2 = await actions.coin.spend()
-    var answer3 = await actions.tracker.getAll()
-    props.navigation.goBack()
     setLoading(false)
 
   }
