@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { Text } from 'native-base';
 
@@ -9,13 +9,9 @@ import BuyIn from '../../BuyIn/BuyIn'
 
 export default SwapTracker = (props) => {
   const {store, actions} = useContext(Context) 
-  
-  var x
-  let a_action = () => {
-     x = actions.tournament.getAction(props.tournament.id)
-  }
-  
+   
   let other_swaps = props.buyins.map((content, index) => {
+    var x = actions.tournament.retrieveAction(props.tournament.id)
     return(
       <BuyIn
         key = {index} navigation = {props.navigation}
@@ -23,7 +19,7 @@ export default SwapTracker = (props) => {
         tournament= {props.tournament}
         agreed_swaps = {content.agreed_swaps}
         other_swaps = {content.other_swaps}
-        action={x}/>)
+        action={props.action}/>)
   })
 
   const enterTournament = () => {
@@ -31,7 +27,7 @@ export default SwapTracker = (props) => {
       tournament_name: props.tournament.name,
       tournament_id: props.tournament.id,
       tournament_start: props.tournament.start_at,
-      action: null
+      action: props.action
     });
   }
 
