@@ -10,11 +10,11 @@ import Spinner from 'react-native-loading-spinner-overlay'
 
 export default BustedModal = (props) => {
   const { store, actions } = useContext(Context)
-  const [place, setPlace] = useState('')
-  const [winnings, setWinnings] = useState('')
-  const [mode, setMode] = useState(props.mode)
+  const [ place, setPlace ] = useState('')
+  const [ winnings, setWinnings ] = useState('')
+  const [ mode, setMode ] = useState(props.mode)
+  const [ loading, setLoading ] = useState(false)
 
-  const [loading, setLoading] = useState(false)
   var txtWinnings = null
 
   var a_behavior, offBy;

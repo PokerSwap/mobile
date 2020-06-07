@@ -5,17 +5,17 @@ import { Text, Card, CardItem, Button, Icon } from 'native-base'
 import { Grid, Row, Col } from 'react-native-easy-grid'
 import Spinner from 'react-native-loading-spinner-overlay'
 
+
 import {Context} from '../../../Store/appContext'
 
 import BustedModal from '../Components/BustedModal'
 
 export default EditPath = (props) => {
   const { store, actions } = useContext(Context)
-  const [newTable, setNewTable] = useState(parseInt(props.buyin.table))
-  const [newSeat, setNewSeat] = useState(props.buyin.seat)
-  const [newChips, setNewChips] = useState(props.buyin.chips)
-  const [visible, setVisible] = useState(false)
-  const [loading, setLoading] = useState(false)
+  const [ newTable, setNewTable ] = useState(parseInt(props.buyin.table))
+  const [ newSeat, setNewSeat ] = useState(props.buyin.seat)
+  const [ newChips, setNewChips ] = useState(props.buyin.chips)
+  const [ visible, setVisible ] = useState(false)
 
   let txtSeat = null, txtChips = null, isDisabled;
 
@@ -24,12 +24,12 @@ export default EditPath = (props) => {
 
   const buyinEdit = async() => {
     if(newChips !== '0'){
-    setLoading(true)
+    props.setLoading(true)
     var answer = await actions.buy_in.edit(
       props.buyin.id, newTable, newSeat, newChips, props.buyin.tournament_id, false
     )
     props.setRefreshing(true)
-    setLoading(false)
+    props.setLoading(false)
     }else{
       bustedAlert()
     }
@@ -85,7 +85,6 @@ export default EditPath = (props) => {
 
   return(
     <View>
-      <Spinner visible={loading}/>
       <View style={ styles.update.view }>
         <Icon type='FontAwesome5' name='angle-double-down'
           style={ styles.update.icon } />
@@ -104,7 +103,7 @@ export default EditPath = (props) => {
         <BustedModal 
           navigation = {props.navigation}
           setNewChips={setNewChips} 
-          setVisible={setVisible} setLoading={setLoading}
+          setVisible={setVisible} setLoading={props.setLoading}
           buyin_id={props.buyin.id} 
           newTable={newTable} newSeat={newSeat} newChips={newChips} 
           bustedEnter={bustedEnter}
@@ -112,7 +111,6 @@ export default EditPath = (props) => {
           mode={'busted'}
           />  
       </Modal>
-      <Spinner visible={loading}/>
       <Card style={{width:'90%', alignSelf:'center', paddingBottom:10}}>
         <CardItem style={ styles.field.container }>
           <Row style={{alignItems:'center'}}>

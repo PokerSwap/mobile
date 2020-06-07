@@ -37,6 +37,9 @@ export default SwapButton = (props) => {
   else if(x.includes('year')){ since = y + 'Y' }
   else{ null }
 
+    var l
+  if (since !== 'Just Now'){l=since + ' ago'}else{l=since}
+
   var allStatuses =[]
   props.allSwaps !== null && props.allSwaps !== 0 && props.allSwaps !== undefined ?
     props.allSwaps.forEach(swap => 
@@ -123,6 +126,7 @@ export default SwapButton = (props) => {
       <Icon type="FontAwesome5" name="handshake" 
         style={{alignSelf:'center', fontSize:24}} />;
     path = "inactive";
+    swapId=undefined
     buttonColor = 'rgb(56,68,165)';
   } 
 
@@ -134,7 +138,7 @@ export default SwapButton = (props) => {
           status: path,
           buyin: props.buyin,
           tournament: props.tournament,
-          buyinSince: since,
+          buyinSince: l,
           swapID: swapID
       })}else{null} 
     } else{

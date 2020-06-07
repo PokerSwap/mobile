@@ -1,14 +1,11 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { Text, Icon } from 'native-base';
 import { Grid, Row, Col } from 'react-native-easy-grid'
 import moment from 'moment';
 
-import { Context } from '../../../Store/appContext'
-
 export default SwapList = (props) => {
 
-  const {store, actions} = useContext(Context)
   var buttonColor, path, lastCol;
 
 
@@ -89,7 +86,7 @@ export default SwapList = (props) => {
     
     var startDate =  day_name + '. ' + startMonth + '. ' + startDay
     var startTime = startHour + ':' + swapTime.substring(20,22) + startM
-    var labelTime = startDate + ', ' +   startTime
+    var labelTime = startDate + '  ' +   startTime
 
     var x = moment(props.buyin.updated_at).fromNow()
     var y, since

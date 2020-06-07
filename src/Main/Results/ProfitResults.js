@@ -14,10 +14,10 @@ export default ProfitResults = (props) => {
   let buyins = navigation.getParam('buyins', 'NO-ID')
   let final_profit = navigation.getParam('final_profit', 'NO-ID')
 
-  const [loading, setLoading] = useState(false)
-  const [visible, setVisible] = useState(false)
-  const [newChips, setNewChips] = useState()
-  const [allPaid, setAllPaid] = useState(true)
+  const [ loading, setLoading ] = useState(false)
+  const [ visible, setVisible ] = useState(false)
+  // const [ newChips, setNewChips ] = useState()
+  const [ allPaid, setAllPaid ] = useState(true)
 
   useEffect(() => {
     var x = agreedBuyins.forEach((buyin, index) => {

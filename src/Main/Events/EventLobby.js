@@ -9,13 +9,13 @@ import ActionBar from './Components/ActionBar'
 
 export default EventLobby = (props) => {
   const { store, actions } = useContext(Context)
+  const [ action, setAction ] = useState(null)
+  const [ aTournament, setATournament ] = useState(null)
+  const [ tStart, setTstart ] = useState(null)
+
   let tournament_name = props.navigation.getParam('tournament_name', 'NO-ID');
   let tournament_id = props.navigation.getParam('tournament_id', 'NO-ID');
   let tournament_start = props.navigation.getParam('tournament_start', 'NO-ID');
-
-  const [action, setAction] = useState(null)
-  const [aTournament, setATournament] = useState(null)
-  const [tStart, setTstart] = useState(null)
 
   useEffect(() => {
     getTournament()

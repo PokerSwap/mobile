@@ -1,14 +1,15 @@
 import React, {useContext, useState} from 'react'
-import {Alert} from 'react-native'
+import {Alert, View } from 'react-native'
 import {Text, Card, Button, CardItem, Spinner} from 'native-base'
 
 import {Context} from '../../../Store/appContext'
+import CompareCard from '../Components/CompareCard'
 
 import Spinnerx from 'react-native-loading-spinner-overlay'
 
 export default PendingPath = (props) => {
   const { store, actions } = useContext(Context)
-  const [loading, setLoading] = useState(false)
+  const [ loading, setLoading ] = useState(false)
   const {swap} = props, {buyin} = props;
 
   const showAlert = () =>{
@@ -23,32 +24,29 @@ export default PendingPath = (props) => {
   }
 
   var cancelSwap = async() => {
-    setLoading(true)
+    props.setLoading(true)
     props.setRefreshing(true)
     var answer = await actions.swap.statusChange(
-      props.tournament.id, swap.id, "canceled") 
-      props.setRefreshing(false)
-
-    setLoading(false)
+      props.tournament.id, swap.id, buyin.id, "canceled") 
+    props.setRefreshing(false)
+    
+    props.setLoading(false)
 
   }
 
   return(
     <Card transparent>
-      <Spinnerx visible={loading}/>
       <CardItem style={{justifyContent:'center'}}>
-        {swap ?
-          swap.percentage == swap.counter_percentage ?
-            <Text style={{fontSize:24, textAlign:'center'}}>
-              Your swap with {buyin.user_name} to share{' '}  
-              {swap.percentage}% between the both of you is pending.
-            </Text>
-            :
-            <Text style={{fontSize:24, textAlign:'center'}}>
-              Your swap of {props.swap.percentage}% with{' '} 
-              {buyin.user_name} to make a swap of{' '} 
-              {swap.counter_percentage}% is pending.
-            </Text>
+        {swap.percentage ?
+          <View>
+            <Text style={{textAlign:'center'}}>This swap with {buyin.user_name} is currently pending as of {swap.updated}</Text>
+            <CompareCard 
+              youColor={'orange'} themColor={'orange'}
+              percentage={swap.percentage} 
+              counter_percentage={swap.counter_percentage}
+              buyin={buyin}/>
+          </View>
+          
           : <Spinner />}
       </CardItem>
       {swap ?

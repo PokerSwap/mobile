@@ -1,14 +1,10 @@
-import React, {useContext, useState} from 'react'
+import React from 'react'
+import { View } from 'react-native'
 import {Text, Button, Card, CardItem, Spinner} from 'native-base'
-
-import InactivePath from './inactive'
 
 import {Context} from '../../../Store/appContext'
 
 export default AgreedPath = (props) => {
-
-  const {store, actions} = useContext(Context)
-  const [again, setAgain] = useState(false)
 
   var {swap} = props, {buyin} = props;
 
@@ -16,18 +12,15 @@ export default AgreedPath = (props) => {
     <Card transparent>
       <CardItem 
         style={{justifyContent:'center', flexDirection:'column'}}>
-        {swap ?
-          swap.percentage == swap.counter_percentage ?
-            <Text style={{textAlign:'center', fontSize:24, width:'80%'}}>
-              You and {buyin.user_name} both agreed to swap{' '}
-              {swap.percentage}% 
-            </Text>
-            :
-            <Text style={{textAlign:'center', fontSize:24}}>
-              You agreed to swap {swap.percentage}% while {'\n'}
-              {buyin.user_name} agreed to swap{' '}
-              {swap.counter_percentage}%
-            </Text>
+        {swap.percentage ?
+          <View>
+            <Text style={{textAlign:'center'}}>This swap with {buyin.user_name} was agreed to{'\n'} as of {swap.updated_at}</Text>
+            <CompareCard 
+              youColor={'green'} themColor={'green'}
+              percentage={swap.percentage} 
+              counter_percentage={swap.counter_percentage}
+              buyin={buyin}/>
+          </View>
           :
           <Spinner/>}
 

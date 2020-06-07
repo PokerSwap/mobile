@@ -12,15 +12,12 @@ import _Header from "../../View-Components/HomeHeader";
 import placeholder from '../../Images/placeholder.jpg';
 
 export default VerifyTicket = (props) => {
-
   const { store, actions } = useContext(Context)
-
-  const de = require('../../Images/placeholder.jpg');
- 
-  const [image, setImage ]= useState(de);
-  const [table, setTable ]= useState('');
-  const [seat, setSeat] = useState('');
-  const [chips, setChips] = useState('');
+  const de = require('../../Images/placeholder.jpg'); 
+  const [ image, setImage ]= useState(de);
+  const [ table, setTable ]= useState('');
+  const [ seat, setSeat ] = useState('');
+  const [ chips, setChips ] = useState('');
 
   var navigation = props.navigation;
   let tournament_name = navigation.getParam('tournament_name', 'NO-ID');

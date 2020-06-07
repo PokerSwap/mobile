@@ -8,7 +8,6 @@ import { Context } from '../../../Store/appContext'
 
 export default OfferPath = (props) => {
   const {store, actions } = useContext(Context)
-  const [loading, setLoading] = useState(false)
 
   const confirmationAlert = (action, status) => {
     Alert.alert(
@@ -22,18 +21,16 @@ export default OfferPath = (props) => {
   }
 
   const swapChange = async(status) => {
-    setLoading(true)
-    console.log('all', props.tournament_id, props.swap_id, status)
+    props.setLoading(true)
     var answer = await actions.swap.statusChange(
-      props.tournament_id, props.swap_id, status)
-    setLoading(false)
-
+      props.tournament_id, props.swap_id, props.buyin_id, status)
+    props.setRefreshing(true)
+    props.setLoading(false)
   }
 
   return(
     <Card transparent style={{
       alignSelf:'center', width:'90%', justifyContent:'center'}}>
-        <Spinner visible={loading}  />
       {store.myProfile.coins > 0 ?
         // WHEN YOU HAVE ENOUGH COINS
         <View style={{ alignSelf:'center', flexDirection:'column'}}>

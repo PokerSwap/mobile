@@ -1,11 +1,10 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { ListItem, Text, Button } from 'native-base';
 import { Image, Modal, Alert } from 'react-native'
 import { Grid, Row, Col} from 'react-native-easy-grid'
 import  Spinner  from 'react-native-loading-spinner-overlay'
 
 import { Context } from '../../../Store/appContext'
-
 import PayModal from './PayModal'
 
 PayButton = (props) => {
@@ -20,14 +19,10 @@ PayButton = (props) => {
 }
 
 export default ProfitTracker = (props) => {
-  const {store, actions} = useContext(Context)
-  const [visible, setVisible] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [paid, setPaid] = useState(props.buyin.agreed_swaps[0].paid)
-
-  // const [loading, setLoading] = useState(false)
-  // const [loading, setLoading] = useState(false)
-
+  const { store, actions } = useContext(Context)
+  const [ visible, setVisible ] = useState(false)
+  const [ loading, setLoading ] = useState(false)
+  const [ paid, setPaid ] = useState(props.buyin.agreed_swaps[0].paid)
 
   const paidAlert = () => {
     Alert.alert(
@@ -60,21 +55,18 @@ export default ProfitTracker = (props) => {
     setLoading(false)
   }
 
-  const a = () => {
-    console.log('nothing')
-  }
-
   let swap_profit = props.buyin.they_owe_total - props.buyin.you_owe_total
 
   let final_swap_profit
   swap_profit < 0 ?
     final_swap_profit = '-$' + Math.abs(swap_profit).toFixed(2)
     : final_swap_profit = "$" + Math.abs(swap_profit).toFixed(2)
-  return(
+  
+    return(
     <ListItem noIndent transparent 
       style={{justifyContent:'center'}}>
       <Spinner visible={loading}/>
-      {/* MODAL */}
+      {/* PAY MODAL */}
       <Modal
         animationType='fade'
         visible={visible}

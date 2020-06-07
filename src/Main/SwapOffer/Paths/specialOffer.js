@@ -79,7 +79,8 @@ export default SpecialOffer = (props) => {
         </Button>
         {/* OFFER SWAP BUTTON */}
         <Button large success
-          onPress={() => props.confirmationAlert('offer')}>
+          onPress={() => props.confirmationAlert('offer')}
+          >
           <Text> Offer Swap </Text>
         </Button>
       </CardItem>

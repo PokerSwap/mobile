@@ -1,5 +1,8 @@
 import React from 'react'
-import {Text, Card, CardItem, Spinner} from 'native-base'
+import { View } from 'react-native'
+import { Text, Card, CardItem, Spinner } from 'native-base'
+
+import CompareCard from '../Components/CompareCard'
 
 export default RejectedPath = (props) => {
   
@@ -7,15 +10,18 @@ export default RejectedPath = (props) => {
   return(
     <Card transparent>
       <CardItem style={{justifyContent:'center'}}>
-        {swap ?
-          <Text style={{textAlign:'center', fontSize:24}}> 
-            You rejected a swap to share {swap.percentage}% of your winnings 
-            with {buyin.user_name}'s share of {swap.counter_percentage}%. 
-          </Text>
-          :
-          <Spinner/>
-        }
-        
+        {swap.percentage ?
+          <View>
+            <Text style={{textAlign:'center'}}> 
+              You rejected a swap with {buyin.user_name}{'\n'}as of {swap.updated_at}
+            </Text>
+            <CompareCard 
+              percentage={swap.percentage} 
+              youColor={'red'} themColor={'red'}
+              counter_percentage={swap.counter_percentage}
+              buyin={buyin}/>
+          </View>
+          : <Spinner/>}
       </CardItem>
     </Card>
   )
