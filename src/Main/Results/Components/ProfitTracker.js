@@ -213,11 +213,11 @@ export default ProfitTracker = (props) => {
           {swap_profit !== 0 && (props.buyin.they_owe_total && props.buyin.you_owe_total) ?
             swap_profit > 0 ?
               paid ?
-                <PayButton message={"You were Paid"} color={'green'} fn={a}/>
+                <PayButton message={"You were Paid"} color={'green'} fn={null}/>
                 : <PayButton message={"Confirm Payment"} color={'rgb(241, 191, 86)'} fn={paidAlert}/>
               :  
               paid ?
-                <PayButton message={"You Paid"} color={'green'} fn={a}/>
+                <PayButton message={"You Paid"} color={'green'} fn={null}/>
                 : <PayButton message={"Pay Now"} color={'rgb(241, 191, 86)'} fn={payAlert} />
             : null}
         </Row>

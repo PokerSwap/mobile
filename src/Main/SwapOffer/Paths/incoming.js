@@ -3,8 +3,8 @@ import { View } from 'react-native';
 import { Card, CardItem, Text, Spinner } from 'native-base'
 
 import CompareCard from '../Components/CompareCard'
-import CounterPath from './counter'
-import OfferPath from './offer'
+import IntroOffer from '../Components/introOffer'
+import CounterOffer from '../Components/counterOffer'
 
 export default IncomingPath = (props) => {
   const [ counter, setCounter ] = useState(false)
@@ -32,7 +32,7 @@ export default IncomingPath = (props) => {
 
       {swap ?
         !counter ?
-          <OfferPath navigation={props.navigation}
+          <IntroOffer navigation={props.navigation}
             swap_id={swap.id} buyin_id={buyin.id}
 
             percentage={swap.percentage}
@@ -42,7 +42,7 @@ export default IncomingPath = (props) => {
             setLoading={props.setLoading}
             counter={counter} setCounter={setCounter}/>
           :
-          <CounterPath navigation={props.navigation} 
+          <CounterOffer navigation={props.navigation} 
             swap_id={swap.id} buyin_id={buyin.id}
             percentage={swap.percentage} 
             counter_percentage={swap.counter_percentage}

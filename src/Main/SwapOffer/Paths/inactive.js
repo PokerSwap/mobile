@@ -3,8 +3,8 @@ import { View, Alert } from 'react-native'
 import { Text, Button, Card, CardItem } from 'native-base'
 
 import { Context } from '../../../Store/appContext'
-import SpecialOffer from './specialOffer'
-import StandardOffer from './standardOffer'
+import SpecialOffer from '../Components/specialOffer'
+import StandardOffer from '../Components/standardOffer'
 
 export default InactivePath = (props) => {
   const { store, actions } = useContext(Context)

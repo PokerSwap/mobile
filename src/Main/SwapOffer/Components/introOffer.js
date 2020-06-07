@@ -1,12 +1,10 @@
 import React, { useContext, useState } from 'react'
 import { View, Alert } from 'react-native'
 import { Button, Card, CardItem, Icon, Text } from 'native-base'
-import Spinner from 'react-native-loading-spinner-overlay'
-
 
 import { Context } from '../../../Store/appContext'
 
-export default OfferPath = (props) => {
+export default IntroOffer = (props) => {
   const {store, actions } = useContext(Context)
 
   const confirmationAlert = (action, status) => {

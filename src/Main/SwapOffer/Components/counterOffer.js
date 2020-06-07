@@ -6,7 +6,7 @@ import { Context } from '../../../Store/appContext'
 import StandardOffer from './standardOffer'
 import SpecialOffer from './specialOffer'
 
-export default CounterPath = (props) => {
+export default CounterOffer = (props) => {
   const { store, actions } = useContext(Context)
   const [ percentage, setPercentage ] = useState( props.percentage )
   const [ cPercentage, setCPercentage ] = useState( props.counter_percentage )
@@ -56,7 +56,7 @@ export default CounterPath = (props) => {
   // THEIR COUNTER PERCENTAGE - ADD
   const cAdd = () => {
     cPercentage < 50 ? 
-      setCounterPercentage(cPercentage+ 1) 
+      setCPercentage(cPercentage+ 1) 
       : setCPercentage(50)
   }
   // THEIR COUNTER PERCENTAGE - SUBTRACT
