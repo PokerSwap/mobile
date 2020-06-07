@@ -98,7 +98,7 @@ export default SwapDashboard = (props) => {
     });
   }
 
-  const [refreshing, setRefreshing] = useState(false);
+  const [ refreshing, setRefreshing ] = useState(false);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
