@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import { View, Alert } from 'react-native'
 import { Button, Card, CardItem, Icon, Text } from 'native-base'
 
@@ -6,7 +6,8 @@ import { Context } from '../../../Store/appContext'
 
 export default IntroOffer = (props) => {
   const {store, actions } = useContext(Context)
-
+  
+  // CONFIMATION ALERT
   const confirmationAlert = (action, status) => {
     Alert.alert(
       "Confirmation",
@@ -17,7 +18,7 @@ export default IntroOffer = (props) => {
       ]
     )
   }
-
+  // CHANGE SWAP STATUS ACTION - ACCEPT, REJECT, COUNTER
   const swapChange = async(status) => {
     props.setLoading(true)
     var answer = await actions.swap.statusChange(
@@ -58,9 +59,9 @@ export default IntroOffer = (props) => {
         </View>
         :
         // WHEN YOU HAVE ZERO COINS
-        <CardItem>
+        <CardItem style={{flexDirection:'column'}}>
           {/* NO COINS WARNING */}
-          <Text style={{textAlign:'center', fontSize:20}}> 
+          <Text style={{textAlign:'center', fontSize:18, marginBottom:25}}> 
             In order to accept or counter this swap, 
             you need to purchase tokens.
           </Text>
@@ -68,6 +69,11 @@ export default IntroOffer = (props) => {
           <Button large success 
             onPress={() => props.navigation.navigate('PurchaseTokens')}>
             <Text>Purchase Tokens</Text>
+          </Button>
+          <Button large danger style={{marginTop:25}}
+            onPress={()=> confirmationAlert('reject','rejected')}>
+            <Text style={{fontWeight:'600'}}> Reject </Text>
+            <Icon style={{marginLeft:-10}} type='Entypo' name='circle-with-cross'/>
           </Button>
         </CardItem>
       }

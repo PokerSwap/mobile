@@ -1,14 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Modal } from 'react-native';
 import { Container, Content, List, Text, ListItem, Button } from 'native-base';
 import Spinner from 'react-native-loading-spinner-overlay'
 
+import {Context } from '../../Store/appContext'
 import _Header from '../../View-Components/HomeHeader'
 import ProfitTracker from './Components/ProfitTracker'
 import BustedModal from '../SwapOffer/Components/BustedModal'
 
 export default ProfitResults = (props) => {
   const { navigation } = props;
+
+  const { store, actions } = useContext(Context)
+
   let tournament = navigation.getParam('tournament', 'NO-ID');
   let my_buyin = navigation.getParam('my_buyin', 'NO-ID')
   let buyins = navigation.getParam('buyins', 'NO-ID')
@@ -16,8 +20,9 @@ export default ProfitResults = (props) => {
 
   const [ loading, setLoading ] = useState(false)
   const [ visible, setVisible ] = useState(false)
-  // const [ newChips, setNewChips ] = useState()
+  const [ refreshing, setRefreshing ] = useState(false)
   const [ allPaid, setAllPaid ] = useState(true)
+  const [ myBuyin, setMyBuyin ] = useState(my_buyin)
 
   useEffect(() => {
     var x = agreedBuyins.forEach((buyin, index) => {
@@ -27,23 +32,31 @@ export default ProfitResults = (props) => {
         setAllPaid(false)
       }
     })
+    y()
+    setRefreshing(false)
     return () => {
       // cleanup
     }
-  }, [null])
+  }, [refreshing])
+
+  var y = async() => {
+    var eee = await actions.buy_in.getCurrent(my_buyin.id) 
+    setMyBuyin(store.currentBuyin)
+  }
 
   var agreedBuyins = buyins.filter(buyin => buyin.agreed_swaps.length > 0)
 
   var profit
   allPaid ? 
-    final_profit < 0 ?
-      profit = "-$" + Math.abs(final_profit).toFixed(2)
-      : profit = "$" + Math.abs(final_profit).toFixed(2)
+    final_profit >= 0 ?
+      profit = "$" + Math.abs(final_profit).toFixed(2)
+      : profit = "-$" + Math.abs(final_profit).toFixed(2)
     : profit = "Pending"
   
   return(
     <Container> 
       <Content>
+        <Spinner visible={loading}/>
         {/* MODAL */}
         <Modal
           animationType='fade'
@@ -51,6 +64,7 @@ export default ProfitResults = (props) => {
           presentationStyle='overFullScreen'
           transparent={true}>
           <BustedModal 
+            setRefreshing={setRefreshing}
             setVisible={setVisible} setLoading={setLoading}
             buyin_id={my_buyin.id} 
             tournament_id={tournament.id}
@@ -73,7 +87,7 @@ export default ProfitResults = (props) => {
               textAlign:'center', fontSize:20}}>
               {tournament.start_at}
             </Text>
-            {!my_buyin.winnings ?
+            {!myBuyin.winnings ?
               <Button full success  style={{marginTop:20}}
                 onPress={()=> setVisible(true)}>
                 <Text>Enter Place and Winnings</Text>

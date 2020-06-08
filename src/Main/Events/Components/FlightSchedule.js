@@ -42,8 +42,6 @@ export default FlightSchedule = (props) => {
     )
   })
 
-  // console.log('eeee', props.my_buyin)
-
   return(
     <View>
       {/* FLIGHT TIME */}

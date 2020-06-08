@@ -99,7 +99,6 @@ export default InactivePath = (props) => {
             counterPercentage={counterPercentage}
             pAdd={pAdd} pSubtract={pSubtract}
             cAdd={cAdd} cSubtract={cSubtract} />
-
         : 
         <View>
           <CardItem>

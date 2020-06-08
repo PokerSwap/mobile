@@ -202,7 +202,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						var aaa = await response.json()
 
 						var answer0 = await getActions().tracker.getPast()
-
+						return customMessage('Your place and winnings have been updated.')
 						
 					}catch(error){
 						
@@ -649,13 +649,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 				add: async ( a_tournament_id, a_recipient_id, a_buyin_id,  a_percentage, a_counter_percentage ) => {
 					try{
 
-						console.log('a_tournament_id', a_tournament_id)
-						console.log('a_recipient_id', a_recipient_id)
-						console.log('a_buyin_id', a_buyin_id)
-						console.log('a_percentage', a_percentage)
-						console.log('a_counter_percentage', a_counter_percentage)
-				
-
 						const url = databaseURL + 'me/swaps'
 						let accessToken = getStore().userToken
 						let data
@@ -673,7 +666,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 								recipient_id: a_recipient_id,
 								percentage: a_percentage
 							}
-console.log('data', data)
+
+						console.log('data', data)
+
 						let response = await fetch(url,{
 							method:"POST",
 							body: JSON.stringify(data),
@@ -684,6 +679,8 @@ console.log('data', data)
 						})
 						.then(response => response.json())
 						console.log('response should be here', response)
+						if(response.message.includes("Swap percentage too large for recipient.")){
+							return errorMessage(response.message)}
 
 						var gettingProfile = await getActions().profile.get()
 						var gettingAllTrackers = await getActions().tracker.getCurrent()
@@ -849,6 +846,11 @@ console.log('data', data)
 					}catch(error){
 						console.log('Something went wrong with paying a swap', error)
 					}
+				},
+				
+				remove: async ( ) => {
+					setStore({currentSwap:null})
+					console.log('cureent swap in the sotew',getStore().currentSwap )
 				}
 			},
 		

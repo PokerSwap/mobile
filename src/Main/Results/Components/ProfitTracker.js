@@ -101,22 +101,22 @@ export default ProfitTracker = (props) => {
           </Col>
         </Row>
         {/* WINNINGS ROW */}
-        <Row style={{padding:15}}>
-          <Col style={{width:'33%'}}>
-            <Text style={{fontSize:24}}>
+        <Row style={{padding:5}}>
+          <Col style={{width:'25%'}}>
+            <Text style={{fontSize:20}}>
               Winnings
             </Text>
           </Col>
           <Col>
             {props.buyin.you_won ? 
-              <Text style={{alignSelf:'center',  fontSize:24}}>
+              <Text style={{alignSelf:'center',  fontSize:20}}>
                 ${parseInt(props.buyin.you_won).toFixed(2)}
               </Text>
               : <Text> Pending </Text>}
           </Col> 
           <Col>
             {props.buyin.they_won ? 
-              <Text style={{alignSelf:'center',  fontSize:24}}>
+              <Text style={{alignSelf:'center',  fontSize:20}}>
                 ${parseInt(props.buyin.they_won).toFixed(2)}
               </Text>
               : <Text> Pending </Text>}
@@ -125,19 +125,19 @@ export default ProfitTracker = (props) => {
         {/* INDIVIDUAL SWAPS ROW */}
         {props.agreed_swaps.map((swap, index) =>{
           return(
-            <Row style={{padding:15, borderTopWidth:1, 
+            <Row style={{padding:5, borderTopWidth:1, 
               borderColor:'#D3D3D3' }}>
-              <Col style={{width:'33%', alignSelf:'center'}}>
-                <Text style={{textAlign:'center',  fontSize:24}}>
+              <Col style={{width:'25%', alignSelf:'center'}}>
+                <Text style={{textAlign:'left',  fontSize:24}}>
                   Swap {index + 1}
                 </Text>
               </Col>
               {swap.you_owe ?
               <Col>
-                <Text style={{ fontSize:24, alignSelf:'center', marginBottom:5}}>
+                <Text style={{ fontSize:20, alignSelf:'center', marginBottom:5}}>
                   {swap.percentage}%
                 </Text>
-                <Text style={{fontSize:24, alignSelf:'center'}}>
+                <Text style={{fontSize:20, alignSelf:'center'}}>
                   ${swap.you_owe.toFixed(2)}
                 </Text>
               </Col>
@@ -150,10 +150,10 @@ export default ProfitTracker = (props) => {
               </Col>}
               {swap.they_owe ?
                 <Col style={{justifyContent:'flex-start'}}>
-                  <Text style={{alignSelf:'center', fontSize:24, marginBottom:5, textAlign:'center'}}>
+                  <Text style={{alignSelf:'center', fontSize:20, marginBottom:5, textAlign:'center'}}>
                     {swap.counter_percentage}%
                   </Text>
-                  <Text style={{fontSize:24, alignSelf:'center', textAlign:'center'}}>
+                  <Text style={{fontSize:20, alignSelf:'center', textAlign:'center'}}>
                     ${swap.they_owe.toFixed(2)}
                   </Text>
                 </Col>
@@ -170,7 +170,7 @@ export default ProfitTracker = (props) => {
         {/* TOTAL OWE ROW */}
         <Row style={{paddingTop:20, 
           borderTopWidth:1, borderColor:'#D3D3D3'}}>
-          <Col>
+          <Col style={{width:'25%'}}>
             <Text style={{fontSize:24}}>Total</Text>
           </Col>
           <Col >

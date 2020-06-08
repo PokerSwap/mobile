@@ -45,16 +45,12 @@ export default BustedModal = (props) => {
       setLoading(true)
       var answer2 = await actions.buy_in.entry(
         props.buyin_id, place, winnings, props.tournament_id )
-      
+      props.setRefreshing(true)
       setLoading(false)
       props.setVisible(false)
     }else{
       null
     }
-
-    var answer1 = await actions.buy_in.edit(
-      props.buyin_id, props.newTable, props.newSeat, 0, props.tournament_id, false)
-
   } 
 
   return(

@@ -7,7 +7,7 @@ import EventHeader from './Components/EventHeader'
 import FlightSchedule from './Components/FlightSchedule';
 import ActionBar from './Components/ActionBar'
 
-export default EventLobby = (props) => {
+export default EventLobby = (props, {navigation}) => {
   const { store, actions } = useContext(Context)
   const [ action, setAction ] = useState(null)
   const [ aTournament, setATournament ] = useState(null)
@@ -18,11 +18,31 @@ export default EventLobby = (props) => {
   let tournament_start = props.navigation.getParam('tournament_start', 'NO-ID');
 
   useEffect(() => {
-    getTournament()
+    const subsctt = props.navigation.addListener('didFocus', () => {
+      getTournament()
+  });
+    
+
     return () => {
       // cleanup
     }
-  }, [null])
+  }, [navigation])
+
+  // useEffect(() => {
+  //   const unsubscribe = props.navigation.addListener('didBlur', () => {
+  //     bx()
+  // });
+  //   return () => {
+  //   // unsubscribe()
+  //   }
+  // }, [navigation])
+
+  var bx = async() => {
+    var eee = await actions.swap.remove()
+    console.log('currentSwap',store.currentSwap)
+  }
+
+
  
   const getTournament = async() => {
     try{

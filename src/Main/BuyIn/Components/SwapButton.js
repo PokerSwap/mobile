@@ -134,6 +134,7 @@ export default SwapButton = (props) => {
     console.log('swapID',swapID)
     if(props.buyin.chips !== 0){
       if(path){
+        
         props.navigation.push('SwapOffer',{
           status: path,
           buyin: props.buyin,

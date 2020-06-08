@@ -1,4 +1,4 @@
-import React, {useContext, useState, useCallback} from 'react';
+import React, {useContext, useState, useCallback, useEffect} from 'react';
 import {RefreshControl, Alert, Text} from 'react-native';
 import { Container, Content, List, ListItem, Separator } from 'native-base';
 import moment from 'moment'
@@ -9,13 +9,14 @@ import SwapTracker from './Components/SwapTracker';
 
 import messaging from '@react-native-firebase/messaging'
 
-import { StackActions, NavigationActions } from 'react-navigation';
+import { StackActions, NavigationActions, NavigationContext } from 'react-navigation';
 
 
 
-export default SwapDashboard = (props) => {
+export default SwapDashboard = (props, {navigation}) => {
 
   const { store, actions } = useContext(Context)
+  const [onLoad, setOnLoad] = useState(true)
 
   messaging().onMessage(async (remoteMessage) => {
     console.log('FCM Message Data:', remoteMessage);
@@ -41,7 +42,6 @@ export default SwapDashboard = (props) => {
     });
 
 
-
     Alert.alert(
       "Swap Alert",
       remoteMessage.data.alert,
@@ -51,6 +51,22 @@ export default SwapDashboard = (props) => {
       ]
     )
   });
+
+ 
+
+  // useEffect(() => {
+  //   const unsubscribe = props.navigation.addListener('didBlur', () => {
+  //     bx()
+  // });
+  //   return () => {
+  //   // unsubscribe()
+  //   }
+  // }, [navigation])
+
+  // var bx = async() => {
+  //   var eee = await actions.swap.remove()
+  //   console.log('currentSwap',store.currentSwap)
+  // }
 
   let noTracker = (f) =>  {
     return(
