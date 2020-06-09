@@ -853,6 +853,45 @@ const getState = ({ getStore, setStore, getActions }) => {
 					console.log('cureent swap in the sotew',getStore().currentSwap )
 				}
 			},
+
+			time: {
+				
+				convertShort: async ( time ) => {
+					try {
+						var y, since;
+						if (time.includes('a ') || time.includes('an ')) { 
+							y = '1'
+						} else{
+							y = parseInt(time.replace(/[^0-9\.]/g, ''), 10);
+						}
+						if (time.includes('second')) { since = 'Just Now' } 
+						else if(time.includes('minute')){ since = y + 'm' } 
+						else if(time.includes('hour')){ since = y + 'h' } 
+						else if(time.includes('day')){ since = y + 'd' } 
+						else if(time.includes('week')){ since = y + 'w' }
+						else if(time.includes('month')){ since = y + 'M' }
+						else if(time.includes('year')){ since = y + 'Y' }
+						else{ null }
+						console.log('Converted Small Time of: ' + since)
+						
+						if (since != 'Just Now'){
+							return (since + ' ago')
+						}else{
+							return(since)
+						}
+					}catch(error){
+						console.log('Something went wrong with converting short time', error)
+					}
+				},
+
+				convertLong: async ( time ) => {
+					try {
+						console.log(time)
+					}catch(error){
+						console.log('Something went wrong with converting long time', error)
+					}
+				}
+			},
 		
 			tournament:{
 

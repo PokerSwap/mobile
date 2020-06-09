@@ -50,7 +50,7 @@
     "react-navigation-stack": "^2.1.0",
     "react-navigation-tabs": "^2.7.0",
     "save": "^2.4.0",
-    "stripe": "^8.38.0",
+    "stripe": "^8.60.0",
     "tipsi-stripe": "^7.5.3"
   },
   "devDependencies": {
