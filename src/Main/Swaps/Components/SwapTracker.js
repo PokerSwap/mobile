@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { Text } from 'native-base';
 

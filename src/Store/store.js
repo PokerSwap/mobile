@@ -855,7 +855,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 			},
 
 			time: {
-				
+
+				// Used for Buyins
 				convertShort: async ( time ) => {
 					try {
 						var y, since;
@@ -883,10 +884,37 @@ const getState = ({ getStore, setStore, getActions }) => {
 						console.log('Something went wrong with converting short time', error)
 					}
 				},
-
-				convertLong: async ( time ) => {
+				// Used for Swaps
+				convertLong: async ( time, type ) => {
 					try {
-						console.log(time)
+						var day_name = time.substring(0,3)
+						var startMonth = time.substring(8,11)
+						var startDay = time.substring(5,7)
+						var startTime = time.substring(16,22)
+						var startYear = time.substring(12,16)
+				
+						var startHour = parseInt(time.substring(16,19))
+						var startM 
+						if (startHour % 12!==0){
+							if(startHour/12 >= 1){
+								startM = ' P.M.', startHour%=12
+							}else{
+								startM = ' A.M.'
+							}
+						} else{
+							if(startHour == 0){
+								startM = ' A.M.', startHour=12
+							}else{
+								startM = ' P.M.'
+							}
+						}
+						
+						var startDate =  day_name + '. ' + startMonth + '. ' + startDay
+						var startTime = startHour + ':' + time.substring(20,22) + startM
+						console.log('sss', startDate + '  ' +   startTime)
+
+						return startDate + ', ' + startYear + ' ' +   startTime
+					
 					}catch(error){
 						console.log('Something went wrong with converting long time', error)
 					}

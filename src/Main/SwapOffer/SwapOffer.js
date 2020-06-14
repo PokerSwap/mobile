@@ -105,25 +105,6 @@ export default SwapOffer = (props, {navigation}) => {
     setCurrentBuyin(store.currentBuyin)
     var x = moment(store.currentBuyin.updated_at).fromNow()
     var Time = await actions.time.convertShort(x)
-    // var y, since
-    // if (x.includes('a ') || x.includes('an ')) { 
-    //   y = '1'
-    // } else{
-    //   y = parseInt(x.replace(/[^0-9\.]/g, ''), 10);
-    // }
-    // if (x.includes('second')) { since = 'Just Now' } 
-    // else if(x.includes('minute')){ since = y + 'm' } 
-    // else if(x.includes('hour')){ since = y + 'h' } 
-    // else if(x.includes('day')){ since = y + 'd' } 
-    // else if(x.includes('week')){ since = y + 'w' }
-    // else if(x.includes('month')){ since = y + 'M' }
-    // else if(x.includes('year')){ since = y + 'Y' }
-    // else{ null }
-    // if (since != 'Just Now'){
-    //   setBTime(since + ' ago')
-    // }else{
-    //   setBTime(since)
-    // }
     setBTime(Time)
     
   }

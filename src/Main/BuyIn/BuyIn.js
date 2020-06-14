@@ -1,18 +1,36 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {  Accordion, Button, ListItem, Text } from 'native-base';
+import { View } from 'react-native'
 import { Col, Row, Grid } from 'react-native-easy-grid'
 import { throttle } from 'lodash'
+import moment from 'moment'
 
 import { Context } from '../../Store/appContext'
 
 import BuyInAttribute from './Components/BuyInAttribute'
 import SwapButton from './Components/SwapButton'
 import SwapHeader from './Components/SwapHeader'
-import SwapList from './Components/SwapList'
+import SwapRow from './Components/SwapRow'
 
 export default BuyIn = (props) => {
   const { store, actions } = useContext(Context)
   const { navigation } = props,  {buyin} = props;
+  const [buyinSince, setBuyinSince] = useState(null)
+  const [refreshing, setRefreshing] = useState(true)
+
+  const shortenedTime = async() => {
+    var ol = await actions.time.convertShort(moment(buyin.updated_at).fromNow())
+    setBuyinSince(ol)
+    setRefreshing(false)
+  }
+
+  useEffect(() => {
+    shortenedTime()
+    return () => {
+      // cleanup
+    }
+  }, [refreshing])
+
 
   var allSwaps 
   buyin.user_id != store.myProfile.id ?   
@@ -35,11 +53,18 @@ export default BuyIn = (props) => {
 
   const _renderContent= () => {
     return(
-      <SwapList
-        allSwaps={allSwaps}
-        tournament={props.tournament}
-        buyin={buyin}
-        navigation={props.navigation} />
+      <View style={{height:244}}>
+        {allSwaps.map((swap, index) => {
+          return(
+            <SwapRow key={index}
+              swap={swap}
+              tournament={props.tournament}
+              buyin={buyin}
+              navigation={props.navigation}
+            />
+          )
+        })}
+      </View>
   )}
 
   const enterProfile = () => {
@@ -105,7 +130,7 @@ export default BuyIn = (props) => {
               tournament={props.tournament}
               action={props.action}
               updated_at={props.buyin.updated_at}
-              buyin={buyin} txt={txt}/>
+              buyin={buyin} buyinSince={buyinSince} txt={txt}/>
             : 
             buyin.user_id !== store.myProfile.id ? 
               <Text>Buy</Text>
@@ -118,6 +143,7 @@ export default BuyIn = (props) => {
               tournament={props.tournament}
               updated_at={props.buyin.updated_at}
               buyin={buyin}
+              buyinSince={buyinSince}
               txt={txt}/>
           }  
         </Row>

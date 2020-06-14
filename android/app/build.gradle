@@ -131,9 +131,13 @@ android {
         applicationId "com.swapprofitllc.swapprofit"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 10
+        versionCode 11
         versionName "0.5.2"
         multiDexEnabled true
+    }
+    dexOptions {
+        incremental true
+        javaMaxHeapSize "4g"
     }
     splits {
         abi {
@@ -179,7 +183,6 @@ android {
         }
     }
 }
-
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
