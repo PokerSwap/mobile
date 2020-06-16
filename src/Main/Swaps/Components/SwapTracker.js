@@ -16,6 +16,7 @@ export default SwapTracker = (props) => {
       <BuyIn
         key = {index} navigation = {props.navigation}
         buyin = {content.recipient_buyin}
+        my_buyin={props.my_buyin}
         tournament= {props.tournament}
         agreed_swaps = {content.agreed_swaps}
         other_swaps = {content.other_swaps}

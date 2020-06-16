@@ -93,7 +93,8 @@ export default SwapRow = (props) => {
       {/* SWAP STATUS */}
       <Col style={{ width:'20%' }}>
         <Text style={{ textTransform:'capitalize' }}>
-          {props.swap.status}
+          {props.swap.status !== 'counter_incoming' ?
+            props.swap.status : ' Counter\nIncoming'}
         </Text>
       </Col>
       {/* SWAP TIME */}

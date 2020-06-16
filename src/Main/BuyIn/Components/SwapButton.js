@@ -27,6 +27,7 @@ export default SwapButton = (props) => {
 
   var lastCol, buttonColor, path, swapID;
  
+
   // YOUR SWAP VIEW
   if (props.buyin.user_id == store.myProfile.id){
     lastCol = 
@@ -109,37 +110,91 @@ export default SwapButton = (props) => {
     buttonColor = 'rgb(56,68,165)';
   } 
 
-  const enterSwapOffer = async() => {
-    console.log('swapID',swapID)
-    if(props.buyin.chips !== 0){
-      if(path !== 'inactive'){
-        props.navigation.push('SwapOffer',{
-          status: path,
-          buyin: props.buyin,
-          tournament: props.tournament,
-          buyinSince: props.buyinSince,
-          swapID: swapID
-        })
-      }else{
-        props.navigation.push('SwapOffer',{
-        status: 'inactive',
-        buyin: props.buyin,
-        tournament: props.tournament,
-        buyinSince: props.buyinSince,})}
-    } else{
-      props.navigation.push('VerifyTicket',{
-        tournament_name: props.tournament.name,
-        tournament_id: props.buyin.tournament_id,
-        tournament_start: props.tournament.start_at,
-        flight_id: props.buyin.flight_id
-        
-    })  
-      
+  const preliminary = async() => {
+    // CHECKS IF MY USER IS BUSTED
+    if(props.my_buyin.chips !== 0){
+      // CHECKS IF CURRENT BUYIN IS BUSTED
+      if(props.buyin.chips !== 0){
+        enterSwapOffer()
+      } 
+      // BUSTED BUYIN
+      else{
+        console.log("You can't swap with a busted user")
+      }
     }
-    
+    // YOU'RE BUSTED
+    else{
+      // REBUYING BACK INTO THE TOURNAMENT
+      if(path == 'edit'){
+        props.navigation.push('VerifyTicket',{
+          tournament_name: props.tournament.name,
+          tournament_id: props.buyin.tournament_id,
+          tournament_start: props.tournament.start_at,
+          flight_id: props.buyin.flight_id
+        }) 
+      } 
+      // YOU CANNOT SWAP WHILE BUSTED
+      else { console.log('You cannot swap while busted')
+      }
+    }
+
   }
 
-  const handler = throttle(enterSwapOffer, 1000, { leading: true, trailing: false });
+
+  const enterSwapOffer = async() => {
+    console.log('swapID',swapID)
+    // CHECKING IF ITS MY BUYIN
+    if( props.buyin.user_id !== store.myProfile){
+      // SWAPPING WITH ACTION LEFT
+      if( props.action !== 50 ){
+        if (path !== 'inactive') {
+          props.navigation.push('SwapOffer',{
+            status: path,
+            buyin: props.buyin,
+            tournament: props.tournament,
+            buyinSince: props.buyinSince,
+            swapID: swapID
+          })
+        } else {
+          console.log('this inactive')
+          props.navigation.push('SwapOffer',{
+            status: 'inactive',
+            buyin: props.buyin,
+            tournament: props.tournament,
+            buyinSince: props.buyinSince,
+            swapID: swapID
+          })
+        }
+        
+      }
+      // SWAPPING WITH NO ACTION LEFT
+      else{
+        if( path == 'pending' || path == 'counter_incoming' ){
+          props.navigation.push('SwapOffer',{
+            status: path,
+            buyin: props.buyin,
+            tournament: props.tournament,
+            buyinSince: props.buyinSince,
+            swapID: swapID
+          })
+        }else{
+          console.log('You do not have sufficient action to swap')
+        }
+      }
+    }
+    // CHANGING BUYIN IF ITS MINE
+    else {
+      props.navigation.push('SwapOffer',{
+        status: path,
+        buyin: props.buyin,
+        tournament: props.tournament,
+        buyinSince: props.buyinSince,
+        swapID: swapID
+      })
+    }
+  }
+      
+  const handler = throttle(preliminary, 1000, { leading: true, trailing: false });
 
   return(
     <Col style={{ justifyContent:'center', marginLeft:20, textAlign:'center'}}>

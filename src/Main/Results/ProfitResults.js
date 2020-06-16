@@ -87,12 +87,12 @@ export default ProfitResults = (props) => {
               textAlign:'center', fontSize:20}}>
               {tournament.start_at}
             </Text>
-            {!myBuyin.winnings ?
+            {/* {!myBuyin.winnings ?
               <Button full success  style={{marginTop:20}}
                 onPress={()=> setVisible(true)}>
                 <Text>Enter Place and Winnings</Text>
               </Button>
-            :null}
+            :null} */}
           </ListItem>
           {/* ALL PROFIT TRACKERS */}
           {agreedBuyins.map((buyin, index) => {

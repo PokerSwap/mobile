@@ -14,7 +14,7 @@ export default TournamentBuyIn = (props) => {
 
   const enterProfile = () => {
     navigation.push('Profile',{
-      id: buyin.user_id,
+      user_id: buyin.user_id,
       nickname: buyin.user_name
     });
   }
@@ -62,6 +62,7 @@ export default TournamentBuyIn = (props) => {
           <SwapButton navigation={props.navigation}
             tournament={props.tournament}
             updated_at={props.buyin.updated_at}
+            my_buyin={props.my_buyin}
             buyin={buyin}
             txt={txt}/>
         </Col>

@@ -22,7 +22,7 @@ export default IntroOffer = (props) => {
   const swapChange = async(status) => {
     props.setLoading(true)
     var answer = await actions.swap.statusChange(
-      props.tournament_id, props.swap_id, props.buyin_id, status)
+      props.tournament_id, props.swap_id, props.buyin_id, props.currentStatus, status)
     props.setRefreshing(true)
     props.setLoading(false)
   }

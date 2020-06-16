@@ -172,11 +172,30 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}, 
 						})
 						var aaa = await response.json()
+						var answer3 = await getActions().tournament.getCurrent(a_tournament_id)
+						console.log('current Tournament buyins', getStore().currentTournament.buyins)				
 						
+						var oth = []
 
+						var otherS = getStore().currentTournament.buyins.forEach(buyin => 
+							buyin.other_swaps.forEach(swap => oth.push({...swap, buyinID: buyin.recipient_buyin.id})))
+						console.log('current Tournament unagreed swaps', oth)						
+
+						var x = oth.forEach( swap => {
+							if( swap.status == 'pending' ){
+								getActions().swap.statusChange( swap.tournament_id, swap.id, swap.buyinID, "canceled")
+								getActions().coin.buy(1)
+							}else if(swap.status == 'incoming'){
+								getActions().swap.statusChange( swap.tournament_id, swap.id, swap.buyinID, "rejected" )
+							}else if( swap.status == 'counter_incoming' ){
+								getActions().swap.statusChange( swap.tournament_id, swap.id, swap.buyinID, "rejected" )
+								getActions().coin.buy(1)
+							}else{
+								null
+							}
+						})
 						var answer0 = await getActions().tracker.getCurrent()
 						var answer1 = await getActions().tournament.getInitial()
-						var answer3 = await getActions().tournament.getCurrent(a_tournament_id)
 					}catch(error){
 						console.log('Something went wrong with busting my buyin', error)
 					}
@@ -678,10 +697,12 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}
 						})
 						.then(response => response.json())
+						
 						console.log('response should be here', response)
 						if(response.message.includes("Swap percentage too large for recipient.")){
 							return errorMessage(response.message)}
-
+						
+						var spendToken = await getActions().coin.spend()
 						var gettingProfile = await getActions().profile.get()
 						var gettingAllTrackers = await getActions().tracker.getCurrent()
 						var gettingAllTrackers = await getActions().tournament.getCurrent(a_tournament_id)		
@@ -753,24 +774,24 @@ const getState = ({ getStore, setStore, getActions }) => {
 					}
 				},
 
-				statusChange: async ( a_tournament_id, my_swap_id, a_buyin_id, a_status, a_percentage, a_counter_percentage ) => {
+				statusChange: async ( a_tournament_id, my_swap_id, a_buyin_id, a_current_status, a_new_status, a_percentage, a_counter_percentage ) => {
 					try{
 						const url = databaseURL + 'me/swaps/' + my_swap_id
 						let accessToken = getStore().userToken
 						let data 
 						
 						!a_percentage ?
-						 	data = { status: a_status }
+						 	data = { status: a_new_status }
 							: 
 							a_counter_percentage ?
 								data ={
-									status: a_status,
+									status: a_new_status,
 									percentage: a_percentage,
 									counter_percentage: a_counter_percentage
 								}
 								:
 								data = {
-									status: a_status,
+									status: a_new_status,
 									percentage: a_percentage
 								}
 
@@ -785,8 +806,14 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}
 						})
 						.then(response => response.json())
-						console.log('response actually here',response)
-						if (a_status == 'canceled'){
+						console.log('Swap Status Change Result:', response)
+						if(response.message){
+							if(
+							response.message.includes("Cannot agree")){
+							return errorMessage(response.message)
+						}}
+						console.log('a current Swatus', a_current_status)
+						if (a_current_status == 'incoming'){
 							var a = await getActions().coin.spend()
 						}else{null}
 						var getSwap = await getActions().swap.getCurrent(my_swap_id)
@@ -797,22 +824,22 @@ const getState = ({ getStore, setStore, getActions }) => {
 						var getCurrentTournament = await getActions().tournament.getCurrent(a_tournament_id)
 						var getCurrentAction = await getActions().tournament.getAction(a_tournament_id)
 						// console.log('eee', response.message, typeof(response.message))
-						var f
-						if (response.message !== undefined){
-							return alertMessage(response.message)
-						}else if (a_status == 'agreed'){
-							f = 'You agreed to this swap offer'
-						}else if (a_status == 'pending'){
-							f = 'Your swap offer was sent'
-						}else if (a_status == 'rejected'){
-							f = 'You rejected this swap offer'
-						}else if (a_status == 'canceled'){
-							f = 'You canceled this swap offer'
-						}else if (a_status == 'counter'){
-							f = 'You countered this swap offer'
-						}else if (a_status == 'agreed'){
-						}else if (a_status == 'agreed'){}else{}
-						return responseMessage(f)
+						// var f
+						// if (response.message !== undefined){
+						// 	return alertMessage(response.message)
+						// }else if (a_status == 'agreed'){
+						// 	f = 'You agreed to this swap offer'
+						// }else if (a_status == 'pending'){
+						// 	f = 'Your swap offer was sent'
+						// }else if (a_status == 'rejected'){
+						// 	f = 'You rejected this swap offer'
+						// }else if (a_status == 'canceled'){
+						// 	f = 'You canceled this swap offer'
+						// }else if (a_status == 'counter'){
+						// 	f = 'You countered this swap offer'
+						// }else if (a_status == 'agreed'){
+						// }else if (a_status == 'agreed'){}else{}
+						// return responseMessage(f)
 			
 					}
 					catch(error){
@@ -855,8 +882,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 			},
 
 			time: {
-
-				// Used for Buyins
+				// Time Conversion used for Buyins
 				convertShort: async ( time ) => {
 					try {
 						var y, since;
@@ -873,7 +899,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						else if(time.includes('month')){ since = y + 'M' }
 						else if(time.includes('year')){ since = y + 'Y' }
 						else{ null }
-						console.log('Converted Small Time of: ' + since)
+						// console.log('Converted Small Time of: ' + since)
 						
 						if (since != 'Just Now'){
 							return (since + ' ago')
@@ -884,7 +910,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						console.log('Something went wrong with converting short time', error)
 					}
 				},
-				// Used for Swaps
+				// Time Conversion used for Swaps
 				convertLong: async ( time, type ) => {
 					try {
 						var day_name = time.substring(0,3)

@@ -27,7 +27,7 @@ export default PendingPath = (props) => {
     props.setLoading(true)
     props.setRefreshing(true)
     var answer = await actions.swap.statusChange(
-      props.tournament.id, swap.id, buyin.id, "canceled") 
+      props.tournament.id, swap.id, buyin.id, "pending", "canceled") 
     props.setRefreshing(false)
     
     props.setLoading(false)

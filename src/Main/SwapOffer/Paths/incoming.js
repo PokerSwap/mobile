@@ -34,7 +34,7 @@ export default IncomingPath = (props) => {
         !counter ?
           <IntroOffer navigation={props.navigation}
             swap_id={swap.id} buyin_id={buyin.id}
-
+            currentStatus={swap.status}
             percentage={swap.percentage}
             counter_percentage={swap.counter_percentage}
             tournament_id={props.tournament_id} 
@@ -44,6 +44,7 @@ export default IncomingPath = (props) => {
           :
           <CounterOffer navigation={props.navigation} 
             swap_id={swap.id} buyin_id={buyin.id}
+            currentStatus={swap.status}
             percentage={swap.percentage} 
             counter_percentage={swap.counter_percentage}
             tournament_id={props.tournament_id} 

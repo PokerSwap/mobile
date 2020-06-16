@@ -53,7 +53,7 @@ export default BuyIn = (props) => {
 
   const _renderContent= () => {
     return(
-      <View style={{height:244}}>
+      <View>
         {allSwaps.map((swap, index) => {
           return(
             <SwapRow key={index}
@@ -125,6 +125,7 @@ export default BuyIn = (props) => {
           //Buyins you have with swaps
             <SwapButton navigation={props.navigation}
               allSwaps={allSwaps}  
+              my_buyin={props.my_buyin}
               agreed_swaps={props.agreed_swaps}
               other_swaps={props.other_swaps}
               tournament={props.tournament}
@@ -137,6 +138,8 @@ export default BuyIn = (props) => {
               :
               <SwapButton navigation={props.navigation}
               allSwaps={allSwaps}  
+              my_buyin={props.my_buyin}
+
               action={props.action}
               agreed_swaps={props.agreed_swaps}
               other_swaps={props.other_swaps}

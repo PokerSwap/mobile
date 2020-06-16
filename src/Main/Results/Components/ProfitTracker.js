@@ -170,9 +170,11 @@ export default ProfitTracker = (props) => {
         {/* TOTAL OWE ROW */}
         <Row style={{paddingTop:20, 
           borderTopWidth:1, borderColor:'#D3D3D3'}}>
+          
           <Col style={{width:'25%'}}>
             <Text style={{fontSize:24}}>Total</Text>
           </Col>
+
           <Col >
             {props.buyin.you_owe_total ?
               <Text style={{fontSize:24, fontWeight:'600',textAlign:'center'}}>
@@ -190,9 +192,7 @@ export default ProfitTracker = (props) => {
               </Text>
               :
               <Text style={{fontSize:36, textAlign:'left'}}>-</Text>}
-            
           </Col>
-          
         </Row>
         {/* SWAP PROFIT OWE */}
         <Row>
@@ -206,18 +206,17 @@ export default ProfitTracker = (props) => {
             textAlign:'center', marginTop:30}}>
               Swap Profit {"\n"} Pending
             </Text>}
-
         </Row>
         {/* PAY/PAID BUTTON */}
         <Row style={{marginTop:30}}>
           {swap_profit !== 0 && (props.buyin.they_owe_total && props.buyin.you_owe_total) ?
             swap_profit > 0 ?
               paid ?
-                <PayButton message={"You were Paid"} color={'green'} fn={null}/>
+                <PayButton message={"You were Paid"} color={'green'} fn={() => console.log('Nothing Happend')}/>
                 : <PayButton message={"Confirm Payment"} color={'rgb(241, 191, 86)'} fn={paidAlert}/>
               :  
               paid ?
-                <PayButton message={"You Paid"} color={'green'} fn={null}/>
+                <PayButton message={"You Paid"} color={'green'} fn={() => console.log('Nothing Happend')}/>
                 : <PayButton message={"Pay Now"} color={'rgb(241, 191, 86)'} fn={payAlert} />
             : null}
         </Row>

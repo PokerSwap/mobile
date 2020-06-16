@@ -110,7 +110,7 @@ export default SwapOffer = (props, {navigation}) => {
   }
 
   var getSwap = async() => {
-    if (currentSwap !== 'inactive' && currentSwap !== 'edit'){
+    if (aStatus !== 'inactive' && aStatus !== 'edit'){
       var x = await actions.swap.getCurrent(swapID)
       setCurrentSwap(store.currentSwap)
       setAStatus(store.currentSwap.status)

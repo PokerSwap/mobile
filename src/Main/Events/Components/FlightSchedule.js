@@ -26,6 +26,7 @@ export default FlightSchedule = (props) => {
       <BuyIn
         key = {index}  navigation={props.navigation}
         tournament={props.tournament}
+        my_buyin={props.my_buyin}
         buyin={content.recipient_buyin}
         agreed_swaps = {content.agreed_swaps}
         other_swaps = {content.other_swaps}/>
@@ -36,7 +37,9 @@ export default FlightSchedule = (props) => {
   var Tournament_Buy_Ins = props.unbuyins.map((content, index) => {
     return(
       <TournamentBuyIn key = {index}  
-      navigation={props.navigation}
+        navigation={props.navigation}
+        my_buyin={props.my_buyin}
+
         tournament={props.tournament}
         buyin={content}/>
     )
