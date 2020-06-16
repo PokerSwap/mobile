@@ -26,22 +26,22 @@ export default ProfileBioSideBar = (props) => {
   
   return(
     <Card transparent style={{flex:1, flexDirection:'column', paddingTop:20}}>
-      {/* YOUR PICTURE AND COINS */}
+      {/* YOUR PICTURE AND TOKENS */}
       <CardItem style={styles.topContainer}>
         {/* YOUR PICTURE */}
         <View style={styles.picture.container}>
           <Image source={{uri: props.profile_pic_url}} 
             style={styles.picture.image} />
         </View>
-        {/* YOUR COINS */}
-        <View style={styles.coins.container}>
+        {/* YOUR  SWAP TOKENS */}
+        <View style={styles.tokens.container}>
           <Button large warning onPress={()=> goPurchase()}  
-            style={styles.coins.button}>
-            <Text style={styles.coins.text}>
+            style={styles.tokens.button}>
+            <Text style={styles.tokens.text}>
               {store.myProfile.coins}
             </Text>
             <Icon type="FontAwesome5" name="coins" size={24}
-              style={styles.coins.text} />
+              style={styles.tokens.text} />
           </Button>
         </View>
       </CardItem>
@@ -59,7 +59,7 @@ export default ProfileBioSideBar = (props) => {
 }
 
 const styles ={
-  coins:{
+  tokens:{
     button:{
       justifyContent:'center', width:120},
     container:{

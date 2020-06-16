@@ -46,6 +46,7 @@ export default SwapTracker = (props) => {
       </View>
       {/* MY BUYIN IN TOURNAMENT */}
       <BuyIn navigation = {props.navigation}
+        my_buyin = {props.my_buyin}
         buyin = {props.my_buyin}
         tournament ={props.tournament} />
       {/* OTHER BUYINS YOU SWAPPED TO IN TOURNAMENT */}

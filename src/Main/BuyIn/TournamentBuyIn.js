@@ -62,6 +62,7 @@ export default TournamentBuyIn = (props) => {
           <SwapButton navigation={props.navigation}
             tournament={props.tournament}
             updated_at={props.buyin.updated_at}
+            action={props.action}
             my_buyin={props.my_buyin}
             buyin={buyin}
             txt={txt}/>

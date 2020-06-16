@@ -31,7 +31,7 @@ export default IntroOffer = (props) => {
     <Card transparent style={{
       alignSelf:'center', width:'90%', justifyContent:'center'}}>
       {store.myProfile.coins > 0 ?
-        // WHEN YOU HAVE ENOUGH COINS
+        // WHEN YOU HAVE ENOUGH TOKENS
         <View style={{ alignSelf:'center', flexDirection:'column'}}>
           {/* COUNTER AND REJECT BUTTONS */}
           <CardItem style={{justifyContent:'space-between'}}>
@@ -58,9 +58,9 @@ export default IntroOffer = (props) => {
           </CardItem>
         </View>
         :
-        // WHEN YOU HAVE ZERO COINS
+        // WHEN YOU HAVE ZERO TOKENS
         <CardItem style={{flexDirection:'column'}}>
-          {/* NO COINS WARNING */}
+          {/* NO TOKENS WARNING */}
           <Text style={{textAlign:'center', fontSize:18, marginBottom:25}}> 
             In order to accept or counter this swap, 
             you need to purchase tokens.

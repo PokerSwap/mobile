@@ -111,6 +111,7 @@ export default SwapButton = (props) => {
   } 
 
   const preliminary = async() => {
+    console.log('right now', props.my_buyin)
     // CHECKS IF MY USER IS BUSTED
     if(props.my_buyin.chips !== 0){
       // CHECKS IF CURRENT BUYIN IS BUSTED
@@ -147,6 +148,7 @@ export default SwapButton = (props) => {
     if( props.buyin.user_id !== store.myProfile){
       // SWAPPING WITH ACTION LEFT
       if( props.action !== 50 ){
+        console.log('doesnt equal 50?', props.action)
         if (path !== 'inactive') {
           props.navigation.push('SwapOffer',{
             status: path,

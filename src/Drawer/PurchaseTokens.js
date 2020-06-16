@@ -29,7 +29,7 @@ PriceOption = (props) => {
   //   if(complete){        
   //     await stripe.completeApplePayRequest()
   //     console.log('ITT SHOULD WORKKKKK')
-  //     var answer2 = await actions.coins.buy(props.coins)
+  //     var answer2 = await actions.swapToken.buy(props.tokens)
   //   } else{
   //     await stripe.completeApplePayRequest()
   //     console.log('CUT MY LIFE int PIECCES')
@@ -42,7 +42,7 @@ PriceOption = (props) => {
         "Confirmation",
         'Are you want to counter this swap?',
         [
-          { text: 'Yes', onPress: () => actions.coin.buy(props.coins)},
+          { text: 'Yes', onPress: () => actions.swapToken.buy(props.tokens)},
           { text: 'No', onPress: () => console.log("Cancel Pressed")}
         ]
       )
@@ -59,11 +59,11 @@ PriceOption = (props) => {
       </View>
       <Text style={{textAlign:'center', fontWeight:'500', 
         fontSize:24, marginBottom:10}}> 
-        {props.coins} coins
+        {props.tokens} tokens
       </Text>
 
       <Button full style={{ alignSelf:'center', justifyContent:'center', width:'100%'}} 
-        //  onPress={()=> startBuying('for ' + props.coins.toString() + ' Swap Tokens', props.dollars.toString())}
+        //  onPress={()=> startBuying('for ' + props.tokens.toString() + ' Swap Tokens', props.dollars.toString())}
        onPress={() => confirmationAlert()}
        >
         <Text style={{textAlign:'center'}}>
@@ -106,23 +106,23 @@ export default PurchaseTokens = (props) => {
 
           <Row style={{alignItems:'center'}}>
             <PriceOption image={require('../Images/5Real.png')}
-              dollars={4.99} coins={5} w={100} h={100} hx={100} />
+              dollars={4.99} swapTokens={5} w={100} h={100} hx={100} />
             <PriceOption image={require('../Images/10Real.png')}
-              dollars={9.99} coins={10} w={100} h={100} hx={100} />
+              dollars={9.99} swapTokens={10} w={100} h={100} hx={100} />
           </Row>
 
           <Row style={{alignItems:'center'}}>
             <PriceOption image={require('../Images/25Real.png')}
-              dollars={19.99} coins={25} w={100} h={100} hx={100}/>
+              dollars={19.99} swapTokens={25} w={100} h={100} hx={100}/>
             <PriceOption image={require('../Images/50Real.png')}
-              dollars={34.99} coins={50}  w={100} h={100} hx={100}/>
+              dollars={34.99} swapTokens={50}  w={100} h={100} hx={100}/>
           </Row>
           
           <Row>
             <PriceOption image={require('../Images/100Real.png')}
-              dollars={69.99} coins={100} w={100} h={100} />
+              dollars={69.99} swapTokens={100} w={100} h={100} />
             <PriceOption image={require('../Images/150Real.png')}
-              dollars={99.99} coins={150} w={100} h={100} />
+              dollars={99.99} swapTokens={150} w={100} h={100} />
           </Row>
         </Grid>
         

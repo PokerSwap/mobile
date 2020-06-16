@@ -3,38 +3,35 @@ import { View, StatusBar, Image } from 'react-native';
 import { firebase } from '@react-native-firebase/messaging';
 import AsyncStorage from '@react-native-community/async-storage';
 
-import {Context} from '../Store/appContext'
+import { Context } from '../Store/appContext'
 
 export default SplashScreen = (props) => {
-
 	const { store, actions } = useContext(Context)
 
 	const checkData = async() => {
-		const currentToken = await AsyncStorage.getItem('userToken')
-
-		if (currentToken){
-
-			var answer0 = await actions.userToken.store(currentToken)
-			var answer555 = await actions.profile.get()
+		const savedUserToken = await AsyncStorage.getItem('userToken')
+		// IF A TOKEN IS STORED ON DEVICE
+		if (savedUserToken){
+			// STORING TOKEN AND PROILE INFO
+			var storeSavedToken = await actions.userToken.store(savedUserToken)
+			var gettingProfileInfo = await actions.profile.get()		
+			// IF TOKEN IS VALID, MOVE TO AUTO-LOGIN PROCESS
 			if(store.myProfile){
-				console.log('Valid User Token')
 				var answer2 = await actions.user.auto_login(props.navigation)
-			}else{				
+			}
+			// IF TOKEN IS EXPIRED, MOVE TO LOGIN PAGE
+			else{				
 				console.log('Bad User Token')
 				actions.userToken.remove()
-				// props.navigation.navigate({name:'LogIn', key:'SCREEN_KEY_A'})
 				props.navigation.navigate('LogIn')
-
 			}
-
-		} else{
+		} 
+		// IF NO TOKEN IS STORED ON DEVICE
+		else{
 			console.log('Null User Token')
 			actions.userToken.remove()
-			// props.navigation.navigate({name:'LogIn', key:'SCREEN_KEY_A'})
 			props.navigation.navigate('LogIn')
-
 		}
-		
 	}
 
 	const hasPermission = async() => {
@@ -77,8 +74,8 @@ export default SplashScreen = (props) => {
 
 	return(
 		<View style={styles.main.container}>
-				<StatusBar 
-					backgroundColor={'rgb(38, 171, 75)'} StatusBarAnimation={'none'}/>
+			<StatusBar StatusBarAnimation={'none'}
+				backgroundColor={'rgb(38, 171, 75)'}/>
 			<View style={styles.image.container}>
 				<Image source={require("../Images/transparent-logo.png")}
 					style={styles.image.image}/>

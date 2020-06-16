@@ -25,6 +25,7 @@ export default FlightSchedule = (props) => {
     return(
       <BuyIn
         key = {index}  navigation={props.navigation}
+        action={props.action.actions}
         tournament={props.tournament}
         my_buyin={props.my_buyin}
         buyin={content.recipient_buyin}
@@ -39,6 +40,7 @@ export default FlightSchedule = (props) => {
       <TournamentBuyIn key = {index}  
         navigation={props.navigation}
         my_buyin={props.my_buyin}
+        action={props.action.actions}
 
         tournament={props.tournament}
         buyin={content}/>
@@ -60,6 +62,7 @@ export default FlightSchedule = (props) => {
       {props.my_buyin.length !== 0?
         <BuyIn 
         navigation = {props.navigation}
+        my_buyin= {props.my_buyin}
         buyin = {props.my_buyin}
         tournament ={props.tournament}
         />

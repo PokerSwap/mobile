@@ -118,7 +118,7 @@ export default SwapOffer = (props, {navigation}) => {
       console.log('aStatus', aStatus)      
       console.log('store.currentSwap.status',store.currentSwap.status)
 
-      var labelTime = await actions.swap.convertTime(tournament.start_at)
+      var labelTime = await actions.time.convertLong(tournament.start_at)
       setSTime(labelTime)
     } else{
       if(buyin.user_id == store.myProfile.id){
@@ -130,7 +130,7 @@ export default SwapOffer = (props, {navigation}) => {
   }
 
   let getTime = async() => {
-    var x = await actions.swap.convertTime(tournament.start_at)
+    var x = await actions.time.convertLong(tournament.start_at)
     setTTime(x)
   }
 
@@ -144,7 +144,7 @@ export default SwapOffer = (props, {navigation}) => {
   }, [navigation])
 
   var bx = async() => {
-    var eee = await actions.swap.remove()
+    var eee = await actions.swap.removeCurrent()
     setCurrentSwap(null)
     console.log('currentSwap',store.currentSwap)
   }

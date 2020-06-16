@@ -24,7 +24,7 @@ export default SwapDashboard = (props, {navigation}) => {
     var gettingBuyin = await actions.buy_in.getCurrent(remoteMessage.data.buyin_id)
     var gettingSwap = await actions.swap.getCurrent(remoteMessage.data.id)
     var gettingTournament = await actions.tournament.getCurrent(store.currentBuyin.tournament_id)
-    var labelTime = await actions.swap.convertTime(store.currentSwap.updated_at)
+    var labelTime = await actions.time.convertLong(store.currentSwap.updated_at)
     
     var answer = await actions.tracker.getCurrent()
 
@@ -52,21 +52,6 @@ export default SwapDashboard = (props, {navigation}) => {
     )
   });
 
- 
-
-  // useEffect(() => {
-  //   const unsubscribe = props.navigation.addListener('didBlur', () => {
-  //     bx()
-  // });
-  //   return () => {
-  //   // unsubscribe()
-  //   }
-  // }, [navigation])
-
-  // var bx = async() => {
-  //   var eee = await actions.swap.remove()
-  //   console.log('currentSwap',store.currentSwap)
-  // }
 
   let noTracker = (f) =>  {
     return(

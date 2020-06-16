@@ -7,34 +7,23 @@ import { throttle } from "lodash";
 import Spinner from 'react-native-loading-spinner-overlay';
 import { Keyboard, TouchableWithoutFeedback, TextInput, 
   KeyboardAvoidingView, View, StatusBar } from 'react-native';
-import DeviceInfo from 'react-native-device-info'
+import DeviceInfo, { isEmulator } from 'react-native-device-info'
 
 import firebase from '@react-native-firebase/app';
 import messaging from '@react-native-firebase/messaging'
 
+// KEYBOARD AVOIDING VIEW SETTINGS
 var a_behavior, offBy, marginee
-
 if (Platform.OS == 'ios'){
-  a_behavior='position' 
-   offBy= -100
-  marginee=20
+  a_behavior='position', offBy= -100, marginee=20
 }else{
-  a_behavior='padding'
-  offBy = -600
-  marginee = 30}
-
+  a_behavior='padding', offBy = -600, marginee = 30}
 
 export default LoginScreen = (props) => {
-
+  const { store, actions } = useContext(Context)
   const [email, setEmail] = useState('lou@gmail.com')
   const [password, setPassword] = useState('loustadler')
   const [loading, setLoading] = useState(false)
-
-  const { store, actions } = useContext(Context)
-
-  
-
-
   const [loginColor, setLoginColor] = useState('#000099')
   const [signupColor, setSignupColor] = useState('#FF6600')
 
@@ -46,21 +35,19 @@ export default LoginScreen = (props) => {
     });
   } 
 
-  // var deviceID
+  var deviceID
 
-  // getToken = async()=> {
-  //   deviceID = await firebase.messaging().getToken();
-  // }
-  
-
+  const isSimulator = async() => {
+    return DeviceInfo.isEmulator()
+  }
 
   const loginStart = async() => {
     Keyboard.dismiss();
-    // var x = await getToken();
     setLoading(true)
-    // console.log('before goign through', deviceID)
-    actions.user.login(
-      email, password, 'deviceID', props.navigation )
+    var x = await isSimulator()
+    x && Platform.OS == 'ios' ?
+      deviceID = 'lol' : deviceID =  firebase.messaging().getToken()
+    actions.user.login(email, password, 'deviceID', props.navigation )
     wait(3000).then(() => setLoading(false));
   }
   
@@ -72,15 +59,13 @@ export default LoginScreen = (props) => {
       <KeyboardAvoidingView  behavior={a_behavior} keyboardVerticalOffset={offBy}>
       <TouchableWithoutFeedback  onPress={Keyboard.dismiss}>
       <View>
-          
         {/* LOGO TITLE */}
         <View header style={styles.logo.container}>
           <Image style={styles.logo.image}
             source={require("../Images/transparent-logo.png")}/>
         </View>  
             
-          <View transparent>
-          
+          <View transparent>          
             {/* EMAIL INPUT */}
             <View style={styles.input.container}>
               <TextInput 
@@ -96,8 +81,7 @@ export default LoginScreen = (props) => {
                 onSubmitEditing={() => { txtPassword.focus(); }}
                 value={email}    
                 onChangeText={emailX => setEmail( emailX )} />
-            </View>
-            
+            </View>           
             {/* PASSWORD INPUT */}
             <View style={styles.input.container}>
               <TextInput 
@@ -114,10 +98,8 @@ export default LoginScreen = (props) => {
                 value={password}
                 onChangeText={passwordX => setPassword( passwordX )}/>
             </View>
-
             {/* BUTTONS */}
             <View style={styles.buttons.container}>
-
               {/* LOGIN BUTTON */}         
               <Button block onPress={() => loginStart()}
                 onPressIn={() => setLoginColor('#6699FF')}
@@ -126,8 +108,7 @@ export default LoginScreen = (props) => {
                 <Text style={styles.buttons.text}> 
                   Login 
                 </Text>
-              </Button>
-                  
+              </Button>                 
               {/* SIGN UP BUTTON */}
               <Button block 
                 onPressIn={()=> setSignupColor('#FF8533')}
@@ -137,20 +118,16 @@ export default LoginScreen = (props) => {
                 <Text style={styles.buttons.text}> 
                   Sign Up 
                 </Text>
-              </Button>
-                  
+              </Button>                  
               {/* FORGOT PASSWORD BUTTON */}
               <Button transparent style={styles.forgotPassword.button} 
                 onPress={() => props.navigation.navigate("ForgotPassword")}>
                 <Text style={styles.forgotPassword.text}>
                   Forgot password?
                 </Text>
-              </Button>
-                  
-            </View>
-          
+              </Button>                  
+            </View>          
           </View>
-
         </View>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
@@ -159,7 +136,6 @@ export default LoginScreen = (props) => {
 }
 
 const styles ={
-
   buttons:{
     container:{
       backgroundColor:'rgb(38, 171, 75)', flexDirection:'column', 
@@ -171,14 +147,12 @@ const styles ={
       alignSelf:'center',  width:'75%', 
       paddingVertical: 15, marginTop: 10,},
   },
-
   forgotPassword:{
     button: {
       justifyContent:'center', marginVertical:12 },
     text:{ 
       color:'white' }
   },
-
   input:{
     container:{
       width:'75%', alignSelf:'center', marginVertical:5, 
@@ -187,7 +161,6 @@ const styles ={
       height:40, marginTop: 1, color: "#FFF", 
       paddingHorizontal: 10, fontWeight:'bold' }
   },
-
   logo:{
     image:{
       height:300, width:300 },
@@ -196,11 +169,9 @@ const styles ={
       alignItems:'center', marginBottom: marginee
     }
   },
-
   mainContainer:{ 
     flex:1, flexDirection:'column', justifyContent:'flex-end', 
     backgroundColor:'rgb(38, 171, 75)' },
-
   spinner:{ 
     color: '#FFF' },
 }

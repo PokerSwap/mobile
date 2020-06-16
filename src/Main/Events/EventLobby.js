@@ -38,7 +38,7 @@ export default EventLobby = (props, {navigation}) => {
   // }, [navigation])
 
   var bx = async() => {
-    var eee = await actions.swap.remove()
+    var eee = await actions.swap.removeCurrent()
     console.log('currentSwap',store.currentSwap)
   }
 
@@ -98,6 +98,7 @@ export default EventLobby = (props, {navigation}) => {
     return(
       <FlightSchedule 
         key={index} navigation={props.navigation}
+        action={action}
         my_buyin={myBuyInFlight}
         buyins={swappedBuyins} unbuyins={unswappedBuyins}
         flight = {flight} tournament={currentTournament}/>)
