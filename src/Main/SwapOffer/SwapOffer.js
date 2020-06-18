@@ -103,10 +103,9 @@ export default SwapOffer = (props, {navigation}) => {
   var getBuyin = async() => {
     var x = await actions.buy_in.getCurrent(buyin.id)
     setCurrentBuyin(store.currentBuyin)
-    var x = moment(store.currentBuyin.updated_at).fromNow()
-    var Time = await actions.time.convertShort(x)
+    var xy = moment(store.currentBuyin.updated_at).fromNow()
+    var Time = await actions.time.convertShort(xy)
     setBTime(Time)
-    
   }
 
   var getSwap = async() => {
@@ -114,9 +113,9 @@ export default SwapOffer = (props, {navigation}) => {
       var x = await actions.swap.getCurrent(swapID)
       setCurrentSwap(store.currentSwap)
       setAStatus(store.currentSwap.status)
-      console.log('status', status)
-      console.log('aStatus', aStatus)      
-      console.log('store.currentSwap.status',store.currentSwap.status)
+      // console.log('status', status)
+      // console.log('aStatus', aStatus)      
+      // console.log('store.currentSwap.status',store.currentSwap.status)
 
       var labelTime = await actions.time.convertLong(tournament.start_at)
       setSTime(labelTime)

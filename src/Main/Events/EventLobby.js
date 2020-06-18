@@ -17,7 +17,9 @@ export default EventLobby = (props, {navigation}) => {
   let tournament_id = props.navigation.getParam('tournament_id', 'NO-ID');
   let tournament_start = props.navigation.getParam('tournament_start', 'NO-ID');
 
+  console.log('tournament ID', tournament_id)
   useEffect(() => {
+    getTournament()
     const subsctt = props.navigation.addListener('didFocus', () => {
       getTournament()
   });
@@ -26,7 +28,7 @@ export default EventLobby = (props, {navigation}) => {
     return () => {
       // cleanup
     }
-  }, [navigation])
+  }, [null])
 
   // useEffect(() => {
   //   const unsubscribe = props.navigation.addListener('didBlur', () => {

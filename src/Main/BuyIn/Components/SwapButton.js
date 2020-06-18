@@ -94,7 +94,7 @@ export default SwapButton = (props) => {
   // ACTION IS FULL
   else if (props.action == 50){
     lastCol = 
-      <Text style={{alignSelf:'center', fontSize:18, fontWeight:'bold'}}>
+      <Text style={{alignSelf:'center', fontSize:16, fontWeight:'bold'}}>
         Full
       </Text>;
     buttonColor= 'red';
