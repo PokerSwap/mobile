@@ -2,8 +2,6 @@ import {AppRegistry} from 'react-native';
 import App from './App';
 import {name as appName} from './app.json';
 
-
-
 import { Platform, Alert } from 'react-native';
 import firebase from '@react-native-firebase/app';
 import messaging from '@react-native-firebase/messaging'
@@ -60,11 +58,16 @@ PushNotification.configure({
 
   // (required) Called when a remote or local notification is opened or received
   onNotification: async function(notificationData) {
-    var answer1 = await AsyncStorage.removeItem('notification')
+    // var answer1 = await AsyncStorage.removeItem('notification')
 
-    console.log("NOTIFICATION:", notificationData);
-    var answer2 = await AsyncStorage.setItem('notification', JSON.stringify(notificationData))
-    
+    // console.log("NOTIFICATION:", notificationData);
+    // var answer2 = await AsyncStorage.setItem('notification', JSON.stringify(notificationData))
+    console.log('1111OPening notificaiton, remote message coming in', notificationData)
+    var x = await AsyncStorage.removeItem('notificationData')
+    var y = await AsyncStorage.setItem('notificationData', JSON.stringify(notificationData.data))
+    var z = await AsyncStorage.getItem('notificationData')
+    console.log('when recieved',notificationData,z)
+
     // required on iOS only (see fetchCompletionHandler docs: https://github.com/react-native-community/react-native-push-notification-ios)
     notificationData.finish(PushNotificationIOS.FetchResult.NoData);
   },
@@ -91,10 +94,17 @@ PushNotification.configure({
   requestPermissions: true
 });
 
-
 messaging().setBackgroundMessageHandler(async (remoteMessage) => {
-  console.log('remote message coming in', remoteMessage)
- 
+  console.log('Background remote message coming in', remoteMessage)
+})
+
+// WHEN MESSAGE COMES WHILE APP IS IN BACKGROUND
+messaging().onNotificationOpenedApp(async (remoteMessage) => {
+  console.log('onNotificationOpenedApp:', remoteMessage)
+  var x = await AsyncStorage.removeItem('notificationData')
+  var y = await AsyncStorage.setItem('notificationData', JSON.stringify(remoteMessage.data))
+  var z = await AsyncStorage.getItem('notificationData')
+  console.log('when recieved',remoteMessage,z)
 });
 
 

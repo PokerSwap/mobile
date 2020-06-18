@@ -4,6 +4,8 @@ import {Toast} from 'native-base'
 import AsyncStorage from '@react-native-community/async-storage'
 import { StackActions, NavigationActions } from 'react-navigation';
 
+import moment from 'moment';
+
 var databaseURL = 'https://swapprofit-beta.herokuapp.com/'
 
 var errorMessage = (error) => {
@@ -80,15 +82,16 @@ const getState = ({ getStore, setStore, getActions }) => {
 				// CREATING A BUYIN AND (RE)-BUYING-IN INTO A TOURNAMENT
 				add: async ( image, a_table, a_seat, some_chips, a_flight_id, a_tournament_id, a_tournament_name, a_tournament_start, navigation) => {
 					try{	
+						// PREVENTS EMPTY PICTURE SUBMISSION
 						if (image == 3){
 							return customMessage('You need to select an image of your buyin ticket')
 						}
-
+						// PREVENTS EMPTY FIELDS
 						if (a_table == '' || a_seat == '' || some_chips == ''){
 							return customMessage('You need to fill in all the fields listed')
 
 						}
-
+						// BUYIN DATA SETUP
 						var newBuyin
 						let accessToken = getStore().userToken
 						const imageURL = databaseURL + 'me/buy_ins/flight/'+ a_flight_id +'/image'		
@@ -116,10 +119,12 @@ const getState = ({ getStore, setStore, getActions }) => {
 							console.log('error in json of image',error);
 						});
 
+						// PREVENTS WRONG PICTURE UPLOADED
 						if (newBuyin.message == 'Take another photo'){
 							return errorMessage(newBuyin.message)
 						}else{null}
 
+						// VALIDATING BUYIN (DONE ONCE)
 						var validatingBuyin = await getActions().buy_in.edit(newBuyin.buyin_id, a_table, a_seat, some_chips, a_tournament_id, true)
 
 						var enteringTournament = await navigation.push('EventLobby', {
@@ -152,17 +157,21 @@ const getState = ({ getStore, setStore, getActions }) => {
 								'Content-Type':'application/json'
 							}, 
 						})
-						var aaa = await response.json()
-						var answer3 = await getActions().tournament.getCurrent(a_tournament_id)
+						var bustedBuyinResponse = await response.json()
+						console.log("Busted Buyin Response:", bustedBuyinResponse)
+
+
+						var gettingTournament = await getActions().tournament.getCurrent(a_tournament_id)
 						console.log('current Tournament buyins', getStore().currentTournament.buyins)				
 						
-						var oth = []
-
-						var otherS = getStore().currentTournament.buyins.forEach(buyin => 
-							buyin.other_swaps.forEach(swap => oth.push({...swap, buyinID: buyin.recipient_buyin.id})))
-						console.log('current Tournament unagreed swaps', oth)						
-
-						var x = oth.forEach( swap => {
+						// CLOSING ALL UNCONFIRMED SWAPS PROCESS
+						var swapsToClose = []
+						
+						var checkOtherSwaps = getStore().currentTournament.buyins.forEach(buyin => 
+							buyin.other_swaps.forEach(swap => swapsToClose.push({...swap, buyinID: buyin.recipient_buyin.id})))
+						console.log('Current Unconfirmed Swaps:', swapsToClose)						
+						
+						var closingAllSwaps = swapsToClose.forEach( swap => {
 							if( swap.status == 'pending' ){
 								getActions().swap.statusChange( swap.tournament_id, swap.id, swap.buyinID, 'pending', "canceled")
 								getActions().swapToken.buy(1)
@@ -175,8 +184,12 @@ const getState = ({ getStore, setStore, getActions }) => {
 								null
 							}
 						})
-						var answer0 = await getActions().tracker.getCurrent()
-						var answer1 = await getActions().tournament.getInitial()
+						// REFRESH APP INFO
+						var refreshingTracker = await getActions().tracker.getCurrent()
+						var refreshingProfile = await getActions().tournament.getInitial()
+						var refreshingProfile = await getActions().profile.get()
+						
+						return( customMessage('All unconfirmed swaps have been closed and your tokens returned'))
 					}catch(error){
 						console.log('Something went wrong with busting my buyin', error)
 					}
@@ -393,55 +406,107 @@ const getState = ({ getStore, setStore, getActions }) => {
 			},
 			// NAVIGATION ACTIONS
 			navigate:{
+				// NAVIGATING TO EVENT AFTER NOTIFICATION
 				toEvent: async(data, navigation) => {
 					try {
-						var anAction = await getActions().tournament.getAction(data.id);
-							theAnswer = await getActions().tournament.getCurrent(data.id);
-							var currentTournament = getStore().currentTournament
-							answerParams = {
-								action: getStore().currentAction,
-								tournament: currentTournament.tournament,
-								buyins: currentTournament.buyins,
-								flights: currentTournament.tournament.flights,
-								my_buyin: currentTournament.my_buyin,
-								navigation: navigation
-							}
+						// GETTING TOURNAMENT JSON
+						var gettingTournament = await getActions().tournament.getAction(data.id);
+						var currentTournament = getStore().currentTournament
+						var answerParams = {
+							tournament_name: currentTournament.tournament.name,
+							tournament_id: currentTournament.tournament.id,
+							tournament_start: currentTournament.tournament.start_at,
+							flight_id: currentTournament.my_buyin.flight_id,
+						}
+						console.log('Notification Event Parameters: ', answerParams)
+
+						// PREVENTS ENTERING CLOSED TOURNAMENT
+						if (currentTournament.tournament.status !== 'open'){
+							var a = await getActions().notification.remove()
+							navigation.navigate('SwapDashboard')
+							return errorMessage('This event is not open')
+						}
+
+						// NAVIGATION ACTION
+						var navigateAction = NavigationActions.navigate({
+							routeName: data.finalPath,
+							params: answerParams
+						});
+
+						var removeNotification = await getActions().notification.remove()
+
+						try{
+							navigation.dispatch(navigateAction);
+						} catch(error){
+							console.log('Cant navigate to event', error)
+							navigation.navigate('SwapDashboard');
+						}
 					}catch(error){
 						console.log("Something went wrong with navigating to event:", error)
+						var a = await getActions().notification.remove()
+						navigation.navigate('SwapDashboard')
 					}
-
 				},
+				// NAVIGATING TO SWAP AFTER NOTIFICATION
 				toSwap: async( data, navigation ) => {
 					try {
-
-						var gettingBuyin = await getActions().buy_in.getCurrent(data.buyin_id)
+						// GETTING SWAP JSON
 						var gettingSwap = await getActions().swap.getCurrent(data.id)
-						var gettingTournament = await getActions().tournament.getCurrent(getStore().currentBuyin.tournament_id)
+						var gettingTournament = await getActions().tournament.getCurrent(getStore().currentSwap.tournament_id)
+
+						if (getStore().currentTournament.tournament.start_at !== 'open'){
+							var a = await getActions().notification.remove()
+							navigation.navigate('SwapDashboard')
+							return errorMessage('This event is not open')
+						}
+						// GETS MOST CURRENT BUYIN OF OTHER USER
+						var theirBuyin
+						var fg = getStore().currentTournament.tournament.buy_ins.forEach(buyin => {
+							if(buyin.user_id == getStore().currentSwap.recipient_user.id){
+								theirBuyin = buyin
+							}
+						})
+						// PREVENTS SWAP IF OTHER USER HAS 0 CHIPS
+						if(theirBuyin.chips == 0){
+							navigation.navigate('SwapDashboard')
+							var removeNotification = await getActions().notification.remove();
+							return errorMessage("This user has busted out")
+						}
+						// PREVENTS SWAP IF I HAVE NO CHIPS
+						if(getStore().currentTournament.my_buyin.chips == 0){
+							navigation.navigate('SwapDashboard')
+							var removeNotification = await getActions().notification.remove();
+							return errorMessage('You cannot swap while busted out')
+						}
+						// SWAP TIME CONVERSION
 						var labelTime = await getActions().time.convertLong(getStore().currentSwap.updated_at)
+						
+						var removeNotification = await getActions().notification.remove();
+
+						// NAVIGATION SETUP
 						var answerParams = {
 							status: getStore().currentSwap.status,
 							swap: getStore().currentSwap,
 							buyin: getStore().currentBuyin,
 							updated_at: labelTime,
-							tournament: getStore().currentTournament
+							tournament: getStore().currentTournament.tournament
 						}
 
 						var navigateAction = NavigationActions.navigate({
 							routeName: 'SwapOffer',
 							params:  answerParams 
 						});
-						var answerrr = await getActions().notification.remove();
 
+						// NAVIGATION ACTION
 						try{
 							navigation.dispatch(navigateAction);
-							console.log('did it work')
-
 						} catch(error){
 							console.log('cant navigate', error)
 						}
 					}catch(error){
 						console.log("Something went wrong with navigating to event:", error)
 					}
+					var a = await getActions().notification.remove()
 				}
 			},
 			// PUSH NOTIFICATION ACTIONS
@@ -449,7 +514,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 				// CHECKING FOR NOTIFICATION JSON ON AUTO-LOGIN
 				check: async( navigation ) => {
 					try {
-						var prenotificationData = await AsyncStorage.getItem('notification')
+						var prenotificationData = await AsyncStorage.getItem('notificationData')
+						console.log('prenotificationdata', prenotificationData, typeof(prenotificationData))
 						var notificationData = JSON.parse(prenotificationData)
 						console.log('notificationData', notificationData, typeof(notificationData))
 						setStore({notificationData: notificationData})
@@ -458,11 +524,11 @@ const getState = ({ getStore, setStore, getActions }) => {
 						if(notificationData){
 							var type = notificationData.type
 							if (type == 'event'){
-								getActions().navigate.toEvent(notificationData, navigation)
-							}else if(type == 'swap'){
-								getActions().navigate.toSwap(notificationData, navigation)
-							}else{
-								console.log('there was an error in getting notification')
+								var startGoToEvent = await getActions().navigate.toEvent(notificationData, navigation)
+							} else if(type == 'swap'){
+								var startGoToSwap = await getActions().navigate.toSwap(notificationData, navigation)
+							} else{
+								console.log('There was an error in getting notification')
 								var a = await getActions().notification.remove()
 							}
 						}
@@ -477,13 +543,11 @@ const getState = ({ getStore, setStore, getActions }) => {
 						navigation.navigate('Login')
 					}
 				},
-
+				// REMOVE INCOMING NOTIFICATION
 				remove: async() => {
-					var aaa = await AsyncStorage.removeItem('notification')
+					var aaa = await AsyncStorage.removeItem('notificationData')
 					setStore({notificationData:null})
-
 				},
-
 			},
 			// PROFILE ACTIONS
 			profile:{
@@ -674,27 +738,29 @@ const getState = ({ getStore, setStore, getActions }) => {
 							return errorMessage(response.message)}
 						
 						var spendToken = await getActions().swapToken.spend()
-						var gettingProfile = await getActions().profile.get()
-						var gettingAllTrackers = await getActions().tracker.getCurrent()
-						var gettingAllTrackers = await getActions().tournament.getCurrent(a_tournament_id)		
-						var gettingBuyin = await getActions().swap.getCurrent(response.swap_id)		
-						var gettingSwap = await getActions().buy_in.getCurrent(a_buyin_id)		
+						var refreshingProfile = await getActions().profile.get()
+						var refreshingTrackers = await getActions().tracker.getCurrent()
+						var refreshingTournament = await getActions().tournament.getCurrent(a_tournament_id)		
+						var refreshingBuyin = await getActions().swap.getCurrent(response.swap_id)		
+						var refreshingSwap = await getActions().buy_in.getCurrent(a_buyin_id)		
 
 						var answer3 = await getActions().tournament.getAction(a_tournament_id)	
-						// var answer4 = await getActions().deviceToken.retrieve(a_recipient_id)
-						// var notifData = {
-						// 	id: a_tournament_id,
-						// 	type: 'swap',
-						// 	initialPath: 'SwapDashboard', 
-						// 	finalPath: 'SwapOffer'
-						// }
-						// var title = 'New Swap'
-						// var body = getStore().myProfile.first_name + ' ' + getStore().myProfile.last_name
-						// 	+ ' just sent you a swap'
-						// var answer4 = await getActions().notification.send( 
+						var gettingRecipeintID = await getActions().deviceToken.retrieve(a_recipient_id)
+						
+						var notifData = {
+							id: a_tournament_id,
+							type: 'swap',
+							initialPath: 'SwapDashboard', 
+							finalPath: 'SwapOffer'
+						}
+						console.log('Notif Data', notifData)
+						var title = 'New Swap'
+						var body = getStore().myProfile.first_name + ' ' + getStore().myProfile.last_name
+							+ ' just sent you a swap'
+						// var answer5 = await getActions().notification.send( 
 						// 	answer4, title, body, notifData )
-						// var ss = await getActions().swap.getCurrent(response[0].id) 
-						return responseMessage("Your swap was sent")
+						var ss = await getActions().swap.getCurrent(response[0].swap_id) 
+						// return responseMessage("Your swap was sent")
 						
 					}catch(error){
 						console.log('Something went wrong with adding a swap', error)
@@ -809,31 +875,13 @@ const getState = ({ getStore, setStore, getActions }) => {
 								var a = await getActions().swapToken.return()
 							}else{null}
 						}
-						var getSwap = await getActions().swap.getCurrent(my_swap_id)
-						var getProfule = await getActions().profile.get()
-						var getCurrentTrackers = await getActions().tracker.getCurrent()
-						var gettingBuyin = await getActions().swap.getCurrent(my_swap_id)		
-						var gettingSwap = await getActions().buy_in.getCurrent(a_buyin_id)	
-						var getCurrentTournament = await getActions().tournament.getCurrent(a_tournament_id)
-						var getCurrentAction = await getActions().tournament.getAction(a_tournament_id)
-						// console.log('eee', response.message, typeof(response.message))
-						// var f
-						// if (response.message !== undefined){
-						// 	return alertMessage(response.message)
-						// }else if (a_status == 'agreed'){
-						// 	f = 'You agreed to this swap offer'
-						// }else if (a_status == 'pending'){
-						// 	f = 'Your swap offer was sent'
-						// }else if (a_status == 'rejected'){
-						// 	f = 'You rejected this swap offer'
-						// }else if (a_status == 'canceled'){
-						// 	f = 'You canceled this swap offer'
-						// }else if (a_status == 'counter'){
-						// 	f = 'You countered this swap offer'
-						// }else if (a_status == 'agreed'){
-						// }else if (a_status == 'agreed'){}else{}
-						// return responseMessage(f)
-			
+						var refreshingSwap = await getActions().swap.getCurrent(my_swap_id)
+						var refreshingProfile = await getActions().profile.get()
+						var refreshingTrackers = await getActions().tracker.getCurrent()
+						var refreshingBuyin = await getActions().swap.getCurrent(my_swap_id)		
+						var refreshingSwap = await getActions().buy_in.getCurrent(a_buyin_id)	
+						var refreshingTournament = await getActions().tournament.getCurrent(a_tournament_id)
+						var refreshingAction = await getActions().tournament.getAction(a_tournament_id)			
 					}
 					catch(error){
 						console.log('Something went wrong with the staus change of a swap',error)
@@ -1183,8 +1231,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					var data = {
 						email: myEmail,
 						password: myPassword,
-						// device_token: myDeviceID,
-						device_token: 'lol',
+						device_token: myDeviceID,
 						exp: time
 					};
 					console.log('loginData', data)

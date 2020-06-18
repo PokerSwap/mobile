@@ -40,14 +40,19 @@ export default LoginScreen = (props) => {
   const isSimulator = async() => {
     return DeviceInfo.isEmulator()
   }
+  var getToken = () => { return firebase.messaging().getToken() }
 
   const loginStart = async() => {
     Keyboard.dismiss();
     setLoading(true)
     var x = await isSimulator()
-    x && Platform.OS == 'ios' ?
-      deviceID = 'lol' : deviceID =  firebase.messaging().getToken()
-    actions.user.login(email, password, 'deviceID', props.navigation )
+    if(x && Platform.OS == 'ios'){
+      deviceID = 'lol'
+    }else{
+      var bb = await getToken()
+      deviceID = bb
+    } 
+    actions.user.login(email, password, deviceID, props.navigation )
     wait(3000).then(() => setLoading(false));
   }
   

@@ -18,40 +18,33 @@ export default SwapDashboard = (props, {navigation}) => {
   const { store, actions } = useContext(Context)
   const [onLoad, setOnLoad] = useState(true)
 
-  messaging().onMessage(async (remoteMessage) => {
-    console.log('FCM Message Data:', remoteMessage);
-    
-    var gettingBuyin = await actions.buy_in.getCurrent(remoteMessage.data.buyin_id)
-    var gettingSwap = await actions.swap.getCurrent(remoteMessage.data.id)
-    var gettingTournament = await actions.tournament.getCurrent(store.currentBuyin.tournament_id)
-    var labelTime = await actions.time.convertLong(store.currentSwap.updated_at)
-    
-    var answer = await actions.tracker.getCurrent()
-
-    var answerParams = {
-      status: store.currentSwap.status,
-      swap: store.currentSwap,
-      buyin: store.currentBuyin,
-      updated_at: labelTime,
-      tournament: store.currentTournament
-    }
-
-    var navigateAction = NavigationActions.navigate({
-      routeName: 'SwapOffer',
-      params:  answerParams 
+  useEffect(() => {
+    const unsubscribe = messaging().onMessage(async (remoteMessage) => {
+      console.log('FCM Message Data:', remoteMessage);
+  
+      Alert.alert(
+        remoteMessage.notification.title,
+        remoteMessage.notification.body,
+        [
+          { text: 'Open', onPress: () => goToThing(remoteMessage.data) },
+          { text: 'Close', onPress: () => console.log("Cancel Pressed"), }
+        ]
+      )
     });
+    return () => {
+      unsubscribe
+    }
+  }, [null])
 
-
-    Alert.alert(
-      "Swap Alert",
-      remoteMessage.data.alert,
-      [
-        { text: 'Open', onPress: () => props.navigation.dispatch(navigateAction) },
-        { text: 'Close', onPress: () => console.log("Cancel Pressed"), }
-      ]
-    )
-  });
-
+  const goToThing = async(data) => {
+    if(data.type == 'event'){
+      var cc = await actions.navigate.toEvent(data, props.navigation)
+    }else if(data.type == 'swap'){
+      var cc = await actions.navigate.toSwap(data, props.navigation)
+    }else{
+      null
+    }
+  }
 
   let noTracker = (f) =>  {
     return(
