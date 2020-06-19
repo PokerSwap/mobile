@@ -110,49 +110,38 @@ export default  PictureSetup = (props) => {
 
   return(
     <Card transparent>
-
       {/* IMAGE PREVIEW */}
       <CardItem header style={{justifyContent:'center'}}>
-        <Image 
-          source={{uri:image}}
-          style={{height:300, width:300, 
-            marginTop:25, borderRadius:500}}
-        >
+        <Image source={{uri:image}}
+          style={{height:200, width:200, marginTop:25, borderRadius:500}}>
           </Image>
       </CardItem>
-
       {/* PICTURE INSTRUCTIONS */}
       <CardItem body style={{justifyContent:'center'}}>
         <Text style={{fontSize:24}}>
           Choose a profile picture of yourself to upload.
         </Text>
       </CardItem>
-        
       {/* UPLOAD BUTTON */}
       <CardItem footer style={{justifyContent:"center"}}>
         <Button large onPress={() => choosePhoto()}>
           <Text> UPLOAD </Text>
         </Button>
       </CardItem>
-
       {/* NAVIGATION BUTTONS */}
       <CardItem footer style={{justifyContent:"space-around"}}>
-
         {/* PREVUIOS BUTTON */}
         <Button large iconLeft onPress={() => props.prev()}>
           <Icon name='arrow-back'/>
           <Text>Go Back</Text>
         </Button>
-
         {/* NEXT BUTTON */}
         <Button large disabled={x} iconRight 
           onPress={() => props.next()}>
           <Text>Next</Text>
           <Icon name='arrow-forward'/>
         </Button>
-
       </CardItem>
-
     </Card>
   )
 }

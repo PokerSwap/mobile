@@ -62,7 +62,7 @@ PushNotification.configure({
 
     // console.log("NOTIFICATION:", notificationData);
     // var answer2 = await AsyncStorage.setItem('notification', JSON.stringify(notificationData))
-    console.log('1111OPening notificaiton, remote message coming in', notificationData)
+    console.log('Oening notificaiton, remote message coming in', notificationData)
     var x = await AsyncStorage.removeItem('notificationData')
     var y = await AsyncStorage.setItem('notificationData', JSON.stringify(notificationData.data))
     var z = await AsyncStorage.getItem('notificationData')
@@ -119,7 +119,7 @@ getToken = async()=> {
   var fcmTeoken = await firebase.messaging().requestPermission();
 
   var fcmToken = await firebase.messaging().getToken();
-  console.log('fcmtoken',fcmToken) 
+  // console.log('fcmtoken',fcmToken) 
 }
 
 getToken()

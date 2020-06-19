@@ -1,5 +1,5 @@
 import React, {useState, useContext, useEffect} from 'react';
-import {Container, Text, Content, Card } from 'native-base';
+import { Container, Text, Content, Card } from 'native-base';
 import { Grid, Row, Col } from 'react-native-easy-grid'
 import Spinner from 'react-native-loading-spinner-overlay'
 import moment from 'moment';
@@ -17,7 +17,6 @@ import PendingPath from './Paths/pending';
 
 export default SwapOffer = (props, {navigation}) => {
   const { store, actions } = useContext(Context)
-
 
   let status =  props.navigation.getParam('status', 'default value');
   let swapID = props.navigation.getParam('swapID', 'default value');
@@ -133,14 +132,14 @@ export default SwapOffer = (props, {navigation}) => {
     setTTime(x)
   }
 
-  useEffect(() => {
-    const unsubscribe = props.navigation.addListener('didBlur', () => {
-      bx()
-  });
-    return () => {
-    // unsubscribe()
-    }
-  }, [navigation])
+  // useEffect(() => {
+  //   const unsubscribe = props.navigation.addListener('didBlur', () => {
+  //     bx()
+  // });
+  //   return () => {
+  //   // unsubscribe()
+  //   }
+  // }, [navigation])
 
   var bx = async() => {
     var eee = await actions.swap.removeCurrent()
@@ -164,7 +163,6 @@ export default SwapOffer = (props, {navigation}) => {
     <Container>
       <Content>
       <Spinner visible={loading}/>
-
         {/* EVENT HEADER */}
         <Card transparent>
           <EventHeader 

@@ -21,8 +21,8 @@ if (Platform.OS == 'ios'){
 
 export default LoginScreen = (props) => {
   const { store, actions } = useContext(Context)
-  const [email, setEmail] = useState('lou@gmail.com')
-  const [password, setPassword] = useState('loustadler')
+  const [email, setEmail] = useState('gherndon5@gmail.com')
+  const [password, setPassword] = useState('Tryagain5!')
   const [loading, setLoading] = useState(false)
   const [loginColor, setLoginColor] = useState('#000099')
   const [signupColor, setSignupColor] = useState('#FF6600')
@@ -70,7 +70,7 @@ export default LoginScreen = (props) => {
             source={require("../Images/transparent-logo.png")}/>
         </View>  
             
-          <View transparent>          
+          <View transparent>
             {/* EMAIL INPUT */}
             <View style={styles.input.container}>
               <TextInput 

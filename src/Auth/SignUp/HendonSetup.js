@@ -3,8 +3,10 @@ import { Button, Card, CardItem, Text, Icon } from 'native-base';
 import { Alert, TextInput, View } from "react-native";
 import { WebView } from 'react-native-webview';
 
-const AlertS = (props) => {
-	const showAlert = () =>{
+export default HendonSetup = (props) => {
+	const [hendon, setHendon] = useState('https://www.thehendonmob.com/search/')
+
+	const confirmationAlert = () =>{
     Alert.alert(
       "Confirmation",
       'Are you sure this is you?',
@@ -13,82 +15,65 @@ const AlertS = (props) => {
         { text: 'No', onPress: () => console.log("Cancel Pressed"), }
       ]
     )
-  }
-	return (
-		 <Button large success onPress = {showAlert}>
-				<Text>SUBMIT</Text>
-		 </Button>
-	)
-}
-
-export default HendonSetup = (props) => {
-
-	const [hendon, setHendon] = useState('https://www.thehendonmob.com/search/')
+	}
+	
+	const goToNextPage = () => {
+		props.onChangeHendon('');
+		props.next();
+	}
 
 	return(
 		<Card transparent>
-
 			{/* HENDON INSTRUCTIONS */}
 			<CardItem style={{flexDirection:"column", justifyContent:"center"}}>
 				<Text style={{textAlign:'center'}}>
 					If you have a Hendon Mob profile, please enter your name {}
 					in the search engine in the live Hendon Mob search below.
 				</Text>
-			</CardItem>
-			
+			</CardItem>			
 			{/* OPTION BUTTONS */}
 			<CardItem style={{justifyContent:'space-around'}}>
-				<AlertS  next={props.next}/>
-				
-				<Button large danger style={{}} 
-					onPress={() => {
-						props.onChangeHendon('');
-						props.next();
-					}}>
+				<Button large success onPress ={() => confirmationAlert()}>
+					<Text>SUBMIT</Text>
+				</Button>
+				<Button large danger
+					onPress={() => goToNextPage}>
 					<Text>LATER</Text>
 				</Button>
-
 			</CardItem> 
-
 			{/* HENDON WEBVIEW */}
 			<CardItem style={{height:400}}>
-					<WebView 
-						source={{ uri: hendon }}
-						originWhitelist={['*']}
-						// ref="webview"
-						onNavigationStateChange={(webViewState) => {
-							setHendon(webViewState.url)
-							props.onChangeHendon(webViewState.url)
-						}}
-						javaScriptEnabled = {true}
-						domStorageEnabled = {true}
-						startInLoadingState={false}
-					/>
-				</CardItem>
-				
+				<WebView 
+					source={{ uri: hendon }}
+					originWhitelist={['*']}
+					// ref="webview"
+					onNavigationStateChange={(webViewState) => {
+						setHendon(webViewState.url)
+						props.onChangeHendon(webViewState.url)
+					}}
+					javaScriptEnabled = {true}
+					domStorageEnabled = {true}
+					startInLoadingState={false}
+				/>
+			</CardItem>				
 			{/* HENDON URL INPUT */}
 			<CardItem footer style={{flexDirection:"row", justifyContent:"center"}}> 
-					<View style={{borderWidth:1, width:'85%', paddingVertical:12, marginVertical:10}} >
-					<TextInput
-						style={{paddingHorizontal:10}}
-						placeholder='Enter Your Hendon User URL'
-						placeholderTextColor='gray'
-						value={props.hendon}
-						onChangeText={props.onChangeHendon} />
-					
-					</View>
-				</CardItem>
-
- 
-
+				<View style={{borderWidth:1, width:'85%', paddingVertical:12, marginVertical:10}} >
+				<TextInput
+					style={{paddingHorizontal:10}}
+					placeholder='Enter Your Hendon User URL'
+					placeholderTextColor='gray'
+					value={props.hendon}
+					onChangeText={props.onChangeHendon} />
+				</View>
+			</CardItem>
 			{/* PREV BUTTON */}
 			<CardItem style={{justifyContent:'center'}}>
-					<Button info iconLeft large onPress={() => props.prev()}>
-						<Icon name='arrow-back'/>
-						<Text>Go Back</Text>
-					</Button>
-				</CardItem>
-
+				<Button info iconLeft large onPress={() => props.prev()}>
+					<Icon name='arrow-back'/>
+					<Text>Go Back</Text>
+				</Button>
+			</CardItem>
 		</Card>
 	)
 }

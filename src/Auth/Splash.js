@@ -16,11 +16,12 @@ export default SplashScreen = (props) => {
 			var storeSavedToken = await actions.userToken.store(savedUserToken)
 			var gettingProfileInfo = await actions.profile.get()		
 			// IF TOKEN IS VALID, MOVE TO AUTO-LOGIN PROCESS
-			if(store.myProfile){
+			if(store.myProfile && store.myProfile.message !== "Profile not found"){
+				console.log('profleeeee', store.myProfile)
 				var answer2 = await actions.user.auto_login(props.navigation)
 			}
 			// IF TOKEN IS EXPIRED, MOVE TO LOGIN PAGE
-			else{				
+			else{
 				console.log('Bad User Token')
 				actions.userToken.remove()
 				props.navigation.navigate('LogIn')
@@ -36,10 +37,10 @@ export default SplashScreen = (props) => {
 
 	const hasPermission = async() => {
 		var answer = await firebase.messaging().hasPermission();
-		console.log('hasPermission',answer)
+		// console.log('hasPermission',answer)
 		if (answer){
 			var fcmToken = await firebase.messaging().getToken();
-			console.log('It has Permission')
+			// console.log('It has Permission')
 		}else{
 			console.log('Requesting Permission')
 			getPermission()

@@ -1,22 +1,15 @@
 import React, {useContext, useState, useCallback, useEffect} from 'react';
 import {RefreshControl, Alert, Text} from 'react-native';
 import { Container, Content, List, ListItem, Separator } from 'native-base';
+import messaging from '@react-native-firebase/messaging'
 import moment from 'moment'
 
 import HomeHeader from '../../View-Components/HomeHeader'
 import { Context } from '../../Store/appContext'
 import SwapTracker from './Components/SwapTracker';
 
-import messaging from '@react-native-firebase/messaging'
-
-import { StackActions, NavigationActions, NavigationContext } from 'react-navigation';
-
-
-
 export default SwapDashboard = (props, {navigation}) => {
-
   const { store, actions } = useContext(Context)
-  const [onLoad, setOnLoad] = useState(true)
 
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async (remoteMessage) => {
@@ -45,43 +38,42 @@ export default SwapDashboard = (props, {navigation}) => {
       null
     }
   }
-
-  let noTracker = (f) =>  {
+  // EMPTY CURRENT TRACKER COMPONENT
+  let noTracker = (f) => {
     return(
       <ListItem noIndent style={styles.noTracker.listItem}>
         <Text style={styles.noTracker.text}> 
           You have no {f} tournaments at the moment. 
         </Text>
-      </ListItem>)}
-
+      </ListItem>
+    )
+  }
+  // OCCUPIED CURRENT TRACKER COMPONENT
   let a_tracker = (e) => e.map((content, index) => {
-    
     return(
       <SwapTracker
         key={index} navigation={props.navigation}
         my_buyin= {content.my_buyin} buyins = {content.buyins}
-        tournament={content.tournament} action={content.action}/>)})
+        tournament={content.tournament} action={content.action}/>
+    )
+  })
   
   let liveTracker, upcomingTracker
-  let trackers = store.myTrackers
   
-  if( Object.keys(trackers)[0] !== "message" && trackers !== []){
-
-    var now = moment()
-
-    var currentList = trackers.filter(tracker => 
-      now.isAfter(moment(tracker.tournament.start_at)))
-    // console.log('currentList', currentList)
+  if( Object.keys(store.myTrackers)[0] !== "message" && store.myTrackers !== []){
+    // CURRENT TRACKER LIST
+    var currentList = store.myTrackers.filter(tracker => 
+      moment().isAfter(moment(tracker.tournament.start_at)))
     currentList.length !== 0 ? 
       liveTracker = a_tracker(currentList) : liveTracker = noTracker('live')
-    
-    var upcomingList = trackers.filter((tracker) => 
-      now.isBefore(tracker.tournament.start_at))
-    // console.log('upcomingList', upcomingList)
+    // UPCOMING TRACKER LIST
+    var upcomingList = store.myTrackers.filter((tracker) => 
+      moment().isBefore(tracker.tournament.start_at))
     upcomingList.length !== 0 ? 
       upcomingTracker = a_tracker(upcomingList) : upcomingTracker = noTracker('upcoming')
-      
-  } else{
+  } 
+  // NO TOURNAMENTS AND/OR NEW USER VIEW
+  else{
     liveTracker = noTracker('live')
     upcomingTracker = noTracker('upcoming')
   }       
@@ -106,25 +98,26 @@ export default SwapDashboard = (props, {navigation}) => {
       <HomeHeader title={'Active Swaps'}  
         drawer={() => props.navigation.toggleDrawer()}
         tutorial={() => props.navigation.push('Tutorial')}/>
-        
-      <Content>	
+      <Content>
+        {/* REFRESH SWAP CURRENT TRACKERS */}
         <RefreshControl refreshing={refreshing} onRefresh={() => onRefresh()} />
-        
-        {/* SWAPTRACKERS */}
+        {/* CURRENT SWAPTRACKERS */}
         <List>
-          {/* LIVE SWAPTRACKER */}
+          {/* LIVE SWAPTRACKER HEAD */}
           <Separator bordered style={styles.separator.live}>
             <Text style={styles.separator.text}> 
               LIVE 
             </Text>                
           </Separator>
+          {/* LIVE SWAPTRACKER BODY */}
           {liveTracker}
-          {/* UPCOMING SWAPTRACKER */}
+          {/* UPCOMING SWAPTRACKER HEADER */}
           <Separator bordered style={styles.separator.upcoming}>
             <Text style={styles.separator.text}> 
               UPCOMING 
             </Text>
           </Separator>
+          {/* UPCOMING SWAPTRACKER BODY */}
           {upcomingTracker}
         </List>
       </Content>
@@ -145,6 +138,6 @@ const styles = {
     listItem:{
       justifyContent:'center'},
     text:{
-      justifyContent:'center', textAlign:'center', fontSize:24, width:'90%'}
+      justifyContent:'center', textAlign:'center', fontSize:22, width:'90%', marginVertical: 5}
   }
 }

@@ -40,9 +40,9 @@ PriceOption = (props) => {
     const confirmationAlert = () => {
       Alert.alert(
         "Confirmation",
-        'Are you want to counter this swap?',
+        'Are you want to purchase ' + props.swapTokens + ' Tokens?',
         [
-          { text: 'Yes', onPress: () => actions.swapToken.buy(props.tokens)},
+          { text: 'Yes', onPress: () => actions.swapToken.buy(props.swapTokens)},
           { text: 'No', onPress: () => console.log("Cancel Pressed")}
         ]
       )
@@ -59,7 +59,7 @@ PriceOption = (props) => {
       </View>
       <Text style={{textAlign:'center', fontWeight:'500', 
         fontSize:24, marginBottom:10}}> 
-        {props.tokens} tokens
+        {props.swapTokens} Tokens
       </Text>
 
       <Button full style={{ alignSelf:'center', justifyContent:'center', width:'100%'}} 

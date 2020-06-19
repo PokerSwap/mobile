@@ -10,6 +10,7 @@ export default IncomingPath = (props) => {
   const [ counter, setCounter ] = useState(false)
   var {swap} = props, {buyin} = props;
 
+  console.log('swap percentage', swap.percentage)
   return(
     <Card transparent style={{
       alignSelf:'center', width:'95%', justifyContent:'center'}}>
@@ -30,7 +31,7 @@ export default IncomingPath = (props) => {
           : <Spinner />} 
       </CardItem>
 
-      {swap ?
+      {swap.percentage ?
         !counter ?
           <IntroOffer navigation={props.navigation}
             swap_id={swap.id} buyin_id={buyin.id}

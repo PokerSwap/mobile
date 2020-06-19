@@ -66,7 +66,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 			// ALL WINNING TRACKERS
 			myWinningsTrackers:[],
 			// FOR MOST RECENT NOTIFICATION, TO GO TO PAGE
-			notificationData: null,
+			notificationData: {},
 			// LISTS ALL RECIEVED NOTIFICATIONS
 			notificationList:[],
 	  	// OTHER PEOPLE'S PROFILES (ON PROFILE VIEW)
@@ -454,7 +454,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						var gettingSwap = await getActions().swap.getCurrent(data.id)
 						var gettingTournament = await getActions().tournament.getCurrent(getStore().currentSwap.tournament_id)
 
-						if (getStore().currentTournament.tournament.start_at !== 'open'){
+						if (getStore().currentTournament.tournament.tournament_status !== 'open'){
 							var a = await getActions().notification.remove()
 							navigation.navigate('SwapDashboard')
 							return errorMessage('This event is not open')
@@ -747,19 +747,19 @@ const getState = ({ getStore, setStore, getActions }) => {
 						var answer3 = await getActions().tournament.getAction(a_tournament_id)	
 						var gettingRecipeintID = await getActions().deviceToken.retrieve(a_recipient_id)
 						
-						var notifData = {
-							id: a_tournament_id,
-							type: 'swap',
-							initialPath: 'SwapDashboard', 
-							finalPath: 'SwapOffer'
-						}
-						console.log('Notif Data', notifData)
-						var title = 'New Swap'
-						var body = getStore().myProfile.first_name + ' ' + getStore().myProfile.last_name
-							+ ' just sent you a swap'
+						// var notifData = {
+						// 	id: a_tournament_id,
+						// 	type: 'swap',
+						// 	initialPath: 'SwapDashboard', 
+						// 	finalPath: 'SwapOffer'
+						// }
+						// console.log('Notif Data', notifData)
+						// var title = 'New Swap'
+						// var body = getStore().myProfile.first_name + ' ' + getStore().myProfile.last_name
+						// 	+ ' just sent you a swap'
 						// var answer5 = await getActions().notification.send( 
 						// 	answer4, title, body, notifData )
-						var ss = await getActions().swap.getCurrent(response[0].swap_id) 
+						// var ss = await getActions().swap.getCurrent(response[0].swap_id) 
 						// return responseMessage("Your swap was sent")
 						
 					}catch(error){
@@ -785,7 +785,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						console.log('currentSwap', answer)
 						setStore({currentSwap:answer})
 					}catch(error){
-						console.log("SOmething went wrong with getting a swap", error)
+						console.log("Something went wrong with getting the current swap: ", error)
 					}
 				},
 				// YOU AND OTHER USER CONFIRMS PAYMENT
@@ -807,18 +807,18 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}
 						})
 						.then(response => response.json())
-						console.log('response why', response)
+						console.log('You Paid Swap Response:', response)
 
 						var x = await getActions().tracker.getPast()
 
 					}catch(error){
-						console.log('Something went wrong with paying a swap', error)
+						console.log('Something went wrong with paying a swap: ', error)
 					}
 				},
 				// REMOVES CURRENT SWAP FROM STORE
 				removeCurrent: async ( ) => {
 					setStore({currentSwap:null})
-					console.log('cureent swap in the sotew',getStore().currentSwap )
+					console.log('Current Swap in Store: ',getStore().currentSwap )
 				},
 				// ANY CHANGE TO SWAP IS DONE HERE
 				statusChange: async ( a_tournament_id, my_swap_id, a_buyin_id, a_current_status, a_new_status, a_percentage, a_counter_percentage ) => {
@@ -842,7 +842,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 									percentage: a_percentage
 								}
 
-							console.log('data',data)
+							// console.log('data',data)
 
 						let response = await fetch(url,{
 							method:"PUT",
@@ -884,7 +884,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						var refreshingAction = await getActions().tournament.getAction(a_tournament_id)			
 					}
 					catch(error){
-						console.log('Something went wrong with the staus change of a swap',error)
+						console.log("Something went wrong with the swap's status change:",error)
 						errorMessage(error.message)
 					}
 				},
@@ -916,7 +916,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							return(since)
 						}
 					}catch(error){
-						console.log('Something went wrong with converting short time', error)
+						console.log('Something went wrong with converting short time: ', error)
 					}
 				},
 				// Time Conversion used for Swaps
@@ -946,12 +946,12 @@ const getState = ({ getStore, setStore, getActions }) => {
 						
 						var startDate =  day_name + '. ' + startMonth + '. ' + startDay
 						var startTime = startHour + ':' + time.substring(20,22) + startM
-						console.log('sss', startDate + '  ' +   startTime)
+						// console.log('sss', startDate + '  ' +   startTime)
 
 						return startDate + ', ' + startYear + ' ' +   startTime
 					
 					}catch(error){
-						console.log('Something went wrong with converting long time', error)
+						console.log('Something went wrong with converting long time: ', error)
 					}
 				}
 			},
@@ -972,7 +972,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						var aCurrentAction = await response.json()
 						setStore({currentAction: aCurrentAction})
 					} catch(error){
-						console.log('Something went wrong in getting action from a tournament', error)
+						console.log('Something went wrong in getting action from a tournament: ', error)
 					}
 				},		
 				// GETTING INFORMATION ON TOURNAMENT YOU'RE VIEWING
@@ -992,7 +992,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						var aCurrentTournament = await response.json()
 						setStore({currentTournament: aCurrentTournament})
 					} catch(error){
-						console.log('Something went wrong with getting currents tournaments', error)
+						console.log('Something went wrong with getting a current tournament: ', error)
 						return errorMessage(error.message)
 					}
 				},
@@ -1040,7 +1040,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						setStore({tournamentList: aaaa})
 						// console.log('tournaments inital', getStore().tournamentList)
 					} catch(error) {
-						console.log('Something went wrong with getting initial tournaments', error)
+						console.log('Something went wrong with getting initial tournaments: ', error)
 						return errorMessage(error.message)
 					}
 				},
@@ -1090,7 +1090,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							console.log('No more tournaments')}
 
 					} catch(error){
-						console.log('Something went wrong with getting more tournaments', error)
+						console.log('Something went wrong with getting more tournaments: ', error)
 					}
 				},
 				// RETRIEVES CURRENT ACTION FOR FORMULA USE 
@@ -1108,7 +1108,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						var aCurrentAction = await response.json()
 						return(aCurrentAction)
 					} catch(error){
-						console.log('Something went wrong in getting action from a tournament', error)
+						console.log('Something went wrong in getting action from a tournament: ', error)
 					}
 				},
 			},
@@ -1128,7 +1128,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 
 						let trackerData = await response.json()
-						console.log('trackerData',trackerData)
+						// console.log('trackerData',trackerData)
 						
 						var getIds = trackerData.map(tracker => tracker.tournament.id)
 						
@@ -1147,7 +1147,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						setStore({myTrackers: newTrackerData})
 						
 					} catch(error){
-						console.log('Something went wrong in getting all trackers', error)
+						console.log('Something went wrong in getting current trackers: ', error)
 					}
 
 				},
@@ -1170,7 +1170,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						// console.log('myPastTrackers', getStore().myPastTrackers)
 						
 					}catch(error){
-						console.log('Something went wrong in getting past trackers', error)
+						console.log('Something went wrong in getting past trackers: ', error)
 					}
 
 				},
@@ -1181,6 +1181,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				// CREATE A USER AND SENDS A VERIFICATION EMAIL
 				add: async ( myEmail, myPassword ) => {
 					try{
+						// DATA SETUP
 						const url = databaseURL + 'users'
 						const data = {
 							email: myEmail,
@@ -1195,16 +1196,13 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}, 
 						})
 						.then(response => response.json())
-						console.log('added user',response)
-
-						Toast.show({
-							text:response.message,
-							position:'top',
-							duration:3000
-						})
-	
+						.then(() => console.log('Added User Response: ', response))
+						.then(() => actions.profile.get())
+						.then(() => actions.tournament.getInitial())
+						.then(()=> props.navigation.navigate('Categories'))
+						return customMessage(response.message)
 					} catch(error) {
-						console.log("Something went wrong in adding user", error)
+						console.log("Something went wrong with adding user: ", error)
 						return errorMessage(error.message)
 					}
 				},
@@ -1220,7 +1218,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							)
 						)
 					}catch(error){
-						console.log('Something went wrong with autologin', error)
+						console.log('Something went wrong with auto-login: ', error)
 						navigation.navigate('Login')
 					}
 				},
@@ -1234,7 +1232,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						device_token: myDeviceID,
 						exp: time
 					};
-					console.log('loginData', data)
+					// console.log('loginData', data)
 
 					return new Promise(resolve =>
 						resolve(getActions().userToken.get(data)
@@ -1243,7 +1241,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						.then(()=> myPassword = '')
 						.then(()=> {
 							if(getStore().userToken){
-								if(getStore().myProfile != 'error' && getStore().myProfile){
+								if(getStore().myProfile.message !== "Profile not found"){
 									getActions().deviceToken.store(myDeviceID)
 									.then(() => getActions().tournament.getInitial())
 									.then(() => getActions().tracker.getCurrent())
@@ -1256,7 +1254,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 								console.log("You did not login");
 							}
 						})
-						.catch((error)=> console.log('Something went wrong in logging in', error))
+						.catch((error)=> console.log('Something went wrong in logging in: ', error))
 					))
 				},
 				// LOGOUT FUNCTION
@@ -1294,7 +1292,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}, 
 						})
 						.then(response => response.json())
-						console.log('changeMeail',response)
+						console.log('Change Email Response: ',response)
 						Toast.show({
 							text:response.message,
 							position:'top',
@@ -1305,7 +1303,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 						}else{
 							console.log('You did not return to login')
 						}
-
 					}catch(error){
 						console.log('Something went wrong with changing your email', error)
 						return errorMessage(error.message)
@@ -1321,7 +1318,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 						}
 	
 						let accessToken = getStore().userToken;
-	
 						const url = databaseURL + 'users/me/password'
 	
 						let response = await fetch(url, {
@@ -1333,7 +1329,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}, 
 						})
 						.then(response => response.json())
-						console.log('change password', response)
+						console.log('Change Password Response: ', response)
 						Toast.show({
 							text:response.message,
 							position:'top',
@@ -1345,7 +1341,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							console.log('You did not return to login')
 						}
 					}catch(error){
-						console.log('Something went wrong with changing your password', error)
+						console.log('Something went wrong with changing your password: ', error)
 						return errorMessage(error.message)
 					}
 					
@@ -1373,10 +1369,10 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 						.then(response => response.json())
 						.then((responseJson) => {
-							console.log('responseJson',responseJson)
+							console.log('Change Profile Picture Response: ', responseJson)
 						})
 						.catch((error) => {
-							console.log('error in changing json',error);
+							console.log('Something went wrong in changing profile picture: ',error);
 						});
 						var errew = await getActions().profile.get()
 						return(Toast({
@@ -1408,7 +1404,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					})
 				
 					}catch(error){
-						console.log('Something went wrong with forgot password', error)
+						console.log('Something went wrong with forgot password: ', error)
 						return errorMessage(error.message)
 					}
 				}					
@@ -1432,12 +1428,12 @@ const getState = ({ getStore, setStore, getActions }) => {
 						if (response1.status >= 200 && response1.status < 300) {
 							data.error = "";
 							let user = res;
-							console.log('userToken: ', user, typeof(user))
+							console.log('userToken is now: ', user, typeof(user))
 							getActions().userToken.store(user.jwt);
 						} else {
 							let error = res;
 							getActions().userToken.remove();
-							console.log("Something went wrong in getting userToken", error, getStore().userToken);
+							console.log("Something went wrong in getting userToken: ", error, getStore().userToken);
 							return errorMessage(error.message)
 						}
 						
@@ -1452,11 +1448,11 @@ const getState = ({ getStore, setStore, getActions }) => {
 				// STORES THE TOKEN IN ASYNC STORAGE AND STORE
 				store: async( myUserToken ) => {
 					try {
-						console.log('userToken',myUserToken)
+						// console.log('userToken',myUserToken)
 						setStore({userToken: myUserToken});
 						var aaasss = await AsyncStorage.setItem('userToken', myUserToken)
 					} catch(error) {
-						console.log('Something went wrong in storing userToken', error)
+						console.log('Something went wrong in storing userToken: ', error)
 					}
 				},
 				// WHILE LOGGING OUT, REMOVES TOKEN FROM STORE AND ASYNC STORAGE
@@ -1465,9 +1461,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 						setStore({userToken: null})
 						var ann = await AsyncStorage.removeItem('userToken')
 						var ss = await  AsyncStorage.getItem('userToken')
-						console.log('userToken after logout is', ss, getStore().userToken)
+						console.log('userToken after logout is: ', ss, getStore().userToken)
 					} catch(error) {
-						console.log('Something went wrong in removing userToken')
+						console.log('Something went wrong in removing userToken: ', error)
 					}
 				},
 			},
