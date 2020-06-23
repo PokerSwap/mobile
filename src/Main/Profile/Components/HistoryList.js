@@ -1,26 +1,23 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Text, List, ListItem } from 'native-base';
+import { Text, List, ListItem, Spinner } from 'native-base';
 
 import { Context } from '../../../Store/appContext'
-
 import MyProfileHistoryCard from './MyProfileHistoryCard'
-import ProfileHistoryCard from './ProfileHistoryCard'
+import TheirProfileHistoryCard from './TheirProfileHistoryCard'
 
 export default HistoryList = (props) => {
   const { store, actions } = useContext(Context)
-  const { navigation } = props;
   const [ history, setHistory ] = useState(null)
-
-  var past = store.myPastTrackers
 
   useEffect(() => {
     getHistory()
-  }, [])
+  }, [null])
 
+  // RETRIEVING RELATED SWAP HISTORY
   const getHistory = () => {
     var aHistory =[]
     if(props.user_id !== store.myProfile.id ){
-      var checkingHistory = past.forEach(
+      var checkingHistory = store.myPastTrackers.forEach(
         tracker =>  {
           var y = tracker.buyins.filter(buyin => 
             buyin.recipient_user.id == props.user_id)
@@ -37,6 +34,7 @@ export default HistoryList = (props) => {
     }
   }
 
+  // MAPPING HISTORY COMPONENT
   if(history){
     var myHistory = history.map((content, index) =>{
       return(
@@ -45,8 +43,7 @@ export default HistoryList = (props) => {
           tournament={content.tournament}
           my_buyin={content.my_buyin}
           buyins={content.buyins}
-          final_profit={content.final_profit}
-        />
+          final_profit={content.final_profit}/>
       )
     })
   
@@ -65,31 +62,43 @@ export default HistoryList = (props) => {
           : allSwaps = null
       
       return(
-        <ProfileHistoryCard key={index}
+        <TheirProfileHistoryCard key={index}
           allSwaps={allSwaps} buyin={content}
           navigation={props.navigation}
           myTrackers={store.myPastTrackers}/>
       )
     })
-
   }else{
     null
   }
 
+  // EMPTY HISTORY COMPONENT
+  var emptyHistory = (message) => {
+    return(
+      <ListItem style={{justifyContent:'center', marginTop:-20}} noIndent>
+        <Text style={{textAlign:'center', fontSize:20, fontWeight:'600'}}>
+          {message}
+        </Text>
+      </ListItem>
+    )
+  }
   
   return(
     <List style={{justifyContent:'center'}}>
+      {/* HISTORY HEADER */}
       <ListItem noIndent itemHeader style={{ justifyContent:'center' }}>
         <Text style={{ textAlign:'center', fontWeight:'600', fontSize:24}}>
           History
         </Text>
       </ListItem>
-      {props.user_id !== store.myProfile.id ?
-        history ?
-          theirHistory : <Text>You have not swapped with this user</Text>
-        : 
-        history  ?
-          myHistory : <Text>Start Swapping Today!</Text>}
+      {/* HISTORY LIST */}
+      {history ?
+        props.user_id !== store.myProfile.id ?
+          history.length !== 0 ?
+            theirHistory : emptyHistory("You have not swapped with this user!")
+        : history.length !== 0 ?
+            myHistory : emptyHistory("Start Swapping Today!")
+      : <Spinner />}
     </List>  
   )
 }

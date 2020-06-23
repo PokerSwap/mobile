@@ -17,15 +17,6 @@ var errorMessage = (error) => {
 	})
 }
 
-var responseMessage = (response) => {
-	Toast.show({
-		text:response, 
-		duration:3000, 
-		style:{bottom:90,backgroundColor:'#008000'}
-
-	})
-}
-
 var customMessage = (custom) => {
 	Toast.show({
 		text:custom, duration:3000, position:'top'
@@ -121,8 +112,19 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 						// PREVENTS WRONG PICTURE UPLOADED
 						if (newBuyin.message == 'Take another photo'){
+							var eee = await getActions().buy_in.delete(newBuyin.buyin_id)
 							return errorMessage(newBuyin.message)
 						}else{null}
+
+
+						if (newBuyin.receipt_data.table !== a_table || newBuyin.receipt_data.seat !== a_seat){
+							var eee = await getActions().buy_in.delete(newBuyin.buyin_id)
+							return errorMessage("One of the fields is not correct")
+						}else{null}
+			 
+						// if (!newBuyin.receipt_data.player_name.includes(store.myProfile.username) ){
+						// 	return errorMessage("The name in the buyin is the not the same as your profile")
+						// }else{null}
 
 						// VALIDATING BUYIN (DONE ONCE)
 						var validatingBuyin = await getActions().buy_in.edit(newBuyin.buyin_id, a_table, a_seat, some_chips, a_tournament_id, true)
@@ -194,6 +196,22 @@ const getState = ({ getStore, setStore, getActions }) => {
 						console.log('Something went wrong with busting my buyin', error)
 					}
 				},
+				delete: async ( a_buyin_id ) => {
+					const accessToken = getStore().userToken
+					var url = databaseURL + '/buy_ins/' + a_buyin_id 
+
+
+					let response = await fetch(url, {
+						method: 'DELETE',
+						headers: {
+							'Content-Type': 'application/json',
+							'Authorization': 'Bearer ' + accessToken,
+						}
+					})
+					var weeee = await response.json()
+
+					console.log('incorrect buyin deleted:', weeee)
+				},
 				// EDITING YOUR BUYIN
 				edit: async ( a_buyin_id, a_table, a_seat, some_chips, a_tournament_id, special) => {
 					try{
@@ -263,7 +281,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					try {
 						var storedDeviceToken = await AsyncStorage.getItem('deviceToken')
 						setStore({deviceToken: storedDeviceToken})
-						console.log('Current Device Token', getStore().deviceToken)
+						// console.log('Current Device Token', getStore().deviceToken)
 					} catch (error) {
 						console.log('Something went wrong with getting device token', error)
 					}
@@ -422,7 +440,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 						// PREVENTS ENTERING CLOSED TOURNAMENT
 						if (currentTournament.tournament.status !== 'open'){
-							var a = await getActions().notification.remove()
+							setStore({notificationData:null})
 							navigation.navigate('SwapDashboard')
 							return errorMessage('This event is not open')
 						}
@@ -433,7 +451,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							params: answerParams
 						});
 
-						var removeNotification = await getActions().notification.remove()
+						setStore({notificationData:null})
 
 						try{
 							navigation.dispatch(navigateAction);
@@ -443,7 +461,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						}
 					}catch(error){
 						console.log("Something went wrong with navigating to event:", error)
-						var a = await getActions().notification.remove()
+						setStore({notificationData:null})
 						navigation.navigate('SwapDashboard')
 					}
 				},
@@ -451,42 +469,46 @@ const getState = ({ getStore, setStore, getActions }) => {
 				toSwap: async( data, navigation ) => {
 					try {
 						// GETTING SWAP JSON
+						console.log('data', data)
 						var gettingSwap = await getActions().swap.getCurrent(data.id)
 						var gettingTournament = await getActions().tournament.getCurrent(getStore().currentSwap.tournament_id)
 
-						if (getStore().currentTournament.tournament.tournament_status !== 'open'){
-							var a = await getActions().notification.remove()
-							navigation.navigate('SwapDashboard')
-							return errorMessage('This event is not open')
-						}
+						// if (getStore().currentTournament.tournament.tournament_status !== 'open'){
+						// 	setStore({notificationData:null})
+						// 	navigation.navigate('SwapDashboard')
+						// 	return errorMessage('This event is not open')
+						// }
 						// GETS MOST CURRENT BUYIN OF OTHER USER
 						var theirBuyin
 						var fg = getStore().currentTournament.tournament.buy_ins.forEach(buyin => {
 							if(buyin.user_id == getStore().currentSwap.recipient_user.id){
 								theirBuyin = buyin
+								setStore({currentBuyin: theirBuyin})
+								console.log('theirBuyin', theirBuyin)
 							}
 						})
 						// PREVENTS SWAP IF OTHER USER HAS 0 CHIPS
 						if(theirBuyin.chips == 0){
 							navigation.navigate('SwapDashboard')
-							var removeNotification = await getActions().notification.remove();
+							setStore({notificationData:null})
 							return errorMessage("This user has busted out")
 						}
 						// PREVENTS SWAP IF I HAVE NO CHIPS
 						if(getStore().currentTournament.my_buyin.chips == 0){
 							navigation.navigate('SwapDashboard')
-							var removeNotification = await getActions().notification.remove();
+							setStore({notificationData:null})
 							return errorMessage('You cannot swap while busted out')
 						}
 						// SWAP TIME CONVERSION
 						var labelTime = await getActions().time.convertLong(getStore().currentSwap.updated_at)
 						
-						var removeNotification = await getActions().notification.remove();
+						setStore({notificationData:null})
 
 						// NAVIGATION SETUP
 						var answerParams = {
 							status: getStore().currentSwap.status,
 							swap: getStore().currentSwap,
+							swapID: getStore().currentSwap.id,
 							buyin: getStore().currentBuyin,
 							updated_at: labelTime,
 							tournament: getStore().currentTournament.tournament
@@ -506,53 +528,61 @@ const getState = ({ getStore, setStore, getActions }) => {
 					}catch(error){
 						console.log("Something went wrong with navigating to event:", error)
 					}
-					var a = await getActions().notification.remove()
+					setStore({notificationData:null})
 				}
 			},
 			// PUSH NOTIFICATION ACTIONS
 			notification:{
 				// CHECKING FOR NOTIFICATION JSON ON AUTO-LOGIN
-				check: async( navigation ) => {
+				check: async( notification, navigation ) => {
 					try {
-						var prenotificationData = await AsyncStorage.getItem('notificationData')
-						console.log('prenotificationdata', prenotificationData, typeof(prenotificationData))
-						var notificationData = JSON.parse(prenotificationData)
-						console.log('notificationData', notificationData, typeof(notificationData))
-						setStore({notificationData: notificationData})
+						console.log('Notification in Store:', getStore().notificationData.id)
+						console.log('Notification Coming In', notification.id)
+
+						if(getStore().notificationData.id){
+							null
+						}else{
+							setStore({notificationData: notification })
+						}
+
+						console.log('Notification in Store Now:', getStore().notificationData)
+
 
 						// NEW NOTIFICATION RECIEVED
-						if(notificationData){
-							var type = notificationData.type
+						if(getStore().notificationData.id){
+							var type = getStore().notificationData.type
 							if (type == 'event'){
-								var startGoToEvent = await getActions().navigate.toEvent(notificationData, navigation)
+								var startGoToEvent = await getActions().navigate.toEvent(getStore().notificationData, navigation)
 							} else if(type == 'swap'){
-								var startGoToSwap = await getActions().navigate.toSwap(notificationData, navigation)
+								var startGoToSwap = await getActions().navigate.toSwap(getStore().notificationData, navigation)
 							} else{
-								console.log('There was an error in getting notification')
-								var a = await getActions().notification.remove()
+								console.log('No Notification Recieved or Error: ')
+								setStore({notificationData:null})
+								navigation.navigate('SwapDashboard')		
+
 							}
 						}
 						// NO NEW NOTIFICATION RECIEVED
 						else{
-							getActions().notification.remove()
+							setStore({notificationData:{}})
 							navigation.navigate('SwapDashboard')		
 						}
 					} catch(error) {
 						console.log('Something went wrong checking notification data', error)
-						getActions().notification.remove()
-						navigation.navigate('Login')
+						setStore({notificationData:null})
+						navigation.navigate('SwapDashboard')
 					}
 				},
-				// REMOVE INCOMING NOTIFICATION
-				remove: async() => {
-					var aaa = await AsyncStorage.removeItem('notificationData')
-					setStore({notificationData:null})
-				},
+
+				store: async(notification) => {
+					setStore({notificationData: notification})
+				}
+				
 			},
 			// PROFILE ACTIONS
 			profile:{
 				// AFTER COMPLETING SIGN UP, CREATES PROFILE
-				add: async ( a_username, firstName, lastName, a_hendon_url, a_Picture ) => {
+				add: async ( a_username, firstName, lastName, a_hendon_url, a_Picture, navigation ) => {
 					try{
 						const accessToken = getStore().userToken;
 						const url = databaseURL + 'profiles'
@@ -564,6 +594,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							hendon_url: a_hendon_url,
 							device_token: a_devicetoken
 						}
+						console.log('New Profile data:', data)
 
 						let response = await fetch(url, {
 							method:'POST',
@@ -573,12 +604,12 @@ const getState = ({ getStore, setStore, getActions }) => {
 								'Content-Type':'application/json'
 							}, 
 						})
-						.then(response => response.json())
-						.then(() => console.log('profile resposen',response))
+						var addedProfile = await response.json()
+						console.log('Added Profile Response:', addedProfile)
 						
-						var aaa = await getActions().profile.uploadPhoto(a_Picture)
-						var dec = await getActions().profile.get();
-
+						var uploadedPicture = await getActions().profile.uploadPhoto(a_Picture)
+						var gettingProfile = await getActions().profile.get();
+						var deeec = await navigation.navigate('Categories');
 					} catch(error) {
 						console.log("Something went wrong in adding a profile", error)
 					}
@@ -658,7 +689,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						.then(response => response.json())
 						.then((responseJson) => {
 							console.log('responseJson',responseJson);
-							return responseJson;
+							// return responseJson;
 						})
 						.catch((error) => {
 							console.log('error in json of profile pic',error);
@@ -1195,26 +1226,22 @@ const getState = ({ getStore, setStore, getActions }) => {
 								'Content-Type':'application/json'
 							}, 
 						})
-						.then(response => response.json())
-						.then(() => console.log('Added User Response: ', response))
-						.then(() => actions.profile.get())
-						.then(() => actions.tournament.getInitial())
-						.then(()=> props.navigation.navigate('Categories'))
-						return customMessage(response.message)
+						var x = await response.json()
+						console.log('Added User Response: ', response)
 					} catch(error) {
 						console.log("Something went wrong with adding user: ", error)
 						return errorMessage(error.message)
 					}
 				},
 				// IF PREVIOUSLY LOGGED IN, USED TO LOGIN AUTOMATICALLY
-				auto_login: async(navigation) => {
+				auto_login: async(notification, navigation) => {
 					try{
 						return new Promise(resolve =>
 							resolve( getActions().deviceToken.get()
 							.then(() => getActions().tournament.getInitial())	
 							.then(() => getActions().tracker.getCurrent())
 							.then(() => getActions().tracker.getPast())
-							.then(() => getActions().notification.check(navigation))
+							.then(() => getActions().notification.check(notification, navigation))
 							)
 						)
 					}catch(error){

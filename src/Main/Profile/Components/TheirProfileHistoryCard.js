@@ -5,7 +5,7 @@ import { Row, Col} from 'react-native-easy-grid'
 
 import {Context} from '../../../Store/appContext';
  
-export default ProfileHistoryCard = (props) => {
+export default TheirProfileHistoryCard = (props) => {
 
 	const { store, actions } = useContext(Context)
 
@@ -71,7 +71,7 @@ export default ProfileHistoryCard = (props) => {
 							
 							<Col style={styles.status.container}>
 							{swap.status !== 'counter_incoming' ?
-								<Text style={{textTransform:'capitalize', color:'white'}}>
+								<Text style={{textTransform:'capitalize', textAlign:'left', color:'white'}}>
 									{swap.status}
 								</Text>
 								: 
@@ -116,7 +116,7 @@ const styles = {
 	},
 	status:{
 		container:{
-			width:'25%', color:'white'},
+			width:'25%', color:'white', justifyContent:'flex-start'},
 		text:{
 			color:'white', textTransform:'capitalize', fontSize:18}
 	},
@@ -124,6 +124,6 @@ const styles = {
 		container:{
 			width:'35%'},
 		text:{
-			color:'white',fontSize:18, textAlign:'center'}
+			color:'white',fontSize:16, textAlign:'center'}
 	},
 }

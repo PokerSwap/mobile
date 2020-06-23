@@ -109,7 +109,6 @@ export default BuyIn = (props) => {
             </Row>
             {/* BUYIN DETAILS */}
             <Row style={{marginTop:10}}>
-              
               <BuyInAttribute top=' Table ' 
                 bottom={buyin.table} txt={txt}/>
               <BuyInAttribute top=' Seat ' 
@@ -118,40 +117,21 @@ export default BuyIn = (props) => {
                 bottom={buyin.chips} txt={txt}/>
             </Row>
           </Col>
-
-
           {/* BUTTON WITH VARIABLE PATHS */}
-          {props.agreed_swaps !== undefined ?
-          //Buyins you have with swaps
-            <SwapButton navigation={props.navigation}
-              allSwaps={allSwaps}  
-              my_buyin={props.my_buyin}
-              agreed_swaps={props.agreed_swaps}
-              other_swaps={props.other_swaps}
-              tournament={props.tournament}
-              action={props.action}
-              updated_at={props.buyin.updated_at}
-              buyin={buyin} buyinSince={buyinSince} txt={txt}/>
-            : 
-            buyin.user_id !== store.myProfile.id ? 
-              <Text>Buy</Text>
-              :
-              <SwapButton navigation={props.navigation}
-              allSwaps={allSwaps}  
-              my_buyin={props.my_buyin}
-
-              action={props.action}
-              agreed_swaps={props.agreed_swaps}
-              other_swaps={props.other_swaps}
-              tournament={props.tournament}
-              updated_at={props.buyin.updated_at}
-              buyin={buyin}
-              buyinSince={buyinSince}
-              txt={txt}/>
-          }  
+          <SwapButton navigation={props.navigation}
+            allSwaps={allSwaps}  
+            my_buyin={props.my_buyin}
+            action={props.action}
+            agreed_swaps={props.agreed_swaps}
+            other_swaps={props.other_swaps}
+            tournament={props.tournament}
+            updated_at={props.buyin.updated_at}
+            buyin={buyin}
+            buyinSince={buyinSince}
+            txt={txt}/>  
         </Row>
         {/* BUSTED TITLE */}
-        {buyin.chips == 0 ?
+        { buyin.chips == 0 ?
           <Row style={{backgroundColor:'red', 
             justifyContent:'space-around', paddingTop:10}}>
             <Text style={{color:'white', fontSize:16, 
@@ -162,7 +142,6 @@ export default BuyIn = (props) => {
             <Text style={{fontWeight:'600',color:'white'}}>Cashed: ${parseInt(buyin.winnings).toFixed(2)}</Text>
           </Row>
           : null }
-
       </Grid>
       {/* BUTTON ACCORDION */}
       { allSwaps !== null ?

@@ -4,6 +4,7 @@ import { Container,  Button, Text, Content, Card, CardItem, Icon} from 'native-b
 import { Grid, Row, Col } from 'react-native-easy-grid';
 import { throttle } from 'lodash'
 import {openSettings, requestMultiple, PERMISSIONS} from 'react-native-permissions';
+import Spinner from 'react-native-loading-spinner-overlay'
 
 import ImagePicker from 'react-native-image-picker';
 
@@ -18,6 +19,7 @@ export default VerifyTicket = (props) => {
   const [ table, setTable ]= useState('');
   const [ seat, setSeat ] = useState('');
   const [ chips, setChips ] = useState('');
+  const [ loading, setLoading ] = useState(false)
 
   var navigation = props.navigation;
   let tournament_name = navigation.getParam('tournament_name', 'NO-ID');
@@ -109,8 +111,12 @@ export default VerifyTicket = (props) => {
     });
   };
  
-  const BuyInStart = async() => await actions.buy_in.add( 
+  const BuyInStart = async() => {
+    setLoading(true)
+    var x = await actions.buy_in.add( 
     image, table, seat, chips, flight_id, tournament_id, tournament_name, tournament_start, props.navigation )
+    setLoading(false)
+  }
  
   const handler = throttle(BuyInStart, 1000, { leading: true, trailing: false });
  
@@ -119,6 +125,7 @@ export default VerifyTicket = (props) => {
   return(
     <Container>
       <Content>
+        <Spinner visible={loading} />
       <KeyboardAvoidingView style={{flex:1,}} 
         behavior='position' keyboardVerticalOffset={-180}>
         {/* TOURNEY INFO */}
@@ -143,75 +150,68 @@ export default VerifyTicket = (props) => {
         {/* TICKET INPUT */}
         <Card transparent>
           <CardItem>
-          <Grid>
-            <Col style={{justifyContent:'center'}}>
-              {/* IMAGE UPLOADED  */}
-              <Image source={image} style={{width:175, height:175}} />
-              <Button style={{width:175, justifyContent:'center'}} 
-                onPress={()=> askPersmission()}>
-                <Icon type='FontAwesome5' name='plus' style={{color:'white'}}/>
-              </Button>
-            </Col>
-        {/* ALL BUYIN INPUTS */}
-        <Col style={{justifyContent:'center'}}>
-          {/* TABLE INPUT */}
-            <Text style={styles.text.input}>
-              Table: 
-            </Text>
-            <TextInput 
-              placeholder="Table #"
-              placeholderTextColor='gray'
-              keyboardType="number-pad"
-              blurOnSubmit={false}
-              style={styles.input}
-              returnKeyType="done"
-              allowFontScaling={false}
-              autoCorrect={false} 
-              onSubmitEditing={() => { textSeat.focus({pageYOffset:56})}}
-              value={table}    
-              onChangeText={tableX => setTable( tableX )}
-            />
-         
-          {/* SEAT INPUT */}
-            <Text style={styles.text.input}>
-              Seat: 
-            </Text>
-            <TextInput 
-              placeholder="Seat #"
-              placeholderTextColor='gray'
-              keyboardType="number-pad"
-              blurOnSubmit={false}
-              returnKeyType="done"
-              autoCorrect={false} 
-              style={styles.input}
-              ref={(input) => { textSeat = input; }} 
-              onSubmitEditing={() => { textChips.focus(); }}
-              value={seat}    
-              onChangeText={seatX => setSeat( seatX )}
-            />
-
-          {/* CHIPS INPUT */}
-            <Text style={styles.text.input}>
-              Chips: 
-            </Text>
-            <TextInput 
-              placeholder="Chip #"
-              placeholderTextColor='gray'
-              keyboardType="number-pad"
-              returnKeyType="done"
-              autoCorrect={false} 
-              blurOnSubmit={true}
-              style={styles.input}
-              ref={(input) => { textChips = input; }} 
-              value={chips}    
-              onChangeText={chips => setChips( chips )}
-            />
-          </Col>
-          </Grid>
+            <Grid>
+              <Col style={{justifyContent:'center'}}>
+                {/* IMAGE UPLOADED  */}
+                <Image source={image} style={{width:175, height:175}} />
+                <Button style={{width:175, justifyContent:'center'}} 
+                  onPress={()=> askPersmission()}>
+                  <Icon type='FontAwesome5' name='plus' style={{color:'white'}}/>
+                </Button>
+              </Col>
+              {/* ALL BUYIN INPUTS */}
+              <Col style={{justifyContent:'center'}}>
+                {/* TABLE INPUT */}
+                  <Text style={styles.text.input}>
+                    Table: 
+                  </Text>
+                  <TextInput 
+                    placeholder="Table #"
+                    placeholderTextColor='gray'
+                    keyboardType="number-pad"
+                    blurOnSubmit={false}
+                    style={styles.input}
+                    returnKeyType="done"
+                    allowFontScaling={false}
+                    autoCorrect={false} 
+                    onSubmitEditing={() => { textSeat.focus({pageYOffset:56})}}
+                    value={table}    
+                    onChangeText={tableX => setTable( tableX )}/>
+                {/* SEAT INPUT */}
+                  <Text style={styles.text.input}>
+                    Seat: 
+                  </Text>
+                  <TextInput 
+                    placeholder="Seat #"
+                    placeholderTextColor='gray'
+                    keyboardType="number-pad"
+                    blurOnSubmit={false}
+                    returnKeyType="done"
+                    autoCorrect={false} 
+                    style={styles.input}
+                    ref={(input) => { textSeat = input; }} 
+                    onSubmitEditing={() => { textChips.focus(); }}
+                    value={seat}    
+                    onChangeText={seatX => setSeat( seatX )}/>
+                  {/* CHIPS INPUT */}
+                  <Text style={styles.text.input}>
+                    Chips: 
+                  </Text>
+                  <TextInput 
+                    placeholder="Chip #"
+                    placeholderTextColor='gray'
+                    keyboardType="number-pad"
+                    returnKeyType="done"
+                    autoCorrect={false} 
+                    blurOnSubmit={true}
+                    style={styles.input}
+                    ref={(input) => { textChips = input; }} 
+                    value={chips}    
+                    onChangeText={chips => setChips( chips )}/>
+                </Col>
+            </Grid>
           </CardItem>
-        </Card>
-        {/* SUBMIT BUTTON */}
-        <Card transparent >
+          {/* SUBMIT BUTTON */}
           <CardItem>
             <Button large style={styles.button} 
               onPress={() => handler()}>
@@ -220,7 +220,7 @@ export default VerifyTicket = (props) => {
               </Text>
             </Button>
           </CardItem>
-        </Card>     
+        </Card>
       </KeyboardAvoidingView>
       </Content>
     </Container>
@@ -229,26 +229,26 @@ export default VerifyTicket = (props) => {
 
 const styles = {
   button:{
-    paddingVertical:20, width:'100%', justifyContent:'center'},
+    paddingVertical:20, width:'100%', justifyContent:'center' 
+  },
   container:{
     button:{
-      justifyContent:'center', width:1000, paddingRight:0, paddingLeft:0},
+      justifyContent:'center', width:1000, 
+      paddingTop:0, marginTop:0, paddingRight:0, paddingLeft:0},
     main:{
-      alignItems:'center', justifyContent:'center'},
+      alignItems:'center', justifyContent:'center', marginBottom:0 },
     image:{
-      justifyContent:'center', width:200, flex:1, flexDirection:'column'},
-    picker:{
-      width:'80%'}
+      justifyContent:'center', width:200, flex:1, flexDirection:'column' }
   },
   image:{
-    height:200, width:200, marginTop:10},
+    height:200, width:200, marginTop:10 },
   input:{
     justifyContent:'center', fontSize:24, color:'black', textAlign:'center'},
   text:{
     input:{
-      fontSize:24, marginVertical:10, textAlign:'center'},
+      fontSize:20, marginBottom:0, textAlign:'center'},
     instruction:{
-       fontSize:20, textAlign:'center', marginTop:10},
+       fontSize:20, textAlign:'center', marginTop:0},
     button:{
       fontWeight:'600', fontSize:24, textAlign:'center'}
   }

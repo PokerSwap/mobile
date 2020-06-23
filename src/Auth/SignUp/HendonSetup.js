@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { Button, Card, CardItem, Text, Icon } from 'native-base';
-import { Alert, TextInput, View } from "react-native";
+import { Alert, TextInput, View, KeyboardAvoidingView } from "react-native";
 import { WebView } from 'react-native-webview';
 
 export default HendonSetup = (props) => {
@@ -23,6 +23,8 @@ export default HendonSetup = (props) => {
 	}
 
 	return(
+		<KeyboardAvoidingView behavior={'position'} keyboardVerticalOffset={-300}>
+
 		<Card transparent>
 			{/* HENDON INSTRUCTIONS */}
 			<CardItem style={{flexDirection:"column", justifyContent:"center"}}>
@@ -31,18 +33,9 @@ export default HendonSetup = (props) => {
 					in the search engine in the live Hendon Mob search below.
 				</Text>
 			</CardItem>			
-			{/* OPTION BUTTONS */}
-			<CardItem style={{justifyContent:'space-around'}}>
-				<Button large success onPress ={() => confirmationAlert()}>
-					<Text>SUBMIT</Text>
-				</Button>
-				<Button large danger
-					onPress={() => goToNextPage}>
-					<Text>LATER</Text>
-				</Button>
-			</CardItem> 
+			
 			{/* HENDON WEBVIEW */}
-			<CardItem style={{height:400}}>
+			<CardItem style={{height:300}}>
 				<WebView 
 					source={{ uri: hendon }}
 					originWhitelist={['*']}
@@ -55,18 +48,17 @@ export default HendonSetup = (props) => {
 					domStorageEnabled = {true}
 					startInLoadingState={false}
 				/>
-			</CardItem>				
-			{/* HENDON URL INPUT */}
-			<CardItem footer style={{flexDirection:"row", justifyContent:"center"}}> 
-				<View style={{borderWidth:1, width:'85%', paddingVertical:12, marginVertical:10}} >
-				<TextInput
-					style={{paddingHorizontal:10}}
-					placeholder='Enter Your Hendon User URL'
-					placeholderTextColor='gray'
-					value={props.hendon}
-					onChangeText={props.onChangeHendon} />
-				</View>
-			</CardItem>
+			</CardItem>	
+			{/* OPTION BUTTONS */}
+			<CardItem style={{justifyContent:'space-around'}}>
+				<Button large success onPress ={() => confirmationAlert()}>
+					<Text>SUBMIT</Text>
+				</Button>
+				<Button large danger
+					onPress={() => goToNextPage()}>
+					<Text>LATER</Text>
+				</Button>
+			</CardItem> 			
 			{/* PREV BUTTON */}
 			<CardItem style={{justifyContent:'center'}}>
 				<Button info iconLeft large onPress={() => props.prev()}>
@@ -75,5 +67,7 @@ export default HendonSetup = (props) => {
 				</Button>
 			</CardItem>
 		</Card>
+		</KeyboardAvoidingView>
+
 	)
 }

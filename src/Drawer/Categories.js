@@ -1,48 +1,27 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { TouchableOpacity, View, StatusBar } from 'react-native'
 import { Text, Icon, Header } from 'native-base';
+import { Row } from 'react-native-easy-grid'
 
-import { Grid, Row, Col} from 'react-native-easy-grid'
-
+import Spinner from 'react-native-loading-spinner-overlay'
 import { Context } from '../Store/appContext'
 
-// CategorySquare = (props) => {
-
-//   const [ store, actions ] = useContext(Context)  
-  
-//   const goToCategory = async() => {
-//     var answer1 = await actions.tracker.getAll()
-//     var answer2 = await actions.tracker.getPast()
-//     var answer3 = await actions.tournament.getInitial()
-//     props.navigation.navigate('SwapDashboard')
-//   }
-
-//   return(
-//     <TouchableOpacity onPress={() => goToCategory()}>
-//       <Col style={{backgroundColor:props.bgColor}}>
-//         <Icon style={{color:'white'}}
-//           type={props.type} name={props.name}/>
-//         <Text style={{textAlign:'center', color:'white'}}>
-//           {props.category}
-//         </Text>
-//       </Col>
-//     </TouchableOpacity>
-//   )
-// }
-
 export default Categories = (props) => {
-
-  const { store, actions } = useContext(Context)  
+  const { store, actions } = useContext(Context) 
+  const [ loading, setLoading ] = useState(false) 
 
   const goToCategory = async() => {
+    setLoading(true)
     var answer1 = await actions.tracker.getCurrent()
     var answer2 = await actions.tracker.getPast()
     var answer3 = await actions.tournament.getInitial()
+    setLoading(false)
     props.navigation.navigate('SwapDashboard')
   }
   
   return(
     <View style={{backgroundColor:'green', flex:1, height:'100%', flexDirection:'column'}}>
+      <Spinner visible={loading} />
       <StatusBar barStyle="light-content" backgroundColor={'green'} />
       <Header style={{backgroundColor:'green'}}>
         <Text style={{color:'white', fontSize:24,textAlignVertical:'center'}}>
@@ -54,22 +33,22 @@ export default Categories = (props) => {
       <Row style={{height:200}}>
         <TouchableOpacity onPress={()=> goToCategory()} 
           style={{width:'50%'}}>
-        <View style={{ backgroundColor:'#228B22', height:200, justifyContent:'center'}}>
-          <Icon style={{marginBottom:10,
-            color:'white', alignSelf:'center', fontSize:80}}
-            type={'MaterialCommunityIcons'} name={'poker-chip'}/>
-          <Text style={{textAlign:'center', color:'white'}}>
-            Poker
-          </Text>
-        </View>
+          <View style={{ backgroundColor:'#228B22', height:200, justifyContent:'center'}}>
+            <Icon style={{marginBottom:10,
+              color:'white', alignSelf:'center', fontSize:80}}
+              type={'MaterialCommunityIcons'} name={'poker-chip'}/>
+            <Text style={{textAlign:'center', color:'white'}}>
+              Poker
+            </Text>
+          </View>
         </TouchableOpacity>
-        <View style={{width:'50%',backgroundColor: 'rgb(38, 171, 75)',justifyContent:'center'}}>
-          <Icon style={{color:'white', marginBottom:10, alignSelf:'center', fontSize:80}}
-            type={'MaterialCommunityIcons'} name={'golf'}/>
-          <Text style={{textAlign:'center', color:'white'}}>
-            Golf{'\n'}(Coming Soon)
-          </Text>
-        </View>
+          <View style={{width:'50%',backgroundColor: 'rgb(38, 171, 75)',justifyContent:'center'}}>
+            <Icon style={{color:'white', marginBottom:10, alignSelf:'center', fontSize:80}}
+              type={'MaterialCommunityIcons'} name={'golf'}/>
+            <Text style={{textAlign:'center', color:'white'}}>
+              Golf{'\n'}(Coming Soon)
+            </Text>
+          </View>
       </Row>
         <Row style={{height:200}}>
           <View 

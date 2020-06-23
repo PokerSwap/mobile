@@ -1,8 +1,6 @@
-import React, { useContext, useEffect } from 'react';
-import { Container, Content, Header, Text, List, ListItem } from 'native-base';
+import React from 'react';
+import { Container, Content, Header  } from 'native-base';
 import { HeaderBackButton } from 'react-navigation-stack';
-
-import { Context } from '../../Store/appContext'
 
 import ProfileBio from './Components/ProfileBio';
 import HistoryList from './Components/HistoryList'
@@ -13,7 +11,6 @@ export default ProfileScreen = (props) => {
   let nickname = navigation.getParam('nickname', 'default_value');
   let user_id = props.navigation.getParam('user_id', 'NO-ID');
   
-
   return(
     <Container> 
       <Header style={{justifyContent:'flex-start'}}>
@@ -21,7 +18,7 @@ export default ProfileScreen = (props) => {
       </Header>
       <Content contentContainerStyle={{ justifyContent:'center'}}>
         {/* PROFILE BIO */}
-        <ProfileBio user_id={user_id} navigation={props.navigation} />
+        <ProfileBio user_id={user_id} nickname={nickname} navigation={props.navigation} />
         {/* HISTORY LIST */}
         <HistoryList user_id={user_id}/>
       </Content>

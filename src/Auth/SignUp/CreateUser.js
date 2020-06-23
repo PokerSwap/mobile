@@ -38,7 +38,7 @@ export default CreateUser = (props) => {
 			{submitted ? 
 				<View transparent style={{justifyContent:'center', width:'80%'}}>
 					<Text style={{textAlign:'center', fontSize:24}}>
-						A validation link has been sent to your{} 
+						A validation link has been sent to your {} 
 						email at {email}.
 					</Text>
 				</View>

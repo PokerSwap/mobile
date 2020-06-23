@@ -21,8 +21,8 @@ if (Platform.OS == 'ios'){
 
 export default LoginScreen = (props) => {
   const { store, actions } = useContext(Context)
-  const [email, setEmail] = useState('gherndon5@gmail.com')
-  const [password, setPassword] = useState('Tryagain5!')
+  const [email, setEmail] = useState('lou@gmail.com')
+  const [password, setPassword] = useState('loustadler')
   const [loading, setLoading] = useState(false)
   const [loginColor, setLoginColor] = useState('#000099')
   const [signupColor, setSignupColor] = useState('#FF6600')
@@ -52,8 +52,10 @@ export default LoginScreen = (props) => {
       var bb = await getToken()
       deviceID = bb
     } 
-    actions.user.login(email, password, deviceID, props.navigation )
-    wait(3000).then(() => setLoading(false));
+    var xw = await actions.user.login(email, password, deviceID, props.navigation )
+    wait(2000).then(() => 
+    setLoading(false)
+    );
   }
   
   return(

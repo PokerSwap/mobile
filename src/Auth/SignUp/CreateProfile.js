@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Content, Container, Tab, Tabs } from 'native-base';
+import { KeyboardAvoidingView } from 'react-native'
 
 import ProfileReview from './ProfileReview'
 import NameSetup from './NameSetup';
@@ -29,8 +30,11 @@ export default CreateProfile = (props) => {
 
   return(
     <Container>
+
       <Content contentContainerStyle={{flex:1, justifyContent:"center"}}>         
+
         <Tabs locked initialPage={0} page={page}>
+
           {/* NAME PAGE */}
           <Tab disabled heading="Name">
             <NameSetup 
@@ -71,8 +75,11 @@ export default CreateProfile = (props) => {
               picture= {picture}
               hendon= {hendon} />
           </Tab>
+
         </Tabs>
-      </Content>     
+
+      </Content>   
+
     </Container>  
   )
 }

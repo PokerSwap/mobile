@@ -101,9 +101,9 @@ export default ProfitTracker = (props) => {
           </Col>
         </Row>
         {/* WINNINGS ROW */}
-        <Row style={{padding:5}}>
+        <Row style={{paddingVertical:15}}>
           <Col style={{width:'25%'}}>
-            <Text style={{fontSize:20}}>
+            <Text style={{fontSize:18}}>
               Winnings
             </Text>
           </Col>

@@ -1,16 +1,16 @@
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 import { View } from 'react-native'
-import { ListItem, Text, Button } from 'native-base';
+import { ListItem, Text } from 'native-base';
 import { Row, Col} from 'react-native-easy-grid'
 
-import {Context} from '../../../Store/appContext';
+import { Context } from '../../../Store/appContext';
  
 export default MyProfileHistoryCard = (props) => {
-
 	const { store, actions } = useContext(Context)
 
 	return(
 		<View style={{marginVertical:10}}>
+			{/* TOURNAMENT NAME */}
 			<ListItem noIndent style={{ flexDirection:'column',
 				paddingVertical:5, backgroundColor:'black', 
 				justifyContent:'center'}}>
@@ -19,9 +19,8 @@ export default MyProfileHistoryCard = (props) => {
 					{props.tournament.name}
 				</Text>
 			</ListItem>
-
+			{/* ALL RELATED SWAPS */}
 			{props.buyins.map((buyin, index) => {
-				console.log('buyin', buyin)
 				var fullName = buyin.recipient_buyin.user_name
 				var allSwaps 
 				if (buyin.agreed_swaps.length !== 0){
@@ -40,12 +39,14 @@ export default MyProfileHistoryCard = (props) => {
 
 				return(
 					<View>
+						{/* USERS NAME */}
 						<ListItem noIndent key={index} style={{flexDirection:'column', backgroundColor:'#fffafa'}}>
 							<Text style={{textAlign:'center', fontSize:24, 
 							fontWeight:'500', marginVertical:7, color:'black' }}>
 								{fullName}
 							</Text>
 						</ListItem>
+						{/* ROW OF SWAP ATTRIBUTE HEADERS */}
 						<ListItem noIndent style={{backgroundColor:'#a3a3a3'}}>
 							<Col style={{width:'25%', justifyContent:'center'}}>
 								<Text style={{textAlign:'center', color:'white'}}>
@@ -59,26 +60,23 @@ export default MyProfileHistoryCard = (props) => {
 								<Text style={{color:'white'}}>Yours / Theirs %</Text>
 							</Col>
 						</ListItem>
-
-						{allSwaps != null ?
+						{/* ROW OF SWAP DETAILS */}
+						{allSwaps ?
 							allSwaps.map((swap, sIndex)=>{
+								// console.log('alls',allSwaps)
 								return(
 									<MyHistoryAccordion 
 										swap={swap} key={sIndex} />
 								)
 							})
-							:
-							<Row>
-								<Text>
-									You did not make any swaps in this tournament
-								</Text>
-							</Row>}
-					
+							: <Row><Text>You did not make any swaps in this tournament</Text></Row>
+						}
 					</View>
 				)
 			})}
-
-			</View>)}
+		</View>
+	)
+}
 
 MyHistoryAccordion = (props) => {
 	
@@ -120,6 +118,7 @@ MyHistoryAccordion = (props) => {
 
 	return(
 		<ListItem noIndent style={{backgroundColor:bgColor, paddingVertical:5}}>
+			{/* SWAP STATUS */}
 			<Col style={{width:'25%'}}>
 				{props.swap.status !== 'counter_incoming' ?
 					<Text style={{textTransform:'capitalize', color:'white'}}>
@@ -129,12 +128,13 @@ MyHistoryAccordion = (props) => {
 					<Text style={{ color:'white', textAlign:'center'}}>
 						Counter{'\n'}Incoming
 					</Text>}
-				
 			</Col>
+			{/* DATE & TIME */}
 			<Col style={{width:'35%'}}>
 				<Text style={{textAlign:'center', color:'white'}}>
 					{startDate}{'\n'}{startTime}</Text>
 			</Col>
+			{/* PERCENTAGE & COUNTER PERCENTAGE */}
 			<Col style={{width:'40%'}}>
 				<Text style={{color:'white'}}>
 					{props.swap.percentage}%{' / '}

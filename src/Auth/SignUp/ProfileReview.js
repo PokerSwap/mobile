@@ -1,22 +1,29 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Image } from 'react-native';
 import { Button, Card, Text, CardItem } from 'native-base';
+import Spinner from 'react-native-loading-spinner-overlay'
+
 import { Context } from '../../Store/appContext';
+
 
 export default  ProfileReview = (props) => {
 	const { store, actions } = useContext(Context)
+  const [ loading, setLoading ] = useState(false) 
 
 	let lol = new RegExp('^https:\/\/pokerdb.thehendonmob.com')
 	
 	const createProfile = async() => {
+		setLoading(true)
 		var creatingProfile = await actions.profile.add(
 			props.username, props.first_name, props.last_name, 
-			props.hendon, props.picture
+			props.hendon, props.picture, props.navigation
 		) 
+		setLoading(false)
 	}
 
 	return(
 		<Card style={{flexDirection:'column'}}>
+			<Spinner visible={loading} />
 			{/* PROFILE PICTURE FIELD */}
 			<CardItem transparent style={{justifyContent:'center'}}>
 				<Image source={{uri: props.picture.uri}} 

@@ -314,16 +314,16 @@ const DrawerNav = createDrawerNavigator(
         ),
       }
     },
-    // Categories: { 
-    //   screen: Categories,
-    //   navigationOptions: {
-    //     title: 'Categories',
-    //     drawerIcon: ({ focused }) => (
-    //     <Icon type="MaterialCommunityIcons" name="view-grid" size={24} 
-    //       color={focused ? 'blue' : 'black'} />
-    //     ),
-    //   }
-    // },
+    Categories: { 
+      screen: Categories,
+      navigationOptions: {
+        title: 'Categories',
+        drawerIcon: ({ focused }) => (
+        <Icon type="MaterialCommunityIcons" name="view-grid" size={24} 
+          color={focused ? 'blue' : 'black'} />
+        ),
+      }
+    },
 
 
   },

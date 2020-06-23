@@ -1,4 +1,4 @@
-import React, {useContext, useState, useCallback, useEffect} from 'react';
+import React, {useContext, useState, useCallback, useEffect } from 'react';
 import {RefreshControl, Alert, Text} from 'react-native';
 import { Container, Content, List, ListItem, Separator } from 'native-base';
 import messaging from '@react-native-firebase/messaging'
@@ -8,13 +8,15 @@ import HomeHeader from '../../View-Components/HomeHeader'
 import { Context } from '../../Store/appContext'
 import SwapTracker from './Components/SwapTracker';
 
-export default SwapDashboard = (props, {navigation}) => {
+export default SwapDashboard = (props, navigation) => {
   const { store, actions } = useContext(Context)
+
+
 
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async (remoteMessage) => {
       console.log('FCM Message Data:', remoteMessage);
-  
+
       Alert.alert(
         remoteMessage.notification.title,
         remoteMessage.notification.body,
@@ -30,6 +32,7 @@ export default SwapDashboard = (props, {navigation}) => {
   }, [null])
 
   const goToThing = async(data) => {
+    console.log('name', props.navigation.state.routeName)
     if(data.type == 'event'){
       var cc = await actions.navigate.toEvent(data, props.navigation)
     }else if(data.type == 'swap'){
