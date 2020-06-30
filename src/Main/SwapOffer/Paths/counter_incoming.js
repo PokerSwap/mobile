@@ -13,12 +13,12 @@ export default CounterIncomingPath = (props) => {
   return(
     <Card transparent style={{
       alignSelf:'center', width:'95%', justifyContent:'center'}}>
-      
+      {/* COUNTER SWAP INFO */}
       <CardItem style={{ alignSelf:'center'}}>
         {swap.percentage ?
-          <View>
+          <View style={{width:'100%'}}>
           <Text style={{fontSize:20, textAlign:'center'}}>
-            {buyin.user_name} countered and wants to do the following swap with you:
+            COUNTER SWAP{'\n'}{props.swapSince}
           </Text>
           <CompareCard 
             percentage={swap.percentage} 
@@ -28,7 +28,7 @@ export default CounterIncomingPath = (props) => {
         </View>
           : <Spinner />}
       </CardItem>
-
+      {/* COUNTER SWAP INTERACTION UI */}
       {swap ? 
         counter == false ?
           <IntroOffer navigation={props.navigation}
@@ -43,8 +43,7 @@ export default CounterIncomingPath = (props) => {
             buyin_id={buyin.id} percentage={swap.percentage} counter_percentage={swap.counter_percentage}
             setLoading={props.setLoading} setRefreshing={props.setRefreshing}
             counter={counter} setCounter={setCounter} />
-        : null
-      }
+        : null}
     </Card>
   )
 }

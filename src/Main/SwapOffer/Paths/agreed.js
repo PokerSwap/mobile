@@ -13,8 +13,10 @@ export default AgreedPath = (props) => {
       <CardItem 
         style={{justifyContent:'center', flexDirection:'column'}}>
         {swap.percentage ?
-          <View>
-            <Text style={{textAlign:'center'}}>This swap with {buyin.user_name} was agreed to{'\n'} as of {swap.updated_at}</Text>
+          <View style={{width:'100%'}}>
+            <Text style={{textAlign:'center'}}>
+              AGREED SWAP{'\n'}{props.swapSince}
+            </Text>
             <CompareCard 
               youColor={'green'} themColor={'green'}
               percentage={swap.percentage} 

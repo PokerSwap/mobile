@@ -9,20 +9,22 @@ export default CanceledPath = (props) => {
 
   return(
     <Card transparent>
+      {/* CANCELED SWAP INFO */}
       {swap.percentage ?
-        <View>
+        <View style={{width:'100%'}}>
           <Text style={{textAlign:'center'}}> 
-            You canceled this swap with {buyin.user_name}{'\n'}as of {swap.updated_at}</Text>
-           <CompareCard 
-            percentage={swap.percentage} 
-            youColor={'#a3a3a3'} themColor={'#c3c3c3'}
-            counter_percentage={swap.counter_percentage}
-            buyin={buyin}/>
+            CANCELED SWAP{'\n'}{props.swapSince}
+          </Text>
+          <CompareCard 
+          percentage={swap.percentage} 
+          youColor={'#a3a3a3'} themColor={'#c3c3c3'}
+          counter_percentage={swap.counter_percentage}
+          buyin={buyin}/>
         </View>
-          : 
-            <CardItem style={{justifyContent:'center'}}>
-              <Spinner />
-            </CardItem>}
+        : 
+        <CardItem style={{justifyContent:'center'}}>
+          <Spinner />
+        </CardItem>}
     </Card>
   )
 }

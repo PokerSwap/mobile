@@ -267,7 +267,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							},
 						})
 						var theBuyin = await response.json()	
-						console.log('theBuyin', theBuyin)					
+						// console.log('theBuyin', theBuyin)					
 						setStore({currentBuyin: theBuyin})
 					}catch(error){
 						console.log('problem with getting the current buyin:', error)
@@ -388,7 +388,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}, 
 						})
 						.then(response => response.json)
-						.then(() => getActions().profile.get())
 
 					}catch(error){
 						console.log('Something went wrong with buying tokens', error)
@@ -776,7 +775,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						var refreshingSwap = await getActions().buy_in.getCurrent(a_buyin_id)		
 
 						var answer3 = await getActions().tournament.getAction(a_tournament_id)	
-						var gettingRecipeintID = await getActions().deviceToken.retrieve(a_recipient_id)
+						// var gettingRecipeintID = await getActions().deviceToken.retrieve(a_recipient_id)
 						
 						// var notifData = {
 						// 	id: a_tournament_id,
@@ -896,21 +895,22 @@ const getState = ({ getStore, setStore, getActions }) => {
 						}else{null}
 
 						if (a_current_status == 'counter_incoming'){
-							if(a_new_status ==' rejected'){
+							if(a_new_status =='rejected'){
 								var a = await getActions().swapToken.return()
 							} else{null}
 						}else{null}
 
 						if(a_new_status == 'canceled'){
-							if(response[1].status == 'counter_incoming'){
+							console.log('repsonse if canceled', response )
+							// if(response[1].status == 'counter_incoming'){
 								var a = await getActions().swapToken.return()
-							}else{null}
+							// }else{null}
 						}
-						var refreshingSwap = await getActions().swap.getCurrent(my_swap_id)
+						// var refreshingSwap = await getActions().swap.getCurrent(my_swap_id)
 						var refreshingProfile = await getActions().profile.get()
 						var refreshingTrackers = await getActions().tracker.getCurrent()
-						var refreshingBuyin = await getActions().swap.getCurrent(my_swap_id)		
-						var refreshingSwap = await getActions().buy_in.getCurrent(a_buyin_id)	
+						// var refreshingBuyin = await getActions().swap.getCurrent(my_swap_id)		
+						// var refreshingSwap = await getActions().buy_in.getCurrent(a_buyin_id)	
 						var refreshingTournament = await getActions().tournament.getCurrent(a_tournament_id)
 						var refreshingAction = await getActions().tournament.getAction(a_tournament_id)			
 					}
@@ -925,6 +925,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				// Time Conversion used for Buyins
 				convertShort: async ( time ) => {
 					try {
+						// console.log('time', time)
 						var y, since;
 						if (time.includes('a ') || time.includes('an ')) { 
 							y = '1'
@@ -1060,8 +1061,12 @@ const getState = ({ getStore, setStore, getActions }) => {
 							var x, special;
 							tournament.day !== null ? 
 								x = ' - Day '+ tournament.day : x = ''
-							
+							var action =null
+
+							if(tournament.buyin){
+								 action = getActions().tournament.retrieveAction(tournament.id)}
 							aaaa.push({
+								'action': action,
 								'name': tournament.tournament + x,
 								...tournament
 							})
@@ -1107,7 +1112,13 @@ const getState = ({ getStore, setStore, getActions }) => {
 									var x, special;
 									tournament.day !== null ? 
 										x = ' - Day '+ tournament.day : x = ''
+									
+									var action =null
+									if(tournament.buyin){
+								 		action = getActions().tournament.retrieveAction(tournament.id)}
+						
 									aaaa.push({
+										'action': action,
 										'name': tournament.tournament + x,
 										...tournament
 									})
@@ -1139,7 +1150,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						var aCurrentAction = await response.json()
 						return(aCurrentAction)
 					} catch(error){
-						console.log('Something went wrong in getting action from a tournament: ', error)
+						console.log('Something went wrong in retreiving action from a tournament: ', error)
 					}
 				},
 			},
@@ -1171,7 +1182,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						var newTrackerData = trackerData.map((tracker, index)=> {						
 							return({
 								...tracker,
-								action:asyncRes[index].actions
+								action:asyncRes[index]
 							})
 						})
 

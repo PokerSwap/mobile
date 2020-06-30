@@ -78,6 +78,8 @@ export default InactivePath = (props) => {
       var answer1 = await actions.swap.add(
         props.tournament.id, props.buyin.user_id, props.buyin.id, percentage, counterPercentage);
     }
+    props.setCurrentSwap(store.currentSwap)
+    props.setAStatus('pending')
     props.setRefreshing(true)
     props.setLoading(false)
   }

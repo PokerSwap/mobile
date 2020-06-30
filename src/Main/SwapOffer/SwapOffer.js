@@ -19,20 +19,20 @@ export default SwapOffer = (props, {navigation}) => {
   const { store, actions } = useContext(Context)
 
   let status =  props.navigation.getParam('status', 'default value');
-  let swapID = props.navigation.getParam('swapID', 'default value');
+  let swap = props.navigation.getParam('swap', 'default value');
   let buyin =  props.navigation.getParam('buyin', 'default value');
   let tournament = props.navigation.getParam('tournament', 'default value');
   let buyinSince = props.navigation.getParam('buyinSince', 'default value');
-  let swapSince = props.navigation.getParam('swapSince', 'default value');
+  // let swapSince = props.navigation.getParam('swapSince', 'default value');
 
   const [ loading, setLoading ] = useState(false)
-  const [ currentSwap, setCurrentSwap ] = useState({status:status})
+  const [ currentSwap, setCurrentSwap ] = useState(swap)
   const [ aStatus, setAStatus ] = useState(status)
   const [ currentBuyin, setCurrentBuyin ] = useState(buyin)
   const [ tTime, setTTime ] = useState(null)
-  const [ sTime, setSTime ] = useState(swapSince)
+  const [ sTime, setSTime ] = useState(null)
   const [ bTime, setBTime ] = useState(buyinSince)
-  const [ refreshing, setRefreshing ] = useState(true);
+  const [ refreshing, setRefreshing ] = useState(false);
 
    // YOUR SWAP VIEW
    if (store.myProfile.id == buyin.user_id){ 
@@ -47,6 +47,7 @@ export default SwapOffer = (props, {navigation}) => {
       <IncomingPath navigation={props.navigation} 
         setLoading={setLoading} setRefreshing={setRefreshing}
         tournament_status={tournament.tournament_status}
+        swapSince={sTime}
         tournament_id={tournament.id} buyin={buyin} swap={currentSwap}/>
   } 
   // COUNTER INCOMING SWAP VIEW
@@ -54,7 +55,8 @@ export default SwapOffer = (props, {navigation}) => {
     currentPath = 
       <CounterIncomingPath navigation={props.navigation} 
       setLoading={setLoading} setRefreshing={setRefreshing}
-        tournament_status={tournament.tournament_status}
+      swapSince={sTime}  
+      tournament_status={tournament.tournament_status}
         tournament_id={tournament.id} buyin={buyin} swap={currentSwap}/>
   }
   // PENDING SWAP VIEW
@@ -63,6 +65,7 @@ export default SwapOffer = (props, {navigation}) => {
       <PendingPath navigation={props.navigation} 
         setLoading={setLoading} setRefreshing={setRefreshing}
         tournament_status={tournament.tournament_status}
+        swapSince={sTime}
         swap={currentSwap} tournament={tournament} buyin={buyin}/>
   } 
   // AGREED SWAP VIEW
@@ -71,6 +74,7 @@ export default SwapOffer = (props, {navigation}) => {
       <AgreedPath navigation={props.navigation} 
         setLoading={setLoading} setRefreshing={setRefreshing} 
         tournament_status={tournament.tournament_status}
+        swapSince={sTime}
         swap={currentSwap} tournament={tournament} buyin={buyin}/>
   }
   // REJECTED SWAP VIEW 
@@ -79,6 +83,7 @@ export default SwapOffer = (props, {navigation}) => {
       <RejectedPath navigation={props.navigation} 
         setLoading={setLoading} setRefreshing={setRefreshing}
         tournament_status={tournament.tournament_status}
+        swapSince={sTime}
         buyin={buyin} swap={currentSwap}/>
   }
   // CANCELED SWAP VIEW 
@@ -87,13 +92,14 @@ export default SwapOffer = (props, {navigation}) => {
       <CanceledPath navigation={props.navigation} 
         setLoading={setLoading} setRefreshing={setRefreshing}
         tournament_status={tournament.tournament_status}
-        swapTime={swapSince}
+        swapSince={sTime}
         swap={currentSwap} buyin={buyin}/>
   }
   // INACTIVE SWAP VIEW
   else {
     currentPath = 
       <InactivePath navigation={props.navigation} 
+      setAStatus={setAStatus} setCurrentSwap ={setCurrentSwap}
         setLoading={setLoading} setRefreshing={setRefreshing}
         tournament_status={tournament.tournament_status}
         tournament={tournament} buyin={buyin}/>
@@ -109,15 +115,11 @@ export default SwapOffer = (props, {navigation}) => {
 
   var getSwap = async() => {
     if (aStatus !== 'inactive' && aStatus !== 'edit'){
-      console.log('getting swap from SwapOffer')
-      var x = await actions.swap.getCurrent(swapID)
+      // console.log('getting swap from SwapOffer', swap)
+      var x = await actions.swap.getCurrent(currentSwap.id)
       setCurrentSwap(store.currentSwap)
       setAStatus(store.currentSwap.status)
-      // console.log('status', status)
-      // console.log('aStatus', aStatus)      
-      // console.log('store.currentSwap.status',store.currentSwap.status)
-
-      var labelTime = await actions.time.convertLong(tournament.start_at)
+      var labelTime = moment(store.currentSwap.updated_at).fromNow()
       setSTime(labelTime)
     } else{
       if(buyin.user_id == store.myProfile.id){
@@ -166,76 +168,69 @@ export default SwapOffer = (props, {navigation}) => {
       <Spinner visible={loading}/>
         {/* EVENT HEADER */}
         <Card transparent>
-          <EventHeader 
-          tournament_name={tournament.name}
-          tournament_start={tTime}/>
+          <EventHeader tournament_name={tournament.name}
+          tournamentTime={tTime}/>
         </Card>
         {/* CURRENT STATUS OF BUYIN */}
         <Card style={{alignSelf:'center', width:'90%', 
-          paddingTop:15, backgroundColor:'rgb(38, 171, 75)'}}>
-            <Grid>
-              
-              {/* USERNAME */}
-              <Row style={{
-                justifyContent:'center', marginBottom:10}}>
+          paddingTop:15, marginTop:-15, backgroundColor:'rgb(38, 171, 75)'}}>
+          <Grid>
+            {/* USERNAME */}
+            <Row style={{
+              justifyContent:'center', marginBottom:10}}>
+              <Text style={{color:'white',
+                textAlign:'center', fontSize:30}}>
+                {buyin.user_name}
+              </Text>
+            </Row>
+            {/* BUYIN INFO */}
+            <Row>
+              {/* TABLE */}
+              <Col style={{justifyContent:'center'}}>
                 <Text style={{color:'white',
-                  textAlign:'center', fontSize:30}}>
-                  {buyin.user_name}
+                  textAlign:'center', fontSize:18}}>
+                  Table:
                 </Text>
-              </Row>
-              {/* BUYIN INFO */}
-              <Row>
-                {/* TABLE */}
-                <Col style={{justifyContent:'center'}}>
-                  <Text style={{color:'white',
-                    textAlign:'center', fontSize:18}}>
-                    Table:
-                  </Text>
-                  <Text style={{color:'white',
-                    textAlign:'center', fontSize:24}}>
-                    {currentBuyin.table}
-                  </Text>
-                </Col>
-                {/* SEAT */}
-                <Col style={{justifyContent:'center'}}>
-                  <Text style={{color:'white',
-                    textAlign:'center', fontSize:18}}>
-                    Seat:
-                  </Text>
-                  <Text style={{color:'white',
-                    textAlign:'center', fontSize:24}}>
-                    {currentBuyin.seat}
-                  </Text>
-                </Col>
-                {/* CHIPS */}
-                <Col style={{justifyContent:'center'}}>
-                  <Text style={{color:'white',
-                    textAlign:'center', fontSize:18}}>
-                    Chips:
-                  </Text>
-                  <Text style={{color:'white',
-                    textAlign:'center', fontSize:24}}>
-                    {currentBuyin.chips}
-                  </Text>
-                </Col>
-              </Row>
-              <Row style={{justifyContent:'flex-end', alignItems:'flex-end'}}>
-                <Text style={{color:'white', fontWeight:'bold', paddingVertical:10, paddingRight:10,
-                  textAlign:'right', fontSize:12}}>
-                  Updated: {bTime}
+                <Text style={{color:'white',
+                  textAlign:'center', fontSize:24}}>
+                  {currentBuyin.table}
                 </Text>
-              </Row>
-            </Grid>
+              </Col>
+              {/* SEAT */}
+              <Col style={{justifyContent:'center'}}>
+                <Text style={{color:'white',
+                  textAlign:'center', fontSize:18}}>
+                  Seat:
+                </Text>
+                <Text style={{color:'white',
+                  textAlign:'center', fontSize:24}}>
+                  {currentBuyin.seat}
+                </Text>
+              </Col>
+              {/* CHIPS */}
+              <Col style={{justifyContent:'center'}}>
+                <Text style={{color:'white',
+                  textAlign:'center', fontSize:18}}>
+                  Chips:
+                </Text>
+                <Text style={{color:'white',
+                  textAlign:'center', fontSize:24}}>
+                  {currentBuyin.chips}
+                </Text>
+              </Col>
+            </Row>
+            {/* BUYIN LAST UPDATED TIME */}
+            <Row style={{justifyContent:'flex-end', alignItems:'flex-end'}}>
+              <Text style={{color:'white', fontWeight:'bold', paddingVertical:10, paddingRight:10,
+                textAlign:'right', fontSize:12}}>
+                Updated: {bTime}
+              </Text>
+            </Row>
+          </Grid>
         </Card>        
-        {/* {status !== 'edit' && status !== 'inactive' ?
-          swapSince !== 'default value' ?
-            <Text style={{textAlign:'center'}}>Swap Occured: {swapSince}</Text>
-            : <Text style={{textAlign:'center'}}>Swap Occured: {sTime}</Text>
-          : null} */}
         {/* SWAP BODY PATH */}
         {currentPath}
       </Content>
-      
     </Container>
   )
 }

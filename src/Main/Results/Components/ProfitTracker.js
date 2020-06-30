@@ -213,7 +213,7 @@ export default ProfitTracker = (props) => {
             swap_profit > 0 ?
               paid ?
                 <PayButton message={"You were Paid"} color={'green'} fn={() => console.log('Nothing Happend')}/>
-                : <PayButton message={"Confirm Payment"} color={'rgb(241, 191, 86)'} fn={paidAlert}/>
+                : <PayButton message={"Waiting for Payment"} color={'rgb(241, 191, 86)'} fn={() => console.log('Nothing Happend')}/>
               :  
               paid ?
                 <PayButton message={"You Paid"} color={'green'} fn={() => console.log('Nothing Happend')}/>

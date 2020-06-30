@@ -11,9 +11,9 @@ export default RejectedPath = (props) => {
     <Card transparent>
       <CardItem style={{justifyContent:'center'}}>
         {swap.percentage ?
-          <View>
+          <View style={{width:'100%'}}>
             <Text style={{textAlign:'center'}}> 
-              You rejected a swap with {buyin.user_name}{'\n'}as of {swap.updated_at}
+              REJECTED SWAP{'\n'}{props.swapSince}
             </Text>
             <CompareCard 
               percentage={swap.percentage} 

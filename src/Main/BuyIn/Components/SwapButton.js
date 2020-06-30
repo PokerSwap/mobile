@@ -1,7 +1,7 @@
 
 import React, { useContext, useState, useEffect } from 'react';
 import { View } from 'react-native'
-import { Text, Button, Icon } from 'native-base';
+import { Text, Button, Icon, Toast } from 'native-base';
 import { Col } from 'react-native-easy-grid'
 import { throttle } from 'lodash'
 import moment from 'moment'
@@ -19,13 +19,19 @@ export default SwapButton = (props) => {
     }
   }, [busted])
 
+  const {allSwaps} = props
+
   var allStatuses =[]
-  props.allSwaps !== null && props.allSwaps !== 0 && props.allSwaps !== undefined ?
-    props.allSwaps.forEach(swap => 
-      allStatuses.push(swap.id,swap.status))
+  allSwaps ?
+    allSwaps.forEach(swap => allStatuses.push(swap.status))
     : allStatuses = ['inactive']
 
-  var lastCol, buttonColor, path, swapID;
+
+  // console.log('allSwaps', allSwaps)
+  // console.log('allStatiese', allStatuses)
+
+
+  var lastCol, buttonColor, path, swap;
  
 
   // YOUR SWAP VIEW
@@ -43,7 +49,7 @@ export default SwapButton = (props) => {
         style={{alignSelf:'center', fontSize:24}}/>;
     buttonColor= 'green';
     path = 'incoming'
-    swapID = allStatuses[allStatuses.indexOf('incoming')-1]
+    swap = allSwaps[allStatuses.indexOf('incoming')]
   } 
   // COUNTER-INCOMING SWAP VIEW
   else if(allStatuses.includes('counter_incoming')){
@@ -52,7 +58,7 @@ export default SwapButton = (props) => {
         style={{alignSelf:'center', fontSize:24}}/>;
     buttonColor= 'orange';
     path = 'counter_incoming'
-    swapID = allStatuses[allStatuses.indexOf('counter_incoming')-1]
+    swap = allSwaps[allStatuses.indexOf('counter_incoming')]
   } 
   // PENDING SWAP VIEW
   else if(allStatuses.includes('pending')) {
@@ -66,7 +72,7 @@ export default SwapButton = (props) => {
       </Text>;
     path = "pending";
     buttonColor = 'orange';
-    swapID = allStatuses[allStatuses.indexOf('pending')-1]
+    swap = allSwaps[allStatuses.indexOf('pending')]
   } 
   // AGREED SWAP VIEW
   else if (allStatuses.includes('agreed')){
@@ -88,8 +94,8 @@ export default SwapButton = (props) => {
       </View>
     props.action !== 50 ? path = "inactive" : path = null
     buttonColor = null;
-    swapID = allStatuses[allStatuses.indexOf('incoming')-1] 
-  
+    swap = allSwaps[allStatuses.indexOf('incoming')-1] 
+    // console.log('Swap that comes out of Statues', swap)
   } 
   // ACTION IS FULL
   else if (props.action == 50){
@@ -106,7 +112,7 @@ export default SwapButton = (props) => {
       <Icon type="FontAwesome5" name="handshake" 
         style={{alignSelf:'center', fontSize:24}} />;
     path = "inactive";
-    swapId=undefined
+    swap=undefined
     buttonColor = 'rgb(56,68,165)';
   } 
 
@@ -143,19 +149,21 @@ export default SwapButton = (props) => {
 
 
   const enterSwapOffer = async() => {
-    console.log('swapID',swapID)
     // CHECKING IF ITS MY BUYIN
     if( props.buyin.user_id !== store.myProfile){
       // SWAPPING WITH ACTION LEFT
-      if( props.action !== 50 ){
+      if( props.action.actions !== 50 ){
         console.log('doesnt equal 50?', props.action)
+        console.log('Path going in', path)
+        // console.log('Swap going in', swap.status, swap.percentage)
+
         if (path !== 'inactive') {
           props.navigation.push('SwapOffer',{
             status: path,
             buyin: props.buyin,
             tournament: props.tournament,
             buyinSince: props.buyinSince,
-            swapID: swapID
+            swap: swap
           })
         } else {
           console.log('this inactive')
@@ -164,7 +172,7 @@ export default SwapButton = (props) => {
             buyin: props.buyin,
             tournament: props.tournament,
             buyinSince: props.buyinSince,
-            swapID: swapID
+            swap: swap
           })
         }
         
@@ -177,10 +185,13 @@ export default SwapButton = (props) => {
             buyin: props.buyin,
             tournament: props.tournament,
             buyinSince: props.buyinSince,
-            swapID: swapID
+            swap: swap
           })
         }else{
           console.log('You do not have sufficient action to swap')
+          Toast.show(
+            {text:'Insufficient action in this event to create swap', 
+            duration:3000, position:'bottom'})
         }
       }
     }
@@ -191,12 +202,12 @@ export default SwapButton = (props) => {
         buyin: props.buyin,
         tournament: props.tournament,
         buyinSince: props.buyinSince,
-        swapID: swapID
+        swap: swap
       })
     }
   }
       
-  const handler = throttle(preliminary, 1000, { leading: true, trailing: false });
+  const handler = throttle(preliminary, 2000, { leading: true, trailing: false });
 
   return(
     <Col style={{ justifyContent:'center', marginLeft:20, textAlign:'center'}}>

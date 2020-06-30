@@ -8,7 +8,7 @@ export default EventHeader = (props) => {
         {props.tournament_name}
       </Text>
       <Text style={{fontSize:18, marginTop:10}}>
-        {props.tournament_start}
+        {props.tournamentTime}
       </Text>
     </ListItem>
   )

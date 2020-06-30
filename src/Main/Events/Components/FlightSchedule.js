@@ -6,7 +6,7 @@ import BuyIn from '../../BuyIn/BuyIn'
 import TournamentBuyIn from '../../BuyIn/TournamentBuyIn'
 
 export default FlightSchedule = (props) => {
-     
+     console.log('check',props.action)
   var startMonth = props.flight.start_at.substring(8,11)
   var startDay = props.flight.start_at.substring(5,7)
   var startHour = props.flight.start_at.substring(17,19)
@@ -21,7 +21,7 @@ export default FlightSchedule = (props) => {
       : startTime = 12 + ':' + startMinute + ' A.M.'
 
   var Buy_Ins = props.buyins.map((content, index) => {
-    
+    console.log('eee', props.action)
     return(
       <BuyIn
         key = {index}  navigation={props.navigation}

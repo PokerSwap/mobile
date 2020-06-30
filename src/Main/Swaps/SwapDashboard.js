@@ -11,8 +11,6 @@ import SwapTracker from './Components/SwapTracker';
 export default SwapDashboard = (props, navigation) => {
   const { store, actions } = useContext(Context)
 
-
-
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async (remoteMessage) => {
       console.log('FCM Message Data:', remoteMessage);
@@ -56,6 +54,7 @@ export default SwapDashboard = (props, navigation) => {
     return(
       <SwapTracker
         key={index} navigation={props.navigation}
+        event={content}
         my_buyin= {content.my_buyin} buyins = {content.buyins}
         tournament={content.tournament} action={content.action}/>
     )

@@ -10,16 +10,15 @@ export default IncomingPath = (props) => {
   const [ counter, setCounter ] = useState(false)
   var {swap} = props, {buyin} = props;
 
-  console.log('swap percentage', swap.percentage)
   return(
     <Card transparent style={{
       alignSelf:'center', width:'95%', justifyContent:'center'}}>
-      
+      {/* INCOMING SWAP INFO */}
       <CardItem style={{ alignSelf:'center'}}>
         {swap.percentage ?
-          <View>
+          <View style={{width:'100%'}}>
             <Text style={{fontSize:20, textAlign:'center'}}>
-              {buyin.user_name} wants to do the following swap with you:
+              INCOMING SWAP{'\n'}{props.swapSince}
             </Text>
             <CompareCard 
               percentage={swap.percentage} 
@@ -27,10 +26,9 @@ export default IncomingPath = (props) => {
               counter_percentage={swap.counter_percentage}
               buyin={buyin}/>
           </View>
-            
           : <Spinner />} 
       </CardItem>
-
+      {/* INCOMING SWAP INTERACTION UI */}
       {swap.percentage ?
         !counter ?
           <IntroOffer navigation={props.navigation}

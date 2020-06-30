@@ -1,11 +1,9 @@
-import React, {useContext, useState} from 'react'
-import {Alert, View } from 'react-native'
-import {Text, Card, Button, CardItem, Spinner} from 'native-base'
+import React, { useContext, useState } from 'react'
+import { Alert, View } from 'react-native'
+import { Text, Card, Button, CardItem, Spinner } from 'native-base'
 
-import {Context} from '../../../Store/appContext'
+import { Context } from '../../../Store/appContext'
 import CompareCard from '../Components/CompareCard'
-
-import Spinnerx from 'react-native-loading-spinner-overlay'
 
 export default PendingPath = (props) => {
   const { store, actions } = useContext(Context)
@@ -29,17 +27,18 @@ export default PendingPath = (props) => {
     var answer = await actions.swap.statusChange(
       props.tournament.id, swap.id, buyin.id, "pending", "canceled") 
     props.setRefreshing(false)
-    
     props.setLoading(false)
-
   }
 
   return(
     <Card transparent>
+      {/* PENDING SWAP INFO */}
       <CardItem style={{justifyContent:'center'}}>
         {swap.percentage ?
-          <View>
-            <Text style={{textAlign:'center'}}>This swap with {buyin.user_name} is currently pending as of {swap.updated}</Text>
+          <View style={{width:'100%'}}>
+            <Text style={{textAlign:'center'}}>
+              PENDING SWAP{'\n'}{props.swapSince}
+            </Text>
             <CompareCard 
               youColor={'orange'} themColor={'orange'}
               percentage={swap.percentage} 
@@ -49,6 +48,7 @@ export default PendingPath = (props) => {
           
           : <Spinner />}
       </CardItem>
+      {/* CANCEL SWAP BUTTON */}
       {swap ?
         <CardItem style={{justifyContent:'center'}}>  
           <Button full large style={{width:'100%', backgroundColor:'#a3a3a3'}}onPress={()=> showAlert()}>

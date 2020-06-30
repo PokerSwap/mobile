@@ -82,7 +82,7 @@ export default SwapRow = (props) => {
       status: swap.status,
       buyin: props.buyin,
       tournament: props.tournament,
-      swapID: swap.id,
+      swap: swap,
       buyinSince: props.buyinSince,
       swapSince: swapTime
     });
@@ -91,7 +91,7 @@ export default SwapRow = (props) => {
   return(
     <View style={styles.rowContainer}>
       {/* SWAP STATUS */}
-      <Col style={{ width:'20%' }}>
+      <Col style={{ width:'25%' }}>
         <Text style={{ textTransform:'capitalize' }}>
           {props.swap.status !== 'counter_incoming' ?
             props.swap.status : ' Counter\nIncoming'}
@@ -100,9 +100,10 @@ export default SwapRow = (props) => {
       {/* SWAP TIME */}
       <Col>
         {swapTime ?
-          <Text>{swapTime.substring(0,12) + '  ' + swapTime.substring(19,30)}</Text>
-          : null
-        }
+          <Text style={{fontSize:14}}>
+            {swapTime.substring(0,12) + '  ' + swapTime.substring(19,30)}
+          </Text>
+          : null}
       </Col>
       {/* SWAP BUTTON */}
       <Col style={{ width:'20%' }}>

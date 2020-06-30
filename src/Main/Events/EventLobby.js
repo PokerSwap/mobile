@@ -8,85 +8,79 @@ import FlightSchedule from './Components/FlightSchedule';
 import ActionBar from './Components/ActionBar'
 
 export default EventLobby = (props, {navigation}) => {
-  const { store, actions } = useContext(Context)
-  const [ action, setAction ] = useState(null)
-  const [ aTournament, setATournament ] = useState(null)
-  const [ tStart, setTstart ] = useState(null)
-
-  let tournament_name = props.navigation.getParam('tournament_name', 'NO-ID');
+  
+  let event = props.navigation.getParam('event', 'NO-ID');
   let tournament_id = props.navigation.getParam('tournament_id', 'NO-ID');
   let tournament_start = props.navigation.getParam('tournament_start', 'NO-ID');
+  let tournament_name = props.navigation.getParam('tournament_name', 'NO-ID');
 
-  console.log('tournament ID', tournament_id)
+  var startAction, startTournament, startTime, startName, startEvent;
+  if(event !== 'NO-ID'){
+    startEvent= event, startName=event.tournament.name, startAction = event.action, startTournament = event.tournament, startTime = event.tournament.start_at;
+  }else{
+    startEvent= null, startName=tournament_name, startAction = null, startTournament = null, startTime = tournament_start;
+  }
+
+  const { store, actions } = useContext(Context)
+  const [ anEvent, setAnEvent ] = useState(startEvent)
+  const [ aTournament, setATournament ] = useState(startTournament)
+  const [ tStart, setTStart ] = useState(startTime)
+  const [ anAction, setAnAction] = useState(startAction)
+
   useEffect(() => {
     getTournament()
     const subsctt = props.navigation.addListener('didFocus', () => {
       getTournament()
-  });
+    });
     
-
     return () => {
       // cleanup
     }
-  }, [null])
+  }, [false])
 
-  // useEffect(() => {
-  //   const unsubscribe = props.navigation.addListener('didBlur', () => {
-  //     bx()
-  // });
-  //   return () => {
-  //   // unsubscribe()
-  //   }
-  // }, [navigation])
 
   var bx = async() => {
     var eee = await actions.swap.removeCurrent()
     console.log('currentSwap',store.currentSwap)
   }
-
-
  
   const getTournament = async() => {
     try{
+      console.log('check actions', tournament_id)
       var answer1 = await actions.tournament.getCurrent(tournament_id)
-      var answer2 = await actions.tournament.getAction(tournament_id)
-      setAction(store.currentAction)
-      setATournament(store.currentTournament)
-      console.log('aTournament', aTournament)
-      console.log('action', action)
+      var answer2 = await actions.tournament.retrieveAction(tournament_id)
+      var answer3 = await actions.time.convertLong(startTime)
+      setAnAction(answer2)
+      setATournament(store.currentTournament.tournament)
+      setAnEvent(store.currentTournament)
+      setTStart(answer3)
     } catch(error){
       console.log('Something went wrong with getting Tournaent',error)
     }
   }
-  
 
-  
-  if(aTournament){
-    let currentTournament = aTournament.tournament
-    let my_buyin = aTournament.my_buyin
-    let buyins = aTournament.buyins
-    let flights = aTournament.tournament.flights
-
+  if(anEvent && aTournament){
     var toFilterOne  = []
-    var addToFilter = buyins.forEach((buyin) => 
+    var addToFilter = anEvent.buyins.forEach((buyin) => 
       toFilterOne.push(buyin.recipient_user.id));
-    var toFilter2 = [my_buyin.user_id, ...toFilterOne]  
+    var toFilter2 = [anEvent.my_buyin.user_id, ...toFilterOne]  
 
     let tournamentBuyins 
-    if (currentTournament.buy_ins.length !== 0){
-      tournamentBuyins = currentTournament.buy_ins.filter( buyin => 
+    if (aTournament.buy_ins.length !== 0){
+      tournamentBuyins = aTournament.buy_ins.filter( buyin => 
         toFilter2.includes(buyin.user_id) != true)
     }else{
       tournamentBuyins = []
     }
 
-    var Flights = flights.map((flight, index) => {       
+    // FLIGHT SCHEDUELE RENDER METHOD
+    var Flights = aTournament.flights.map((flight, index) => {       
       var myBuyInFlight
-      my_buyin.flight_id == flight.id ? 
-        myBuyInFlight = my_buyin : myBuyInFlight = []
+      anEvent.my_buyin.flight_id == flight.id ? 
+        myBuyInFlight = anEvent.my_buyin : myBuyInFlight = []
       
       var swappedBuyins =[]
-      var addingtoSwappedBuyins = buyins.forEach(buyin => {
+      var addingtoSwappedBuyins = anEvent.buyins.forEach(buyin => {
         buyin.recipient_buyin.flight_id == flight.id ?
           swappedBuyins.push(buyin) : null
       })
@@ -98,18 +92,14 @@ export default EventLobby = (props, {navigation}) => {
     });
 
     return(
-      <FlightSchedule 
-        key={index} navigation={props.navigation}
-        action={action}
-        my_buyin={myBuyInFlight}
+      <FlightSchedule key={index} navigation={props.navigation}
+        action={anAction} my_buyin={myBuyInFlight}
         buyins={swappedBuyins} unbuyins={unswappedBuyins}
-        flight = {flight} tournament={currentTournament}/>)
-  })
+        flight = {flight} tournament={aTournament}/>)
+    })
   }else{
     null
   }
-
-
 
   return(
     <Container>      
@@ -117,15 +107,14 @@ export default EventLobby = (props, {navigation}) => {
         <List>
           {/* TOURNAMENT HEADER */}
           <EventHeader 
-            tournament_name={tournament_name}
-            tournament_start={tournament_start}
-          />
+            tournament_name={startName}
+            tournamentTime={tStart} />
           {/* TOURNEY BUYIN ENTRIES  */}
           {!aTournament ? <Spinner /> : Flights }          
         </List>
       </Content>
       {/* FOOTER CONTAINS NUMBER OF SWAPS AND ACTION  */}
-      <ActionBar action={action} />
+      <ActionBar action={anAction} />
     </Container>
   )
 }

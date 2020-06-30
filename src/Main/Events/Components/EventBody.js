@@ -10,13 +10,12 @@ export default EventBody = (props) => {
   var start_at = props.tournament.start_at
   var bgColor, textColor, borderWidths, buttonColor, path;
   
-
   const enterTournament = () => {
+    console.log('eee', tournament)
     props.navigation.push(path, {
-      tournament_name: tournament.name,
       tournament_id: tournament.tournament_id,
       tournament_start: tournament.start_at,
-      flight_id: tournament.id
+      tournament_name: tournament.name
     });
   }
 
@@ -66,7 +65,7 @@ export default EventBody = (props) => {
         :null	} mi.						
       </Text>
   }else{
-    console.log('somethign went wrong')
+    console.log('somethign went wrong with search mode')
   }
 
   return(
