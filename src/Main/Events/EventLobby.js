@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Container, Content, List, Spinner } from 'native-base';
+import { withNavigationFocus } from 'react-navigation';
 
 import { Context } from '../../Store/appContext'
 
@@ -7,8 +8,9 @@ import EventHeader from './Components/EventHeader'
 import FlightSchedule from './Components/FlightSchedule';
 import ActionBar from './Components/ActionBar'
 
-export default EventLobby = (props, {navigation}) => {
-  
+export default EventLobby = (props) => {
+  const { store, actions } = useContext(Context)
+
   let event = props.navigation.getParam('event', 'NO-ID');
   let tournament_id = props.navigation.getParam('tournament_id', 'NO-ID');
   let tournament_start = props.navigation.getParam('tournament_start', 'NO-ID');
@@ -21,38 +23,37 @@ export default EventLobby = (props, {navigation}) => {
     startEvent= null, startName=tournament_name, startAction = null, startTournament = null, startTime = tournament_start;
   }
 
-  const { store, actions } = useContext(Context)
+
+
   const [ anEvent, setAnEvent ] = useState(startEvent)
   const [ aTournament, setATournament ] = useState(startTournament)
   const [ tStart, setTStart ] = useState(startTime)
   const [ anAction, setAnAction] = useState(startAction)
+  const [ refreshing, setRefreshing ] = useState(true)
 
   useEffect(() => {
-    getTournament()
-    const subsctt = props.navigation.addListener('didFocus', () => {
-      getTournament()
-    });
     
+    const unsubscribe = props.navigation.addListener('didFocus', () => {
+      getTournament() 
+    });
+
     return () => {
-      // cleanup
+      unsubscribe
+
     }
-  }, [false])
-
-
-  var bx = async() => {
-    var eee = await actions.swap.removeCurrent()
-    console.log('currentSwap',store.currentSwap)
-  }
+  }, [])
  
   const getTournament = async() => {
     try{
-      console.log('check actions', tournament_id)
+      console.log('getting tournament from lobby')
       var answer1 = await actions.tournament.getCurrent(tournament_id)
-      var answer2 = await actions.tournament.retrieveAction(tournament_id)
-      var answer3 = await actions.time.convertLong(startTime)
-      setAnAction(answer2)
+
       setATournament(store.currentTournament.tournament)
-      setAnEvent(store.currentTournament)
+      var answer2 = await actions.tournament.retrieveAction(tournament_id)
+      setAnAction(answer2)
+      
+      setAnEvent(store.currentTournament)     
+      var answer3 = await actions.time.convertLong(startTime)     
       setTStart(answer3)
     } catch(error){
       console.log('Something went wrong with getting Tournaent',error)
@@ -94,6 +95,7 @@ export default EventLobby = (props, {navigation}) => {
     return(
       <FlightSchedule key={index} navigation={props.navigation}
         action={anAction} my_buyin={myBuyInFlight}
+        setRefreshing={setRefreshing}
         buyins={swappedBuyins} unbuyins={unswappedBuyins}
         flight = {flight} tournament={aTournament}/>)
     })

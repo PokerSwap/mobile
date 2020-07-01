@@ -11,7 +11,6 @@ export default EventBody = (props) => {
   var bgColor, textColor, borderWidths, buttonColor, path;
   
   const enterTournament = () => {
-    console.log('eee', tournament)
     props.navigation.push(path, {
       tournament_id: tournament.tournament_id,
       tournament_start: tournament.start_at,

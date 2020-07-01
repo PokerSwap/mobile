@@ -4,8 +4,6 @@ import {Toast} from 'native-base'
 import AsyncStorage from '@react-native-community/async-storage'
 import { StackActions, NavigationActions } from 'react-navigation';
 
-import moment from 'moment';
-
 var databaseURL = 'https://swapprofit-beta.herokuapp.com/'
 
 var errorMessage = (error) => {
@@ -44,8 +42,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 			currentBuyin:{},
 			// CURRENT SWAP ON SCREEN
 			currentSwap:{},
-			// CURRENT BUYIN ON SCREEN
-			currentTournament:{},
+			// CURRENT TOURNAMENT ON SCREEN
+			currentTournament:null,
 			// MY DEVICE TOKEN
 			deviceToken: null,
 			// MY PROFILE
@@ -768,30 +766,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 							return errorMessage(response.message)}
 						
 						var spendToken = await getActions().swapToken.spend()
-						var refreshingProfile = await getActions().profile.get()
-						var refreshingTrackers = await getActions().tracker.getCurrent()
-						var refreshingTournament = await getActions().tournament.getCurrent(a_tournament_id)		
-						var refreshingBuyin = await getActions().swap.getCurrent(response.swap_id)		
-						var refreshingSwap = await getActions().buy_in.getCurrent(a_buyin_id)		
-
-						var answer3 = await getActions().tournament.getAction(a_tournament_id)	
-						// var gettingRecipeintID = await getActions().deviceToken.retrieve(a_recipient_id)
-						
-						// var notifData = {
-						// 	id: a_tournament_id,
-						// 	type: 'swap',
-						// 	initialPath: 'SwapDashboard', 
-						// 	finalPath: 'SwapOffer'
-						// }
-						// console.log('Notif Data', notifData)
-						// var title = 'New Swap'
-						// var body = getStore().myProfile.first_name + ' ' + getStore().myProfile.last_name
-						// 	+ ' just sent you a swap'
-						// var answer5 = await getActions().notification.send( 
-						// 	answer4, title, body, notifData )
-						// var ss = await getActions().swap.getCurrent(response[0].swap_id) 
-						// return responseMessage("Your swap was sent")
-						
+						var refreshingTournament = await getActions().tournament.getCurrent(a_tournament_id)
+						var refreshingTracker = await getActions().tracker.getCurrent()
+						var refreshingBuyin = await getActions().swap.getCurrent(response.swap_id)
 					}catch(error){
 						console.log('Something went wrong with adding a swap', error)
 						return errorMessage(error.message)
@@ -846,10 +823,10 @@ const getState = ({ getStore, setStore, getActions }) => {
 					}
 				},
 				// REMOVES CURRENT SWAP FROM STORE
-				removeCurrent: async ( ) => {
-					setStore({currentSwap:null})
-					console.log('Current Swap in Store: ',getStore().currentSwap )
-				},
+				// removeCurrent: async ( ) => {
+				// 	setStore({currentSwap:null})
+				// 	console.log('Current Swap in Store: ',getStore().currentSwap )
+				// },
 				// ANY CHANGE TO SWAP IS DONE HERE
 				statusChange: async ( a_tournament_id, my_swap_id, a_buyin_id, a_current_status, a_new_status, a_percentage, a_counter_percentage ) => {
 					try{
@@ -905,14 +882,11 @@ const getState = ({ getStore, setStore, getActions }) => {
 							// if(response[1].status == 'counter_incoming'){
 								var a = await getActions().swapToken.return()
 							// }else{null}
-						}
-						// var refreshingSwap = await getActions().swap.getCurrent(my_swap_id)
-						var refreshingProfile = await getActions().profile.get()
-						var refreshingTrackers = await getActions().tracker.getCurrent()
-						// var refreshingBuyin = await getActions().swap.getCurrent(my_swap_id)		
-						// var refreshingSwap = await getActions().buy_in.getCurrent(a_buyin_id)	
+						}	
 						var refreshingTournament = await getActions().tournament.getCurrent(a_tournament_id)
-						var refreshingAction = await getActions().tournament.getAction(a_tournament_id)			
+						var refreshingTracker = await getActions().tracker.getCurrent()
+
+						// var refreshingAction = await getActions().tournament.getAction(a_tournament_id)			
 					}
 					catch(error){
 						console.log("Something went wrong with the swap's status change:",error)

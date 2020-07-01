@@ -6,7 +6,6 @@ import BuyIn from '../../BuyIn/BuyIn'
 import TournamentBuyIn from '../../BuyIn/TournamentBuyIn'
 
 export default FlightSchedule = (props) => {
-     console.log('check',props.action)
   var startMonth = props.flight.start_at.substring(8,11)
   var startDay = props.flight.start_at.substring(5,7)
   var startHour = props.flight.start_at.substring(17,19)
@@ -21,29 +20,22 @@ export default FlightSchedule = (props) => {
       : startTime = 12 + ':' + startMinute + ' A.M.'
 
   var Buy_Ins = props.buyins.map((content, index) => {
-    console.log('eee', props.action)
     return(
-      <BuyIn
-        key = {index}  navigation={props.navigation}
-        action={props.action.actions}
-        tournament={props.tournament}
-        my_buyin={props.my_buyin}
-        buyin={content.recipient_buyin}
+      <BuyIn key = {index}  navigation={props.navigation}
+        action={props.action} tournament={props.tournament}
+        my_buyin={props.my_buyin} buyin={content.recipient_buyin}
         agreed_swaps = {content.agreed_swaps}
-        other_swaps = {content.other_swaps}/>
+        other_swaps = {content.other_swaps} 
+        setRefreshing={props.setRefreshing}/>
     )
   })
     
-
   var Tournament_Buy_Ins = props.unbuyins.map((content, index) => {
     return(
-      <TournamentBuyIn key = {index}  
-        navigation={props.navigation}
-        my_buyin={props.my_buyin}
-        action={props.action.actions}
-
-        tournament={props.tournament}
-        buyin={content}/>
+      <TournamentBuyIn key = {index} navigation={props.navigation}
+        buyin={content} my_buyin={props.my_buyin}
+        tournament={props.tournament} action={props.action}
+        setRefreshing={props.setRefreshing}/>
     )
   })
 
@@ -55,26 +47,19 @@ export default FlightSchedule = (props) => {
         <Text> 
           Day {props.flight.day} - {startMonth}. {startDay} 
         </Text>
-        <Text>
-          {startTime}  
-        </Text>
+        <Text>{startTime}</Text>
       </ListItem> 
+      {/* IF MY BUYIN IS IN THIS FLIGHT */}
       {props.my_buyin.length !== 0?
-        <BuyIn 
-        navigation = {props.navigation}
-        my_buyin= {props.my_buyin}
-        buyin = {props.my_buyin}
-        tournament ={props.tournament}
-        />
-        : null
-      }
-
-      {/* {relatedbuyins} */}
+        <BuyIn  navigation = {props.navigation}
+        setRefreshing={props.setRefreshing}
+          action = {props.action} tournament ={props.tournament}
+          my_buyin= {props.my_buyin} buyin = {props.my_buyin}/>
+        : null}
+      {/* BUYINS IN FLIGHT I SWAPPED WITH */}
       {Buy_Ins}
-
-      {/* FLIGHT BUY-INS */}
+      {/* OTHER BUY-INS IN FLIGHT */}
       {Tournament_Buy_Ins}
-              
     </View>
   )
 }

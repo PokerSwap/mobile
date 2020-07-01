@@ -51,9 +51,8 @@ export default ProfileBio = (props) => {
         {/* FULL NAME AND HENDON URL */}
         <View style={{flex:1, justifyContent:'center', height:70}}>
           {profile !== undefined ?
-            <Button transparent 
-              style={{flex:1, justifyContent:'center'}}  
-              onPress={() => openHendon()}>
+            <Button transparent onPress={() => openHendon()}
+              style={{flex:1, justifyContent:'center'}}>
               <Text style={{fontSize:36, textAlign:'center'}}>
                 {profile.first_name} {profile.last_name}
               </Text>

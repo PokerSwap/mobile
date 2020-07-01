@@ -8,19 +8,21 @@ export default CompareCard = (props) => {
   return(
     <CardItem style={{justifyContent:'center'}}>
       <Row>
-        <Col >
+        {/* YOUR SWAP PERCENTAGE */}
+        <Col>
           <Text style={styles.userTitle}> You </Text>
           <View style={[styles.percentageView,{backgroundColor:props.youColor}]}>
             <Text style={styles.percentageText}>
               {props.percentage}%</Text>
           </View>
         </Col>
+        {/* THEIR SWAP PERCENTAGE */}
         <Col>
           <Text style={styles.userTitle}> Them </Text>
           <View style={[styles.percentageView,{backgroundColor:props.themColor}]}>
             <Text style={styles.percentageText}>
             {props.counter_percentage}%</Text>
-            </View>
+          </View>
         </Col>
       </Row>
     </CardItem>

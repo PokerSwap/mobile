@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import {  Accordion, Button, ListItem, Text } from 'native-base';
+import { Button, ListItem, Text, Icon } from 'native-base';
 import { View } from 'react-native'
 import { Col, Row, Grid } from 'react-native-easy-grid'
 import { throttle } from 'lodash'
@@ -9,14 +9,15 @@ import { Context } from '../../Store/appContext'
 
 import BuyInAttribute from './Components/BuyInAttribute'
 import SwapButton from './Components/SwapButton'
-import SwapHeader from './Components/SwapHeader'
 import SwapRow from './Components/SwapRow'
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default BuyIn = (props) => {
   const { store, actions } = useContext(Context)
   const { navigation } = props,  {buyin} = props;
   const [buyinSince, setBuyinSince] = useState(null)
   const [refreshing, setRefreshing] = useState(true)
+  const [ isExpanded, setIsExpanded ] = useState(false)
 
   const shortenedTime = async() => {
     var ol = await actions.time.convertShort(moment(buyin.updated_at).fromNow())
@@ -43,13 +44,6 @@ export default BuyIn = (props) => {
         : allSwaps = null
     : allSwaps = null
 
-  const _renderHeader = (item, expanded) => {
-    return(
-      <SwapHeader 
-        allSwaps={allSwaps}
-        expanded={expanded} />
-    )
-  }
 
   const _renderContent= () => {
     return(
@@ -88,11 +82,21 @@ export default BuyIn = (props) => {
   }
     
   return(
-    <ListItem noIndent style={{ backgroundColor:bg, flexDirection:'column'}}>
-      <Grid style={{marginVertical:10}}>
-        <Row style={{width:'100%'}}>
+    <ListItem noIndent style={{ backgroundColor:bg, flexDirection:'column',marginleft:0, paddingLeft:0}}>
+      <Grid style={{marginVertical:10, marginleft:0,}}>
+        <Row style={{width:'100%',  justifyContent:'space-between'}}>
+          {/* BUYIN ACCORDION BUTTON */}
+          {buyin.user_id !== store.myProfile.id ?
+            <Col style={{width:'15%', marginleft:10,  justifyContent:'center'}}>
+              <TouchableOpacity style={{ justifyContent:'center', width:'100%', height:'100%'}} onPress={() => setIsExpanded(!isExpanded)}>
+                {isExpanded ?
+                  <Icon style={{textAlign:'center', color:txt}} type='Ionicons' name='ios-arrow-up'/> 
+                  : <Icon style={{textAlign:'center', color:txt}} type='Ionicons' name='ios-arrow-down'/>}
+              </TouchableOpacity>
+            </Col>
+            : <Col style={{width:'15%'}}/>}
           {/* BUYIN INFORMATION */}
-          <Col style={{width:'70%'}}>
+          <Col style={{width:'60%'}}>
             {/* PROFILE NAME */}
             <Row style={{justifyContent:'center'}}>
               <Button transparent 
@@ -121,14 +125,13 @@ export default BuyIn = (props) => {
           <SwapButton navigation={props.navigation}
             allSwaps={allSwaps}  
             my_buyin={props.my_buyin}
-            action={props.action}
             agreed_swaps={props.agreed_swaps}
             other_swaps={props.other_swaps}
-            tournament={props.tournament}
+            tournament={props.tournament} action={props.action}
             updated_at={props.buyin.updated_at}
-            buyin={buyin}
-            buyinSince={buyinSince}
-            txt={txt}/>  
+            buyin={buyin} buyinSince={buyinSince}
+            txt={txt}
+            setRefreshing={props.setRefreshing}/>  
         </Row>
         {/* BUSTED TITLE */}
         { buyin.chips == 0 ?
@@ -143,15 +146,9 @@ export default BuyIn = (props) => {
           </Row>
           : null }
       </Grid>
-      {/* BUTTON ACCORDION */}
-      { allSwaps !== null ?
-        <Accordion style={{width:'100%'}}
-          dataArray={[{placeholder:'placeholder'}]}
-          renderHeader={_renderHeader}
-          renderContent={_renderContent}
-          animation={true}
-          expanded={true}/>
-        : null }
+      {/* BUYIN ACCORIDION CONTENT */}
+      { allSwaps !== null  && isExpanded  ?
+        _renderContent() : null }
     </ListItem>
   )
 }

@@ -60,12 +60,11 @@ export default TournamentBuyIn = (props) => {
         {/* SWAP BUTTON */}
         <Col>
           <SwapButton navigation={props.navigation}
-            tournament={props.tournament}
+            tournament={props.tournament} action={props.action}
             updated_at={props.buyin.updated_at}
-            action={props.action}
-            my_buyin={props.my_buyin}
-            buyin={buyin}
-            txt={txt}/>
+            my_buyin={props.my_buyin} buyin={buyin}
+            txt={txt}
+            setRefreshing={props.setRefreshing}/>
         </Col>
       </Grid>
     </ListItem>

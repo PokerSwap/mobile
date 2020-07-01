@@ -40,23 +40,23 @@ export default SwapDashboard = (props, navigation) => {
     }
   }
   // EMPTY CURRENT TRACKER COMPONENT
-  let noTracker = (f) => {
+  let noTracker = (status) => {
     return(
       <ListItem noIndent style={styles.noTracker.listItem}>
         <Text style={styles.noTracker.text}> 
-          You have no {f} tournaments at the moment. 
+          You have no {status} tournaments at the moment. 
         </Text>
       </ListItem>
     )
   }
   // OCCUPIED CURRENT TRACKER COMPONENT
-  let a_tracker = (e) => e.map((content, index) => {
+  let a_tracker = (trackers) => trackers.map((tracker, index) => {
     return(
       <SwapTracker
         key={index} navigation={props.navigation}
-        event={content}
-        my_buyin= {content.my_buyin} buyins = {content.buyins}
-        tournament={content.tournament} action={content.action}/>
+        event={tracker}
+        my_buyin= {tracker.my_buyin} buyins = {tracker.buyins}
+        tournament={tracker.tournament} action={tracker.action}/>
     )
   })
   

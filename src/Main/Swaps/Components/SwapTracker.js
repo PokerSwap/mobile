@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { Text } from 'native-base';
-
 import { throttle } from 'lodash'
 
 import { Context } from '../../../Store/appContext'
@@ -15,12 +14,10 @@ export default SwapTracker = (props) => {
     return(
       <BuyIn
         key = {index} navigation = {props.navigation}
-        buyin = {content.recipient_buyin}
-        my_buyin={props.my_buyin}
-        tournament= {props.tournament}
+        buyin = {content.recipient_buyin} my_buyin={props.my_buyin}
+        tournament= {props.tournament} action={props.action}
         agreed_swaps = {content.agreed_swaps}
-        other_swaps = {content.other_swaps}
-        action={props.action}/>)
+        other_swaps = {content.other_swaps} />)
   })
 
   const enterTournament = () => {
@@ -46,9 +43,8 @@ export default SwapTracker = (props) => {
       </View>
       {/* MY BUYIN IN TOURNAMENT */}
       <BuyIn navigation = {props.navigation}
-        my_buyin = {props.my_buyin}
-        buyin = {props.my_buyin}
-        tournament ={props.tournament} />
+        tournament ={props.tournament} action={props.action}
+        my_buyin = {props.my_buyin} buyin = {props.my_buyin} />
       {/* OTHER BUYINS YOU SWAPPED TO IN TOURNAMENT */}
       {other_swaps}   
     </View>

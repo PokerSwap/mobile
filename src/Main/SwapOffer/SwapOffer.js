@@ -135,28 +135,30 @@ export default SwapOffer = (props, {navigation}) => {
     setTTime(x)
   }
 
-  // useEffect(() => {
-  //   const unsubscribe = props.navigation.addListener('didBlur', () => {
-  //     bx()
-  // });
-  //   return () => {
-  //   // unsubscribe()
-  //   }
-  // }, [navigation])
-
-  var bx = async() => {
-    var eee = await actions.swap.removeCurrent()
-    setCurrentSwap(null)
-    console.log('currentSwap',store.currentSwap)
+  var eeex = () => {
+    // actions.tracker.getCurrent()
+    // console.log('doing this')
+    // actions.tournament.getCurrent(tournament.id)
+    // console.log('doing it')
+    // actions.tournament.getAction(tournament.id)	
+    // console.log('doing final')
+    // actions.profile.get()
+    // console.log('doing that')
   }
 
   useEffect(() => {
-    getSwap()
     getBuyin()
-    getTime()   
-    setRefreshing(false)
+    getTime()
     return () => {
       // cleanup
+    }
+  }, [false])
+
+  useEffect(() => {
+    getSwap()
+    setRefreshing(false)
+    return () => {
+      eeex()
     }
   }, [refreshing])
 

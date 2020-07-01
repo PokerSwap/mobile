@@ -4,7 +4,6 @@ import { View } from 'react-native'
 import { Text, Button, Icon, Toast } from 'native-base';
 import { Col } from 'react-native-easy-grid'
 import { throttle } from 'lodash'
-import moment from 'moment'
 
 import { Context } from '../../../Store/appContext'
 
@@ -26,14 +25,8 @@ export default SwapButton = (props) => {
     allSwaps.forEach(swap => allStatuses.push(swap.status))
     : allStatuses = ['inactive']
 
-
-  // console.log('allSwaps', allSwaps)
-  // console.log('allStatiese', allStatuses)
-
-
   var lastCol, buttonColor, path, swap;
  
-
   // YOUR SWAP VIEW
   if (props.buyin.user_id == store.myProfile.id){
     lastCol = 
@@ -66,7 +59,7 @@ export default SwapButton = (props) => {
     var gettingpendingagreed = props.allSwaps.filter(swap => swap.status == 'agreed' || swap.status == 'pending')
     var addingPercentage = gettingpendingagreed.forEach(swap => pendingPercentage+= swap.percentage)
     lastCol =  
-      <Text style={{fontWeight:'600', fontSize:18,
+      <Text style={{fontWeight:'600', fontSize:16,
         color:'white', textAlignVertical:'center'}}> 
         {pendingPercentage}% 
       </Text>;
@@ -147,7 +140,6 @@ export default SwapButton = (props) => {
 
   }
 
-
   const enterSwapOffer = async() => {
     // CHECKING IF ITS MY BUYIN
     if( props.buyin.user_id !== store.myProfile){
@@ -210,7 +202,7 @@ export default SwapButton = (props) => {
   const handler = throttle(preliminary, 2000, { leading: true, trailing: false });
 
   return(
-    <Col style={{ justifyContent:'center', marginLeft:20, textAlign:'center'}}>
+    <Col style={{ justifyContent:'center', marginLeft:10, textAlign:'center'}}>
       {/* SWAP BUTTON */}
       <Button style={{backgroundColor:buttonColor, width:70, height:70, 
         justifyContent:'center', alignSelf:'center'}}
