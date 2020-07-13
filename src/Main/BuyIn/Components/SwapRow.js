@@ -91,14 +91,14 @@ export default SwapRow = (props) => {
   return(
     <View style={styles.rowContainer}>
       {/* SWAP STATUS */}
-      <Col style={{ width:'25%' }}>
-        <Text style={{ textTransform:'capitalize' }}>
+      <Col style={{ width:'30%' }}>
+        <Text style={{ textTransform:'capitalize', textAlign:'center' }}>
           {props.swap.status !== 'counter_incoming' ?
             props.swap.status : ' Counter\nIncoming'}
         </Text>
       </Col>
       {/* SWAP TIME */}
-      <Col>
+      <Col style={{marginLeft:-25}}>
         {swapTime ?
           <Text style={{fontSize:14}}>
             {swapTime.substring(0,12) + '  ' + swapTime.substring(19,30)}

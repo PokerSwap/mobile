@@ -6,34 +6,14 @@ import  Spinner  from 'react-native-loading-spinner-overlay'
 
 import { Context } from '../../../Store/appContext'
 import PayModal from './PayModal'
-
-PayButton = (props) => {
-  return(
-    <Button large onPress={() => props.fn()}
-      style={{height:60, justifyContent:'center', backgroundColor:props.color}} >
-      <Text style={{textAlign:'center', fontWeight:'600'}}>
-        {props.message}
-      </Text> 
-    </Button>
-  )
-}
+import TotalOweRow from './TotalOweRow';
+import IndividualOweRow from './IndividualOweRow';
 
 export default ProfitTracker = (props) => {
   const { store, actions } = useContext(Context)
   const [ visible, setVisible ] = useState(false)
   const [ loading, setLoading ] = useState(false)
   const [ paid, setPaid ] = useState(props.buyin.agreed_swaps[0].paid)
-
-  const paidAlert = () => {
-    Alert.alert(
-      "Paid Confirmation",
-      "Are you sure this person paid what they owe?",
-      [
-        {text: 'Yes', onPress: () => paySwap()},
-        {text: 'No', onPress: () => console.log("Cancel Pressed"),}
-      ]
-    )
-  }
 
   const payAlert = () => {
     Alert.alert(
@@ -46,6 +26,39 @@ export default ProfitTracker = (props) => {
     )
   }
 
+  var myWinnings = parseInt(props.myResult.winnings).toFixed(2)
+  var you_owe_total = 0.00
+  var addingYourTotals = props.agreed_swaps.forEach(swap => 
+    you_owe_total += ((swap.percentage * 0.01) * myWinnings))
+
+  var theirWinnings = parseInt(props.theirResult.winnings).toFixed(2)
+  var they_owe_total = 0.00
+  var addingTheirTotals = props.agreed_swaps.forEach(swap => 
+    they_owe_total += ((swap.counter_percentage * 0.01) * theirWinnings))
+
+  let final_swap_profit
+  let swap_profit = they_owe_total - you_owe_total
+  swap_profit < 0 ?
+    final_swap_profit = '-$' + Math.abs(swap_profit).toFixed(2)
+    : final_swap_profit = "$" + Math.abs(swap_profit).toFixed(2)
+    
+  var message, fn, buttonColor
+  if (swap_profit !== 0 && (props.buyin.they_owe_total && props.buyin.you_owe_total)){
+    if(swap_profit > 0){
+      if(paid){
+        message = "You were Paid", fn = () => console.log('Nothing Happend'), buttonColor = 'green'
+      }else{
+        message = "Waiting for Payment", fn = () => console.log('Nothing Happend'), buttonColor = 'rgb(241, 191, 86)'
+      }
+    }else{
+      if(paid){
+        message = "You Paid", fn = () => console.log('Nothing Happend'), buttonColor = 'green'
+      }else{
+        message = "Paid Swap?", fn = payAlert, buttonColor = 'rgb(241, 191, 86)'
+      }
+    }
+  }else{null}
+
   const paySwap = async() => {
     setLoading(true)
     var answer = actions.swap.paid(
@@ -54,15 +67,8 @@ export default ProfitTracker = (props) => {
     setVisible(false)
     setLoading(false)
   }
-
-  let swap_profit = props.buyin.they_owe_total - props.buyin.you_owe_total
-
-  let final_swap_profit
-  swap_profit < 0 ?
-    final_swap_profit = '-$' + Math.abs(swap_profit).toFixed(2)
-    : final_swap_profit = "$" + Math.abs(swap_profit).toFixed(2)
-  
-    return(
+    
+  return(
     <ListItem noIndent transparent 
       style={{justifyContent:'center'}}>
       <Spinner visible={loading}/>
@@ -80,7 +86,7 @@ export default ProfitTracker = (props) => {
         {/* USERS ROW */}
         <Row style={{justifyContent:'center'}}>
           <Col style={{width:'33%'}}></Col>
-          {/* Your Profile */}
+          {/* YOUR PROFILE */}
           <Col style={{alignSelf:'center'}}>           
             <Image source={{uri: store.myProfile.profile_pic_url}} 
               style={{height:100, width:100, 
@@ -89,8 +95,7 @@ export default ProfitTracker = (props) => {
               You
             </Text>
           </Col>
-          
-          {/* Their Profile */}
+          {/* THEIR PROFILE */}
           <Col style={{alignSelf:'center'}}>
             <Image source={{uri: props.buyin.recipient_user.profile_pic_url}} 
               style={{height:100, width:100,
@@ -108,117 +113,49 @@ export default ProfitTracker = (props) => {
             </Text>
           </Col>
           <Col>
-            {props.buyin.you_won ? 
+            {myWinnings ? 
               <Text style={{alignSelf:'center',  fontSize:20}}>
-                ${parseInt(props.buyin.you_won).toFixed(2)}
+                ${myWinnings}
               </Text>
               : <Text> Pending </Text>}
           </Col> 
           <Col>
-            {props.buyin.they_won ? 
+            {theirWinnings ? 
               <Text style={{alignSelf:'center',  fontSize:20}}>
-                ${parseInt(props.buyin.they_won).toFixed(2)}
+                ${theirWinnings}
               </Text>
               : <Text> Pending </Text>}
           </Col>
         </Row>
         {/* INDIVIDUAL SWAPS ROW */}
         {props.agreed_swaps.map((swap, index) =>{
+          var you_owe = ((swap.percentage * 0.01) * myWinnings).toFixed(2)
+          var they_owe = ((swap.counter_percentage * 0.01) * theirWinnings).toFixed(2)
           return(
-            <Row style={{padding:5, borderTopWidth:1, 
-              borderColor:'#D3D3D3' }}>
-              <Col style={{width:'25%', alignSelf:'center'}}>
-                <Text style={{textAlign:'left',  fontSize:24}}>
-                  Swap {index + 1}
-                </Text>
-              </Col>
-              {swap.you_owe ?
-              <Col>
-                <Text style={{ fontSize:20, alignSelf:'center', marginBottom:5}}>
-                  {swap.percentage}%
-                </Text>
-                <Text style={{fontSize:20, alignSelf:'center'}}>
-                  ${swap.you_owe.toFixed(2)}
-                </Text>
-              </Col>
-              :
-              <Col style={{justifyContent:'flex-start'}}>
-                <Text style={{alignSelf:'center', fontSize:24, marginBottom:5, textAlign:'center'}}>
-                  {swap.counter_percentage}%
-                </Text>
-                <Text style={{fontSize:36}}>-</Text>                
-              </Col>}
-              {swap.they_owe ?
-                <Col style={{justifyContent:'flex-start'}}>
-                  <Text style={{alignSelf:'center', fontSize:20, marginBottom:5, textAlign:'center'}}>
-                    {swap.counter_percentage}%
-                  </Text>
-                  <Text style={{fontSize:20, alignSelf:'center', textAlign:'center'}}>
-                    ${swap.they_owe.toFixed(2)}
-                  </Text>
-                </Col>
-                :
-                <Col style={{justifyContent:'flex-start'}}>
-                  <Text style={{alignSelf:'center', fontSize:24, marginBottom:5, textAlign:'center'}}>
-                    {swap.counter_percentage}%
-                  </Text>
-                  <Text style={{fontSize:36}}>-</Text>                
-                </Col>}
-            </Row>
-          )
+            <IndividualOweRow 
+              number={index} swap={swap}
+              you_owe={you_owe} they_owe= {they_owe}/>)
         })}
         {/* TOTAL OWE ROW */}
-        <Row style={{paddingTop:20, 
-          borderTopWidth:1, borderColor:'#D3D3D3'}}>
-          
-          <Col style={{width:'25%'}}>
-            <Text style={{fontSize:24}}>Total</Text>
-          </Col>
-
-          <Col >
-            {props.buyin.you_owe_total ?
-              <Text style={{fontSize:24, fontWeight:'600',textAlign:'center'}}>
-                ${props.buyin.you_owe_total.toFixed(2)}
-              </Text>
-              :
-              <Text style={{fontSize:36, textAlign:'left'}}>-</Text>}
-          </Col>
-          
-          <Col style={{justifyContent:'flex-start'}}>
-            {props.buyin.they_owe_total ?
-              <Text style={{
-                fontSize:24, fontWeight:'600',textAlign:'center'}}>
-                ${props.buyin.they_owe_total.toFixed(2)}
-              </Text>
-              :
-              <Text style={{fontSize:36, textAlign:'left'}}>-</Text>}
-          </Col>
-        </Row>
+        <TotalOweRow 
+          you_owe_total = {you_owe_total}
+          they_owe_total = {they_owe_total}/>
         {/* SWAP PROFIT OWE */}
         <Row>
-          {props.buyin.they_owe_total && props.buyin.you_owe_total ?
-            <Text style={{ fontSize:36, fontWeight:'600',
-            textAlign:'center', marginTop:30}}>
-              Swap Profit {"\n"} {final_swap_profit}
-            </Text>
-            :
-            <Text style={{ fontSize:36, fontWeight:'600',
-            textAlign:'center', marginTop:30}}>
-              Swap Profit {"\n"} Pending
-            </Text>}
+          <Text style={{ fontSize:36, fontWeight:'600', textAlign:'center', marginTop:30}}>
+            Swap Profit {"\n"}
+            {props.buyin.they_owe_total && props.buyin.you_owe_total ?
+              final_swap_profit : "Pending"}
+          </Text>
         </Row>
         {/* PAY/PAID BUTTON */}
         <Row style={{marginTop:30}}>
-          {swap_profit !== 0 && (props.buyin.they_owe_total && props.buyin.you_owe_total) ?
-            swap_profit > 0 ?
-              paid ?
-                <PayButton message={"You were Paid"} color={'green'} fn={() => console.log('Nothing Happend')}/>
-                : <PayButton message={"Waiting for Payment"} color={'rgb(241, 191, 86)'} fn={() => console.log('Nothing Happend')}/>
-              :  
-              paid ?
-                <PayButton message={"You Paid"} color={'green'} fn={() => console.log('Nothing Happend')}/>
-                : <PayButton message={"Pay Now"} color={'rgb(241, 191, 86)'} fn={payAlert} />
-            : null}
+          <Button large onPress={() => fn()}
+            style={{height:60, justifyContent:'center', backgroundColor:buttonColor}} >
+            <Text style={{textAlign:'center', fontWeight:'600'}}>
+              {message}
+            </Text> 
+          </Button>
         </Row>
       </Grid>
     </ListItem>

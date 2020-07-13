@@ -6,22 +6,24 @@ import { throttle } from 'lodash';
 
 
 export default EventBody = (props) => {  
-  var {tournament} = props;
-  var start_at = props.tournament.start_at
+  var {event} = props;
+  var start_at = props.event.start_at
   var bgColor, textColor, borderWidths, buttonColor, path;
   
   const enterTournament = () => {
     props.navigation.push(path, {
-      tournament_id: tournament.tournament_id,
-      tournament_start: tournament.start_at,
-      tournament_name: tournament.name
+      tournament_id: event.tournament_id,
+      tournament_start: event.start_at,
+      tournament_name: event.name,
+      casino: event.casino,
+      flight_id: event.id
     });
   }
 
   const handler = throttle(enterTournament, 1000, { leading: true, trailing: false });
 
   // ACTIVE TOURNAMENT VIEW
-  if (tournament.buy_in) {
+  if (event.buy_in) {
     bgColor = 'green', textColor = 'white', buttonColor = 'white',
     borderWidths = 4, path = 'EventLobby'
   } else {
@@ -51,16 +53,16 @@ export default EventBody = (props) => {
     renderedItem = 
       <Text style={{fontWeight:"600", fontSize:12, 
         color:textColor, marginTop:5}}>
-        {tournament.city}
+        {event.city}
       </Text>
   }else if(props.mode=='byLocation'){
     renderedItem=
       <Text style={{fontWeight:"600", fontSize:12, 
         color:textColor, marginTop:5}}>
-        {tournament.distance !== undefined ?
-          tournament.distance < 10 ?
-            tournament.distance.toFixed(1)
-            : tournament.distance.toFixed(0)
+        {event.distance !== undefined ?
+          event.distance < 10 ?
+            event.distance.toFixed(1)
+            : event.distance.toFixed(0)
         :null	} mi.						
       </Text>
   }else{
@@ -100,7 +102,7 @@ export default EventBody = (props) => {
       <Col style={{width: '62%'}}>
         <Text style={{color:textColor, alignContent:'center',
           textAlign:'center', fontSize:20, fontWeight:'600'}}> 
-          {tournament.name}
+          {event.name}
         </Text>
       </Col>
       {/* RIGHT ARROW NAVIGATION */}

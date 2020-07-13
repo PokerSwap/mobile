@@ -51,8 +51,15 @@ export default LoginScreen = (props) => {
     }else{
       var bb = await getToken()
       deviceID = bb
+
     } 
-    var xw = await actions.user.login(email, password, deviceID, props.navigation )
+    var data = {
+      email: myEmail,
+      password: myPassword,
+      device_token: deviceID,
+      exp: 1728000000
+    };
+    var xw = await actions.user.login(data, props.navigation)
     wait(2000).then(() => 
     setLoading(false)
     );

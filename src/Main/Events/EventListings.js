@@ -48,8 +48,27 @@ export default EventListings = (props, {navigation}) => {
       <EventBody 
         key={index} navigation={props.navigation} 
         mode={mode} myCoords={myCoords}
-        tournament={item} />
+        event={item} />
     )
+  }
+
+  const testData = {
+      address: "1 Seminole Way",
+      buy_in: false,
+      casino: "SEMINOLE Hard Rock",
+      city: "Hollywood",
+      created_at: "Thu, 02 Jul 2020 15:28:37 GMT",
+      day: "1B",
+      id: 968,
+      name:"2020 $150 Escalator IV S100,000 GTD",
+      action:{actions:0,swaps:0},
+      start_at: "Sat, 22 Feb 2020 10:00:00 GMT",
+      state: "Florida",
+      tournament: "2020 $150 Escalator IV S100,000 GTD",
+      tournament_id: 882,
+      updated_at: "Thu, 02 Jul 2020 15:28:37 GMT",
+      zip_code: "33073"
+    
   }
 
   return(
@@ -64,6 +83,9 @@ export default EventListings = (props, {navigation}) => {
           setMode={setMode} setPage={setPage} />
       </Segment>
       {/* MAIN TOURNAMENT COMPONENT */}
+      <EventBody  navigation={props.navigation} 
+        mode={mode} myCoords={myCoords}
+        event={testData} />
       {store.tournamentList != null ?
         store.tournamentList.length != 0 ?
           // TOURNAMENT LIST GENERATOR 

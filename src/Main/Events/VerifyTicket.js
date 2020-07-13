@@ -26,6 +26,7 @@ export default VerifyTicket = (props) => {
   let tournament_start = navigation.getParam('tournament_start', 'NO-ID');
   let flight_id = navigation.getParam('flight_id', 'NO-ID');
   let tournament_id = navigation.getParam('tournament_id', 'NO-ID');
+  let casino = navigation.getParam('casino', 'NO-ID');
 
   const openSets = () => {
     openSettings().catch(() => console.warn('cannot open settings'));
@@ -114,7 +115,7 @@ export default VerifyTicket = (props) => {
   const BuyInStart = async() => {
     setLoading(true)
     var x = await actions.buy_in.add( 
-    image, table, seat, chips, flight_id, tournament_id, tournament_name, tournament_start, props.navigation )
+    image, table, seat, chips, flight_id, tournament_id, tournament_name, tournament_start, casino, props.navigation )
     setLoading(false)
   }
  

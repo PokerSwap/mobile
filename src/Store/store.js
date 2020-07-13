@@ -4,6 +4,8 @@ import {Toast} from 'native-base'
 import AsyncStorage from '@react-native-community/async-storage'
 import { StackActions, NavigationActions } from 'react-navigation';
 
+import moment from 'moment'
+
 var databaseURL = 'https://swapprofit-beta.herokuapp.com/'
 
 var errorMessage = (error) => {
@@ -44,6 +46,97 @@ const getState = ({ getStore, setStore, getActions }) => {
 			currentSwap:{},
 			// CURRENT TOURNAMENT ON SCREEN
 			currentTournament:null,
+			// CURRENT RESULTS:
+			currentResults: [
+				{
+					created_at: "Fri, 10 Jul 2020 17:18:45 GMT",
+					full_name: "Neal Corcoran",
+					id: 2,
+					nationality: "United States",
+					place: "1st",
+					tournament_id: 884,
+					updated_at: "Fri, 10 Jul 2020 17:18:45 GMT",
+					user_id: 7,
+					winnings: "20000"
+				},
+				{
+					created_at: "Fri, 10 Jul 2020 17:18:45 GMT",
+					full_name: "Kate Hoang",
+					id: 3,
+					nationality: "United States",
+					place: "2nd",
+					tournament_id: 884,
+					updated_at: "Fri, 10 Jul 2020 17:18:45 GMT",
+					user_id: 2,
+					winnings: "12000"
+				},
+				{
+					created_at: "Fri, 10 Jul 2020 17:18:45 GMT",
+					full_name: "Perry Shiao",
+					id: 4,
+					nationality: "United States",
+					place: "3rd",
+					tournament_id: 884,
+					updated_at: "Fri, 10 Jul 2020 17:18:45 GMT",
+					user_id: 5,
+					winnings: "10000"
+				},
+				{
+					created_at: "Fri, 10 Jul 2020 17:18:45 GMT",
+					full_name: "Bobby Leff",
+					id: 5,
+					nationality: "Canada",
+					place: "4th",
+					tournament_id: 884,
+					updated_at: "Fri, 10 Jul 2020 17:18:45 GMT",
+					user_id: 6,
+					winnings: "5000"
+				},
+				{
+					created_at: "Fri, 10 Jul 2020 17:18:46 GMT",
+					full_name: "Cary Katz",
+					id: 6,
+					nationality: "United States",
+					place: "5th",
+					tournament_id: 884,
+					updated_at: "Fri, 10 Jul 2020 17:18:46 GMT",
+					user_id: 3,
+					winnings: "4000"
+				},
+				{
+					created_at: "Fri, 10 Jul 2020 17:18:46 GMT",
+					full_name: "Brian Gelrod",
+					id: 7,
+					nationality: "United States",
+					place: "6th",
+					tournament_id: 884,
+					updated_at: "Fri, 10 Jul 2020 17:18:46 GMT",
+					user_id: 8,
+					winnings: "3000"
+				},
+				{
+					created_at: "Fri, 10 Jul 2020 17:18:46 GMT",
+					full_name: "Lou",
+					id: 8,
+					nationality: "United States",
+					place: "7th",
+					tournament_id: 884,
+					updated_at: "Fri, 10 Jul 2020 17:18:46 GMT",
+					user_id: 1,
+					winnings: "120000"
+				},
+				{
+					created_at: "Fri, 10 Jul 2020 17:18:46 GMT",
+					full_name: "Mikita",
+					id: 9,
+					nationality: "Russia",
+					place: "8th",
+					tournament_id: 884,
+					updated_at: "Fri, 10 Jul 2020 17:18:46 GMT",
+					user_id: 4,
+					winnings: "500"
+				}
+			],
 			// MY DEVICE TOKEN
 			deviceToken: null,
 			// MY PROFILE
@@ -69,7 +162,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 			// BUY IN ACTIONS
 			buy_in:{
 				// CREATING A BUYIN AND (RE)-BUYING-IN INTO A TOURNAMENT
-				add: async ( image, a_table, a_seat, some_chips, a_flight_id, a_tournament_id, a_tournament_name, a_tournament_start, navigation) => {
+				add: async ( image, a_table, a_seat, some_chips, a_flight_id, a_tournament_id, a_tournament_name, a_tournament_start, a_casino, navigation) => {
 					try{	
 						// PREVENTS EMPTY PICTURE SUBMISSION
 						if (image == 3){
@@ -90,6 +183,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 								type: image.type,
 								name: image.name
 						});
+						console.log('imageData', image.uri, image.type, image.name)
 						let response = await fetch(imageURL, {
 							method: 'PUT',
 							headers: {
@@ -109,7 +203,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						});
 
 						// PREVENTS WRONG PICTURE UPLOADED
-						if (newBuyin.message == 'Take another photo'){
+						if (newBuyin.message && newBuyin.message == 'Take another photo'){
 							var eee = await getActions().buy_in.delete(newBuyin.buyin_id)
 							return errorMessage(newBuyin.message)
 						}else{null}
@@ -119,7 +213,54 @@ const getState = ({ getStore, setStore, getActions }) => {
 							var eee = await getActions().buy_in.delete(newBuyin.buyin_id)
 							return errorMessage("One of the fields is not correct")
 						}else{null}
+
+						if(newBuyin.receipt_data.casino.includes(a_casino)){
+							console.log('go ahead')
+						}else{
+							console.log('Stop')
+						}
+
+						if(newBuyin.ocr_data.includes('Tournament Date:')){
+							var x = newBuyin.ocr_data.indexOf('Tournament Date:')
+							var a = x+17, b = x +27, c=x -9, d=x-1 ;
+							var alls = newBuyin.ocr_data.substring(a,b) +' '+ newBuyin.ocr_data.substring(c,d) + 'GMT'
+							var x = new Date(alls)
+							var y = new Date(a_tournament_start)
+							console.log('x',x)
+							console.log('y',y)
+
+							
+						}else{
+							console.log('not c')
+						}
 			 
+						// if(newBuyin.ocr_data.includes('Name:')){
+							// var aw = newBuyin.ocr_data.indexOf('Name:') + 5
+							// var bw = newBuyin.ocr_data.indexOf('\nPlayer') 
+							// var cw = newBuyin.ocr_data.substring(aw, bw)
+							// console.log('cw',cw)
+							// var firstName = getStore().myProfile.first_name 
+							// var lastName = getStore().myProfile.last_name
+							// var nickName
+
+							if(newBuyin.validation.first_name.valid && newBuyin.validation.last_name.valid){
+								return(console.log("All is valid"))
+							}else{
+								return(console.log("Not All is valid"))
+							}
+							// if (getStore().myProfile.nickname){
+							// 	nickName= cw.includes(getStore().myProfile.nickname)
+							// } else{ nickname = false}
+							// if ( nickName || cw.includes(firstName) || cw.includes(lastName)){
+							// 	return(console.log('it matcges', fullName, nickName))
+							// }else{
+							// 	return(console.log('it doesnt matcges', fullName, nickName))
+							// }
+						// }else{
+						// 	return(console.log('no cw'))
+						// }
+
+
 						// if (!newBuyin.receipt_data.player_name.includes(store.myProfile.username) ){
 						// 	return errorMessage("The name in the buyin is the not the same as your profile")
 						// }else{null}
@@ -1235,9 +1376,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 					}
 				},
 				// LOGIN PROCESS
-				login: async ( myEmail, myPassword, myDeviceID, navigation ) => {
+				login: async ( data, navigation ) => {
 					// 20 DAY EXPIRATION
-					var time = (1000*60*60*24*20)
 					var data = {
 						email: myEmail,
 						password: myPassword,
