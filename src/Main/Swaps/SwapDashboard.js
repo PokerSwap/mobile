@@ -3,13 +3,18 @@ import {RefreshControl, Alert, Text} from 'react-native';
 import { Container, Content, List, ListItem, Separator } from 'native-base';
 import messaging from '@react-native-firebase/messaging'
 import moment from 'moment'
+import { DrawerActions } from '@react-navigation/drawer'
+
+import { useNavigation } from '@react-navigation/native'
 
 import HomeHeader from '../../View-Components/HomeHeader'
 import { Context } from '../../Store/appContext'
 import SwapTracker from './Components/SwapTracker';
 
-export default SwapDashboard = (props, navigation) => {
+export default SwapDashboard = (props) => {
   const { store, actions } = useContext(Context)
+
+  const navigation = useNavigation()
 
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async (remoteMessage) => {
@@ -98,7 +103,7 @@ export default SwapDashboard = (props, navigation) => {
   return(
     <Container>
       <HomeHeader title={'Active Swaps'}  
-        drawer={() => props.navigation.toggleDrawer()}
+        drawer={() => DrawerActions.toggleDrawer()}
         tutorial={() => props.navigation.push('Tutorial')}/>
       <Content>
         {/* REFRESH SWAP CURRENT TRACKERS */}

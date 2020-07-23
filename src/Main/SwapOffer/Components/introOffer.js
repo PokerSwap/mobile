@@ -67,7 +67,7 @@ export default IntroOffer = (props) => {
           </Text>
           {/* PURCHASE TOKENS BUTTON */}
           <Button large success 
-            onPress={() => props.navigation.navigate('PurchaseTokens')}>
+            onPress={() => props.navigation.navigate('Purchase Tokens')}>
             <Text>Purchase Tokens</Text>
           </Button>
           <Button large danger style={{marginTop:25}}

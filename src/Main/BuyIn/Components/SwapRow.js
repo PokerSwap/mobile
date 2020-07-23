@@ -78,7 +78,7 @@ export default SwapRow = (props) => {
   } 
 
   const enterSwapOffer = async() => {
-    props.navigation.push('SwapOffer',{
+    props.navigation.push('Swap Offer',{
       status: swap.status,
       buyin: props.buyin,
       tournament: props.tournament,

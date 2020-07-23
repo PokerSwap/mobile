@@ -5,7 +5,7 @@ import {Button , Text, Container, Content, Item} from 'native-base';
 import {Context} from '../Store/appContext'
 
 
-export default ForgotPassword = (props) => {
+export default ForgotPassword = (props, {navigation}) => {
 
 	const { store, actions } = useContext(Context)
 	const [email, setEmail] = useState('')

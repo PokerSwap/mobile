@@ -61,7 +61,7 @@ export default EditPath = (props) => {
   const rebuyEnter = async() => {
     var answer1 = await actions.tournament.getAction(props.buyin.tournament_id);
     var answer2 = await actions.tournament.getCurrent(props.buyin.tournament_id);
-    props.navigation.push('VerifyTicket', {
+    props.navigation.push('Verify Ticket', {
         action: store.action,
         tournament_name: store.currentTournament.tournament.name,
         tournament_start: store.currentTournament.tournament.start_at,

@@ -5,6 +5,8 @@ import { Grid, Row, Col } from 'react-native-easy-grid';
 import { throttle } from 'lodash'
 import {openSettings, requestMultiple, PERMISSIONS} from 'react-native-permissions';
 import Spinner from 'react-native-loading-spinner-overlay'
+import { useRoute, useNavigation } from '@react-navigation/native';
+
 
 import ImagePicker from 'react-native-image-picker';
 
@@ -21,13 +23,22 @@ export default VerifyTicket = (props) => {
   const [ chips, setChips ] = useState('');
   const [ loading, setLoading ] = useState(false)
 
-  var navigation = props.navigation;
-  let tournament_name = navigation.getParam('tournament_name', 'NO-ID');
-  let tournament_start = navigation.getParam('tournament_start', 'NO-ID');
-  let flight_id = navigation.getParam('flight_id', 'NO-ID');
-  let tournament_id = navigation.getParam('tournament_id', 'NO-ID');
-  let casino = navigation.getParam('casino', 'NO-ID');
+  var navigation = useNavigation();
+  var route = useRoute();
+  const { tournament_name } = route.params;
+  const { tournament_start } = route.params;
+  const { flight_id } = route.params;
+  const { tournament_id } = route.params;
+  const { casino } = route.params;
 
+  // let tournament_name = navigation.getParam('tournament_name', 'NO-ID');
+  // let tournament_start = navigation.getParam('tournament_start', 'NO-ID');
+  // let flight_id = navigation.getParam('flight_id', 'NO-ID');
+  // let tournament_id = navigation.getParam('tournament_id', 'NO-ID');
+  // let casino = navigation.getParam('casino', 'NO-ID');
+
+  console.log('tID', tournament_id)
+  
   const openSets = () => {
     openSettings().catch(() => console.warn('cannot open settings'));
   }
@@ -115,7 +126,7 @@ export default VerifyTicket = (props) => {
   const BuyInStart = async() => {
     setLoading(true)
     var x = await actions.buy_in.add( 
-    image, table, seat, chips, flight_id, tournament_id, tournament_name, tournament_start, casino, props.navigation )
+    image, table, seat, chips, flight_id, tournament_id, tournament_name, tournament_start, casino, navigation )
     setLoading(false)
   }
  

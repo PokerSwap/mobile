@@ -90,8 +90,8 @@ export default BuyIn = (props) => {
             <Col style={{width:'15%', marginleft:10,  justifyContent:'center'}}>
               <TouchableOpacity style={{ justifyContent:'center', width:'100%', height:'100%'}} onPress={() => setIsExpanded(!isExpanded)}>
                 {isExpanded ?
-                  <Icon style={{textAlign:'center', color:txt}} type='Ionicons' name='ios-arrow-up'/> 
-                  : <Icon style={{textAlign:'center', color:txt}} type='Ionicons' name='ios-arrow-down'/>}
+                  <Icon style={{textAlign:'center', color:txt}} type='FontAwesome5' name='angle-up'/> 
+                  : <Icon style={{textAlign:'center', color:txt}} type='FontAwesome5' name='angle-down'/>}
               </TouchableOpacity>
             </Col>
             : <Col style={{width:'15%'}}/>}

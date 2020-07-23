@@ -8,7 +8,7 @@ import EventSearchBar from './Components/EventSearchBar';
 
 import { Context } from '../../Store/appContext';
  
-export default EventListings = (props, {navigation}) => {
+export default EventListings = (props, navigation) => {
   const { store, actions } = useContext(Context)
 
   const [refreshing, setRefreshing] = useState(false);
@@ -75,7 +75,7 @@ export default EventListings = (props, {navigation}) => {
     <View style={{flex:1}}>
       {/* HEADER */}
       <HomeHeader title={'Event Listings'} 
-        drawer={() => props.navigation.toggleDrawer()}
+        drawer={() => navigation.dispatch(DrawerActions.toggleDrawer())}
         tutorial={() => props.navigation.push('Tutorial')} />
       {/* SEARCH BAR COMPONENT */}
       <Segment style={{backgroundColor:('rgb(248,248,248'), marginVertical:5}}>
@@ -85,7 +85,7 @@ export default EventListings = (props, {navigation}) => {
       {/* MAIN TOURNAMENT COMPONENT */}
       <EventBody  navigation={props.navigation} 
         mode={mode} myCoords={myCoords}
-        event={testData} />
+        event={testData} /> 
       {store.tournamentList != null ?
         store.tournamentList.length != 0 ?
           // TOURNAMENT LIST GENERATOR 

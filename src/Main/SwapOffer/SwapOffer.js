@@ -3,6 +3,8 @@ import { Container, Text, Content, Card } from 'native-base';
 import { Grid, Row, Col } from 'react-native-easy-grid'
 import Spinner from 'react-native-loading-spinner-overlay'
 import moment from 'moment';
+import { useRoute, useNavigation } from '@react-navigation/native';
+
 
 import { Context } from '../../Store/appContext';
 import EventHeader from '../Events/Components/EventHeader'
@@ -15,15 +17,32 @@ import InactivePath from './Paths/inactive';
 import RejectedPath from './Paths/rejected';
 import PendingPath from './Paths/pending';
 
-export default SwapOffer = (props, {navigation}) => {
+export default SwapOffer = (props) => {
   const { store, actions } = useContext(Context)
 
-  let status =  props.navigation.getParam('status', 'default value');
-  let swap = props.navigation.getParam('swap', 'default value');
-  let buyin =  props.navigation.getParam('buyin', 'default value');
-  let tournament = props.navigation.getParam('tournament', 'default value');
-  let buyinSince = props.navigation.getParam('buyinSince', 'default value');
+  // let status =  props.navigation.getParam('status', 'default value');
+  // let swap = props.navigation.getParam('swap', 'default value');
+  // let buyin =  props.navigation.getParam('buyin', 'default value');
+  // let tournament = props.navigation.getParam('tournament', 'default value');
+  // let buyinSince = props.navigation.getParam('buyinSince', 'default value');
   // let swapSince = props.navigation.getParam('swapSince', 'default value');
+
+  const navigation = useNavigation();
+
+  const route = useRoute();
+
+  const { status } = route.params;
+  const { swap } = route.params;
+  const { buyin } = route.params;
+  const { tournament } = route.params;
+  const { buyinSince } = route.params;
+
+  // let status =  route.params?.status ?? 'defaultValue';
+  // let swap =  route.params?.swap ?? 'defaultValue';
+  // let buyin =  route.params?.buyin ?? 'defaultValue';
+  // let tournament =  route.params?.tournament ?? 'defaultValue';
+  // let buyinSince =  route.params?.buyinSince ?? 'defaultValue';
+
 
   const [ loading, setLoading ] = useState(false)
   const [ currentSwap, setCurrentSwap ] = useState(swap)

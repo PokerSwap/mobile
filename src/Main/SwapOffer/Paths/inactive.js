@@ -112,7 +112,7 @@ export default InactivePath = (props) => {
 
           <CardItem>
             <Button large success 
-              onPress={()=> props.navigation.navigate('PurchaseTokens')}>
+              onPress={()=> props.navigation.navigate('Purchase Tokens')}>
               <Text>Purchase Tokens</Text>
             </Button>
           </CardItem>

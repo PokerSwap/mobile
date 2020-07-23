@@ -15,21 +15,21 @@ export default SettingsScreen = (props) => {
         <List>
           
           <ListItem noIndent 
-            onPress={()=> props.navigation.push('ChangeEmail', {
+            onPress={()=> props.navigation.push('Change Email', {
               navigation: props.navigation
             })}>
             <Text> Change Email </Text>
           </ListItem>
 
           <ListItem noIndent 
-            onPress={()=> props.navigation.push('ChangePassword', {
+            onPress={()=> props.navigation.push('Change Password', {
               navigation: props.navigation
             })}>
             <Text> Change Password </Text>
           </ListItem>
           
           <ListItem noIndent 
-            onPress={()=> props.navigation.navigate('ChangePicture')}>
+            onPress={()=> props.navigation.navigate('Change Picture')}>
             <Text> Change Profile Picture </Text>
           </ListItem>
           

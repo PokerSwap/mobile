@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import { ListItem, Text, Icon } from 'native-base';
 import { Col } from 'react-native-easy-grid'
 import { throttle } from 'lodash';
+import { useNavigation } from '@react-navigation/native'
 
 
 export default EventBody = (props) => {  
@@ -10,8 +11,10 @@ export default EventBody = (props) => {
   var start_at = props.event.start_at
   var bgColor, textColor, borderWidths, buttonColor, path;
   
+  const navigation = useNavigation()
   const enterTournament = () => {
-    props.navigation.push(path, {
+    navigation.push(path, {
+      // event: event,
       tournament_id: event.tournament_id,
       tournament_start: event.start_at,
       tournament_name: event.name,
@@ -23,12 +26,12 @@ export default EventBody = (props) => {
   const handler = throttle(enterTournament, 1000, { leading: true, trailing: false });
 
   // ACTIVE TOURNAMENT VIEW
-  if (event.buy_in) {
+  if (event.buy_in) { 
     bgColor = 'green', textColor = 'white', buttonColor = 'white',
-    borderWidths = 4, path = 'EventLobby'
+    borderWidths = 4, path = 'Event Lobby'
   } else {
     bgColor = 'white',textColor = 'black', buttonColor = null,
-    borderWidths = 2, path = 'VerifyTicket'
+    borderWidths = 2, path = 'Verify Ticket'
   }
   var month = start_at.substring(8,11)
   var day = start_at.substring(5,7)

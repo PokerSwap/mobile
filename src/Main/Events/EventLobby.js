@@ -1,6 +1,8 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Container, Content, List, Spinner } from 'native-base';
 import { withNavigationFocus } from 'react-navigation';
+import { useNavigation, useRef, useRoute } from '@react-navigation/native'
+
 
 import { Context } from '../../Store/appContext'
 
@@ -11,13 +13,24 @@ import ActionBar from './Components/ActionBar'
 export default EventLobby = (props) => {
   const { store, actions } = useContext(Context)
 
-  let event = props.navigation.getParam('event', 'NO-ID');
-  let tournament_id = props.navigation.getParam('tournament_id', 'NO-ID');
-  let tournament_start = props.navigation.getParam('tournament_start', 'NO-ID');
-  let tournament_name = props.navigation.getParam('tournament_name', 'NO-ID');
+  const route = useRoute()
+  const navigation = useNavigation()
+
+
+  // let event = props.navigation.getParam('event', 'NO-ID');
+  // let tournament_id = props.navigation.getParam('tournament_id', 'NO-ID');
+  // let tournament_start = props.navigation.getParam('tournament_start', 'NO-ID');
+  // let tournament_name = props.navigation.getParam('tournament_name', 'NO-ID');
+  const { event } = route.params;
+  const { tournament_id } = route.params;  
+  const { tournament_start } = route.params;
+  const { tournament_name } = route.params;
+  const { flight_id } = route.params;
+
+ 
 
   var startAction, startTournament, startTime, startName, startEvent;
-  if(event !== 'NO-ID'){
+  if(event){
     startEvent= event, startName=event.tournament.name, startAction = event.action, startTournament = event.tournament, startTime = event.tournament.start_at;
   }else{
     startEvent= null, startName=tournament_name, startAction = null, startTournament = null, startTime = tournament_start;
@@ -31,9 +44,12 @@ export default EventLobby = (props) => {
   const [ anAction, setAnAction] = useState(startAction)
   const [ refreshing, setRefreshing ] = useState(true)
 
+  console.log('eveeeeeeeeent', anEvent)
+
+
   useEffect(() => {
     
-    const unsubscribe = props.navigation.addListener('didFocus', () => {
+    const unsubscribe = navigation.addListener('focus', () => {
       getTournament() 
     });
 

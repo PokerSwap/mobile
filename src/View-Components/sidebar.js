@@ -1,5 +1,6 @@
 import React, {useContext} from 'react'
-import { DrawerItems } from 'react-navigation-drawer'
+import { DrawerContentScrollView,
+  DrawerItemList, DrawerItem } from '@react-navigation/drawer'
 import { Container, Content, Text, Icon, Button } from 'native-base'
 import {Alert, View} from 'react-native'
 
@@ -13,9 +14,8 @@ export default SideBar = (props) => {
   var profile = store.myProfile
 
   return(
-  <Container>
+    <DrawerContentScrollView {...props}>
     
-    <Content>
         <ProfileBioSideBar
           user_id={profile.id}
           first_name={profile.first_name}
@@ -31,14 +31,14 @@ export default SideBar = (props) => {
           navigation={props.navigation} />
             
       {/* DEFAULT BUTTONS */}
-      <DrawerItems {...props} />
+      <DrawerItemList {...props} />
 
       {/* LOGOUT OPTION */}
-      <View>
-
-        <Button dark transparent
-          style={{justifyContent:'flex-start'}}
-          onPress={()=>
+      <DrawerItem
+        label="Log Out"
+        icon= {() => <Icon type="Ionicons" name="ios-exit" />
+  }
+        onPress={()=>
           Alert.alert(
             'Log out',
             'Do you want to logout?',
@@ -50,14 +50,11 @@ export default SideBar = (props) => {
             ],
             { cancelable: false }
           )  
-        }>
-          <Icon name='exit'/>
-          <Text  style={{fontWeight: 'bold',textTransform:'none'}}>
-            Logout</Text>
-        </Button>
-      </View>
+        }      />
+
+     
     
-    </Content>
-  </Container>
+      </DrawerContentScrollView>
+
   )
 }

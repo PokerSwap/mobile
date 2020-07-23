@@ -6,7 +6,7 @@ import { Row } from 'react-native-easy-grid'
 import Spinner from 'react-native-loading-spinner-overlay'
 import { Context } from '../Store/appContext'
 
-export default Categories = (props) => {
+export default CategoriesScreen = (props) => {
   const { store, actions } = useContext(Context) 
   const [ loading, setLoading ] = useState(false) 
 
@@ -16,7 +16,7 @@ export default Categories = (props) => {
     var answer2 = await actions.tracker.getPast()
     var answer3 = await actions.tournament.getInitial()
     setLoading(false)
-    props.navigation.navigate('SwapDashboard')
+    props.navigation.navigate('Swap Dashboard')
   }
   
   return(

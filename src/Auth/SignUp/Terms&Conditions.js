@@ -21,7 +21,7 @@ export default TermsAndConditions = (props) => {
           </CardItem>
           {/* PAGE BUTTON */}
           <CardItem style={{justifyContent:"center"}}>
-            <Button large onPress={()=> props.navigation.navigate('UserCreation')}>
+            <Button large onPress={()=> props.navigation.navigate('User Creation')}>
               <Text>I AGREE</Text>
             </Button>
           </CardItem>

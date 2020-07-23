@@ -2,6 +2,7 @@ import React , {useEffect, useState} from 'react';
 import { Root } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage'
 import messaging  from '@react-native-firebase/messaging';
+import 'react-native-gesture-handler';
 
 import AppContainer from './AppContainer.js'
 

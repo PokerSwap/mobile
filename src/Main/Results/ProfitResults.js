@@ -8,13 +8,17 @@ import _Header from '../../View-Components/HomeHeader'
 import ProfitTracker from './Components/ProfitTracker'
 import BustedModal from '../SwapOffer/Components/BustedModal'
 
+import { useNavigation, useRoute } from '@react-navigation/native'
+
+
 export default ProfitResults = (props) => {
-  const { navigation } = props;
   const { store, actions } = useContext(Context)
 
-  let tournament = navigation.getParam('tournament', 'NO-ID');
-  let my_buyin = navigation.getParam('my_buyin', 'NO-ID')
-  let buyins = navigation.getParam('buyins', 'NO-ID')
+  const route = useRoute()
+  const navigation = useNavigation();
+  const { tournament } = route.params;
+  const { my_buyin } = route.params;  
+  const { buyins } = route.params;
 
   const [ loading, setLoading ] = useState(false)
   const [ visible, setVisible ] = useState(false)
@@ -32,14 +36,14 @@ export default ProfitResults = (props) => {
         setAllPaid(false)
       }
     })
-    y()
+    getBuyin()
     setRefreshing(false)
     return () => {
       // cleanup
     }
   }, [refreshing])
 
-  var y = async() => {
+  var getBuyin = async() => {
     var eee = await actions.buy_in.getCurrent(my_buyin.id) 
   }
 

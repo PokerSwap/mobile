@@ -22,7 +22,7 @@ export default ProfileBioSideBar = (props) => {
     ifNickName = ' "' + props.nickname + '" '
     : ifNickName = ' '
 
-  var goPurchase = () => props.navigation.navigate('PurchaseTokens')
+  var goPurchase = () => props.navigation.navigate('Purchase Tokens')
   
   return(
     <Card transparent style={{flex:1, flexDirection:'column', paddingTop:20}}>

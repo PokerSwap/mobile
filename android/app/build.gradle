@@ -155,7 +155,7 @@ android {
             keyPassword 'android'
         }
     }
-    buildToolsVersion = '29.0.2'
+    buildToolsVersion = '29.0.3'
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
@@ -186,8 +186,8 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation 'com.facebook.react:react-native:0.61.5'  // From node_modules
-    implementation 'com.google.firebase:firebase-analytics:17.4.3'
+    implementation "com.facebook.react:react-native:${reactNativeVersion}"  // From node_modules
+    implementation 'com.google.firebase:firebase-analytics:17.4.4'
     implementation 'com.google.android.gms:play-services-wallet:18.0.0'
     implementation 'com.stripe:stripe-android:14.5.0'
     implementation "androidx.multidex:multidex:2.0.1"
@@ -213,3 +213,4 @@ task copyDownloadableDepsToLibs(type: Copy) {
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
 apply plugin: 'com.google.gms.google-services'
+apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"

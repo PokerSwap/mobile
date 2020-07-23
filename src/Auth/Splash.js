@@ -15,33 +15,29 @@ export default SplashScreen = (props, {navigation}) => {
 
 	const checkData = async() => {
 		const savedUserToken = await AsyncStorage.getItem('userToken')
-		// console.log('UserToken on Splash:', savedUserToken)
+		const savedLoginInfo = await AsyncStorage.getItem('loginInfo')
 
 		// IF A TOKEN IS STORED ON DEVICE
 		if (savedUserToken){
-			// STORING TOKEN AND PROILE INFO
-			var storeSavedToken = await actions.userToken.store(savedUserToken)
-			var gettingProfileInfo = await actions.profile.get()	
-	
+			// CHECKING USER TOKEN
+			var checkUserToken = await actions.userToken.check(savedUserToken)
 			// IF TOKEN IS VALID, MOVE TO AUTO-LOGIN PROCESS
-			if(store.myProfile && Object.keys(store.myProfile)[0] !== 'message'){
-				//  console.log('Profile Object on Splash: ', store.myProfile)
+			if(checkUserToken && savedLoginInfo){
+				var x = JSON.parse(savedLoginInfo)
+				console.log('x',x, typeof(x))
+				var autoLoggingIn = await actions.user.login(x, props.navigation)
 				var annn = await aaaa()
-
-				var answer2 = await actions.user.auto_login(store.notificationData, props.navigation)
-			}
-			// IF TOKEN IS EXPIRED, MOVE TO LOGIN PAGE
-			else{
-				console.log('Bad User Token')
-				actions.userToken.remove()
-				props.navigation.navigate('LogIn')
-			}
+			}else{
+				console.log('Current User Token is bad or expired.  Now moving to Login Screen.')
+				var wwx = await AsyncStorage.removeItem('userToken')
+				var wett = await AsyncStorage.removeItem('loginInfo')
+				props.navigation.navigate('Login')
+			}			
 		} 
 		// IF NO TOKEN IS STORED ON DEVICE
 		else{
 			console.log('Null User Token')
-			actions.userToken.remove()
-			props.navigation.navigate('LogIn')
+			props.navigation.navigate('Login')
 		}
 	}
 

@@ -1,8 +1,13 @@
-import React, { useState, useContext, useRef, useCallback } from 'react';
+// import \
+import { useState, useContext, useRef, useCallback } from 'react';
+import * as React from 'react';
+
 import {Platform, Image} from 'react-native'
 import {Button, Text, Toast } from 'native-base';
 import { Context } from '../Store/appContext';
 import { throttle } from "lodash";
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
 import Spinner from 'react-native-loading-spinner-overlay';
 import { Keyboard, TouchableWithoutFeedback, TextInput, 
@@ -19,7 +24,7 @@ if (Platform.OS == 'ios'){
 }else{
   a_behavior='padding', offBy = -600, marginee = 30}
 
-export default LoginScreen = (props) => {
+export default LoginScreen = ({navigation}) => {
   const { store, actions } = useContext(Context)
   const [email, setEmail] = useState('lou@gmail.com')
   const [password, setPassword] = useState('loustadler')
@@ -54,12 +59,12 @@ export default LoginScreen = (props) => {
 
     } 
     var data = {
-      email: myEmail,
-      password: myPassword,
+      email: email,
+      password: password,
       device_token: deviceID,
       exp: 1728000000
     };
-    var xw = await actions.user.login(data, props.navigation)
+    var xw = await actions.user.login(data, navigation)
     wait(2000).then(() => 
     setLoading(false)
     );
@@ -128,14 +133,14 @@ export default LoginScreen = (props) => {
                 onPressIn={()=> setSignupColor('#FF8533')}
                 onPressOut={()=> setSignupColor('#FF6600')}
                 style={[styles.buttons.button,{backgroundColor:signupColor}]} 
-                onPress={()=> props.navigation.navigate("TermsAndConditions")}>
+                onPress={()=> navigation.navigate("TermsAndConditions")}>
                 <Text style={styles.buttons.text}> 
                   Sign Up 
                 </Text>
               </Button>                  
               {/* FORGOT PASSWORD BUTTON */}
               <Button transparent style={styles.forgotPassword.button} 
-                onPress={() => props.navigation.navigate("ForgotPassword")}>
+                onPress={() => navigation.navigate("ForgotPassword")}>
                 <Text style={styles.forgotPassword.text}>
                   Forgot password?
                 </Text>

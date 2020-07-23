@@ -21,7 +21,7 @@ export default SwapTracker = (props) => {
   })
 
   const enterTournament = () => {
-    props.navigation.push('EventLobby', {
+    props.navigation.push('Event Lobby', {
       event: props.event,
       tournament_id: props.event.tournament.id,
       tournament_name: props.event.name,

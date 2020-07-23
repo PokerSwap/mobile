@@ -2,7 +2,7 @@
 import { Alert } from 'react-native'
 import {Toast} from 'native-base'
 import AsyncStorage from '@react-native-community/async-storage'
-import { StackActions, NavigationActions } from 'react-navigation';
+import { StackActions, NavigationActions } from '@react-navigation/native';
 
 import moment from 'moment'
 
@@ -147,6 +147,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 			myPastTrackers:[],
 			// ALL WINNING TRACKERS
 			myWinningsTrackers:[],
+			// Users that have been naughty
+			naughtyList:[],
 			// FOR MOST RECENT NOTIFICATION, TO GO TO PAGE
 			notificationData: {},
 			// LISTS ALL RECIEVED NOTIFICATIONS
@@ -164,6 +166,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				// CREATING A BUYIN AND (RE)-BUYING-IN INTO A TOURNAMENT
 				add: async ( image, a_table, a_seat, some_chips, a_flight_id, a_tournament_id, a_tournament_name, a_tournament_start, a_casino, navigation) => {
 					try{	
+
 						// PREVENTS EMPTY PICTURE SUBMISSION
 						if (image == 3){
 							return customMessage('You need to select an image of your buyin ticket')
@@ -176,6 +179,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						// BUYIN DATA SETUP
 						var newBuyin
 						let accessToken = getStore().userToken
+						console.log('eeee', accessToken)
 						const imageURL = databaseURL + 'me/buy_ins/flight/'+ a_flight_id +'/image'		
 						const imageData = new FormData();
 						imageData.append("image", {
@@ -203,36 +207,48 @@ const getState = ({ getStore, setStore, getActions }) => {
 						});
 
 						// PREVENTS WRONG PICTURE UPLOADED
-						if (newBuyin.message && newBuyin.message == 'Take another photo'){
-							var eee = await getActions().buy_in.delete(newBuyin.buyin_id)
-							return errorMessage(newBuyin.message)
-						}else{null}
-
-
-						if (newBuyin.receipt_data.table !== a_table || newBuyin.receipt_data.seat !== a_seat){
-							var eee = await getActions().buy_in.delete(newBuyin.buyin_id)
-							return errorMessage("One of the fields is not correct")
-						}else{null}
-
-						if(newBuyin.receipt_data.casino.includes(a_casino)){
-							console.log('go ahead')
+						// if (newBuyin.message && newBuyin.message == 'Take another photo'){
+						// 	var eee = await getActions().buy_in.delete(newBuyin.buyin_id)
+						// 	console.log('lol', newBuyin)
+						// 	return errorMessage(newBuyin.message)
+						// }else{null}
+						console.log('newBuyin',newBuyin)
+						if(a_tournament_id !== 882){
+							null
 						}else{
-							console.log('Stop')
+							if (newBuyin.receipt_data.table !== a_table || newBuyin.receipt_data.seat !== a_seat){
+								var eee = await getActions().buy_in.delete(newBuyin.buyin_id)
+								return errorMessage("One of the fields is not correct")
+							}else{null}
+	
+							if(newBuyin.receipt_data.casino.includes(a_casino)){
+								console.log('go ahead')
+							}else{
+								console.log('Stop')
+							}
+	
+							if(newBuyin.ocr_data.includes('Tournament Date:')){
+								var x = newBuyin.ocr_data.indexOf('Tournament Date:')
+								var a = x+17, b = x +27, c=x -9, d=x-1 ;
+								var alls = newBuyin.ocr_data.substring(a,b) +' '+ newBuyin.ocr_data.substring(c,d) + 'GMT'
+								var x = new Date(alls)
+								var y = new Date(a_tournament_start)
+								console.log('x',x)
+								console.log('y',y)
+	
+								
+							}else{
+								console.log('not c')
+							}
+	
+							if(newBuyin.validation.first_name.valid && newBuyin.validation.last_name.valid){
+								console.log("All is valid")
+							}else{
+								return(console.log("Not All is valid"))
+							}
 						}
 
-						if(newBuyin.ocr_data.includes('Tournament Date:')){
-							var x = newBuyin.ocr_data.indexOf('Tournament Date:')
-							var a = x+17, b = x +27, c=x -9, d=x-1 ;
-							var alls = newBuyin.ocr_data.substring(a,b) +' '+ newBuyin.ocr_data.substring(c,d) + 'GMT'
-							var x = new Date(alls)
-							var y = new Date(a_tournament_start)
-							console.log('x',x)
-							console.log('y',y)
-
-							
-						}else{
-							console.log('not c')
-						}
+						
 			 
 						// if(newBuyin.ocr_data.includes('Name:')){
 							// var aw = newBuyin.ocr_data.indexOf('Name:') + 5
@@ -243,11 +259,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							// var lastName = getStore().myProfile.last_name
 							// var nickName
 
-							if(newBuyin.validation.first_name.valid && newBuyin.validation.last_name.valid){
-								return(console.log("All is valid"))
-							}else{
-								return(console.log("Not All is valid"))
-							}
+							
 							// if (getStore().myProfile.nickname){
 							// 	nickName= cw.includes(getStore().myProfile.nickname)
 							// } else{ nickname = false}
@@ -268,7 +280,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						// VALIDATING BUYIN (DONE ONCE)
 						var validatingBuyin = await getActions().buy_in.edit(newBuyin.buyin_id, a_table, a_seat, some_chips, a_tournament_id, true)
 
-						var enteringTournament = await navigation.push('EventLobby', {
+						var enteringTournament = await navigation.push('Event Lobby', {
 							tournament_name: a_tournament_name,
 							tournament_id: a_tournament_id,
 							tournament_start: a_tournament_start,
@@ -474,7 +486,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				store: async(device_token) => {
 					try{
 						console.log('Storing this', device_token)
-						var storingDeviceToken = await AsyncStorage.setItem('deviceToken', device_token)
+						// var storingDeviceToken = await AsyncStorage.setItem('deviceToken', device_token)
 						setStore({deviceToken: device_token})
 					}catch(error){
 						console.log('Something went wrong with storing device token', error)
@@ -579,7 +591,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						// PREVENTS ENTERING CLOSED TOURNAMENT
 						if (currentTournament.tournament.status !== 'open'){
 							setStore({notificationData:null})
-							navigation.navigate('SwapDashboard')
+							navigation.navigate('Swap Dashboard')
 							return errorMessage('This event is not open')
 						}
 
@@ -595,12 +607,12 @@ const getState = ({ getStore, setStore, getActions }) => {
 							navigation.dispatch(navigateAction);
 						} catch(error){
 							console.log('Cant navigate to event', error)
-							navigation.navigate('SwapDashboard');
+							navigation.navigate('Swap Dashboard');
 						}
 					}catch(error){
 						console.log("Something went wrong with navigating to event:", error)
 						setStore({notificationData:null})
-						navigation.navigate('SwapDashboard')
+						navigation.navigate('Swap Dashboard')
 					}
 				},
 				// NAVIGATING TO SWAP AFTER NOTIFICATION
@@ -627,13 +639,13 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 						// PREVENTS SWAP IF OTHER USER HAS 0 CHIPS
 						if(theirBuyin.chips == 0){
-							navigation.navigate('SwapDashboard')
+							navigation.navigate('Swap Dashboard')
 							setStore({notificationData:null})
 							return errorMessage("This user has busted out")
 						}
 						// PREVENTS SWAP IF I HAVE NO CHIPS
 						if(getStore().currentTournament.my_buyin.chips == 0){
-							navigation.navigate('SwapDashboard')
+							navigation.navigate('Swap Dashboard')
 							setStore({notificationData:null})
 							return errorMessage('You cannot swap while busted out')
 						}
@@ -696,19 +708,19 @@ const getState = ({ getStore, setStore, getActions }) => {
 							} else{
 								console.log('No Notification Recieved or Error: ')
 								setStore({notificationData:null})
-								navigation.navigate('SwapDashboard')		
+								navigation.navigate('Swap Dashboard')		
 
 							}
 						}
 						// NO NEW NOTIFICATION RECIEVED
 						else{
 							setStore({notificationData:{}})
-							navigation.navigate('SwapDashboard')		
+							navigation.navigate('Swap Dashboard')		
 						}
 					} catch(error) {
 						console.log('Something went wrong checking notification data', error)
 						setStore({notificationData:null})
-						navigation.navigate('SwapDashboard')
+						navigation.navigate('Swap Dashboard')
 					}
 				},
 
@@ -1378,29 +1390,23 @@ const getState = ({ getStore, setStore, getActions }) => {
 				// LOGIN PROCESS
 				login: async ( data, navigation ) => {
 					// 20 DAY EXPIRATION
-					var data = {
-						email: myEmail,
-						password: myPassword,
-						device_token: myDeviceID,
-						exp: time
-					};
-					// console.log('loginData', data)
+				
+					console.log('fffff', data.device_token)
 
 					return new Promise(resolve =>
-						resolve(getActions().userToken.get(data)
-						.then(() => getActions().deviceToken.store(myDeviceID))
+						resolve(getActions().userToken.get(data, navigation)
+						.then(() => getActions().deviceToken.store(data.device_token))
 						.then(()=> getActions().profile.get())
 						.then(()=> myPassword = '')
 						.then(()=> {
 							if(getStore().userToken){
 								if(getStore().myProfile.message !== "Profile not found"){
-									getActions().deviceToken.store(myDeviceID)
-									.then(() => getActions().tournament.getInitial())
+									getActions().tournament.getInitial()
 									.then(() => getActions().tracker.getCurrent())
 									.then(() => getActions().tracker.getPast())
-									.then(() => navigation.navigate('Swaps'))
+									.then(() => navigation.navigate('Drawer', { screen: 'Home' }))
 								} else { 
-									navigation.navigate('ProfileCreation')
+									navigation.navigate('Profile Creation')
 								}									
 							}else{
 								console.log("You did not login");
@@ -1417,10 +1423,13 @@ const getState = ({ getStore, setStore, getActions }) => {
 							NavigationActions.navigate({ routeName: 'Auth' })
 					],
 					});
-					navigation.dispatch(resetAction);
-					var ase = await getActions().deviceToken.remove()
-					var asss = await getActions().userToken.remove()
-					// var asss = await getActions().profile.remove()
+					var x = await navigation.dispatch(resetAction);
+					setStore({currentSwap:{}})
+					setStore({currentBuyin:{}})
+					setStore({ deviceToken: null })
+					// setStore({ myProfile: null })
+					AsyncStorage.removeItem('userToken')
+					AsyncStorage.removeItem('loginInfo')
 				},
 				// IN CHANGE SETTINGS, CHANGE YOUR EMAIL
 				changeEmail: async ( myEmail, myPassword, myNewEmail, navigation ) => {
@@ -1559,10 +1568,42 @@ const getState = ({ getStore, setStore, getActions }) => {
 						console.log('Something went wrong with forgot password: ', error)
 						return errorMessage(error.message)
 					}
-				}					
+				}
+					
 			},
 			// USER TOKEN ACTIONS
 			userToken: {
+				check: async( myUserToken ) => {
+          try {      
+            const taskURL = databaseURL + "/profiles/me" 
+                           
+            let response = await fetch(taskURL, { 
+              method: 'GET',
+              cache: 'no-cache',
+              headers: {
+                'Authorization': 'Bearer ' + myUserToken,
+                'Content-Type': 'application/json',
+                'Cache-Control': 'no-cache'},
+              body: JSON.stringify(),
+            });
+            let checkedResponse = await response.json();
+
+            let isValid;
+            if(checkedResponse.id){
+              isValid = true;
+              setStore({userToken: myUserToken})
+            }else{
+              isValid = false
+              AsyncStorage.removeItem('userToken')
+              AsyncStorage.removeItem('loginInfo')
+            }
+            console.log('Is it a valid token:', isValid)
+            return isValid
+          }catch(error){
+            console.log('something went wrong in gchecking access token', error)
+					}
+				} ,
+
 				get: async( data ) => {
 					try{
 						const url = databaseURL + 'users/token'
@@ -1579,9 +1620,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 						
 						if (response1.status >= 200 && response1.status < 300) {
 							data.error = "";
-							let user = res;
-							console.log('userToken is now: ', user, typeof(user))
-							getActions().userToken.store(user.jwt);
+							setStore({userToken: res.jwt});
+							var x = await AsyncStorage.setItem('loginInfo', JSON.stringify(data))
+							var cx = await AsyncStorage.setItem('userToken', res.jwt)
 						} else {
 							let error = res;
 							getActions().userToken.remove();
@@ -1597,27 +1638,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 							throw data.error;
 					}
 				} ,
-				// STORES THE TOKEN IN ASYNC STORAGE AND STORE
-				store: async( myUserToken ) => {
-					try {
-						// console.log('userToken',myUserToken)
-						setStore({userToken: myUserToken});
-						var aaasss = await AsyncStorage.setItem('userToken', myUserToken)
-					} catch(error) {
-						console.log('Something went wrong in storing userToken: ', error)
-					}
-				},
-				// WHILE LOGGING OUT, REMOVES TOKEN FROM STORE AND ASYNC STORAGE
-				remove: async() => {
-					try {
-						setStore({userToken: null})
-						var ann = await AsyncStorage.removeItem('userToken')
-						var ss = await  AsyncStorage.getItem('userToken')
-						console.log('userToken after logout is: ', ss, getStore().userToken)
-					} catch(error) {
-						console.log('Something went wrong in removing userToken: ', error)
-					}
-				},
 			},
 		}
 	}

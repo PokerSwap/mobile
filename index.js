@@ -1,6 +1,9 @@
 import { AppRegistry } from 'react-native';
 import App from './App';
 import { name as appName } from './app.json';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler'
+
+
 
 import { Platform, Alert } from 'react-native';
 
@@ -9,6 +12,8 @@ import messaging from '@react-native-firebase/messaging'
 import AsyncStorage from '@react-native-community/async-storage'
 import PushNotification from 'react-native-push-notification'
 import PushNotificationIOS from '@react-native-community/push-notification-ios'
+import { useCallback } from 'react';
+import { uniqueId } from 'lodash';
 
 const iosConfig = {
   clientId: '1008390219361-a5ve7cvrf95qcg31ttijkovrosfsgrgq.apps.googleusercontent.com',
@@ -89,6 +94,51 @@ if (!firebase.apps.length) {
 //   requestPermissions: true
 // });
 
+// const checkAuth = () => {
+//   firebase.auth().onAuthStateChanged( user => {
+//     if (!user) {
+//       firebase.auth().signInAnonymously();
+//     }
+//   })
+// }
+
+// const send = messages => {
+//   messages.forEach(item => {
+//     const message = {
+//       text: item.text,
+//       timestamp: firebase.database.ServerValue.TIMESTAMP,
+//       user: item.user
+//     }
+//     db.push(message)
+//   })
+// }
+
+// const parse = message => {
+//   const { user, text, timestamp } = message.val();
+//   const {key: _id} = message
+//   const createdAt = new Date(timestamp)
+
+//   return{
+//     _id, createdAt, text, user
+//   }
+// }
+
+// const get = callback => {
+//   db.on('child_added', snapshot => callback(parse(snapshot)))
+// }
+
+// const off = () => {
+//   db.off()
+// }
+
+// get db() {
+//   return firebase.database().ref("messages")
+// }
+
+// get uid(){
+//   return(firebase.auth().currentUser || {}).uid
+// }
+
 messaging().setBackgroundMessageHandler(async (remoteMessage) => {
   console.log('Background remote message coming in', remoteMessage)
 
@@ -112,12 +162,12 @@ messaging().onSendError(event => {
 });
 
 getToken = async()=> {
-  var requestingMessagingPermission = await firebase.messaging().requestPermission();
-  var fcmToken = await firebase.messaging().getToken();
+  var requestingMessagingPermission = await messaging().requestPermission();
+  var fcmToken = await messaging().getToken();
   console.log('FCM Token Recieved: ',fcmToken) 
 }
 
 getToken()
 
 
-AppRegistry.registerComponent(appName, () => App);
+AppRegistry.registerComponent(appName, () => gestureHandlerRootHOC(App));

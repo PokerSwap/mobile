@@ -1,11 +1,14 @@
 import React from 'react';
 import { ListItem, Text, Icon } from 'native-base';
 import { Col } from 'react-native-easy-grid'
+import { useNavigation } from '@react-navigation/native'
+
 
 export default ResultsTracker = (props) => {  
   
+  const navigation = useNavigation()
   const enterProfitResults = () => {
-    props.navigation.push('ProfitResults', {
+    navigation.push('Profit Results', {
       tournament: props.tournament,
       my_buyin: props.my_buyin,
       buyins: props.buyins,

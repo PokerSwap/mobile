@@ -1,20 +1,21 @@
 import React from 'react';
 import { Container, Content, Header  } from 'native-base';
-import { HeaderBackButton } from 'react-navigation-stack';
+import { HeaderBackButton } from '@react-navigation/stack';
+import { useRoute, useNavigation } from '@react-navigation/native';
 
 import ProfileBio from './Components/ProfileBio';
 import HistoryList from './Components/HistoryList'
 
 export default ProfileScreen = (props) => {
-  const { navigation } = props;
-
-  let nickname = navigation.getParam('nickname', 'default_value');
-  let user_id = props.navigation.getParam('user_id', 'NO-ID');
+  const navigation = useNavigation()
+  const route = useRoute()
+  const { nickname } = route.params;
+  const { user_id } = route.params;
   
   return(
     <Container> 
       <Header style={{justifyContent:'flex-start'}}>
-        <HeaderBackButton onPress={()=> props.navigation.goBack()} />
+        <HeaderBackButton onPress={()=> navigation.goBack()} />
       </Header>
       <Content contentContainerStyle={{ justifyContent:'center'}}>
         {/* PROFILE BIO */}
