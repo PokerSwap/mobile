@@ -5,13 +5,15 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import PushNotification from 'react-native-push-notification'
 import PushNotificationIOS from '@react-native-community/push-notification-ios'
-
+import { useNavigation } from '@react-navigation/native'
 
 
 import { Context } from '../Store/appContext'
 
-export default SplashScreen = (props, {navigation}) => {
+export default SplashScreen = (props) => {
 	const { store, actions } = useContext(Context)
+
+const navigation = useNavigation()
 
 	const checkData = async() => {
 		const savedUserToken = await AsyncStorage.getItem('userToken')
@@ -25,19 +27,19 @@ export default SplashScreen = (props, {navigation}) => {
 			if(checkUserToken && savedLoginInfo){
 				var x = JSON.parse(savedLoginInfo)
 				console.log('x',x, typeof(x))
-				var autoLoggingIn = await actions.user.login(x, props.navigation)
+				var autoLoggingIn = await actions.user.login(x, navigation)
 				var annn = await aaaa()
 			}else{
 				console.log('Current User Token is bad or expired.  Now moving to Login Screen.')
 				var wwx = await AsyncStorage.removeItem('userToken')
 				var wett = await AsyncStorage.removeItem('loginInfo')
-				props.navigation.navigate('Login')
+				navigation.navigate('Login')
 			}			
 		} 
 		// IF NO TOKEN IS STORED ON DEVICE
 		else{
 			console.log('Null User Token')
-			props.navigation.navigate('Login')
+			navigation.navigate('Login')
 		}
 	}
 

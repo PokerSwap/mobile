@@ -4,6 +4,8 @@ import { View } from 'react-native'
 import { Col, Row, Grid } from 'react-native-easy-grid'
 import { throttle } from 'lodash'
 import moment from 'moment'
+import {useNavigation} from '@react-navigation/native'
+
 
 import { Context } from '../../Store/appContext'
 
@@ -14,7 +16,8 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default BuyIn = (props) => {
   const { store, actions } = useContext(Context)
-  const { navigation } = props,  {buyin} = props;
+  const navigation = useNavigation()  
+  const {buyin} = props;
   const [buyinSince, setBuyinSince] = useState(null)
   const [refreshing, setRefreshing] = useState(true)
   const [ isExpanded, setIsExpanded ] = useState(false)
@@ -53,9 +56,7 @@ export default BuyIn = (props) => {
             <SwapRow key={index}
               swap={swap}
               tournament={props.tournament}
-              buyin={buyin}
-              navigation={props.navigation}
-            />
+              buyin={buyin}/>
           )
         })}
       </View>
@@ -122,7 +123,7 @@ export default BuyIn = (props) => {
             </Row>
           </Col>
           {/* BUTTON WITH VARIABLE PATHS */}
-          <SwapButton navigation={props.navigation}
+          <SwapButton 
             allSwaps={allSwaps}  
             my_buyin={props.my_buyin}
             agreed_swaps={props.agreed_swaps}

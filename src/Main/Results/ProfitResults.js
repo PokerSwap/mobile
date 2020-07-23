@@ -102,11 +102,8 @@ export default ProfitResults = (props) => {
             var theirResult = store.currentResults.filter(result => result.user_id == buyin.recipient_user.id)
             return(
               <ProfitTracker key={index} 
-                myResult={myResult[0]}
-                theirResult={theirResult[0]}
-                navigation={props.navigation}
-                buyin={buyin}
-                agreed_swaps={buyin.agreed_swaps}/>
+                myResult={myResult[0]} theirResult={theirResult[0]}
+                buyin={buyin} agreed_swaps={buyin.agreed_swaps}/>
           )})}
           {/* FINAL PROFIT */}
           <ListItem style={{flexDirection:'column'}}>

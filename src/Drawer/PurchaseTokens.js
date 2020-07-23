@@ -95,8 +95,7 @@ export default PurchaseTokens = (props) => {
 
   return(
     <Container>
-      <OtherHeader title={'Purchase Tokens'} 
-        goBackToHome={() => props.navigation.goBack(null)}/>
+      <OtherHeader title={'Purchase Tokens'} />
 
       <Content contentContainerStyle={{
         flex:1, justifyContent:'center', alignItems:'center'}}>

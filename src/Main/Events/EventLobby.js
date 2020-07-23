@@ -15,19 +15,11 @@ export default EventLobby = (props) => {
 
   const route = useRoute()
   const navigation = useNavigation()
-
-
-  // let event = props.navigation.getParam('event', 'NO-ID');
-  // let tournament_id = props.navigation.getParam('tournament_id', 'NO-ID');
-  // let tournament_start = props.navigation.getParam('tournament_start', 'NO-ID');
-  // let tournament_name = props.navigation.getParam('tournament_name', 'NO-ID');
   const { event } = route.params;
   const { tournament_id } = route.params;  
   const { tournament_start } = route.params;
   const { tournament_name } = route.params;
   const { flight_id } = route.params;
-
- 
 
   var startAction, startTournament, startTime, startName, startEvent;
   if(event){
@@ -109,7 +101,7 @@ export default EventLobby = (props) => {
     });
 
     return(
-      <FlightSchedule key={index} navigation={props.navigation}
+      <FlightSchedule key={index} 
         action={anAction} my_buyin={myBuyInFlight}
         setRefreshing={setRefreshing}
         buyins={swappedBuyins} unbuyins={unswappedBuyins}

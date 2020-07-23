@@ -31,15 +31,13 @@ export default CounterIncomingPath = (props) => {
       {/* COUNTER SWAP INTERACTION UI */}
       {swap ? 
         counter == false ?
-          <IntroOffer navigation={props.navigation}
-          buyin_id={buyin.id}
+          <IntroOffer buyin_id={buyin.id}
             setLoading={props.setLoading} setRefreshing={props.setRefreshing}
             percentage={swap.percentage} counter_percentage={swap.counter_percentage}
             swap_id={swap.id} tournament_id={props.tournament_id}
             counter={counter} setCounter={setCounter} />
           :
-          <CounterOffer navigation={props.navigation} 
-            swap_id={swap.id} tournament_id={props.tournament_id}
+          <CounterOffer  swap_id={swap.id} tournament_id={props.tournament_id}
             buyin_id={buyin.id} percentage={swap.percentage} counter_percentage={swap.counter_percentage}
             setLoading={props.setLoading} setRefreshing={props.setRefreshing}
             counter={counter} setCounter={setCounter} />

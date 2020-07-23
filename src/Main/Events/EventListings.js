@@ -45,10 +45,8 @@ export default EventListings = (props, navigation) => {
   // COMPONENT FOR TOURNAMENT BODY
   var EventRow = ({item, index}) => {
     return(
-      <EventBody 
-        key={index} navigation={props.navigation} 
-        mode={mode} myCoords={myCoords}
-        event={item} />
+      <EventBody key={index} 
+        mode={mode} myCoords={myCoords} event={item} />
     )
   }
 
@@ -74,18 +72,14 @@ export default EventListings = (props, navigation) => {
   return(
     <View style={{flex:1}}>
       {/* HEADER */}
-      <HomeHeader title={'Event Listings'} 
-        drawer={() => navigation.dispatch(DrawerActions.toggleDrawer())}
-        tutorial={() => props.navigation.push('Tutorial')} />
+      <HomeHeader title={'Event Listings'} />
       {/* SEARCH BAR COMPONENT */}
       <Segment style={{backgroundColor:('rgb(248,248,248'), marginVertical:5}}>
         <EventSearchBar setMyCoords={setMyCoords} 
           setMode={setMode} setPage={setPage} />
       </Segment>
       {/* MAIN TOURNAMENT COMPONENT */}
-      <EventBody  navigation={props.navigation} 
-        mode={mode} myCoords={myCoords}
-        event={testData} /> 
+      <EventBody mode={mode} myCoords={myCoords} event={testData} /> 
       {store.tournamentList != null ?
         store.tournamentList.length != 0 ?
           // TOURNAMENT LIST GENERATOR 

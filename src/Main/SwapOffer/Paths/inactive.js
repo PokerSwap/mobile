@@ -1,6 +1,8 @@
 import React, { useContext, useState } from 'react'
 import { View, Alert } from 'react-native'
 import { Text, Button, Card, CardItem } from 'native-base'
+import {useNavigation} from '@react-navigation/native'
+
 
 import { Context } from '../../../Store/appContext'
 import SpecialOffer from '../Components/specialOffer'
@@ -11,6 +13,8 @@ export default InactivePath = (props) => {
   const [ percentage, setPercentage ] = useState(1)
   const [ counterPercentage, setCounterPercentage ] = useState(1)
   const [ visible, setVisible ] = useState(false)
+
+  const navigation = useNavigation()
 
   // OFFER TYPE SWITCH
   var counterSwitch = () => {
@@ -112,7 +116,7 @@ export default InactivePath = (props) => {
 
           <CardItem>
             <Button large success 
-              onPress={()=> props.navigation.navigate('Purchase Tokens')}>
+              onPress={()=> navigation.navigate('Purchase Tokens')}>
               <Text>Purchase Tokens</Text>
             </Button>
           </CardItem>

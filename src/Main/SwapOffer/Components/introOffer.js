@@ -1,12 +1,14 @@
 import React, { useContext } from 'react'
 import { View, Alert } from 'react-native'
 import { Button, Card, CardItem, Icon, Text } from 'native-base'
+import {useNavigation} from '@react-navigation/native'
 
 import { Context } from '../../../Store/appContext'
 
 export default IntroOffer = (props) => {
   const {store, actions } = useContext(Context)
   
+  const navigation = useNavigation()
   // CONFIMATION ALERT
   const confirmationAlert = (action, status) => {
     Alert.alert(
@@ -67,7 +69,7 @@ export default IntroOffer = (props) => {
           </Text>
           {/* PURCHASE TOKENS BUTTON */}
           <Button large success 
-            onPress={() => props.navigation.navigate('Purchase Tokens')}>
+            onPress={() => navigation.navigate('Purchase Tokens')}>
             <Text>Purchase Tokens</Text>
           </Button>
           <Button large danger style={{marginTop:25}}

@@ -2,6 +2,7 @@ import React from "react";
 import { TouchableOpacity, ScrollView } from 'react-native'
 import { Container, Content, Header, Text, Icon } from "native-base";
 import i18n from "../i18n/i18n"; 
+import { useNavigation } from '@react-navigation/native'
 
 
 import { WebView } from 'react-native-webview';
@@ -9,7 +10,7 @@ import { WebView } from 'react-native-webview';
 
 export default TutorialScreen = (props) => {
 
-	const { navigation } = props;
+	const navigation = useNavigation()
 	let url = 'https://www.swapprofitonline.com/faqspoker/'
 
 	return(
@@ -17,7 +18,7 @@ export default TutorialScreen = (props) => {
 			<Header style={{justifyContent:'flex-start', 
 				alignItems:'center', backgroundColor:'rgb(56,68,165)'}}>
 				
-				<TouchableOpacity onPress={()=> props.navigation.goBack()} 
+				<TouchableOpacity onPress={()=> navigation.goBack()} 
 					style={{alignItems:'center', flexDirection:'row'}}>
 					<Icon type='FontAwesome5'	name='angle-left' 
 						style={{color:'white'}}/>

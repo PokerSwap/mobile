@@ -19,9 +19,10 @@ export default ProfileScreen = (props) => {
       </Header>
       <Content contentContainerStyle={{ justifyContent:'center'}}>
         {/* PROFILE BIO */}
-        <ProfileBio user_id={user_id} nickname={nickname} navigation={props.navigation} />
+        <ProfileBio user_id={user_id} nickname={nickname} />
         {/* HISTORY LIST */}
         <HistoryList user_id={user_id}/>
+   
       </Content>
     </Container>
   )

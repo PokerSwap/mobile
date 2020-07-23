@@ -31,12 +31,6 @@ export default VerifyTicket = (props) => {
   const { tournament_id } = route.params;
   const { casino } = route.params;
 
-  // let tournament_name = navigation.getParam('tournament_name', 'NO-ID');
-  // let tournament_start = navigation.getParam('tournament_start', 'NO-ID');
-  // let flight_id = navigation.getParam('flight_id', 'NO-ID');
-  // let tournament_id = navigation.getParam('tournament_id', 'NO-ID');
-  // let casino = navigation.getParam('casino', 'NO-ID');
-
   console.log('tID', tournament_id)
   
   const openSets = () => {

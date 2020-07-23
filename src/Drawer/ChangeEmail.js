@@ -30,7 +30,7 @@ export default ChangeEmail = (props) => {
   const changeEmail = async() => {
     newEmail == confirmEmail ?
       actions.user.changeEmail(
-        currentEmail, currentPassword, newEmail, props.navigation)
+        currentEmail, currentPassword, newEmail, navigation)
       :
       Toast.show({
         text:'Make sure both passwords are the same',

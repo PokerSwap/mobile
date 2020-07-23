@@ -64,7 +64,6 @@ export default HistoryList = (props) => {
       return(
         <TheirProfileHistoryCard key={index}
           allSwaps={allSwaps} buyin={content}
-          navigation={props.navigation}
           myTrackers={store.myPastTrackers}/>
       )
     })
@@ -86,7 +85,7 @@ export default HistoryList = (props) => {
   return(
     <List style={{justifyContent:'center'}}>
       {/* HISTORY HEADER */}
-      <ListItem noIndent itemHeader style={{ justifyContent:'center' }}>
+      <ListItem noIndent itemHeader style={{ justifyContent:'center', marginBottom:-15 }}>
         <Text style={{ textAlign:'center', fontWeight:'600', fontSize:24}}>
           History
         </Text>
@@ -99,6 +98,7 @@ export default HistoryList = (props) => {
         : history.length !== 0 ?
             myHistory : emptyHistory("Start Swapping Today!")
       : <Spinner />}
+      
     </List>  
   )
 }

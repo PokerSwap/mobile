@@ -42,7 +42,7 @@ export default ChangePassword = (props) => {
 
   const changePassword = async() => {
     if (newPassword == confirmPassword ){
-      var answer = await actions.user.changePassword(currentEmail, currentPassword, newPassword, props.navigation)
+      var answer = await actions.user.changePassword(currentEmail, currentPassword, newPassword, navigation)
     } else {
       Toast.show({
         text:'Password Change Failed. Make sure both new password and confirm password are the same',

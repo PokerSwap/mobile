@@ -133,14 +133,14 @@ export default LoginScreen = ({navigation}) => {
                 onPressIn={()=> setSignupColor('#FF8533')}
                 onPressOut={()=> setSignupColor('#FF6600')}
                 style={[styles.buttons.button,{backgroundColor:signupColor}]} 
-                onPress={()=> navigation.navigate("TermsAndConditions")}>
+                onPress={()=> navigation.navigate("Terms and Conditions")}>
                 <Text style={styles.buttons.text}> 
                   Sign Up 
                 </Text>
               </Button>                  
               {/* FORGOT PASSWORD BUTTON */}
               <Button transparent style={styles.forgotPassword.button} 
-                onPress={() => navigation.navigate("ForgotPassword")}>
+                onPress={() => navigation.navigate("Forgot Password")}>
                 <Text style={styles.forgotPassword.text}>
                   Forgot password?
                 </Text>
@@ -168,7 +168,7 @@ const styles ={
   },
   forgotPassword:{
     button: {
-      justifyContent:'center', marginVertical:12 },
+      justifyContent:'center', marginVertical:12, alignSelf:'center' },
     text:{ 
       color:'white' }
   },

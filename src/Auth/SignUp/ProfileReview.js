@@ -16,7 +16,7 @@ export default  ProfileReview = (props) => {
 		setLoading(true)
 		var creatingProfile = await actions.profile.add(
 			props.username, props.first_name, props.last_name, 
-			props.hendon, props.picture, props.navigation
+			props.hendon, props.picture, navigation
 		) 
 		setLoading(false)
 	}

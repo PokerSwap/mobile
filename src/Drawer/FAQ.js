@@ -1,9 +1,9 @@
 import React, {useContext} from 'react';
-import {Alert,TouchableOpacity} from 'react-native';
-import { Container, View, Content, Text, List, ListItem } from 'native-base';
+import { Container, View, Content, Text } from 'native-base';
 import OtherHeader from '../View-Components/OtherHeader'
+import { useNavigation } from '@react-navigation/native'
 
-import {Context } from '../Store/appContext'
+import { Context } from '../Store/appContext'
 
 FAQItem = (props) => {
   return(
@@ -20,14 +20,14 @@ FAQItem = (props) => {
 
 
 export default FAQScreen = (props) => {
-
+  
   const { store, actions } = useContext(Context)
+  const navigation = useNavigation()
 
   return(
     <Container>
       <OtherHeader title={'FAQs'} 
-        goBackToHome={() => props.navigation.goBack(null)}
-      />
+        goBackToHome={() => navigation.goBack(null)}/>
       <Content contentContainerStyle={{width:'90%', justifyContent:'center'}}>
         <FAQItem question={faq.one.question} answer={faq.one.answer} />
         <FAQItem question={faq.two.question} answer={faq.two.answer} />

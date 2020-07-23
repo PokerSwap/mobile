@@ -2,26 +2,27 @@ import React, { useContext } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { Text } from 'native-base';
 import { throttle } from 'lodash'
+import {useNavigation} from '@react-navigation/native'
 
 import { Context } from '../../../Store/appContext'
 import BuyIn from '../../BuyIn/BuyIn'
 
 export default SwapTracker = (props) => {
+  
   const {store, actions} = useContext(Context) 
-   
+  const navigation = useNavigation()
+
   let other_swaps = props.buyins.map((content, index) => {
     var x = actions.tournament.retrieveAction(props.tournament.id)
     return(
-      <BuyIn
-        key = {index} navigation = {props.navigation}
+      <BuyIn key = {index}
         buyin = {content.recipient_buyin} my_buyin={props.my_buyin}
         tournament= {props.tournament} action={props.action}
-        agreed_swaps = {content.agreed_swaps}
-        other_swaps = {content.other_swaps} />)
+        agreed_swaps = {content.agreed_swaps} other_swaps = {content.other_swaps} />)
   })
 
   const enterTournament = () => {
-    props.navigation.push('Event Lobby', {
+    navigation.push('Event Lobby', {
       event: props.event,
       tournament_id: props.event.tournament.id,
       tournament_name: props.event.name,
@@ -42,7 +43,7 @@ export default SwapTracker = (props) => {
         </TouchableOpacity>
       </View>
       {/* MY BUYIN IN TOURNAMENT */}
-      <BuyIn navigation = {props.navigation}
+      <BuyIn
         tournament ={props.tournament} action={props.action}
         my_buyin = {props.my_buyin} buyin = {props.my_buyin} />
       {/* OTHER BUYINS YOU SWAPPED TO IN TOURNAMENT */}

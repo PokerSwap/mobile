@@ -26,8 +26,7 @@ export default SwapResults = (props) => {
 
   let aTracker = (e) => e.map((content, index) => {
     return(
-      <ResultsTracker 
-        key={index} navigation={props.navigation}
+      <ResultsTracker key={index} 
         tournament={content.tournament} 
         final_profit={content.final_profit}
         my_buyin={content.my_buyin} buyins={content.buyins}/>
@@ -53,9 +52,7 @@ export default SwapResults = (props) => {
 
   return(
     <Container>
-      <HomeHeader title={'Swap Results'} 
-        drawer={() => props.navigation.toggleDrawer()}
-        tutorial={() => props.navigation.push('Tutorial')}/>
+      <HomeHeader title={'Swap Results'} />
       
       <Content>
         <List>

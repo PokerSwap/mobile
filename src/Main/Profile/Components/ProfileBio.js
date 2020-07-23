@@ -2,7 +2,9 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Image, View, Spinner, Linking, Modal, TouchableWithoutFeedback } from 'react-native'
 import { Button, Icon, Card, CardItem, Text, Radio } from 'native-base';
 import { Context } from '../../../Store/appContext';
+import { useNavigation } from '@react-navigation/native'
 
+import { Grid, Row, Col} from 'react-native-easy-grid'
 
 
  ReportModal = (props) => {
@@ -32,9 +34,7 @@ import { Context } from '../../../Store/appContext';
     var mySubject = myName + " - " + myReason + " Report: "+ theirName;
     var myDescription = myName + " (" + myID.toString() + ") - " + myReason + " Report: "+ theirName + " (" + theirID + ") \n \n Complaint: \n" 
 
-    console.log(mySubject)
-
-    var answer1 = await Linking.openURL("mailto:play@thepokersociety.com?subject=" + mySubject + "&body="  + myDescription)
+    var answer1 = await Linking.openURL("mailto:contact@swapprofitonline.com?subject=" + mySubject + "&body="  + myDescription)
   } 
 
   return(
@@ -103,6 +103,8 @@ export default ProfileBio = (props) => {
   const [ profile, setProfile ] = useState({})
   const [ visible, setVisible ] = useState(false)
 
+  const navigation = useNavigation()
+ 
   useEffect(() => {
     console.log('profile', profile)
 
@@ -119,13 +121,13 @@ export default ProfileBio = (props) => {
   }
 
   const openHendon = () => {
-    props.navigation.push('Web View', {
+    navigation.push('Web View', {
       url: profile.hendon_url
     })
   }
 
   const openChat = () => {
-    props.navigation.push('Chat', {
+    navigation.push('Chat', {
       myProfile: store.myProfile,
       theirProfile: profile
     }
@@ -138,96 +140,73 @@ export default ProfileBio = (props) => {
     <Card transparent>
 
       <Modal
-          animationType='fade'
-          visible={visible}
-          presentationStyle='overFullScreen'
-          transparent={true}>
-            <ReportModal  setVisible={setVisible}
-              myProfile={store.myProfile} theirProfile={profile}
-            />
-        </Modal>
+        animationType='fade'
+        visible={visible}
+        presentationStyle='overFullScreen'
+        transparent={true}>
+        <ReportModal  setVisible={setVisible}
+          myProfile={store.myProfile} theirProfile={profile} />
+      </Modal>
 
       {/* PROFILE PICTURE */}
       <CardItem style={{
         alignItems:'center', flex:1, 
         flexDirection:'column'}}>
-        <View  style={{marginTop:'4%', width: 150, 
-          height: 150, position: 'relative',
-          overflow: 'hidden', borderRadius: 50}}>
-          {profile ?
-            <Image style={{
-              display: 'flex', margin: 'auto', 
-              height: '100%', width: 'auto'}} 
-              source={{uri: profile.profile_pic_url}} />
-            : null}
-        </View>
-        <View>
-          <Text>{props.nickname}</Text>
-        </View>
-        {/* FULL NAME AND HENDON URL */}
-        <View style={{flex:1, justifyContent:'center', height:70}}>
-          {profile !== undefined ?
-            <Button transparent onPress={() => openHendon()}
-              style={{flex:1, justifyContent:'center'}}>
-              <Text style={{fontSize:36, textAlign:'center'}}>
-                {profile.first_name} {profile.last_name}
-              </Text>
-            </Button>
-            : <Spinner /> }
-        </View>
-      </CardItem>
-      {/* PROFILE COINS */}
-      {props.user_id == store.myProfile.id ?
-        <CardItem style={{justifyContent:'center'}}>
-          <Button iconLeft warning onPress={() => props.navigation.navigate("PurchaseTokens")}>
-            <Icon type='FontAwesome5' name='coins'/>
-            <Text>{store.myProfile.coins}</Text>
-          </Button>
-        </CardItem>
-        : 
-        <CardItem style={{justifyContent:'center', flexDirection:'column', width:'100%'}}>
-          <Button block iconLeft info onPress={() => openChat()}>
-            <Icon type='FontAwesome5' name='comments'/>
-            <Text style={{fontSize:24}}>Chat</Text>
-          </Button>
-          <Button style={{alignSelf:'center'}}transparent iconLeft light onPress={() => setVisible(true)} title="play@thepokersociety.com">
-            {/* <Icon type='FontAwesome5' name='exclamation-circle'/> */}
-            <Text>Report</Text>
-          </Button>
-          
-        </CardItem>
-        }
+          <Grid>
+            <Col>
+              <Row>
+                <View  style={{marginTop:'4%', width: 150, 
+                height: 150, position: 'relative',
+                overflow: 'hidden', borderRadius: 50}}>
+                {profile ?
+                  <Image style={{
+                    display: 'flex', margin: 'auto', 
+                    height: '100%', width: 'auto'}} 
+                    source={{uri: profile.profile_pic_url}} />
+                  : null}
+                </View>
+              </Row>
+              <Row style={{justifyContent:'center'}}>
+                  <Text style={{textAlign:'center', marginTop:5, fontize:18}}>{props.nickname}</Text>
+              </Row>
+            </Col>
+            <Col>
+              <Row>
+                <Col>
+                <View style={{flex:1, flexDirection:'column', justifyContent:'center'}}>
+                  <Text style={{
+                    textAlign:'center', marginBottom:10, fontWeight:'500'}}> 
+                    R.O.I. 
+                  </Text>
+                  {profile !== undefined ?
+                    <Text style={{
+                      textAlign:'center', fontSize:24, fontWeight:'600'}}> 
+                      {profile.roi_rating}%
+                    </Text>
+                    :
+                    <Spinner/>}
+                </View>
+                </Col>
+                <Col>
+                {/* SWAP RATING STAT */}
+                <View style={{flex:1, flexDirection:'column', justifyContent:'center'}}>
+                  <Text style={{textAlign:'center', marginBottom:10, fontWeight:'500'}}> 
+                    Swap Rating 
+                  </Text>
+                  {profile !== undefined ?
+                    <Text style={{textAlign:'center', fontSize:24, fontWeight:'600'}}> 
+                      {profile.swap_rating}
+                    </Text>
+                    :
+                    <Spinner /> }
+                </View>  
+                </Col>
         
-      {/* PROFILE STATS */}
-      <CardItem style={{flex:1, flexDirection:'row',justifyContent:"space-around"}}>
-        {/* RETURN OF INTEREST STAT */}
-        <View style={{flex:1, flexDirection:'column', justifyContent:'center'}}>
-          <Text style={{
-            textAlign:'center', marginBottom:10, fontWeight:'500'}}> 
-            R.O.I. 
-          </Text>
-          {profile !== undefined ?
-            <Text style={{
-              textAlign:'center', fontSize:30, fontWeight:'600'}}> 
-              {profile.roi_rating}%
-            </Text>
-            :
-            <Spinner/>}
-        </View>
-        {/* SWAP RATING STAT */}
-        <View style={{flex:1, flexDirection:'column', justifyContent:'center'}}>
-          <Text style={{textAlign:'center', marginBottom:10, fontWeight:'500'}}> 
-            Swap Rating 
-          </Text>
-          {profile !== undefined ?
-            <Text style={{textAlign:'center', fontSize:30, fontWeight:'600'}}> 
-              {profile.swap_rating}
-            </Text>
-            :
-            <Spinner /> }
-        </View>  
-        {/* CONFIRMED SWAPS STAT */}
-        <View style={{flex:1, flexDirection:'column', justifyContent:'center'}}>
+              </Row>
+           
+              <Row>
+{/* CONFIRMED SWAPS STAT */}
+<View style={{flex:1, flexDirection:'column', justifyContent:'center'}}>
           <Text style={{textAlign:'center', marginBottom:10, fontWeight:'500'}}> 
             Confirmed Swaps 
           </Text>
@@ -237,7 +216,46 @@ export default ProfileBio = (props) => {
             </Text>
             : <Spinner />}
         </View>
-      </CardItem>   
+
+              </Row>
+            </Col>
+        
+          </Grid>
+        
+        {/* FULL NAME AND HENDON URL */}
+        <View style={{flex:1, justifyContent:'center', height:70}}>
+          {profile !== undefined ?
+            <Button transparent onPress={() => openHendon()}
+              style={{flex:1, justifyContent:'center'}}>
+              <Text style={{fontSize:24, textAlign:'center'}}>
+                {profile.first_name} {profile.last_name}
+              </Text>
+            </Button>
+            : <Spinner /> }
+        </View>
+      </CardItem>
+      {/* PROFILE COINS */}
+      {props.user_id == store.myProfile.id ?
+        <CardItem style={{justifyContent:'center'}}>
+          <Button iconLeft warning onPress={() => navigation.navigate("Purchase Tokens")}>
+            <Icon type='FontAwesome5' name='coins'/>
+            <Text>{store.myProfile.coins}</Text>
+          </Button>
+        </CardItem>
+        : 
+        <CardItem style={{justifyContent:'center', flexDirection:'column', width:'100%', marginVertical:-20}}>
+          <Button block iconLeft info onPress={() => openChat()}>
+            <Icon type='FontAwesome5' name='comments'/>
+            <Text style={{fontSize:24}}>Chat</Text>
+          </Button>
+          <Button style={{alignSelf:'center'}}transparent iconLeft light 
+            onPress={() => setVisible(true)} title="play@thepokersociety.com">
+            {/* <Icon type='FontAwesome5' name='exclamation-circle'/> */}
+            <Text>Report</Text>
+          </Button>
+          
+        </CardItem>
+        }
     </Card>
   )
 }

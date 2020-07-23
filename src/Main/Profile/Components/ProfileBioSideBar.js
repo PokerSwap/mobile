@@ -3,14 +3,17 @@ import {Image, View } from 'react-native'
 import { Button, Icon, Card, CardItem, Text } from 'native-base';
 
 import {Context} from '../../../Store/appContext'
+import { useNavigation } from '@react-navigation/native';
 
 export default ProfileBioSideBar = (props) => {
    
   const {store, actions} = useContext(Context)
 
+  const navigation = useNavigation()
+
   const enterProfile = async() => {
 
-    props.navigation.push('Profile',{
+    navigation.push('Profile',{
       nickname: store.myProfile.nickname,
       user_id: store.myProfile.id
     });
@@ -22,7 +25,7 @@ export default ProfileBioSideBar = (props) => {
     ifNickName = ' "' + props.nickname + '" '
     : ifNickName = ' '
 
-  var goPurchase = () => props.navigation.navigate('Purchase Tokens')
+  var goPurchase = () => navigation.navigate('Purchase Tokens')
   
   return(
     <Card transparent style={{flex:1, flexDirection:'column', paddingTop:20}}>

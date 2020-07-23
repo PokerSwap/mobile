@@ -35,11 +35,11 @@ export default SwapDashboard = (props) => {
   }, [null])
 
   const goToThing = async(data) => {
-    console.log('name', props.navigation.state.routeName)
+    console.log('name', navigation.state.routeName)
     if(data.type == 'event'){
-      var cc = await actions.navigate.toEvent(data, props.navigation)
+      var cc = await actions.navigate.toEvent(data, navigation)
     }else if(data.type == 'swap'){
-      var cc = await actions.navigate.toSwap(data, props.navigation)
+      var cc = await actions.navigate.toSwap(data, navigation)
     }else{
       null
     }
@@ -57,9 +57,7 @@ export default SwapDashboard = (props) => {
   // OCCUPIED CURRENT TRACKER COMPONENT
   let a_tracker = (trackers) => trackers.map((tracker, index) => {
     return(
-      <SwapTracker
-        key={index} navigation={props.navigation}
-        event={tracker}
+      <SwapTracker key={index}  event={tracker}
         my_buyin= {tracker.my_buyin} buyins = {tracker.buyins}
         tournament={tracker.tournament} action={tracker.action}/>
     )
@@ -102,9 +100,7 @@ export default SwapDashboard = (props) => {
 
   return(
     <Container>
-      <HomeHeader title={'Active Swaps'}  
-        drawer={() => DrawerActions.toggleDrawer()}
-        tutorial={() => props.navigation.push('Tutorial')}/>
+      <HomeHeader title={'Active Swaps'} />
       <Content>
         {/* REFRESH SWAP CURRENT TRACKERS */}
         <RefreshControl refreshing={refreshing} onRefresh={() => onRefresh()} />

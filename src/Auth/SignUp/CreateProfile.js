@@ -68,7 +68,6 @@ export default CreateProfile = (props) => {
           <Tab disabled heading="Review">
             <ProfileReview 
               prev={() => prevPage()}
-              navigation= {props.navigation}
               first_name= {first_name} 
               last_name= {last_name} 
               username= {username}

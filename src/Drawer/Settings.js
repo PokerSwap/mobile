@@ -2,39 +2,33 @@ import React, {useContext} from 'react';
 import { Container, View, Content, Text, List, ListItem } from 'native-base';
 
 import OtherHeader from '../View-Components/OtherHeader'
-import {Context } from '../Store/appContext'
+import { useNavigation } from '@react-navigation/native';
 
 export default SettingsScreen = (props) => {
-
+  const navigation = useNavigation()
   return(
     <Container>
       <OtherHeader title={'Settings'} 
-        goBackToHome={() => props.navigation.goBack(null)}/>
+        goBackToHome={() => navigation.goBack(null)}/>
       <Content>
         
         <List>
           
           <ListItem noIndent 
-            onPress={()=> props.navigation.push('Change Email', {
-              navigation: props.navigation
-            })}>
+            onPress={()=> navigation.navigate('Change Email')}>
             <Text> Change Email </Text>
           </ListItem>
 
           <ListItem noIndent 
-            onPress={()=> props.navigation.push('Change Password', {
-              navigation: props.navigation
-            })}>
+            onPress={()=> navigation.navigate('Change Password')}>
             <Text> Change Password </Text>
           </ListItem>
           
           <ListItem noIndent 
-            onPress={()=> props.navigation.navigate('Change Picture')}>
+            onPress={()=> navigation.navigate('Change Picture')}>
             <Text> Change Profile Picture </Text>
           </ListItem>
-          
         </List>
-       
       </Content>  
     </Container>
   )

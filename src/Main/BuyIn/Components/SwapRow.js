@@ -1,7 +1,8 @@
 import React, {useState, useEffect, useContext} from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { Text, Icon } from 'native-base';
-import { Col } from 'react-native-easy-grid'
+import { Col } from 'react-native-easy-grid';
+import { useNavigation } from '@react-navigation/native'
 
 import { Context } from '../../../Store/appContext'
 
@@ -9,6 +10,8 @@ export default SwapRow = (props) => {
   const { store, actions } = useContext(Context)
   const [swapTime, setSwapTime] = useState(null)
   const [refreshing, setRefreshing] = useState(true)
+
+  const navigation = useNavigation()
 
   var buttonColor, path, lastCol
   var swap = props.swap
@@ -78,7 +81,7 @@ export default SwapRow = (props) => {
   } 
 
   const enterSwapOffer = async() => {
-    props.navigation.push('Swap Offer',{
+    navigation.push('Swap Offer',{
       status: swap.status,
       buyin: props.buyin,
       tournament: props.tournament,

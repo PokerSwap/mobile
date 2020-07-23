@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { TouchableOpacity, View, StatusBar } from 'react-native'
 import { Text, Icon, Header } from 'native-base';
-import { Row } from 'react-native-easy-grid'
+import { useNavigation } from '@react-navigation/native'
 
 import Spinner from 'react-native-loading-spinner-overlay'
 import { Context } from '../Store/appContext'
@@ -10,13 +10,15 @@ export default FeedbackScreen = (props) => {
   const { store, actions } = useContext(Context) 
   const [ loading, setLoading ] = useState(false) 
 
+const navigation = useNavigation()
+
   const goToCategory = async() => {
     setLoading(true)
     var answer1 = await actions.tracker.getCurrent()
     var answer2 = await actions.tracker.getPast()
     var answer3 = await actions.tournament.getInitial()
     setLoading(false)
-    props.navigation.navigate('Swap Dashboard')
+    navigation.navigate('Swap Dashboard')
   }
   
   return(
@@ -28,9 +30,6 @@ export default FeedbackScreen = (props) => {
           FeedBack
         </Text>
       </Header>
-
-
-      
     </View>
   )
 }
