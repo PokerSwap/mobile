@@ -236,14 +236,14 @@ export default ProfileBio = (props) => {
       </CardItem>
       {/* PROFILE COINS */}
       {props.user_id == store.myProfile.id ?
-        <CardItem style={{justifyContent:'center'}}>
+        <CardItem style={{justifyContent:'center' , marginVertical:-20}}>
           <Button iconLeft warning onPress={() => navigation.navigate("Purchase Tokens")}>
             <Icon type='FontAwesome5' name='coins'/>
             <Text>{store.myProfile.coins}</Text>
           </Button>
         </CardItem>
         : 
-        <CardItem style={{justifyContent:'center', flexDirection:'column', width:'100%', marginVertical:-20}}>
+        <CardItem style={{justifyContent:'center', flexDirection:'column', width:'100%', marginVertical:-20, paddingBottom: 0}}>
           <Button block iconLeft info onPress={() => openChat()}>
             <Icon type='FontAwesome5' name='comments'/>
             <Text style={{fontSize:24}}>Chat</Text>

@@ -28,7 +28,7 @@ import SwapOffer from './src/Main/SwapOffer/SwapOffer';
 import ProfileScreen from './src/Main/Profile/ProfileScreen'
 import WebViewScreen from './src/Misc/WebView'
 import TutorialScreen from './src/Misc/Tutorial'
-import ChatScreen from './src/Misc/Chat'
+import ChatScreen from './src/Main/Chat/Chat'
 
 // DRAWER VIEWS
 import FAQScreen from './src/Drawer/FAQ'
@@ -40,23 +40,11 @@ import ChangeEmail from './src/Drawer/ChangeEmail'
 import ChangePassword from './src/Drawer/ChangePassword'
 import ChangePicture from './src/Drawer/ChangePicture'
 import CategoriesScreen from './src/Drawer/Categories'
-
+import ContactsScreen from './src/Main/Chat/Contacts'
 
 var Stack = createStackNavigator()
 var Drawer = createDrawerNavigator()
 var aTab = createBottomTabNavigator()
-
-
-// DRAWER VIEWS NAVIGATION
-//   {
-//     initialRouteName: 'Home',
-//     contentComponent: SideBar,
-//     drawerPosition: 'Left',
-//     drawerOpenRoute: 'DrawerOpen',
-//     drawerCloseRoute: 'DrawerClose',
-//     drawerToggleRoute: 'DrawerToggle'
-//   }
-// )
 
 var MainTabs = () => {
   return(
@@ -118,8 +106,6 @@ var ResultsStack = () => {
   )
 }
 
-
-
 var MainDrawer = () => {
   return(
     <Drawer.Navigator initialRouteName="Home" drawerContent={(props) => <SideBar {...props} />}
@@ -161,8 +147,11 @@ var MainDrawer = () => {
             color={focused ? 'blue' : 'black'} />
         )}}/>
       {/* CHAT SCREEN TAB */}
-      <Drawer.Screen name="Chat" component={ChatScreen}
+      <Drawer.Screen name="Chat" component={ContactsScreen}
+      screenOptions={{ gestureEnabled: false, headerShown: true }}
       options={{
+        params:{name:"Gabe"},
+        headerShown:true,
         drawerIcon: ({ focused }) => (
           <Icon type="FontAwesome5" name="comment-dots" size={24} 
             color={focused ? 'blue' : 'black'} />
@@ -192,6 +181,7 @@ var AuthStack = () => {
       <Stack.Screen name="User Creation" component={CreateUser} options={{ headerShown: true }}/>
       <Stack.Screen name="Terms and Conditions" component={TermsAndConditions} options={{ headerShown: true }}/>
       <Stack.Screen name="Profile Creation" component={CreateProfile} options={{ headerShown: true }}/>
+    
     </Stack.Navigator>
   )
 }
@@ -208,7 +198,10 @@ var AuthStack = () => {
         <Stack.Screen name="Web View" component={WebViewScreen} />
         <Stack.Screen name="Tutorial" component={TutorialScreen} />
         <Stack.Screen name="Profile" component={ProfileScreen} />
+        <Stack.Screen name="Chat" component={ChatScreen} 
+              screenOptions={{ gestureEnabled: false, headerShown: true }}
 
+        />
       </Stack.Navigator>
     </NavigationContainer>
   )

@@ -19,6 +19,8 @@ export default ProfitResults = (props) => {
   const { tournament } = route.params;
   const { my_buyin } = route.params;  
   const { buyins } = route.params;
+  const { final_profit } = route.params;
+
 
   const [ loading, setLoading ] = useState(false)
   const [ visible, setVisible ] = useState(false)
@@ -26,7 +28,6 @@ export default ProfitResults = (props) => {
   const [ allPaid, setAllPaid ] = useState(true)
 
   var agreedBuyins = buyins.filter(buyin => buyin.agreed_swaps.length > 0)
-  var myResult = store.currentResults.filter(result => result.user_id == my_buyin.user_id)
   
   useEffect(() => {
     var x = agreedBuyins.forEach((buyin, index) => {
@@ -46,17 +47,6 @@ export default ProfitResults = (props) => {
   var getBuyin = async() => {
     var eee = await actions.buy_in.getCurrent(my_buyin.id) 
   }
-
-  var final_profit = 0
-  var fd = agreedBuyins.forEach((buyin, index) => {
-    var theirResult = store.currentResults.filter(result => result.user_id == buyin.recipient_user.id)
-    buyin.agreed_swaps.forEach(swap => {
-      var me = parseInt(myResult[0].winnings) * (swap.percentage * 0.01)
-      var them = parseInt(theirResult[0].winnings) * (swap.counter_percentage * 0.01)
-      var sum = them - me
-      final_profit += sum
-    })
-  })
 
   var profit
   allPaid ? 
@@ -97,12 +87,17 @@ export default ProfitResults = (props) => {
               {tournament.start_at}
             </Text>
           </ListItem>
+          {agreedBuyins.length == 0 ?
+            <ListItem noIndent style={{justifyContent:'center'}}>
+              <Text style={{alignText:'center'}}>
+                You didn't agree to any swaps in this event.
+              </Text>
+            </ListItem>
+            : null }
           {/* ALL PROFIT TRACKERS */}
           {agreedBuyins.map((buyin, index) => {
-            var theirResult = store.currentResults.filter(result => result.user_id == buyin.recipient_user.id)
             return(
               <ProfitTracker key={index} 
-                myResult={myResult[0]} theirResult={theirResult[0]}
                 buyin={buyin} agreed_swaps={buyin.agreed_swaps}/>
           )})}
           {/* FINAL PROFIT */}

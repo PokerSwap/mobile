@@ -9,7 +9,7 @@ export default MyProfileHistoryCard = (props) => {
 	const { store, actions } = useContext(Context)
 
 	return(
-		<View style={{marginVertical:10}}>
+		<View style={{marginBottom:10}}>
 			{/* TOURNAMENT NAME */}
 			<ListItem noIndent style={{ flexDirection:'column',
 				paddingVertical:5, backgroundColor:'black', 

@@ -38,11 +38,9 @@ export default HistoryList = (props) => {
   if(history){
     var myHistory = history.map((content, index) =>{
       return(
-        <MyProfileHistoryCard 
-          key={index}
+        <MyProfileHistoryCard key={index}
           tournament={content.tournament}
-          my_buyin={content.my_buyin}
-          buyins={content.buyins}
+          my_buyin={content.my_buyin} buyins={content.buyins}
           final_profit={content.final_profit}/>
       )
     })
@@ -85,7 +83,7 @@ export default HistoryList = (props) => {
   return(
     <List style={{justifyContent:'center'}}>
       {/* HISTORY HEADER */}
-      <ListItem noIndent itemHeader style={{ justifyContent:'center', marginBottom:-15 }}>
+      <ListItem noIndent itemHeader style={{ justifyContent:'center' }}>
         <Text style={{ textAlign:'center', fontWeight:'600', fontSize:24}}>
           History
         </Text>

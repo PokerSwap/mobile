@@ -1,6 +1,6 @@
 {
   "name": "SwapProfit",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "private": true,
   "scripts": {
     "android": "npx react-native run-android",
@@ -41,7 +41,9 @@
     "react-native-countdown-component": "^2.6.0",
     "react-native-device-info": "^5.3.1",
     "react-native-easy-grid": "^0.2.2",
+    "react-native-firebase": "^5.6.0",
     "react-native-gesture-handler": "^1.6.1",
+    "react-native-gifted-chat": "^0.16.3",
     "react-native-image-picker": "^2.3.1",
     "react-native-loading-spinner-overlay": "^1.0.1",
     "react-native-material-dropdown": "^0.11.1",

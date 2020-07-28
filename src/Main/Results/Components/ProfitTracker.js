@@ -26,21 +26,11 @@ export default ProfitTracker = (props) => {
     )
   }
 
-  var myWinnings = parseInt(props.myResult.winnings).toFixed(2)
-  var you_owe_total = 0.00
-  var addingYourTotals = props.agreed_swaps.forEach(swap => 
-    you_owe_total += ((swap.percentage * 0.01) * myWinnings))
-
-  var theirWinnings = parseInt(props.theirResult.winnings).toFixed(2)
-  var they_owe_total = 0.00
-  var addingTheirTotals = props.agreed_swaps.forEach(swap => 
-    they_owe_total += ((swap.counter_percentage * 0.01) * theirWinnings))
-
   let final_swap_profit
-  let swap_profit = they_owe_total - you_owe_total
-  swap_profit < 0 ?
-    final_swap_profit = '-$' + Math.abs(swap_profit).toFixed(2)
-    : final_swap_profit = "$" + Math.abs(swap_profit).toFixed(2)
+  let swap_profit = props.buyin.they_owe_total - props.buyin.you_owe_total
+  swap_profit >= 0 ?
+    final_swap_profit = '$' + Math.abs(swap_profit).toFixed(2)
+    : final_swap_profit = "-$" + Math.abs(swap_profit).toFixed(2)
     
   var message, fn, buttonColor
   if (swap_profit !== 0 && (props.buyin.they_owe_total && props.buyin.you_owe_total)){
@@ -113,33 +103,31 @@ export default ProfitTracker = (props) => {
             </Text>
           </Col>
           <Col>
-            {myWinnings ? 
+            {props.buyin.you_won ? 
               <Text style={{alignSelf:'center',  fontSize:20}}>
-                ${myWinnings}
+                ${props.buyin.you_won}
               </Text>
               : <Text> Pending </Text>}
           </Col> 
           <Col>
-            {theirWinnings ? 
+            {props.buyin.they_won ? 
               <Text style={{alignSelf:'center',  fontSize:20}}>
-                ${theirWinnings}
+                ${props.buyin.they_won}
               </Text>
               : <Text> Pending </Text>}
           </Col>
         </Row>
         {/* INDIVIDUAL SWAPS ROW */}
         {props.agreed_swaps.map((swap, index) =>{
-          var you_owe = ((swap.percentage * 0.01) * myWinnings).toFixed(2)
-          var they_owe = ((swap.counter_percentage * 0.01) * theirWinnings).toFixed(2)
           return(
             <IndividualOweRow 
               number={index} swap={swap}
-              you_owe={you_owe} they_owe= {they_owe}/>)
+              you_owe={swap.you_owe} they_owe= {swap.they_owe}/>)
         })}
         {/* TOTAL OWE ROW */}
         <TotalOweRow 
-          you_owe_total = {you_owe_total}
-          they_owe_total = {they_owe_total}/>
+          you_owe_total = {props.buyin.you_owe_total}
+          they_owe_total = {props.buyin.they_owe_total}/>
         {/* SWAP PROFIT OWE */}
         <Row>
           <Text style={{ fontSize:36, fontWeight:'600', textAlign:'center', marginTop:30}}>
@@ -149,14 +137,17 @@ export default ProfitTracker = (props) => {
           </Text>
         </Row>
         {/* PAY/PAID BUTTON */}
-        <Row style={{marginTop:30}}>
-          <Button large onPress={() => fn()}
-            style={{height:60, justifyContent:'center', backgroundColor:buttonColor}} >
-            <Text style={{textAlign:'center', fontWeight:'600'}}>
-              {message}
-            </Text> 
-          </Button>
-        </Row>
+        {props.buyin.you_won ?
+          <Row style={{marginTop:30}}>
+            <Button large onPress={() => fn()}
+              style={{height:60, justifyContent:'center', backgroundColor:buttonColor}} >
+              <Text style={{textAlign:'center', fontWeight:'600'}}>
+                {message}
+              </Text> 
+            </Button>
+          </Row>
+        : null}
+        
       </Grid>
     </ListItem>
   )

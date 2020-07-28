@@ -33,6 +33,9 @@ target 'SwapProfit' do
   pod 'Firebase/Core'
   pod 'Firebase/Analytics'
   pod 'Firebase/Messaging'
+  pod 'Firebase/Firestore'
+  pod 'Firebase/Auth'
+
   pod 'RNFBInAppMessaging', :path => '../node_modules/@react-native-firebase/in-app-messaging'
 
   pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'

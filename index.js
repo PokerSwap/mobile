@@ -2,18 +2,10 @@ import { AppRegistry } from 'react-native';
 import App from './App';
 import { name as appName } from './app.json';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler'
-
-
-
 import { Platform, Alert } from 'react-native';
-
 import firebase from '@react-native-firebase/app';
 import messaging from '@react-native-firebase/messaging'
-import AsyncStorage from '@react-native-community/async-storage'
-import PushNotification from 'react-native-push-notification'
-import PushNotificationIOS from '@react-native-community/push-notification-ios'
-import { useCallback } from 'react';
-import { uniqueId } from 'lodash';
+
 
 const iosConfig = {
   clientId: '1008390219361-a5ve7cvrf95qcg31ttijkovrosfsgrgq.apps.googleusercontent.com',

@@ -46,101 +46,10 @@ const getState = ({ getStore, setStore, getActions }) => {
 			currentSwap:{},
 			// CURRENT TOURNAMENT ON SCREEN
 			currentTournament:null,
-			// CURRENT RESULTS:
-			currentResults: [
-				{
-					created_at: "Fri, 10 Jul 2020 17:18:45 GMT",
-					full_name: "Neal Corcoran",
-					id: 2,
-					nationality: "United States",
-					place: "1st",
-					tournament_id: 884,
-					updated_at: "Fri, 10 Jul 2020 17:18:45 GMT",
-					user_id: 7,
-					winnings: "20000"
-				},
-				{
-					created_at: "Fri, 10 Jul 2020 17:18:45 GMT",
-					full_name: "Kate Hoang",
-					id: 3,
-					nationality: "United States",
-					place: "2nd",
-					tournament_id: 884,
-					updated_at: "Fri, 10 Jul 2020 17:18:45 GMT",
-					user_id: 2,
-					winnings: "12000"
-				},
-				{
-					created_at: "Fri, 10 Jul 2020 17:18:45 GMT",
-					full_name: "Perry Shiao",
-					id: 4,
-					nationality: "United States",
-					place: "3rd",
-					tournament_id: 884,
-					updated_at: "Fri, 10 Jul 2020 17:18:45 GMT",
-					user_id: 5,
-					winnings: "10000"
-				},
-				{
-					created_at: "Fri, 10 Jul 2020 17:18:45 GMT",
-					full_name: "Bobby Leff",
-					id: 5,
-					nationality: "Canada",
-					place: "4th",
-					tournament_id: 884,
-					updated_at: "Fri, 10 Jul 2020 17:18:45 GMT",
-					user_id: 6,
-					winnings: "5000"
-				},
-				{
-					created_at: "Fri, 10 Jul 2020 17:18:46 GMT",
-					full_name: "Cary Katz",
-					id: 6,
-					nationality: "United States",
-					place: "5th",
-					tournament_id: 884,
-					updated_at: "Fri, 10 Jul 2020 17:18:46 GMT",
-					user_id: 3,
-					winnings: "4000"
-				},
-				{
-					created_at: "Fri, 10 Jul 2020 17:18:46 GMT",
-					full_name: "Brian Gelrod",
-					id: 7,
-					nationality: "United States",
-					place: "6th",
-					tournament_id: 884,
-					updated_at: "Fri, 10 Jul 2020 17:18:46 GMT",
-					user_id: 8,
-					winnings: "3000"
-				},
-				{
-					created_at: "Fri, 10 Jul 2020 17:18:46 GMT",
-					full_name: "Lou",
-					id: 8,
-					nationality: "United States",
-					place: "7th",
-					tournament_id: 884,
-					updated_at: "Fri, 10 Jul 2020 17:18:46 GMT",
-					user_id: 1,
-					winnings: "120000"
-				},
-				{
-					created_at: "Fri, 10 Jul 2020 17:18:46 GMT",
-					full_name: "Mikita",
-					id: 9,
-					nationality: "Russia",
-					place: "8th",
-					tournament_id: 884,
-					updated_at: "Fri, 10 Jul 2020 17:18:46 GMT",
-					user_id: 4,
-					winnings: "500"
-				}
-			],
 			// MY DEVICE TOKEN
 			deviceToken: null,
 			// MY PROFILE
-			myProfile:{},
+			myProfile:null,
 			// LIVE AND UPCOMING SWAP TRACKER
 			myTrackers:[],
 			// ALL PAST SWAP TRACKER
@@ -1399,7 +1308,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 						.then(()=> getActions().profile.get())
 						.then(()=> myPassword = '')
 						.then(()=> {
-							if(getStore().userToken){
+							console.log(getStore().myProfile)
+							if(getStore().userToken  && getStore().myProfile !== "Error"){
 								if(getStore().myProfile.message !== "Profile not found"){
 									getActions().tournament.getInitial()
 									.then(() => getActions().tracker.getCurrent())
@@ -1409,7 +1319,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 									navigation.navigate('Profile Creation')
 								}									
 							}else{
+								
 								console.log("You did not login");
+								return errorMessage("You did not login correctly")
 							}
 						})
 						.catch((error)=> console.log('Something went wrong in logging in: ', error))

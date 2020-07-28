@@ -1,6 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Container, Content, List, Spinner } from 'native-base';
-import { withNavigationFocus } from 'react-navigation';
 import { useNavigation, useRef, useRoute } from '@react-navigation/native'
 
 
