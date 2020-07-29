@@ -58,8 +58,7 @@ export default ContactsScreen = (props) => {
   return(
     <Container>      
       <Content>
-      <OtherHeader title={'Contacts'} 
-        goBackToHome={() => navigation.goBack(null)}/>
+      <OtherHeader title={'Contacts'} />
         <List>
           <ListItem noIdent>
             <Col style={{width:"20%"}}>

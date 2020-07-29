@@ -8,7 +8,7 @@ export default OtherHeader = (props) => {
     <Header  style={{justifyContent:'space-between', alignItems:'center', backgroundColor:'rgb(248,248,248)'}}>
       
       {/* MENU ICON */}
-      <Icon name="ios-arrow-back" style={{marginLeft:10}}
+      <Icon type="Ionicons" name="ios-chevron-back" style={{marginLeft:10}}
         onPress={() => navigation.goBack()} />
       
       {/* TITLE */}

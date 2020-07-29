@@ -1,6 +1,5 @@
 import React from 'react';
-import { Container, Content, Header  } from 'native-base';
-import { HeaderBackButton } from '@react-navigation/stack';
+import { Container, Content  } from 'native-base';
 import { useRoute, useNavigation } from '@react-navigation/native';
 
 import ProfileBio from './Components/ProfileBio';
@@ -14,9 +13,6 @@ export default ProfileScreen = (props) => {
   
   return(
     <Container> 
-      <Header style={{justifyContent:'flex-start'}}>
-        <HeaderBackButton onPress={()=> navigation.goBack()} />
-      </Header>
       <Content contentContainerStyle={{ justifyContent:'center'}}>
         {/* PROFILE BIO */}
         <ProfileBio user_id={user_id} nickname={nickname} />

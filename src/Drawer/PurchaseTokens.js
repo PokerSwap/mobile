@@ -95,10 +95,11 @@ export default PurchaseTokens = (props) => {
 
   return(
     <Container>
-      <OtherHeader title={'Purchase Tokens'} />
-
-      <Content contentContainerStyle={{
-        flex:1, justifyContent:'center', alignItems:'center'}}>
+      <Content 
+      // contentContainerStyle={{
+      //   flex:1, justifyContent:'center', alignItems:'center'}}
+        >
+          <OtherHeader title={'Purchase Tokens'} />
       <ScrollView style={{ alignSelf: 'stretch' }}>           
 
         <Grid transparent>

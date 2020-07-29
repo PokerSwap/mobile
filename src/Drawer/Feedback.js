@@ -18,7 +18,7 @@ const navigation = useNavigation()
     var answer2 = await actions.tracker.getPast()
     var answer3 = await actions.tournament.getInitial()
     setLoading(false)
-    navigation.navigate('Swap Dashboard')
+    navigation.navigate('')
   }
   
   return(

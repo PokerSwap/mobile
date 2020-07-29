@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Modal } from 'react-native';
-import { Container, Content, List, Text, ListItem } from 'native-base';
+import { Modal, View } from 'react-native';
+import { Container, Content, List, Text, ListItem, Button } from 'native-base';
 import Spinner from 'react-native-loading-spinner-overlay'
 
 import { Context } from '../../Store/appContext'
 import _Header from '../../View-Components/HomeHeader'
 import ProfitTracker from './Components/ProfitTracker'
 import BustedModal from '../SwapOffer/Components/BustedModal'
+import moment from 'moment'
 
 import { useNavigation, useRoute } from '@react-navigation/native'
 
@@ -55,6 +56,13 @@ export default ProfitResults = (props) => {
       : profit = "-$" + Math.abs(final_profit).toFixed(2)
     : profit = "Pending"
   
+
+  var openResults = () => {
+    navigation.push('Web View',{
+      url: tournament.results_link
+    })
+  }
+
   return(
     <Container> 
       <Content>
@@ -83,10 +91,24 @@ export default ProfitResults = (props) => {
               {tournament.name}
             </Text>
             {/* TOURNAMENT START TIME */}
-            <Text style={{justifyContent:'center', marginTop:10, textAlign:'center', fontSize:20}}>
+            <Text style={{justifyContent:'center', marginVertical:10, textAlign:'center', fontSize:20}}>
               {tournament.start_at}
             </Text>
+            {tournament.results_link ? 
+              <View style={{flexDirection:'column'}}>
+                <Button block onPress={() => openResults()}>
+                  <Text>
+                    See Complete Event Results
+                  </Text>
+                </Button>
+                <Text style={{marginTop:15, marginBottom:5}}>
+                  Results posted {moment(tournament.updated_at).startOf('day').fromNow()}.
+                </Text>
+              </View>
+                
+            : null}
           </ListItem>
+
           {agreedBuyins.length == 0 ?
             <ListItem noIndent style={{justifyContent:'center'}}>
               <Text style={{alignText:'center'}}>
@@ -96,8 +118,10 @@ export default ProfitResults = (props) => {
             : null }
           {/* ALL PROFIT TRACKERS */}
           {agreedBuyins.map((buyin, index) => {
+            console.log('myPlace', buyin)
             return(
               <ProfitTracker key={index} 
+              myPlace={my_buyin.place}
                 buyin={buyin} agreed_swaps={buyin.agreed_swaps}/>
           )})}
           {/* FINAL PROFIT */}

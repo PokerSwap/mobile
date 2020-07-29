@@ -77,9 +77,9 @@ var SwapsStack = () => {
       screenOptions={{ gestureEnabled: false, headerShown: false }}>
       <Stack.Screen name="Active Swaps" component={SwapDashboard}/>
       <Stack.Screen name="Swap Offer" component={SwapOffer} 
-        options={{ gestureEnabled: false, headerShown: true }}/>
+        options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
       <Stack.Screen name="Event Lobby" component={EventLobby} 
-        options={{ gestureEnabled: false, headerShown: true }}/>
+        options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
     </Stack.Navigator>
   )
 }
@@ -88,9 +88,12 @@ var EventsStack = () => {
   return(
     <Stack.Navigator initialRouteName="Event Listings" screenOptions={{ gestureEnabled: false, headerShown: false }}>
       <Stack.Screen name="Event Listings" component={EventListings}/>
-      <Stack.Screen name="Verify Ticket" component={VerifyTicket} options={{ gestureEnabled: false, headerShown: true }}/>
-      <Stack.Screen name="Event Lobby" component={EventLobby} options={{ gestureEnabled: false, headerShown: true }}/>
-      <Stack.Screen name="Swap Offer" component={SwapOffer} options={{ gestureEnabled: false, headerShown: true }}/>
+      <Stack.Screen name="Verify Ticket" component={VerifyTicket} 
+        options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
+      <Stack.Screen name="Event Lobby" component={EventLobby} 
+        options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
+      <Stack.Screen name="Swap Offer" component={SwapOffer} 
+        options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
     </Stack.Navigator>
   )
 }
@@ -101,7 +104,7 @@ var ResultsStack = () => {
       screenOptions={{ gestureEnabled: false, headerShown: false }}>
       <Stack.Screen name="Swap Results" component={SwapResults}/>
       <Stack.Screen name="Profit Results" component={ProfitResults} 
-        options={{ gestureEnabled: false, headerShown: true }}/>
+        options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}}/>
     </Stack.Navigator>
   )
 }
@@ -119,6 +122,7 @@ var MainDrawer = () => {
         )}}/>
       {/* SETTINGS DRAWER TAB */}
       <Drawer.Screen name="Settings" component={SettingsStack}
+       screenOptions={{ gestureEnabled: false, headerShown: false }}
         options={{
           drawerIcon: ({ focused }) => (
           <Icon type="FontAwesome5" name="cog" size={24} 
@@ -126,6 +130,7 @@ var MainDrawer = () => {
         )}}/>
       {/* PURCHASE TOKENS DRAWER TAB */}
       <Drawer.Screen name="Purchase Tokens" component={PurchaseTokens}
+        screenOptions={{ headerShown: true, headerBackTitle:'' , }}
         options={{
           drawerIcon: ({ focused }) => (
             <Icon type="FontAwesome5" name="coins" size={24} 
@@ -162,8 +167,9 @@ var MainDrawer = () => {
 
 var SettingsStack = () => {
   return(
-    <Stack.Navigator>
-      <Stack.Screen name="Settings" component={SettingsScreen}/>
+    <Stack.Navigator  screenOptions={{ gestureEnabled: false, headerShown: false }}>
+      <Stack.Screen name="Settings" component={SettingsScreen} 
+        screenOptions={{ gestureEnabled: false, headerShown: false }}/>
       <Stack.Screen name="Change Picture" component={ChangePicture}/>
       <Stack.Screen name="Change Email" component={ChangeEmail}/>
       <Stack.Screen name="Change Password" component={ChangePassword}/>
@@ -195,13 +201,14 @@ var AuthStack = () => {
         screenOptions={{ gestureEnabled: false, headerShown: false }}>
         <Stack.Screen name="Auth" component={AuthStack} />
         <Stack.Screen name="Drawer" component={MainDrawer}/>
-        <Stack.Screen name="Web View" component={WebViewScreen} />
-        <Stack.Screen name="Tutorial" component={TutorialScreen} />
-        <Stack.Screen name="Profile" component={ProfileScreen} />
+        <Stack.Screen name="Web View" component={WebViewScreen} 
+          options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}} />
+        <Stack.Screen name="Tutorial" component={TutorialScreen} 
+          options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}} />
+        <Stack.Screen name="Profile" component={ProfileScreen} 
+          options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}}/>
         <Stack.Screen name="Chat" component={ChatScreen} 
-              screenOptions={{ gestureEnabled: false, headerShown: true }}
-
-        />
+          screenOptions={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}} />
       </Stack.Navigator>
     </NavigationContainer>
   )

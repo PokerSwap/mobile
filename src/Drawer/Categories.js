@@ -20,7 +20,7 @@ export default CategoriesScreen = (props) => {
     var answer2 = await actions.tracker.getPast()
     var answer3 = await actions.tournament.getInitial()
     setLoading(false)
-    navigation.navigate('Swap Dashboard')
+    navigation.navigate('Active Swaps')
   }
   
   return(
@@ -28,7 +28,7 @@ export default CategoriesScreen = (props) => {
       <Spinner visible={loading} />
       <StatusBar barStyle="light-content" backgroundColor={'green'} />
       <Header style={{backgroundColor:'green'}}>
-        <Text style={{color:'white', fontSize:24,textAlignVertical:'center'}}>
+        <Text style={{color:'white', marginTop:15, fontSize:24,textAlignVertical:'center'}}>
           Choose a Category
         </Text>
       </Header>

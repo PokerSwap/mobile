@@ -1,11 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Image, View, Spinner, Linking, Modal, TouchableWithoutFeedback } from 'react-native'
+import { Image, View, Spinner, Linking, Modal } from 'react-native'
 import { Button, Icon, Card, CardItem, Text, Radio } from 'native-base';
 import { Context } from '../../../Store/appContext';
 import { useNavigation } from '@react-navigation/native'
-
 import { Grid, Row, Col} from 'react-native-easy-grid'
-
 
  ReportModal = (props) => {
 
@@ -106,12 +104,9 @@ export default ProfileBio = (props) => {
   const navigation = useNavigation()
  
   useEffect(() => {
-    console.log('profile', profile)
-
     getProfile()
     return () => {
       setProfile({})
-      console.log('removed?', profile)
     }
   }, [])
 
@@ -130,15 +125,12 @@ export default ProfileBio = (props) => {
     navigation.push('Chat', {
       myProfile: store.myProfile,
       theirProfile: profile
-    }
-    )
+    })
   }
-
-
-  
+ 
   return(
     <Card transparent>
-
+      {/* REPORT MODAL */}
       <Modal
         animationType='fade'
         visible={visible}
@@ -147,30 +139,29 @@ export default ProfileBio = (props) => {
         <ReportModal  setVisible={setVisible}
           myProfile={store.myProfile} theirProfile={profile} />
       </Modal>
-
-      {/* PROFILE PICTURE */}
-      <CardItem style={{
-        alignItems:'center', flex:1, 
-        flexDirection:'column'}}>
-          <Grid>
-            <Col>
-              <Row>
-                <View  style={{marginTop:'4%', width: 150, 
-                height: 150, position: 'relative',
-                overflow: 'hidden', borderRadius: 50}}>
-                {profile ?
-                  <Image style={{
-                    display: 'flex', margin: 'auto', 
-                    height: '100%', width: 'auto'}} 
-                    source={{uri: profile.profile_pic_url}} />
-                  : null}
-                </View>
-              </Row>
-              <Row style={{justifyContent:'center'}}>
-                  <Text style={{textAlign:'center', marginTop:5, fontize:18}}>{props.nickname}</Text>
-              </Row>
-            </Col>
-            <Col>
+      {/* PROFILE PICTURE AND STATS */}
+      <CardItem style={{ alignItems:'center', flex:1, flexDirection:'column'}}>
+        <Grid>
+          {/* PROFILE PICTURE AND NICKNAME */}
+          <Col>
+            <View  style={{marginTop:'4%', width: 150, 
+              height: 150, position: 'relative', overflow: 'hidden', borderRadius: 50}}>
+              {profile ?
+                <Image style={{
+                  display: 'flex', margin: 'auto', 
+                  height: '100%', width: 'auto'}} 
+                  source={{uri: profile.profile_pic_url}} />
+                : null}
+              </View>
+            {profile.first_name && props.nickname !== profile.first_name + " " + profile.last_name ?
+              <Text style={{textAlign:'center', marginTop:5, fontize:18}}>
+                {props.nickname}
+              </Text>
+              : null }
+            
+          </Col>
+          {/* PROFILE STATS */}
+          <Col>
               <Row>
                 <Col>
                 <View style={{flex:1, flexDirection:'column', justifyContent:'center'}}>
@@ -205,22 +196,21 @@ export default ProfileBio = (props) => {
               </Row>
            
               <Row>
-{/* CONFIRMED SWAPS STAT */}
-<View style={{flex:1, flexDirection:'column', justifyContent:'center'}}>
-          <Text style={{textAlign:'center', marginBottom:10, fontWeight:'500'}}> 
-            Confirmed Swaps 
-          </Text>
-          {profile !== undefined ?
-            <Text style={{textAlign:'center', fontSize:30, fontWeight:'600'}}> 
-              {profile.total_swaps} 
-            </Text>
-            : <Spinner />}
-        </View>
+                {/* CONFIRMED SWAPS STAT */}
+                <View style={{flex:1, flexDirection:'column', justifyContent:'center'}}>
+                  <Text style={{textAlign:'center', marginBottom:10, fontWeight:'500'}}> 
+                    Confirmed Swaps 
+                  </Text>
+                  {profile !== undefined ?
+                    <Text style={{textAlign:'center', fontSize:30, fontWeight:'600'}}> 
+                      {profile.total_swaps} 
+                    </Text>
+                    : <Spinner />}
+                </View>
 
-              </Row>
-            </Col>
-        
-          </Grid>
+            </Row>
+          </Col>
+        </Grid>
         
         {/* FULL NAME AND HENDON URL */}
         <View style={{flex:1, justifyContent:'center', height:70}}>
@@ -234,17 +224,17 @@ export default ProfileBio = (props) => {
             : <Spinner /> }
         </View>
       </CardItem>
-      {/* PROFILE COINS */}
+      {/* PROFILE COINS / CHAT BUTTON */}
       {props.user_id == store.myProfile.id ?
-        <CardItem style={{justifyContent:'center' , marginVertical:-20}}>
-          <Button iconLeft warning onPress={() => navigation.navigate("Purchase Tokens")}>
+        <CardItem style={{justifyContent:'center' , flexDirection:'column',marginVertical:-20, width:'100%'}}>
+          <Button block iconLeft warning onPress={() => navigation.navigate("Purchase Tokens")}>
             <Icon type='FontAwesome5' name='coins'/>
             <Text>{store.myProfile.coins}</Text>
           </Button>
         </CardItem>
         : 
         <CardItem style={{justifyContent:'center', flexDirection:'column', width:'100%', marginVertical:-20, paddingBottom: 0}}>
-          <Button block iconLeft info onPress={() => openChat()}>
+          <Button full iconLeft info onPress={() => openChat()}>
             <Icon type='FontAwesome5' name='comments'/>
             <Text style={{fontSize:24}}>Chat</Text>
           </Button>
@@ -253,13 +243,10 @@ export default ProfileBio = (props) => {
             {/* <Icon type='FontAwesome5' name='exclamation-circle'/> */}
             <Text>Report</Text>
           </Button>
-          
-        </CardItem>
-        }
+        </CardItem>}
     </Card>
   )
 }
-
 
 const modalStyles = {
   background:{

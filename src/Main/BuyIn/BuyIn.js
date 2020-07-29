@@ -35,7 +35,6 @@ export default BuyIn = (props) => {
     }
   }, [refreshing])
 
-
   var allSwaps 
   buyin.user_id != store.myProfile.id ?   
     props.agreed_swaps !== [] ?
@@ -48,7 +47,7 @@ export default BuyIn = (props) => {
     : allSwaps = null
 
 
-  const _renderContent= () => {
+  const _renderContent = () => {
     return(
       <View>
         {allSwaps.map((swap, index) => {
@@ -56,9 +55,7 @@ export default BuyIn = (props) => {
             <SwapRow key={index}
               swap={swap}
               tournament={props.tournament}
-              buyin={buyin}/>
-          )
-        })}
+              buyin={buyin}/>)})}
       </View>
   )}
 
@@ -70,7 +67,6 @@ export default BuyIn = (props) => {
   }
 
   const handler = throttle(enterProfile, 1000, { leading: true, trailing: false });
-
 
   var bg, txt;
   if (buyin.chips !== 0){

@@ -75,7 +75,7 @@ export default ProfitTracker = (props) => {
         alignItems:'center', marginVertical:40}}>
         {/* USERS ROW */}
         <Row style={{justifyContent:'center'}}>
-          <Col style={{width:'33%'}}></Col>
+          <Col style={{width:'25%'}}></Col>
           {/* YOUR PROFILE */}
           <Col style={{alignSelf:'center'}}>           
             <Image source={{uri: store.myProfile.profile_pic_url}} 
@@ -95,8 +95,28 @@ export default ProfitTracker = (props) => {
             </Text>
           </Col>
         </Row>
+        {/* PLACE ROW */}
+        <Row style={{paddingTop:15}}>
+          <Col style={{width:'25%'}}>
+            
+          </Col>
+          <Col>
+            {props.myPlace ? 
+              <Text style={{alignSelf:'center',  fontSize:20, fontWeight:'600'}}>
+                {props.myPlace}
+              </Text>
+              : <Text> Pending </Text>}
+          </Col> 
+          <Col>
+            {props.buyin.their_place ? 
+              <Text style={{alignSelf:'center',  fontSize:20, fontWeight:'600'}}>
+                {props.buyin.their_place}
+              </Text>
+              : <Text> Pending </Text>}
+          </Col>
+        </Row>
         {/* WINNINGS ROW */}
-        <Row style={{paddingVertical:15}}>
+        <Row style={{paddingBottom:15, paddingTop:5}}>
           <Col style={{width:'25%'}}>
             <Text style={{fontSize:18}}>
               Winnings

@@ -500,7 +500,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						// PREVENTS ENTERING CLOSED TOURNAMENT
 						if (currentTournament.tournament.status !== 'open'){
 							setStore({notificationData:null})
-							navigation.navigate('Swap Dashboard')
+							navigation.navigate('Active Swaps')
 							return errorMessage('This event is not open')
 						}
 
@@ -516,12 +516,12 @@ const getState = ({ getStore, setStore, getActions }) => {
 							navigation.dispatch(navigateAction);
 						} catch(error){
 							console.log('Cant navigate to event', error)
-							navigation.navigate('Swap Dashboard');
+							navigation.navigate('Active Swaps');
 						}
 					}catch(error){
 						console.log("Something went wrong with navigating to event:", error)
 						setStore({notificationData:null})
-						navigation.navigate('Swap Dashboard')
+						navigation.navigate('Active Swaps')
 					}
 				},
 				// NAVIGATING TO SWAP AFTER NOTIFICATION
@@ -548,13 +548,13 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 						// PREVENTS SWAP IF OTHER USER HAS 0 CHIPS
 						if(theirBuyin.chips == 0){
-							navigation.navigate('Swap Dashboard')
+							navigation.navigate('Active Swaps')
 							setStore({notificationData:null})
 							return errorMessage("This user has busted out")
 						}
 						// PREVENTS SWAP IF I HAVE NO CHIPS
 						if(getStore().currentTournament.my_buyin.chips == 0){
-							navigation.navigate('Swap Dashboard')
+							navigation.navigate('Active Swaps')
 							setStore({notificationData:null})
 							return errorMessage('You cannot swap while busted out')
 						}
@@ -617,19 +617,19 @@ const getState = ({ getStore, setStore, getActions }) => {
 							} else{
 								console.log('No Notification Recieved or Error: ')
 								setStore({notificationData:null})
-								navigation.navigate('Swap Dashboard')		
+								navigation.navigate('Active Swaps')		
 
 							}
 						}
 						// NO NEW NOTIFICATION RECIEVED
 						else{
 							setStore({notificationData:{}})
-							navigation.navigate('Swap Dashboard')		
+							navigation.navigate('Active Swaps')		
 						}
 					} catch(error) {
 						console.log('Something went wrong checking notification data', error)
 						setStore({notificationData:null})
-						navigation.navigate('Swap Dashboard')
+						navigation.navigate('Active Swaps')
 					}
 				},
 
