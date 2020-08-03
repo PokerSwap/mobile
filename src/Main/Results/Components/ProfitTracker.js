@@ -68,7 +68,7 @@ export default ProfitTracker = (props) => {
         visible={visible}
         presentationStyle='overFullScreen'
         transparent={true}>
-        <PayModal fn={paySwap} />  
+        <PayModal fn={paySwap} setVisible={setVisible}/>  
       </Modal>
       {/* MAIN BODY */}
       <Grid style={{justifyContent:'center',
@@ -105,14 +105,14 @@ export default ProfitTracker = (props) => {
               <Text style={{alignSelf:'center',  fontSize:20, fontWeight:'600'}}>
                 {props.myPlace}
               </Text>
-              : <Text> Pending </Text>}
+              : null}
           </Col> 
           <Col>
             {props.buyin.their_place ? 
               <Text style={{alignSelf:'center',  fontSize:20, fontWeight:'600'}}>
                 {props.buyin.their_place}
               </Text>
-              : <Text> Pending </Text>}
+              : null}
           </Col>
         </Row>
         {/* WINNINGS ROW */}

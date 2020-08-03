@@ -252,7 +252,7 @@ const styles = {
     justifyContent:'center', fontSize:24, color:'black', textAlign:'center'},
   text:{
     input:{
-      fontSize:20, marginBottom:0, textAlign:'center'},
+      fontSize:20, marginBottom:0, textAlign:'center', marginTop:5, marginBottom:10},
     instruction:{
        fontSize:20, textAlign:'center', marginTop:0},
     button:{

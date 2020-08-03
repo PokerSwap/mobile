@@ -6,15 +6,15 @@ import ImagePicker from 'react-native-image-picker'
 import {openSettings, requestMultiple, PERMISSIONS} from 'react-native-permissions';
 
 import {Image, Platform} from 'react-native'
-import {Context } from '../Store/appContext'
+import {Context } from '../../Store/appContext'
 
-import '../Images/placeholder.jpg';
+import '../../Images/placeholder.jpg';
 
 export default ChangePicture = (props) => {
 
   const { store, actions } = useContext(Context)
 
-  const [image, setImage ]= useState(require('../Images/placeholder.jpg'));
+  const [image, setImage ]= useState(require('../../Images/placeholder.jpg'));
   // const [imageURI, setImageURI ]= useState(require('../Images/placeholder.jpg'));
  
   const openSets = () => {

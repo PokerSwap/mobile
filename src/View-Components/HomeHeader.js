@@ -15,9 +15,8 @@ const navigation = useNavigation()
         {props.title}
       </Text>
       {/* TUTORIAL ICON */}
-      <Icon style={{marginRight:10}}
-        type="SimpleLineIcons" name="question"
-        onPress={()=> navigation.push("Tutorial")} />
+      <Icon style={{marginRight:10}} type="FontAwesome5" name="bell"
+        onPress={()=> navigation.push("Notifications")} />
     </Header>
   )
 }

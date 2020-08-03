@@ -2,9 +2,9 @@ import React, {useContext, useState} from 'react';
 import { Container, Content, Button, Text, Card, CardItem, Toast } from 'native-base';
 
 import { Alert, TextInput} from 'react-native'
-import {Context } from '../Store/appContext'
+import {Context } from '../../Store/appContext'
 
-import '../Images/placeholder.jpg';
+import '../../Images/placeholder.jpg';
 
 export default ChangePassword = (props) => {
 

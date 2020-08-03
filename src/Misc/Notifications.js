@@ -6,8 +6,7 @@ export default NotificationsScreen = (props) => {
 
   return(
     <Container>
-      <OtherHeader title={'Notifications'} 
-        goBackToHome={() => navigation.goBack(null)}/>
+
       <Content>
         <List>
           

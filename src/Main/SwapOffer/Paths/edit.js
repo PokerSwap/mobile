@@ -86,7 +86,7 @@ export default EditPath = (props) => {
   } 
 
   return(
-    <View>
+    <View style={{justifyContent:'center'}}>
       <View style={ styles.update.view }>
         <Icon type='FontAwesome5' name='angle-double-down'
           style={ styles.update.icon } />
@@ -178,13 +178,14 @@ export default EditPath = (props) => {
           </Row>
         </CardItem>     
       </Card>
-      <Button large 
-        style={ styles.update.button }
+        <Button large  style={ styles.update.button }
         onPress={()=> buyinEdit()}>
         <Text style={ styles.update.text }>
           UPDATE 
         </Text>
       </Button>
+      
+      
 
         
     </View>
@@ -211,7 +212,7 @@ const styles = {
   },
   update:{
     button:{
-      marginTop:10, width:'100%', 
+      marginTop:10, marginLeft:'5%', width:'90%', selfAlign:'center',
       justifyContent:'center' },
     icon:{
       marginLeft:10, fontSize:16 },

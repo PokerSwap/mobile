@@ -1,9 +1,9 @@
 import React, {useContext} from 'react';
 import { Container, View, Content, Text } from 'native-base';
-import OtherHeader from '../View-Components/OtherHeader'
+import OtherHeader from '../../View-Components/OtherHeader'
 import { useNavigation } from '@react-navigation/native'
 
-import { Context } from '../Store/appContext'
+import { Context } from '../../Store/appContext'
 
 FAQItem = (props) => {
   return(

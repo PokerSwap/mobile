@@ -25,22 +25,25 @@ import EventLobby from './src/Main/Events/EventLobby'
 import VerifyTicket from './src/Main/Events/VerifyTicket';
 import SwapOffer from './src/Main/SwapOffer/SwapOffer';
 
+// MISC VIEWS
 import ProfileScreen from './src/Main/Profile/ProfileScreen'
 import WebViewScreen from './src/Misc/WebView'
-import TutorialScreen from './src/Misc/Tutorial'
 import ChatScreen from './src/Main/Chat/Chat'
+import NotificationsScreen from './src/Misc/Notifications'
 
 // DRAWER VIEWS
-import FAQScreen from './src/Drawer/FAQ'
 import SideBar from './src/View-Components/sidebar'
 import SettingsScreen from './src/Drawer/Settings'
-import NotificationsScreen from './src/Drawer/Notifications'
 import PurchaseTokens from './src/Drawer/PurchaseTokens'
-import ChangeEmail from './src/Drawer/ChangeEmail'
-import ChangePassword from './src/Drawer/ChangePassword'
-import ChangePicture from './src/Drawer/ChangePicture'
+import ChangeEmail from './src/Drawer/Settings/ChangeEmail'
+import ChangePassword from './src/Drawer/Settings/ChangePassword'
+import ChangePicture from './src/Drawer/Settings/ChangePicture'
 import CategoriesScreen from './src/Drawer/Categories'
 import ContactsScreen from './src/Main/Chat/Contacts'
+import TutorialsScreen from './src/Drawer/Tutorials/TutorialsScreen'
+import TutorialListScreen from './src/Drawer/TutorialList'
+
+import HowToSwapScreen from './src/Drawer/Tutorials/HowToSwap'
 
 var Stack = createStackNavigator()
 var Drawer = createDrawerNavigator()
@@ -94,6 +97,8 @@ var EventsStack = () => {
         options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
       <Stack.Screen name="Swap Offer" component={SwapOffer} 
         options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
+        <Stack.Screen name="Profile" component={ProfileScreen} 
+          options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}}/>
     </Stack.Navigator>
   )
 }
@@ -105,6 +110,8 @@ var ResultsStack = () => {
       <Stack.Screen name="Swap Results" component={SwapResults}/>
       <Stack.Screen name="Profit Results" component={ProfitResults} 
         options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}}/>
+        <Stack.Screen name="Profile" component={ProfileScreen} 
+          options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}}/>
     </Stack.Navigator>
   )
 }
@@ -128,14 +135,6 @@ var MainDrawer = () => {
           <Icon type="FontAwesome5" name="cog" size={24} 
             color={focused ? 'blue' : 'black'} />
         )}}/>
-      {/* PURCHASE TOKENS DRAWER TAB */}
-      <Drawer.Screen name="Purchase Tokens" component={PurchaseTokens}
-        screenOptions={{ headerShown: true, headerBackTitle:'' , }}
-        options={{
-          drawerIcon: ({ focused }) => (
-            <Icon type="FontAwesome5" name="coins" size={24} 
-              color={focused ? 'blue' : 'black'} />
-        )}}/>
       {/* CATEGORIES DRAWER TAB */}
       <Drawer.Screen name="Categories" component={CategoriesScreen} 
         options={{
@@ -144,13 +143,6 @@ var MainDrawer = () => {
             color={focused ? 'blue' : 'black'} />
           ),
         }}/>
-      {/* NOTIFICATIONS DRAWER TAB */}
-      <Drawer.Screen name="Notifications" component={NotificationsScreen}
-        options={{
-          drawerIcon: ({ focused }) => (
-          <Icon type="FontAwesome5" name="bell" size={24} 
-            color={focused ? 'blue' : 'black'} />
-        )}}/>
       {/* CHAT SCREEN TAB */}
       <Drawer.Screen name="Chat" component={ContactsScreen}
       screenOptions={{ gestureEnabled: false, headerShown: true }}
@@ -161,6 +153,14 @@ var MainDrawer = () => {
           <Icon type="FontAwesome5" name="comment-dots" size={24} 
             color={focused ? 'blue' : 'black'} />
       )}} />
+      {/* HELP DRAWER TAB */}
+      <Drawer.Screen name="Help" component={HelpStack}
+       screenOptions={{ gestureEnabled: false, headerShown: false }}
+        options={{
+          drawerIcon: ({ focused }) => (
+          <Icon type="FontAwesome5" name="question-circle" size={24} 
+            color={focused ? 'blue' : 'black'} />
+        )}}/>
     </Drawer.Navigator>
   )
 }
@@ -192,6 +192,21 @@ var AuthStack = () => {
   )
 }
 
+var HelpStack = () => {
+  return(
+    <Stack.Navigator name="Help" initialRouteName="TutorialsScreen"
+    screenOptions={{ gestureEnabled: false, headerShown: false }}>
+      <Stack.Screen name="Tutorial List" component={TutorialListScreen} 
+      />
+      <Stack.Screen name="Tutorial Screen" component={TutorialsScreen} />
+
+     
+      
+    
+    </Stack.Navigator>
+  )
+}
+
 
 // MAIN NAVIGATION STACK
  const AppContainer = () => {
@@ -203,9 +218,11 @@ var AuthStack = () => {
         <Stack.Screen name="Drawer" component={MainDrawer}/>
         <Stack.Screen name="Web View" component={WebViewScreen} 
           options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}} />
-        <Stack.Screen name="Tutorial" component={TutorialScreen} 
-          options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}} />
+        <Stack.Screen name="Purchase Tokens" component={PurchaseTokens} 
+          />
         <Stack.Screen name="Profile" component={ProfileScreen} 
+          options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}}/>
+          <Stack.Screen name="Notifications" component={NotificationsScreen} 
           options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}}/>
         <Stack.Screen name="Chat" component={ChatScreen} 
           screenOptions={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}} />

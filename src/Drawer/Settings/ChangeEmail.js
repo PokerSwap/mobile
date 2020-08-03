@@ -3,7 +3,7 @@ import {TextInput} from 'react-native'
 import { Container, Content, Button, 
   Text, Card, CardItem, Toast } from 'native-base';
 
-import {Context } from '../Store/appContext'
+import {Context } from '../../Store/appContext'
 
 export default ChangeEmail = (props) => {
 
