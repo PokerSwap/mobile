@@ -6,7 +6,7 @@ export default ActionBar = (props) => {
 
   var bg;
   !props.action ?
-    null : props.action.actions <= 50 ?
+    null : props.action.actions < 50 ?
       bg ='green' : bg='red'
 
   return(
@@ -24,7 +24,7 @@ export default ActionBar = (props) => {
           </Text>}
       </Col>
       {/* CURRENT USER'S ACTION  */}
-      <Col style={{width:'50%', backgroundColor:'green', alignItems:'center', justifyContent:'center', flexDirection:'row'}}>
+      <Col style={{width:'50%', backgroundColor:bg, alignItems:'center', justifyContent:'center', flexDirection:'row'}}>
         <Text style={{fontSize:24, fontWeight:'600', color:'white', textAlign:'center'}}>
           Action:{' '}
         </Text>
@@ -32,7 +32,7 @@ export default ActionBar = (props) => {
           <Spinner/> 
           : 
           <Text style={{fontSize:24, fontWeight:'600', color:'white', textAlign:'center'}}>
-             {props.action.actions}%
+             {100 - (50 + props.action.actions)}%
           </Text>}
       </Col>
     </Footer> 

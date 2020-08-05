@@ -1,13 +1,13 @@
-import React, {useContext, useState} from 'react';
-import {TextInput} from 'react-native'
-import { Container, Content, Button, 
-  Text, Card, CardItem, Toast } from 'native-base';
+import React, { useContext, useState } from 'react';
+import { TextInput } from 'react-native'
+import { Container, Content, Button, Text, Toast } from 'native-base';
 
-import {Context } from '../../Store/appContext'
+import { Context } from '../../Store/appContext'
+import { useNavigation } from '@react-navigation/native';
 
-export default ChangeEmail = (props) => {
-
+export default ChangeEmail = () => {
   const { store, actions } = useContext(Context)
+  const navigation = useNavigation()
 
   const [currentEmail, setCurrentEmail] = useState('')
   const [newEmail, setNewEmail] = useState('')
@@ -41,83 +41,77 @@ export default ChangeEmail = (props) => {
 
   return(
     <Container>
-      <Content contentContainerStyle={{justifyContent:'center', alignItems:'center'}}>
-        <Card transparent style={{justifyContent:'center', alignItems:'center', marginTop:150}}>
-          <CardItem style={{flex:1, flexDirection:'column'}}>
-            <Text>Current Email:</Text>
-            <TextInput 
-              style={{fontSize:20, textAlign:'center'}}
-              placeholder="Enter Current Email"
-              placeholderTextColor='gray'
-              keyboardType="email-address"
-              blurOnSubmit={false}
-              selectionColor={'black'}
-              returnKeyType="next"
-              autoCapitalize='none'
-              autoCorrect={false} 
-              onSubmitEditing={() => { txtCurrentPassword1.focus(); }}
-              value={currentEmail}    
-              onChangeText={email2 => setCurrentEmail( email2 )} />
-          </CardItem>
-          <CardItem style={{flex:1, flexDirection:'column'}}>
-            <Text style={{marginTop:20}}>Enter Password:</Text>
-            <TextInput 
-              style={{fontSize:20, textAlign:'center'}}
-              placeholder="Enter Password"
-              placeholderTextColor='gray'
-              secureTextEntry
-              blurOnSubmit={false}
-              autoCapitalize='none'
-              returnKeyType="next"
-              autoCorrect={false} 
-              selectionColor={'black'}
-              ref={(input) => { txtPassword1 = input; }} 
-              onSubmitEditing={() => { txtNewEmail.focus(); }}
-              value={currentPassword}
-              onChangeText={currentPassword => setCurrentPassword( currentPassword )} />
-          </CardItem>
-          <CardItem style={{flex:1, flexDirection:'column'}}>
-            <Text style={{marginTop:20}}>New Email:</Text>
-            <TextInput 
-              style={{fontSize:20, textAlign:'center'}}
-              placeholder="Enter New Email Address"
-              placeholderTextColor='gray'
-              keyboardType="email-address"
-              blurOnSubmit={true}
-              ref={(input) => { txtNewEmail = input; }} 
-              onSubmitEditing={() => { txtConfirmEmail.focus(); }}
-              selectionColor={'#D3D3D3'}
-              returnKeyType="go"
-              autoCapitalize='none'
-              autoCorrect={false} 
-              value={newEmail}    
-              onChangeText={email => setNewEmail( email )} />
-          </CardItem>
-          <CardItem style={{flex:1, flexDirection:'column'}}>
-            <Text style={{marginTop:20}}>Confirm New Email:</Text>
-            <TextInput 
-              style={{fontSize:24, textAlign:'center'}}
-              placeholder="Confirm New Email Address"
-              placeholderTextColor='gray'
-              keyboardType="email-address"
-              blurOnSubmit={true}
-              ref={(input) => { txtConfirmEmail = input; }} 
-              selectionColor={'#D3D3D3'}
-              returnKeyType="go"
-              autoCapitalize='none'
-              autoCorrect={false} 
-              value={confirmEmail}    
-              onChangeText={email => setConfirmEmail( email )}/>
-          </CardItem>
-          <CardItem>
-            <Button large  style={{marginTop:40}} 
-              onPress={() => changeEmail()}>
-              <Text style={{fontSize:30, fontWeight:'600'}}> 
-                SUBMIT 
-              </Text>
-            </Button>
-          </CardItem>
-        </Card>
+      <Content contentContainerStyle={{paddingTop:50,
+        justifyContent:'flex-start', alignItems:'center', flex:1, flexDirection:'column'}}>
+        {/* ENTER CURRENT EMAIL FIELD */}
+        <Text>Enter Current Email:</Text>
+        <TextInput 
+          style={{fontSize:20, textAlign:'center'}}
+          placeholder="Enter Current Email"
+          placeholderTextColor='gray'
+          keyboardType="email-address"
+          blurOnSubmit={false}
+          selectionColor={'black'}
+          returnKeyType="next"
+          autoCapitalize='none'
+          autoCorrect={false} 
+          onSubmitEditing={() => { txtCurrentPassword1.focus(); }}
+          value={currentEmail}    
+          onChangeText={email2 => setCurrentEmail( email2 )} />
+        {/* ENTER NEW EMAIL FIELD */}
+        <Text style={{marginTop:20}}>Enter Current Password:</Text>
+        <TextInput 
+          style={{fontSize:20, textAlign:'center', paddingHorizontal:10, width:'100%'}}
+          placeholder="Enter Password"
+          placeholderTextColor='gray'
+          secureTextEntry
+          blurOnSubmit={false}
+          autoCapitalize='none'
+          returnKeyType="next"
+          autoCorrect={false} 
+          selectionColor={'black'}
+          ref={(input) => { txtCurrentPassword1 = input; }} 
+          onSubmitEditing={() => { txtNewEmail.focus(); }}
+          value={currentPassword}
+          onChangeText={currentPassword => setCurrentPassword( currentPassword )} />
+        {/* ENTER NEW EMAIL FIELD */}
+        <Text style={{marginTop:20}}>Enter New Email:</Text>
+        <TextInput 
+          style={{fontSize:20, textAlign:'center'}}
+          placeholder="Enter New Email Address"
+          placeholderTextColor='gray'
+          keyboardType="email-address"
+          blurOnSubmit={true}
+          ref={(input) => { txtNewEmail = input; }} 
+          onSubmitEditing={() => { txtConfirmEmail.focus(); }}
+          selectionColor={'#D3D3D3'}
+          returnKeyType="go"
+          autoCapitalize='none'
+          autoCorrect={false} 
+          value={newEmail}    
+          onChangeText={email => setNewEmail( email )} />
+        {/* CONFIRM NEW EMAIL FIELD */}
+        <Text style={{marginTop:20}}>Confirm New Email:</Text>
+        <TextInput 
+          style={{fontSize:24, textAlign:'center'}}
+          placeholder="Confirm New Email Address"
+          placeholderTextColor='gray'
+          keyboardType="email-address"
+          blurOnSubmit={true}
+          ref={(input) => { txtConfirmEmail = input; }} 
+          selectionColor={'#D3D3D3'}
+          returnKeyType="go"
+          autoCapitalize='none'
+          autoCorrect={false} 
+          value={confirmEmail}    
+          onChangeText={email => setConfirmEmail( email )}/>
+        {/* SUBMIT BUTTON */}
+        <Button large  style={{marginTop:40, alignSelf:'center'}} 
+          onPress={() => changeEmail()}>
+          <Text style={{fontSize:30, fontWeight:'600'}}> 
+            SUBMIT 
+          </Text>
+        </Button>
       </Content>  
     </Container>
   )

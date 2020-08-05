@@ -36,7 +36,6 @@ export default ForgotPassword = (props, {navigation}) => {
 						returnKeyType="next"
 						autoCapitalize='none'
 						autoCorrect={false} 
-						onSubmitEditing={() => { forgotStart(); }}
 						value={email}    
 						onChangeText={emailX => setEmail( emailX )}
 					/>

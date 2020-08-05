@@ -118,33 +118,30 @@ var ResultsStack = () => {
 
 var MainDrawer = () => {
   return(
-    <Drawer.Navigator initialRouteName="Home" drawerContent={(props) => <SideBar {...props} />}
-      screenOptions={{ gestureEnabled: false }}>
+    <Drawer.Navigator initialRouteName="Home" 
+      drawerContent={(props) => <SideBar {...props} />}
+      screenOptions={{ gestureEnabled: true }}>
       {/* HOME DRAWER TAB */}
       <Drawer.Screen name="Home" component={MainTabs}
         options={{
           drawerIcon: ({ focused }) => (
           <Icon type="FontAwesome5" name="home" size={24} 
-            color={focused ? 'blue' : 'black'} />
-        )}}/>
+            color={focused ? 'blue' : 'black'} />)}}/>
       {/* SETTINGS DRAWER TAB */}
       <Drawer.Screen name="Settings" component={SettingsStack}
-       screenOptions={{ gestureEnabled: false, headerShown: false }}
+        screenOptions={{ gestureEnabled: false, headerShown: false }}
         options={{
           drawerIcon: ({ focused }) => (
-          <Icon type="FontAwesome5" name="cog" size={24} 
-            color={focused ? 'blue' : 'black'} />
-        )}}/>
+            <Icon type="FontAwesome5" name="cog" size={24} 
+              color={focused ? 'blue' : 'black'} />)}}/>
       {/* CATEGORIES DRAWER TAB */}
       <Drawer.Screen name="Categories" component={CategoriesScreen} 
         options={{
           drawerIcon: ({ focused }) => (
           <Icon type="FontAwesome5" name="th-large" size={24} 
-            color={focused ? 'blue' : 'black'} />
-          ),
-        }}/>
+            color={focused ? 'blue' : 'black'} />)}}/>
       {/* CHAT SCREEN TAB */}
-      <Drawer.Screen name="Chat" component={ContactsScreen}
+      {/* <Drawer.Screen name="Chat" component={ContactsScreen}
       screenOptions={{ gestureEnabled: false, headerShown: true }}
       options={{
         params:{name:"Gabe"},
@@ -152,15 +149,14 @@ var MainDrawer = () => {
         drawerIcon: ({ focused }) => (
           <Icon type="FontAwesome5" name="comment-dots" size={24} 
             color={focused ? 'blue' : 'black'} />
-      )}} />
+      )}} /> */}
       {/* HELP DRAWER TAB */}
       <Drawer.Screen name="Help" component={HelpStack}
-       screenOptions={{ gestureEnabled: false, headerShown: false }}
+        screenOptions={{ gestureEnabled: false, headerShown: false }}
         options={{
           drawerIcon: ({ focused }) => (
-          <Icon type="FontAwesome5" name="question-circle" size={24} 
-            color={focused ? 'blue' : 'black'} />
-        )}}/>
+            <Icon type="FontAwesome5" name="question-circle" size={24} 
+              color={focused ? 'blue' : 'black'} />)}}/>
     </Drawer.Navigator>
   )
 }
@@ -170,9 +166,12 @@ var SettingsStack = () => {
     <Stack.Navigator  screenOptions={{ gestureEnabled: false, headerShown: false }}>
       <Stack.Screen name="Settings" component={SettingsScreen} 
         screenOptions={{ gestureEnabled: false, headerShown: false }}/>
-      <Stack.Screen name="Change Picture" component={ChangePicture}/>
-      <Stack.Screen name="Change Email" component={ChangeEmail}/>
-      <Stack.Screen name="Change Password" component={ChangePassword}/>
+      <Stack.Screen name="Change Picture" component={ChangePicture}
+        options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
+      <Stack.Screen name="Change Email" component={ChangeEmail}
+        options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
+      <Stack.Screen name="Change Password" component={ChangePassword}
+        options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
     </Stack.Navigator>
   )
 }
@@ -187,7 +186,6 @@ var AuthStack = () => {
       <Stack.Screen name="User Creation" component={CreateUser} options={{ headerShown: true }}/>
       <Stack.Screen name="Terms and Conditions" component={TermsAndConditions} options={{ headerShown: true }}/>
       <Stack.Screen name="Profile Creation" component={CreateProfile} options={{ headerShown: true }}/>
-    
     </Stack.Navigator>
   )
 }
@@ -196,13 +194,8 @@ var HelpStack = () => {
   return(
     <Stack.Navigator name="Help" initialRouteName="TutorialsScreen"
     screenOptions={{ gestureEnabled: false, headerShown: false }}>
-      <Stack.Screen name="Tutorial List" component={TutorialListScreen} 
-      />
+      <Stack.Screen name="Tutorial List" component={TutorialListScreen} />
       <Stack.Screen name="Tutorial Screen" component={TutorialsScreen} />
-
-     
-      
-    
     </Stack.Navigator>
   )
 }
@@ -224,8 +217,8 @@ var HelpStack = () => {
           options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}}/>
           <Stack.Screen name="Notifications" component={NotificationsScreen} 
           options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}}/>
-        <Stack.Screen name="Chat" component={ChatScreen} 
-          screenOptions={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}} />
+        {/* <Stack.Screen name="Chat" component={ChatScreen} 
+          screenOptions={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   )

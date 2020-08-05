@@ -8,6 +8,8 @@ import moment from 'moment'
 
 var databaseURL = 'https://swapprofit-beta.herokuapp.com/'
 
+
+
 var errorMessage = (error) => {
 	Toast.show({
 		text:error, 
@@ -75,7 +77,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				// CREATING A BUYIN AND (RE)-BUYING-IN INTO A TOURNAMENT
 				add: async ( image, a_table, a_seat, some_chips, a_flight_id, a_tournament_id, a_tournament_name, a_tournament_start, a_casino, navigation) => {
 					try{	
-
+console.log('flight_id', a_flight_id)
 						// PREVENTS EMPTY PICTURE SUBMISSION
 						if (image == 3){
 							return customMessage('You need to select an image of your buyin ticket')
@@ -105,7 +107,11 @@ const getState = ({ getStore, setStore, getActions }) => {
 							},
 							body: imageData,
 						})
-						.then(response => response.json())
+						.then(response => 
+							response.json()
+							
+						)
+						
 						.then((responseJson) => {
 							console.log('responseJson',responseJson)
 								newBuyin = responseJson;
@@ -641,13 +647,13 @@ const getState = ({ getStore, setStore, getActions }) => {
 			// PROFILE ACTIONS
 			profile:{
 				// AFTER COMPLETING SIGN UP, CREATES PROFILE
-				add: async ( a_username, firstName, lastName, a_hendon_url, a_Picture, navigation ) => {
+				add: async ( a_nickname, firstName, lastName, a_hendon_url, a_Picture, navigation ) => {
 					try{
 						const accessToken = getStore().userToken;
 						const url = databaseURL + 'profiles'
 						const a_devicetoken = getStore().deviceToken
 						let data = {
-							username: a_username,
+							nickname: a_nickname,
 							first_name: firstName,
 							last_name: lastName,
 							hendon_url: a_hendon_url,
@@ -668,7 +674,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						
 						var uploadedPicture = await getActions().profile.uploadPhoto(a_Picture)
 						var gettingProfile = await getActions().profile.get();
-						var deeec = await navigation.navigate('Categories');
+						var deeec = await navigation.navigate('Drawer', { screen: 'Categories' });
 					} catch(error) {
 						console.log("Something went wrong in adding a profile", error)
 					}
@@ -755,11 +761,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						});
 							
 							var eecsrc = await getActions().profile.get()
-							// return(Toast.show({
-							// 	text:'Profile Picture Change',
-							// 	duration:3000,
-							// 	position:'top'
-							// }))
+							return customMessage("Your profile picture has changed")
 					} catch(error) {
 						return errorMessage(error.message)
 					}
@@ -1275,9 +1277,10 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 						var x = await response.json()
 						console.log('Added User Response: ', response)
+						return true
 					} catch(error) {
 						console.log("Something went wrong with adding user: ", error)
-						return errorMessage(error.message)
+						return errorMessage("Sorry, this email address is already taken")
 					}
 				},
 				// IF PREVIOUSLY LOGGED IN, USED TO LOGIN AUTOMATICALLY
@@ -1320,7 +1323,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 								}									
 							}else{
 								
-								console.log("You did not login");
+								console.log("There is an error with userToken or the profile returns error");
 								return errorMessage("You did not login correctly")
 							}
 						})
@@ -1329,19 +1332,16 @@ const getState = ({ getStore, setStore, getActions }) => {
 				},
 				// LOGOUT FUNCTION
 				logout: async( navigation ) => {
-					const resetAction = StackActions.reset({
-						index: 0,
-						actions: [
-							NavigationActions.navigate({ routeName: 'Auth' })
-					],
-					});
-					var x = await navigation.dispatch(resetAction);
+
+					navigation.navigate('Login')
+
 					setStore({currentSwap:{}})
 					setStore({currentBuyin:{}})
 					setStore({ deviceToken: null })
 					// setStore({ myProfile: null })
 					AsyncStorage.removeItem('userToken')
 					AsyncStorage.removeItem('loginInfo')
+					AsyncStorage.removeItem('deviceToken')
 				},
 				// IN CHANGE SETTINGS, CHANGE YOUR EMAIL
 				changeEmail: async ( myEmail, myPassword, myNewEmail, navigation ) => {
@@ -1378,7 +1378,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						}
 					}catch(error){
 						console.log('Something went wrong with changing your email', error)
-						return errorMessage(error.message)
+						return errorMessage("Something went wrong with your email address change")
 					}
 				},
 				// IN CHANGE SETTINGS, CHANGE YOUR PASSWORD
@@ -1415,22 +1415,21 @@ const getState = ({ getStore, setStore, getActions }) => {
 						}
 					}catch(error){
 						console.log('Something went wrong with changing your password: ', error)
-						return errorMessage(error.message)
+						return errorMessage("Something went wrong with your password change")
 					}
-					
 				},
 				// (NOT SURE IF THIS IS USED OR PROFILE/UPLOADPICTURE IS)
 				changePicture: async(image) => {
+					try {
+						let accessToken = getStore().userToken;
 
-					let accessToken = getStore().userToken;
-
-					const imageURL = databaseURL + '/profiles/image'
-					const imageData = new FormData();
-						imageData.append("image", {
-								uri: image.uri,
-								type: image.type,
-								name: image.name
-						});
+						const imageURL = databaseURL + '/profiles/image'
+						const imageData = new FormData();
+							imageData.append("image", {
+									uri: image.uri,
+									type: image.type,
+									name: image.name
+							});
 						console.log('imageData', imageData)
 						let response = await fetch(imageURL, {
 							method: 'PUT',
@@ -1448,40 +1447,35 @@ const getState = ({ getStore, setStore, getActions }) => {
 							console.log('Something went wrong in changing profile picture: ',error);
 						});
 						var errew = await getActions().profile.get()
-						return(Toast({
-							position:'top',
-							text:'Profile Picture Changed',
-							duration:3000
-						}))
+						return(customMessage("Your profile picture was changed"))
+					}catch(error) {
+						console.log("Something went wrong with changing your profile picture", error)
+						return errorMessage("Something went wrong with changing your profile picture")
+					}
+					
 						
 				},
 				// ON LOGIN PAGE, SEND AN EMAIL FOR A PASSWORD RESET
 				forgotPassword: async( myEmail ) => {
 					try {
 						const url = databaseURL + 'users/me/password?forgot=true'
-					let data = { email: myEmail }
+						let data = { email: myEmail }
 
-					let response = await fetch(url, {
-						method:'PUT',
-						body: JSON.stringify(data),
-						headers: {
-							'Content-Type':'application/json',
-						}, 
-					})
-					.then(response => response.json())
-					Toast.show({
-						text:response.message,
-						position:'top',
-						duration:3000,
-
-					})
+						let response = await fetch(url, {
+							method:'PUT',
+							body: JSON.stringify(data),
+							headers: {
+								'Content-Type':'application/json',
+							}, 
+						})
+						.then(response => response.json())
+						return customMessage(response.message)
 				
 					}catch(error){
 						console.log('Something went wrong with forgot password: ', error)
-						return errorMessage(error.message)
+						return errorMessage('Something went wrong with resetting your forgot password')
 					}
 				}
-					
 			},
 			// USER TOKEN ACTIONS
 			userToken: {
@@ -1537,13 +1531,13 @@ const getState = ({ getStore, setStore, getActions }) => {
 							var cx = await AsyncStorage.setItem('userToken', res.jwt)
 						} else {
 							let error = res;
-							getActions().userToken.remove();
+							setStore({userToken: null})
 							console.log("Something went wrong in getting userToken: ", error, getStore().userToken);
 							return errorMessage(error.message)
 						}
 						
 					} catch(error) {
-							{() => getActions().userToken.remove()};
+							setStore({userToken: null})
 							console.log("Email: ", data.email);
 							console.log("Password: ", data.password);
 							console.log("Error: ", error);

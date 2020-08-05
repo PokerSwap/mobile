@@ -11,7 +11,7 @@ export default CreateProfile = (props) => {
   const [ page, setPage ] = useState(0)
   const [ first_name, setFirstName ] = useState('')
   const [ last_name, setLastName ] = useState('')
-  const [ username, setUserName ] = useState('')
+  const [ nickname, setNickName ] = useState('')
   const [ picture, setPicture]  = useState('https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png')
   const [ hendon, setHendon] = useState('')
 
@@ -44,9 +44,8 @@ export default CreateProfile = (props) => {
               onChangeFirstName={first_name => setFirstName( first_name )}
               last_name= {last_name} 
               onChangeLastName={last_name => setLastName( last_name )}
-              username= {username}
-              onChangeUserName={username => setUserName( username )}
-            />
+              nickname= {nickname}
+              onChangeNickName={nickname => setUserName( nickname )}/>
           </Tab>
           {/* PICTURE PAGE */}
           <Tab disabled heading="Picture">
@@ -70,7 +69,7 @@ export default CreateProfile = (props) => {
               prev={() => prevPage()}
               first_name= {first_name} 
               last_name= {last_name} 
-              username= {username}
+              nickname= {nickname}
               picture= {picture}
               hendon= {hendon} />
           </Tab>

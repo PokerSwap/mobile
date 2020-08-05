@@ -2,20 +2,23 @@ import React, { useContext, useState } from 'react';
 import { Image } from 'react-native';
 import { Button, Card, Text, CardItem } from 'native-base';
 import Spinner from 'react-native-loading-spinner-overlay'
+import { useNavigation} from '@react-navigation/native'
 
 import { Context } from '../../Store/appContext';
 
 
 export default  ProfileReview = (props) => {
 	const { store, actions } = useContext(Context)
-  const [ loading, setLoading ] = useState(false) 
+	const [ loading, setLoading ] = useState(false) 
+	
+	const navigation = useNavigation()
 
 	let lol = new RegExp('^https:\/\/pokerdb.thehendonmob.com')
 	
 	const createProfile = async() => {
 		setLoading(true)
 		var creatingProfile = await actions.profile.add(
-			props.username, props.first_name, props.last_name, 
+			props.nickname, props.first_name, props.last_name, 
 			props.hendon, props.picture, navigation
 		) 
 		setLoading(false)

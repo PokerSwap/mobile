@@ -1,4 +1,5 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState, useCallback} from 'react';
+import { RefreshControl } from 'react-native'
 import { Container, Content, List, Separator, Text, ListItem } from 'native-base';
 import { useNavigation } from '@react-navigation/native'
 
@@ -9,6 +10,20 @@ import ResultsTracker from './Components/ResultsTracker'
 
 export default SwapResults = (props) => {
   const {store, actions} = useContext(Context)
+
+  const [ refreshing, setRefreshing ] = useState(false);
+
+  function wait(timeout) {
+    return new Promise(resolve => {
+      setTimeout(resolve, timeout);
+    })
+  }
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    actions.tracker.getPast()
+    wait(2000).then(() => setRefreshing(false));
+  }, [refreshing]);
 
   var recentTracker, historyTracker;
 
@@ -55,6 +70,8 @@ export default SwapResults = (props) => {
       <HomeHeader title={'Swap Results'} />
       
       <Content>
+        <RefreshControl refreshing={refreshing} onRefresh={() => onRefresh()} />
+
         <List>
           {/* RECENT WINNINGS LIST HEADER */}
           {/* <Separator bordered style={{height:48, backgroundColor:'rgb(56,68,165)'}}>

@@ -4,6 +4,8 @@ import 'react-native-gesture-handler';
 
 import AppContainer from './AppContainer.js'
 
+
+
 export default  App = () => {
 
   return(

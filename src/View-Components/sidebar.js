@@ -44,9 +44,7 @@ export default SideBar = (props) => {
             'Do you want to logout?',
             [
               {text: 'Cancel', onPress: () => {return null}},
-              {text: 'Confirm', onPress: () => {
-                actions.user.logout(navigation)
-              }},
+              {text: 'Confirm', onPress: () => actions.user.logout(navigation)},
             ],
             { cancelable: false }
       )}/>

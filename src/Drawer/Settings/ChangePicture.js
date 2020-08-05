@@ -114,13 +114,13 @@ export default ChangePicture = (props) => {
         justifyContent:'center', alignItems:'center'}}>
       <Card transparent style={{
           justifyContent:'center', alignItems:'center', 
-          flex:1, flexDirection:'column', marginTop:160}}>
+          flex:1, flexDirection:'column', marginTop:100}}>
         <Image source={{uri: image.uri}} style={{width:300, height:300}} />
         <Button style={{width:300, justifyContent:'center'}} 
           onPress={()=> askPersmission()}>
           <Icon type='FontAwesome5' name='plus' style={{color:'white'}}/>
         </Button>
-        <Button  large style={{marginTop:40}} onPress={() => changePicture()}>
+        <Button  large style={{marginTop:40, alignSelf:'center'}} onPress={() => changePicture()}>
           <Text style={{fontSize:30, fontWeight:'600'}}> SUBMIT </Text>
         </Button>
       </Card>

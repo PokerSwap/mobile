@@ -121,12 +121,12 @@ export default ProfileBio = (props) => {
     })
   }
 
-  const openChat = () => {
-    navigation.push('Chat', {
-      myProfile: store.myProfile,
-      theirProfile: profile
-    })
-  }
+  // const openChat = () => {
+  //   navigation.push('Chat', {
+  //     myProfile: store.myProfile,
+  //     theirProfile: profile
+  //   })
+  // }
  
   return(
     <Card transparent>
@@ -234,10 +234,10 @@ export default ProfileBio = (props) => {
         </CardItem>
         : 
         <CardItem style={{justifyContent:'center', flexDirection:'column', width:'100%', marginVertical:-20, paddingBottom: 0}}>
-          <Button full iconLeft info onPress={() => openChat()}>
+          {/* <Button full iconLeft info onPress={() => openChat()}>
             <Icon type='FontAwesome5' name='comments'/>
             <Text style={{fontSize:24}}>Chat</Text>
-          </Button>
+          </Button> */}
           <Button style={{alignSelf:'center'}}transparent iconLeft light 
             onPress={() => setVisible(true)} title="play@thepokersociety.com">
             {/* <Icon type='FontAwesome5' name='exclamation-circle'/> */}
