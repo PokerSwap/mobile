@@ -1,6 +1,6 @@
 import React, {useContext, useState, useCallback} from 'react';
-import { RefreshControl } from 'react-native'
-import { Container, Content, List, Separator, Text, ListItem } from 'native-base';
+import { RefreshControl,  FlatList } from 'react-native'
+import { Button, Container, List, Content, Icon, Separator, Text, ListItem } from 'native-base';
 import { useNavigation } from '@react-navigation/native'
 
 import { Context } from '../../Store/appContext'
@@ -29,24 +29,62 @@ export default SwapResults = (props) => {
 
   let noTracker = (f) =>  {
     return(
-    <ListItem noIndent style={{justifyContent:'center'}}>
-      <Text style={{
-        justifyContent:'center', textAlign:'center', 
-        fontSize:24, width:'80%'}}> 
-        You have no {f} swaps at the moment. 
-      </Text>
-    </ListItem>
+      <List>
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh} />
+        <ListItem noIndent style={{justifyContent:'center'}}>
+          <Text style={{
+            justifyContent:'center', textAlign:'center', 
+            fontSize:24, width:'80%'}}> 
+            You have no {f} swaps at the moment. 
+          </Text>
+        </ListItem>
+        <Button iconLeft style={{borderRadius:100, alignSelf:'center', marginTop:20}} onPress={() => onRefresh()}>
+          <Icon type='FontAwesome' name='refresh'/>
+          <Text>Refresh</Text>
+        </Button>
+      </List>
+    
     )  
 }
 
-  let aTracker = (e) => e.map((content, index) => {
+  var aTracker = ({item, index}) => {
     return(
-      <ResultsTracker key={index} 
-        tournament={content.tournament} 
-        final_profit={content.final_profit}
-        my_buyin={content.my_buyin} buyins={content.buyins}/>
+      <ResultsTracker key={index} event={item}
+      my_buyin= {item.my_buyin} buyins = {item.buyins}
+      tournament={item.tournament} action={item.action}/>
     )
-  })
+  }
+
+  var flatlist = 
+    <FlatList
+    contentContainerStyle={{ alignSelf: 'stretch' }}
+      data={store.myPastTrackers}
+      renderItem={aTracker}
+      keyExtractor={(content, index) => index.toString()}
+      ListHeaderComponent={
+        <Separator noIndent bordered style={{
+          height:48, backgroundColor:'rgb(56,68,165)'}}>
+          <Text style={{
+            fontSize:20, color:'white', fontWeight:'600', textAlign:'center'}}> 
+            HISTORY 
+          </Text>                
+        </Separator>  
+      }
+      ListFooterComponent={
+        <Button iconLeft style={{borderRadius:100}} onPress={() => onRefresh()}>
+          <Icon type='FontAwesome' name='refresh'/>
+          <Text>Refresh</Text>
+        </Button>
+      }
+      ListFooterComponentStyle={{alignSelf:'center', marginTop:20}}
+      stickyHeaderIndices={[0]}
+            refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh} />}
+          />
 
   if( store.myPastTrackers !== []){
     
@@ -57,22 +95,27 @@ export default SwapResults = (props) => {
 
     // var historySwaps = store.myPastTrackers.filter(
     //   tracker => moment().isAfter(moment(tracker.tournament.start_at).add(30, 'days')))
-    store.myPastTrackers.length !== 0 ? 
-      historyTracker = aTracker(store.myPastTrackers) : historyTracker = noTracker('history')
+    // store.myPastTrackers.length !== 0 ? 
+    //   historyTracker = aTracker(store.myPastTrackers) : historyTracker = noTracker('history')
+      store.myPastTrackers.length !== 0 ? 
+        historyTracker = flatlist : historyTracker = noTracker('history')
 
   } else {
     // recentTracker = noTracker('recent')
     historyTracker = noTracker('history')
   } 
 
+  var x = <RefreshControl refreshing={refreshing} onRefresh={() => onRefresh()} />
+
+
   return(
     <Container>
       <HomeHeader title={'Swap Results'} />
       
-      <Content>
-        <RefreshControl refreshing={refreshing} onRefresh={() => onRefresh()} />
 
-        <List>
+       <Content>
+
+        {/* <List> */}
           {/* RECENT WINNINGS LIST HEADER */}
           {/* <Separator bordered style={{height:48, backgroundColor:'rgb(56,68,165)'}}>
             <Text style={{fontSize:20, color:'white', fontWeight:'600', textAlign:'center'}}> 
@@ -81,14 +124,17 @@ export default SwapResults = (props) => {
           </Separator>       
           {recentTracker} */}
           {/* LATER WINNINGS LIST HEADER */}
-          <Separator bordered style={{height:48, backgroundColor:'rgb(56,68,165)'}}>
+          {/* <Separator noIndent bordered style={{height:48, backgroundColor:'rgb(56,68,165)'}}>
             <Text style={{fontSize:20, color:'white', fontWeight:'600', textAlign:'center'}}> 
               HISTORY 
             </Text>                
-          </Separator>  
+          </Separator>   */}
           {historyTracker}     
-        </List>
-      </Content>
+        {/* </List> */}
+        </Content>
+
+
+
 
     </Container>
   )

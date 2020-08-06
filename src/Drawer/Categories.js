@@ -20,7 +20,7 @@ export default CategoriesScreen = (props) => {
     var answer2 = await actions.tracker.getPast()
     var answer3 = await actions.tournament.getInitial()
     setLoading(false)
-    navigation.navigate('Active Swaps')
+    navigation.navigate('Home', {screen:'Active Swaps'})
   }
   
   return(

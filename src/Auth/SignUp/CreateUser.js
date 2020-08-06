@@ -6,7 +6,6 @@ import { throttle } from 'lodash'
 import { Context } from '../../Store/appContext';
 
 export default CreateUser = () => {
-
 	const { store, actions } = useContext(Context)
 
 	const [ loading, setLoading] = useState(false)
@@ -38,6 +37,7 @@ export default CreateUser = () => {
 		<Container >
 			<Content contentContainerStyle={styles.mainContainer}>
 			{submitted ? 
+				// Submitted Success
 				<View transparent style={{justifyContent:'center', width:'80%'}}>
 					<Text style={{textAlign:'center', fontSize:24}}>
 						A validation link has been sent to your {} 
@@ -45,6 +45,7 @@ export default CreateUser = () => {
 					</Text>
 				</View>
 				:
+				// Waiting for Valid Email
 				<View transparent style={styles.validateContainer}>
 					{/* USER INSTRUCTIONS */}
 					<Text style={{textAlign:"center", fontSize:20}}>

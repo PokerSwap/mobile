@@ -1,11 +1,9 @@
 import React from 'react';
 import { Button, Card, CardItem, 
 Container, Content, Text, H2 } from 'native-base';
-
 import { useNavigation } from '@react-navigation/native'
 
 export default TermsAndConditions = (props) => {
-
   var navigation = useNavigation()
   return(
     <Container>

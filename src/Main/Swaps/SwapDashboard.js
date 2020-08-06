@@ -1,6 +1,6 @@
 import React, {useContext, useState, useCallback, useEffect } from 'react';
-import {RefreshControl, Alert, Text} from 'react-native';
-import { Container, Content, List, ListItem, Separator } from 'native-base';
+import {RefreshControl, Alert, Text, FlatList } from 'react-native';
+import { Button, Icon, Container, Content, List, ListItem, Separator } from 'native-base';
 import messaging from '@react-native-firebase/messaging'
 import moment from 'moment'
 import { DrawerActions } from '@react-navigation/drawer'
@@ -35,7 +35,7 @@ export default SwapDashboard = (props) => {
   }, [null])
 
   const goToThing = async(data) => {
-    console.log('name', navigation.state.routeName)
+    console.log('name', data)
     if(data.type == 'event'){
       var cc = await actions.navigate.toEvent(data, navigation)
     }else if(data.type == 'swap'){
@@ -62,6 +62,44 @@ export default SwapDashboard = (props) => {
         tournament={tracker.tournament} action={tracker.action}/>
     )
   })
+
+  // var aTracker = ({item, index}) => {
+  //   return(
+  //     <SwapTracker key={index}  event={item}
+        // my_buyin= {item.my_buyin} buyins = {item.buyins}
+        // tournament={item.tournament} action={item.action}/>
+  //   )
+  // }
+
+  // var flatlist = 
+  //   <FlatList
+  //   contentContainerStyle={{ alignSelf: 'stretch' }}
+  //     data={store.myPastTrackers}
+  //     renderItem={aTracker}
+  //     keyExtractor={(content, index) => index.toString()}
+  //     ListHeaderComponent={
+  //       <Separator noIndent bordered style={{
+  //         height:48, backgroundColor:'rgb(56,68,165)'}}>
+  //         <Text style={{
+  //           fontSize:20, color:'white', fontWeight:'600', textAlign:'center'}}> 
+  //           HISTORY 
+  //         </Text>                
+  //       </Separator>  
+  //     }
+  //     ListFooterComponent={
+  //       <Button iconLeft style={{borderRadius:100}} onPress={() => onRefresh()}>
+  //         <Icon type='FontAwesome' name='refresh'/>
+  //         <Text>Refresh</Text>
+  //       </Button>
+  //     }
+  //     ListFooterComponentStyle={{alignSelf:'center', marginTop:20}}
+  //     stickyHeaderIndices={[0]}
+  //           refreshControl={
+  //       <RefreshControl
+  //         refreshing={refreshing}
+  //         onRefresh={onRefresh} />}
+  //         />
+
   
   let liveTracker, upcomingTracker
   
@@ -98,12 +136,13 @@ export default SwapDashboard = (props) => {
   }, [refreshing]);
 
 
+
   return(
-    <Container>
+    <Container contentContainerStyle={{marginTop:100}}>
       <HomeHeader title={'Active Swaps'} />
-      <Content>
         {/* REFRESH SWAP CURRENT TRACKERS */}
-        <RefreshControl refreshing={refreshing} onRefresh={() => onRefresh()} />
+       <Content>
+        
         {/* CURRENT SWAPTRACKERS */}
         <List>
           {/* LIVE SWAPTRACKER HEAD */}

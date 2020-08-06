@@ -2,17 +2,15 @@
 import { useState, useContext, useRef, useCallback } from 'react';
 import * as React from 'react';
 
-import {Platform, Image} from 'react-native'
-import {Button, Text, Toast } from 'native-base';
+import { Platform, Image } from 'react-native'
+import { Button, Text } from 'native-base';
 import { Context } from '../Store/appContext';
 import { throttle } from "lodash";
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 
 import Spinner from 'react-native-loading-spinner-overlay';
 import { Keyboard, TouchableWithoutFeedback, TextInput, 
   KeyboardAvoidingView, View, StatusBar } from 'react-native';
-import DeviceInfo, { isEmulator } from 'react-native-device-info'
+import DeviceInfo from 'react-native-device-info'
 
 import firebase from '@react-native-firebase/app';
 import messaging from '@react-native-firebase/messaging'
@@ -56,7 +54,6 @@ export default LoginScreen = ({navigation}) => {
     }else{
       var bb = await getToken()
       deviceID = bb
-
     } 
     var data = {
       email: email,
@@ -72,8 +69,7 @@ export default LoginScreen = ({navigation}) => {
   
   return(
     <View style={styles.mainContainer}>
-    <StatusBar 
-      backgroundColor={'rgb(38, 171, 75)'} StatusBarAnimation={'none'}/>
+    <StatusBar backgroundColor={'rgb(38, 171, 75)'} StatusBarAnimation={'none'}/>
     <Spinner visible={loading} style={styles.spinner}/>
       <KeyboardAvoidingView  behavior={a_behavior} keyboardVerticalOffset={offBy}>
       <TouchableWithoutFeedback  onPress={Keyboard.dismiss}>
@@ -83,72 +79,72 @@ export default LoginScreen = ({navigation}) => {
           <Image style={styles.logo.image}
             source={require("../Images/transparent-logo.png")}/>
         </View>  
-            
-          <View transparent>
-            {/* EMAIL INPUT */}
-            <View style={styles.input.container}>
-              <TextInput 
-                style={styles.input.input}
-                placeholder="Enter Email"
-                placeholderTextColor='white'
-                keyboardType="email-address"
-                blurOnSubmit={false}
-                selectionColor={'#D3D3D3'}
-                returnKeyType="next"
-                autoCapitalize='none'
-                autoCorrect={false} 
-                onSubmitEditing={() => { txtPassword.focus(); }}
-                value={email}    
-                onChangeText={emailX => setEmail( emailX )} />
-            </View>           
-            {/* PASSWORD INPUT */}
-            <View style={styles.input.container}>
-              <TextInput 
-                style={styles.input.input}
-                placeholder="Enter Password"
-                placeholderTextColor='white'
-                secureTextEntry
-                onSubmitEditing={() => loginStart()}
-                autoCapitalize='none'
-                returnKeyType="go"
-                autoCorrect={false} 
-                selectionColor={'#D3D3D3'}
-                ref={(input) => { txtPassword = input; }} 
-                value={password}
-                onChangeText={passwordX => setPassword( passwordX )}/>
-            </View>
-            {/* BUTTONS */}
-            <View style={styles.buttons.container}>
-              {/* LOGIN BUTTON */}         
-              <Button block onPress={() => loginStart()}
-                onPressIn={() => setLoginColor('#6699FF')}
-                onPressOut={() => setLoginColor('#000099')}
-                style={[styles.buttons.button, {backgroundColor:loginColor}]}>
-                <Text style={styles.buttons.text}> 
-                  Login 
-                </Text>
-              </Button>                 
-              {/* SIGN UP BUTTON */}
-              <Button block 
-                onPressIn={()=> setSignupColor('#FF8533')}
-                onPressOut={()=> setSignupColor('#FF6600')}
-                style={[styles.buttons.button,{backgroundColor:signupColor}]} 
-                onPress={()=> navigation.navigate("Terms and Conditions")}>
-                <Text style={styles.buttons.text}> 
-                  Sign Up 
-                </Text>
-              </Button>                  
-              {/* FORGOT PASSWORD BUTTON */}
-              <Button transparent style={styles.forgotPassword.button} 
-                onPress={() => navigation.navigate("Forgot Password")}>
-                <Text style={styles.forgotPassword.text}>
-                  Forgot password?
-                </Text>
-              </Button>                  
-            </View>          
+        {/* MAIN BODY */}
+        <View transparent>
+          {/* EMAIL INPUT */}
+          <View style={styles.input.container}>
+            <TextInput 
+              style={styles.input.input}
+              placeholder="Enter Email"
+              placeholderTextColor='white'
+              keyboardType="email-address"
+              blurOnSubmit={false}
+              selectionColor={'#D3D3D3'}
+              returnKeyType="next"
+              autoCapitalize='none'
+              autoCorrect={false} 
+              onSubmitEditing={() => { txtPassword.focus(); }}
+              value={email}    
+              onChangeText={emailX => setEmail( emailX )} />
+          </View>           
+          {/* PASSWORD INPUT */}
+          <View style={styles.input.container}>
+            <TextInput 
+              style={styles.input.input}
+              placeholder="Enter Password"
+              placeholderTextColor='white'
+              secureTextEntry
+              onSubmitEditing={() => loginStart()}
+              autoCapitalize='none'
+              returnKeyType="go"
+              autoCorrect={false} 
+              selectionColor={'#D3D3D3'}
+              ref={(input) => { txtPassword = input; }} 
+              value={password}
+              onChangeText={passwordX => setPassword( passwordX )}/>
           </View>
+          {/* BUTTONS */}
+          <View style={styles.buttons.container}>
+            {/* LOGIN BUTTON */}         
+            <Button block onPress={() => loginStart()}
+              onPressIn={() => setLoginColor('#6699FF')}
+              onPressOut={() => setLoginColor('#000099')}
+              style={[styles.buttons.button, {backgroundColor:loginColor}]}>
+              <Text style={styles.buttons.text}> 
+                Login 
+              </Text>
+            </Button>                 
+            {/* SIGN UP BUTTON */}
+            <Button block 
+              onPressIn={()=> setSignupColor('#FF8533')}
+              onPressOut={()=> setSignupColor('#FF6600')}
+              style={[styles.buttons.button,{backgroundColor:signupColor}]} 
+              onPress={()=> navigation.navigate("Terms and Conditions")}>
+              <Text style={styles.buttons.text}> 
+                Sign Up 
+              </Text>
+            </Button>                  
+            {/* FORGOT PASSWORD BUTTON */}
+            <Button transparent style={styles.forgotPassword.button} 
+              onPress={() => navigation.navigate("Forgot Password")}>
+              <Text style={styles.forgotPassword.text}>
+                Forgot password?
+              </Text>
+            </Button>                  
+          </View>          
         </View>
-        </TouchableWithoutFeedback>
+      </View>
+      </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
     </View>
   )

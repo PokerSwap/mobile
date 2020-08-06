@@ -46,10 +46,10 @@ if (!firebase.apps.length) {
 } 
 
 // PushNotification.configure({
-//   // (optional) Called when Token is generated (iOS and Android)
-//   onRegister: function(token) {
-//     console.log("TOKEN:", token);
-//   },
+  // (optional) Called when Token is generated (iOS and Android)
+  // onRegister: function(token) {
+  //   console.log("TOKEN:", token);
+  // },
 
 //   // (required) Called when a remote or local notification is opened or received
 //   onNotification: async function(notificationData) {

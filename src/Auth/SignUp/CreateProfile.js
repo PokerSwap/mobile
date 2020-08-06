@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Content, Container, Tab, Tabs } from 'native-base';
-import { KeyboardAvoidingView } from 'react-native'
 
 import ProfileReview from './ProfileReview'
 import NameSetup from './NameSetup';
@@ -30,11 +29,8 @@ export default CreateProfile = (props) => {
 
   return(
     <Container>
-
       <Content contentContainerStyle={{flex:1, justifyContent:"center"}}>         
-
         <Tabs locked initialPage={0} page={page}>
-
           {/* NAME PAGE */}
           <Tab disabled heading="Name">
             <NameSetup 
@@ -45,7 +41,7 @@ export default CreateProfile = (props) => {
               last_name= {last_name} 
               onChangeLastName={last_name => setLastName( last_name )}
               nickname= {nickname}
-              onChangeNickName={nickname => setUserName( nickname )}/>
+              onChangeNickName={nickname => setNickName( nickname )}/>
           </Tab>
           {/* PICTURE PAGE */}
           <Tab disabled heading="Picture">
@@ -73,11 +69,8 @@ export default CreateProfile = (props) => {
               picture= {picture}
               hendon= {hendon} />
           </Tab>
-
         </Tabs>
-
       </Content>   
-
     </Container>  
   )
 }

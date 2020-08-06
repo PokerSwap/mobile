@@ -2,14 +2,13 @@ import React, { useState, useContext, useEffect } from 'react';
 import { Container, Content, List, Spinner } from 'native-base';
 import { useNavigation, useRef, useRoute } from '@react-navigation/native'
 
-
 import { Context } from '../../Store/appContext'
 
 import EventHeader from './Components/EventHeader'
 import FlightSchedule from './Components/FlightSchedule';
 import ActionBar from './Components/ActionBar'
 
-export default EventLobby = (props) => {
+export default EventLobby = () => {
   const { store, actions } = useContext(Context)
 
   const route = useRoute()
@@ -27,26 +26,18 @@ export default EventLobby = (props) => {
     startEvent= null, startName=tournament_name, startAction = null, startTournament = null, startTime = tournament_start;
   }
 
-
-
   const [ anEvent, setAnEvent ] = useState(startEvent)
   const [ aTournament, setATournament ] = useState(startTournament)
   const [ tStart, setTStart ] = useState(startTime)
   const [ anAction, setAnAction] = useState(startAction)
   const [ refreshing, setRefreshing ] = useState(true)
 
-  console.log('eveeeeeeeeent', anEvent)
-
-
-  useEffect(() => {
-    
+  useEffect(() => {  
     const unsubscribe = navigation.addListener('focus', () => {
       getTournament() 
     });
-
     return () => {
       unsubscribe
-
     }
   }, [])
  
@@ -66,7 +57,8 @@ export default EventLobby = (props) => {
       console.log('Something went wrong with getting Tournaent',error)
     }
   }
-
+  
+  // FLIGHT SCHEDUELE MAPPER
   if(anEvent && aTournament){
     var toFilterOne  = []
     var addToFilter = anEvent.buyins.forEach((buyin) => 

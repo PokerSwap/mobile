@@ -4,11 +4,9 @@ import {Button , Text, Container, Content, Item} from 'native-base';
 
 import {Context} from '../Store/appContext'
 
-
-export default ForgotPassword = (props, {navigation}) => {
-
+export default ForgotPassword = () => {
 	const { store, actions } = useContext(Context)
-	const [email, setEmail] = useState('')
+	const [ email, setEmail ] = useState('')
 	
 	const forgotStart = async() => {
 		var answer = await actions.user.forgotPassword(email)
@@ -16,13 +14,14 @@ export default ForgotPassword = (props, {navigation}) => {
 
 	return(
 		<Container style={{justifyContent:'center'}}>
-		<Content contentContainerStyle={{flexDirection:'column',
-			justifyContent:'center', height:'100%', alignSelf:'center'}}>
-			
-					<Text style={{textAlign:'center', fontSize:20, marginBottom:10}}>
-						Enter Your Email:
-					</Text>
-					<Item style={{width:'90%'}}>
+			<Content contentContainerStyle={{flexDirection:'column',
+				justifyContent:'center', height:'100%', alignSelf:'center'}}>
+				{/* EMAIL INSTRUCTIONS */}
+				<Text style={{textAlign:'center', fontSize:20, marginBottom:10}}>
+					Enter Your Email:
+				</Text>
+				{/* EMAIL TEXT INPUT */}
+				<Item style={{width:'90%'}}>
 					<TextInput 
 						style={{fontSize:24, 
 							textAlign:'left', width:'90%', 
@@ -37,21 +36,17 @@ export default ForgotPassword = (props, {navigation}) => {
 						autoCapitalize='none'
 						autoCorrect={false} 
 						value={email}    
-						onChangeText={emailX => setEmail( emailX )}
-					/>
-					</Item>
-				
-					<Button large 
-					style={{alignSelf:'center',marginTop:40, maxWidth:150, justifyContent:'center'}}
-						onPress={()=> forgotStart()}>
-						<Text 
-						style={{fontSize:30, fontWeight:'600'}}> 
-							SUBMIT 
-						</Text>
-					</Button>
-
-		</Content>  
-	</Container>
+						onChangeText={emailX => setEmail( emailX )} />
+				</Item>
+				{/* SUBMIT BUTTON */}
+				<Button large onPress={()=> forgotStart()}
+					style={{alignSelf:'center',marginTop:40, maxWidth:150, justifyContent:'center'}}>
+					<Text  style={{fontSize:30, fontWeight:'600'}}> 
+						SUBMIT 
+					</Text>
+				</Button>
+			</Content>  
+		</Container>
 	)
 }
 

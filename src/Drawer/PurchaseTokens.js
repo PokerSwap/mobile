@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Alert,  ScrollView, Image} from 'react-native';
+import { Alert,  ScrollView, Image } from 'react-native';
 import { Container, Content,  Button, Text, View } from 'native-base';
 import { Grid, Col, Row} from 'react-native-easy-grid'
 import stripe from 'tipsi-stripe';
@@ -95,29 +95,25 @@ export default PurchaseTokens = (props) => {
 
   return(
     <Container>
-      <Content 
-      // contentContainerStyle={{
-      //   flex:1, justifyContent:'center', alignItems:'center'}}
-        >
-          <OtherHeader title={'Purchase Tokens'} />
+      <Content>
+      <OtherHeader title={'Purchase Tokens'} />
       <ScrollView style={{ alignSelf: 'stretch' }}>           
-
         <Grid transparent>
-
+          {/* TIER 1 PURCHASES */}
           <Row style={{alignItems:'center'}}>
             <PriceOption image={require('../Images/5Real.png')}
               dollars={4.99} swapTokens={5} w={100} h={100} hx={100} />
             <PriceOption image={require('../Images/10Real.png')}
               dollars={9.99} swapTokens={10} w={100} h={100} hx={100} />
           </Row>
-
+          {/* TIER 2 PURCHASES */}
           <Row style={{alignItems:'center'}}>
             <PriceOption image={require('../Images/25Real.png')}
               dollars={19.99} swapTokens={25} w={100} h={100} hx={100}/>
             <PriceOption image={require('../Images/50Real.png')}
               dollars={34.99} swapTokens={50}  w={100} h={100} hx={100}/>
           </Row>
-          
+          {/* TIER 3 PURCHASES */}
           <Row>
             <PriceOption image={require('../Images/100Real.png')}
               dollars={69.99} swapTokens={100} w={100} h={100} />
@@ -125,7 +121,6 @@ export default PurchaseTokens = (props) => {
               dollars={99.99} swapTokens={150} w={100} h={100} />
           </Row>
         </Grid>
-        
         </ScrollView>
       </Content>
     </Container>

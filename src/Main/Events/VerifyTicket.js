@@ -30,8 +30,6 @@ export default VerifyTicket = (props) => {
   const { flight_id } = route.params;
   const { tournament_id } = route.params;
   const { casino } = route.params;
-
-  console.log('tID', tournament_id)
   
   const openSets = () => {
     openSettings().catch(() => console.warn('cannot open settings'));

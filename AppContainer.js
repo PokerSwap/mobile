@@ -209,13 +209,16 @@ var HelpStack = () => {
         screenOptions={{ gestureEnabled: false, headerShown: false }}>
         <Stack.Screen name="Auth" component={AuthStack} />
         <Stack.Screen name="Drawer" component={MainDrawer}/>
+        <Stack.Screen name="Home" component={MainTabs}/>
+
         <Stack.Screen name="Web View" component={WebViewScreen} 
           options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}} />
-        <Stack.Screen name="Purchase Tokens" component={PurchaseTokens} 
-          />
+        <Stack.Screen name="Purchase Tokens" component={PurchaseTokens} />
         <Stack.Screen name="Profile" component={ProfileScreen} 
           options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}}/>
-          <Stack.Screen name="Notifications" component={NotificationsScreen} 
+        <Stack.Screen name="Notifications" component={NotificationsScreen} 
+          options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}}/>
+        <Stack.Screen name="Swap Offer" component={SwapOffer} 
           options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}}/>
         {/* <Stack.Screen name="Chat" component={ChatScreen} 
           screenOptions={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}} /> */}

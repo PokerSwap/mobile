@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import PushNotification from 'react-native-push-notification'
 import PushNotificationIOS from '@react-native-community/push-notification-ios'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, CommonActions } from '@react-navigation/native'
 
 
 import { Context } from '../Store/appContext'
@@ -131,8 +131,9 @@ PushNotification.configure({
 							'Notification caused app to open from quit state:',
 							remoteMessage,
 						);
-						actions.notification.store(remoteMessage.data) 
-						console.log('On Background Check', store.notificationData.type)
+						// actions.notification.store(remoteMessage.data) 
+						// console.log('On Background Check', store.notificationData.type)
+							actions.navigate.toSwap(remoteMessage.data, navigation)
 					}
 				})
 	

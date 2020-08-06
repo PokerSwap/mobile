@@ -42,16 +42,15 @@ export default  ProfileReview = (props) => {
 				</Text>
 			</CardItem>
 			{/* NICK NAME FIELD */}
-			{props.user ?
+
 				<CardItem transparent style={{flexDirection:'column',marginVertical:10}}>
 					<Text style={{textAlign:'center', fontSize:20,fontWeight:'bold'}}>
 						Nick Name
 					</Text>
 					<Text style={{textAlign:'center', fontSize:20}}>
-						{props.username}
+						{props.nickname ? props.nickname : "No Nickname Entered"}
 					</Text>
 				</CardItem>
-				: null}
 			{/* HENDON URL FIELD */}
 			<CardItem transparent 
 				style={{flexDirection:'column',marginVertical:10}}>		

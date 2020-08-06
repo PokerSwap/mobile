@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { Button, Card, CardItem, Text, Icon } from 'native-base';
-import { Alert, TextInput, View, KeyboardAvoidingView } from "react-native";
+import { Alert, KeyboardAvoidingView } from "react-native";
 import { WebView } from 'react-native-webview';
 
 export default HendonSetup = (props) => {
@@ -24,7 +24,6 @@ export default HendonSetup = (props) => {
 
 	return(
 		<KeyboardAvoidingView behavior={'position'} keyboardVerticalOffset={-300}>
-
 		<Card transparent>
 			{/* HENDON INSTRUCTIONS */}
 			<CardItem style={{flexDirection:"column", justifyContent:"center"}}>
@@ -33,7 +32,6 @@ export default HendonSetup = (props) => {
 					in the search engine in the live Hendon Mob search below.
 				</Text>
 			</CardItem>			
-			
 			{/* HENDON WEBVIEW */}
 			<CardItem style={{height:300}}>
 				<WebView 
@@ -68,6 +66,5 @@ export default HendonSetup = (props) => {
 			</CardItem>
 		</Card>
 		</KeyboardAvoidingView>
-
 	)
 }

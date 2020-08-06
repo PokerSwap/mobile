@@ -1,21 +1,16 @@
 
 import { Alert } from 'react-native'
-import {Toast} from 'native-base'
+import { Toast } from 'native-base'
 import AsyncStorage from '@react-native-community/async-storage'
-import { StackActions, NavigationActions } from '@react-navigation/native';
-
-import moment from 'moment'
+import { CommonActions } from '@react-navigation/native';
 
 var databaseURL = 'https://swapprofit-beta.herokuapp.com/'
-
-
 
 var errorMessage = (error) => {
 	Toast.show({
 		text:error, 
 		duration:3000, 
 		style:{bottom:90,backgroundColor:'red'}
-
 	})
 }
 
@@ -23,18 +18,6 @@ var customMessage = (custom) => {
 	Toast.show({
 		text:custom, duration:3000, position:'top'
 	})
-}
-
-var alertMessage = (alert) => {
-	Alert.alert(
-		"Alert",
-		alert,
-		[
-			{
-				text: 'OK', onPress: () => console.log('OK')
-			},
-		]
-	)
 }
 
 const getState = ({ getStore, setStore, getActions }) => {
@@ -511,8 +494,8 @@ console.log('flight_id', a_flight_id)
 						}
 
 						// NAVIGATION ACTION
-						var navigateAction = NavigationActions.navigate({
-							routeName: data.finalPath,
+						var navigateAction = CommonActions.navigate({
+							name: data.finalPath,
 							params: answerParams
 						});
 
@@ -579,19 +562,20 @@ console.log('flight_id', a_flight_id)
 							tournament: getStore().currentTournament.tournament
 						}
 
-						var navigateAction = NavigationActions.navigate({
-							routeName: 'SwapOffer',
+						var navigateAction = CommonActions.navigate({
+							name: 'Swap Offer',
 							params:  answerParams 
 						});
 
 						// NAVIGATION ACTION
 						try{
+							setStore({currentSwap: answerParams.swap})
 							navigation.dispatch(navigateAction);
 						} catch(error){
 							console.log('cant navigate', error)
 						}
 					}catch(error){
-						console.log("Something went wrong with navigating to event:", error)
+						console.log("Something went wrong with navigating to swap:", error)
 					}
 					setStore({notificationData:null})
 				}
@@ -1322,7 +1306,6 @@ console.log('flight_id', a_flight_id)
 									navigation.navigate('Profile Creation')
 								}									
 							}else{
-								
 								console.log("There is an error with userToken or the profile returns error");
 								return errorMessage("You did not login correctly")
 							}
@@ -1332,9 +1315,7 @@ console.log('flight_id', a_flight_id)
 				},
 				// LOGOUT FUNCTION
 				logout: async( navigation ) => {
-
 					navigation.navigate('Login')
-
 					setStore({currentSwap:{}})
 					setStore({currentBuyin:{}})
 					setStore({ deviceToken: null })
