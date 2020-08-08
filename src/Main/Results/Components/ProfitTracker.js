@@ -1,8 +1,9 @@
 import React, { useContext, useState } from 'react';
 import { ListItem, Text, Button } from 'native-base';
-import { Image, Modal, Alert } from 'react-native'
+import { Image, Modal, Alert, View } from 'react-native'
 import { Grid, Row, Col} from 'react-native-easy-grid'
 import  Spinner  from 'react-native-loading-spinner-overlay'
+import {useNavigation} from '@react-navigation/native'
 
 import { Context } from '../../../Store/appContext'
 import PayModal from './PayModal'
@@ -15,12 +16,25 @@ export default ProfitTracker = (props) => {
   const [ loading, setLoading ] = useState(false)
   const [ paid, setPaid ] = useState(props.buyin.agreed_swaps[0].paid)
 
+  const navigation = useNavigation()
+
   const payAlert = () => {
     Alert.alert(
       "Pay Confirmation",
-      "Are you sure you paid what you owe to this person?",
+      "Are you sure you paid what you owe to this person? ",
       [
-        {text: 'Yes', onPress: () => setVisible(true)},
+        {text: 'Yes', onPress: () => noLyingAlert()},
+        {text: 'No', onPress: () => console.log("Cancel Pressed"),}
+      ]
+    )
+  }
+
+  const noLyingAlert = () => {
+    Alert.alert(
+      "Final Confirmation",
+      "If we recieve a complaint that you haven't paid this user, you will be put on the Naughty List and be prevented from making Swaps until all other parties are paid. Is this understood?",
+      [
+        {text: 'Yes', onPress: () => paySwap()},
         {text: 'No', onPress: () => console.log("Cancel Pressed"),}
       ]
     )
@@ -29,22 +43,22 @@ export default ProfitTracker = (props) => {
   let final_swap_profit
   let swap_profit = props.buyin.they_owe_total - props.buyin.you_owe_total
   swap_profit >= 0 ?
-    final_swap_profit = '$' + Math.abs(swap_profit).toFixed(2)
-    : final_swap_profit = "-$" + Math.abs(swap_profit).toFixed(2)
+    final_swap_profit = props.buyin.recipient_buyin.user_name +' owes you:' 
+    : final_swap_profit = "You owe " + props.buyin.recipient_buyin.user_name + ":"
     
   var message, fn, buttonColor
   if (swap_profit !== 0 && (props.buyin.they_owe_total && props.buyin.you_owe_total)){
     if(swap_profit > 0){
       if(paid){
-        message = "You were Paid", fn = () => console.log('Nothing Happend'), buttonColor = 'green'
+        message = "You Were Paid", fn = () => console.log('Nothing Happend'), buttonColor = 'green'
       }else{
-        message = "Waiting for Payment", fn = () => console.log('Nothing Happend'), buttonColor = 'rgb(241, 191, 86)'
+        message = "Waiting on them", fn = () => console.log('Nothing Happend'), buttonColor = 'rgb(241, 191, 86)'
       }
     }else{
       if(paid){
-        message = "You Paid", fn = () => console.log('Nothing Happend'), buttonColor = 'green'
+        message = "You Paid This Swap", fn = () => console.log('Nothing Happend'), buttonColor = 'green'
       }else{
-        message = "Paid Swap?", fn = payAlert, buttonColor = 'rgb(241, 191, 86)'
+        message = "Did You Pay This Swap?", fn = payAlert, buttonColor = 'rgb(241, 191, 86)'
       }
     }
   }else{null}
@@ -86,7 +100,11 @@ export default ProfitTracker = (props) => {
             </Text>
           </Col>
           {/* THEIR PROFILE */}
-          <Col style={{alignSelf:'center'}}>
+          <Col style={{alignSelf:'center'}} 
+            onPress={() => navigation.push('Profile',{
+              user_id: props.buyin.recipient_user.id,
+              nickname: props.buyin.recipient_buyin.user_name
+            })}>
             <Image source={{uri: props.buyin.recipient_user.profile_pic_url}} 
               style={{height:100, width:100,
               borderRadius:500, alignSelf:'center'}}/>  
@@ -149,12 +167,25 @@ export default ProfitTracker = (props) => {
           you_owe_total = {props.buyin.you_owe_total}
           they_owe_total = {props.buyin.they_owe_total}/>
         {/* SWAP PROFIT OWE */}
-        <Row>
+        <Row style={{flexDirection:'column'}}>
           <Text style={{ fontSize:36, fontWeight:'600', textAlign:'center', marginTop:30}}>
-            Swap Profit {"\n"}
-            {props.buyin.they_owe_total && props.buyin.you_owe_total ?
-              final_swap_profit : "Pending"}
+            Swap Profit
+            
           </Text>
+          {props.buyin.they_owe_total && props.buyin.you_owe_total ?
+              <View>
+                <Text style={{fontSize:24,marginTop:5}}>
+                  {final_swap_profit}
+                </Text>
+                <Text style={{fontSize:36, fontWeight:'600', marginTop:5}}>
+                  ${Math.abs(swap_profit).toFixed(2)}
+                </Text>
+              </View>
+              : 
+            <Text>
+              Pending
+            </Text>}
+          
         </Row>
         {/* PAY/PAID BUTTON */}
         {props.buyin.you_won ?

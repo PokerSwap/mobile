@@ -1,6 +1,6 @@
 import React, {useContext, useState, useCallback} from 'react';
-import { RefreshControl,  FlatList } from 'react-native'
-import { Button, Container, List, Content, Icon, Separator, Text, ListItem } from 'native-base';
+import { RefreshControl,  FlatList, View } from 'react-native'
+import { Button, Container, List, Content, Icon, Separator, Tabs, Tab, Text, ListItem } from 'native-base';
 import { useNavigation } from '@react-navigation/native'
 
 import { Context } from '../../Store/appContext'
@@ -25,117 +25,99 @@ export default SwapResults = (props) => {
     wait(2000).then(() => setRefreshing(false));
   }, [refreshing]);
 
-  var recentTracker, historyTracker;
 
-  let noTracker = (f) =>  {
+
+      // EMPTY CURRENT TRACKER COMPONENT
+  let noTracker = (status) => {
     return(
-      <List>
-        <RefreshControl
-          refreshing={refreshing}
-          onRefresh={onRefresh} />
-        <ListItem noIndent style={{justifyContent:'center'}}>
+      <FlatList
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+        ListHeaderComponent={
           <Text style={{
             justifyContent:'center', textAlign:'center', 
-            fontSize:24, width:'80%'}}> 
-            You have no {f} swaps at the moment. 
-          </Text>
-        </ListItem>
-        <Button iconLeft style={{borderRadius:100, alignSelf:'center', marginTop:20}} onPress={() => onRefresh()}>
-          <Icon type='FontAwesome' name='refresh'/>
-          <Text>Refresh</Text>
-        </Button>
-      </List>
-    
-    )  
-}
+            fontSize:20, width:'80%'}}> 
+            You have no past events that{'\n'}{status} results. 
+          </Text>}
+        ListHeaderComponentStyle={{alignSelf:'center', marginTop:20}}
+        ListFooterComponent={
+          <Button iconLeft style={{borderRadius:100}} onPress={() => onRefresh()}>
+            <Icon type='FontAwesome' name='refresh'/>
+            <Text>Refresh</Text>
+          </Button>}
+        ListFooterComponentStyle={{alignSelf:'center', marginTop:20}}
+      />
 
-  var aTracker = ({item, index}) => {
-    return(
-      <ResultsTracker key={index} event={item}
-      my_buyin= {item.my_buyin} buyins = {item.buyins}
-      tournament={item.tournament} action={item.action}/>
     )
   }
 
-  var flatlist = 
-    <FlatList
-    contentContainerStyle={{ alignSelf: 'stretch' }}
-      data={store.myPastTrackers}
-      renderItem={aTracker}
-      keyExtractor={(content, index) => index.toString()}
-      ListHeaderComponent={
-        <Separator noIndent bordered style={{
-          height:48, backgroundColor:'rgb(56,68,165)'}}>
-          <Text style={{
-            fontSize:20, color:'white', fontWeight:'600', textAlign:'center'}}> 
-            HISTORY 
-          </Text>                
-        </Separator>  
-      }
-      ListFooterComponent={
-        <Button iconLeft style={{borderRadius:100}} onPress={() => onRefresh()}>
-          <Icon type='FontAwesome' name='refresh'/>
-          <Text>Refresh</Text>
-        </Button>
-      }
-      ListFooterComponentStyle={{alignSelf:'center', marginTop:20}}
-      stickyHeaderIndices={[0]}
-            refreshControl={
-        <RefreshControl
-          refreshing={refreshing}
-          onRefresh={onRefresh} />}
-          />
-
-  if( store.myPastTrackers !== []){
     
-    // var recentSwaps = store.myPastTrackers.filter(
-    //   tracker => moment().isBefore(moment(tracker.tournament.start_at).add(30, 'days')))    
-    // recentSwaps.length !== 0  ? 
-    //   recentTracker = aTracker(recentSwaps) : recentTracker = noTracker('recent')
+    
 
-    // var historySwaps = store.myPastTrackers.filter(
-    //   tracker => moment().isAfter(moment(tracker.tournament.start_at).add(30, 'days')))
-    // store.myPastTrackers.length !== 0 ? 
-    //   historyTracker = aTracker(store.myPastTrackers) : historyTracker = noTracker('history')
-      store.myPastTrackers.length !== 0 ? 
-        historyTracker = flatlist : historyTracker = noTracker('history')
 
-  } else {
-    // recentTracker = noTracker('recent')
-    historyTracker = noTracker('history')
+  var aTracker = ({item, index}) => {
+    return(
+      <ResultsTracker key={index} event={item} tournament_end={item.tournament_end}
+        my_buyin= {item.my_buyin} buyins = {item.buyins} final_profit={item.final_profit}
+        tournament={item.tournament} action={item.action}/>
+    )
+  }
+
+  var flatlist = (a_data) => {
+    return(
+      <FlatList contentContainerStyle={{ alignSelf: 'stretch' }}
+        data={a_data}
+        renderItem={aTracker}
+        keyExtractor={(content, index) => index.toString()}
+        ListFooterComponent={
+          <Button iconLeft style={{borderRadius:100}} onPress={() => onRefresh()}>
+            <Icon type='FontAwesome' name='refresh'/>
+            <Text>Refresh</Text>
+          </Button>}
+        ListFooterComponentStyle={{alignSelf:'center', marginVertical:20}}
+        stickyHeaderIndices={[0]}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={()=>onRefresh()} />} />
+    )
+  }
+    
+  var pendingResultsTracker, confirmedResultsTracker;
+
+
+  if( store.myPendingResultsTrackers !== [] && store.myPendingResultsTrackers.length !== 0){
+    pendingResultsTracker = flatlist(store.myPendingResultsTrackers)}  
+  else {
+    pendingResultsTracker = noTracker('are pending')
   } 
 
-  var x = <RefreshControl refreshing={refreshing} onRefresh={() => onRefresh()} />
-
+  if( store.myConfirmedResultsTrackers !== [] && store.myConfirmedResultsTrackers.length !== 0){
+    confirmedResultsTracker = flatlist(store.myConfirmedResultsTrackers)}  
+  else {
+    confirmedResultsTracker = noTracker('have confirmed')
+  } 
 
   return(
     <Container>
       <HomeHeader title={'Swap Results'} />
-      
-
        <Content>
-
-        {/* <List> */}
-          {/* RECENT WINNINGS LIST HEADER */}
-          {/* <Separator bordered style={{height:48, backgroundColor:'rgb(56,68,165)'}}>
-            <Text style={{fontSize:20, color:'white', fontWeight:'600', textAlign:'center'}}> 
-              RECENT 
-            </Text>                
-          </Separator>       
-          {recentTracker} */}
-          {/* LATER WINNINGS LIST HEADER */}
-          {/* <Separator noIndent bordered style={{height:48, backgroundColor:'rgb(56,68,165)'}}>
-            <Text style={{fontSize:20, color:'white', fontWeight:'600', textAlign:'center'}}> 
-              HISTORY 
-            </Text>                
-          </Separator>   */}
-          {historyTracker}     
-        {/* </List> */}
+         <Tabs
+         tabBarTextStyle={{fontWeight:'bold', color:'white'}}
+         tabBarTextStyle={{color:'white'}}
+         >
+           <Tab heading="PENDING"
+           style={{color:'white'}}
+           activeTextStyle={{fontWeight:'bold', color:'white'}}
+           >
+            {pendingResultsTracker}
+           </Tab>
+           <Tab heading="CONFIRMED"
+           style={{color:'white'}}
+           activeTextStyle={{fontWeight:'bold', color:'white'}}
+           >
+            {confirmedResultsTracker}
+           </Tab>
+         </Tabs>
         </Content>
-
-
-
-
     </Container>
   )
 }

@@ -13,12 +13,14 @@ export default EventBody = (props) => {
   
   const navigation = useNavigation()
   const enterTournament = () => {
+    var startAddress = event.casino + '\n' + event.address + '\n' + event.city + ', ' +
+      event.state + ' ' + event.zip_code
     navigation.push(path, {
       // event: event,
       tournament_id: event.tournament_id,
       tournament_start: event.start_at,
       tournament_name: event.name,
-      casino: event.casino,
+      tournament_address: startAddress,
       flight_id: event.id
     });
   }

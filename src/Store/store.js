@@ -3,6 +3,7 @@ import { Alert } from 'react-native'
 import { Toast } from 'native-base'
 import AsyncStorage from '@react-native-community/async-storage'
 import { CommonActions } from '@react-navigation/native';
+import moment from 'moment'
 
 var databaseURL = 'https://swapprofit-beta.herokuapp.com/'
 
@@ -36,11 +37,15 @@ const getState = ({ getStore, setStore, getActions }) => {
 			// MY PROFILE
 			myProfile:null,
 			// LIVE AND UPCOMING SWAP TRACKER
-			myTrackers:[],
+			myCurrentTrackers:[],
+			// LIVE AND UPCOMING SWAP TRACKER
+			myUpcomingTrackers:[],
 			// ALL PAST SWAP TRACKER
 			myPastTrackers:[],
-			// ALL WINNING TRACKERS
-			myWinningsTrackers:[],
+			// ALL PAST TRACKERS WITH POSTED RESULTS
+			myPendingResultsTrackers:[],
+			// ALL PAST TRACKERS WITH POSTED RESULTS
+			myConfirmedResultsTrackers:[],
 			// Users that have been naughty
 			naughtyList:[],
 			// FOR MOST RECENT NOTIFICATION, TO GO TO PAGE
@@ -60,7 +65,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				// CREATING A BUYIN AND (RE)-BUYING-IN INTO A TOURNAMENT
 				add: async ( image, a_table, a_seat, some_chips, a_flight_id, a_tournament_id, a_tournament_name, a_tournament_start, a_casino, navigation) => {
 					try{	
-console.log('flight_id', a_flight_id)
+						console.log('flight_id', a_flight_id)
 						// PREVENTS EMPTY PICTURE SUBMISSION
 						if (image == 3){
 							return customMessage('You need to select an image of your buyin ticket')
@@ -237,6 +242,8 @@ console.log('flight_id', a_flight_id)
 						})
 						// REFRESH APP INFO
 						var refreshingTracker = await getActions().tracker.getCurrent()
+						var refreshingTracker2 = await getActions().tracker.getUpcoming()
+
 						var refreshingProfile = await getActions().tournament.getInitial()
 						var refreshingProfile = await getActions().profile.get()
 						
@@ -295,6 +302,8 @@ console.log('flight_id', a_flight_id)
 						});
 
 						var refreshTrackers = await getActions().tracker.getCurrent()
+						var refreshingTracker2 = await getActions().tracker.getUpcoming()
+
 						var refreshTournaments = await getActions().tournament.getInitial()
 						var refreshAction = await getActions().tournament.getAction(a_tournament_id)
 						var refreshBuyin = await getActions().tournament.getCurrent(a_tournament_id)
@@ -816,6 +825,8 @@ console.log('flight_id', a_flight_id)
 						var spendToken = await getActions().swapToken.spend()
 						var refreshingTournament = await getActions().tournament.getCurrent(a_tournament_id)
 						var refreshingTracker = await getActions().tracker.getCurrent()
+						var refreshingTracker2 = await getActions().tracker.getUpcoming()
+
 						var refreshingBuyin = await getActions().swap.getCurrent(response.swap_id)
 					}catch(error){
 						console.log('Something went wrong with adding a swap', error)
@@ -1202,13 +1213,19 @@ console.log('flight_id', a_flight_id)
 						}));
 						
 						var newTrackerData = trackerData.map((tracker, index)=> {						
+							var a_countdown = moment(tracker.tournament.start_at).fromNow()
+
 							return({
 								...tracker,
-								action:asyncRes[index]
+								action:asyncRes[index],
+								countdown: a_countdown
 							})
 						})
+						var currentList = newTrackerData.filter(tracker => 
+							moment().isAfter(moment(tracker.tournament.start_at)))
 
-						setStore({myTrackers: newTrackerData})
+						setStore({myCurrentTrackers: currentList})
+						// setStore({myTrackers: newTrackerData})
 						
 					} catch(error){
 						console.log('Something went wrong in getting current trackers: ', error)
@@ -1230,11 +1247,80 @@ console.log('flight_id', a_flight_id)
 						})
 
 						let trackerData = await response.json()
-						setStore({myPastTrackers: trackerData})
+
+
+						var newTrackerData = trackerData.map((tracker, index)=> {			
+							var latest = null
+							var deded = tracker.tournament.flights.forEach(flight =>{
+								var thisTime = flight.start_at
+								// console.log('thisTime', thisTime)
+
+								if(latest || moment(thisTime).isBefore(latest)){
+									null
+								}else
+								latest = thisTime
+							})
+							var new_latest = new Date(latest)
+							new_latest.setHours( new_latest.getHours() + 17)
+							var true_end = moment(new_latest).format('llll')
+							// console.log('EEEE', true_end)
+							return({
+								...tracker,
+								tournament_end: true_end
+							})
+						})
+						setStore({myPastTrackers: newTrackerData})
 						// console.log('myPastTrackers', getStore().myPastTrackers)
-						
+						var x = newTrackerData.filter(tracker => !tracker.tournament.results_link)
+						var y = newTrackerData.filter(tracker => tracker.tournament.results_link)
+						setStore({myPendingResultsTrackers: x})
+						setStore({myConfirmedResultsTrackers: y})
+
 					}catch(error){
 						console.log('Something went wrong in getting past trackers: ', error)
+					}
+
+				},
+				//
+				getUpcoming: async() => {
+					try{
+						const url = databaseURL + 'me/swap_tracker'
+						let accessToken = getStore().userToken
+						let response = await fetch(url, {
+							method:'GET',
+							headers: {
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							}, 
+						})
+
+						let trackerData = await response.json()
+						// console.log('trackerData',trackerData)
+						
+						var getIds = trackerData.map(tracker => tracker.tournament.id)
+						
+						const asyncRes = await Promise.all(getIds.map(async (i) => {
+							 var e = await getActions().tournament.retrieveAction(i);
+							return e;
+						}));
+						
+						
+						var newTrackerData = trackerData.map((tracker, index)=> {		
+							
+							var a_countdown = moment(tracker.tournament.start_at).fromNow()
+							return({
+								...tracker,
+								action:asyncRes[index],
+								countdown: a_countdown
+							})
+						})
+						var upcomingList = newTrackerData.filter(tracker => 
+							moment().isBefore(moment(tracker.tournament.start_at)))
+
+						setStore({myUpcomingTrackers: upcomingList})
+						
+					} catch(error){
+						console.log('Something went wrong in getting current trackers: ', error)
 					}
 
 				},
@@ -1274,6 +1360,7 @@ console.log('flight_id', a_flight_id)
 							resolve( getActions().deviceToken.get()
 							.then(() => getActions().tournament.getInitial())	
 							.then(() => getActions().tracker.getCurrent())
+							.then(() => getActions().tracker.getUpcoming())
 							.then(() => getActions().tracker.getPast())
 							.then(() => getActions().notification.check(notification, navigation))
 							)
@@ -1300,6 +1387,7 @@ console.log('flight_id', a_flight_id)
 								if(getStore().myProfile.message !== "Profile not found"){
 									getActions().tournament.getInitial()
 									.then(() => getActions().tracker.getCurrent())
+									.then(() => getActions().tracker.getUpcoming())
 									.then(() => getActions().tracker.getPast())
 									.then(() => navigation.navigate('Drawer', { screen: 'Home' }))
 								} else { 
@@ -1318,6 +1406,13 @@ console.log('flight_id', a_flight_id)
 					navigation.navigate('Login')
 					setStore({currentSwap:{}})
 					setStore({currentBuyin:{}})
+					setStore({myCurrentTrackers:{}})
+					setStore({myUpcomingTrackers:{}})
+
+					setStore({myPastTrackers:{}})
+					setStore({myConfirmedResultsTrackers:{}})
+					setStore({myPendingResultsTrackers:{}})
+					
 					setStore({ deviceToken: null })
 					// setStore({ myProfile: null })
 					AsyncStorage.removeItem('userToken')

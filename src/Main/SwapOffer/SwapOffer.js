@@ -1,5 +1,6 @@
 import React, {useState, useContext, useEffect} from 'react';
-import { Container, Text, Content, Card } from 'native-base';
+import { Text } from 'react-native'
+import { Container, Content, Card } from 'native-base';
 import { Grid, Row, Col } from 'react-native-easy-grid'
 import Spinner from 'react-native-loading-spinner-overlay'
 import moment from 'moment';
@@ -171,13 +172,15 @@ export default SwapOffer = (props) => {
       <Content>
       <Spinner visible={loading}/>
         {/* EVENT HEADER */}
-        <Card transparent>
-          <EventHeader tournament_name={tournament.name}
-          tournamentTime={tTime}/>
+        <Card transparent style={{marginVertical:40, width:'90%', alignSelf:'center', flexDirection:'column'}}>
+        <Text style={{marginVertical:10, fontSize:20, fontWeight:'bold', textAlign:'center'}}>
+        {tournament.name}
+      </Text>
         </Card>
+       
         {/* CURRENT STATUS OF BUYIN */}
         <Card style={{alignSelf:'center', width:'90%', 
-          paddingTop:15, marginTop:-15, backgroundColor:'rgb(38, 171, 75)'}}>
+          paddingTop:15, backgroundColor:'rgb(38, 171, 75)'}}>
           <Grid>
             {/* USERNAME */}
             <Row style={{

@@ -17,13 +17,21 @@ export default EventLobby = () => {
   const { tournament_id } = route.params;  
   const { tournament_start } = route.params;
   const { tournament_name } = route.params;
+  const { tournament_address } = route.params;
+  const { tournament_players } = route.params;
+
   const { flight_id } = route.params;
 
-  var startAction, startTournament, startTime, startName, startEvent;
+  var startAction, startTournament, startTime, startName, startEvent, startAddress, startPlayers;
   if(event){
-    startEvent= event, startName=event.tournament.name, startAction = event.action, startTournament = event.tournament, startTime = event.tournament.start_at;
+    startEvent= event, startName=event.tournament.name, startAction = event.action,
+    startPlayers= null
+    startTournament = event.tournament, startTime = event.tournament.start_at, 
+    startAddress = event.tournament.casino + '\n' +event.tournament.address + '\n' + 
+      event.tournament.city + ', ' + event.tournament.state + ' ' + event.tournament.zip_code
   }else{
-    startEvent= null, startName=tournament_name, startAction = null, startTournament = null, startTime = tournament_start;
+    startEvent= null, startName=tournament_name, startAction = null, startPlayers = tournament_players,
+    startTournament = null, startTime = tournament_start, startAddress = tournament_address
   }
 
   const [ anEvent, setAnEvent ] = useState(startEvent)
@@ -50,9 +58,9 @@ export default EventLobby = () => {
       var answer2 = await actions.tournament.retrieveAction(tournament_id)
       setAnAction(answer2)
       
-      setAnEvent(store.currentTournament)     
-      var answer3 = await actions.time.convertLong(startTime)     
-      setTStart(answer3)
+      // setAnEvent(store.currentTournament)     
+      // var answer3 = await actions.time.convertLong(startTime)     
+      // setTStart(answer3)
     } catch(error){
       console.log('Something went wrong with getting Tournaent',error)
     }
@@ -109,7 +117,10 @@ export default EventLobby = () => {
           {/* TOURNAMENT HEADER */}
           <EventHeader 
             tournament_name={startName}
-            tournamentTime={tStart} />
+            tournament_address={startAddress}
+            tournamentTime={tStart} 
+            tournament_players={startPlayers}
+            />
           {/* TOURNEY BUYIN ENTRIES  */}
           {!aTournament ? <Spinner /> : Flights }          
         </List>
