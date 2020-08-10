@@ -4,6 +4,8 @@ import { Toast } from 'native-base'
 import AsyncStorage from '@react-native-community/async-storage'
 import { CommonActions } from '@react-navigation/native';
 import moment from 'moment'
+import PushNotification from 'react-native-push-notification'
+
 
 var databaseURL = 'https://swapprofit-beta.herokuapp.com/'
 
@@ -189,6 +191,13 @@ const getState = ({ getStore, setStore, getActions }) => {
 							tournament_start: a_tournament_start,
 							action: null
 						})
+
+						PushNotification.localNotificationSchedule({
+							//... You can use all the options from localNotifications
+							message: a_tournament_name + "just started!", // (required)
+							date: new Date(Date.now() + 60 * 1000), // in 60 secs
+							allowWhileIdle: false, // (optional) set notification to work while on doze, default: false
+						});
 
 					} catch(error) {
 						console.log("Some went wrong in adding a buyin", error)

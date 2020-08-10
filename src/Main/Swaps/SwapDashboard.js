@@ -5,24 +5,157 @@ import messaging from '@react-native-firebase/messaging'
 import moment from 'moment'
 import { useNavigation } from '@react-navigation/native'
 import PushNotification from 'react-native-push-notification'
+import PushNotificationIOS from '@react-native-community/push-notification-ios';
 
 import HomeHeader from '../../View-Components/HomeHeader'
 import { Context } from '../../Store/appContext'
 import SwapTracker from './Components/SwapTracker';
 
+var testPush = () => {
+  PushNotificationIOS.presentLocalNotification({
+    alertTitle:"GABBBBBBE",
+    alertBody:"AAAAAAA",
+    applicationIconBadgeNumber: 1,
+  });
+
+console.log('done')
+
+
+}
+
 export default SwapDashboard = (props) => {
   const { store, actions } = useContext(Context)
   const navigation = useNavigation()
-  var testPush = () => {
-    PushNotification.localNotificationSchedule({
-      message:'You there?',
-      date: new Date(Date.now() + 10 * 1000)
-    })
-  }
+  // const [permissions, setPermissions] = useState({});
+
+  // useEffect(() => {
+  //   PushNotificationIOS.addEventListener('register', onRegistered);
+  //   PushNotificationIOS.addEventListener(
+  //     'registrationError',
+  //     onRegistrationError,
+  //   );
+  //   PushNotificationIOS.addEventListener('notification', onRemoteNotification);
+  //   PushNotificationIOS.addEventListener(
+  //     'localNotification',
+  //     onLocalNotification,
+  //   );
+
+  //   PushNotificationIOS.requestPermissions().then(
+  //     (data) => {
+  //       console.log('PushNotificationIOS.requestPermissions', data);
+  //     },
+  //     (data) => {
+  //       console.log('PushNotificationIOS.requestPermissions failed', data);
+  //     },
+  //   );
+
+  //   return () => {
+  //     PushNotificationIOS.removeEventListener('register', onRegistered);
+  //     PushNotificationIOS.removeEventListener(
+  //       'registrationError',
+  //       onRegistrationError,
+  //     );
+  //     PushNotificationIOS.removeEventListener(
+  //       'notification',
+  //       onRemoteNotification,
+  //     );
+  //     PushNotificationIOS.removeEventListener(
+  //       'localNotification',
+  //       onLocalNotification,
+  //     );
+  //   };
+  // }, []);
+
+  // const sendNotification = () => {
+  //   DeviceEventEmitter.emit('remoteNotificationReceived', {
+  //     remote: true,
+  //     aps: {
+  //       alert: 'Sample notification',
+  //       badge: '+1',
+  //       sound: 'default',
+  //       alertTitle: 'title',
+  //       category: 'REACT_NATIVE',
+  //       'content-available': 1,
+  //     },
+  //   });
+  // };
+
+  // const sendLocalNotification = () => {
+  //   PushNotificationIOS.presentLocalNotification({
+  //     alertTitle: 'Sample Title',
+  //     alertBody: 'Sample local notification',
+  //     applicationIconBadgeNumber: 1,
+  //   });
+  // };
+
+  // const scheduleLocalNotification = () => {
+  //   PushNotificationIOS.scheduleLocalNotification({
+  //     alertBody: 'Test Local Notification',
+  //     fireDate: new Date().toISOString(),
+  //   });
+  // };
+
+  // const onRegistered = (deviceToken) => {
+  //   Alert.alert('Registered For Remote Push', `Device Token: ${deviceToken}`, [
+  //     {
+  //       text: 'Dismiss',
+  //       onPress: null,
+  //     },
+  //   ]);
+  // };
+
+  // const onRegistrationError = (error) => {
+  //   Alert.alert(
+  //     'Failed To Register For Remote Push',
+  //     `Error (${error.code}): ${error.message}`,
+  //     [
+  //       {
+  //         text: 'Dismiss',
+  //         onPress: null,
+  //       },
+  //     ],
+  //   );
+  // };
+
+  // const onRemoteNotification = (notification) => {
+  //   const result = `
+  //     Title:  ${notification.getTitle()};\n
+  //     Message: ${notification.getMessage()};\n
+  //     badge: ${notification.getBadgeCount()};\n
+  //     sound: ${notification.getSound()};\n
+  //     category: ${notification.getCategory()};\n
+  //     content-available: ${notification.getContentAvailable()}.`;
+
+  //   Alert.alert('Push Notification Received', result, [
+  //     {
+  //       text: 'Dismiss',
+  //       onPress: null,
+  //     },
+  //   ]);
+  // };
+
+  // const onLocalNotification = (notification) => {
+  //   Alert.alert(
+  //     'Local Notification Received',
+  //     `Alert title:  ${notification.getTitle()},
+  //     'Alert message:  ${notification.getMessage()}`,
+  //     [
+  //       {
+  //         text: 'Dismiss',
+  //         onPress: null,
+  //       },
+  //     ],
+  //   );
+  // };
+
+  // const showPermissions = () => {
+  //   PushNotificationIOS.checkPermissions((permissions) => {
+  //     setPermissions({permissions});
+  //   });
+  // };
 
   useEffect(() => {
 
-    testPush()
 
     const unsubscribe = messaging().onMessage(async (remoteMessage) => {
       console.log('FCM Message Data:', remoteMessage);
@@ -168,6 +301,7 @@ export default SwapDashboard = (props) => {
     <Container >
       <HomeHeader title={'Active Swaps'} />
       <Content>
+        {/* <Button onPress={()=> sendLocalNotification}><Text>Preess</Text></Button> */}
         <Tabs  
           tabBarTextStyle={{fontWeight:'bold', color:'white'}}
         tabBarTextStyle={{color:'white'}}>
