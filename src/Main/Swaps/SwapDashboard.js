@@ -302,21 +302,23 @@ export default SwapDashboard = (props) => {
       <HomeHeader title={'Active Swaps'} />
       <Content>
         {/* <Button onPress={()=> sendLocalNotification}><Text>Preess</Text></Button> */}
-        <Tabs  
+        <Tabs  tabBarUnderlineStyle={{backgroundColor:'white'}}
           tabBarTextStyle={{fontWeight:'bold', color:'white'}}
-        tabBarTextStyle={{color:'white'}}>
+        >
           {/* LIVE SWAPTRACKER BODY */}
-          <Tab 
-          style={{color:'white'}}
-          activeTextStyle={{fontWeight:'bold', color:'white'}}  heading="LIVE">
+          <Tab tabBarUnderlineStyle='white'
+          heading={
+            <TabHeading tabBarUnderlineStyle='white'
+            style={{backgroundColor:'#174502'}}>
+              <Text style={{color:'white'}}>LIVE</Text>
+            </TabHeading>}>
             {liveTracker}
           </Tab>
           {/* UPCOMING SWAPTRACKER */}
-          <Tab heading="UPCOMING"
-                  style={{color:'white'}}
-
-          activeTextStyle={{fontWeight:'bold', color:'white'}}
-          >
+          <Tab heading={
+            <TabHeading style={{backgroundColor:'#000099'}}>
+              <Text style={{color:'white'}}>UPCOMING</Text>
+            </TabHeading>}>
             {upcomingTracker}
           </Tab>
         </Tabs>

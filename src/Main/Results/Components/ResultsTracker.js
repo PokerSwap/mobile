@@ -1,6 +1,6 @@
 import React from 'react';
-import { ListItem, Text, Icon } from 'native-base';
-import {View } from 'react-native'
+import { ListItem, Icon } from 'native-base';
+import {View, Text } from 'react-native'
 import { Col } from 'react-native-easy-grid'
 import { useNavigation } from '@react-navigation/native'
 import moment from 'moment'
@@ -55,17 +55,18 @@ export default ResultsTracker = (props) => {
   }else{
     y = "You must pay these swaps in order to reestablish your account"
   }
+  console.log('end', props.tournament_end)
  
   return(
     <View style={{width:'100%'}}>
       {/* WHEN TOURNAMENT ENDED */}
-      <ListItem noIndent itemHeader style={{
-        width:'100%', backgroundColor:'black', height:15, justifyContent:'center'}}>
-        <Text style={{textAlignVertical:'center', textAlign:'center', color:'white', 
-          marginTop:15, fontSize:18, fontWeight:'600'}}>
+      <ListItem noIndent itemHeader style={{flex:1, backgroundColor:'black', height:50, justifyContent:'center'}}>
+        <Text style={{ textAlign:'center', color:'white', marginTop:-20,
+           fontSize:18, fontWeight:'600'}}>
           {props.tournament_end}
         </Text>
       </ListItem>
+
       {props.tournament.results_link ?
         <ListItem noIndent style={{backgroundColor:wColor, justifyContent:'center'}}>
           <Text style={{textAlign:'center', color:'white'}}>{y}</Text>

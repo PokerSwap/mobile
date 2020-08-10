@@ -1,10 +1,8 @@
 import React, {useContext, useState, useCallback} from 'react';
-import { RefreshControl,  FlatList, View } from 'react-native'
-import { Button, Container, List, Content, Icon, Separator, Tabs, Tab, Text, ListItem } from 'native-base';
-import { useNavigation } from '@react-navigation/native'
+import { RefreshControl,  FlatList } from 'react-native'
+import { Button, Container, Content, Icon, Text, Tabs, Tab, TabHeading} from 'native-base';
 
 import { Context } from '../../Store/appContext'
-
 import HomeHeader from '../../View-Components/HomeHeader'
 import ResultsTracker from './Components/ResultsTracker'
 
@@ -51,10 +49,6 @@ export default SwapResults = (props) => {
     )
   }
 
-    
-    
-
-
   var aTracker = ({item, index}) => {
     return(
       <ResultsTracker key={index} event={item} tournament_end={item.tournament_end}
@@ -83,7 +77,6 @@ export default SwapResults = (props) => {
     
   var pendingResultsTracker, confirmedResultsTracker;
 
-
   if( store.myPendingResultsTrackers !== [] && store.myPendingResultsTrackers.length !== 0){
     pendingResultsTracker = flatlist(store.myPendingResultsTrackers)}  
   else {
@@ -100,20 +93,18 @@ export default SwapResults = (props) => {
     <Container>
       <HomeHeader title={'Swap Results'} />
        <Content>
-         <Tabs
-         tabBarTextStyle={{fontWeight:'bold', color:'white'}}
-         tabBarTextStyle={{color:'white'}}
-         >
-           <Tab heading="PENDING"
-           style={{color:'white'}}
-           activeTextStyle={{fontWeight:'bold', color:'white'}}
-           >
+         <Tabs tabBarUnderlineStyle={{backgroundColor:'white'}}
+         tabBarTextStyle={{fontWeight:'bold', color:'white'}}>
+           <Tab  heading={
+            <TabHeading style={{backgroundColor:'orange'}} >
+              <Text  style={{color:'white'}}>PENDING</Text>
+            </TabHeading>}>
             {pendingResultsTracker}
            </Tab>
-           <Tab heading="CONFIRMED"
-           style={{color:'white'}}
-           activeTextStyle={{fontWeight:'bold', color:'white'}}
-           >
+           <Tab  heading={
+            <TabHeading style={{backgroundColor:'rgb(38, 171, 75)'}}>
+              <Text style={{color:'white'}}>CONFIRMED</Text>
+            </TabHeading>}>
             {confirmedResultsTracker}
            </Tab>
          </Tabs>
