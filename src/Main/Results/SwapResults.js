@@ -29,8 +29,7 @@ export default SwapResults = (props) => {
   let noTracker = (status) => {
     return(
       <FlatList
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+
         ListHeaderComponent={
           <Text style={{
             justifyContent:'center', textAlign:'center', 
@@ -43,7 +42,7 @@ export default SwapResults = (props) => {
             <Icon type='FontAwesome' name='refresh'/>
             <Text>Refresh</Text>
           </Button>}
-        ListFooterComponentStyle={{alignSelf:'center', marginTop:20}}
+        ListFooterComponentStyle={{alignSelf:'center', marginTop:20, marginBottom:300}}
       />
 
     )
@@ -68,10 +67,9 @@ export default SwapResults = (props) => {
             <Icon type='FontAwesome' name='refresh'/>
             <Text>Refresh</Text>
           </Button>}
-        ListFooterComponentStyle={{alignSelf:'center', marginVertical:20}}
+        ListFooterComponentStyle={{alignSelf:'center', marginVertical:20, marginBottom:400}}
         stickyHeaderIndices={[0]}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={()=>onRefresh()} />} />
+/>
     )
   }
     
@@ -92,20 +90,27 @@ export default SwapResults = (props) => {
   return(
     <Container>
       <HomeHeader title={'Swap Results'} />
-       <Content>
+       <Content contentContainerStyle={{flex:1}}>
          <Tabs tabBarUnderlineStyle={{backgroundColor:'white'}}
          tabBarTextStyle={{fontWeight:'bold', color:'white'}}>
            <Tab  heading={
             <TabHeading style={{backgroundColor:'orange'}} >
               <Text  style={{color:'white'}}>PENDING</Text>
             </TabHeading>}>
-            {pendingResultsTracker}
+            <Content  refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}>
+              {pendingResultsTracker}
+            </Content>
            </Tab>
            <Tab  heading={
             <TabHeading style={{backgroundColor:'rgb(38, 171, 75)'}}>
               <Text style={{color:'white'}}>CONFIRMED</Text>
             </TabHeading>}>
-            {confirmedResultsTracker}
+              <Content  refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}>
+                {confirmedResultsTracker}
+              </Content>
+            
            </Tab>
          </Tabs>
         </Content>

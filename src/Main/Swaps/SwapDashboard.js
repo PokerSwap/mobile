@@ -1,27 +1,15 @@
 import React, {useContext, useState, useCallback, useEffect } from 'react';
-import { Alert, FlatList, RefreshControl, ScrollView } from 'react-native';
-import { Button, Container, Content, Icon, ListItem, Tabs, Tab, TabHeading, Text } from 'native-base';
+import { Alert, FlatList, RefreshControl } from 'react-native';
+import { Button, Container, Content, Icon, Tabs, Tab, TabHeading, Text } from 'native-base';
 import messaging from '@react-native-firebase/messaging'
-import moment from 'moment'
 import { useNavigation } from '@react-navigation/native'
-import PushNotification from 'react-native-push-notification'
-import PushNotificationIOS from '@react-native-community/push-notification-ios';
+
+import { Context } from '../../Store/appContext'
 
 import HomeHeader from '../../View-Components/HomeHeader'
-import { Context } from '../../Store/appContext'
 import SwapTracker from './Components/SwapTracker';
 
-var testPush = () => {
-  PushNotificationIOS.presentLocalNotification({
-    alertTitle:"GABBBBBBE",
-    alertBody:"AAAAAAA",
-    applicationIconBadgeNumber: 1,
-  });
 
-console.log('done')
-
-
-}
 
 export default SwapDashboard = (props) => {
   const { store, actions } = useContext(Context)
@@ -210,8 +198,7 @@ export default SwapDashboard = (props) => {
   let noTracker = (status, a_refresh) => {
     return(
       <FlatList
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={()=> a_refresh()} />}
+        
         ListHeaderComponent={
           <Text style={styles.noTracker.text}> 
             You have no {status} tournaments{'\n'} at the moment. 
@@ -222,7 +209,7 @@ export default SwapDashboard = (props) => {
             <Icon type='FontAwesome' name='refresh'/>
             <Text>Refresh</Text>
           </Button>}
-        ListFooterComponentStyle={{alignSelf:'center', marginTop:20}}
+        ListFooterComponentStyle={{alignSelf:'center', marginTop:20, marginBottom:300}}
       />
 
     )
@@ -243,8 +230,8 @@ export default SwapDashboard = (props) => {
 
        
 <FlatList contentContainerStyle={{ alignSelf: 'stretch' }}
-        refreshControl={ 
-          <RefreshControl refreshing={refreshing} onRefresh={() => onRefresh1()} />}
+        // refreshControl={ 
+        //   <RefreshControl refreshing={refreshing} onRefresh={() => onRefresh1()} />}
         data={store.myCurrentTrackers}
         renderItem={aTracker}
         keyExtractor={(content, index) => index.toString()}
@@ -272,8 +259,9 @@ export default SwapDashboard = (props) => {
           </Button>}
         ListFooterComponentStyle={{alignSelf:'center', marginVertical:20}}
         stickyHeaderIndices={[0]}
-        refreshControl={ 
-          <RefreshControl refreshing={refreshing} onRefresh={()=>onRefresh2()} />}/>
+        // refreshControl={ 
+        //   <RefreshControl refreshing={refreshing} onRefresh={()=>onRefresh2()} />}
+          />
 
     )
   } 
@@ -300,7 +288,7 @@ export default SwapDashboard = (props) => {
   return(
     <Container >
       <HomeHeader title={'Active Swaps'} />
-      <Content>
+      <Content contentContainerStyle={{flex:1}}>
         {/* <Button onPress={()=> sendLocalNotification}><Text>Preess</Text></Button> */}
         <Tabs  tabBarUnderlineStyle={{backgroundColor:'white'}}
           tabBarTextStyle={{fontWeight:'bold', color:'white'}}
@@ -312,14 +300,21 @@ export default SwapDashboard = (props) => {
             style={{backgroundColor:'#174502'}}>
               <Text style={{color:'white'}}>LIVE</Text>
             </TabHeading>}>
+            <Content 
+              refreshControl={
+                <RefreshControl onRefresh={onRefresh1} refreshing={refreshing} />}>
             {liveTracker}
+            </Content>
           </Tab>
           {/* UPCOMING SWAPTRACKER */}
           <Tab heading={
             <TabHeading style={{backgroundColor:'#000099'}}>
               <Text style={{color:'white'}}>UPCOMING</Text>
             </TabHeading>}>
-            {upcomingTracker}
+              <Content refreshControl={
+                <RefreshControl onRefresh={onRefresh2} refreshing={refreshing} />}>
+                 {upcomingTracker}
+              </Content>
           </Tab>
         </Tabs>
       </Content>

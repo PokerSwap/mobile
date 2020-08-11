@@ -1,9 +1,10 @@
 import React from 'react';
 import { ListItem, Icon } from 'native-base';
-import {View, Text } from 'react-native'
+import {View, Text, Platform } from 'react-native'
 import { Col } from 'react-native-easy-grid'
 import { useNavigation } from '@react-navigation/native'
 import moment from 'moment'
+
 
 export default ResultsTracker = (props) => {  
   
@@ -57,11 +58,14 @@ export default ResultsTracker = (props) => {
   }
   console.log('end', props.tournament_end)
  
+  var space, heightx
+  Platform.OS === 'ios' ? (space=-20, heightx=50) : (space =18, heightx=30)
+
   return(
     <View style={{width:'100%'}}>
       {/* WHEN TOURNAMENT ENDED */}
-      <ListItem noIndent itemHeader style={{flex:1, backgroundColor:'black', height:50, justifyContent:'center'}}>
-        <Text style={{ textAlign:'center', color:'white', marginTop:-20,
+      <ListItem noIndent itemHeader style={{flex:1, backgroundColor:'black', height:heightx, justifyContent:'center'}}>
+        <Text style={{ textAlign:'center', color:'white', marginTop:space,
            fontSize:18, fontWeight:'600'}}>
           {props.tournament_end}
         </Text>

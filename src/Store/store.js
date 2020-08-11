@@ -1554,6 +1554,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}, 
 						})
 						.then(response => response.json())
+						console.log('response', response)
 						return customMessage(response.message)
 				
 					}catch(error){
