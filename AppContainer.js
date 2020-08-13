@@ -42,6 +42,7 @@ import CategoriesScreen from './src/Drawer/Categories'
 import ContactsScreen from './src/Main/Chat/Contacts'
 import TutorialsScreen from './src/Drawer/Tutorials/TutorialsScreen'
 import TutorialListScreen from './src/Drawer/TutorialList'
+import ChangeNickname from './src/Drawer/Settings/ChangeNickname'
 
 import HowToSwapScreen from './src/Drawer/Tutorials/HowToSwap'
 
@@ -171,6 +172,8 @@ var SettingsStack = () => {
       <Stack.Screen name="Change Email" component={ChangeEmail}
         options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
       <Stack.Screen name="Change Password" component={ChangePassword}
+        options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
+      <Stack.Screen name="Change Nickname" component={ChangeNickname}
         options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
     </Stack.Navigator>
   )

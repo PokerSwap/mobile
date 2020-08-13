@@ -27,6 +27,11 @@ export default SettingsScreen = () => {
             onPress={()=> navigation.navigate('Change Picture')}>
             <Text> Change Profile Picture </Text>
           </ListItem>
+          {/* CHANGE NICKNAME BUTTON */}
+          <ListItem noIndent 
+            onPress={()=> navigation.navigate('Change Nickname')}>
+            <Text> Change Nickname </Text>
+          </ListItem>
         </List>
       </Content>  
     </Container>
