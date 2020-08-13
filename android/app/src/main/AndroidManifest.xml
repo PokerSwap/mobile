@@ -74,7 +74,9 @@
             </intent-filter>
         </service>
         <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationPublisher" />
-
+         <meta-data
+           android:name="com.google.android.gms.wallet.api.enabled"
+           android:value="true" />
     </application>
 
 </manifest>

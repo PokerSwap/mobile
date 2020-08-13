@@ -47,7 +47,7 @@ target 'SwapProfit' do
   pod 'Permission-PhotoLibrary', :path => "#{permissions_path}/PhotoLibrary.podspec"
   pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse.podspec"
 
-  pod 'Stripe', '~> 14.0.1'
+  pod 'Stripe', '~> 19.0.1'
 
   pod 'tipsi-stripe', :path => '../node_modules/tipsi-stripe'
 

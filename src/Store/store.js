@@ -726,7 +726,33 @@ const getState = ({ getStore, setStore, getActions }) => {
 					} catch (error) {
 						console.log('Something went wrong in storing profile', error)
 					}
-				},
+        },
+        // CHANGE NICKNAME
+        changeNickname: async( a_nickname ) => {
+          try{
+            const url = databaseURL + 'profiles/me'
+
+            if(a_nickname.length < 1){ errorMessage("You must enter something in the field") }else{null}
+
+            var data = {
+              nickname: a_nickname
+            }
+
+            let response = await fetch(url,{
+							method:"PUT",
+							body: JSON.stringify(data),
+							headers:{
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							}
+						})
+						.then(response => response.json())
+						console.log('Nickname changed:', response)         
+
+          }catch(error) {
+            console.log('Something went wrong with changing nickname:', error)
+          }
+        },
 				// UPLOAD NEW PROFILE PHOTO
 				uploadPhoto: async ( image ) => {
 					try {
