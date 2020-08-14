@@ -34,7 +34,6 @@ import NotificationsScreen from './src/Misc/Notifications'
 // DRAWER VIEWS
 import SideBar from './src/View-Components/sidebar'
 import SettingsScreen from './src/Drawer/Settings'
-import PurchaseTokens from './src/Drawer/PurchaseTokens'
 import ChangeEmail from './src/Drawer/Settings/ChangeEmail'
 import ChangePassword from './src/Drawer/Settings/ChangePassword'
 import ChangePicture from './src/Drawer/Settings/ChangePicture'
@@ -43,6 +42,16 @@ import ContactsScreen from './src/Main/Chat/Contacts'
 import TutorialsScreen from './src/Drawer/Tutorials/TutorialsScreen'
 import TutorialListScreen from './src/Drawer/TutorialList'
 import ChangeNickname from './src/Drawer/Settings/ChangeNickname'
+
+import PurchaseTokens from './src/Drawer/PurchaseTokens'
+import AndroidPayScreen from './src/Drawer/PayScenes/AndroidPayScreen'
+import ApplePayScreen from './src/Drawer/PayScenes/ApplePayScreen'
+import CardFieldTextScreen from './src/Drawer/PayScenes/CardFieldTextScreen'
+import CardFormScreen from './src/Drawer/PayScenes/CardFormScreen'
+import CustomBankScreen from './src/Drawer/PayScenes/CustomBankScreen'
+import CustomCardScreen from './src/Drawer/PayScenes/CustomCardScreen'
+import SourceScreen from './src/Drawer/PayScenes/SourceScreen'
+
 
 import HowToSwapScreen from './src/Drawer/Tutorials/HowToSwap'
 
@@ -196,9 +205,24 @@ var AuthStack = () => {
 var HelpStack = () => {
   return(
     <Stack.Navigator name="Help" initialRouteName="TutorialsScreen"
-    screenOptions={{ gestureEnabled: false, headerShown: false }}>
+      screenOptions={{ gestureEnabled: false, headerShown: false }}>
       <Stack.Screen name="Tutorial List" component={TutorialListScreen} />
       <Stack.Screen name="Tutorial Screen" component={TutorialsScreen} />
+    </Stack.Navigator>
+  )
+}
+
+var TokenStack = () => {
+  return(
+    <Stack.Navigator name="Tokens" initialRouteName="Purchase Tokens">
+      <Stack.Screen name="Purchase Tokens" component={PurchaseTokens} />
+      <Stack.Screen name="Card Form" component={CardFormScreen} />
+      <Stack.Screen name="Card Field Text" component={CardFieldTextScreen} />
+      <Stack.Screen name="Source" component={SourceScreen} />
+      <Stack.Screen name="Apple Pay" component={ApplePayScreen} />
+      <Stack.Screen name="Android Pay" component={AndroidPayScreen} />
+      <Stack.Screen name="Custom Card" component={CustomCardScreen} />
+      <Stack.Screen name="Custom Bank" component={CustomBankScreen} />
     </Stack.Navigator>
   )
 }
@@ -216,7 +240,8 @@ var HelpStack = () => {
 
         <Stack.Screen name="Web View" component={WebViewScreen} 
           options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}} />
-        <Stack.Screen name="Purchase Tokens" component={PurchaseTokens} />
+        <Stack.Screen name="Purchase Tokens" component={TokenStack} 
+          options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}} />
         <Stack.Screen name="Profile" component={ProfileScreen} 
           options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}}/>
         <Stack.Screen name="Notifications" component={NotificationsScreen} 

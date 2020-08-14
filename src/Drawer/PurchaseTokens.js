@@ -1,17 +1,19 @@
 import React, { useContext, useState } from 'react';
-import { Alert,  ScrollView, Image } from 'react-native';
-import { Container, Content,  Button, Text, View } from 'native-base';
+import { Alert,  ScrollView, Image, View, Platform } from 'react-native';
+import { Container, Content,  Button, Text } from 'native-base';
 import { Grid, Col, Row} from 'react-native-easy-grid'
 import stripe from 'tipsi-stripe';
 
+
 stripe.setOptions({
   publishableKey: 'pk_live_No3ckprr7lPnxOP2MGPqRDO500aYv6i73M',
-  merchantId:'merchant.com.swapprofitllc.swapprofitapp',
+  // merchantId: Platform.OS === 'ios' ? AppConfig.APPLE_PAY_MERCHANT_ID : AppConfig.GOOGLE_PAY_MERCHANT_ID,
   androidPayMode: 'test',
 });
 
 import OtherHeader from '../View-Components/OtherHeader'
 import {Context} from '../Store/appContext'
+import { useNavigation } from '@react-navigation/native';
 
 PriceOption = (props) => {
 
@@ -78,7 +80,7 @@ PriceOption = (props) => {
 export default PurchaseTokens = (props) => {
 
   const { store, actions } = useContext(Context)
-
+  const navigation = useNavigation()
   // requestPayment = () => {
   //   return stripe
   //     .paymentRequestWithCardForm()
@@ -94,45 +96,36 @@ export default PurchaseTokens = (props) => {
   // }]
 
 
-  
-  const token = async() => {
-    var x = await stripe.paymentRequestWithNativePay({
-      total_price: '100.00',
-      currency_code: 'USD',
-      shipping_address_required: true,
-      phone_number_required: true,
-      shipping_countries: ['US', 'CA'],
-      line_items: [{
-        currency_code: 'USD',
-        description: 'Whisky',
-        total_price: '50.00',
-        unit_price: '50.00',
-        quantity: '1',
-      }, {
-        currency_code: 'USD',
-        description: 'Vine',
-        total_price: '30.00',
-        unit_price: '30.00',
-        quantity: '1',
-      }, {
-        currency_code: 'USD',
-        description: 'Tipsi',
-        total_price: '20.00',
-        unit_price: '20.00',
-        quantity: '1',
-      }],
-    })
-    console.log('token', x)
-  }
-
   return(
     <Container>
       <Content>
       <OtherHeader title={'Purchase Tokens'} />
       <ScrollView style={{ alignSelf: 'stretch' }}>           
         <Grid transparent>
-          <Button onPress={()=> token()}>
-            <Text>Test</Text>
+        {Platform.OS == 'ios' ?
+          <Button onPress={() => navigation.navigate('Card Form')}>
+            <Text>Card Form</Text>
+          </Button> :
+          null}
+          {Platform.OS == 'ios' ?
+            <Button onPress={() => navigation.navigate('Apple Pay')}>
+              <Text>Apple Pay</Text>
+            </Button> 
+            :
+            <Button onPress={() => navigation.navigate('Android Pay')}>
+              <Text>Android Pay</Text>
+            </Button>
+          }
+          
+          
+          <Button onPress={() => navigation.navigate('Custom Card')}>
+            <Text>Custom Card</Text>
+          </Button>
+          <Button onPress={() => navigation.navigate('Custom Bank')}>
+            <Text>Custom Bank</Text>
+          </Button>
+          <Button onPress={() => navigation.navigate('Source')}>
+            <Text>Source</Text>
           </Button>
           {/* TIER 1 PURCHASES */}
           <Row style={{alignItems:'center'}}>
