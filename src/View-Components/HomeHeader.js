@@ -1,4 +1,5 @@
 import React from 'react';
+import { View } from 'react-native'
 import { Header, Text, Icon } from 'native-base';
 import {  DrawerActions, useNavigation } from '@react-navigation/native';
 
@@ -15,9 +16,10 @@ const navigation = useNavigation()
         {props.title}
       </Text>
       {/* TUTORIAL ICON */}
-      <Icon style={{marginRight:10}} type="FontAwesome5" name="bell"
+      <View></View>
+      {/* <Icon style={{marginRight:10}} type="FontAwesome5" name="bell"
         // onPress={()=> navigation.push("Notifications")} 
-        />
+        /> */}
     </Header>
   )
 }

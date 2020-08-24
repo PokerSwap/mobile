@@ -20,21 +20,24 @@ export default CardFormScreen = () => {
         requiredBillingAddressFields: 'full',
         prefilledInformation: {
           billingAddress: {
-            name: 'Gunilla Haugeh',
-            line1: 'Canary Place',
-            line2: '3',
-            city: 'Macon',
-            state: 'Georgia',
-            country: 'US',
-            postalCode: '31217',
-            email: 'ghaugeh0@printfriendly.com',
+            name: '',
+            line1: '',
+            line2: '',
+            city: '',
+            state: '',
+            country: '',
+            postalCode: '',
+            email: '',
           },
         },
       })
       setLoading(false)
       setToken(aToken)
+      console.log('token:', aToken)
+
     } catch (error) {
       setLoading(false)
+      console.log('error:', error)
     }
   }
 

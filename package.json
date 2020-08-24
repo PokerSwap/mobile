@@ -61,8 +61,8 @@
     "react-navigation-stack": "^2.1.0",
     "react-navigation-tabs": "^2.7.0",
     "save": "^2.4.0",
-    "stripe": "^8.84.0",
-    "tipsi-stripe": "^7.5.3"
+    "stripe": "^8.86.0",
+    "tipsi-stripe": "^8.0.0-beta.9"
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",

@@ -244,8 +244,8 @@ var TokenStack = () => {
           options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}} />
         <Stack.Screen name="Profile" component={ProfileScreen} 
           options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}}/>
-        <Stack.Screen name="Notifications" component={NotificationsScreen} 
-          options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}}/>
+        {/* <Stack.Screen name="Notifications" component={NotificationsScreen} 
+          options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}}/> */}
         <Stack.Screen name="Swap Offer" component={SwapOffer} 
           options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}}/>
         {/* <Stack.Screen name="Chat" component={ChatScreen} 

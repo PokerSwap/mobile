@@ -7,7 +7,7 @@ import stripe from 'tipsi-stripe';
 
 stripe.setOptions({
   publishableKey: 'pk_live_No3ckprr7lPnxOP2MGPqRDO500aYv6i73M',
-  // merchantId: Platform.OS === 'ios' ? AppConfig.APPLE_PAY_MERCHANT_ID : AppConfig.GOOGLE_PAY_MERCHANT_ID,
+  merchantId: 'merchant.com.swapprofitllc.swapprofitapp',
   androidPayMode: 'test',
 });
 
@@ -124,9 +124,9 @@ export default PurchaseTokens = (props) => {
           <Button onPress={() => navigation.navigate('Custom Bank')}>
             <Text>Custom Bank</Text>
           </Button>
-          <Button onPress={() => navigation.navigate('Source')}>
+          {/* <Button onPress={() => navigation.navigate('Source')}>
             <Text>Source</Text>
-          </Button>
+          </Button> */}
           {/* TIER 1 PURCHASES */}
           <Row style={{alignItems:'center'}}>
             <PriceOption image={require('../Images/5Real.png')}

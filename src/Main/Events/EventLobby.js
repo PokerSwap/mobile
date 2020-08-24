@@ -55,8 +55,11 @@ export default EventLobby = () => {
       var answer1 = await actions.tournament.getCurrent(tournament_id)
 
       setATournament(store.currentTournament.tournament)
+      setAnEvent(store.currentTournament)
       var answer2 = await actions.tournament.retrieveAction(tournament_id)
+      console.log('Tournament os:', store.currentTournament, aTournament)
       setAnAction(answer2)
+
       
       // setAnEvent(store.currentTournament)     
       // var answer3 = await actions.time.convertLong(startTime)     
@@ -65,6 +68,8 @@ export default EventLobby = () => {
       console.log('Something went wrong with getting Tournaent',error)
     }
   }
+
+
   
   // FLIGHT SCHEDUELE MAPPER
   if(anEvent && aTournament){
@@ -108,6 +113,7 @@ export default EventLobby = () => {
     })
   }else{
     null
+    console.log('was null?', aTournament)
   }
 
   return(

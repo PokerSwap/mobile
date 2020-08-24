@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-community/async-storage'
 import { CommonActions } from '@react-navigation/native';
 import moment from 'moment'
 import PushNotification from 'react-native-push-notification'
-
+import firebase from 'firebase'; // 4.8.1
 
 var databaseURL = 'https://swapprofit-beta.herokuapp.com/'
 
@@ -54,6 +54,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 			notificationData: {},
 			// LISTS ALL RECIEVED NOTIFICATIONS
 			notificationList:[],
+			nowLoading:'',
 	  	// OTHER PEOPLE'S PROFILES (ON PROFILE VIEW)
 			profileView:[ ],
 	  	// ALL TOURNAMENTS, FILTERED BY FIRST 10 RESULTS
@@ -409,6 +410,47 @@ const getState = ({ getStore, setStore, getActions }) => {
 					}
 				}
 			},
+			// USED FOR CHAT NETWORK
+			firebase:{
+				login: async ( data ) => {
+					try {
+						 await firebase
+							.auth()
+							.signInWithEmailAndPassword(data.email, data.password);
+					} catch (error) {
+						console.log('error')
+					}
+				},
+				signup: async ( user ) => {
+					try {
+						firebase
+							.auth()
+							.createUserWithEmailAndPassword(user.email, user.password)
+							.then(() => console.log('created user successfully. User email:' + user.email + ' name:' + user.name ))
+								var userf = firebase.auth().currentUser;
+									try {
+										userf.updateProfile({ displayName: user.name })
+										console.log('Updated displayName successfully. name:' + user.name)
+									} catch (error) {
+										console.warn('Error update displayName.')
+									}
+					} catch (error) {
+						console.error('got error:' + typeof error + ' string:' + error.message);
+					}
+				},
+				updateAvatar: async ( url ) => {
+					var userf = firebase.auth().currentUser;
+					if (userf != null) {
+						try {
+							userf.updateProfile({ avatar: url })
+							console.log('Updated avatar successfully. url:' + url)
+						} catch (error) {
+							console.log("Error:", error.message) }
+					} else {
+						console.log("can't update avatar, user is not login.");
+					}
+				}
+			},
 			// SWAP TOKEN ACTIONS
 			swapToken:{
 
@@ -674,8 +716,11 @@ const getState = ({ getStore, setStore, getActions }) => {
 						var addedProfile = await response.json()
 						console.log('Added Profile Response:', addedProfile)
 						
+
 						var uploadedPicture = await getActions().profile.uploadPhoto(a_Picture)
 						var gettingProfile = await getActions().profile.get();
+
+
 						var deeec = await navigation.navigate('Drawer', { screen: 'Categories' });
 					} catch(error) {
 						console.log("Something went wrong in adding a profile", error)
@@ -787,6 +832,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 						.catch((error) => {
 							console.log('error in json of profile pic',error);
 						});
+
+							// var s =  await getActions().firebase.updateAvatar(responseJson)
 							
 							var eecsrc = await getActions().profile.get()
 							return customMessage("Your profile picture has changed")
@@ -954,35 +1001,38 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}
 						})
 						.then(response => response.json())
-						console.log('Swap Status Change Result:', response)
+						.finally(()=>console.log('Swap Status Change Result:', response))
 						
 						if(response.message){
 							if(response.message.includes("Cannot agree")){
 							return errorMessage(response.message)
 						}else{null}}
 
-						if (a_current_status == 'incoming'){
-							var a = await getActions().swapToken.spend()
-						}else{null}
-
-						if (a_current_status == 'counter_incoming'){
-							if(a_new_status =='rejected'){
-								var a = await getActions().swapToken.return()
-							} else{null}
-						}else{null}
-
-						if(a_new_status == 'canceled'){
-							console.log('repsonse if canceled', response )
-							// if(response[1].status == 'counter_incoming'){
-								var a = await getActions().swapToken.return()
-							// }else{null}
-						}	
 						var refreshingTournament = await getActions().tournament.getCurrent(a_tournament_id)
 						var refreshingTracker = await getActions().tracker.getCurrent()
 
+						// if (a_current_status == 'incoming'){
+						// 	var a = await getActions().swapToken.spend()
+						// }else{null}
+
+						// if (a_current_status == 'counter_incoming'){
+						// 	if(a_new_status =='rejected'){
+						// 		var a = await getActions().swapToken.return()
+						// 	} else{null}
+						// }else{null}
+
+						// if(a_new_status == 'canceled'){
+						// 	console.log('repsonse if canceled', response )
+							// if(response[1].status == 'counter_incoming'){
+								// var a = await getActions().swapToken.return()
+							// }else{null}
+						// }	
+						// var refreshingTournament = await getActions().tournament.getCurrent(a_tournament_id)
+						// var refreshingTracker = await getActions().tracker.getCurrent()
+
 						// var refreshingAction = await getActions().tournament.getAction(a_tournament_id)			
-					}
-					catch(error){
+					
+					}catch(error){
 						console.log("Something went wrong with the swap's status change:",error)
 						errorMessage(error.message)
 					}
@@ -1091,6 +1141,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						
 						var aCurrentTournament = await response.json()
 						setStore({currentTournament: aCurrentTournament})
+						return(aCurrentTournament)
 					} catch(error){
 						console.log('Something went wrong with getting a current tournament: ', error)
 						return errorMessage(error.message)
@@ -1413,6 +1464,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 					return new Promise(resolve =>
 						resolve(getActions().userToken.get(data, navigation)
+						.then(() => setStore({nowLoading: 'Logging In...'}))
 						.then(() => getActions().deviceToken.store(data.device_token))
 						.then(()=> getActions().profile.get())
 						.then(()=> myPassword = '')
@@ -1420,7 +1472,15 @@ const getState = ({ getStore, setStore, getActions }) => {
 							console.log(getStore().myProfile)
 							if(getStore().userToken  && getStore().myProfile !== "Error"){
 								if(getStore().myProfile.message !== "Profile not found"){
+									
+
+									var s = console.log("YOU SUCCEED")
+									var ss =  console.log("YOU FAILED")
+							
+									// var ereere = await getActions().firebase.login(data)
+
 									getActions().tournament.getInitial()
+									.then(() => setStore({nowLoading: 'Loading Swaps...'}))
 									.then(() => getActions().tracker.getCurrent())
 									.then(() => getActions().tracker.getUpcoming())
 									.then(() => getActions().tracker.getPast())
@@ -1438,7 +1498,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				},
 				// LOGOUT FUNCTION
 				logout: async( navigation ) => {
-					navigation.navigate('Login')
+					navigation.goBack('Auth', {screen:'Login'})
 					setStore({currentSwap:{}})
 					setStore({currentBuyin:{}})
 					setStore({myCurrentTrackers:{}})

@@ -97,7 +97,7 @@ export default ProfitResults = (props) => {
                 </Text>
               </Row>
               <Row>
-                <Col style={{width:'60%'}}>
+                <Col style={{width:'70%'}}>
                   {/* TOURNAMENT CASINO and Address */}
                   <Text style={{marginTop:20, textAlign:'center'}}>
                     {tournament.casino + '\n' + tournament.address + '\n' + 
@@ -109,7 +109,7 @@ export default ProfitResults = (props) => {
                   </Text>
                 </Col>
                 <Col style={{textAlign:'center', justifyContent:'center'}}>
-                  <Text style={{alignText:'center'}}>
+                  <Text style={{textAlign:'center'}}>
                     Swapped Players:
                   </Text>
                   <Text style={{alignText:'center', fontSize:24}}>

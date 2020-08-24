@@ -654,9 +654,9 @@ PODS:
   - RNVectorIcons (6.7.0):
     - React
   - Stripe (19.0.1)
-  - tipsi-stripe (7.5.3):
+  - tipsi-stripe (8.0.0-beta.9):
     - React
-    - Stripe (~> 19.0.1)
+    - Stripe (>= 16.0.7)
   - toolbar-android (0.1.0-rc.2):
     - React
   - Yoga (1.14.0)
@@ -919,7 +919,7 @@ SPEC CHECKSUMS:
   RNScreens: c526239bbe0e957b988dacc8d75ac94ec9cb19da
   RNVectorIcons: 368d6d8b8301224e5ffb6254191f4f8876c2be0d
   Stripe: 03313f9520a0786e2c00d9a7a2672c11e08821af
-  tipsi-stripe: a67826d7c3e8d7921f725aeaee06ee11ec017fd9
+  tipsi-stripe: 9ae74fc759c3802a565dfc20a0880cb15a488c2e
   toolbar-android: 404f4450b203597e7b417f714ff417bed562a1be
   Yoga: 3ebccbdd559724312790e7742142d062476b698e
 
