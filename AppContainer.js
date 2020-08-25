@@ -135,7 +135,7 @@ var MainDrawer = () => {
       <Drawer.Screen name="Home" component={MainTabs}
         options={{
           drawerIcon: ({ focused }) => (
-          <Icon type="FontAwesome5" name="home" size={24} 
+          <Icon type="FontAwesome5" name="home" style={{fontSize:26}}
             color={focused ? 'blue' : 'black'} />)}}/>
       {/* SETTINGS DRAWER TAB */}
       <Drawer.Screen name="Settings" component={SettingsStack}
@@ -177,7 +177,7 @@ var SettingsStack = () => {
       <Stack.Screen name="Settings" component={SettingsScreen} 
         screenOptions={{ gestureEnabled: false, headerShown: false }}/>
       <Stack.Screen name="Change Picture" component={ChangePicture}
-        options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
+        options={{ gestureEnabled: true, headerShown: true, headerBackTitle:'' }}/>
       <Stack.Screen name="Change Email" component={ChangeEmail}
         options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
       <Stack.Screen name="Change Password" component={ChangePassword}
@@ -241,7 +241,7 @@ var TokenStack = () => {
         <Stack.Screen name="Web View" component={WebViewScreen} 
           options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}} />
         <Stack.Screen name="Purchase Tokens" component={TokenStack} 
-          options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}} />
+          options={{ gestureEnabled: false, headerShown: false, headerBackTitle:''}} />
         <Stack.Screen name="Profile" component={ProfileScreen} 
           options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}}/>
         {/* <Stack.Screen name="Notifications" component={NotificationsScreen} 

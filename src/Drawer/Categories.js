@@ -38,7 +38,7 @@ export default CategoriesScreen = (props) => {
           {/* POKER CATEGORY */}
           <TouchableOpacity onPress={()=> goToCategory()} 
             style={{width:'50%'}}>
-            <View style={{ backgroundColor:'#228B22', height:200, justifyContent:'center'}}>
+            <View style={{ backgroundColor:'black', height:200, justifyContent:'center'}}>
               <Icon style={{marginBottom:10,
                 color:'white', alignSelf:'center', fontSize:80}}
                 type={'MaterialCommunityIcons'} name={'poker-chip'}/>
@@ -48,7 +48,7 @@ export default CategoriesScreen = (props) => {
             </View>
           </TouchableOpacity>
           {/* GOLF CATEGORY */}
-          <View style={{width:'50%',backgroundColor: 'rgb(38, 171, 75)',justifyContent:'center'}}>
+          <View style={{width:'50%',backgroundColor: '#228B22',justifyContent:'center'}}>
             <Icon style={{color:'white', marginBottom:10, alignSelf:'center', fontSize:80}}
               type={'MaterialCommunityIcons'} name={'golf'}/>
             <Text style={{textAlign:'center', color:'white'}}>
@@ -60,7 +60,7 @@ export default CategoriesScreen = (props) => {
         <Row style={{height:200}}>
           {/* BOWLING CATEGORY */}
           <View 
-            style={{width:'50%',backgroundColor: 'rgb(38, 171, 75)', color:'white', flexDirection:'column',justifyContent:'center'}}>
+            style={{width:'50%',backgroundColor: 'orange', color:'white', flexDirection:'column',justifyContent:'center'}}>
             <Icon style={{color:'white', marginBottom:10, alignSelf:'center', fontSize:80}}
               type={'MaterialCommunityIcons'} name={'bowling'}/>
             <Text style={{textAlign:'center', color:'white'}}>
@@ -68,7 +68,7 @@ export default CategoriesScreen = (props) => {
             </Text>
           </View>
           {/* FISHING CATEGORY */}
-          <View style={{width:'50%',backgroundColor: '#228B22', flexDirection:'column',justifyContent:'center'}}>
+          <View style={{width:'50%',backgroundColor: 'blue', flexDirection:'column',justifyContent:'center'}}>
             <Icon style={{color:'white', marginBottom:10,alignSelf:'center', fontSize:80}}
               type={'MaterialCommunityIcons'} name={'fish'}/>
             <Text style={{textAlign:'center', color:'white'}}>

@@ -8,11 +8,9 @@ import { useNavigation } from '@react-navigation/native';
 export default ProfileBioSideBar = (props) => {
    
   const {store, actions} = useContext(Context)
-
   const navigation = useNavigation()
 
   const enterProfile = async() => {
-
     navigation.push('Profile',{
       nickname: store.myProfile.nickname,
       user_id: store.myProfile.id
@@ -52,8 +50,13 @@ export default ProfileBioSideBar = (props) => {
       <CardItem style={styles.name.container}>
         <Button style={styles.name.button} 
           transparent onPress={() => enterProfile()}>
+          {ifNickName ?
+            <Text style={{fontSize:20, textAlign:'center', marginBottom:5}}>
+              {ifNickName}
+            </Text> 
+            : null}
           <Text style={styles.name.text} >
-            {props.first_name}{ifNickName}{props.last_name}
+            {props.first_name} {props.last_name}
           </Text>
         </Button>
       </CardItem>
@@ -83,7 +86,7 @@ const styles ={
   },
   name:{
     button:{
-      flex:1, justifyContent:'center' },
+      flex:1, justifyContent:'center', flexDirection:'column' },
     container:{
       flex:1, justifyContent:'flex-start'},
     text:{

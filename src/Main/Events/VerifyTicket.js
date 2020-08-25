@@ -6,7 +6,7 @@ import { throttle } from 'lodash'
 import {openSettings, requestMultiple, PERMISSIONS} from 'react-native-permissions';
 import Spinner from 'react-native-loading-spinner-overlay'
 import { useRoute, useNavigation } from '@react-navigation/native';
-
+import moment from 'moment'
 
 import ImagePicker from 'react-native-image-picker';
 
@@ -30,6 +30,8 @@ export default VerifyTicket = (props) => {
   const { flight_id } = route.params;
   const { tournament_id } = route.params;
   const { casino } = route.params;
+
+  // var xy = moment(tournament_start)
   
   const openSets = () => {
     openSettings().catch(() => console.warn('cannot open settings'));
@@ -140,7 +142,7 @@ export default VerifyTicket = (props) => {
               {tournament_name} 
             </Text>
             <Text style={{textAlign:'center', fontSize:18, marginTop:10}}>
-              {tournament_start}
+              {moment(tournament_start).format('llll')}
             </Text>
           </CardItem>
           {/* INSTRUCTION TEXT  */}

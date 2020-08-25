@@ -28,7 +28,7 @@ export default AndroidPayScreen = () => {
       setLoading(true)
       setToken(null)
       const aToken = await stripe.paymentRequestWithNativePay({
-        total_price: '100.00',
+        total_price: '1.00',
         currency_code: 'USD',
         shipping_address_required: true,
         phone_number_required: true,
@@ -39,19 +39,7 @@ export default AndroidPayScreen = () => {
           total_price: '1.00',
           unit_price: '1.00',
           quantity: '1',
-        }, {
-          currency_code: 'USD',
-          description: 'Vine',
-          total_price: '1.00',
-          unit_price: '1.00',
-          quantity: '1',
-        }, {
-          currency_code: 'USD',
-          description: 'Tipsi',
-          total_price: '1.00',
-          unit_price: '1.00',
-          quantity: '1',
-        }],
+        },],
       })
       console.log('aToken', aToken)
       setLoading(false)

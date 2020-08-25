@@ -1,11 +1,14 @@
 import React, {useContext, useState} from 'react';
-import { Container, Content, Icon, Button, Text, Card, Alert } from 'native-base';
+import { Alert } from 'react-native'
+import { Container, Content, Icon, Button, Text, Card } from 'native-base';
 
 import ImagePicker from 'react-native-image-picker'
+// import ImagePicker from 'react-native-image-crop-picker';
 
+import Spinner from 'react-native-loading-spinner-overlay'
 import {openSettings, requestMultiple, PERMISSIONS} from 'react-native-permissions';
 
-import {Image, Platform} from 'react-native'
+import {Image, Platform, YellowBox} from 'react-native'
 import {Context } from '../../Store/appContext'
 
 import '../../Images/placeholder.jpg';
@@ -14,6 +17,7 @@ export default ChangePicture = (props) => {
 
   const { store, actions } = useContext(Context)
 
+  const [loading, setLoading] = useState(false)
   const [image, setImage ]= useState(require('../../Images/placeholder.jpg'));
   // const [imageURI, setImageURI ]= useState(require('../Images/placeholder.jpg'));
  
@@ -105,17 +109,23 @@ export default ChangePicture = (props) => {
   };
 
   const changePicture = async() => {
+    setLoading(true)
     var answer = await actions.profile.uploadPhoto(image)
+    setLoading(false)
   }
+
+
+YellowBox.ignoreWarnings(['Warning: ReactNative.createElement']);
 
   return(
     <Container>
       <Content contentContainerStyle={{
         justifyContent:'center', alignItems:'center'}}>
+          <Spinner visible={loading} textContent={'Changing Profile Picture...'}/>
       <Card transparent style={{
           justifyContent:'center', alignItems:'center', 
           flex:1, flexDirection:'column', marginTop:100}}>
-        <Image source={{uri: image.uri}} style={{width:300, height:300}} />
+        <Image source={{uri: image.uri}} style={{width:300, height:300, borderWidth:1, borderColor:'black'}} />
         <Button style={{width:300, justifyContent:'center'}} 
           onPress={()=> askPersmission()}>
           <Icon type='FontAwesome5' name='plus' style={{color:'white'}}/>

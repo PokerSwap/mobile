@@ -18,20 +18,20 @@ export default EventLobby = () => {
   const { tournament_start } = route.params;
   const { tournament_name } = route.params;
   const { tournament_address } = route.params;
-  const { tournament_players } = route.params;
 
   const { flight_id } = route.params;
 
-  var startAction, startTournament, startTime, startName, startEvent, startAddress, startPlayers;
+  var startAction, startTournament, startTime, startName, startEvent, startAddress, startLat, startLong;
   if(event){
     startEvent= event, startName=event.tournament.name, startAction = event.action,
-    startPlayers= null
     startTournament = event.tournament, startTime = event.tournament.start_at, 
+    startLat=event.tournament.latitude, startLong=event.tournament.longitude,
     startAddress = event.tournament.casino + '\n' +event.tournament.address + '\n' + 
       event.tournament.city + ', ' + event.tournament.state + ' ' + event.tournament.zip_code
   }else{
-    startEvent= null, startName=tournament_name, startAction = null, startPlayers = tournament_players,
-    startTournament = null, startTime = tournament_start, startAddress = tournament_address
+    startEvent= null, startName=tournament_name, startAction = null, 
+    startTournament = null, startTime = tournament_start, startAddress = tournament_address,
+    startLat= null, startLong= null
   }
 
   const [ anEvent, setAnEvent ] = useState(startEvent)
@@ -116,6 +116,8 @@ export default EventLobby = () => {
     console.log('was null?', aTournament)
   }
 
+  
+
   return(
     <Container>      
       <Content>
@@ -125,7 +127,8 @@ export default EventLobby = () => {
             tournament_name={startName}
             tournament_address={startAddress}
             tournamentTime={tStart} 
-            tournament_players={startPlayers}
+            lat={startLat}
+            long={startLong}
             />
           {/* TOURNEY BUYIN ENTRIES  */}
           {!aTournament ? <Spinner /> : Flights }          

@@ -1,6 +1,8 @@
 // import \
 import { useState, useContext, useRef, useCallback } from 'react';
 import * as React from 'react';
+import NetInfo from "@react-native-community/netinfo";
+
 
 import { Platform, Image } from 'react-native'
 import { Button, Text } from 'native-base';
@@ -46,6 +48,12 @@ export default LoginScreen = ({navigation}) => {
   var getToken = () => { return firebase.messaging().getToken() }
 
   const loginStart = async() => {
+    var connect
+    var w = await NetInfo.fetch().then(state => {
+      connect = state.isConnected;
+      console.log('connect', connect)
+    });
+    if(!connect){return alert("You are not connected to the internet")}else{null}
     Keyboard.dismiss();
     setLoading(true)
     var x = await isSimulator()

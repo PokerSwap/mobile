@@ -1498,7 +1498,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				},
 				// LOGOUT FUNCTION
 				logout: async( navigation ) => {
-					navigation.goBack('Auth', {screen:'Login'})
+					navigation.navigate('Auth', {screen:'Login'})
 					setStore({currentSwap:{}})
 					setStore({currentBuyin:{}})
 					setStore({myCurrentTrackers:{}})

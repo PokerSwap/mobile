@@ -7,6 +7,7 @@ import PushNotification from 'react-native-push-notification'
 import PushNotificationIOS from '@react-native-community/push-notification-ios'
 import { useNavigation, CommonActions } from '@react-navigation/native'
 
+import NetInfo from "@react-native-community/netinfo";
 
 import { Context } from '../Store/appContext'
 

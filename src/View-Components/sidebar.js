@@ -32,7 +32,7 @@ export default SideBar = (props) => {
       <DrawerItemList {...props} />
 
       <DrawerItem label="Feedback"
-        icon= {() => <Icon type="FontAwesome5" name="users-cog" />}
+        icon= {() => <Icon type="FontAwesome5" style={{fontSize:24}} name="users-cog" />}
         onPress={()=>  Linking.openURL("mailto:contact@swapprofitonline.com?subject=" + profile.first_name + " " + profile.last_name + " Feedback")}/>
 
       {/* LOGOUT OPTION */}

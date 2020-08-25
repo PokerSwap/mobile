@@ -61,18 +61,12 @@ export default ApplePayScreen = () => {
           id: 'fedex',
           label: 'FedEX',
           detail: 'Test @ 10',
-          amount: '10.00',
+          amount: '1.00',
         }],
       },
       [{
         label: 'Whisky',
-        amount: '50.00',
-      }, {
-        label: 'Vine',
-        amount: '60.00',
-      }, {
-        label: 'Tipsi',
-        amount: '110.00',
+        amount: '1.00',
       }])
 
       setLoading(false)
@@ -81,13 +75,19 @@ export default ApplePayScreen = () => {
       if (complete) {
         await stripe.completeNativePayRequest()
         setStatus('Apple Pay payment completed')
+        console.log("COMPLETE")
       } else {
         await stripe.cancelNativePayRequest()
         setStatus('Apple Pay payment cenceled')
+        console.log("CANCLED")
+
       }
+      setLoading(false)
+
     } catch (error) {
       setLoading(false)
       setStatus(`Error: ${error.message}`)
+      console.log('error', error.message)
     }
   }
 
@@ -115,7 +115,7 @@ export default ApplePayScreen = () => {
         disabledText="Not supported"
         loading={loading}
         disabled={!allowed}
-        onPress={() => handleApplePayPress}
+        onPress={() => handleApplePayPress()}
         {...testID('applePayButton')}
       />
       <Text style={styles.instruction}>
@@ -124,27 +124,27 @@ export default ApplePayScreen = () => {
       <Switch
         style={styles.switch}
         value={complete}
-        onValueChange={() => handleCompleteChange}
+        onValueChange={(x) => handleCompleteChange(x)}
         {...testID('applePaySwitch')}
       />
       <View>
-        {token &&
+        {token ?
           <Text style={styles.instruction} {...testID('applePayToken')}>
             Token: {token.tokenId}
           </Text>
-        }
-        {status &&
+        : null}
+        {status ?
           <Text style={styles.instruction} {...testID('applePayStatus')}>
             {status}
           </Text>
-        }
+        : null}
       </View>
       <View style={styles.hintContainer}>
         <Button
           text="Setup Pay"
           disabledText="Not supported"
           disabled={!allowed}
-          onPress={() => handleSetupApplePayPress}
+          onPress={() => handleSetupApplePayPress()}
           {...testID('setupApplePayButton')}
         />
         <Text style={styles.hint}>

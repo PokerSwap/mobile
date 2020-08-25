@@ -154,7 +154,7 @@ export default ProfileBio = (props) => {
                 : null}
               </View>
             {profile.first_name && props.nickname !== profile.first_name + " " + profile.last_name ?
-              <Text style={{textAlign:'center', marginTop:5, fontize:18}}>
+              <Text style={{textAlign:'center', marginTop:5, fontSize:18}}>
                 {props.nickname}
               </Text>
               : null }
