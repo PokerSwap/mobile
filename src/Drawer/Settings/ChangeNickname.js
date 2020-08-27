@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react';
-import { Alert, TextInput} from 'react-native'
+import React, { useContext, useState, useEffect } from 'react';
+import { Alert, TextInput, View } from 'react-native'
 import { Container, Content, Button, Text, Toast } from 'native-base';
 
 import { Context } from '../../Store/appContext'
@@ -43,27 +43,32 @@ export default ChangeNickname = () => {
       <Content contentContainerStyle={{paddingTop:50,
         justifyContent:'flex-start', alignItems:'center', flex:1, flexDirection:'column'}}>
         {/* TEXT FIELD */}
-        <Text style={{textAlign:'center'}}> 
+        <Text style={{fontSize:20, marginTop:20, textAlign:'center',marginBottom:5}}>
           Change Nickname: 
         </Text>
-        <TextInput 
-          style={{fontSize:24, textAlign:'center', width:'100%'}}
-          placeholder="Enter New Nickname"
-          placeholderTextColor='gray'
-          blurOnSubmit={false}
-          selectionColor={'black'}
-          returnKeyType="next"
-          autoCapitalize='none'
-          autoCorrect={false} 
-          value={newNickname}    
-          onChangeText={nickname => setNewNickname( nickname )}  />
+        <View style={{borderColor:'black', borderWidth:1, width:'80%', padding:10, marginVeritcal:5}}>
+          <TextInput 
+            style={{fontSize:20, textAlign:'center', width:'100%'}}
+            placeholder="Enter New Nickname"
+            placeholderTextColor='gray'
+            blurOnSubmit={false}
+            selectionColor={'black'}
+            returnKeyType="next"
+            autoCapitalize='none'
+            autoCorrect={false} 
+            value={newNickname}    
+            onChangeText={nickname => setNewNickname( nickname )}  />
+        </View>
+        <View style={{justifyContent:'center'}}>
+          <Button large disabled={disabled} style={{marginTop:40, selfAlign:'center', justifyContent:'center'}}
+            onPress={()=> showAlert()}>
+            <Text style={{fontSize:30, fontWeight:'600'}}> 
+              SUBMIT 
+            </Text>
+          </Button>
+        </View>
         {/* SUBMIT BUTTON */}
-        <Button large disabled={disabled} style={{marginTop:40, selfAlign:'center', justifyContent:'center'}}
-          onPress={()=> showAlert()}>
-          <Text style={{fontSize:30, fontWeight:'600'}}> 
-            SUBMIT 
-          </Text>
-        </Button>
+        
       </Content>  
     </Container>
   )

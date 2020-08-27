@@ -146,7 +146,7 @@ PushNotification.configure({
 		setTimeout(() => {
 			checkData()
 
-		}, 3000);
+		}, 2000);
 		
 		return () => {
 			// cleanup

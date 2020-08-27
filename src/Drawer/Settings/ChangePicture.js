@@ -1,9 +1,11 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import { Alert } from 'react-native'
 import { Container, Content, Icon, Button, Text, Card } from 'native-base';
 
 import ImagePicker from 'react-native-image-picker'
 // import ImagePicker from 'react-native-image-crop-picker';
+import { useNavigation } from '@react-navigation/native'
+
 
 import Spinner from 'react-native-loading-spinner-overlay'
 import {openSettings, requestMultiple, PERMISSIONS} from 'react-native-permissions';
@@ -21,6 +23,14 @@ export default ChangePicture = (props) => {
   const [image, setImage ]= useState(require('../../Images/placeholder.jpg'));
   // const [imageURI, setImageURI ]= useState(require('../Images/placeholder.jpg'));
  
+  const navigation = useNavigation()
+// useEffect(() => {
+//   effect
+//   return () => {
+//     cleanup
+//   }
+// }, [input])
+
   const openSets = () => {
     openSettings().catch(() => console.warn('cannot open settings'));
   }
@@ -112,16 +122,18 @@ export default ChangePicture = (props) => {
     setLoading(true)
     var answer = await actions.profile.uploadPhoto(image)
     setLoading(false)
+
   }
 
 
-YellowBox.ignoreWarnings(['Warning: ReactNative.createElement']);
 
   return(
     <Container>
+            {/* <OtherHeader title={'Change Profile Picture'}   /> */}
+
       <Content contentContainerStyle={{
         justifyContent:'center', alignItems:'center'}}>
-          <Spinner visible={loading} textContent={'Changing Profile Picture...'}/>
+          <Spinner visible={loading} textContent={'Changing Avatar...'}/>
       <Card transparent style={{
           justifyContent:'center', alignItems:'center', 
           flex:1, flexDirection:'column', marginTop:100}}>

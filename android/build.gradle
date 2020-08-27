@@ -7,7 +7,7 @@ buildscript {
         targetSdkVersion = 29
         androidXAnnotation = "1.1.0"
         androidXBrowser = "1.0.0"
-        reactNativeVersion = '0.62.2'
+        reactNativeVersion = '0.63.2'
         firebaseVersion = '11.8.0'
     }
     repositories {

@@ -79,7 +79,7 @@ export default EventListings = (props, navigation) => {
           setMode={setMode} setPage={setPage} />
       </Segment>
       {/* MAIN TOURNAMENT COMPONENT */}
-      <EventBody mode={mode} myCoords={myCoords} event={testData} /> 
+      {/* <EventBody mode={mode} myCoords={myCoords} event={testData} />  */}
       {store.tournamentList != null ?
         store.tournamentList.length != 0 ?
           // TOURNAMENT LIST GENERATOR 

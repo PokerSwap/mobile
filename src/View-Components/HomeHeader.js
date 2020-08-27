@@ -10,7 +10,7 @@ const navigation = useNavigation()
       backgroundColor:'rgb(248,248,248)'}}>
       {/* MENU ICON */}
       <Icon type="FontAwesome5" name="bars" style={{marginLeft:10}}
-        onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}/>
+        onPress={() => navigation.dispatch(DrawerActions.openDrawer())}/>
       {/* TITLE */}
       <Text style={{fontWeight:'bold', fontSize:20, color:'black'}}>
         {props.title}

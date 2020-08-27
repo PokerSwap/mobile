@@ -9,7 +9,7 @@ export default OtherHeader = (props) => {
       
       {/* MENU ICON */}
       <Icon type="Ionicons" name="ios-chevron-back" style={{marginLeft:10}}
-        onPress={() => navigation.goBack()} />
+        onPress={() => navigation.goBack(null)} />
       
       {/* TITLE */}
       <Text style={{fontWeight:'bold', fontSize:20, color:'black'}}>

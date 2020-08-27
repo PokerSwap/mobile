@@ -836,7 +836,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							// var s =  await getActions().firebase.updateAvatar(responseJson)
 							
 							var eecsrc = await getActions().profile.get()
-							return customMessage("Your profile picture has changed")
+							// return customMessage("Your profile picture has changed")
 					} catch(error) {
 						return errorMessage(error.message)
 					}

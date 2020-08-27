@@ -63,7 +63,7 @@ var MainTabs = () => {
   return(
     <aTab.Navigator initialRouteName="Active Swaps" tabBarOptions= {{
       showLabel: false, activeTintColor: 'orange',
-      inactiveTintColor: 'gray', style: {height: 70}}} >
+      inactiveTintColor: 'gray', style: {height: 70, paddingTop:10}}} >
       <aTab.Screen name="Active Swaps" component={SwapsStack} 
         options={{
           tabBarIcon: ({ color }) => 
@@ -173,11 +173,11 @@ var MainDrawer = () => {
 
 var SettingsStack = () => {
   return(
-    <Stack.Navigator  screenOptions={{ gestureEnabled: false, headerShown: false }}>
-      <Stack.Screen name="Settings" component={SettingsScreen} 
-        screenOptions={{ gestureEnabled: false, headerShown: false }}/>
+    <Stack.Navigator initialRouteName="Settings Screen"  screenOptions={{ gestureEnabled: false, headerShown: false }}>
+      <Stack.Screen name="Settings Screen" component={SettingsScreen} 
+        screenOptions={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
       <Stack.Screen name="Change Picture" component={ChangePicture}
-        options={{ gestureEnabled: true, headerShown: true, headerBackTitle:'' }}/>
+        options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
       <Stack.Screen name="Change Email" component={ChangeEmail}
         options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
       <Stack.Screen name="Change Password" component={ChangePassword}
@@ -215,7 +215,8 @@ var HelpStack = () => {
 var TokenStack = () => {
   return(
     <Stack.Navigator name="Tokens" initialRouteName="Purchase Tokens">
-      <Stack.Screen name="Purchase Tokens" component={PurchaseTokens} />
+      <Stack.Screen name="Purchase Tokens" component={PurchaseTokens} 
+      options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}}/>
       <Stack.Screen name="Card Form" component={CardFormScreen} />
       <Stack.Screen name="Card Field Text" component={CardFieldTextScreen} />
       <Stack.Screen name="Source" component={SourceScreen} />
@@ -241,7 +242,7 @@ var TokenStack = () => {
         <Stack.Screen name="Web View" component={WebViewScreen} 
           options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}} />
         <Stack.Screen name="Purchase Tokens" component={TokenStack} 
-          options={{ gestureEnabled: false, headerShown: false, headerBackTitle:''}} />
+          options={{ gestureEnabled: false, headerShown: false}} />
         <Stack.Screen name="Profile" component={ProfileScreen} 
           options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}}/>
         {/* <Stack.Screen name="Notifications" component={NotificationsScreen} 

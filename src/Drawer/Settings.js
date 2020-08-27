@@ -8,8 +8,7 @@ export default SettingsScreen = () => {
   const navigation = useNavigation()
   return(
     <Container>
-      <OtherHeader title={'Settings'} 
-        goBackToHome={() => navigation.goBack(null)}/>
+      <OtherHeader title={'Settings'} />
       <Content>      
         <List>
           {/* CHANGE EMAIL BUTTON */}

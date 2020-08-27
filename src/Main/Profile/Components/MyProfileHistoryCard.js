@@ -57,7 +57,7 @@ export default MyProfileHistoryCard = (props) => {
 								<Text style={{color:'white'}}>Date {'&'} Time</Text>
 							</Col>
 							<Col style={{width:'40%'}}>
-								<Text style={{color:'white'}}>Yours / Theirs %</Text>
+								<Text style={{color:'white'}}>You / Them</Text>
 							</Col>
 						</ListItem>
 						{/* ROW OF SWAP DETAILS */}
