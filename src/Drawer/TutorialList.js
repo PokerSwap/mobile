@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native'
-import { Text, Icon, List, ListItem } from 'native-base';
+import { Text, Icon, List, ListItem, Content, Container } from 'native-base';
 import { useNavigation } from '@react-navigation/native'
 
 import OtherHeader from '../View-Components/OtherHeader';
@@ -9,8 +9,9 @@ export default TutorialListScreen = () => {
   const navigation = useNavigation()
 
   return(
-    <View>
+    <Container>
       <OtherHeader title='Help'/>
+      <Content>
       <List>
         {/* <ListItem onPress={() => navigation.navigate('How to Swap')}>
           <Icon type="FontAwesome5" name="handshake"/>
@@ -38,6 +39,7 @@ export default TutorialListScreen = () => {
           <Text>Frequently Asked Questions</Text>
         </ListItem>
       </List>
-    </View>
+      </Content>
+      </Container>
   )
 }

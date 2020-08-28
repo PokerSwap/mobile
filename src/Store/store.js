@@ -13,13 +13,15 @@ var errorMessage = (error) => {
 	Toast.show({
 		text:error, 
 		duration:3000, 
-		style:{bottom:90,backgroundColor:'red'}
+		position:'bottom',
+		style:{bottom: "50%",backgroundColor:'red'}
 	})
 }
 
 var customMessage = (custom) => {
 	Toast.show({
-		text:custom, duration:3000, position:'top'
+		text:custom, duration:3000, position:'bottom',
+		style:{bottom: "50%",backgroundColor:'green'}
 	})
 }
 
@@ -773,9 +775,10 @@ const getState = ({ getStore, setStore, getActions }) => {
 					}
         },
         // CHANGE NICKNAME
-        changeNickname: async( a_nickname ) => {
+        changeNickName: async( a_nickname ) => {
           try{
             const url = databaseURL + 'profiles/me'
+						const accessToken = getStore().userToken;
 
             if(a_nickname.length < 1){ errorMessage("You must enter something in the field") }else{null}
 
@@ -792,7 +795,10 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}
 						})
 						.then(response => response.json())
-						console.log('Nickname changed:', response)         
+						var e = await getActions().profile.get()
+						console.log('Nickname changed:', response)  
+						return customMessage('Your nickname change was successful')   
+
 
           }catch(error) {
             console.log('Something went wrong with changing nickname:', error)
@@ -1196,7 +1202,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						// console.log('tournaments inital', getStore().tournamentList)
 					} catch(error) {
 						console.log('Something went wrong with getting initial tournaments: ', error)
-						return errorMessage(error.message)
+						setStore({tournamentList: "There are no events at the moment"})
 					}
 				},
 				// RETRIEVES ADDITIONAL TOURNAMENTS IN THE EVENTS DASHBOARD

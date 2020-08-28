@@ -9,33 +9,33 @@ export default ChangeNickname = () => {
   const { store, actions } = useContext(Context)
 
   const [newNickname, setNewNickname] = useState('')
-  const [disabled, setDisabled] = useState(false)
+  const [disabled, setDisabled] = useState(true)
 
   useEffect(() => {
     newNickname.length == 0 ? setDisabled(false): setDisabled(true)
+    console.log('diabled', disabled)
+    console.log('new nickname', newNickname)
+
     return () => {
       //cleanup
     }
-  }, [])
+  }, [true])
 
     
   const showAlert = () =>{
     Alert.alert(
       "Confirmation",
-      'Remember if you solely rely on your nickname for your buyin ticket,'+
-      'you may not be able to verify your buyin ticket on SwapProfit if its different'+
-      "than what's registered.\n\n Do you wish to continue?"
+      "Remember if you solely rely on your nickname for your buyin ticket,you may not be able to verify your buyin ticket on SwapProfit if its different than what is registered.\n\n  Do you wish to continue?",
       [
-        { text: 'Yes',
-          onPress: () => changeNickname() },
-        { text: 'No',
-          onPress: () => console.log("Cancel Pressed"), }
+        { text: 'Yes', onPress: () => changeNickname() },
+        { text: 'No',  onPress: () => console.log("Cancel Pressed"), }
       ]
     )
   }
 
   const changeNickname = async() => {
-      var answer = await actions.user.changePassword(newNickname)
+    console.log(newNickname)
+      var answer = await actions.profile.changeNickName(newNickname)
   }
 
   return(

@@ -81,7 +81,7 @@ export default EventListings = (props, navigation) => {
       {/* MAIN TOURNAMENT COMPONENT */}
       {/* <EventBody mode={mode} myCoords={myCoords} event={testData} />  */}
       {store.tournamentList != null ?
-        store.tournamentList.length != 0 ?
+        store.tournamentList.length != 0 && typeof(store.tournamentList) != 'string' ?
           // TOURNAMENT LIST GENERATOR 
           <FlatList
             data={store.tournamentList}
@@ -101,17 +101,16 @@ export default EventListings = (props, navigation) => {
                 </Text>
               </ListItem> } />
           :
-          // CONDITION IF NO TOURNAMENTS ARE FOUND UNDER FIELDS
-          <Segment style={{
-            width:'80%', marginTop:10, alignSelf:'center'}}>
-            <Text style={{textAlign:'center', 
-              fontSize:18, justifyContent:'center'}}> 
-              There are no tournamnents under that name in our database
-            </Text>
-          </Segment>
-        :  
+            // CONDITION IF NO TOURNAMENTS ARE FOUND UNDER FIELDS
+            <Segment style={{
+              width:'80%', marginTop:10, alignSelf:'center'}}>
+              <Text style={{textAlign:'center', 
+                fontSize:18, justifyContent:'center'}}> 
+                There are no tournamnents under that name in our database
+              </Text>
+            </Segment>
         // CONDITION USED WHILE LOADING THE TOURNAMENTS
-        <Spinner /> }
+       :<Spinner /> }
   </View>
   )
 }
