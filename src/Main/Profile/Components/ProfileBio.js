@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Image, View, Spinner, Linking, Modal } from 'react-native'
-import { Button, Icon, Card, CardItem, Text, Radio } from 'native-base';
+import { Button, Icon, Card, CardItem, Text, Radio, Toast } from 'native-base';
 import { Context } from '../../../Store/appContext';
 import { useNavigation } from '@react-navigation/native'
 import { Grid, Row, Col} from 'react-native-easy-grid'
@@ -116,10 +116,14 @@ export default ProfileBio = (props) => {
   }
 
   const openHendon = () => {
-    navigation.push('Web View', {
-      url: profile.hendon_url
-    })
-  }
+    if(profile.hendon_url!=='' && profile.hendon_url!==null){
+      navigation.push('Web View', {
+        url: profile.hendon_url
+      })
+    }else{
+        return Toast.show({text:"This user does not have a hendon mob profile", color:'green', position:'top', duration:3000 })
+      }
+    }
 
   // const openChat = () => {
   //   navigation.push('Chat', {

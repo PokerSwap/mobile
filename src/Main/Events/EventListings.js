@@ -103,7 +103,7 @@ export default EventListings = (props, navigation) => {
           :
             // CONDITION IF NO TOURNAMENTS ARE FOUND UNDER FIELDS
             <Segment style={{
-              width:'80%', marginTop:10, alignSelf:'center'}}>
+              width:'80%', marginTop:10, alignSelf:'center', backgroundColor:'rgba(0,0,0,0)'}}>
               <Text style={{textAlign:'center', 
                 fontSize:18, justifyContent:'center'}}> 
                 There are no tournamnents under that name in our database

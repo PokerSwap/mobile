@@ -216,7 +216,7 @@ var TokenStack = () => {
   return(
     <Stack.Navigator name="Tokens" initialRouteName="Purchase Tokens">
       <Stack.Screen name="Purchase Tokens" component={PurchaseTokens} 
-      options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}}/>
+      options={{ gestureEnabled: false, headerShown: false, headerBackTitle:''}}/>
       <Stack.Screen name="Card Form" component={CardFormScreen} />
       <Stack.Screen name="Card Field Text" component={CardFieldTextScreen} />
       <Stack.Screen name="Source" component={SourceScreen} />

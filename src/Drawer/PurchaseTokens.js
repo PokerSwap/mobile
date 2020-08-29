@@ -4,10 +4,12 @@ import { Container, Content,  Button, Text } from 'native-base';
 import { Grid, Col, Row} from 'react-native-easy-grid'
 import stripe from 'tipsi-stripe';
 
+var pid;
+Platform.IOS == 'ios' ? pid = 'merchant.com.swapprofitllc.swapprofitapp' : pid = '05487257864798279761'
 
 stripe.setOptions({
   publishableKey: 'pk_live_No3ckprr7lPnxOP2MGPqRDO500aYv6i73M',
-  merchantId: 'merchant.com.swapprofitllc.swapprofitapp',
+  merchantId: pid ,
   androidPayMode: 'test',
 });
 
