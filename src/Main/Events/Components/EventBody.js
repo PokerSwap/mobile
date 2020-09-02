@@ -21,7 +21,8 @@ export default EventBody = (props) => {
       tournament_start: event.start_at,
       tournament_name: event.name,
       tournament_address: startAddress,
-      flight_id: event.id
+      flight_id: event.id, 
+      casino: event.casino
     });
   }
 

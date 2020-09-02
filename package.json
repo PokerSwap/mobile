@@ -36,7 +36,7 @@
     "jest-changed-files": "^24.9.0",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
-    "native-base": "^2.13.13",
+    "native-base": "^2.13.14",
     "react": "^16.13.1",
     "react-bottom-scroll-listener": "^3.0.0",
     "react-native": "^0.63.2",

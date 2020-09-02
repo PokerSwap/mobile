@@ -38,6 +38,7 @@ export default ApplePayScreen = () => {
     const isVisaAvailable = await stripe.canMakeNativePayPayments({
       networks: ['visa'],
     })
+    
     setAllowed(isAllowed)
     setAmexAvailable(isAmexAvailable)
     setDiscoverAvailable(isDiscoverAvailable)
@@ -48,7 +49,7 @@ export default ApplePayScreen = () => {
   const handleCompleteChange = (isComplete) => (
     setComplete(isComplete)
   )
-
+ 
   const handleApplePayPress = async () => {
     try {
       setLoading(true)

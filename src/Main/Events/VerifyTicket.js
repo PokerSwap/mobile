@@ -1,5 +1,5 @@
-import React, { useState, useContext, useCallback } from 'react';
-import { Image,  TextInput, KeyboardAvoidingView, Platform, Alert} from 'react-native';
+import React, { useState, useContext, useEffect } from 'react';
+import { Image,  TextInput, KeyboardAvoidingView, Linking, Modal, Platform, Alert, View, TouchableOpacity} from 'react-native';
 import { Container,  Button, Text, Content, Card, CardItem, Icon} from 'native-base';
 import { Grid, Row, Col } from 'react-native-easy-grid';
 import { throttle } from 'lodash'
@@ -12,7 +12,8 @@ import ImagePicker from 'react-native-image-picker';
 
 import { Context } from '../../Store/appContext';
 import _Header from "../../View-Components/HomeHeader";
-import placeholder from '../../Images/placeholder.jpg';
+import InfoModal from './Components/InfoModal'
+
 
 export default VerifyTicket = (props) => {
   const { store, actions } = useContext(Context)
@@ -22,20 +23,40 @@ export default VerifyTicket = (props) => {
   const [ seat, setSeat ] = useState('');
   const [ chips, setChips ] = useState('');
   const [ loading, setLoading ] = useState(false)
+  const [ info, setInfo ] = useState(false)
+  const [ visible, setVisible ] = useState(false)
+  const [ currentTournament, setCurrentTournament ] = useState('')
 
   var navigation = useNavigation();
   var route = useRoute();
   const { tournament_name } = route.params;
   const { tournament_start } = route.params;
   const { flight_id } = route.params;
+  const { tournament_address } = route.params;
+
   const { tournament_id } = route.params;
   const { casino } = route.params;
+
+  useEffect(() => {
+    getTournament()
+    return () => {
+      // cleanup
+    }
+  }, [])
+
+  const getTournament = async() => {
+    var xw = await actions.tournament.getCurrent(tournament_id)
+    setCurrentTournament(xw)
+  }
+
+
 
   // var xy = moment(tournament_start)
   
   const openSets = () => {
     openSettings().catch(() => console.warn('cannot open settings'));
   }
+
 
   const showAlert = () =>{
     Alert.alert(
@@ -123,6 +144,8 @@ export default VerifyTicket = (props) => {
     image, table, seat, chips, flight_id, tournament_id, tournament_name, tournament_start, casino, navigation )
     setLoading(false)
   }
+
+
  
   const handler = throttle(BuyInStart, 1000, { leading: true, trailing: false });
  
@@ -134,16 +157,33 @@ export default VerifyTicket = (props) => {
         <Spinner visible={loading} />
       <KeyboardAvoidingView style={{flex:1,}} 
         behavior='position' keyboardVerticalOffset={-180}>
+        <Modal
+          animationType='fade'
+          visible={visible}
+          presentationStyle='overFullScreen'
+          transparent={true}>
+          <InfoModal  setVisible={setVisible}
+            tournament_name={tournament_name}
+            tournament_address={tournament_address} 
+            tournament_start={tournament_start}
+            tournament={currentTournament}
+            />
+        </Modal>
         {/* TOURNEY INFO */}
         <Card transparent >
           {/* TOURNAMENT INFO */}
           <CardItem style={{justifyContent:'center', flexDirection:'column'}}>
-            <Text style={{textAlign:'center', fontSize:24, fontWeight:'bold'}}>
+            <Text style={{textAlign:'center', fontSize:20, marginBottom:10, fontWeight:'bold'}}>
               {tournament_name} 
             </Text>
-            <Text style={{textAlign:'center', fontSize:18, marginTop:10}}>
-              {moment(tournament_start).format('llll')}
-            </Text>
+            {/* <Text>
+              {tournament_address}
+            </Text> */}
+            <Button block info onPress={() => setVisible(!visible)}>
+              <Text>Event Info</Text>
+            </Button>
+            
+            
           </CardItem>
           {/* INSTRUCTION TEXT  */}
           <CardItem style={{selfAlign:'center', flex:1, 

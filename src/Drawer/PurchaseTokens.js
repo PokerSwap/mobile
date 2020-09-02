@@ -4,14 +4,14 @@ import { Container, Content,  Button, Text } from 'native-base';
 import { Grid, Col, Row} from 'react-native-easy-grid'
 import stripe from 'tipsi-stripe';
 
-var pid;
-Platform.IOS == 'ios' ? pid = 'merchant.com.swapprofitllc.swapprofitapp' : pid = '05487257864798279761'
+// var pid;
+// Platform.IOS == 'ios' ? pid = 'merchant.com.swapprofitllc.swapprofitapp' : pid = '05487257864798279761'
 
-stripe.setOptions({
-  publishableKey: 'pk_live_No3ckprr7lPnxOP2MGPqRDO500aYv6i73M',
-  merchantId: pid ,
-  androidPayMode: 'test',
-});
+// stripe.setOptions({
+//   publishableKey: 'pk_live_No3ckprr7lPnxOP2MGPqRDO500aYv6i73M',
+//   merchantId: pid ,
+//   androidPayMode: 'test',
+// });
 
 import OtherHeader from '../View-Components/OtherHeader'
 import {Context} from '../Store/appContext'
@@ -104,7 +104,7 @@ export default PurchaseTokens = (props) => {
       <OtherHeader title={'Purchase Tokens'} />
       <ScrollView style={{ alignSelf: 'stretch' }}>           
         <Grid transparent>
-        {Platform.OS == 'ios' ?
+        {/* {Platform.OS == 'ios' ?
           <Button onPress={() => navigation.navigate('Card Form')}>
             <Text>Card Form</Text>
           </Button> :
@@ -117,7 +117,7 @@ export default PurchaseTokens = (props) => {
             <Button onPress={() => navigation.navigate('Android Pay')}>
               <Text>Android Pay</Text>
             </Button>
-          }
+          } */}
           
           
           <Button onPress={() => navigation.navigate('Custom Card')}>

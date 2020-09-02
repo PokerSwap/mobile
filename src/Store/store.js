@@ -100,11 +100,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							},
 							body: imageData,
 						})
-						.then(response => 
-							response.json()
-							
-						)
-						
+						.then(response => response.json())
 						.then((responseJson) => {
 							console.log('responseJson',responseJson)
 								newBuyin = responseJson;
@@ -1707,6 +1703,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							setStore({userToken: res.jwt});
 							var x = await AsyncStorage.setItem('loginInfo', JSON.stringify(data))
 							var cx = await AsyncStorage.setItem('userToken', res.jwt)
+
 						} else {
 							let error = res;
 							setStore({userToken: null})
