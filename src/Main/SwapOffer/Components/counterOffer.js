@@ -43,42 +43,63 @@ export default CounterOffer = (props) => {
     props.setRefreshing(true)
     props.setLoading(false)
   }
-  // MY PERCENTAGE - ADD
+  var ere = percentage
+  var erx = cPercentage
+  // MY PERCENTAGE - ADD  
   const pAdd = () => {
-    percentage < 50 ? 
-      setPercentage(percentage+ 1) : setPercentage(50)
+    if(ere < 50){ 
+      setPercentage(prev => prev + 1)
+      ere++
+    }else{
+      setPercentage(50)
+    }
   }
   // MY PERCENTAGE - SUBTRACT
   const pSubtract = () => {
-    percentage > 1 ? 
-      setPercentage(percentage-1) : setPercentage(1)
+    if(ere > 1){ 
+      setPercentage(prev => prev - 1)
+      ere--
+    }else{
+      setPercentage(1)
+    }
   }
   // THEIR COUNTER PERCENTAGE - ADD
   const cAdd = () => {
-    cPercentage < 50 ? 
-      setCPercentage(cPercentage+ 1) 
-      : setCPercentage(50)
+    if(erx < 50){ 
+      setCPercentage(prev => prev + 1)
+      erx++
+    }else{
+      setCPercentage(50)
+    }
   }
   // THEIR COUNTER PERCENTAGE - SUBTRACT
   const cSubtract = () => {
-    cPercentage > 1 ? 
-      setCPercentage(cPercentage-1) 
-      : setCPercentage(1)
+    if(erx > 1){ 
+      setCPercentage(prev => prev - 1)
+      erx--
+    }else{
+      setCPercentage(1)
+    }
   }
   // BOTH PERCENTAGE - ADD
   const tAdd = () => {
-    if(percentage < 50){
-      setPercentage(percentage + 1) 
-      setCPercentage(percentage) 
+    if(ere < 50){
+      setPercentage(prev => prev + 1) 
+      setCPercentage(prev => prev + 1) 
+      ere++
+      console.log('percentage', percentage)
     } else {
       setPercentage(50), setCPercentage(50)
+      console.log('added enough')
     }     
   }
+
   // BOTH PERCENTAGE - SUBTRACT
   const tSubtract = () => {
-    if(percentage > 1){
-      setPercentage(percentage - 1) 
-      setCPercentage(percentage) 
+    if(ere > 1){
+      setPercentage(prev => prev - 1) 
+      setCPercentage(prev => prev - 1) 
+      ere--
     } else {
       setPercentage(1), setCPercentage(1)
     }     

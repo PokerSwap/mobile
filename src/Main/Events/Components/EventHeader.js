@@ -25,11 +25,11 @@ export default EventHeader = (props) => {
             tournament={props.currentTournament}/>
         </Modal>
       {/* TOURNAMENT NAME */}
-      <Text style={{ fontSize:18, fontWeight:'600', textAlign:'center'}}>
+      <Text style={{ fontSize:18, fontWeight:'600', textAlign:'center', color:'black'}}>
         {props.tournament_name}
       </Text>
       {/* TOURNAMENT START */}
-      <Text style={{fontSize:14, textAlign:'center', marginTop:10, marginBottom:10}}>
+      <Text style={{fontSize:14, textAlign:'center', marginTop:10, marginBottom:10, color:'black'}}>
         {moment(props.tournamentTime).format('llll')}
       </Text>    
       <Button block info onPress={() => setVisible(!visible)}>

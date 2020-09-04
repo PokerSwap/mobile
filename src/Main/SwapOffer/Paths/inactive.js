@@ -22,27 +22,41 @@ export default InactivePath = (props) => {
   }
   var ere = percentage
   var erx = counterPercentage
-  // MY PERCENTAGE - ADD
+  // MY PERCENTAGE - ADD  
   const pAdd = () => {
-    ere < 50 ? 
-      setPercentage(prev => prev + 1)  : setPercentage(50)
+    if(ere < 50){ 
+      setPercentage(prev => prev + 1)
+      ere++
+    }else{
+      setPercentage(50)
+    }
   }
   // MY PERCENTAGE - SUBTRACT
   const pSubtract = () => {
-    ere > 1 ? 
-      setPercentage(prev => prev + 1)  : setPercentage(1)
+    if(ere > 1){ 
+      setPercentage(prev => prev - 1)
+      ere--
+    }else{
+      setPercentage(1)
+    }
   }
   // THEIR COUNTER PERCENTAGE - ADD
   const cAdd = () => {
-    erx < 50 ? 
-      setCounterPercentage(prev => prev + 1) 
-      : setCounterPercentage(50)
+    if(erx < 50){ 
+      setCounterPercentage(prev => prev + 1)
+      erx++
+    }else{
+      setCounterPercentage(50)
+    }
   }
   // THEIR COUNTER PERCENTAGE - SUBTRACT
   const cSubtract = () => {
-    erx > 1 ? 
-      setCounterPercentage(prev => prev - 1)  
-      : setCounterPercentage(1)
+    if(erx > 1){ 
+      setCounterPercentage(prev => prev - 1)
+      erx--
+    }else{
+      setCounterPercentage(1)
+    }
   }
   // BOTH PERCENTAGE - ADD
   const tAdd = () => {
