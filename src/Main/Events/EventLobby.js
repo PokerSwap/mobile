@@ -1,6 +1,8 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Container, Content, List, Spinner } from 'native-base';
+import { View } from 'react-native'
+import { Container, Content, List, Spinner, Header, Text } from 'native-base';
 import { useNavigation, useRef, useRoute } from '@react-navigation/native'
+import { HeaderBackButton } from '@react-navigation/stack'
 
 import { Context } from '../../Store/appContext'
 
@@ -10,6 +12,8 @@ import ActionBar from './Components/ActionBar'
 
 export default EventLobby = () => {
   const { store, actions } = useContext(Context)
+
+
 
   const route = useRoute()
   const navigation = useNavigation()
@@ -120,16 +124,17 @@ export default EventLobby = () => {
 
   return(
     <Container>      
+      <Header style={{flexDirection:'row', alignItems:'center',justifyContent:'flex-start', backgroundColor:'rgb(248,248,248)'}}>
+        <HeaderBackButton onPress={()=> navigation.popToTop()}/>
+        <Text style={{}}>Event Lobby</Text>
+      </Header>
       <Content>
         <List>
           {/* TOURNAMENT HEADER */}
           <EventHeader 
             tournament_name={startName}
-            tournament_address={startAddress}
-            tournamentTime={tStart} 
-            lat={startLat}
-            long={startLong}
-            />
+            tournament_address={startAddress} tournamentTime={tStart} 
+            lat={startLat} long={startLong} />
           {/* TOURNEY BUYIN ENTRIES  */}
           {!aTournament ? <Spinner /> : Flights }          
         </List>

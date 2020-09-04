@@ -3,7 +3,7 @@ import { Icon } from "native-base";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
+import { createStackNavigator, HeaderBackButton } from "@react-navigation/stack";
 import Store from './src/Store/appContext';
 
 // AUTH VIEWS
@@ -52,9 +52,6 @@ import CustomBankScreen from './src/Drawer/PayScenes/CustomBankScreen'
 import CustomCardScreen from './src/Drawer/PayScenes/CustomCardScreen'
 import SourceScreen from './src/Drawer/PayScenes/SourceScreen'
 
-
-import HowToSwapScreen from './src/Drawer/Tutorials/HowToSwap'
-
 var Stack = createStackNavigator()
 var Drawer = createDrawerNavigator()
 var aTab = createBottomTabNavigator()
@@ -102,9 +99,9 @@ var EventsStack = () => {
     <Stack.Navigator initialRouteName="Event Listings" screenOptions={{ gestureEnabled: false, headerShown: false }}>
       <Stack.Screen name="Event Listings" component={EventListings}/>
       <Stack.Screen name="Verify Ticket" component={VerifyTicket} 
-        options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
-      <Stack.Screen name="Event Lobby" component={EventLobby} 
-        options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
+        options={{ gestureEnabled: false,  headerShown: true, headerBackTitle:''}}/>
+      <Stack.Screen name="Event Lobby" component={EventLobby}  
+        options={{ gestureEnabled: false }} />
       <Stack.Screen name="Swap Offer" component={SwapOffer} 
         options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
         <Stack.Screen name="Profile" component={ProfileScreen} 
@@ -120,8 +117,8 @@ var ResultsStack = () => {
       <Stack.Screen name="Swap Results" component={SwapResults}/>
       <Stack.Screen name="Profit Results" component={ProfitResults} 
         options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}}/>
-        <Stack.Screen name="Profile" component={ProfileScreen} 
-          options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}}/>
+      <Stack.Screen name="Profile" component={ProfileScreen} 
+        options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}}/>
     </Stack.Navigator>
   )
 }

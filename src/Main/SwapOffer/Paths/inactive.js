@@ -3,7 +3,6 @@ import { View, Alert } from 'react-native'
 import { Text, Button, Card, CardItem } from 'native-base'
 import {useNavigation} from '@react-navigation/native'
 
-
 import { Context } from '../../../Store/appContext'
 import SpecialOffer from '../Components/specialOffer'
 import StandardOffer from '../Components/standardOffer'
@@ -21,46 +20,54 @@ export default InactivePath = (props) => {
     setVisible(!visible)
     setCounterPercentage(percentage)
   }
+  var ere = percentage
+  var erx = counterPercentage
   // MY PERCENTAGE - ADD
   const pAdd = () => {
-    percentage < 50 ? 
-      setPercentage(percentage+ 1) : setPercentage(50)
+    ere < 50 ? 
+      setPercentage(prev => prev + 1)  : setPercentage(50)
   }
   // MY PERCENTAGE - SUBTRACT
   const pSubtract = () => {
-    percentage > 1 ? 
-      setPercentage(percentage-1) : setPercentage(1)
+    ere > 1 ? 
+      setPercentage(prev => prev + 1)  : setPercentage(1)
   }
   // THEIR COUNTER PERCENTAGE - ADD
   const cAdd = () => {
-    counterPercentage < 50 ? 
-      setCounterPercentage(counterPercentage+ 1) 
+    erx < 50 ? 
+      setCounterPercentage(prev => prev + 1) 
       : setCounterPercentage(50)
   }
   // THEIR COUNTER PERCENTAGE - SUBTRACT
   const cSubtract = () => {
-    counterPercentage > 1 ? 
-      setCounterPercentage(counterPercentage-1) 
+    erx > 1 ? 
+      setCounterPercentage(prev => prev - 1)  
       : setCounterPercentage(1)
   }
   // BOTH PERCENTAGE - ADD
   const tAdd = () => {
-    if(percentage < 50){
-      setPercentage(percentage + 1) 
-      setCounterPercentage(percentage) 
+    if(ere < 50){
+      setPercentage(prev => prev + 1) 
+      setCounterPercentage(prev => prev + 1) 
+      ere++
+      console.log('percentage', percentage)
     } else {
       setPercentage(50), setCounterPercentage(50)
+      console.log('added enough')
     }     
   }
+
   // BOTH PERCENTAGE - SUBTRACT
   const tSubtract = () => {
-    if(percentage > 1){
-      setPercentage(percentage - 1) 
-      setCounterPercentage(percentage) 
+    if(ere > 1){
+      setPercentage(prev => prev - 1) 
+      setCounterPercentage(prev => prev - 1) 
+      ere--
     } else {
       setPercentage(1), setCounterPercentage(1)
     }     
   }
+
   // SWAP CONFIRMATION ALERT
   const confirmationAlert = (action) =>{
     Alert.alert(
@@ -68,8 +75,8 @@ export default InactivePath = (props) => {
       'Are you want to ' + action + ' this swap?',
       [
         { text: 'Yes', onPress: () => swapStart()},
-        { text: 'No', onPress: () => console.log("Cancel Pressed")}
-      ]
+        { text: 'No', onPress: () => console.log("Cancel Pressed")}]
+      
     )
   }
   // CREATE A SWAP
@@ -93,10 +100,12 @@ export default InactivePath = (props) => {
       
       {store.myProfile.coins > 0 ? 
         !visible ?
-          <StandardOffer confirmationAlert={confirmationAlert}
+          <StandardOffer 
+            confirmationAlert={confirmationAlert}
             counterSwitch={counterSwitch}
-            percentage={percentage}
-            tAdd={tAdd} tSubtract={tSubtract} />
+            percentage={percentage} 
+            tAdd={tAdd} tSubtract={tSubtract} 
+            />
           :
           <SpecialOffer confirmationAlert={confirmationAlert}
             otherUser={props.buyin.user_name} 

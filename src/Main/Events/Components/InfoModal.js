@@ -1,14 +1,10 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { Linking, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
-import { Button, Icon, Text } from 'native-base'
-
+import React from 'react';
+import { Linking, TouchableOpacity, View } from 'react-native'
+import { Button, Text } from 'native-base'
 import moment from 'moment'
-
 
 export default InfoModal = (props) => {
 
-
-  // var ddd = store.currentTournament
   const openGPS = () => {
     var scheme = Platform.OS === 'ios' ? 'maps:' : 'geo:';
     var url = scheme + `${props.tournament.latitude},${props.tournament.longitude}` 
@@ -17,44 +13,53 @@ export default InfoModal = (props) => {
 
   return(
     <View style={modalStyles.background}>
-
-      
-        <View style={ modalStyles.main }> 
-
-          <Text style={{fontSize:20, textAlign:'center', fontWeight:'600'}}>{props.tournament_name}</Text>
-
-          <Text style={{textAlign:'center', paddingVertical:10}}>
-            {moment(props.tournament_start).format('llll')}
+      {/* WHITE BACKGROUND */}
+      <View style={ modalStyles.main }> 
+        {/* TOURNAMENT ADDRESS */}
+        <Text style={{fontSize:20, textAlign:'center', fontWeight:'600'}}>
+          {props.tournament_name}
+        </Text>
+        {/* TOURNAMENT START DATE */}
+        <Text style={{textAlign:'center', paddingVertical:10}}>
+          {moment(props.tournament_start).format('llll')}
+        </Text>
+        {/* TOURNAMENT ADDRESS */}
+        <TouchableOpacity onPress={() => openGPS()}>
+          <Text style={{textAlign:'center', color:'rgb(0, 122, 255)'}}>
+            {props.tournament_address}
           </Text>
-          <TouchableOpacity onPress={() => openGPS()}>
-            <Text style={{textAlign:'center', color:'rgb(0, 122, 255)'}}>{props.tournament_address}</Text>
-          </TouchableOpacity>
-          
-          <View style={{flexDirection:'row', paddingTop:10}}>
-            <View style={{width:'50%'}}>
-              <Text style={{fontWeight:'600',textAlign:'center'}}>Starting Stack:</Text>
-              <Text style={{textAlign:'center', fontSize:20}}>15,000</Text>
-            </View>
-            <View style={{width:'50%'}}>
-              <Text style={{fontWeight:'600',textAlign:'center'}}>Blinds:</Text>
-              <Text style={{textAlign:'center', fontSize:20}}>20</Text>
-            </View>
+        </TouchableOpacity>
+        {/* DETAIL ROW 1 */}
+        <View style={{flexDirection:'row', paddingTop:10}}>
+          {/* STARTING STACK FIELD */}
+          <View style={{width:'50%'}}>
+            <Text style={{fontWeight:'600',textAlign:'center'}}>Starting Stack:</Text>
+            <Text style={{textAlign:'center', fontSize:20}}>15,000</Text>
           </View>
-          <View style={{flexDirection:'row', paddingTop:10}}>
-            <View style={{width:'50%'}}>
-              <Text style={{fontWeight:'600',textAlign:'center'}}>Placeholder:</Text>
-              <Text style={{textAlign:'center', fontSize:20}}>Here</Text>
-            </View>
-            <View style={{width:'50%'}}>
-              <Text style={{fontWeight:'600',textAlign:'center'}}>Buy-In:</Text>
-              <Text style={{textAlign:'center', fontSize:20}}>$500</Text>
-            </View>
+          {/* BLINDS FIELD */}
+          <View style={{width:'50%'}}>
+            <Text style={{fontWeight:'600',textAlign:'center'}}>Blinds:</Text>
+            <Text style={{textAlign:'center', fontSize:20}}>20</Text>
           </View>
-          <Button block light iconRight onPress={() => props.setVisible(false)}
-          style={{justifyContent:'center', marginTop:20}}>
-            <Text style={{color:'white'}}>Close</Text>
-          </Button>
         </View>
+        {/* DETAIL ROW 2 */}
+        <View style={{flexDirection:'row', paddingTop:10}}>           
+          <View style={{width:'50%'}}>
+            <Text style={{fontWeight:'600',textAlign:'center'}}>Placeholder:</Text>
+            <Text style={{textAlign:'center', fontSize:20}}>Here</Text>
+          </View>
+          {/* BUY-IN AMOUNT */}
+          <View style={{width:'50%'}}>
+            <Text style={{fontWeight:'600',textAlign:'center'}}>Buy-In:</Text>
+            <Text style={{textAlign:'center', fontSize:20}}>$500</Text>
+          </View>
+        </View>
+        {/* CLOSE BUTTON */}
+        <Button block light iconRight onPress={() => props.setVisible(false)}
+          style={{justifyContent:'center', marginTop:20}}>
+          <Text style={{color:'white'}}>Close</Text>
+        </Button>
+      </View>
     </View>
   )
 }

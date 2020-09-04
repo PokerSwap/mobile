@@ -1,9 +1,34 @@
 import React from 'react'
-import { View } from 'react-native'
+import { View, Pressable } from 'react-native'
 import { Text, Button, CardItem, Icon } from 'native-base'
 import { Grid, Row, Col } from 'react-native-easy-grid'
 
 export default SpecialOffer = (props) => {
+
+  const [intervalID, setIntervalID] = useState(null)
+  const [intervalID2, setIntervalID2] = useState(null)
+
+  var interval
+
+  function setup(){
+    interval = setInterval(x, 200)
+    console.log(interval)
+    setIntervalID(interval)
+  }
+
+
+
+  function stop(){
+    return clearInterval(intervalID)
+  }
+
+  function stop2(){
+    return clearInterval(intervalID2)
+  }
+
+  var x = () => props.tAdd()
+  var y = () => props.tSubtract()
+
   return(
     <View>
       {/* SWAP PERCENTAGES */}
@@ -19,12 +44,14 @@ export default SpecialOffer = (props) => {
             <Row style={{justifyContent:'center',  alignItems:'center'}}>
               <View style={{flexDirection:'column', justifyContent:'space-around'}}>
                 {/* ADD BUTTON */}
-                <Button style={{width:'100%', height:50, justifyContent:'center', 
-                  backgroundColor:'blue', alignContent:'center'}} 
-                  onPress={()=> props.pAdd()}>
+                
+                <Pressable 
+              onPress={()=>props.pAdd()}
+              onLongPress={()=> setup()}
+              onPressOut={() => stop()}>
                   <Icon type='FontAwesome5' name='plus'
                     style={{color:'white', fontSize:24}}/>
-                </Button>
+                </Pressable>
                 <Text style={{fontSize:40, paddingVertical:4, fontWeight:'600', textAlign:'center'}}>
                 {'  '}{props.percentage}%
                 </Text>

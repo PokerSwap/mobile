@@ -141,7 +141,7 @@ export default VerifyTicket = (props) => {
   const BuyInStart = async() => {
     setLoading(true)
     var x = await actions.buy_in.add( 
-    image, table, seat, chips, flight_id, tournament_id, tournament_name, tournament_start, casino, navigation )
+    image, table, seat, chips, flight_id, tournament_id, tournament_name, tournament_start, tournament_address, casino, navigation )
     setLoading(false)
   }
 
@@ -186,7 +186,7 @@ export default VerifyTicket = (props) => {
             
           </CardItem>
           {/* INSTRUCTION TEXT  */}
-          <CardItem style={{selfAlign:'center', flex:1, 
+          <CardItem style={{selfAlign:'center', flex:1, marginBottom:-10,
             justifyContent:'center', flexDirection:'column'}}>
             <Text style={{textAlign:'center', fontSize:18,  flex:1}}>
               Enter the information and upload a photo of your tournament buyin ticket.
@@ -289,10 +289,10 @@ const styles = {
   image:{
     height:200, width:200, marginTop:10 },
   input:{
-    justifyContent:'center', fontSize:24, color:'black', textAlign:'center'},
+    justifyContent:'center', fontSize:20, color:'black', textAlign:'center'},
   text:{
     input:{
-      fontSize:20, marginBottom:0, textAlign:'center', marginTop:5, marginBottom:10},
+      fontSize:20, marginBottom:0, textAlign:'center', marginTop:3, marginBottom:-3},
     instruction:{
        fontSize:20, textAlign:'center', marginTop:0},
     button:{

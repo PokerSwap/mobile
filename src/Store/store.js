@@ -68,7 +68,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 			// BUY IN ACTIONS
 			buy_in:{
 				// CREATING A BUYIN AND (RE)-BUYING-IN INTO A TOURNAMENT
-				add: async ( image, a_table, a_seat, some_chips, a_flight_id, a_tournament_id, a_tournament_name, a_tournament_start, a_casino, navigation) => {
+				add: async ( image, a_table, a_seat, some_chips, a_flight_id, a_tournament_id, a_tournament_name, a_tournament_start, a_tournament_address, a_casino, navigation) => {
 					try{	
 						console.log('flight_id', a_flight_id)
 						// PREVENTS EMPTY PICTURE SUBMISSION
@@ -188,6 +188,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							tournament_name: a_tournament_name,
 							tournament_id: a_tournament_id,
 							tournament_start: a_tournament_start,
+							tournament_address: a_tournament_address,
 							action: null
 						})
 
