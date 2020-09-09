@@ -587,23 +587,25 @@ const getState = ({ getStore, setStore, getActions }) => {
 						// }
 						// GETS MOST CURRENT BUYIN OF OTHER USER
 						var theirBuyin
-						var fg = getStore().currentTournament.tournament.buy_ins.forEach(buyin => {
+						var settingCurrentBuyin = getStore().currentTournament.tournament.buy_ins.forEach(buyin => {
 							if(buyin.user_id == getStore().currentSwap.recipient_user.id){
 								theirBuyin = buyin
 								setStore({currentBuyin: theirBuyin})
-								console.log('theirBuyin', theirBuyin)
+								console.log('Buyin from swap opened from notification:', theirBuyin)
 							}
 						})
 						// PREVENTS SWAP IF OTHER USER HAS 0 CHIPS
 						if(theirBuyin.chips == 0){
 							navigation.navigate('Active Swaps')
 							setStore({notificationData:null})
+							console.log("The user you're trying to was busted out")
 							return errorMessage("This user has busted out")
 						}
 						// PREVENTS SWAP IF I HAVE NO CHIPS
 						if(getStore().currentTournament.my_buyin.chips == 0){
 							navigation.navigate('Active Swaps')
 							setStore({notificationData:null})
+							console.log("You cannot swap while busted out")
 							return errorMessage('You cannot swap while busted out')
 						}
 						// SWAP TIME CONVERSION
@@ -633,6 +635,10 @@ const getState = ({ getStore, setStore, getActions }) => {
 						} catch(error){
 							console.log('cant navigate', error)
 						}
+
+						var refreshingCurrentTrackers = await getActions().tracker.getCurrent()
+						var refreshingUpcomingTrackers = await getActions().tracker.getUpcoming()
+
 					}catch(error){
 						console.log("Something went wrong with navigating to swap:", error)
 					}
@@ -912,7 +918,13 @@ const getState = ({ getStore, setStore, getActions }) => {
 						var refreshingTracker = await getActions().tracker.getCurrent()
 						var refreshingTracker2 = await getActions().tracker.getUpcoming()
 
-						var refreshingBuyin = await getActions().swap.getCurrent(response.swap_id)
+						var refreshingSwap = await getActions().swap.getCurrent(response.swap_id)
+						// var refreshingBuyin = await getActions().buy_in.getCurrent(response.swap_id)
+
+						console.log('1. After creating a swap, this is the response: ', response)
+						console.log('2. Current Swap in Store:', getStore().currentSwap)
+						console.log('3. Current Buyin in Store:', getStore().currentBuyin)
+
 					}catch(error){
 						console.log('Something went wrong with adding a swap', error)
 						return errorMessage(error.message)
@@ -1012,7 +1024,15 @@ const getState = ({ getStore, setStore, getActions }) => {
 						}else{null}}
 
 						var refreshingTournament = await getActions().tournament.getCurrent(a_tournament_id)
+						var refreshingAction = await getActions().tournament.getAction(a_tournament_id)			
 						var refreshingTracker = await getActions().tracker.getCurrent()
+						var refreshingupTracker = await getActions().tracker.getUpcoming()
+						var refreshingBuyin = await getActions().buy_in.getCurrent(a_buyin_id)
+						var refreshingSwap = await getActions().swap.getCurrent(my_swap_id)
+
+						console.log('1. After ' + a_new_status + ' swap, this is the response: ', response)
+						console.log('2. Current Swap in Store:', getStore().currentSwap)
+						console.log('3. Current Buyin in Store:', getStore().currentBuyin)
 
 						// if (a_current_status == 'incoming'){
 						// 	var a = await getActions().swapToken.spend()
@@ -1030,10 +1050,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 								// var a = await getActions().swapToken.return()
 							// }else{null}
 						// }	
-						// var refreshingTournament = await getActions().tournament.getCurrent(a_tournament_id)
-						// var refreshingTracker = await getActions().tracker.getCurrent()
-
-						// var refreshingAction = await getActions().tournament.getAction(a_tournament_id)			
+						
 					
 					}catch(error){
 						console.log("Something went wrong with the swap's status change:",error)

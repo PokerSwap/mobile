@@ -124,9 +124,10 @@ export default EventLobby = () => {
 
   return(
     <Container>      
-      <Header style={{flexDirection:'row', alignItems:'center',justifyContent:'flex-start', backgroundColor:'rgb(248,248,248)'}}>
-        <HeaderBackButton onPress={()=> navigation.popToTop()}/>
-        <Text style={{}}>Event Lobby</Text>
+      <Header style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between', backgroundColor:'rgb(248,248,248)'}}>
+        <HeaderBackButton onPress={()=> navigation.popToTop()} style={{width:'20%'}}/>
+        <Text style={{textAlign:'center', width:'60%', alignSelf:'center', fontSize:24, fontWeight:'600'}}>Event Lobby</Text>
+        <View style={{width:'20%'}}/>
       </Header>
       <Content>
         <List>

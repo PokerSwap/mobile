@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Image,  TextInput, KeyboardAvoidingView, Linking, Modal, Platform, Alert, View, TouchableOpacity} from 'react-native';
+import { Image,  TextInput, KeyboardAvoidingView, Modal, Platform, Alert } from 'react-native';
 import { Container,  Button, Text, Content, Card, CardItem, Icon} from 'native-base';
 import { Grid, Row, Col } from 'react-native-easy-grid';
 import { throttle } from 'lodash'
@@ -68,6 +68,9 @@ export default VerifyTicket = (props) => {
       ]
     )
   }
+
+Platform.OS == 'ios' ? styles = iosStyles : styles = androidStyles
+
 
   const askPersmission = async () => {
     var cameraStatus, libraryStatus;
@@ -244,7 +247,7 @@ export default VerifyTicket = (props) => {
                     Chips: 
                   </Text>
                   <TextInput 
-                    placeholder="Chip #"
+                    placeholder="# of Chips"
                     placeholderTextColor='gray'
                     keyboardType="number-pad"
                     returnKeyType="done"
@@ -273,7 +276,37 @@ export default VerifyTicket = (props) => {
   )
 }
 
-const styles = {
+var styles
+
+
+const iosStyles = {
+  button:{
+    paddingVertical:20, width:'100%', justifyContent:'center' 
+  },
+  container:{
+    button:{
+      justifyContent:'center', width:1000, 
+      paddingTop:0, marginTop:0, paddingRight:0, paddingLeft:0},
+    main:{
+      alignItems:'center', justifyContent:'center', marginBottom:0 },
+    image:{
+      justifyContent:'center', width:200, flex:1, flexDirection:'column' }
+  },
+  image:{
+    height:200, width:200, marginTop:10 },
+  input:{
+    justifyContent:'center', fontSize:24, color:'black', textAlign:'center'},
+  text:{
+    input:{
+      fontSize:24, marginBottom:0, textAlign:'center', marginTop:10, marginBottom:3},
+    instruction:{
+       fontSize:20, textAlign:'center', marginTop:0},
+    button:{
+      fontWeight:'600', fontSize:24, textAlign:'center'}
+  }
+}
+
+const androidStyles = {
   button:{
     paddingVertical:20, width:'100%', justifyContent:'center' 
   },
