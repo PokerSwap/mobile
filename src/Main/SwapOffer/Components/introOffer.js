@@ -41,7 +41,8 @@ export default IntroOffer = (props) => {
             <Button large warning style={{justifyContent:'center'}}
               onPress={()=> props.setCounter(!props.counter)}>
               <Text style={{fontWeight:'600'}}> Counter </Text>
-              <Icon style={{marginLeft:-10}} type='Ionicons' name='ios-swap'/>
+              <Icon style={{marginLeft:-10}} 
+                type='Ionicons' name='ios-swap-horizontal'/>
             </Button>
             {/* REJECT BUTTON */}
             <Button large danger 

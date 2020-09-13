@@ -576,7 +576,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				toSwap: async( data, navigation ) => {
 					try {
 						// GETTING SWAP JSON
-						console.log('data', data)
+						console.log('New Swap Notification Data:', data)
 						var gettingSwap = await getActions().swap.getCurrent(data.id)
 						var gettingTournament = await getActions().tournament.getCurrent(getStore().currentSwap.tournament_id)
 
@@ -767,12 +767,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 				},
 				// WHILE LOGGED IN, STORES PROFILE DATA IN STORE
 				store: async( profileData ) => {
-					
 					try {
-						
 						setStore({ myProfile: profileData })
-						// console.log('my profile', getStore().myProfile)
-					
 					} catch (error) {
 						console.log('Something went wrong in storing profile', error)
 					}
@@ -783,7 +779,9 @@ const getState = ({ getStore, setStore, getActions }) => {
             const url = databaseURL + 'profiles/me'
 						const accessToken = getStore().userToken;
 
-            if(a_nickname.length < 1){ errorMessage("You must enter something in the field") }else{null}
+            if (a_nickname.length < 1){ 
+							return errorMessage("You must enter something in the field") 
+						} else { null }
 
             var data = {
               nickname: a_nickname
@@ -810,8 +808,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 				// UPLOAD NEW PROFILE PHOTO
 				uploadPhoto: async ( image ) => {
 					try {
-						console.log('image in store', image)
-
 						const url = databaseURL + 'profiles/image'
 						const accessToken = getStore().userToken;
 						const imageData = new FormData();
@@ -822,7 +818,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							name: image.name
 						});
 
-						console.log('data', imageData)
+						console.log("Image's Data:", imageData)
 						
 
 						let response = await fetch(url, {
@@ -947,6 +943,26 @@ const getState = ({ getStore, setStore, getActions }) => {
 						var answer = await response.json()
 						console.log('currentSwap', answer)
 						setStore({currentSwap:answer})
+					}catch(error){
+						console.log("Something went wrong with getting the current swap: ", error)
+					}
+				},
+				returnCurrent: async ( a_swap_id ) => {
+					try{
+						const url = databaseURL + 'swaps/' + a_swap_id;
+						const accessToken = getStore().userToken ;
+						
+						let response = await fetch(url, {
+							method: 'GET',
+							headers: {
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							}, 
+						})
+						
+						var answer = await response.json()
+						console.log('currentSwap', answer)
+						return answer
 					}catch(error){
 						console.log("Something went wrong with getting the current swap: ", error)
 					}
@@ -1459,28 +1475,11 @@ const getState = ({ getStore, setStore, getActions }) => {
 						return errorMessage("Sorry, this email address is already taken")
 					}
 				},
-				// IF PREVIOUSLY LOGGED IN, USED TO LOGIN AUTOMATICALLY
-				auto_login: async(notification, navigation) => {
-					try{
-						return new Promise(resolve =>
-							resolve( getActions().deviceToken.get()
-							.then(() => getActions().tournament.getInitial())	
-							.then(() => getActions().tracker.getCurrent())
-							.then(() => getActions().tracker.getUpcoming())
-							.then(() => getActions().tracker.getPast())
-							.then(() => getActions().notification.check(notification, navigation))
-							)
-						)
-					}catch(error){
-						console.log('Something went wrong with auto-login: ', error)
-						navigation.navigate('Login')
-					}
-				},
 				// LOGIN PROCESS
 				login: async ( data, navigation ) => {
 					// 20 DAY EXPIRATION
 				
-					console.log('fffff', data.device_token)
+					// console.log('fffff', data.device_token)
 
 					return new Promise(resolve =>
 						resolve(getActions().userToken.get(data, navigation)
@@ -1489,16 +1488,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 						.then(()=> getActions().profile.get())
 						.then(()=> myPassword = '')
 						.then(()=> {
-							console.log(getStore().myProfile)
+							console.log('Profile', getStore().myProfile.first_name + ' ' + getStore().myProfile.last_name  )
 							if(getStore().userToken  && getStore().myProfile !== "Error"){
 								if(getStore().myProfile.message !== "Profile not found"){
-									
-
-									var s = console.log("YOU SUCCEED")
-									var ss =  console.log("YOU FAILED")
-							
-									// var ereere = await getActions().firebase.login(data)
-
 									getActions().tournament.getInitial()
 									.then(() => setStore({nowLoading: 'Loading Swaps...'}))
 									.then(() => getActions().tracker.getCurrent())
@@ -1523,11 +1515,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 					setStore({currentBuyin:{}})
 					setStore({myCurrentTrackers:{}})
 					setStore({myUpcomingTrackers:{}})
-
 					setStore({myPastTrackers:{}})
 					setStore({myConfirmedResultsTrackers:{}})
 					setStore({myPendingResultsTrackers:{}})
-					
 					setStore({ deviceToken: null })
 					// setStore({ myProfile: null })
 					AsyncStorage.removeItem('userToken')
@@ -1662,7 +1652,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 						.then(response => response.json())
 						console.log('response', response)
 						return customMessage(response.message)
-				
 					}catch(error){
 						console.log('Something went wrong with forgot password: ', error)
 						return errorMessage('Something went wrong with resetting your forgot password')

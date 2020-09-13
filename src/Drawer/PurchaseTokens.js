@@ -104,11 +104,9 @@ export default PurchaseTokens = (props) => {
       <OtherHeader title={'Purchase Tokens'} />
       <ScrollView style={{ alignSelf: 'stretch' }}>           
         <Grid transparent>
-        {/* {Platform.OS == 'ios' ?
           <Button onPress={() => navigation.navigate('Card Form')}>
             <Text>Card Form</Text>
-          </Button> :
-          null}
+          </Button> 
           {Platform.OS == 'ios' ?
             <Button onPress={() => navigation.navigate('Apple Pay')}>
               <Text>Apple Pay</Text>
@@ -117,7 +115,7 @@ export default PurchaseTokens = (props) => {
             <Button onPress={() => navigation.navigate('Android Pay')}>
               <Text>Android Pay</Text>
             </Button>
-          } */}
+          }
           
           
           <Button onPress={() => navigation.navigate('Custom Card')}>

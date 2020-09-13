@@ -1,10 +1,13 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { Icon } from "native-base";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer'
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createStackNavigator, HeaderBackButton } from "@react-navigation/stack";
 import Store from './src/Store/appContext';
+
+import { Alert } from 'react-native'
+import messaging from '@react-native-firebase/messaging';
 
 // AUTH VIEWS
 import SplashScreen from './src/Auth/Splash'
@@ -227,7 +230,57 @@ var TokenStack = () => {
 
 
 // MAIN NAVIGATION STACK
- const AppContainer = () => {
+  const AppContainer = () => {
+
+  // const navigation = useNavigation();
+  // const [loading, setLoading] = useState(true);
+  // const [initialRoute, setInitialRoute] = useState('Home');
+
+  // useEffect(() => {
+
+    
+  //   const goToThing = async(data) => {
+  //     console.log('name', data)
+  //     if(data.type == 'event'){
+  //       var cc = await actions.navigate.toEvent(data, navigation)
+  //     }else if(data.type == 'swap'){
+  //       var cc = await actions.navigate.toSwap(data, navigation)
+  //     }else{
+  //       null
+  //     }
+  //   }
+
+  //   messaging().onNotificationOpenedApp(remoteMessage => {
+  //     Alert.alert(
+  //       remoteMessage.notification.title,
+  //       remoteMessage.notification.body,
+  //       [
+  //         { text: 'Go to...', onPress: () => goToThing(remoteMessage.data) },
+  //         { text: 'Close', onPress: () => console.log("Cancel Pressed"), }
+  //       ]
+  //     )
+  //   });
+
+  //   // Check whether an initial notification is available
+  //   messaging()
+  //     .getInitialNotification()
+  //     .then(remoteMessage => {
+  //       if (remoteMessage) {
+  //         goToThing(remoteMessage.data)
+  //         console.log(
+  //           'Notification caused app to open from quit state:',
+  //           remoteMessage.notification,
+  //         );
+          
+  //       }
+  //       setLoading(false);
+  //     });
+  // }, []);
+
+  // if (loading) {
+  //   return null;
+  // }
+
   return(
     <NavigationContainer>
       <Stack.Navigator name="Root" initialRouteName="Auth"

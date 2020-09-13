@@ -109,14 +109,18 @@ export default SpecialOffer = (props) => {
       {/* SWAP BUTTONS */}
       <CardItem style={{justifyContent:'space-around'}}>
         {/* CHANGE SWAP TYPE */}
-        <Button large info style={{width:'40%', justifyContent:'center'}} 
+        <Button large info style={{width:'50%', justifyContent:'center'}} 
           onPress={()=>props.counterSwitch()}>
-          <Text style={{textAlign:'center', fontWeight:'600', fontSize:24, paddingVertical:10}}>TOGGLE</Text>
+          <Text style={{textAlign:'center', fontWeight:'600', fontSize:24, paddingVertical:10}}>
+            TOGGLE
+          </Text>
         </Button>
         {/* OFFER SWAP BUTTON */}
         <Button large success style={{width:'40%', justifyContent:'center'}}
           onPress={() => props.confirmationAlert('offer')} >
-          <Text style={{textAlign:'center', fontWeight:'600', fontSize:24, paddingVertical:10}}>OFFER</Text>
+          <Text style={{textAlign:'center', fontWeight:'600', fontSize:24, paddingVertical:10}}>
+            OFFER
+          </Text>
         </Button>
       </CardItem>
     </View>

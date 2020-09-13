@@ -64,7 +64,7 @@ export default StandardOffer = (props) => {
       {/* SWAP BUTTONS */}
       <CardItem style={{justifyContent:'space-around'}}>
         {/* CHANGE SWAP TYPE */}
-        <Button large info style={{width:'40%', justifyContent:'center'}} 
+        <Button large info style={{width:'50%', justifyContent:'center'}} 
           onPress={()=>props.counterSwitch()}>
           <Text style={{textAlign:'center', fontWeight:'600', fontSize:24, paddingVertical:10}}>
             TOGGLE

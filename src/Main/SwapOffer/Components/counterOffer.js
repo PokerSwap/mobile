@@ -120,8 +120,8 @@ export default CounterOffer = (props) => {
           pAdd={pAdd} pSubtract={pSubtract}
           cAdd={cAdd} cSubtract={cSubtract} />}
         {/* GO BACK TO OFFER */}
-        <CardItem>
-          <Button large info 
+        <CardItem style={{justifyContent:'center'}}>
+          <Button style={{alignSelf:'center', width:'90%', color:'grey'}} large block 
             onPress={()=> props.setCounter(!props.counter)}>
             <Text>Go Back</Text>
           </Button>
