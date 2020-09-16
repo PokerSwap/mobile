@@ -55,7 +55,7 @@ export default InfoModal = (props) => {
           </View>
         </View>
         {/* CLOSE BUTTON */}
-        <Button block light iconRight onPress={() => props.setVisible(false)}
+        <Button block  light iconRight onPress={() => props.setVisible(false)}
           style={{justifyContent:'center', marginTop:20}}>
           <Text style={{color:'white'}}>Close</Text>
         </Button>
