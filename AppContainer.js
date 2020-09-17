@@ -47,13 +47,9 @@ import TutorialListScreen from './src/Drawer/TutorialList'
 import ChangeNickname from './src/Drawer/Settings/ChangeNickname'
 
 import PurchaseTokens from './src/Drawer/PurchaseTokens'
-import AndroidPayScreen from './src/Drawer/PayScenes/AndroidPayScreen'
-import ApplePayScreen from './src/Drawer/PayScenes/ApplePayScreen'
 import CardFieldTextScreen from './src/Drawer/PayScenes/CardFieldTextScreen'
 import CardFormScreen from './src/Drawer/PayScenes/CardFormScreen'
-import CustomBankScreen from './src/Drawer/PayScenes/CustomBankScreen'
 import CustomCardScreen from './src/Drawer/PayScenes/CustomCardScreen'
-import SourceScreen from './src/Drawer/PayScenes/SourceScreen'
 
 var Stack = createStackNavigator()
 var Drawer = createDrawerNavigator()
@@ -219,11 +215,7 @@ var TokenStack = () => {
       options={{ gestureEnabled: false, headerShown: false, headerBackTitle:''}}/>
       <Stack.Screen name="Card Form" component={CardFormScreen} />
       <Stack.Screen name="Card Field Text" component={CardFieldTextScreen} />
-      <Stack.Screen name="Source" component={SourceScreen} />
-      <Stack.Screen name="Apple Pay" component={ApplePayScreen} />
-      <Stack.Screen name="Android Pay" component={AndroidPayScreen} />
       <Stack.Screen name="Custom Card" component={CustomCardScreen} />
-      <Stack.Screen name="Custom Bank" component={CustomBankScreen} />
     </Stack.Navigator>
   )
 }
