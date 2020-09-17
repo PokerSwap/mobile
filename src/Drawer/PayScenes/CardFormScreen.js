@@ -134,8 +134,8 @@ export default CardFormScreen = () => {
         }
   //       //finish
       } else {
-        var ax = 1.00;
-        var bx = 1;
+        var ax = '1.00';
+        var bx = '1';
         const options = {
           total_price: ax.toString(),
           currency_code: 'USD',
@@ -144,10 +144,10 @@ export default CardFormScreen = () => {
           shipping_countries: ['US'],
           line_items: [{
               currency_code: 'USD',
-              description: "5 Swap Tokens",
-              total_price: ax.toString(),
-              unit_price: ax.toString(),
-              quantity: bx.toString(),
+              description: '5 Swap Tokens',
+              total_price: ax,
+              unit_price: ax,
+              quantity: bx,
             }]
         };
 
