@@ -9,7 +9,7 @@ import  Spinner  from 'react-native-loading-spinner-overlay'
 
 import {Context} from '../../Store/appContext'
 import btnGPay from '../../Images/buygooglepay.png';
-import AppleBtn from '../../Images/apple-pay.svg';
+import AppleBtn from '../../Images/apple-pay.png';
 
 stripe.setOptions({
   publishableKey: "pk_test_naJmK081a9UfJNnL69Om9P2d00kktSrYwC",
@@ -263,15 +263,15 @@ export default PayForTokenModal = (props) => {
         <Col>
           <Row style={{alignItems:'center'}}>
             <Icon type="FontAwesome5" name='coins' style={{color:'#FFD700'}}/>
-            <Text style={{fontSize:20}}>{store.myProfile.coins}</Text>      
+            <Text style={{fontSize:20}}> {store.myProfile.coins}</Text>      
           </Row>
           <Row style={{alignItems:'center'}}>
             <Icon type="FontAwesome5" name='circle' style={{color:'#FFD700'}}/>
-            <Text style={{fontSize:20}}>{props.swapTokens}</Text>      
+            <Text style={{fontSize:20}}> {props.swapTokens}</Text>      
           </Row>
           <Row style={{alignItems:'center'}}>
             <Icon type="FontAwesome5" name='coins' style={{color:'#FFD700'}}/>
-            <Text style={{fontSize:20}}>{store.myProfile.coins + props.swapTokens}</Text>      
+            <Text style={{fontSize:20}}> {store.myProfile.coins + props.swapTokens}</Text>      
           </Row>
         </Col>
       </Grid>
@@ -285,9 +285,10 @@ export default PayForTokenModal = (props) => {
           <TouchableOpacity style={{borderWidth:1, borderRadius:50, justifyContent:'center'}} // disabled={disabled} 
             onPress={() => handleOnPressPayBtn()}>
               {Platform.OS === 'ios' ? 
-                <View >
-                  <Text>Buy with </Text>
-                  <Image source={AppleBtn} style={{width:250, height:50}}  />
+                <View style={{width:250, justifyContent:'center'}}>
+                  {/* <Text>Buy with </Text> */}
+                  {/* <AppleBtn width={45} height={45} /> */}
+                  <Image source={AppleBtn} style={{width:240, height:40, alignSelf:'center'}}  />
                 </View>
                 : 
                 <View style={{width:250, justifyContent:'center'}}>

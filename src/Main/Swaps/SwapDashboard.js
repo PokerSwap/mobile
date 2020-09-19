@@ -2,152 +2,26 @@ import React, {useContext, useState, useCallback, useEffect } from 'react';
 import { Alert, FlatList, RefreshControl } from 'react-native';
 import { Button, Container, Content, Icon, Tabs, Tab, TabHeading, Text } from 'native-base';
 import messaging from '@react-native-firebase/messaging'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 
 import { Context } from '../../Store/appContext'
 
 import HomeHeader from '../../View-Components/HomeHeader'
 import SwapTracker from './Components/SwapTracker';
 
-
-
 export default SwapDashboard = (props) => {
   const { store, actions } = useContext(Context)
   const navigation = useNavigation()
-  // const [permissions, setPermissions] = useState({});
 
-  // useEffect(() => {
-  //   PushNotificationIOS.addEventListener('register', onRegistered);
-  //   PushNotificationIOS.addEventListener(
-  //     'registrationError',
-  //     onRegistrationError,
-  //   );
-  //   PushNotificationIOS.addEventListener('notification', onRemoteNotification);
-  //   PushNotificationIOS.addEventListener(
-  //     'localNotification',
-  //     onLocalNotification,
-  //   );
+  const [XXX, setXXX] = useState(false)
+  const route = useRoute();
 
-  //   PushNotificationIOS.requestPermissions().then(
-  //     (data) => {
-  //       console.log('PushNotificationIOS.requestPermissions', data);
-  //     },
-  //     (data) => {
-  //       console.log('PushNotificationIOS.requestPermissions failed', data);
-  //     },
-  //   );
-
-  //   return () => {
-  //     PushNotificationIOS.removeEventListener('register', onRegistered);
-  //     PushNotificationIOS.removeEventListener(
-  //       'registrationError',
-  //       onRegistrationError,
-  //     );
-  //     PushNotificationIOS.removeEventListener(
-  //       'notification',
-  //       onRemoteNotification,
-  //     );
-  //     PushNotificationIOS.removeEventListener(
-  //       'localNotification',
-  //       onLocalNotification,
-  //     );
-  //   };
-  // }, []);
-
-  // const sendNotification = () => {
-  //   DeviceEventEmitter.emit('remoteNotificationReceived', {
-  //     remote: true,
-  //     aps: {
-  //       alert: 'Sample notification',
-  //       badge: '+1',
-  //       sound: 'default',
-  //       alertTitle: 'title',
-  //       category: 'REACT_NATIVE',
-  //       'content-available': 1,
-  //     },
-  //   });
-  // };
-
-  // const sendLocalNotification = () => {
-  //   PushNotificationIOS.presentLocalNotification({
-  //     alertTitle: 'Sample Title',
-  //     alertBody: 'Sample local notification',
-  //     applicationIconBadgeNumber: 1,
-  //   });
-  // };
-
-  // const scheduleLocalNotification = () => {
-  //   PushNotificationIOS.scheduleLocalNotification({
-  //     alertBody: 'Test Local Notification',
-  //     fireDate: new Date().toISOString(),
-  //   });
-  // };
-
-  // const onRegistered = (deviceToken) => {
-  //   Alert.alert('Registered For Remote Push', `Device Token: ${deviceToken}`, [
-  //     {
-  //       text: 'Dismiss',
-  //       onPress: null,
-  //     },
-  //   ]);
-  // };
-
-  // const onRegistrationError = (error) => {
-  //   Alert.alert(
-  //     'Failed To Register For Remote Push',
-  //     `Error (${error.code}): ${error.message}`,
-  //     [
-  //       {
-  //         text: 'Dismiss',
-  //         onPress: null,
-  //       },
-  //     ],
-  //   );
-  // };
-
-  // const onRemoteNotification = (notification) => {
-  //   const result = `
-  //     Title:  ${notification.getTitle()};\n
-  //     Message: ${notification.getMessage()};\n
-  //     badge: ${notification.getBadgeCount()};\n
-  //     sound: ${notification.getSound()};\n
-  //     category: ${notification.getCategory()};\n
-  //     content-available: ${notification.getContentAvailable()}.`;
-
-  //   Alert.alert('Push Notification Received', result, [
-  //     {
-  //       text: 'Dismiss',
-  //       onPress: null,
-  //     },
-  //   ]);
-  // };
-
-  // const onLocalNotification = (notification) => {
-  //   Alert.alert(
-  //     'Local Notification Received',
-  //     `Alert title:  ${notification.getTitle()},
-  //     'Alert message:  ${notification.getMessage()}`,
-  //     [
-  //       {
-  //         text: 'Dismiss',
-  //         onPress: null,
-  //       },
-  //     ],
-  //   );
-  // };
-
-  // const showPermissions = () => {
-  //   PushNotificationIOS.checkPermissions((permissions) => {
-  //     setPermissions({permissions});
-  //   });
-  // };
-
+  
   useEffect(() => {
-
 
     const unsubscribe = messaging().onMessage(async (remoteMessage) => {
       console.log('FCM Message Data:', remoteMessage);
-
+      setXXX(true)
       Alert.alert(
         remoteMessage.notification.title,
         remoteMessage.notification.body,
@@ -156,13 +30,16 @@ export default SwapDashboard = (props) => {
           { text: 'Close', onPress: () => console.log("Cancel Pressed"), }
         ]
       )
+      setXXX(false)
+
     });
     return () => {
-      unsubscribe
+      unsubscribe()
     }
-  }, [null])
+  }, [XXX])
 
   const goToThing = async(data) => {
+    setXXX(true)
     console.log('name', data)
     if(data.type == 'event'){
       var cc = await actions.navigate.toEvent(data, navigation)
@@ -171,6 +48,7 @@ export default SwapDashboard = (props) => {
     }else{
       null
     }
+    setXXX(false)
   }
 
   const [ refreshing, setRefreshing ] = useState(false);
