@@ -1,8 +1,8 @@
-import { AppRegistry } from 'react-native';
 import App from './App';
 import { name as appName } from './app.json';
+
+import { AppRegistry, Platform } from 'react-native';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler'
-import { Platform } from 'react-native';
 import firebase from '@react-native-firebase/app';
 import messaging from '@react-native-firebase/messaging'
 
@@ -30,17 +30,14 @@ const androidConfig = {
 
 if (!firebase.apps.length) {
   try {
-
     firebase
-    .initializeApp(
-      // use platform-specific firebase config
-      Platform.OS === 'ios' ? iosConfig : androidConfig,
-      // name of this app
-      'SwapProfit',
-    )
-    .then(app => console.log('initialized apps ->', firebase.apps));
+      .initializeApp(
+        Platform.OS === 'ios' ? iosConfig : androidConfig,
+        'SwapProfit',
+      )
+      .then(app => console.log('initialized apps ->', firebase.apps));
   } catch (err) {
-      console.error('Firebase initialization error raised', err.stack)
+    console.error('Firebase initialization error raised', err.stack)
   }
 } 
 

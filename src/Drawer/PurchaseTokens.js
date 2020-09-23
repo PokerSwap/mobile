@@ -2,21 +2,11 @@ import React, { useContext, useState } from 'react';
 import { Alert,  ScrollView, Image, View, Modal, Platform } from 'react-native';
 import { Container, Content,  Button, Text } from 'native-base';
 import { Grid, Col, Row} from 'react-native-easy-grid'
-import stripe from 'tipsi-stripe';
+
 
 import PayForTokenModal from './PayScenes/PayForTokenModal'
-
-// var pid;
-// Platform.IOS == 'ios' ? pid = 'merchant.com.swapprofitllc.swapprofitapp' : pid = '05487257864798279761'
-
-// stripe.setOptions({
-//   publishableKey: 'pk_live_No3ckprr7lPnxOP2MGPqRDO500aYv6i73M',
-//   merchantId: pid ,
-//   androidPayMode: 'test',
-// });
-
-
 import OtherHeader from '../View-Components/OtherHeader'
+import { Context } from '../Store/appContext';
 
 PriceOption = (props) => {
 
@@ -46,9 +36,7 @@ PriceOption = (props) => {
       </Text>
 
       <Button full style={{ alignSelf:'center', justifyContent:'center', width:'100%'}} 
-        //  onPress={()=> startBuying('for ' + props.tokens.toString() + ' Swap Tokens', props.dollars.toString())}
-       onPress={() => setVisible(true)}
-       >
+       onPress={() => setVisible(true)}>
         <Text style={{textAlign:'center'}}>
           ${props.dollars}
         </Text>
@@ -59,27 +47,14 @@ PriceOption = (props) => {
 
 export default PurchaseTokens = (props) => {
 
-
-  // requestPayment = () => {
-  //   return stripe
-  //     .paymentRequestWithCardForm()
-  //     .then(stripeTokenInfo => {
-  //       console.warn('Token created', { stripeTokenInfo });
-  //     })
-  //     .catch(error => {
-  //       console.warn('Payment failed', { error });
-  //     });
-  // };[{
-  //   label: '10 Tokens',
-  //   amount: '1.99',
-  // }]
-
+  const { store, actions } = useContext(Context)
 
   return(
     <Container>
       <Content>
       <OtherHeader title={'Purchase Tokens'} />
-      <ScrollView style={{ alignSelf: 'stretch' }}>           
+      <ScrollView style={{ alignSelf: 'stretch' }}>    
+      <Button onPress={()=> actions.swapToken.buy(5)}><Text>ADD 5 TOKENS</Text></Button>       
         <Grid transparent>
           {/* TIER 1 PURCHASES */}
           <Row style={{alignItems:'center'}}>

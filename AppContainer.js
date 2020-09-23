@@ -1,13 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import { Icon } from "native-base";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer'
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
-import { createStackNavigator, HeaderBackButton } from "@react-navigation/stack";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 import Store from './src/Store/appContext';
-
-import { Alert } from 'react-native'
-import messaging from '@react-native-firebase/messaging';
 
 // AUTH VIEWS
 import SplashScreen from './src/Auth/Splash'
@@ -54,6 +51,20 @@ import CustomCardScreen from './src/Drawer/PayScenes/CustomCardScreen'
 var Stack = createStackNavigator()
 var Drawer = createDrawerNavigator()
 var aTab = createBottomTabNavigator()
+
+var AuthStack = () => {
+  return(
+    <Stack.Navigator name="Auth" initialRouteName="Splash"
+      screenOptions={{ gestureEnabled: false, headerShown: false }}>
+      <Stack.Screen name="Splash" component={SplashScreen} />
+      <Stack.Screen name="Login" component={LogInScreen} options={{ headerShown: false }}/>
+      <Stack.Screen name="Forgot Password" component={ForgotPassword} options={{ headerShown: true }}/>
+      <Stack.Screen name="User Creation" component={CreateUser} options={{ headerShown: true }}/>
+      <Stack.Screen name="Terms and Conditions" component={TermsAndConditions} options={{ headerShown: true }}/>
+      <Stack.Screen name="Profile Creation" component={CreateProfile} options={{ headerShown: true }}/>
+    </Stack.Navigator>
+  )
+}
 
 var MainTabs = () => {
   return(
@@ -184,20 +195,6 @@ var SettingsStack = () => {
   )
 }
 
-var AuthStack = () => {
-  return(
-    <Stack.Navigator name="Auth" initialRouteName="Splash"
-      screenOptions={{ gestureEnabled: false, headerShown: false }}>
-      <Stack.Screen name="Splash" component={SplashScreen} />
-      <Stack.Screen name="Login" component={LogInScreen} options={{ headerShown: false }}/>
-      <Stack.Screen name="Forgot Password" component={ForgotPassword} options={{ headerShown: true }}/>
-      <Stack.Screen name="User Creation" component={CreateUser} options={{ headerShown: true }}/>
-      <Stack.Screen name="Terms and Conditions" component={TermsAndConditions} options={{ headerShown: true }}/>
-      <Stack.Screen name="Profile Creation" component={CreateProfile} options={{ headerShown: true }}/>
-    </Stack.Navigator>
-  )
-}
-
 var HelpStack = () => {
   return(
     <Stack.Navigator name="Help" initialRouteName="TutorialsScreen"
@@ -220,58 +217,8 @@ var TokenStack = () => {
   )
 }
 
-
 // MAIN NAVIGATION STACK
-  const AppContainer = () => {
-
-  // const navigation = useNavigation();
-  // const [loading, setLoading] = useState(true);
-  // const [initialRoute, setInitialRoute] = useState('Home');
-
-  // useEffect(() => {
-
-    
-  //   const goToThing = async(data) => {
-  //     console.log('name', data)
-  //     if(data.type == 'event'){
-  //       var cc = await actions.navigate.toEvent(data, navigation)
-  //     }else if(data.type == 'swap'){
-  //       var cc = await actions.navigate.toSwap(data, navigation)
-  //     }else{
-  //       null
-  //     }
-  //   }
-
-  //   messaging().onNotificationOpenedApp(remoteMessage => {
-  //     Alert.alert(
-  //       remoteMessage.notification.title,
-  //       remoteMessage.notification.body,
-  //       [
-  //         { text: 'Go to...', onPress: () => goToThing(remoteMessage.data) },
-  //         { text: 'Close', onPress: () => console.log("Cancel Pressed"), }
-  //       ]
-  //     )
-  //   });
-
-  //   // Check whether an initial notification is available
-  //   messaging()
-  //     .getInitialNotification()
-  //     .then(remoteMessage => {
-  //       if (remoteMessage) {
-  //         goToThing(remoteMessage.data)
-  //         console.log(
-  //           'Notification caused app to open from quit state:',
-  //           remoteMessage.notification,
-  //         );
-          
-  //       }
-  //       setLoading(false);
-  //     });
-  // }, []);
-
-  // if (loading) {
-  //   return null;
-  // }
+const AppContainer = () => {
 
   return(
     <NavigationContainer>
@@ -280,7 +227,6 @@ var TokenStack = () => {
         <Stack.Screen name="Auth" component={AuthStack} />
         <Stack.Screen name="Drawer" component={MainDrawer}/>
         <Stack.Screen name="Home" component={MainTabs}/>
-
         <Stack.Screen name="Web View" component={WebViewScreen} 
           options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}} />
         <Stack.Screen name="Purchase Tokens" component={TokenStack} 
