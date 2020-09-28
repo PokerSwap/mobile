@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import { View, StatusBar, Image } from 'react-native';
+import { View, StatusBar, Image, Alert } from 'react-native';
 import messaging from '@react-native-firebase/messaging';
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -28,7 +28,7 @@ export default SplashScreen = (props) => {
 			// IF TOKEN IS VALID, MOVE TO AUTO-LOGIN PROCESS
 			if(checkUserToken && savedLoginInfo){
 				var x = JSON.parse(savedLoginInfo)
-				console.log('Saved Logged Info',x, typeof(x))
+				// console.log('Saved Logged Info',x, typeof(x))
 				var autoLoggingIn = await actions.user.login(x, navigation)
 				// var annn = await getInitialNotification()
 			}else{
@@ -45,38 +45,10 @@ export default SplashScreen = (props) => {
 		}
 	}
 
-	// PushNotification.configure({
-
-	// 	onRegister: function(token) {
-	// 		console.log("TOKEN:", token);
-	// 	},
-
-	// 	onNotification: async (notificationData) => {
-	// 		console.log('onNotification' ,notificationData )
-	// 		var x = await actions.notification.store(notificationData)
-
-	// 		notificationData.finish(PushNotificationIOS.FetchResult.NoData);
-	// 	},
-
-	// 	senderID: '1008390219361',
-
-	// 	permissions: {
-	// 		alert: true,
-	// 		badge: true,
-	// 		sound: true
-	// 	},
-
-	// 	popInitialNotification: true,
-
-	// 	requestPermissions: true
-	// });
-
 	const hasPermission = async() => {
 		var answer = await messaging().hasPermission();
-		// console.log('hasPermission',answer)
 		if (answer){
 			var fcmToken = await messaging().getToken();
-			// var x = await getInitialNotification()
 		}else{
 			console.log('Requesting Permission')
 			getPermission()
@@ -97,21 +69,6 @@ export default SplashScreen = (props) => {
 			console.log('was already refistered')
 		}
 	}
-
-	// const getInitialNotification = async() => {
-	// 	// Check whether an initial notification is available
-	// 	messaging()
-	// 	.getInitialNotification()
-	// 	.then(remoteMessage => {
-	// 		if (remoteMessage) {
-	// 				console.log("Going to swap")
-	// 				actions.navigate.toSwap(remoteMessage.data, navigation)
-	// 		} else {
-	// 			console.log("No inital notification")
-	// 		}
-	// 	})
-	
-	// }
 
 	useEffect(() => {
 		setLoading(true)

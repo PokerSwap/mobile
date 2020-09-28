@@ -57,12 +57,13 @@ export default LoginScreen = ({navigation}) => {
     Keyboard.dismiss();
     setLoading(true)
     var x = await isSimulator()
-    if(x && Platform.OS == 'ios'){
-      deviceID = 'lol'
-    }else{
+    // if(x && Platform.OS == 'ios'){
+    //   deviceID = 'lol'
+    // }else{
       var bb = await getToken()
       deviceID = bb
-    } 
+      console.log('dd', deviceID)
+    // } 
     var data = {
       email: email,
       password: password,

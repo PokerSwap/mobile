@@ -1,10 +1,12 @@
-import React from 'react';
+import React, {useEffect, useContext} from 'react';
 import { Icon } from "native-base";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer'
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Store from './src/Store/appContext';
+import { LogBox } from 'react-native';
+
 
 // AUTH VIEWS
 import SplashScreen from './src/Auth/Splash'
@@ -47,6 +49,11 @@ import PurchaseTokens from './src/Drawer/PurchaseTokens'
 import CardFieldTextScreen from './src/Drawer/PayScenes/CardFieldTextScreen'
 import CardFormScreen from './src/Drawer/PayScenes/CardFormScreen'
 import CustomCardScreen from './src/Drawer/PayScenes/CustomCardScreen'
+
+import { Alert } from 'react-native'
+import messaging from '@react-native-firebase/messaging';
+import { Context } from './src/Store/appContext'
+import { drop } from 'lodash';
 
 var Stack = createStackNavigator()
 var Drawer = createDrawerNavigator()
@@ -93,9 +100,9 @@ var MainTabs = () => {
 
 var SwapsStack = () => {
   return(
-    <Stack.Navigator initialRouteName="Active Swaps" 
+    <Stack.Navigator initialRouteName="Swap Dashboard" 
       screenOptions={{ gestureEnabled: false, headerShown: false }}>
-      <Stack.Screen name="Active Swaps" component={SwapDashboard}/>
+      <Stack.Screen name="Swap Dashboard" component={SwapDashboard}/>
       <Stack.Screen name="Swap Offer" component={SwapOffer} 
         options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
       <Stack.Screen name="Event Lobby" component={EventLobby} 
@@ -217,12 +224,9 @@ var TokenStack = () => {
   )
 }
 
-// MAIN NAVIGATION STACK
-const AppContainer = () => {
-
+const NavContainer = () => {
   return(
-    <NavigationContainer>
-      <Stack.Navigator name="Root" initialRouteName="Auth"
+<Stack.Navigator name="Root" initialRouteName="Auth"
         screenOptions={{ gestureEnabled: false, headerShown: false }}>
         <Stack.Screen name="Auth" component={AuthStack} />
         <Stack.Screen name="Drawer" component={MainDrawer}/>
@@ -240,6 +244,48 @@ const AppContainer = () => {
         {/* <Stack.Screen name="Chat" component={ChatScreen} 
           screenOptions={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}} /> */}
       </Stack.Navigator>
+  )
+
+}
+
+// MAIN NAVIGATION STACK
+const AppContainer = () => {
+
+  const { store, actions } = useContext(Context)
+  
+  // const goToThing = async(data) => {
+  //   const navigation = useNavigation()
+  //   console.log('name', data)
+  //   if(data.type == 'event'){
+  //     var cc = await actions.navigate.toEvent(data, navigation)
+  //   }else if(data.type == 'swap'){
+  //     var cc = await actions.navigate.toSwap(data, navigation)
+  //   }else{
+  //     null
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   const unsubscribe = messaging().onMessage(async remoteMessage => {
+  //     Alert.alert(
+  //       remoteMessage.notification.title, 
+  //       remoteMessage.notification.body,
+  //       [
+  //         { text: 'Open', onPress: () => goToThing(remoteMessage.data) },
+  //         { text: 'Close', onPress: () => console.log("Cancel Pressed"), }
+  //       ]
+  //     );
+  //   });
+
+  //   return () => {
+  //     unsubscribe()
+  //   }
+  // }, []);
+  LogBox.ignoreLogs(['VirtualizedLists', 'Warning: Picker', 'Warning: Async']); // Ignore log notification by message
+
+  return(
+    <NavigationContainer>
+      <NavContainer />
     </NavigationContainer>
   )
 }

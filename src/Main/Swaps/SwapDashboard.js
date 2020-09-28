@@ -13,33 +13,9 @@ export default SwapDashboard = (props) => {
   const { store, actions } = useContext(Context)
   const navigation = useNavigation()
 
-  const [XXX, setXXX] = useState(false)
   const route = useRoute();
 
-  
-  useEffect(() => {
-
-    const unsubscribe = messaging().onMessage(async (remoteMessage) => {
-      console.log('FCM Message Data:', remoteMessage);
-      setXXX(true)
-      Alert.alert(
-        remoteMessage.notification.title,
-        remoteMessage.notification.body,
-        [
-          { text: 'Open', onPress: () => goToThing(remoteMessage.data) },
-          { text: 'Close', onPress: () => console.log("Cancel Pressed"), }
-        ]
-      )
-      setXXX(false)
-
-    });
-    return () => {
-      unsubscribe()
-    }
-  }, [XXX])
-
   const goToThing = async(data) => {
-    setXXX(true)
     console.log('name', data)
     if(data.type == 'event'){
       var cc = await actions.navigate.toEvent(data, navigation)
@@ -48,8 +24,24 @@ export default SwapDashboard = (props) => {
     }else{
       null
     }
-    setXXX(false)
   }
+
+  useEffect(() => {
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      Alert.alert(
+        remoteMessage.notification.title, 
+        remoteMessage.notification.body,
+        [
+          { text: 'Open', onPress: () => goToThing(remoteMessage.data) },
+          { text: 'Close', onPress: () => console.log("Cancel Pressed"), }
+        ]
+      );
+    });
+
+    return () => {
+      unsubscribe()
+    }
+  }, []);
 
   const [ refreshing, setRefreshing ] = useState(false);
 

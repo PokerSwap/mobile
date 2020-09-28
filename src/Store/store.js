@@ -344,11 +344,14 @@ const getState = ({ getStore, setStore, getActions }) => {
 			// USER DEVICE TOKEN ACTIONS
 			deviceToken:{
 
-				get: async() => {
+				get: async( aDeviceToken ) => {
 					try {
-						var storedDeviceToken = await AsyncStorage.getItem('deviceToken')
-						setStore({deviceToken: storedDeviceToken})
-						// console.log('Current Device Token', getStore().deviceToken)
+						if (aDeviceToken){
+							setStore({deviceToken: aDeviceToken})
+							console.log('Current Device Token', getStore().deviceToken)
+						} else{
+							getActions().deviceToken.retrieve(getStore().myProfile.id)
+						}										
 					} catch (error) {
 						console.log('Something went wrong with getting device token', error)
 					}
@@ -360,6 +363,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						const url = databaseURL + 'users/me/devices' 
 
 						const data = {device_token: getStore().deviceToken}
+						console.log('Device Token Being removed: ', data)
 
 						let response = await fetch(url, {
 							method:'DELETE',
@@ -369,8 +373,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							},
 							body:JSON.stringify(data)
 						})
-						.then(response => response.json)
-
+						.then(response => response.json())
 						var removingDeviceToken = await AsyncStorage.removeItem('deviceToken')
 						setStore({deviceToken: null})
 
@@ -392,22 +395,13 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}, 
 						})
 						var answer = await response.json()
-						return answer[0].token
+						setStore({deviceToken: aDeviceToken})
+						var removingDeviceToken = await AsyncStorage.setItem('deviceToken', aDeviceToken)
 
 					}catch(error){
 						console.log('error in retrieiving deviceToken', error)
 					}
 				},
-
-				store: async(device_token) => {
-					try{
-						console.log('Storing this', device_token)
-						// var storingDeviceToken = await AsyncStorage.setItem('deviceToken', device_token)
-						setStore({deviceToken: device_token})
-					}catch(error){
-						console.log('Something went wrong with storing device token', error)
-					}
-				}
 			},
 			// USED FOR CHAT NETWORK
 			firebase:{
@@ -1477,14 +1471,15 @@ const getState = ({ getStore, setStore, getActions }) => {
 				},
 				// LOGIN PROCESS
 				login: async ( data, navigation ) => {
-					// 20 DAY EXPIRATION
-				
-					// console.log('fffff', data.device_token)
+					var wwx = await AsyncStorage.getItem('notificationData')
+					var wew = JSON.parse(wwx)
+					console.log('Notification stored', wwx)
+
 
 					return new Promise(resolve =>
 						resolve(getActions().userToken.get(data, navigation)
 						.then(() => setStore({nowLoading: 'Logging In...'}))
-						.then(() => getActions().deviceToken.store(data.device_token))
+						.then(() => getActions().deviceToken.get(data.device_token))
 						.then(()=> getActions().profile.get())
 						.then(()=> myPassword = '')
 						.then(()=> {
@@ -1496,7 +1491,18 @@ const getState = ({ getStore, setStore, getActions }) => {
 									.then(() => getActions().tracker.getCurrent())
 									.then(() => getActions().tracker.getUpcoming())
 									.then(() => getActions().tracker.getPast())
+									.then(() => setStore({nowLoading: ''}))
+									// .then(() => console.log('hello'))
 									.then(() => navigation.navigate('Drawer', { screen: 'Home' }))
+									.then(() => {
+										if(wew !== null){
+											getActions().navigate.toSwap(wew.data, navigation)
+											AsyncStorage.removeItem('notificationData')
+										}else{
+											null
+										}
+									})
+									.catch((err) => console.log('err',err))
 								} else { 
 									navigation.navigate('Profile Creation')
 								}									
@@ -1511,6 +1517,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				// LOGOUT FUNCTION
 				logout: async( navigation ) => {
 					navigation.navigate('Auth', {screen:'Login'})
+					getActions().deviceToken.remove()
 					setStore({currentSwap:{}})
 					setStore({currentBuyin:{}})
 					setStore({myCurrentTrackers:{}})
@@ -1518,8 +1525,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 					setStore({myPastTrackers:{}})
 					setStore({myConfirmedResultsTrackers:{}})
 					setStore({myPendingResultsTrackers:{}})
-					setStore({ deviceToken: null })
-					// setStore({ myProfile: null })
+					setStore({userToken:{}})
+					setStore({ myProfile: null })
+
 					AsyncStorage.removeItem('userToken')
 					AsyncStorage.removeItem('loginInfo')
 					AsyncStorage.removeItem('deviceToken')
