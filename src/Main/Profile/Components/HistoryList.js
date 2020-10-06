@@ -38,11 +38,9 @@ export default HistoryList = (props) => {
   if(history){
     var myHistory = history.map((content, index) =>{
       return(
-        <MyProfileHistoryCard 
-          key={index}
+        <MyProfileHistoryCard key={index}
           tournament={content.tournament}
-          my_buyin={content.my_buyin}
-          buyins={content.buyins}
+          my_buyin={content.my_buyin} buyins={content.buyins}
           final_profit={content.final_profit}/>
       )
     })
@@ -64,7 +62,6 @@ export default HistoryList = (props) => {
       return(
         <TheirProfileHistoryCard key={index}
           allSwaps={allSwaps} buyin={content}
-          navigation={props.navigation}
           myTrackers={store.myPastTrackers}/>
       )
     })
@@ -99,6 +96,7 @@ export default HistoryList = (props) => {
         : history.length !== 0 ?
             myHistory : emptyHistory("Start Swapping Today!")
       : <Spinner />}
+      
     </List>  
   )
 }

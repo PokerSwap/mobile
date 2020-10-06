@@ -9,7 +9,7 @@ export default {
     submit:'Submit',
     goBack:'Go Back',
 
-    swapDashboard: "Swap Dashboard",
+    swapDashboard: "Active Swaps",
     tournamentDashboard: "Tournament Dashboard",
     tourneyLobby:"Tourney Lobby",
     swapPot: 'Swap Pot',

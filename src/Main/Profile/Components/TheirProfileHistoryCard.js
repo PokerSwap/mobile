@@ -28,7 +28,7 @@ export default TheirProfileHistoryCard = (props) => {
 				</Col>
 				<Col style={{width:'40%'}}>
 					<Text style={{color:'white'}}>
-						Your's / Their's %
+						You / Them
 					</Text>
 				</Col>
 			</ListItem>

@@ -4,12 +4,18 @@ import { View } from 'react-native'
 import { Text, Button, Icon, Toast } from 'native-base';
 import { Col } from 'react-native-easy-grid'
 import { throttle } from 'lodash'
+import { useNavigation } from '@react-navigation/native';
+
+
 
 import { Context } from '../../../Store/appContext'
 
 export default SwapButton = (props) => {
   const { store, actions } = useContext(Context)
   const [busted, setBusted] = useState(false)
+
+  const navigation = useNavigation();
+
 
   useEffect(() => {
     props.buyin.chips == 0 ? setBusted(true) : setBusted(false)
@@ -126,7 +132,7 @@ export default SwapButton = (props) => {
     else{
       // REBUYING BACK INTO THE TOURNAMENT
       if(path == 'edit'){
-        props.navigation.push('VerifyTicket',{
+        navigation.push('Verify Ticket',{
           tournament_name: props.tournament.name,
           tournament_id: props.buyin.tournament_id,
           tournament_start: props.tournament.start_at,
@@ -150,7 +156,7 @@ export default SwapButton = (props) => {
         // console.log('Swap going in', swap.status, swap.percentage)
 
         if (path !== 'inactive') {
-          props.navigation.push('SwapOffer',{
+          navigation.push('Swap Offer',{
             status: path,
             buyin: props.buyin,
             tournament: props.tournament,
@@ -159,7 +165,7 @@ export default SwapButton = (props) => {
           })
         } else {
           console.log('this inactive')
-          props.navigation.push('SwapOffer',{
+          navigation.push('Swap Offer',{
             status: 'inactive',
             buyin: props.buyin,
             tournament: props.tournament,
@@ -172,7 +178,7 @@ export default SwapButton = (props) => {
       // SWAPPING WITH NO ACTION LEFT
       else{
         if( path == 'pending' || path == 'counter_incoming' ){
-          props.navigation.push('SwapOffer',{
+          navigation.push('Swap Offer',{
             status: path,
             buyin: props.buyin,
             tournament: props.tournament,
@@ -189,7 +195,7 @@ export default SwapButton = (props) => {
     }
     // CHANGING BUYIN IF ITS MINE
     else {
-      props.navigation.push('SwapOffer',{
+      navigation.push('Swap Offer',{
         status: path,
         buyin: props.buyin,
         tournament: props.tournament,

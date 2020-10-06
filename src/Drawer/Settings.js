@@ -1,40 +1,37 @@
-import React, {useContext} from 'react';
-import { Container, View, Content, Text, List, ListItem } from 'native-base';
+import React from 'react';
+import { Container, Content, Text, List, ListItem } from 'native-base';
+import { useNavigation } from '@react-navigation/native';
 
 import OtherHeader from '../View-Components/OtherHeader'
-import {Context } from '../Store/appContext'
 
-export default SettingsScreen = (props) => {
-
+export default SettingsScreen = () => {
+  const navigation = useNavigation()
   return(
     <Container>
-      <OtherHeader title={'Settings'} 
-        goBackToHome={() => props.navigation.goBack(null)}/>
-      <Content>
-        
+      <OtherHeader title={'Settings'} />
+      <Content>      
         <List>
-          
+          {/* CHANGE EMAIL BUTTON */}
           <ListItem noIndent 
-            onPress={()=> props.navigation.push('ChangeEmail', {
-              navigation: props.navigation
-            })}>
+            onPress={()=> navigation.navigate('Change Email')}>
             <Text> Change Email </Text>
           </ListItem>
-
+          {/* CHANGE PASSWORD BUTTON */}
           <ListItem noIndent 
-            onPress={()=> props.navigation.push('ChangePassword', {
-              navigation: props.navigation
-            })}>
+            onPress={()=> navigation.navigate('Change Password')}>
             <Text> Change Password </Text>
           </ListItem>
-          
+          {/* CHANGE PICTURE BUTTON */}
           <ListItem noIndent 
-            onPress={()=> props.navigation.navigate('ChangePicture')}>
+            onPress={()=> navigation.navigate('Change Picture')}>
             <Text> Change Profile Picture </Text>
           </ListItem>
-          
+          {/* CHANGE NICKNAME BUTTON */}
+          <ListItem noIndent 
+            onPress={()=> navigation.navigate('Change Nickname')}>
+            <Text> Change Nickname </Text>
+          </ListItem>
         </List>
-       
       </Content>  
     </Container>
   )

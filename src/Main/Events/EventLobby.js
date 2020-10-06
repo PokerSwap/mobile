@@ -1,6 +1,8 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Container, Content, List, Spinner } from 'native-base';
-import { withNavigationFocus } from 'react-navigation';
+import { View } from 'react-native'
+import { Container, Content, List, Spinner, Header, Text } from 'native-base';
+import { useNavigation, useRef, useRoute } from '@react-navigation/native'
+import { HeaderBackButton } from '@react-navigation/stack'
 
 import { Context } from '../../Store/appContext'
 
@@ -8,22 +10,33 @@ import EventHeader from './Components/EventHeader'
 import FlightSchedule from './Components/FlightSchedule';
 import ActionBar from './Components/ActionBar'
 
-export default EventLobby = (props) => {
+export default EventLobby = () => {
   const { store, actions } = useContext(Context)
 
-  let event = props.navigation.getParam('event', 'NO-ID');
-  let tournament_id = props.navigation.getParam('tournament_id', 'NO-ID');
-  let tournament_start = props.navigation.getParam('tournament_start', 'NO-ID');
-  let tournament_name = props.navigation.getParam('tournament_name', 'NO-ID');
 
-  var startAction, startTournament, startTime, startName, startEvent;
-  if(event !== 'NO-ID'){
-    startEvent= event, startName=event.tournament.name, startAction = event.action, startTournament = event.tournament, startTime = event.tournament.start_at;
+
+  const route = useRoute()
+  const navigation = useNavigation()
+  const { event } = route.params;
+  const { tournament_id } = route.params;  
+  const { tournament_start } = route.params;
+  const { tournament_name } = route.params;
+  const { tournament_address } = route.params;
+
+  const { flight_id } = route.params;
+
+  var startAction, startTournament, startTime, startName, startEvent, startAddress, startLat, startLong;
+  if(event){
+    startEvent= event, startName=event.tournament.name, startAction = event.action,
+    startTournament = event.tournament, startTime = event.tournament.start_at, 
+    startLat=event.tournament.latitude, startLong=event.tournament.longitude,
+    startAddress = event.tournament.casino + '\n' +event.tournament.address + '\n' + 
+      event.tournament.city + ', ' + event.tournament.state + ' ' + event.tournament.zip_code
   }else{
-    startEvent= null, startName=tournament_name, startAction = null, startTournament = null, startTime = tournament_start;
+    startEvent= null, startName=tournament_name, startAction = null, 
+    startTournament = null, startTime = tournament_start, startAddress = tournament_address,
+    startLat= null, startLong= null
   }
-
-
 
   const [ anEvent, setAnEvent ] = useState(startEvent)
   const [ aTournament, setATournament ] = useState(startTournament)
@@ -31,15 +44,12 @@ export default EventLobby = (props) => {
   const [ anAction, setAnAction] = useState(startAction)
   const [ refreshing, setRefreshing ] = useState(true)
 
-  useEffect(() => {
-    
-    const unsubscribe = props.navigation.addListener('didFocus', () => {
+  useEffect(() => {  
+    const unsubscribe = navigation.addListener('focus', () => {
       getTournament() 
     });
-
     return () => {
       unsubscribe
-
     }
   }, [])
  
@@ -49,17 +59,23 @@ export default EventLobby = (props) => {
       var answer1 = await actions.tournament.getCurrent(tournament_id)
 
       setATournament(store.currentTournament.tournament)
+      setAnEvent(store.currentTournament)
       var answer2 = await actions.tournament.retrieveAction(tournament_id)
+      console.log('Tournament os:', store.currentTournament, aTournament)
       setAnAction(answer2)
+
       
-      setAnEvent(store.currentTournament)     
-      var answer3 = await actions.time.convertLong(startTime)     
-      setTStart(answer3)
+      // setAnEvent(store.currentTournament)     
+      // var answer3 = await actions.time.convertLong(startTime)     
+      // setTStart(answer3)
     } catch(error){
       console.log('Something went wrong with getting Tournaent',error)
     }
   }
 
+
+  
+  // FLIGHT SCHEDUELE MAPPER
   if(anEvent && aTournament){
     var toFilterOne  = []
     var addToFilter = anEvent.buyins.forEach((buyin) => 
@@ -93,7 +109,7 @@ export default EventLobby = (props) => {
     });
 
     return(
-      <FlightSchedule key={index} navigation={props.navigation}
+      <FlightSchedule key={index} 
         action={anAction} my_buyin={myBuyInFlight}
         setRefreshing={setRefreshing}
         buyins={swappedBuyins} unbuyins={unswappedBuyins}
@@ -101,16 +117,25 @@ export default EventLobby = (props) => {
     })
   }else{
     null
+    console.log('was null?', aTournament)
   }
+
+  
 
   return(
     <Container>      
+      <Header style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between', backgroundColor:'rgb(248,248,248)'}}>
+        <HeaderBackButton onPress={()=> navigation.popToTop()} style={{width:'20%'}}/>
+        <Text style={{textAlign:'center', width:'60%', alignSelf:'center', fontSize:24, fontWeight:'600'}}>Event Lobby</Text>
+        <View style={{width:'20%'}}/>
+      </Header>
       <Content>
         <List>
           {/* TOURNAMENT HEADER */}
           <EventHeader 
             tournament_name={startName}
-            tournamentTime={tStart} />
+            tournament_address={startAddress} tournamentTime={tStart} 
+            lat={startLat} long={startLong} />
           {/* TOURNEY BUYIN ENTRIES  */}
           {!aTournament ? <Spinner /> : Flights }          
         </List>

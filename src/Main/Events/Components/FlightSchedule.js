@@ -21,7 +21,7 @@ export default FlightSchedule = (props) => {
 
   var Buy_Ins = props.buyins.map((content, index) => {
     return(
-      <BuyIn key = {index}  navigation={props.navigation}
+      <BuyIn key = {index}
         action={props.action} tournament={props.tournament}
         my_buyin={props.my_buyin} buyin={content.recipient_buyin}
         agreed_swaps = {content.agreed_swaps}
@@ -32,7 +32,7 @@ export default FlightSchedule = (props) => {
     
   var Tournament_Buy_Ins = props.unbuyins.map((content, index) => {
     return(
-      <TournamentBuyIn key = {index} navigation={props.navigation}
+      <TournamentBuyIn key = {index}
         buyin={content} my_buyin={props.my_buyin}
         tournament={props.tournament} action={props.action}
         setRefreshing={props.setRefreshing}/>
@@ -51,8 +51,8 @@ export default FlightSchedule = (props) => {
       </ListItem> 
       {/* IF MY BUYIN IS IN THIS FLIGHT */}
       {props.my_buyin.length !== 0?
-        <BuyIn  navigation = {props.navigation}
-        setRefreshing={props.setRefreshing}
+        <BuyIn  
+          setRefreshing={props.setRefreshing}
           action = {props.action} tournament ={props.tournament}
           my_buyin= {props.my_buyin} buyin = {props.my_buyin}/>
         : null}

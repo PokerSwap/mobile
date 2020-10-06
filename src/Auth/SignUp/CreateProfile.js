@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Content, Container, Tab, Tabs } from 'native-base';
-import { KeyboardAvoidingView } from 'react-native'
 
 import ProfileReview from './ProfileReview'
 import NameSetup from './NameSetup';
@@ -11,7 +10,7 @@ export default CreateProfile = (props) => {
   const [ page, setPage ] = useState(0)
   const [ first_name, setFirstName ] = useState('')
   const [ last_name, setLastName ] = useState('')
-  const [ username, setUserName ] = useState('')
+  const [ nickname, setNickName ] = useState('')
   const [ picture, setPicture]  = useState('https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png')
   const [ hendon, setHendon] = useState('')
 
@@ -30,11 +29,8 @@ export default CreateProfile = (props) => {
 
   return(
     <Container>
-
       <Content contentContainerStyle={{flex:1, justifyContent:"center"}}>         
-
         <Tabs locked initialPage={0} page={page}>
-
           {/* NAME PAGE */}
           <Tab disabled heading="Name">
             <NameSetup 
@@ -44,9 +40,8 @@ export default CreateProfile = (props) => {
               onChangeFirstName={first_name => setFirstName( first_name )}
               last_name= {last_name} 
               onChangeLastName={last_name => setLastName( last_name )}
-              username= {username}
-              onChangeUserName={username => setUserName( username )}
-            />
+              nickname= {nickname}
+              onChangeNickName={nickname => setNickName( nickname )}/>
           </Tab>
           {/* PICTURE PAGE */}
           <Tab disabled heading="Picture">
@@ -68,18 +63,14 @@ export default CreateProfile = (props) => {
           <Tab disabled heading="Review">
             <ProfileReview 
               prev={() => prevPage()}
-              navigation= {props.navigation}
               first_name= {first_name} 
               last_name= {last_name} 
-              username= {username}
+              nickname= {nickname}
               picture= {picture}
               hendon= {hendon} />
           </Tab>
-
         </Tabs>
-
       </Content>   
-
     </Container>  
   )
 }

@@ -4,6 +4,8 @@ import { View } from 'react-native'
 import { Col, Row, Grid } from 'react-native-easy-grid'
 import { throttle } from 'lodash'
 import moment from 'moment'
+import {useNavigation} from '@react-navigation/native'
+
 
 import { Context } from '../../Store/appContext'
 
@@ -14,7 +16,8 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default BuyIn = (props) => {
   const { store, actions } = useContext(Context)
-  const { navigation } = props,  {buyin} = props;
+  const navigation = useNavigation()  
+  const {buyin} = props;
   const [buyinSince, setBuyinSince] = useState(null)
   const [refreshing, setRefreshing] = useState(true)
   const [ isExpanded, setIsExpanded ] = useState(false)
@@ -32,7 +35,6 @@ export default BuyIn = (props) => {
     }
   }, [refreshing])
 
-
   var allSwaps 
   buyin.user_id != store.myProfile.id ?   
     props.agreed_swaps !== [] ?
@@ -45,7 +47,7 @@ export default BuyIn = (props) => {
     : allSwaps = null
 
 
-  const _renderContent= () => {
+  const _renderContent = () => {
     return(
       <View>
         {allSwaps.map((swap, index) => {
@@ -53,11 +55,7 @@ export default BuyIn = (props) => {
             <SwapRow key={index}
               swap={swap}
               tournament={props.tournament}
-              buyin={buyin}
-              navigation={props.navigation}
-            />
-          )
-        })}
+              buyin={buyin}/>)})}
       </View>
   )}
 
@@ -69,7 +67,6 @@ export default BuyIn = (props) => {
   }
 
   const handler = throttle(enterProfile, 1000, { leading: true, trailing: false });
-
 
   var bg, txt;
   if (buyin.chips !== 0){
@@ -90,8 +87,8 @@ export default BuyIn = (props) => {
             <Col style={{width:'15%', marginleft:10,  justifyContent:'center'}}>
               <TouchableOpacity style={{ justifyContent:'center', width:'100%', height:'100%'}} onPress={() => setIsExpanded(!isExpanded)}>
                 {isExpanded ?
-                  <Icon style={{textAlign:'center', color:txt}} type='Ionicons' name='ios-arrow-up'/> 
-                  : <Icon style={{textAlign:'center', color:txt}} type='Ionicons' name='ios-arrow-down'/>}
+                  <Icon style={{textAlign:'center', color:txt}} type='FontAwesome5' name='angle-up'/> 
+                  : <Icon style={{textAlign:'center', color:txt}} type='FontAwesome5' name='angle-down'/>}
               </TouchableOpacity>
             </Col>
             : <Col style={{width:'15%'}}/>}
@@ -122,7 +119,7 @@ export default BuyIn = (props) => {
             </Row>
           </Col>
           {/* BUTTON WITH VARIABLE PATHS */}
-          <SwapButton navigation={props.navigation}
+          <SwapButton 
             allSwaps={allSwaps}  
             my_buyin={props.my_buyin}
             agreed_swaps={props.agreed_swaps}

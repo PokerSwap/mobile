@@ -1,8 +1,10 @@
 import React from 'react';
 import { Button, Card, CardItem, 
 Container, Content, Text, H2 } from 'native-base';
+import { useNavigation } from '@react-navigation/native'
 
 export default TermsAndConditions = (props) => {
+  var navigation = useNavigation()
   return(
     <Container>
       <Content contentContainerStyle={{alignContent:"center",justifyContent:"center"}}>
@@ -21,7 +23,7 @@ export default TermsAndConditions = (props) => {
           </CardItem>
           {/* PAGE BUTTON */}
           <CardItem style={{justifyContent:"center"}}>
-            <Button large onPress={()=> props.navigation.navigate('UserCreation')}>
+            <Button large onPress={()=> navigation.navigate('User Creation')}>
               <Text>I AGREE</Text>
             </Button>
           </CardItem>

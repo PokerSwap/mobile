@@ -4,6 +4,7 @@ import { TextInput, View, Alert, Modal } from 'react-native'
 import { Text, Card, CardItem, Button, Icon } from 'native-base'
 import { Grid, Row, Col } from 'react-native-easy-grid'
 import Spinner from 'react-native-loading-spinner-overlay'
+import {useNavigation} from '@react-navigation/native'
 
 
 import {Context} from '../../../Store/appContext'
@@ -16,6 +17,8 @@ export default EditPath = (props) => {
   const [ newSeat, setNewSeat ] = useState(props.buyin.seat)
   const [ newChips, setNewChips ] = useState(props.buyin.chips)
   const [ visible, setVisible ] = useState(false)
+
+  const navigation = useNavigation()
 
   let txtSeat = null, txtChips = null, isDisabled;
 
@@ -61,13 +64,12 @@ export default EditPath = (props) => {
   const rebuyEnter = async() => {
     var answer1 = await actions.tournament.getAction(props.buyin.tournament_id);
     var answer2 = await actions.tournament.getCurrent(props.buyin.tournament_id);
-    props.navigation.push('VerifyTicket', {
+    navigation.push('Verify Ticket', {
         action: store.action,
         tournament_name: store.currentTournament.tournament.name,
         tournament_start: store.currentTournament.tournament.start_at,
         tournament: store.currentTournament.tournament,
         buyins: store.currentTournament.buyins,
-        navigation: props.navigation,
         flights: store.currentTournament.tournament.flights,
         my_buyin: store.currentTournament.my_buyin
     });
@@ -80,11 +82,11 @@ export default EditPath = (props) => {
     var answer2 = await actions.buy_in.busted(
       props.buyin_id, place, winnings, props.tournament_id )
     setVisible(false)
-    props.navigation.goBack()
+    navigation.goBack()
   } 
 
   return(
-    <View>
+    <View style={{justifyContent:'center'}}>
       <View style={ styles.update.view }>
         <Icon type='FontAwesome5' name='angle-double-down'
           style={ styles.update.icon } />
@@ -101,7 +103,6 @@ export default EditPath = (props) => {
         presentationStyle='overFullScreen'
         transparent={true}>
         <BustedModal 
-          navigation = {props.navigation}
           setNewChips={setNewChips} 
           setVisible={setVisible} setLoading={props.setLoading}
           buyin_id={props.buyin.id} 
@@ -177,13 +178,14 @@ export default EditPath = (props) => {
           </Row>
         </CardItem>     
       </Card>
-      <Button large 
-        style={ styles.update.button }
+        <Button large  style={ styles.update.button }
         onPress={()=> buyinEdit()}>
         <Text style={ styles.update.text }>
           UPDATE 
         </Text>
       </Button>
+      
+      
 
         
     </View>
@@ -210,7 +212,7 @@ const styles = {
   },
   update:{
     button:{
-      marginTop:10, width:'100%', 
+      marginTop:10, marginLeft:'5%', width:'90%', selfAlign:'center',
       justifyContent:'center' },
     icon:{
       marginLeft:10, fontSize:16 },

@@ -44,8 +44,8 @@ export default NameSetup = (props) => {
         <Item>
           <Input 
             placeholder='Enter Buyin Alias'
-            value={props.username}    
-            onChangeText={props.onChangeUserName} 
+            value={props.nickname}    
+            onChangeText={props.onChangeNickName} 
             autoCorrect={false}/>
         </Item>
       </CardItem>

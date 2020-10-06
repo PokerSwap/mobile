@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react'
 import { KeyboardAvoidingView, TextInput, View, TouchableOpacity } from 'react-native'
 import { Text, Icon } from 'native-base'
 import { Grid, Row, Col } from 'react-native-easy-grid'
+import {useNavigation} from '@react-navigation/native'
 
 import {Context} from '../../../Store/appContext'
 
@@ -15,6 +16,7 @@ export default BustedModal = (props) => {
   const [ mode, setMode ] = useState(props.mode)
   const [ loading, setLoading ] = useState(false)
 
+  const navigation = useNavigation();
   var txtWinnings = null
 
   var a_behavior, offBy;
@@ -39,7 +41,7 @@ export default BustedModal = (props) => {
         props.buyin_id, place, winnings, props.tournament_id )
       console.log('done')
         setLoading(false)
-        props.navigation.goBack()
+        navigation.goBack()
       props.setVisible(false)
     }else if(mode=='entry'){
       setLoading(true)

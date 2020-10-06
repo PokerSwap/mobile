@@ -8,7 +8,7 @@ import EventSearchBar from './Components/EventSearchBar';
 
 import { Context } from '../../Store/appContext';
  
-export default EventListings = (props, {navigation}) => {
+export default EventListings = (props, navigation) => {
   const { store, actions } = useContext(Context)
 
   const [refreshing, setRefreshing] = useState(false);
@@ -45,27 +45,43 @@ export default EventListings = (props, {navigation}) => {
   // COMPONENT FOR TOURNAMENT BODY
   var EventRow = ({item, index}) => {
     return(
-      <EventBody 
-        key={index} navigation={props.navigation} 
-        mode={mode} myCoords={myCoords}
-        tournament={item} />
+      <EventBody key={index} 
+        mode={mode} myCoords={myCoords} event={item} />
     )
+  }
+
+  const testData = {
+      address: "1 Seminole Way",
+      buy_in: false,
+      casino: "SEMINOLE Hard Rock",
+      city: "Hollywood",
+      created_at: "Thu, 02 Jul 2020 15:28:37 GMT",
+      day: "1B",
+      id: 968,
+      name:"2020 $150 Escalator IV S100,000 GTD",
+      action:{actions:0,swaps:0},
+      start_at: "Sat, 22 Feb 2020 10:00:00 GMT",
+      state: "Florida",
+      tournament: "2020 $150 Escalator IV S100,000 GTD",
+      tournament_id: 882,
+      updated_at: "Thu, 02 Jul 2020 15:28:37 GMT",
+      zip_code: "33073"
+    
   }
 
   return(
     <View style={{flex:1}}>
       {/* HEADER */}
-      <HomeHeader title={'Event Listings'} 
-        drawer={() => props.navigation.toggleDrawer()}
-        tutorial={() => props.navigation.push('Tutorial')} />
+      <HomeHeader title={'Event Listings'} />
       {/* SEARCH BAR COMPONENT */}
       <Segment style={{backgroundColor:('rgb(248,248,248'), marginVertical:5}}>
         <EventSearchBar setMyCoords={setMyCoords} 
           setMode={setMode} setPage={setPage} />
       </Segment>
       {/* MAIN TOURNAMENT COMPONENT */}
+      {/* <EventBody mode={mode} myCoords={myCoords} event={testData} />  */}
       {store.tournamentList != null ?
-        store.tournamentList.length != 0 ?
+        store.tournamentList.length != 0 && typeof(store.tournamentList) != 'string' ?
           // TOURNAMENT LIST GENERATOR 
           <FlatList
             data={store.tournamentList}
@@ -85,17 +101,16 @@ export default EventListings = (props, {navigation}) => {
                 </Text>
               </ListItem> } />
           :
-          // CONDITION IF NO TOURNAMENTS ARE FOUND UNDER FIELDS
-          <Segment style={{
-            width:'80%', marginTop:10, alignSelf:'center'}}>
-            <Text style={{textAlign:'center', 
-              fontSize:18, justifyContent:'center'}}> 
-              There are no tournamnents under that name in our database
-            </Text>
-          </Segment>
-        :  
+            // CONDITION IF NO TOURNAMENTS ARE FOUND UNDER FIELDS
+            <Segment style={{
+              width:'80%', marginTop:10, alignSelf:'center', backgroundColor:'rgba(0,0,0,0)'}}>
+              <Text style={{textAlign:'center', 
+                fontSize:18, justifyContent:'center'}}> 
+                There are no tournamnents under that name in our database
+              </Text>
+            </Segment>
         // CONDITION USED WHILE LOADING THE TOURNAMENTS
-        <Spinner /> }
+       :<Spinner /> }
   </View>
   )
 }

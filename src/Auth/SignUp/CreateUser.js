@@ -1,12 +1,11 @@
-import React, {useContext, useState} from 'react';
+import React, { useContext, useState } from 'react';
 import { TextInput } from 'react-native'
-import { Button, Container, Item, Content,
-	Toast, Icon, Text, View } from 'native-base';
+import { Button, Container, Item, Content, Toast, Icon, Text, View } from 'native-base';
+import { throttle } from 'lodash'
 
 import { Context } from '../../Store/appContext';
 
-export default CreateUser = (props) => {
-
+export default CreateUser = () => {
 	const { store, actions } = useContext(Context)
 
 	const [ loading, setLoading] = useState(false)
@@ -24,9 +23,11 @@ export default CreateUser = (props) => {
 
 	const userStart = async() => {
 		var answer323 = await actions.user.add(email, password)
-		setSubmitted(true)
+		setSubmitted(answer323)
 	}
-		
+
+	const handler = throttle(userStart, 2000, { leading: true, trailing: false });
+
 	const errorMessage = (x) => {
 		Toast.show({text:x, duration:3000, position:'top'})}
 		
@@ -36,6 +37,7 @@ export default CreateUser = (props) => {
 		<Container >
 			<Content contentContainerStyle={styles.mainContainer}>
 			{submitted ? 
+				// Submitted Success
 				<View transparent style={{justifyContent:'center', width:'80%'}}>
 					<Text style={{textAlign:'center', fontSize:24}}>
 						A validation link has been sent to your {} 
@@ -43,13 +45,14 @@ export default CreateUser = (props) => {
 					</Text>
 				</View>
 				:
+				// Waiting for Valid Email
 				<View transparent style={styles.validateContainer}>
-
+					{/* USER INSTRUCTIONS */}
 					<Text style={{textAlign:"center", fontSize:20}}>
 						Please enter your personal email address and {}
 						create a password for your Swap account.
 					</Text>
-
+					{/* EMAIL ADDRESS FIELD */}
 					<Item style={styles.item}>
 						<Icon active name='mail' style={{fontSize:40}}/>
 						<TextInput 
@@ -62,10 +65,9 @@ export default CreateUser = (props) => {
 							autoCorrect={false} 
 							onSubmitEditing={() => { userPassword.focus(); }}
 							value={email}    
-							onChangeText={email => setEmail( email )}
-							/>
+							onChangeText={email => setEmail( email )}/>
 					</Item>
-
+					{/* PASSWORD FIELD */}
 					<Item style={styles.item}>
 						<Icon active name='key' style={{fontSize:40}}/>
 						<TextInput 
@@ -80,10 +82,9 @@ export default CreateUser = (props) => {
 							ref={(input) => { userPassword = input; }} 
 							onSubmitEditing={() => { confirmPassword.focus(); }}
 							value={password}
-							onChangeText={password => setPassword( password )}
-						/>
+							onChangeText={password => setPassword( password )}/>
 					</Item>
-
+					{/* CONFIRM PASSWORD FIELD */}
 					<Item style={styles.item}>
 						<Icon active name='key' style={{fontSize:40}} />
 						<TextInput 
@@ -98,14 +99,12 @@ export default CreateUser = (props) => {
 							value={c_password}
 							onChangeText={password => setC_Password( password )}/>
 					</Item>
-					
+					{/* SUBMIT BUTTON */}
 					<Button large style={{alignSelf:'center'}}
-						onPress={() => createUser()} >
+						onPress={() => handler()} >
 						<Text> SUBMIT </Text>
 					</Button>	
-
-				</View>			
-			}
+				</View>}
 			</Content>
 		</Container>
 	)

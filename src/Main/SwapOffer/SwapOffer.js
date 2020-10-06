@@ -1,8 +1,11 @@
 import React, {useState, useContext, useEffect} from 'react';
-import { Container, Text, Content, Card } from 'native-base';
+import { Text } from 'react-native'
+import { Container, Content, Card } from 'native-base';
 import { Grid, Row, Col } from 'react-native-easy-grid'
 import Spinner from 'react-native-loading-spinner-overlay'
 import moment from 'moment';
+import { useRoute, useNavigation } from '@react-navigation/native';
+
 
 import { Context } from '../../Store/appContext';
 import EventHeader from '../Events/Components/EventHeader'
@@ -15,15 +18,16 @@ import InactivePath from './Paths/inactive';
 import RejectedPath from './Paths/rejected';
 import PendingPath from './Paths/pending';
 
-export default SwapOffer = (props, {navigation}) => {
+export default SwapOffer = (props) => {
   const { store, actions } = useContext(Context)
 
-  let status =  props.navigation.getParam('status', 'default value');
-  let swap = props.navigation.getParam('swap', 'default value');
-  let buyin =  props.navigation.getParam('buyin', 'default value');
-  let tournament = props.navigation.getParam('tournament', 'default value');
-  let buyinSince = props.navigation.getParam('buyinSince', 'default value');
-  // let swapSince = props.navigation.getParam('swapSince', 'default value');
+  const navigation = useNavigation();
+  const route = useRoute();
+  const { status } = route.params;
+  const { swap } = route.params;
+  const { buyin } = route.params;
+  const { tournament } = route.params;
+  const { buyinSince } = route.params;
 
   const [ loading, setLoading ] = useState(false)
   const [ currentSwap, setCurrentSwap ] = useState(swap)
@@ -37,69 +41,68 @@ export default SwapOffer = (props, {navigation}) => {
    // YOUR SWAP VIEW
    if (store.myProfile.id == buyin.user_id){ 
     currentPath = 
-      <EditPath navigation={props.navigation} 
+      <EditPath 
         setLoading={setLoading} setRefreshing={setRefreshing} 
         buyin={buyin} tournament={tournament}/>
   }    
   // INCOMING SWAP VIEW
   else if (aStatus == 'incoming'){
     currentPath = 
-      <IncomingPath navigation={props.navigation} 
+      <IncomingPath 
         setLoading={setLoading} setRefreshing={setRefreshing}
         tournament_status={tournament.tournament_status}
-        swapSince={sTime}
-        tournament_id={tournament.id} buyin={buyin} swap={currentSwap}/>
+        swap={currentSwap} swapSince={sTime}
+        tournament_id={tournament.id} buyin={buyin} />
   } 
   // COUNTER INCOMING SWAP VIEW
   else if (aStatus == 'counter_incoming'){
     currentPath = 
-      <CounterIncomingPath navigation={props.navigation} 
-      setLoading={setLoading} setRefreshing={setRefreshing}
-      swapSince={sTime}  
-      tournament_status={tournament.tournament_status}
-        tournament_id={tournament.id} buyin={buyin} swap={currentSwap}/>
+      <CounterIncomingPath 
+        setLoading={setLoading} setRefreshing={setRefreshing}
+        swapSince={sTime} swap={currentSwap}
+        tournament_status={tournament.tournament_status}
+        tournament_id={tournament.id} buyin={buyin} />
   }
   // PENDING SWAP VIEW
   else if (aStatus == 'pending'){
     currentPath = 
-      <PendingPath navigation={props.navigation} 
+      <PendingPath 
         setLoading={setLoading} setRefreshing={setRefreshing}
         tournament_status={tournament.tournament_status}
-        swapSince={sTime}
-        swap={currentSwap} tournament={tournament} buyin={buyin}/>
+        swapSince={sTime} swap={currentSwap}
+        tournament={tournament} buyin={buyin}/>
   } 
   // AGREED SWAP VIEW
   else if (aStatus == 'agreed'){
     currentPath = 
-      <AgreedPath navigation={props.navigation} 
+      <AgreedPath 
         setLoading={setLoading} setRefreshing={setRefreshing} 
         tournament_status={tournament.tournament_status}
-        swapSince={sTime}
-        swap={currentSwap} tournament={tournament} buyin={buyin}/>
+        swapSince={sTime} swap={currentSwap} 
+        tournament={tournament} buyin={buyin}/>
   }
   // REJECTED SWAP VIEW 
   else if (aStatus == 'rejected'){
     currentPath = 
-      <RejectedPath navigation={props.navigation} 
+      <RejectedPath 
         setLoading={setLoading} setRefreshing={setRefreshing}
         tournament_status={tournament.tournament_status}
-        swapSince={sTime}
-        buyin={buyin} swap={currentSwap}/>
+        swapSince={sTime} buyin={buyin} swap={currentSwap}/>
   }
   // CANCELED SWAP VIEW 
   else if (aStatus == 'canceled'){
     currentPath = 
-      <CanceledPath navigation={props.navigation} 
+      <CanceledPath 
         setLoading={setLoading} setRefreshing={setRefreshing}
         tournament_status={tournament.tournament_status}
-        swapSince={sTime}
-        swap={currentSwap} buyin={buyin}/>
+        swap={currentSwap} swapSince={sTime}
+         buyin={buyin}/>
   }
   // INACTIVE SWAP VIEW
   else {
     currentPath = 
-      <InactivePath navigation={props.navigation} 
-      setAStatus={setAStatus} setCurrentSwap ={setCurrentSwap}
+      <InactivePath 
+        setAStatus={setAStatus} setCurrentSwap ={setCurrentSwap}
         setLoading={setLoading} setRefreshing={setRefreshing}
         tournament_status={tournament.tournament_status}
         tournament={tournament} buyin={buyin}/>
@@ -169,13 +172,15 @@ export default SwapOffer = (props, {navigation}) => {
       <Content>
       <Spinner visible={loading}/>
         {/* EVENT HEADER */}
-        <Card transparent>
-          <EventHeader tournament_name={tournament.name}
-          tournamentTime={tTime}/>
+        <Card transparent style={{marginVertical:40, width:'90%', alignSelf:'center', flexDirection:'column'}}>
+        <Text style={{marginVertical:10, fontSize:20, fontWeight:'bold', textAlign:'center'}}>
+        {tournament.name}
+      </Text>
         </Card>
+       
         {/* CURRENT STATUS OF BUYIN */}
         <Card style={{alignSelf:'center', width:'90%', 
-          paddingTop:15, marginTop:-15, backgroundColor:'rgb(38, 171, 75)'}}>
+          paddingTop:15, backgroundColor:'rgb(38, 171, 75)'}}>
           <Grid>
             {/* USERNAME */}
             <Row style={{

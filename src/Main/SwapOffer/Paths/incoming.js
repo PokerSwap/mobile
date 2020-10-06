@@ -31,7 +31,7 @@ export default IncomingPath = (props) => {
       {/* INCOMING SWAP INTERACTION UI */}
       {swap.percentage ?
         !counter ?
-          <IntroOffer navigation={props.navigation}
+          <IntroOffer 
             swap_id={swap.id} buyin_id={buyin.id}
             currentStatus={swap.status}
             percentage={swap.percentage}
@@ -41,7 +41,7 @@ export default IncomingPath = (props) => {
             setLoading={props.setLoading}
             counter={counter} setCounter={setCounter}/>
           :
-          <CounterOffer navigation={props.navigation} 
+          <CounterOffer  
             swap_id={swap.id} buyin_id={buyin.id}
             currentStatus={swap.status}
             percentage={swap.percentage} 

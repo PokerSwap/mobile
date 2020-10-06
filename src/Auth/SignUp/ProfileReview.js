@@ -2,21 +2,26 @@ import React, { useContext, useState } from 'react';
 import { Image } from 'react-native';
 import { Button, Card, Text, CardItem } from 'native-base';
 import Spinner from 'react-native-loading-spinner-overlay'
+import { useNavigation} from '@react-navigation/native'
 
 import { Context } from '../../Store/appContext';
 
 
 export default  ProfileReview = (props) => {
 	const { store, actions } = useContext(Context)
-  const [ loading, setLoading ] = useState(false) 
+	const [ loading, setLoading ] = useState(false) 
+	
+	const navigation = useNavigation()
 
 	let lol = new RegExp('^https:\/\/pokerdb.thehendonmob.com')
-	
+	var xxx
+	props.hendon.includes('https://pokerdb.thehendonmob.com/player.php?a=r&n=') ? xxx = props.hendon : xxx = null
+
 	const createProfile = async() => {
 		setLoading(true)
 		var creatingProfile = await actions.profile.add(
-			props.username, props.first_name, props.last_name, 
-			props.hendon, props.picture, props.navigation
+			props.nickname, props.first_name, props.last_name, 
+			xxx, props.picture, navigation
 		) 
 		setLoading(false)
 	}
@@ -39,16 +44,15 @@ export default  ProfileReview = (props) => {
 				</Text>
 			</CardItem>
 			{/* NICK NAME FIELD */}
-			{props.user ?
+
 				<CardItem transparent style={{flexDirection:'column',marginVertical:10}}>
 					<Text style={{textAlign:'center', fontSize:20,fontWeight:'bold'}}>
 						Nick Name
 					</Text>
 					<Text style={{textAlign:'center', fontSize:20}}>
-						{props.username}
+						{props.nickname ? props.nickname : "No Nickname Entered"}
 					</Text>
 				</CardItem>
-				: null}
 			{/* HENDON URL FIELD */}
 			<CardItem transparent 
 				style={{flexDirection:'column',marginVertical:10}}>		

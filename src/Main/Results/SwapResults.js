@@ -1,80 +1,119 @@
-import React, {useContext} from 'react';
-import { Container, Content, List, Separator, Text, ListItem } from 'native-base';
+import React, {useContext, useState, useCallback} from 'react';
+import { RefreshControl,  FlatList } from 'react-native'
+import { Button, Container, Content, Icon, Text, Tabs, Tab, TabHeading} from 'native-base';
 
 import { Context } from '../../Store/appContext'
-
 import HomeHeader from '../../View-Components/HomeHeader'
 import ResultsTracker from './Components/ResultsTracker'
 
 export default SwapResults = (props) => {
   const {store, actions} = useContext(Context)
 
-  var recentTracker, historyTracker;
+  const [ refreshing, setRefreshing ] = useState(false);
 
-  let noTracker = (f) =>  {
-    return(
-    <ListItem noIndent style={{justifyContent:'center'}}>
-      <Text style={{
-        justifyContent:'center', textAlign:'center', 
-        fontSize:24, width:'80%'}}> 
-        You have no {f} swaps at the moment. 
-      </Text>
-    </ListItem>
-    )  
-}
+  function wait(timeout) {
+    return new Promise(resolve => {
+      setTimeout(resolve, timeout);
+    })
+  }
 
-  let aTracker = (e) => e.map((content, index) => {
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    actions.tracker.getPast()
+    wait(2000).then(() => setRefreshing(false));
+  }, [refreshing]);
+
+
+
+      // EMPTY CURRENT TRACKER COMPONENT
+  let noTracker = (status) => {
     return(
-      <ResultsTracker 
-        key={index} navigation={props.navigation}
-        tournament={content.tournament} 
-        final_profit={content.final_profit}
-        my_buyin={content.my_buyin} buyins={content.buyins}/>
+      <FlatList
+
+        ListHeaderComponent={
+          <Text style={{
+            justifyContent:'center', textAlign:'center', 
+            fontSize:20, width:'80%'}}> 
+            You have no past events that{'\n'}{status} results. 
+          </Text>}
+        ListHeaderComponentStyle={{alignSelf:'center', marginTop:20}}
+        ListFooterComponent={
+          <Button iconLeft style={{borderRadius:100}} onPress={() => onRefresh()}>
+            <Icon type='FontAwesome' name='refresh'/>
+            <Text>Refresh</Text>
+          </Button>}
+        ListFooterComponentStyle={{alignSelf:'center', marginTop:20, marginBottom:300}}
+      />
+
     )
-  })
+  }
 
-  if( store.myPastTrackers !== []){
+  var aTracker = ({item, index}) => {
+    return(
+      <ResultsTracker key={index} event={item} tournament_end={item.tournament_end}
+        my_buyin= {item.my_buyin} buyins = {item.buyins} final_profit={item.final_profit}
+        tournament={item.tournament} action={item.action}/>
+    )
+  }
+
+  var flatlist = (a_data) => {
+    return(
+      <FlatList contentContainerStyle={{ alignSelf: 'stretch' }}
+        data={a_data}
+        renderItem={aTracker}
+        keyExtractor={(content, index) => index.toString()}
+        ListFooterComponent={
+          <Button iconLeft style={{borderRadius:100}} onPress={() => onRefresh()}>
+            <Icon type='FontAwesome' name='refresh'/>
+            <Text>Refresh</Text>
+          </Button>}
+        ListFooterComponentStyle={{alignSelf:'center', marginVertical:20, marginBottom:400}}
+        stickyHeaderIndices={[0]}
+/>
+    )
+  }
     
-    // var recentSwaps = store.myPastTrackers.filter(
-    //   tracker => moment().isBefore(moment(tracker.tournament.start_at).add(30, 'days')))    
-    // recentSwaps.length !== 0  ? 
-    //   recentTracker = aTracker(recentSwaps) : recentTracker = noTracker('recent')
+  var pendingResultsTracker, confirmedResultsTracker;
 
-    // var historySwaps = store.myPastTrackers.filter(
-    //   tracker => moment().isAfter(moment(tracker.tournament.start_at).add(30, 'days')))
-    store.myPastTrackers.length !== 0 ? 
-      historyTracker = aTracker(store.myPastTrackers) : historyTracker = noTracker('history')
+  if( store.myPendingResultsTrackers !== [] && store.myPendingResultsTrackers.length !== 0){
+    pendingResultsTracker = flatlist(store.myPendingResultsTrackers)}  
+  else {
+    pendingResultsTracker = noTracker('are pending')
+  } 
 
-  } else {
-    // recentTracker = noTracker('recent')
-    historyTracker = noTracker('history')
+  if( store.myConfirmedResultsTrackers !== [] && store.myConfirmedResultsTrackers.length !== 0){
+    confirmedResultsTracker = flatlist(store.myConfirmedResultsTrackers)}  
+  else {
+    confirmedResultsTracker = noTracker('have confirmed')
   } 
 
   return(
     <Container>
-      <HomeHeader title={'Swap Results'} 
-        drawer={() => props.navigation.toggleDrawer()}
-        tutorial={() => props.navigation.push('Tutorial')}/>
-      
-      <Content>
-        <List>
-          {/* RECENT WINNINGS LIST HEADER */}
-          {/* <Separator bordered style={{height:48, backgroundColor:'rgb(56,68,165)'}}>
-            <Text style={{fontSize:20, color:'white', fontWeight:'600', textAlign:'center'}}> 
-              RECENT 
-            </Text>                
-          </Separator>       
-          {recentTracker} */}
-          {/* LATER WINNINGS LIST HEADER */}
-          <Separator bordered style={{height:48, backgroundColor:'rgb(56,68,165)'}}>
-            <Text style={{fontSize:20, color:'white', fontWeight:'600', textAlign:'center'}}> 
-              HISTORY 
-            </Text>                
-          </Separator>  
-          {historyTracker}     
-        </List>
-      </Content>
-
+      <HomeHeader title={'Swap Results'} />
+       <Content contentContainerStyle={{flex:1}}>
+         <Tabs tabBarUnderlineStyle={{backgroundColor:'white'}}
+         tabBarTextStyle={{fontWeight:'bold', color:'white'}}>
+           <Tab  heading={
+            <TabHeading style={{backgroundColor:'orange'}} >
+              <Text  style={{color:'white'}}>PENDING</Text>
+            </TabHeading>}>
+            <Content  refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}>
+              {pendingResultsTracker}
+            </Content>
+           </Tab>
+           <Tab  heading={
+            <TabHeading style={{backgroundColor:'rgb(38, 171, 75)'}}>
+              <Text style={{color:'white'}}>CONFIRMED</Text>
+            </TabHeading>}>
+              <Content  refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}>
+                {confirmedResultsTracker}
+              </Content>
+            
+           </Tab>
+         </Tabs>
+        </Content>
     </Container>
   )
 }

@@ -9,7 +9,7 @@ export default MyProfileHistoryCard = (props) => {
 	const { store, actions } = useContext(Context)
 
 	return(
-		<View style={{marginVertical:10}}>
+		<View style={{marginBottom:10}}>
 			{/* TOURNAMENT NAME */}
 			<ListItem noIndent style={{ flexDirection:'column',
 				paddingVertical:5, backgroundColor:'black', 
@@ -57,7 +57,7 @@ export default MyProfileHistoryCard = (props) => {
 								<Text style={{color:'white'}}>Date {'&'} Time</Text>
 							</Col>
 							<Col style={{width:'40%'}}>
-								<Text style={{color:'white'}}>Yours / Theirs %</Text>
+								<Text style={{color:'white'}}>You / Them</Text>
 							</Col>
 						</ListItem>
 						{/* ROW OF SWAP DETAILS */}

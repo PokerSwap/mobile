@@ -1,16 +1,19 @@
-import React, { useState, useContext, useCallback } from 'react';
-import { Image,  TextInput, KeyboardAvoidingView, Platform, Alert} from 'react-native';
+import React, { useState, useContext, useEffect } from 'react';
+import { Image,  TextInput, KeyboardAvoidingView, Modal, Platform, Alert } from 'react-native';
 import { Container,  Button, Text, Content, Card, CardItem, Icon} from 'native-base';
 import { Grid, Row, Col } from 'react-native-easy-grid';
 import { throttle } from 'lodash'
 import {openSettings, requestMultiple, PERMISSIONS} from 'react-native-permissions';
 import Spinner from 'react-native-loading-spinner-overlay'
+import { useRoute, useNavigation } from '@react-navigation/native';
+import moment from 'moment'
 
 import ImagePicker from 'react-native-image-picker';
 
 import { Context } from '../../Store/appContext';
 import _Header from "../../View-Components/HomeHeader";
-import placeholder from '../../Images/placeholder.jpg';
+import InfoModal from './Components/InfoModal'
+
 
 export default VerifyTicket = (props) => {
   const { store, actions } = useContext(Context)
@@ -20,16 +23,40 @@ export default VerifyTicket = (props) => {
   const [ seat, setSeat ] = useState('');
   const [ chips, setChips ] = useState('');
   const [ loading, setLoading ] = useState(false)
+  const [ info, setInfo ] = useState(false)
+  const [ visible, setVisible ] = useState(false)
+  const [ currentTournament, setCurrentTournament ] = useState('')
 
-  var navigation = props.navigation;
-  let tournament_name = navigation.getParam('tournament_name', 'NO-ID');
-  let tournament_start = navigation.getParam('tournament_start', 'NO-ID');
-  let flight_id = navigation.getParam('flight_id', 'NO-ID');
-  let tournament_id = navigation.getParam('tournament_id', 'NO-ID');
+  var navigation = useNavigation();
+  var route = useRoute();
+  const { tournament_name } = route.params;
+  const { tournament_start } = route.params;
+  const { flight_id } = route.params;
+  const { tournament_address } = route.params;
 
+  const { tournament_id } = route.params;
+  const { casino } = route.params;
+
+  useEffect(() => {
+    getTournament()
+    return () => {
+      // cleanup
+    }
+  }, [])
+
+  const getTournament = async() => {
+    var xw = await actions.tournament.getCurrent(tournament_id)
+    setCurrentTournament(xw)
+  }
+
+
+
+  // var xy = moment(tournament_start)
+  
   const openSets = () => {
     openSettings().catch(() => console.warn('cannot open settings'));
   }
+
 
   const showAlert = () =>{
     Alert.alert(
@@ -41,6 +68,9 @@ export default VerifyTicket = (props) => {
       ]
     )
   }
+
+Platform.OS == 'ios' ? styles = iosStyles : styles = androidStyles
+
 
   const askPersmission = async () => {
     var cameraStatus, libraryStatus;
@@ -114,9 +144,11 @@ export default VerifyTicket = (props) => {
   const BuyInStart = async() => {
     setLoading(true)
     var x = await actions.buy_in.add( 
-    image, table, seat, chips, flight_id, tournament_id, tournament_name, tournament_start, props.navigation )
+    image, table, seat, chips, flight_id, tournament_id, tournament_name, tournament_start, tournament_address, casino, navigation )
     setLoading(false)
   }
+
+
  
   const handler = throttle(BuyInStart, 1000, { leading: true, trailing: false });
  
@@ -128,19 +160,36 @@ export default VerifyTicket = (props) => {
         <Spinner visible={loading} />
       <KeyboardAvoidingView style={{flex:1,}} 
         behavior='position' keyboardVerticalOffset={-180}>
+        <Modal
+          animationType='fade'
+          visible={visible}
+          presentationStyle='overFullScreen'
+          transparent={true}>
+          <InfoModal  setVisible={setVisible}
+            tournament_name={tournament_name}
+            tournament_address={tournament_address} 
+            tournament_start={tournament_start}
+            tournament={currentTournament}
+            />
+        </Modal>
         {/* TOURNEY INFO */}
         <Card transparent >
           {/* TOURNAMENT INFO */}
           <CardItem style={{justifyContent:'center', flexDirection:'column'}}>
-            <Text style={{textAlign:'center', fontSize:24, fontWeight:'bold'}}>
+            <Text style={{textAlign:'center', fontSize:20, marginBottom:10, fontWeight:'bold'}}>
               {tournament_name} 
             </Text>
-            <Text style={{textAlign:'center', fontSize:18, marginTop:10}}>
-              {tournament_start}
-            </Text>
+            {/* <Text>
+              {tournament_address}
+            </Text> */}
+            <Button block info onPress={() => setVisible(!visible)}>
+              <Text>Event Info</Text>
+            </Button>
+            
+            
           </CardItem>
           {/* INSTRUCTION TEXT  */}
-          <CardItem style={{selfAlign:'center', flex:1, 
+          <CardItem style={{selfAlign:'center', flex:1, marginBottom:-10,
             justifyContent:'center', flexDirection:'column'}}>
             <Text style={{textAlign:'center', fontSize:18,  flex:1}}>
               Enter the information and upload a photo of your tournament buyin ticket.
@@ -198,7 +247,7 @@ export default VerifyTicket = (props) => {
                     Chips: 
                   </Text>
                   <TextInput 
-                    placeholder="Chip #"
+                    placeholder="# of Chips"
                     placeholderTextColor='gray'
                     keyboardType="number-pad"
                     returnKeyType="done"
@@ -227,7 +276,10 @@ export default VerifyTicket = (props) => {
   )
 }
 
-const styles = {
+var styles
+
+
+const iosStyles = {
   button:{
     paddingVertical:20, width:'100%', justifyContent:'center' 
   },
@@ -246,7 +298,34 @@ const styles = {
     justifyContent:'center', fontSize:24, color:'black', textAlign:'center'},
   text:{
     input:{
-      fontSize:20, marginBottom:0, textAlign:'center'},
+      fontSize:24, marginBottom:0, textAlign:'center', marginTop:10, marginBottom:3},
+    instruction:{
+       fontSize:20, textAlign:'center', marginTop:0},
+    button:{
+      fontWeight:'600', fontSize:24, textAlign:'center'}
+  }
+}
+
+const androidStyles = {
+  button:{
+    paddingVertical:20, width:'100%', justifyContent:'center' 
+  },
+  container:{
+    button:{
+      justifyContent:'center', width:1000, 
+      paddingTop:0, marginTop:0, paddingRight:0, paddingLeft:0},
+    main:{
+      alignItems:'center', justifyContent:'center', marginBottom:0 },
+    image:{
+      justifyContent:'center', width:200, flex:1, flexDirection:'column' }
+  },
+  image:{
+    height:200, width:200, marginTop:10 },
+  input:{
+    justifyContent:'center', fontSize:20, color:'black', textAlign:'center'},
+  text:{
+    input:{
+      fontSize:20, marginBottom:0, textAlign:'center', marginTop:3, marginBottom:-3},
     instruction:{
        fontSize:20, textAlign:'center', marginTop:0},
     button:{

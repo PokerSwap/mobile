@@ -1,7 +1,8 @@
 import React, {useState, useEffect, useContext} from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { Text, Icon } from 'native-base';
-import { Col } from 'react-native-easy-grid'
+import { Col } from 'react-native-easy-grid';
+import { useNavigation } from '@react-navigation/native'
 
 import { Context } from '../../../Store/appContext'
 
@@ -9,6 +10,8 @@ export default SwapRow = (props) => {
   const { store, actions } = useContext(Context)
   const [swapTime, setSwapTime] = useState(null)
   const [refreshing, setRefreshing] = useState(true)
+
+  const navigation = useNavigation()
 
   var buttonColor, path, lastCol
   var swap = props.swap
@@ -78,7 +81,7 @@ export default SwapRow = (props) => {
   } 
 
   const enterSwapOffer = async() => {
-    props.navigation.push('SwapOffer',{
+    navigation.push('Swap Offer',{
       status: swap.status,
       buyin: props.buyin,
       tournament: props.tournament,
@@ -91,14 +94,14 @@ export default SwapRow = (props) => {
   return(
     <View style={styles.rowContainer}>
       {/* SWAP STATUS */}
-      <Col style={{ width:'25%' }}>
-        <Text style={{ textTransform:'capitalize' }}>
+      <Col style={{ width:'30%' }}>
+        <Text style={{ textTransform:'capitalize', textAlign:'center' }}>
           {props.swap.status !== 'counter_incoming' ?
             props.swap.status : ' Counter\nIncoming'}
         </Text>
       </Col>
       {/* SWAP TIME */}
-      <Col>
+      <Col style={{marginLeft:-25}}>
         {swapTime ?
           <Text style={{fontSize:14}}>
             {swapTime.substring(0,12) + '  ' + swapTime.substring(19,30)}

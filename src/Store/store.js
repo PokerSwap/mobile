@@ -1,8 +1,11 @@
 
 import { Alert } from 'react-native'
-import {Toast} from 'native-base'
+import { Toast } from 'native-base'
 import AsyncStorage from '@react-native-community/async-storage'
-import { StackActions, NavigationActions } from 'react-navigation';
+import { CommonActions } from '@react-navigation/native';
+import moment from 'moment'
+import PushNotification from 'react-native-push-notification'
+import firebase from 'firebase'; // 4.8.1
 
 var databaseURL = 'https://swapprofit-beta.herokuapp.com/'
 
@@ -10,27 +13,16 @@ var errorMessage = (error) => {
 	Toast.show({
 		text:error, 
 		duration:3000, 
-		style:{bottom:90,backgroundColor:'red'}
-
+		position:'bottom',
+		style:{bottom: "50%",backgroundColor:'red'}
 	})
 }
 
 var customMessage = (custom) => {
 	Toast.show({
-		text:custom, duration:3000, position:'top'
+		text:custom, duration:3000, position:'bottom',
+		style:{bottom: "50%",backgroundColor:'green'}
 	})
-}
-
-var alertMessage = (alert) => {
-	Alert.alert(
-		"Alert",
-		alert,
-		[
-			{
-				text: 'OK', onPress: () => console.log('OK')
-			},
-		]
-	)
 }
 
 const getState = ({ getStore, setStore, getActions }) => {
@@ -47,17 +39,24 @@ const getState = ({ getStore, setStore, getActions }) => {
 			// MY DEVICE TOKEN
 			deviceToken: null,
 			// MY PROFILE
-			myProfile:{},
+			myProfile:null, 
 			// LIVE AND UPCOMING SWAP TRACKER
-			myTrackers:[],
+			myCurrentTrackers:[],
+			// LIVE AND UPCOMING SWAP TRACKER
+			myUpcomingTrackers:[],
 			// ALL PAST SWAP TRACKER
 			myPastTrackers:[],
-			// ALL WINNING TRACKERS
-			myWinningsTrackers:[],
+			// ALL PAST TRACKERS WITH POSTED RESULTS
+			myPendingResultsTrackers:[],
+			// ALL PAST TRACKERS WITH POSTED RESULTS
+			myConfirmedResultsTrackers:[],
+			// Users that have been naughty
+			naughtyList:[],
 			// FOR MOST RECENT NOTIFICATION, TO GO TO PAGE
 			notificationData: {},
 			// LISTS ALL RECIEVED NOTIFICATIONS
 			notificationList:[],
+			nowLoading:'',
 	  	// OTHER PEOPLE'S PROFILES (ON PROFILE VIEW)
 			profileView:[ ],
 	  	// ALL TOURNAMENTS, FILTERED BY FIRST 10 RESULTS
@@ -69,8 +68,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 			// BUY IN ACTIONS
 			buy_in:{
 				// CREATING A BUYIN AND (RE)-BUYING-IN INTO A TOURNAMENT
-				add: async ( image, a_table, a_seat, some_chips, a_flight_id, a_tournament_id, a_tournament_name, a_tournament_start, navigation) => {
+				add: async ( image, a_table, a_seat, some_chips, a_flight_id, a_tournament_id, a_tournament_name, a_tournament_start, a_tournament_address, a_casino, navigation) => {
 					try{	
+						console.log('flight_id', a_flight_id)
 						// PREVENTS EMPTY PICTURE SUBMISSION
 						if (image == 3){
 							return customMessage('You need to select an image of your buyin ticket')
@@ -83,6 +83,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						// BUYIN DATA SETUP
 						var newBuyin
 						let accessToken = getStore().userToken
+						console.log('eeee', accessToken)
 						const imageURL = databaseURL + 'me/buy_ins/flight/'+ a_flight_id +'/image'		
 						const imageData = new FormData();
 						imageData.append("image", {
@@ -90,6 +91,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 								type: image.type,
 								name: image.name
 						});
+						console.log('imageData', image.uri, image.type, image.name)
 						let response = await fetch(imageURL, {
 							method: 'PUT',
 							headers: {
@@ -109,17 +111,72 @@ const getState = ({ getStore, setStore, getActions }) => {
 						});
 
 						// PREVENTS WRONG PICTURE UPLOADED
-						if (newBuyin.message == 'Take another photo'){
-							var eee = await getActions().buy_in.delete(newBuyin.buyin_id)
-							return errorMessage(newBuyin.message)
-						}else{null}
+						// if (newBuyin.message && newBuyin.message == 'Take another photo'){
+						// 	var eee = await getActions().buy_in.delete(newBuyin.buyin_id)
+						// 	console.log('lol', newBuyin)
+						// 	return errorMessage(newBuyin.message)
+						// }else{null}
+						console.log('newBuyin',newBuyin)
+						if(a_tournament_id !== 882){
+							null
+						}else{
+							if (newBuyin.receipt_data.table !== a_table || newBuyin.receipt_data.seat !== a_seat){
+								var eee = await getActions().buy_in.delete(newBuyin.buyin_id)
+								return errorMessage("One of the fields is not correct")
+							}else{null}
+	
+							if(newBuyin.receipt_data.casino.includes(a_casino)){
+								console.log('go ahead')
+							}else{
+								console.log('Stop')
+							}
+	
+							if(newBuyin.ocr_data.includes('Tournament Date:')){
+								var x = newBuyin.ocr_data.indexOf('Tournament Date:')
+								var a = x+17, b = x +27, c=x -9, d=x-1 ;
+								var alls = newBuyin.ocr_data.substring(a,b) +' '+ newBuyin.ocr_data.substring(c,d) + 'GMT'
+								var x = new Date(alls)
+								var y = new Date(a_tournament_start)
+								console.log('x',x)
+								console.log('y',y)
+	
+								
+							}else{
+								console.log('not c')
+							}
+	
+							if(newBuyin.validation.first_name.valid && newBuyin.validation.last_name.valid){
+								console.log("All is valid")
+							}else{
+								return(console.log("Not All is valid"))
+							}
+						}
 
-
-						if (newBuyin.receipt_data.table !== a_table || newBuyin.receipt_data.seat !== a_seat){
-							var eee = await getActions().buy_in.delete(newBuyin.buyin_id)
-							return errorMessage("One of the fields is not correct")
-						}else{null}
+						
 			 
+						// if(newBuyin.ocr_data.includes('Name:')){
+							// var aw = newBuyin.ocr_data.indexOf('Name:') + 5
+							// var bw = newBuyin.ocr_data.indexOf('\nPlayer') 
+							// var cw = newBuyin.ocr_data.substring(aw, bw)
+							// console.log('cw',cw)
+							// var firstName = getStore().myProfile.first_name 
+							// var lastName = getStore().myProfile.last_name
+							// var nickName
+
+							
+							// if (getStore().myProfile.nickname){
+							// 	nickName= cw.includes(getStore().myProfile.nickname)
+							// } else{ nickname = false}
+							// if ( nickName || cw.includes(firstName) || cw.includes(lastName)){
+							// 	return(console.log('it matcges', fullName, nickName))
+							// }else{
+							// 	return(console.log('it doesnt matcges', fullName, nickName))
+							// }
+						// }else{
+						// 	return(console.log('no cw'))
+						// }
+
+
 						// if (!newBuyin.receipt_data.player_name.includes(store.myProfile.username) ){
 						// 	return errorMessage("The name in the buyin is the not the same as your profile")
 						// }else{null}
@@ -127,12 +184,20 @@ const getState = ({ getStore, setStore, getActions }) => {
 						// VALIDATING BUYIN (DONE ONCE)
 						var validatingBuyin = await getActions().buy_in.edit(newBuyin.buyin_id, a_table, a_seat, some_chips, a_tournament_id, true)
 
-						var enteringTournament = await navigation.push('EventLobby', {
+						var enteringTournament = await navigation.push('Event Lobby', {
 							tournament_name: a_tournament_name,
 							tournament_id: a_tournament_id,
 							tournament_start: a_tournament_start,
+							tournament_address: a_tournament_address,
 							action: null
 						})
+
+						PushNotification.localNotificationSchedule({
+							//... You can use all the options from localNotifications
+							message: a_tournament_name + "just started!", // (required)
+							date: new Date(Date.now() + 60 * 1000), // in 60 secs
+							allowWhileIdle: false, // (optional) set notification to work while on doze, default: false
+						});
 
 					} catch(error) {
 						console.log("Some went wrong in adding a buyin", error)
@@ -186,6 +251,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 						// REFRESH APP INFO
 						var refreshingTracker = await getActions().tracker.getCurrent()
+						var refreshingTracker2 = await getActions().tracker.getUpcoming()
+
 						var refreshingProfile = await getActions().tournament.getInitial()
 						var refreshingProfile = await getActions().profile.get()
 						
@@ -244,6 +311,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 						});
 
 						var refreshTrackers = await getActions().tracker.getCurrent()
+						var refreshingTracker2 = await getActions().tracker.getUpcoming()
+
 						var refreshTournaments = await getActions().tournament.getInitial()
 						var refreshAction = await getActions().tournament.getAction(a_tournament_id)
 						var refreshBuyin = await getActions().tournament.getCurrent(a_tournament_id)
@@ -275,11 +344,14 @@ const getState = ({ getStore, setStore, getActions }) => {
 			// USER DEVICE TOKEN ACTIONS
 			deviceToken:{
 
-				get: async() => {
+				get: async( aDeviceToken ) => {
 					try {
-						var storedDeviceToken = await AsyncStorage.getItem('deviceToken')
-						setStore({deviceToken: storedDeviceToken})
-						// console.log('Current Device Token', getStore().deviceToken)
+						if (aDeviceToken){
+							setStore({deviceToken: aDeviceToken})
+							// console.log('Current Device Token', getStore().deviceToken)
+						} else{
+							getActions().deviceToken.retrieve(getStore().myProfile.id)
+						}										
 					} catch (error) {
 						console.log('Something went wrong with getting device token', error)
 					}
@@ -291,6 +363,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						const url = databaseURL + 'users/me/devices' 
 
 						const data = {device_token: getStore().deviceToken}
+						console.log('Device Token Being removed: ', data)
 
 						let response = await fetch(url, {
 							method:'DELETE',
@@ -300,8 +373,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							},
 							body:JSON.stringify(data)
 						})
-						.then(response => response.json)
-
+						.then(response => response.json())
 						var removingDeviceToken = await AsyncStorage.removeItem('deviceToken')
 						setStore({deviceToken: null})
 
@@ -323,20 +395,67 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}, 
 						})
 						var answer = await response.json()
-						return answer[0].token
+						setStore({deviceToken: aDeviceToken})
+						var removingDeviceToken = await AsyncStorage.setItem('deviceToken', aDeviceToken)
 
 					}catch(error){
 						console.log('error in retrieiving deviceToken', error)
 					}
 				},
-
-				store: async(device_token) => {
-					try{
-						console.log('Storing this', device_token)
-						var storingDeviceToken = await AsyncStorage.setItem('deviceToken', device_token)
-						setStore({deviceToken: device_token})
-					}catch(error){
-						console.log('Something went wrong with storing device token', error)
+			},
+			// USED FOR CHAT NETWORK
+			firebase:{
+				login: async ( data ) => {
+					try {
+						var wwd = await firebase
+						.auth()
+						.signInWithEmailAndPassword(data.email, data.password)
+						// .then(() => console.log("firebase login success", firebase.auth().currentUser))
+					} catch (error) {
+						console.log('error on firebase login', error)
+					}
+				},
+				logout: async (  ) => {
+					try {
+						 var e = await firebase
+							.auth()
+							.signOut()
+							.then(() => console.log("firebase login success"))
+					} catch (error) {
+						console.log('error', error)
+					}
+				},
+				
+				signup: async ( email, password, name, username ) => {
+					var signingUpWithFirebase =  await firebase
+						.auth()
+						.createUserWithEmailAndPassword(email, password)
+						.then(() => console.log('created user successfully. User email:' + email + ' name:' + name ))
+						.then(() =>	{ 
+							var userf = firebase.auth().currentUser;
+							var x
+							if (username.length !== 0){x = username}else{x = name}
+							userf.updateProfile({ displayName: x })
+							console.log('Updated displayName successfully. name:' + x)
+						} )
+						.catch( error => console.error('got error in signup firebase:' + typeof error + ' string:' + error.message))
+				},
+						
+				updateAvatar: async ( url ) => {
+					try {
+						var userf = firebase.auth().currentUser;
+						console.log('userf',userf)
+						if (userf != null) {
+							try {
+								userf.updateProfile({ photoURL: url })
+								console.log('Updated avatar successfully. url:' + url)
+							} catch (error) {
+								console.log("Error:", error.message) }
+						} else {
+							console.log("can't update avatar, user is not login.");
+						}
+					} catch (error) {
+						console.log('error in update avater', error)
 					}
 				}
 			},
@@ -426,7 +545,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					try {
 						// GETTING TOURNAMENT JSON
 						var gettingTournament = await getActions().tournament.getAction(data.id);
-						var currentTournament = getStore().currentTournament
+						var currentTournament = await getStore().currentTournament
 						var answerParams = {
 							tournament_name: currentTournament.tournament.name,
 							tournament_id: currentTournament.tournament.id,
@@ -438,13 +557,13 @@ const getState = ({ getStore, setStore, getActions }) => {
 						// PREVENTS ENTERING CLOSED TOURNAMENT
 						if (currentTournament.tournament.status !== 'open'){
 							setStore({notificationData:null})
-							navigation.navigate('SwapDashboard')
+							var e = await navigation.navigate('Active Swaps')
 							return errorMessage('This event is not open')
 						}
 
 						// NAVIGATION ACTION
-						var navigateAction = NavigationActions.navigate({
-							routeName: data.finalPath,
+						var navigateAction = CommonActions.navigate({
+							name: data.finalPath,
 							params: answerParams
 						});
 
@@ -452,21 +571,22 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 						try{
 							navigation.dispatch(navigateAction);
+							console.log('dispatch succesgul')
 						} catch(error){
 							console.log('Cant navigate to event', error)
-							navigation.navigate('SwapDashboard');
+							navigation.navigate('Active Swaps');
 						}
 					}catch(error){
 						console.log("Something went wrong with navigating to event:", error)
 						setStore({notificationData:null})
-						navigation.navigate('SwapDashboard')
+						navigation.navigate('Active Swaps')
 					}
 				},
 				// NAVIGATING TO SWAP AFTER NOTIFICATION
 				toSwap: async( data, navigation ) => {
 					try {
 						// GETTING SWAP JSON
-						console.log('data', data)
+						console.log('New Swap Notification Data:', data)
 						var gettingSwap = await getActions().swap.getCurrent(data.id)
 						var gettingTournament = await getActions().tournament.getCurrent(getStore().currentSwap.tournament_id)
 
@@ -477,23 +597,25 @@ const getState = ({ getStore, setStore, getActions }) => {
 						// }
 						// GETS MOST CURRENT BUYIN OF OTHER USER
 						var theirBuyin
-						var fg = getStore().currentTournament.tournament.buy_ins.forEach(buyin => {
+						var settingCurrentBuyin = getStore().currentTournament.tournament.buy_ins.forEach(buyin => {
 							if(buyin.user_id == getStore().currentSwap.recipient_user.id){
 								theirBuyin = buyin
 								setStore({currentBuyin: theirBuyin})
-								console.log('theirBuyin', theirBuyin)
+								console.log('Buyin from swap opened from notification:', theirBuyin)
 							}
 						})
 						// PREVENTS SWAP IF OTHER USER HAS 0 CHIPS
 						if(theirBuyin.chips == 0){
-							navigation.navigate('SwapDashboard')
+							navigation.navigate('Active Swaps')
 							setStore({notificationData:null})
+							console.log("The user you're trying to was busted out")
 							return errorMessage("This user has busted out")
 						}
 						// PREVENTS SWAP IF I HAVE NO CHIPS
 						if(getStore().currentTournament.my_buyin.chips == 0){
-							navigation.navigate('SwapDashboard')
+							navigation.navigate('Active Swaps')
 							setStore({notificationData:null})
+							console.log("You cannot swap while busted out")
 							return errorMessage('You cannot swap while busted out')
 						}
 						// SWAP TIME CONVERSION
@@ -511,19 +633,24 @@ const getState = ({ getStore, setStore, getActions }) => {
 							tournament: getStore().currentTournament.tournament
 						}
 
-						var navigateAction = NavigationActions.navigate({
-							routeName: 'SwapOffer',
+						var navigateAction = CommonActions.navigate({
+							name: 'Swap Offer',
 							params:  answerParams 
 						});
 
 						// NAVIGATION ACTION
 						try{
+							setStore({currentSwap: answerParams.swap})
 							navigation.dispatch(navigateAction);
 						} catch(error){
 							console.log('cant navigate', error)
 						}
+
+						var refreshingCurrentTrackers = await getActions().tracker.getCurrent()
+						var refreshingUpcomingTrackers = await getActions().tracker.getUpcoming()
+
 					}catch(error){
-						console.log("Something went wrong with navigating to event:", error)
+						console.log("Something went wrong with navigating to swap:", error)
 					}
 					setStore({notificationData:null})
 				}
@@ -555,19 +682,19 @@ const getState = ({ getStore, setStore, getActions }) => {
 							} else{
 								console.log('No Notification Recieved or Error: ')
 								setStore({notificationData:null})
-								navigation.navigate('SwapDashboard')		
+								navigation.navigate('Active Swaps')		
 
 							}
 						}
 						// NO NEW NOTIFICATION RECIEVED
 						else{
 							setStore({notificationData:{}})
-							navigation.navigate('SwapDashboard')		
+							navigation.navigate('Active Swaps')		
 						}
 					} catch(error) {
 						console.log('Something went wrong checking notification data', error)
 						setStore({notificationData:null})
-						navigation.navigate('SwapDashboard')
+						navigation.navigate('Active Swaps')
 					}
 				},
 
@@ -579,37 +706,41 @@ const getState = ({ getStore, setStore, getActions }) => {
 			// PROFILE ACTIONS
 			profile:{
 				// AFTER COMPLETING SIGN UP, CREATES PROFILE
-				add: async ( a_username, firstName, lastName, a_hendon_url, a_Picture, navigation ) => {
-					try{
-						const accessToken = getStore().userToken;
-						const url = databaseURL + 'profiles'
-						const a_devicetoken = getStore().deviceToken
-						let data = {
-							username: a_username,
-							first_name: firstName,
-							last_name: lastName,
-							hendon_url: a_hendon_url,
-							device_token: a_devicetoken
-						}
-						console.log('New Profile data:', data)
-
-						let response = await fetch(url, {
-							method:'POST',
-							body: JSON.stringify(data),
-							headers: {
-								'Authorization': 'Bearer ' + accessToken,
-								'Content-Type':'application/json'
-							}, 
-						})
-						var addedProfile = await response.json()
-						console.log('Added Profile Response:', addedProfile)
-						
-						var uploadedPicture = await getActions().profile.uploadPhoto(a_Picture)
-						var gettingProfile = await getActions().profile.get();
-						var deeec = await navigation.navigate('Categories');
-					} catch(error) {
-						console.log("Something went wrong in adding a profile", error)
+				add: async ( a_nickname, firstName, lastName, a_hendon_url, a_Picture, navigation ) => {
+					const accessToken = getStore().userToken;
+					const url = databaseURL + 'profiles'
+					const a_devicetoken = getStore().deviceToken
+					let data = {
+						nickname: a_nickname,
+						first_name: firstName,
+						last_name: lastName,
+						hendon_url: a_hendon_url,
+						device_token: a_devicetoken
 					}
+
+					var full_name = firstName + ' ' + lastName
+					var an_user = await AsyncStorage.getItem('loginInfo')
+					var uuser = JSON.parse(an_user)
+
+					let response = await fetch(url, {
+						method:'POST',
+						body: JSON.stringify(data),
+						headers: {
+							'Authorization': 'Bearer ' + accessToken,
+							'Content-Type':'application/json'
+						}, 
+					})
+					var addedProfile = await response.json()
+
+					return new Promise(resolve =>
+						resolve(getActions().profile.uploadPhoto(a_Picture)
+						.then(() => getActions().profile.get())
+						.then(() => getActions().firebase.signup(uuser.email, uuser.password, full_name, a_nickname))
+						.then(() => getActions().firebase.login(uuser))
+						.then(() => getActions().firebase.updateAvatar(getStore().myProfile.profile_pic_url))
+						.then(() => navigation.navigate('Drawer', { screen: 'Categories' }))
+						.catch((error) => console.log(error))
+						))
 				},
 				// USED ON LOGIN, BUY AND SPEND TOKEN
 				get: async () => {
@@ -647,21 +778,47 @@ const getState = ({ getStore, setStore, getActions }) => {
 				},
 				// WHILE LOGGED IN, STORES PROFILE DATA IN STORE
 				store: async( profileData ) => {
-					
 					try {
-						
 						setStore({ myProfile: profileData })
-						// console.log('my profile', getStore().myProfile)
-					
 					} catch (error) {
 						console.log('Something went wrong in storing profile', error)
 					}
-				},
+        },
+        // CHANGE NICKNAME
+        changeNickName: async( a_nickname ) => {
+          try{
+            const url = databaseURL + 'profiles/me'
+						const accessToken = getStore().userToken;
+
+            if (a_nickname.length < 1){ 
+							return errorMessage("You must enter something in the field") 
+						} else { null }
+
+            var data = {
+              nickname: a_nickname
+            }
+
+            let response = await fetch(url,{
+							method:"PUT",
+							body: JSON.stringify(data),
+							headers:{
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							}
+						})
+						.then(response => response.json())
+						var e = await getActions().profile.get()
+						console.log('Nickname changed:', response)  
+						return customMessage('Your nickname change was successful')   
+
+
+          }catch(error) {
+            console.log('Something went wrong with changing nickname:', error)
+          }
+        },
 				// UPLOAD NEW PROFILE PHOTO
 				uploadPhoto: async ( image ) => {
 					try {
-						console.log('image in store', image)
-
 						const url = databaseURL + 'profiles/image'
 						const accessToken = getStore().userToken;
 						const imageData = new FormData();
@@ -669,13 +826,12 @@ const getState = ({ getStore, setStore, getActions }) => {
 						imageData.append("image", {
 							uri: image.uri,
 							type: image.type,
-							name: image.name
+							name: "example"
 						});
 
-						console.log('data', imageData)
-						
+						console.log("Image's Data:", imageData)
 
-						let response = await fetch(url, {
+						var xee = await fetch(url, {
 							method: 'PUT',
 							headers: {
 								'Content-Type': 'multipart/form-data',
@@ -688,16 +844,10 @@ const getState = ({ getStore, setStore, getActions }) => {
 							console.log('responseJson',responseJson);
 							// return responseJson;
 						})
+						.then(()=> getActions().profile.get())
 						.catch((error) => {
 							console.log('error in json of profile pic',error);
 						});
-							
-							var eecsrc = await getActions().profile.get()
-							// return(Toast.show({
-							// 	text:'Profile Picture Change',
-							// 	duration:3000,
-							// 	position:'top'
-							// }))
 					} catch(error) {
 						return errorMessage(error.message)
 					}
@@ -768,7 +918,15 @@ const getState = ({ getStore, setStore, getActions }) => {
 						var spendToken = await getActions().swapToken.spend()
 						var refreshingTournament = await getActions().tournament.getCurrent(a_tournament_id)
 						var refreshingTracker = await getActions().tracker.getCurrent()
-						var refreshingBuyin = await getActions().swap.getCurrent(response.swap_id)
+						var refreshingTracker2 = await getActions().tracker.getUpcoming()
+
+						var refreshingSwap = await getActions().swap.getCurrent(response.swap_id)
+						// var refreshingBuyin = await getActions().buy_in.getCurrent(response.swap_id)
+
+						console.log('1. After creating a swap, this is the response: ', response)
+						console.log('2. Current Swap in Store:', getStore().currentSwap)
+						console.log('3. Current Buyin in Store:', getStore().currentBuyin)
+
 					}catch(error){
 						console.log('Something went wrong with adding a swap', error)
 						return errorMessage(error.message)
@@ -791,6 +949,26 @@ const getState = ({ getStore, setStore, getActions }) => {
 						var answer = await response.json()
 						console.log('currentSwap', answer)
 						setStore({currentSwap:answer})
+					}catch(error){
+						console.log("Something went wrong with getting the current swap: ", error)
+					}
+				},
+				returnCurrent: async ( a_swap_id ) => {
+					try{
+						const url = databaseURL + 'swaps/' + a_swap_id;
+						const accessToken = getStore().userToken ;
+						
+						let response = await fetch(url, {
+							method: 'GET',
+							headers: {
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							}, 
+						})
+						
+						var answer = await response.json()
+						console.log('currentSwap', answer)
+						return answer
 					}catch(error){
 						console.log("Something went wrong with getting the current swap: ", error)
 					}
@@ -860,35 +1038,43 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}
 						})
 						.then(response => response.json())
-						console.log('Swap Status Change Result:', response)
+						.finally(()=>console.log('Swap Status Change Result:', response))
 						
 						if(response.message){
 							if(response.message.includes("Cannot agree")){
 							return errorMessage(response.message)
 						}else{null}}
 
-						if (a_current_status == 'incoming'){
-							var a = await getActions().swapToken.spend()
-						}else{null}
-
-						if (a_current_status == 'counter_incoming'){
-							if(a_new_status =='rejected'){
-								var a = await getActions().swapToken.return()
-							} else{null}
-						}else{null}
-
-						if(a_new_status == 'canceled'){
-							console.log('repsonse if canceled', response )
-							// if(response[1].status == 'counter_incoming'){
-								var a = await getActions().swapToken.return()
-							// }else{null}
-						}	
 						var refreshingTournament = await getActions().tournament.getCurrent(a_tournament_id)
+						var refreshingAction = await getActions().tournament.getAction(a_tournament_id)			
 						var refreshingTracker = await getActions().tracker.getCurrent()
+						var refreshingupTracker = await getActions().tracker.getUpcoming()
+						var refreshingBuyin = await getActions().buy_in.getCurrent(a_buyin_id)
+						var refreshingSwap = await getActions().swap.getCurrent(my_swap_id)
 
-						// var refreshingAction = await getActions().tournament.getAction(a_tournament_id)			
-					}
-					catch(error){
+						console.log('1. After ' + a_new_status + ' swap, this is the response: ', response)
+						console.log('2. Current Swap in Store:', getStore().currentSwap)
+						console.log('3. Current Buyin in Store:', getStore().currentBuyin)
+
+						// if (a_current_status == 'incoming'){
+						// 	var a = await getActions().swapToken.spend()
+						// }else{null}
+
+						// if (a_current_status == 'counter_incoming'){
+						// 	if(a_new_status =='rejected'){
+						// 		var a = await getActions().swapToken.return()
+						// 	} else{null}
+						// }else{null}
+
+						// if(a_new_status == 'canceled'){
+						// 	console.log('repsonse if canceled', response )
+							// if(response[1].status == 'counter_incoming'){
+								// var a = await getActions().swapToken.return()
+							// }else{null}
+						// }	
+						
+					
+					}catch(error){
 						console.log("Something went wrong with the swap's status change:",error)
 						errorMessage(error.message)
 					}
@@ -997,6 +1183,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						
 						var aCurrentTournament = await response.json()
 						setStore({currentTournament: aCurrentTournament})
+						return(aCurrentTournament)
 					} catch(error){
 						console.log('Something went wrong with getting a current tournament: ', error)
 						return errorMessage(error.message)
@@ -1051,7 +1238,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						// console.log('tournaments inital', getStore().tournamentList)
 					} catch(error) {
 						console.log('Something went wrong with getting initial tournaments: ', error)
-						return errorMessage(error.message)
+						setStore({tournamentList: "There are no events at the moment"})
 					}
 				},
 				// RETRIEVES ADDITIONAL TOURNAMENTS IN THE EVENTS DASHBOARD
@@ -1154,13 +1341,19 @@ const getState = ({ getStore, setStore, getActions }) => {
 						}));
 						
 						var newTrackerData = trackerData.map((tracker, index)=> {						
+							var a_countdown = moment(tracker.tournament.start_at).fromNow()
+
 							return({
 								...tracker,
-								action:asyncRes[index]
+								action:asyncRes[index],
+								countdown: a_countdown
 							})
 						})
+						var currentList = newTrackerData.filter(tracker => 
+							moment().isAfter(moment(tracker.tournament.start_at)))
 
-						setStore({myTrackers: newTrackerData})
+						setStore({myCurrentTrackers: currentList})
+						// setStore({myTrackers: newTrackerData})
 						
 					} catch(error){
 						console.log('Something went wrong in getting current trackers: ', error)
@@ -1182,11 +1375,80 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 
 						let trackerData = await response.json()
-						setStore({myPastTrackers: trackerData})
+
+
+						var newTrackerData = trackerData.map((tracker, index)=> {			
+							var latest = null
+							var deded = tracker.tournament.flights.forEach(flight =>{
+								var thisTime = flight.start_at
+								// console.log('thisTime', thisTime)
+
+								if(latest || moment(thisTime).isBefore(latest)){
+									null
+								}else
+								latest = thisTime
+							})
+							var new_latest = new Date(latest)
+							new_latest.setHours( new_latest.getHours() + 17)
+							var true_end = moment(new_latest).format('llll')
+							// console.log('EEEE', true_end)
+							return({
+								...tracker,
+								tournament_end: true_end
+							})
+						})
+						setStore({myPastTrackers: newTrackerData})
 						// console.log('myPastTrackers', getStore().myPastTrackers)
-						
+						var x = newTrackerData.filter(tracker => !tracker.tournament.results_link)
+						var y = newTrackerData.filter(tracker => tracker.tournament.results_link)
+						setStore({myPendingResultsTrackers: x})
+						setStore({myConfirmedResultsTrackers: y})
+
 					}catch(error){
 						console.log('Something went wrong in getting past trackers: ', error)
+					}
+
+				},
+				//
+				getUpcoming: async() => {
+					try{
+						const url = databaseURL + 'me/swap_tracker'
+						let accessToken = getStore().userToken
+						let response = await fetch(url, {
+							method:'GET',
+							headers: {
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							}, 
+						})
+
+						let trackerData = await response.json()
+						// console.log('trackerData',trackerData)
+						
+						var getIds = trackerData.map(tracker => tracker.tournament.id)
+						
+						const asyncRes = await Promise.all(getIds.map(async (i) => {
+							 var e = await getActions().tournament.retrieveAction(i);
+							return e;
+						}));
+						
+						
+						var newTrackerData = trackerData.map((tracker, index)=> {		
+							
+							var a_countdown = moment(tracker.tournament.start_at).fromNow()
+							return({
+								...tracker,
+								action:asyncRes[index],
+								countdown: a_countdown
+							})
+						})
+						var upcomingList = newTrackerData.filter(tracker => 
+							moment().isBefore(moment(tracker.tournament.start_at)))
+
+						setStore({myUpcomingTrackers: upcomingList})
+						
+					} catch(error){
+						console.log('Something went wrong in getting current trackers: ', error)
 					}
 
 				},
@@ -1213,57 +1475,56 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 						var x = await response.json()
 						console.log('Added User Response: ', response)
+						return true
 					} catch(error) {
 						console.log("Something went wrong with adding user: ", error)
-						return errorMessage(error.message)
-					}
-				},
-				// IF PREVIOUSLY LOGGED IN, USED TO LOGIN AUTOMATICALLY
-				auto_login: async(notification, navigation) => {
-					try{
-						return new Promise(resolve =>
-							resolve( getActions().deviceToken.get()
-							.then(() => getActions().tournament.getInitial())	
-							.then(() => getActions().tracker.getCurrent())
-							.then(() => getActions().tracker.getPast())
-							.then(() => getActions().notification.check(notification, navigation))
-							)
-						)
-					}catch(error){
-						console.log('Something went wrong with auto-login: ', error)
-						navigation.navigate('Login')
+						return errorMessage("Sorry, this email address is already taken")
 					}
 				},
 				// LOGIN PROCESS
-				login: async ( myEmail, myPassword, myDeviceID, navigation ) => {
-					// 20 DAY EXPIRATION
-					var time = (1000*60*60*24*20)
-					var data = {
-						email: myEmail,
-						password: myPassword,
-						device_token: myDeviceID,
-						exp: time
-					};
-					// console.log('loginData', data)
+				login: async ( data, navigation ) => {
+					var wwx = await AsyncStorage.getItem('notificationData')
+					var wew = JSON.parse(wwx)
+					console.log('Notification storedd', wwx)
+
 
 					return new Promise(resolve =>
-						resolve(getActions().userToken.get(data)
-						.then(() => getActions().deviceToken.store(myDeviceID))
+						resolve(getActions().userToken.get(data, navigation)
+						.then(() => setStore({nowLoading: 'Logging In...'}))
+						.then(() => getActions().deviceToken.get(data.device_token))
 						.then(()=> getActions().profile.get())
 						.then(()=> myPassword = '')
 						.then(()=> {
-							if(getStore().userToken){
+							console.log('Profile', getStore().myProfile.first_name + ' ' + getStore().myProfile.last_name  )
+							if(getStore().userToken  && getStore().myProfile !== "Error"){
 								if(getStore().myProfile.message !== "Profile not found"){
-									getActions().deviceToken.store(myDeviceID)
-									.then(() => getActions().tournament.getInitial())
+									getActions().tournament.getInitial()
+									.then(() => getActions().firebase.login( data ))
+									.then(() => setStore({nowLoading: 'Loading Swaps...'}))
 									.then(() => getActions().tracker.getCurrent())
+									.then(() => getActions().tracker.getUpcoming())
 									.then(() => getActions().tracker.getPast())
-									.then(() => navigation.navigate('Swaps'))
+									.then(() => setStore({nowLoading: ''}))
+									// .then(() => console.log('hello'))
+									.then(() => navigation.navigate('Drawer', { screen: 'Home' }))
+									.then(() => {
+										if(wew !== null){
+											getActions().navigate.toSwap(wew.data, navigation)
+											AsyncStorage.removeItem('notificationData')
+										}else{
+											null
+										}
+									})
+									.catch((err) => console.log('err',err))
 								} else { 
-									navigation.navigate('ProfileCreation')
+									AsyncStorage.setItem('loginInfo', JSON.stringify(data))
+									var x  = AsyncStorage.getItem('loginInfo')
+									console.log("x",x)
+									navigation.navigate('Profile Creation')
 								}									
 							}else{
-								console.log("You did not login");
+								console.log("There is an error with userToken or the profile returns error");
+								return errorMessage("You did not login correctly")
 							}
 						})
 						.catch((error)=> console.log('Something went wrong in logging in: ', error))
@@ -1271,16 +1532,22 @@ const getState = ({ getStore, setStore, getActions }) => {
 				},
 				// LOGOUT FUNCTION
 				logout: async( navigation ) => {
-					const resetAction = StackActions.reset({
-						index: 0,
-						actions: [
-							NavigationActions.navigate({ routeName: 'Auth' })
-					],
-					});
-					navigation.dispatch(resetAction);
-					var ase = await getActions().deviceToken.remove()
-					var asss = await getActions().userToken.remove()
-					// var asss = await getActions().profile.remove()
+					navigation.navigate('Auth', {screen:'Login'})
+					getActions().deviceToken.remove()
+					getActions().firebase.logout()
+					setStore({currentSwap:{}})
+					setStore({currentBuyin:{}})
+					setStore({myCurrentTrackers:{}})
+					setStore({myUpcomingTrackers:{}})
+					setStore({myPastTrackers:{}})
+					setStore({myConfirmedResultsTrackers:{}})
+					setStore({myPendingResultsTrackers:{}})
+					setStore({userToken:{}})
+					// setStore({ myProfile: null })
+
+					AsyncStorage.removeItem('userToken')
+					AsyncStorage.removeItem('loginInfo')
+					AsyncStorage.removeItem('deviceToken')
 				},
 				// IN CHANGE SETTINGS, CHANGE YOUR EMAIL
 				changeEmail: async ( myEmail, myPassword, myNewEmail, navigation ) => {
@@ -1317,7 +1584,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						}
 					}catch(error){
 						console.log('Something went wrong with changing your email', error)
-						return errorMessage(error.message)
+						return errorMessage("Something went wrong with your email address change")
 					}
 				},
 				// IN CHANGE SETTINGS, CHANGE YOUR PASSWORD
@@ -1354,22 +1621,21 @@ const getState = ({ getStore, setStore, getActions }) => {
 						}
 					}catch(error){
 						console.log('Something went wrong with changing your password: ', error)
-						return errorMessage(error.message)
+						return errorMessage("Something went wrong with your password change")
 					}
-					
 				},
 				// (NOT SURE IF THIS IS USED OR PROFILE/UPLOADPICTURE IS)
 				changePicture: async(image) => {
+					try {
+						let accessToken = getStore().userToken;
 
-					let accessToken = getStore().userToken;
-
-					const imageURL = databaseURL + '/profiles/image'
-					const imageData = new FormData();
-						imageData.append("image", {
-								uri: image.uri,
-								type: image.type,
-								name: image.name
-						});
+						const imageURL = databaseURL + '/profiles/image'
+						const imageData = new FormData();
+							imageData.append("image", {
+									uri: image.uri,
+									type: image.type,
+									name: image.name
+							});
 						console.log('imageData', imageData)
 						let response = await fetch(imageURL, {
 							method: 'PUT',
@@ -1387,42 +1653,69 @@ const getState = ({ getStore, setStore, getActions }) => {
 							console.log('Something went wrong in changing profile picture: ',error);
 						});
 						var errew = await getActions().profile.get()
-						return(Toast({
-							position:'top',
-							text:'Profile Picture Changed',
-							duration:3000
-						}))
+						return(customMessage("Your profile picture was changed"))
+					}catch(error) {
+						console.log("Something went wrong with changing your profile picture", error)
+						return errorMessage("Something went wrong with changing your profile picture")
+					}
+					
 						
 				},
 				// ON LOGIN PAGE, SEND AN EMAIL FOR A PASSWORD RESET
 				forgotPassword: async( myEmail ) => {
 					try {
 						const url = databaseURL + 'users/me/password?forgot=true'
-					let data = { email: myEmail }
+						let data = { email: myEmail }
 
-					let response = await fetch(url, {
-						method:'PUT',
-						body: JSON.stringify(data),
-						headers: {
-							'Content-Type':'application/json',
-						}, 
-					})
-					.then(response => response.json())
-					Toast.show({
-						text:response.message,
-						position:'top',
-						duration:3000,
-
-					})
-				
+						let response = await fetch(url, {
+							method:'PUT',
+							body: JSON.stringify(data),
+							headers: {
+								'Content-Type':'application/json',
+							}, 
+						})
+						.then(response => response.json())
+						console.log('response', response)
+						return customMessage(response.message)
 					}catch(error){
 						console.log('Something went wrong with forgot password: ', error)
-						return errorMessage(error.message)
+						return errorMessage('Something went wrong with resetting your forgot password')
 					}
-				}					
+				}
 			},
 			// USER TOKEN ACTIONS
 			userToken: {
+				check: async( myUserToken ) => {
+          try {      
+            const taskURL = databaseURL + "/profiles/me" 
+                           
+            let response = await fetch(taskURL, { 
+              method: 'GET',
+              cache: 'no-cache',
+              headers: {
+                'Authorization': 'Bearer ' + myUserToken,
+                'Content-Type': 'application/json',
+                'Cache-Control': 'no-cache'},
+              body: JSON.stringify(),
+            });
+            let checkedResponse = await response.json();
+
+            let isValid;
+            if(checkedResponse.id){
+              isValid = true;
+              setStore({userToken: myUserToken})
+            }else{
+              isValid = false
+              AsyncStorage.removeItem('userToken')
+              AsyncStorage.removeItem('loginInfo')
+            }
+            console.log('Is it a valid token:', isValid)
+            return isValid
+          }catch(error){
+            console.log('something went wrong in gchecking access token', error)
+					}
+				} ,
+
 				get: async( data ) => {
 					try{
 						const url = databaseURL + 'users/token'
@@ -1439,45 +1732,25 @@ const getState = ({ getStore, setStore, getActions }) => {
 						
 						if (response1.status >= 200 && response1.status < 300) {
 							data.error = "";
-							let user = res;
-							console.log('userToken is now: ', user, typeof(user))
-							getActions().userToken.store(user.jwt);
+							setStore({userToken: res.jwt});
+							var x = await AsyncStorage.setItem('loginInfo', JSON.stringify(data))
+							var cx = await AsyncStorage.setItem('userToken', res.jwt)
+
 						} else {
 							let error = res;
-							getActions().userToken.remove();
+							setStore({userToken: null})
 							console.log("Something went wrong in getting userToken: ", error, getStore().userToken);
 							return errorMessage(error.message)
 						}
 						
 					} catch(error) {
-							{() => getActions().userToken.remove()};
+							setStore({userToken: null})
 							console.log("Email: ", data.email);
 							console.log("Password: ", data.password);
 							console.log("Error: ", error);
 							throw data.error;
 					}
 				} ,
-				// STORES THE TOKEN IN ASYNC STORAGE AND STORE
-				store: async( myUserToken ) => {
-					try {
-						// console.log('userToken',myUserToken)
-						setStore({userToken: myUserToken});
-						var aaasss = await AsyncStorage.setItem('userToken', myUserToken)
-					} catch(error) {
-						console.log('Something went wrong in storing userToken: ', error)
-					}
-				},
-				// WHILE LOGGING OUT, REMOVES TOKEN FROM STORE AND ASYNC STORAGE
-				remove: async() => {
-					try {
-						setStore({userToken: null})
-						var ann = await AsyncStorage.removeItem('userToken')
-						var ss = await  AsyncStorage.getItem('userToken')
-						console.log('userToken after logout is: ', ss, getStore().userToken)
-					} catch(error) {
-						console.log('Something went wrong in removing userToken: ', error)
-					}
-				},
 			},
 		}
 	}

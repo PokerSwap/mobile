@@ -11,6 +11,7 @@ const BuyButton = (props) => {
       ]
     )
   }
+  
 	return (
 		<Button large success onPress = {showAlert}>
 		  <Text>BUY</Text>

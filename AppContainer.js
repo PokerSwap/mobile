@@ -1,11 +1,12 @@
-import React from 'react';
-import {View} from 'react-native'
+import React, {useEffect, useContext} from 'react';
 import { Icon } from "native-base";
-import { createBottomTabNavigator } from 'react-navigation-tabs';
-import { createDrawerNavigator } from 'react-navigation-drawer'
-import { createAppContainer } from "react-navigation";
-import { createStackNavigator, HeaderBackButton } from "react-navigation-stack";
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createDrawerNavigator } from '@react-navigation/drawer'
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 import Store from './src/Store/appContext';
+import { LogBox } from 'react-native';
+
 
 // AUTH VIEWS
 import SplashScreen from './src/Auth/Splash'
@@ -25,356 +26,270 @@ import ProfitResults from './src/Main/Results/ProfitResults'
 import EventLobby from './src/Main/Events/EventLobby'
 import VerifyTicket from './src/Main/Events/VerifyTicket';
 import SwapOffer from './src/Main/SwapOffer/SwapOffer';
-// import FlightSelection from './src/Main/Events/FlightSelection'
 
+// MISC VIEWS
 import ProfileScreen from './src/Main/Profile/ProfileScreen'
 import WebViewScreen from './src/Misc/WebView'
-import TutorialScreen from './src/Misc/Tutorial'
-
+import ChatScreen from './src/Main/Chat/Chat'
+import NotificationsScreen from './src/Misc/Notifications'
 
 // DRAWER VIEWS
-import FAQScreen from './src/Drawer/FAQ'
 import SideBar from './src/View-Components/sidebar'
 import SettingsScreen from './src/Drawer/Settings'
-import NotificationsScreen from './src/Drawer/Notifications'
+import ChangeEmail from './src/Drawer/Settings/ChangeEmail'
+import ChangePassword from './src/Drawer/Settings/ChangePassword'
+import ChangePicture from './src/Drawer/Settings/ChangePicture'
+import CategoriesScreen from './src/Drawer/Categories'
+import ContactsScreen from './src/Main/Chat/Contacts'
+import TutorialsScreen from './src/Drawer/Tutorials/TutorialsScreen'
+import TutorialListScreen from './src/Drawer/TutorialList'
+import ChangeNickname from './src/Drawer/Settings/ChangeNickname'
+
 import PurchaseTokens from './src/Drawer/PurchaseTokens'
-import ChangeEmail from './src/Drawer/ChangeEmail'
-import ChangePassword from './src/Drawer/ChangePassword'
-import ChangePicture from './src/Drawer/ChangePicture'
-import Categories from './src/Drawer/Categories'
+import CardFieldTextScreen from './src/Drawer/PayScenes/CardFieldTextScreen'
+import CardFormScreen from './src/Drawer/PayScenes/CardFormScreen'
+import CustomCardScreen from './src/Drawer/PayScenes/CustomCardScreen'
 
-// LOGIN AND SIGNUP NAVIGATION
-const AuthStack = createStackNavigator(
-  {
-    Splash: {
-      screen: SplashScreen, 
-      navigationOptions: {
-        title: 'Splash',
-        headerShown: false
-      }
-    },
+import { Alert } from 'react-native'
+import messaging from '@react-native-firebase/messaging';
+import { Context } from './src/Store/appContext'
+import { drop } from 'lodash';
 
-    LogIn: {
-      screen: LogInScreen,
-      navigationOptions: {
-        title: 'Log In',
-        headerShown: false,
-        gestureEnabled: false,
-      }
-    },
+var Stack = createStackNavigator()
+var Drawer = createDrawerNavigator()
+var aTab = createBottomTabNavigator()
 
-    UserCreation:{
-      screen: CreateUser,
-      navigationOptions: ({navigation}) => ({
-        title:'Create Email',
-        headerLeft: () => <HeaderBackButton onPress={() => navigation.pop(2)} />,
-      })
-    },
+var AuthStack = () => {
+  return(
+    <Stack.Navigator name="Auth" initialRouteName="Splash"
+      screenOptions={{ gestureEnabled: false, headerShown: false }}>
+      <Stack.Screen name="Splash" component={SplashScreen} />
+      <Stack.Screen name="Login" component={LogInScreen} options={{ headerShown: false }}/>
+      <Stack.Screen name="Forgot Password" component={ForgotPassword} options={{ headerShown: true }}/>
+      <Stack.Screen name="User Creation" component={CreateUser} options={{ headerShown: true }}/>
+      <Stack.Screen name="Terms and Conditions" component={TermsAndConditions} options={{ headerShown: true }}/>
+      <Stack.Screen name="Profile Creation" component={CreateProfile} options={{ headerShown: true }}/>
+    </Stack.Navigator>
+  )
+}
 
-    ForgotPassword:{
-      screen: ForgotPassword,
-      navigationOptions:{
-        title:'Forgot Password',
-        mode:'modal'
-      }
-    },
+var MainTabs = () => {
+  return(
+    <aTab.Navigator initialRouteName="Active Swaps" tabBarOptions= {{
+      showLabel: false, activeTintColor: 'orange',
+      inactiveTintColor: 'gray', style: {height: 70, paddingTop:10}}} >
+      <aTab.Screen name="Active Swaps" component={SwapsStack} 
+        options={{
+          tabBarIcon: ({ color }) => 
+            <Icon type="FontAwesome5" name="handshake" 
+              size={24} style={{ color: color }}/>
+        }}/>
+      <aTab.Screen name="Event Listings" component={EventsStack} options={{
+          tabBarIcon: ({ color }) => 
+            <Icon type="FontAwesome5" name="trophy" 
+              size={24} style={{ color: color }}/>
+        }}/>
+      <aTab.Screen name="Swap Results" component={ResultsStack} options={{
+          tabBarIcon: ({ color }) => 
+            <Icon type="FontAwesome5" name="comments-dollar" 
+              size={24} style={{ color: color }}/>
+        }}/>
+    </aTab.Navigator>
+  )
+}
 
-    ProfileCreation: {
-      screen: CreateProfile,
-      navigationOptions: {
-        title: 'Create Your Profile',
-        gestureEnabled: false,
-      }
-    },
+var SwapsStack = () => {
+  return(
+    <Stack.Navigator initialRouteName="Swap Dashboard" 
+      screenOptions={{ gestureEnabled: false, headerShown: false }}>
+      <Stack.Screen name="Swap Dashboard" component={SwapDashboard}/>
+      <Stack.Screen name="Swap Offer" component={SwapOffer} 
+        options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
+      <Stack.Screen name="Event Lobby" component={EventLobby} 
+        options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
+    </Stack.Navigator>
+  )
+}
 
-    TermsAndConditions:{
-      screen: TermsAndConditions,
-      navigationOptions:{
-        title: 'Terms And Conditions'
-      }
-    }
-  },
-  {
-    initialRouteName: "Splash",
-    gestureEnabled: false,
-  }
-)
+var EventsStack = () => {
+  return(
+    <Stack.Navigator initialRouteName="Event Listings" screenOptions={{ gestureEnabled: false, headerShown: false }}>
+      <Stack.Screen name="Event Listings" component={EventListings}/>
+      <Stack.Screen name="Verify Ticket" component={VerifyTicket} 
+        options={{ gestureEnabled: false,  headerShown: true, headerBackTitle:''}}/>
+      <Stack.Screen name="Event Lobby" component={EventLobby}  
+        options={{ gestureEnabled: false }} />
+      <Stack.Screen name="Swap Offer" component={SwapOffer} 
+        options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
+        <Stack.Screen name="Profile" component={ProfileScreen} 
+          options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}}/>
+    </Stack.Navigator>
+  )
+}
 
-// EVENT NAVIGATION
-const EventsStack = createStackNavigator(
-  {
-    EventListings:{
-      screen: EventListings,
-      navigationOptions:{
-        title:"Event Listings",
-        headerMode: 'none',
-        headerShown: false,
-        key:'A'
-      }
-    },
-    VerifyTicket:{
-      screen: VerifyTicket,
-      navigationOptions: ({navigation}) => ({
-        title:'Verify Ticket',
-        headerLeft: () => <HeaderBackButton onPress={() => navigation.pop()} />,
-      })
-    }, 
-    EventLobby:{
-      screen: EventLobby,
-      navigationOptions: ({navigation}) => ({
-        title:'Event Lobby',
-        headerLeft: () => <HeaderBackButton onPress={() => navigation.pop(2)} />,
-      })
-    },
-    SwapOffer:{
-      screen: SwapOffer,
-      navigationOptions:{
-        title:"Swap Offer"
-      }
-    },
-  },{
-    initialRouteName:'EventListings',
-    headerShown: false
-  }
-)
+var ResultsStack = () => {
+  return(
+    <Stack.Navigator initialRouteName="Swap Results" 
+      screenOptions={{ gestureEnabled: false, headerShown: false }}>
+      <Stack.Screen name="Swap Results" component={SwapResults}/>
+      <Stack.Screen name="Profit Results" component={ProfitResults} 
+        options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}}/>
+      <Stack.Screen name="Profile" component={ProfileScreen} 
+        options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}}/>
+    </Stack.Navigator>
+  )
+}
 
-// SWAP NAVIGATION
-const SwapsStack = createStackNavigator(
-  {
-    SwapDashboard:{
-      screen: SwapDashboard,
-      navigationOptions:{
-        title:"Swap Dashboard",
-        headerShown: false
-      }
-    },
-    SwapOffer:{
-      screen: SwapOffer,
-      navigationOptions: ({navigation}) => ({
-        title:'Swap Offer',
-        headerLeft: () => <HeaderBackButton onPress={() => navigation.goBack(null)} />,
-      })
-
-    }, 
-    EventLobby:{
-      screen: EventLobby,
-      navigationOptions: ({navigation}) => ({
-        title:'Event Lobby',
-        headerLeft: () => <HeaderBackButton onPress={() => navigation.popToTop()} />,
-      })
-    },
-  }, {
-    headerShown: false,
-  }
-)
-
-const ResultsStack = createStackNavigator(
-  {
-    SwapResults:{
-      screen: SwapResults,
-      navigationOptions:{
-        title:"Swap Results",
-        headerShown: false
-      }
-    },
-    ProfitResults:{
-      screen: ProfitResults,
-      navigationOptions: ({navigation}) => ({
-        title:'Profit Results',
-        headerLeft: () => <HeaderBackButton onPress={() => navigation.goBack(null)} />,
-      })
-    }
-  }, {
-    headerShown: false
-  }
-)
-
-// TOURNAMENTS, SWAPS, PROFILE NAVIGATION
-const MainStack = createBottomTabNavigator(
-  {
-    Swaps: { 
-      screen: SwapsStack,
-      navigationOptions:{
-        headerShown: false,
-        title: "Swaps",
-        tabBarIcon: ({ tintColor }) => 
-          <Icon type="FontAwesome5" name="handshake" 
-            size={24} style={{ color: tintColor }}/>
-      }
-    },
-    Events: { 
-      screen: EventsStack,
-      navigationOptions:{
-        headerShown: false,
-        tabBarIcon: ({ tintColor }) => 
-          <Icon type="FontAwesome5"  name="trophy"
-            size={24} style={{ color: tintColor }}/>
-      }
-    },
-    Results: { 
-      screen: ResultsStack ,
-      navigationOptions:{
-        headerShown: false,
-        tabBarIcon: ({ tintColor }) => 
-          <Icon type="FontAwesome5" name="comments-dollar" 
-            size={24} style={{ color: tintColor }}/>
-      }
-    }
-  },
-  {
-    animationEnabled: true,
-    gestureEnabled: false,
-    initialRouteName: "Swaps",
-    tabBarOptions: {
-      activeTintColor: 'orange',
-      inactiveTintColor: 'gray',
-      style: {
-        height: 70
-      },
-    showLabel: false 
-    }
-  }
-)
-
-const SettingsStack = createStackNavigator({
-  SettingsScreen:{
-    screen: SettingsScreen,
-    navigationOptions:{
-      title:'Settings',
-      headerShown: false
-    }
-  },
-  ChangeEmail:{
-    screen: ChangeEmail,
-    navigationOptions: ({navigation}) => ({
-      title:'Change Email',
-      headerLeft: () => <HeaderBackButton onPress={() => navigation.goBack(null)} />,
-    })
-  },
-  ChangePassword:{
-    screen: ChangePassword,
-    navigationOptions: ({navigation}) => ({
-      title:'Change Password',
-      headerLeft: () => <HeaderBackButton onPress={() => navigation.goBack(null)} />,
-    })
-  },
-  ChangePicture:{
-    screen: ChangePicture,
-    navigationOptions: ({navigation}) => ({
-      title:'Change Picture',
-      headerLeft: () => <HeaderBackButton onPress={() => navigation.goBack(null)} />,
-    })
-  },
-},
-{
-  initialRouteName: 'SettingsScreen',
-})
-
-// DRAWER VIEWS NAVIGATION
-const DrawerNav = createDrawerNavigator(
-  {
-    Home: {
-      screen: MainStack,
-      navigationOptions: {
+var MainDrawer = () => {
+  return(
+    <Drawer.Navigator initialRouteName="Home" 
+      drawerContent={(props) => <SideBar {...props} />}
+      screenOptions={{ gestureEnabled: true }}>
+      {/* HOME DRAWER TAB */}
+      <Drawer.Screen name="Home" component={MainTabs}
+        options={{
+          drawerIcon: ({ focused }) => (
+          <Icon type="FontAwesome5" name="home" style={{fontSize:26}}
+            color={focused ? 'blue' : 'black'} />)}}/>
+      {/* SETTINGS DRAWER TAB */}
+      <Drawer.Screen name="Settings" component={SettingsStack}
+        screenOptions={{ gestureEnabled: false, headerShown: false }}
+        options={{
+          drawerIcon: ({ focused }) => (
+            <Icon type="FontAwesome5" name="cog" size={24} 
+              color={focused ? 'blue' : 'black'} />)}}/>
+      {/* CATEGORIES DRAWER TAB */}
+      <Drawer.Screen name="Categories" component={CategoriesScreen} 
+        options={{
+          drawerIcon: ({ focused }) => (
+          <Icon type="FontAwesome5" name="th-large" size={24} 
+            color={focused ? 'blue' : 'black'} />)}}/>
+      {/* CHAT SCREEN TAB */}
+      {/* <Drawer.Screen name="Chat" component={ContactsScreen}
+      screenOptions={{ gestureEnabled: false, headerShown: true }}
+      options={{
+        params:{name:"Gabe"},
+        headerShown:true,
         drawerIcon: ({ focused }) => (
-          <Icon 
-            name="home" size={24} 
-            color={focused ? '#2C2E9B' : 'black'} 
-          />
-        )
-      }
-    },
-    Settings:{
-      screen: SettingsStack,
-      navigationOptions: {
-        
-        drawerIcon: ({ focused }) => (
-          <Icon name="cog" size={24} 
-            color={focused ? '#2C2E9B' : 'black'} />
-        )
-      }
-    },
-    Notifications: { 
-      screen: NotificationsScreen,
-      navigationOptions: {
-        title: 'Notifications',
-        drawerIcon: ({ focused }) => (
-        <Icon name="ios-notifications" size={24} 
-          color={focused ? 'blue' : 'black'} />
-        ),
-      }
-    },
-    PurchaseTokens: { 
-      screen: PurchaseTokens,
-      navigationOptions: {
-        title: 'Purchase Tokens',
-        drawerIcon: ({ focused }) => (
-        <Icon type="FontAwesome5" name="coins" size={24} 
-          color={focused ? 'blue' : 'black'} />
-        ),
-      }
-    },
-    Categories: { 
-      screen: Categories,
-      navigationOptions: {
-        title: 'Categories',
-        drawerIcon: ({ focused }) => (
-        <Icon type="MaterialCommunityIcons" name="view-grid" size={24} 
-          color={focused ? 'blue' : 'black'} />
-        ),
-      }
-    },
+          <Icon type="FontAwesome5" name="comment-dots" size={24} 
+            color={focused ? 'blue' : 'black'} />
+      )}} /> */}
+      {/* HELP DRAWER TAB */}
+      <Drawer.Screen name="Help" component={HelpStack}
+        screenOptions={{ gestureEnabled: false, headerShown: false }}
+        options={{
+          drawerIcon: ({ focused }) => (
+            <Icon type="FontAwesome5" name="question-circle" size={24} 
+              color={focused ? 'blue' : 'black'} />)}}/>
+    </Drawer.Navigator>
+  )
+}
 
+var SettingsStack = () => {
+  return(
+    <Stack.Navigator initialRouteName="Settings Screen"  screenOptions={{ gestureEnabled: false, headerShown: false }}>
+      <Stack.Screen name="Settings Screen" component={SettingsScreen} 
+        screenOptions={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
+      <Stack.Screen name="Change Picture" component={ChangePicture}
+        options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
+      <Stack.Screen name="Change Email" component={ChangeEmail}
+        options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
+      <Stack.Screen name="Change Password" component={ChangePassword}
+        options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
+      <Stack.Screen name="Change Nickname" component={ChangeNickname}
+        options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
+    </Stack.Navigator>
+  )
+}
 
-  },
-  {
-    initialRouteName: 'Home',
-    contentComponent: SideBar,
-    drawerPosition: 'Left',
-    drawerOpenRoute: 'DrawerOpen',
-    drawerCloseRoute: 'DrawerClose',
-    drawerToggleRoute: 'DrawerToggle'
-  }
-)
+var HelpStack = () => {
+  return(
+    <Stack.Navigator name="Help" initialRouteName="TutorialsScreen"
+      screenOptions={{ gestureEnabled: false, headerShown: false }}>
+      <Stack.Screen name="Tutorial List" component={TutorialListScreen} />
+      <Stack.Screen name="Tutorial Screen" component={TutorialsScreen} />
+    </Stack.Navigator>
+  )
+}
 
+var TokenStack = () => {
+  return(
+    <Stack.Navigator name="Tokens" initialRouteName="Purchase Tokens">
+      <Stack.Screen name="Purchase Tokens" component={PurchaseTokens} 
+      options={{ gestureEnabled: false, headerShown: false, headerBackTitle:''}}/>
+      <Stack.Screen name="Card Form" component={CardFormScreen} />
+      <Stack.Screen name="Card Field Text" component={CardFieldTextScreen} />
+      <Stack.Screen name="Custom Card" component={CustomCardScreen} />
+    </Stack.Navigator>
+  )
+}
+
+const NavContainer = () => {
+  return(
+<Stack.Navigator name="Root" initialRouteName="Auth"
+        screenOptions={{ gestureEnabled: false, headerShown: false }}>
+        <Stack.Screen name="Auth" component={AuthStack} />
+        <Stack.Screen name="Drawer" component={MainDrawer}/>
+        <Stack.Screen name="Home" component={MainTabs}/>
+        <Stack.Screen name="Web View" component={WebViewScreen} 
+          options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}} />
+        <Stack.Screen name="Purchase Tokens" component={TokenStack} 
+          options={{ gestureEnabled: false, headerShown: false}} />
+        <Stack.Screen name="Profile" component={ProfileScreen} 
+          options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}}/>
+        {/* <Stack.Screen name="Notifications" component={NotificationsScreen} 
+          options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}}/> */}
+        <Stack.Screen name="Swap Offer" component={SwapOffer} 
+          options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}}/>
+        {/* <Stack.Screen name="Chat" component={ChatScreen} 
+          screenOptions={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}} /> */}
+      </Stack.Navigator>
+  )
+
+}
 
 // MAIN NAVIGATION STACK
-const AppStack = createStackNavigator(
-  {
-    Auth: AuthStack,
-    Drawer: DrawerNav,    
-    Profile: {
-      screen: ProfileScreen,
-      navigationOptions: ({navigation}) => ({
-        title:'Profile',
-        headerMode:'screen',
-        headerLeft: () => <HeaderBackButton onPress={() => navigation.goBack()} />,
-      })
-    },
-    WebView: {
-      screen: WebViewScreen,
-      navigationOptions: ({navigation}) => ({
-        title:'WebView',
-        headerMode:'screen',
-        headerLeft: () => <HeaderBackButton onPress={() => navigation.goBack(null)} />,
-      })
-    },
-    Tutorial: {
-      screen: TutorialScreen,
-      navigationOptions: ({navigation}) => ({
-        title:'Tutorial',
-        headerLeft: () => <HeaderBackButton onPress={() => navigation.goBack(null)} />,
-      })
-    }
+const AppContainer = () => {
 
-  },
-  {
-    initialRouteName: "Auth",
-    headerShown: false,
-    headerMode: 'none'
-  }
-)
+  const { store, actions } = useContext(Context)
+  
 
-AppContainer = createAppContainer(AppStack);
+
+  // const goToThing = async(data) => {
+  //   const navigation = useNavigation()
+  //   console.log('name', data)
+  //   if(data.type == 'event'){
+  //     var cc = await actions.navigate.toEvent(data, navigation)
+  //   }else if(data.type == 'swap'){
+  //     var cc = await actions.navigate.toSwap(data, navigation)
+  //   }else{
+  //     null
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   const unsubscribe = messaging().onMessage(async remoteMessage => {
+  //     Alert.alert(
+  //       remoteMessage.notification.title, 
+  //       remoteMessage.notification.body,
+  //       [
+  //         { text: 'Open', onPress: () => goToThing(remoteMessage.data) },
+  //         { text: 'Close', onPress: () => console.log("Cancel Pressed"), }
+  //       ]
+  //     );
+  //   });
+
+  //   return () => {
+  //     unsubscribe()
+  //   }
+  // }, []);
+  LogBox.ignoreLogs(['VirtualizedLists', 'Warning: Picker', 'Warning: Async']); // Ignore log notification by message
+
+  return(
+    <NavigationContainer>
+      <NavContainer />
+    </NavigationContainer>
+  )
+}
 
 export default Store(AppContainer);

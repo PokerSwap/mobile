@@ -1,26 +1,22 @@
-import React from "react";
-import { TouchableOpacity, } from 'react-native'
+import React, {useState} from "react";
 import { WebView } from 'react-native-webview';
-import { Container, Content, Header, Text } from "native-base";
-import i18n from "../i18n/i18n"; 
+import { Container, Content } from "native-base";
+import { useRoute, useNavigation } from '@react-navigation/native'
+import Spinner from 'react-native-loading-spinner-overlay'
 
-export default WebViewScreen = (props) => {
-
-	const { navigation } = props;
-  let url = navigation.getParam('url', 'NO-ID');
+export default WebViewScreen = () => {
+	const navigation = useNavigation()
+	const route = useRoute()
+	const { url } = route.params
+	const [ loading, setLoading ] = useState(null)
 
 	return(
 		<Container>
 			<Content>
-				<Header style={{justifyContent:'flex-start'}}>
-					<TouchableOpacity onPress={()=> props.navigation.goBack()}>
-						<Text style={{fontWeight:'600',  marginLeft:10}}> Go Back</Text>
-					</TouchableOpacity>
-				</Header>
-				<WebView
-				source={{uri: url}}
-				style={{height:1000}}
-			/> 
+				<Spinner visible={loading} textContent={''}/>
+				<WebView source={{uri: url}} style={{height:1000}} 
+					onLoadStart={() => setLoading(true)} onLoad={() => setLoading(false)}
+				/> 
 			</Content>
 		</Container>
 	)
