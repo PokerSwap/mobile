@@ -3,6 +3,7 @@ import { Alert, FlatList, Platform, RefreshControl } from 'react-native';
 import { Button, Container, Content, Icon, Tabs, Tab, TabHeading, Text } from 'native-base';
 import messaging from '@react-native-firebase/messaging'
 import { useNavigation, useRoute } from '@react-navigation/native'
+import { Appearance, useColorScheme } from 'react-native-appearance';
 
 import { Context } from '../../Store/appContext'
 
@@ -15,6 +16,21 @@ export default SwapDashboard = (props) => {
 
   const route = useRoute();
 
+  Appearance.getColorScheme();
+ 
+/**
+ * Subscribe to color scheme changes with a hook
+ */
+const sss = () => {
+  const colorScheme = useColorScheme();
+  if (colorScheme === 'dark') {
+    console.log('dark')
+  } else {
+    console.log('light')
+  }
+}
+
+sss()
   const goToThing = async(data) => {
     console.log('name', data)
     if(data.type == 'event'){

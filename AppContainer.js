@@ -254,7 +254,6 @@ const AppContainer = () => {
   const { store, actions } = useContext(Context)
   
 
-  const { store, actions } = useContext(Context)
   
   // const goToThing = async(data) => {
   //   const navigation = useNavigation()
