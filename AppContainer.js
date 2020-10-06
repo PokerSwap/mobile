@@ -254,6 +254,19 @@ const AppContainer = () => {
   const { store, actions } = useContext(Context)
   
 
+  const { store, actions } = useContext(Context)
+  
+  // const goToThing = async(data) => {
+  //   const navigation = useNavigation()
+  //   console.log('name', data)
+  //   if(data.type == 'event'){
+  //     var cc = await actions.navigate.toEvent(data, navigation)
+  //   }else if(data.type == 'swap'){
+  //     var cc = await actions.navigate.toSwap(data, navigation)
+  //   }else{
+  //     null
+  //   }
+  // }
 
   // const goToThing = async(data) => {
   //   const navigation = useNavigation()
