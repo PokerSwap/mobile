@@ -1,12 +1,15 @@
 import React, { useContext, useState } from 'react';
-import { Alert,  ScrollView, Image, View, Modal, Platform } from 'react-native';
+import { Context } from '../Store/appContext';
+
+import { ScrollView, Image, View, Modal } from 'react-native';
 import { Container, Content,  Button, Text } from 'native-base';
 import { Grid, Col, Row} from 'react-native-easy-grid'
 
+import darkStyle from '../Themes/dark.js'
+import lightStyle from '../Themes/light.js'
 
 import PayForTokenModal from './PayScenes/PayForTokenModal'
 import OtherHeader from '../View-Components/OtherHeader'
-import { Context } from '../Store/appContext';
 
 PriceOption = (props) => {
 
@@ -26,10 +29,12 @@ PriceOption = (props) => {
             dollars={props.dollars}
             swapTokens={props.swapTokens} />
         </Modal>
+        
       <View style={{overflow:'hidden', height:props.hx}}>
         <Image source={props.image} style={{
           width:props.w, height:props.h, alignSelf:'center'}}/>
       </View>
+
       <Text style={{textAlign:'center', fontWeight:'500', 
         fontSize:24, marginBottom:10}}> 
         {props.swapTokens} Tokens
@@ -48,6 +53,9 @@ PriceOption = (props) => {
 export default PurchaseTokens = (props) => {
 
   const { store, actions } = useContext(Context)
+  
+  var currentStyle
+  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
 
   return(
     <Container>

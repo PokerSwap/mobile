@@ -1,18 +1,29 @@
-import React from 'react';
+import React, {useContext} from 'react';
+import { Context } from '../Store/appContext'
+
 import { View } from 'react-native'
 import { Header, Text, Icon } from 'native-base';
 import {  DrawerActions, useNavigation } from '@react-navigation/native';
 
+import darkStyle from '../Themes/dark.js'
+import lightStyle from '../Themes/light.js'
+
 export default HomeHeader = (props) => {
-const navigation = useNavigation()
+
+  const { store, actions } = useContext(Context)
+
+  var currentStyle
+  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
+  
+  const navigation = useNavigation()
   return(
     <Header style={{ justifyContent:'space-between', alignItems:'center', 
-      backgroundColor:'rgb(248,248,248)'}}>
+      backgroundColor:currentStyle.header.color}}>
       {/* MENU ICON */}
-      <Icon type="FontAwesome5" name="bars" style={{marginLeft:10}}
+      <Icon type="FontAwesome5" name="bars" style={{marginLeft:10, color:currentStyle.text.color}}
         onPress={() => navigation.dispatch(DrawerActions.openDrawer())}/>
       {/* TITLE */}
-      <Text style={{fontWeight:'bold', fontSize:20, color:'black'}}>
+      <Text style={{fontWeight:'bold', fontSize:20, color:currentStyle.text.color}}>
         {props.title}
       </Text>
       {/* TUTORIAL ICON */}

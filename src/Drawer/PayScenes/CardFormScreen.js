@@ -44,7 +44,8 @@ export default CardFormScreen = () => {
   const [total, setTotal] = useState(1.00)
 
 
-
+  var currentStyle
+  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
 
   const handleOnPressPayBtn = async () => {
     const number = 1 + 1;

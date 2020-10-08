@@ -1,8 +1,15 @@
-import React, { Component } from 'react';
-import { StyleProvider, Button, Text } from 'native-base';
+import { StyleSheet} from 'react-native'
 
-const customTheme = {
-  'yourTheme.CustomComponent': {
-    // overrides CustomComponent style...
-  }
-};
+const darkStyle =  StyleSheet.create({
+    text: {
+      color:'white',
+    },
+    background:{
+      color:'rgb(23,32,42)'
+    },
+    header:{
+      color:'rgb(37,41,49)'
+    },
+  })
+
+  export default darkStyle;

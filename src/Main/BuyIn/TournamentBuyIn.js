@@ -1,9 +1,10 @@
 import React, { useContext }  from 'react'
+import { Context } from '../../Store/appContext'
+
 import {  Text, ListItem, Button } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid'
 import { throttle } from 'lodash'
 
-import { Context } from '../../Store/appContext'
 
 import BuyInAttribute from './Components/BuyInAttribute'
 import SwapButton from './Components/SwapButton'
@@ -11,6 +12,9 @@ import SwapButton from './Components/SwapButton'
 export default TournamentBuyIn = (props) => {
   const { store, actions } = useContext(Context)
   const { navigation } = props, {buyin} = props;
+
+  var currentStyle
+  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
 
   const enterProfile = () => {
     navigation.push('Profile',{

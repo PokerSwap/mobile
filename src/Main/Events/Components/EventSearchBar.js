@@ -1,16 +1,21 @@
-import React, {useContext, useState} from 'react'
+import React, { useContext, useState } from 'react'
+import { Context } from '../../../Store/appContext'
+
 import { TextInput, View, TouchableOpacity, Platform, Alert } from 'react-native';
 import { Icon, Item, Text} from 'native-base';
 import Geolocation from '@react-native-community/geolocation';
 import {openSettings, request, PERMISSIONS} from 'react-native-permissions';
  
-import {Context} from '../../../Store/appContext'
+import darkStyle from '../../../Themes/dark.js'
+import lightStyle from '../../../Themes/light.js'
 
 export default EventSearchBar = (props) => {
-
   const { store, actions } = useContext(Context)
-  const [ value, setValue ] = useState('')
 
+  var currentStyle
+  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
+
+  const [ value, setValue ] = useState('')
   const testValue = async(value) => {
     const regexZip = new RegExp('^\\d{5}$');
     const regexName = new RegExp('^[a-zA-Z0-9_ .-]+$');
@@ -19,10 +24,6 @@ export default EventSearchBar = (props) => {
       var answer1 = await actions.tournament.getInitial('zip', value)    
       props.setMode('byZip')
     } else if(regexName.test(value)){
-      // var x = value
-      // if (value.includes(' ')){x=value.replaceAll(' ', '_')}else{null}
-      // console.log('x is ', x)
-
       var answer2 = await actions.tournament.getInitial('name', value)
       props.setMode('byName')    
     }else{

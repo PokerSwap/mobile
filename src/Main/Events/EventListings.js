@@ -5,7 +5,8 @@ import {  RefreshControl, FlatList, View} from 'react-native'
 import HomeHeader from "../../View-Components/HomeHeader";
 import EventBody from './Components/EventBody';
 import EventSearchBar from './Components/EventSearchBar';
-
+import darkStyle from '../../Themes/dark.js'
+import lightStyle from '../../Themes/light.js'
 import { Context } from '../../Store/appContext';
  
 export default EventListings = (props, navigation) => {
@@ -68,7 +69,9 @@ export default EventListings = (props, navigation) => {
       zip_code: "33073"
     
   }
-
+  var currentStyle
+  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
+  
   return(
     <View style={{flex:1}}>
       {/* HEADER */}

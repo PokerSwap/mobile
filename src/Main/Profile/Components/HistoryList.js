@@ -1,7 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react';
+import { Context } from '../../../Store/appContext'
+
 import { Text, List, ListItem, Spinner } from 'native-base';
 
-import { Context } from '../../../Store/appContext'
 import MyProfileHistoryCard from './MyProfileHistoryCard'
 import TheirProfileHistoryCard from './TheirProfileHistoryCard'
 

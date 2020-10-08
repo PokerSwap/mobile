@@ -1,20 +1,35 @@
 import React, { useContext, useState } from 'react'
-import { DrawerContentScrollView, DrawerItemList, DrawerItem } from '@react-navigation/drawer'
-import { Icon } from 'native-base'
-import { Alert,  Linking, Switch, Text, View } from 'react-native'
+import { Context } from '../Store/appContext'
 import { useNavigation } from '@react-navigation/native'
 import AsyncStorage from '@react-native-community/async-storage'
 
-import ProfileBioSideBar from '../Main/Profile/Components/ProfileBioSideBar'
-import { Context } from '../Store/appContext'
+import { Alert,  Linking, Switch, Text, View } from 'react-native'
+import { Icon } from 'native-base'
+import { DrawerContentScrollView, DrawerItemList, DrawerItem } from '@react-navigation/drawer'
 
-// DRAWER PHYSICAL COMPONENT
+import ProfileBioSideBar from '../Main/Profile/Components/ProfileBioSideBar'
+
+import darkStyle from '../../src/Themes/dark.js'
+import lightStyle from '../../src/Themes/light.js'
+
 export default SideBar = (props) => {
   const navigation = useNavigation()
   const { store, actions } = useContext(Context)
+  
   var profile = store.myProfile
+  
+  var uiMode = store.uiMode
+  const [currentMode, setCurrentMode] = useState(uiMode)
 
+  const changeNow = async() => {
+    var x = !currentMode
+    setCurrentMode(x)
+    var e = await actions.uiMode.change(x)
+    AsyncStorage.setItem('uiMode', x.toString())
+  }
 
+  var currentStyle
+  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
 
   return(
     <DrawerContentScrollView {...props}>
@@ -37,8 +52,14 @@ export default SideBar = (props) => {
       <DrawerItem label="Feedback"
         icon= {() => <Icon type="FontAwesome5" style={{fontSize:24}} name="users-cog" />}
         onPress={()=>  Linking.openURL("mailto:contact@swapprofitonline.com?subject=" + profile.first_name + " " + profile.last_name + " Feedback")}/>
-
-
+      
+      <View>
+        <Icon />
+        <Text></Text>
+        <Switch value={!currentMode} 
+              onValueChange={() => changeNow()}/>
+      </View>
+      
       {/* LOGOUT OPTION */}
       <DrawerItem label="Log Out"
         icon= {() => <Icon type="Ionicons" name="ios-exit" />}

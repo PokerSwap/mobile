@@ -1,11 +1,20 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { Context } from '../../../Store/appContext';
+
 import { Image, View, Spinner, Linking, Modal } from 'react-native'
 import { Button, Icon, Card, CardItem, Text, Radio, Toast } from 'native-base';
-import { Context } from '../../../Store/appContext';
 import { useNavigation } from '@react-navigation/native'
 import { Grid, Row, Col} from 'react-native-easy-grid'
 
+import darkStyle from '../../../Themes/dark.js'
+import lightStyle from '../../../Themes/light.js'
+
  ReportModal = (props) => {
+  const { store, actions } = useContext(Context)
+
+
+  var currentStyle
+  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
 
   const [abuse, setAbuse] = useState(false)
   const [identity, setIdentity] = useState(false)

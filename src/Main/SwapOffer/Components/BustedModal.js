@@ -1,22 +1,27 @@
 import React, { useState, useContext } from 'react'
+import { Context } from '../../../Store/appContext'
+import { useNavigation } from '@react-navigation/native'
+
 import { KeyboardAvoidingView, TextInput, View, TouchableOpacity } from 'react-native'
 import { Text, Icon } from 'native-base'
 import { Grid, Row, Col } from 'react-native-easy-grid'
-import {useNavigation} from '@react-navigation/native'
-
-import {Context} from '../../../Store/appContext'
-
 import Spinner from 'react-native-loading-spinner-overlay'
 
+import darkStyle from '../../../Themes/dark.js'
+import lightStyle from '../../../Themes/light.js'
 
 export default BustedModal = (props) => {
   const { store, actions } = useContext(Context)
+  const navigation = useNavigation();
+
   const [ place, setPlace ] = useState('')
   const [ winnings, setWinnings ] = useState('')
   const [ mode, setMode ] = useState(props.mode)
   const [ loading, setLoading ] = useState(false)
 
-  const navigation = useNavigation();
+  var currentStyle
+  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
+
   var txtWinnings = null
 
   var a_behavior, offBy;

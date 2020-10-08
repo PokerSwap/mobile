@@ -1,17 +1,25 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { Context } from '../../../Store/appContext'
+import { useNavigation } from '@react-navigation/native'
+import { throttle } from 'lodash';
+
 import { View } from 'react-native';
 import { ListItem, Text, Icon } from 'native-base';
 import { Col } from 'react-native-easy-grid'
-import { throttle } from 'lodash';
-import { useNavigation } from '@react-navigation/native'
 
+import darkStyle from '../../../Themes/dark.js'
+import lightStyle from '../../../Themes/light.js'
 
 export default EventBody = (props) => {  
+  const { store, actions } = useContext(Context)
+  const navigation = useNavigation()
   var {event} = props;
   var start_at = props.event.start_at
   var bgColor, textColor, borderWidths, buttonColor, path;
-  
-  const navigation = useNavigation()
+
+  var currentStyle
+  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
+
   const enterTournament = () => {
     var startAddress = event.casino + '\n' + event.address + '\n' + event.city + ', ' +
       event.state + ' ' + event.zip_code
@@ -33,7 +41,7 @@ export default EventBody = (props) => {
     bgColor = 'green', textColor = 'white', buttonColor = 'white',
     borderWidths = 4, path = 'Event Lobby'
   } else {
-    bgColor = 'white',textColor = 'black', buttonColor = null,
+    bgColor = currentStyle.background.color,textColor = currentStyle.text.color, buttonColor = null,
     borderWidths = 2, path = 'Verify Ticket'
   }
   var month = start_at.substring(8,11)

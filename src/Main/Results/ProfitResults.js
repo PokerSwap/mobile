@@ -1,26 +1,29 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { Context } from '../../Store/appContext'
+import { useNavigation, useRoute } from '@react-navigation/native'
+import moment from 'moment'
+
 import { Modal, View } from 'react-native';
 import { Container, Content, List, Text, ListItem, Button } from 'native-base';
 import Spinner from 'react-native-loading-spinner-overlay'
-import { useNavigation, useRoute } from '@react-navigation/native'
-import moment from 'moment'
 import { Grid, Row, Col } from 'react-native-easy-grid'
 
-import { Context } from '../../Store/appContext'
 import _Header from '../../View-Components/HomeHeader'
 import ProfitTracker from './Components/ProfitTracker'
 import BustedModal from '../SwapOffer/Components/BustedModal'
+
+import darkStyle from '../../Themes/dark.js'
+import lightStyle from '../../Themes/light.js'
 
 export default ProfitResults = (props) => {
   const { store, actions } = useContext(Context)
 
   const route = useRoute()
   const navigation = useNavigation();
-  const { tournament } = route.params;
-  const { my_buyin } = route.params;  
-  const { buyins } = route.params;
-  const { final_profit } = route.params;
+  const { tournament, my_buyin, buyins, final_profit } = route.params;
 
+  var currentStyle
+  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
 
   const [ loading, setLoading ] = useState(false)
   const [ visible, setVisible ] = useState(false)

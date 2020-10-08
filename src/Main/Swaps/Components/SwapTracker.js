@@ -1,14 +1,15 @@
 import React, { useContext } from 'react';
-import { View, TouchableOpacity } from 'react-native';
-import { Text, ListItem } from 'native-base';
-import { throttle } from 'lodash'
-import {useNavigation} from '@react-navigation/native'
-
 import { Context } from '../../../Store/appContext'
+import { useNavigation } from '@react-navigation/native'
+import { throttle } from 'lodash'
+
+import { View, TouchableOpacity } from 'react-native';
+import { Text } from 'native-base';
+
 import BuyIn from '../../BuyIn/BuyIn'
 
 export default SwapTracker = (props) => {
-  const {store, actions} = useContext(Context) 
+  const { store, actions } = useContext(Context) 
   const navigation = useNavigation()
 
   let other_swaps = props.buyins.map((content, index) => {
@@ -36,7 +37,7 @@ export default SwapTracker = (props) => {
   const handler = throttle(enterTournament, 1000, { leading: true, trailing: false });
 
   return(
-    <View style={{width:'100%'}}>
+    <View style={{width:'100%', color:'black'}}>
       {/* TOURNAMENT TITLE */}
       <View style={styles.title.container}>
         <TouchableOpacity onPress={()=> handler()}>

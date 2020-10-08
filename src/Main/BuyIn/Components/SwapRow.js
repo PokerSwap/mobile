@@ -1,10 +1,11 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { Context } from '../../../Store/appContext'
+
 import { TouchableOpacity, View } from 'react-native';
 import { Text, Icon } from 'native-base';
 import { Col } from 'react-native-easy-grid';
 import { useNavigation } from '@react-navigation/native'
 
-import { Context } from '../../../Store/appContext'
 
 export default SwapRow = (props) => {
   const { store, actions } = useContext(Context)
@@ -12,6 +13,9 @@ export default SwapRow = (props) => {
   const [refreshing, setRefreshing] = useState(true)
 
   const navigation = useNavigation()
+
+  var currentStyle
+  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
 
   var buttonColor, path, lastCol
   var swap = props.swap

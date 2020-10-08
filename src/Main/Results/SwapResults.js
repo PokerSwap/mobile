@@ -1,14 +1,21 @@
 import React, {useContext, useState, useCallback} from 'react';
+import { Context } from '../../Store/appContext'
+
 import { RefreshControl,  FlatList } from 'react-native'
 import { Button, Container, Content, Icon, Text, Tabs, Tab, TabHeading} from 'native-base';
 
-import { Context } from '../../Store/appContext'
 import HomeHeader from '../../View-Components/HomeHeader'
 import ResultsTracker from './Components/ResultsTracker'
+
+import darkStyle from '../../Themes/dark.js'
+import lightStyle from '../../Themes/light.js'
 
 export default SwapResults = (props) => {
   const {store, actions} = useContext(Context)
 
+  var currentStyle
+  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
+  
   const [ refreshing, setRefreshing ] = useState(false);
 
   function wait(timeout) {

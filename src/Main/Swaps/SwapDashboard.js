@@ -1,36 +1,24 @@
 import React, {useContext, useState, useCallback, useEffect } from 'react';
+import { Context } from '../../Store/appContext'
+import { useNavigation } from '@react-navigation/native'
+
 import { Alert, FlatList, Platform, RefreshControl } from 'react-native';
 import { Button, Container, Content, Icon, Tabs, Tab, TabHeading, Text } from 'native-base';
 import messaging from '@react-native-firebase/messaging'
-import { useNavigation, useRoute } from '@react-navigation/native'
-import { Appearance, useColorScheme } from 'react-native-appearance';
-
-import { Context } from '../../Store/appContext'
 
 import HomeHeader from '../../View-Components/HomeHeader'
 import SwapTracker from './Components/SwapTracker';
+
+import darkStyle from '../../Themes/dark.js'
+import lightStyle from '../../Themes/light.js'
 
 export default SwapDashboard = (props) => {
   const { store, actions } = useContext(Context) 
   const navigation = useNavigation()
 
-  const route = useRoute();
-
-  Appearance.getColorScheme();
- 
-/**
- * Subscribe to color scheme changes with a hook
- */
-const sss = () => {
-  const colorScheme = useColorScheme();
-  if (colorScheme === 'dark') {
-    console.log('dark')
-  } else {
-    console.log('light')
-  }
-}
-
-sss()
+  var currentStyle
+  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
+  
   const goToThing = async(data) => {
     console.log('name', data)
     if(data.type == 'event'){
@@ -41,57 +29,50 @@ sss()
       null
     }
   }
-
-
     
-useEffect(() => {
-  //Background IOS
-  if(Platform.OS == 'ios'){
-    messaging().onNotificationOpenedApp(async remoteMessage => {
-      try {
+  useEffect(() => {
+    //Background IOS
+    if(Platform.OS == 'ios'){
+      messaging().onNotificationOpenedApp(async remoteMessage => {
+        try {
+          console.log('messageType', remoteMessage.messageType)
+          console.log('messageCategory', remoteMessage.category)
+          console.log('Getting from Background IOS',remoteMessage); 
+            var e = await actions.navigate.toSwap(remoteMessage.data, navigation)
+        } catch (error) {
+          console.log('error', error)
+        }})
+    }else{
+      //Background Android
+      messaging().setBackgroundMessageHandler(async (remoteMessage) => {
+        try{
+          console.log('Getting from Background Android', remoteMessage)
+          var s = await goToThing(remoteMessage.data)
+        }catch(err){
+          console.log('back err', err)
+        }
+      })
+    }
+    
+      return () => {
+        // cleanup
+      }
+  }, [])
+
+  if (Platform.OS == 'ios'){
+    messaging().getInitialNotification()
+    .then(remoteMessage => {
+      if (remoteMessage) {
+        goToThing(remoteMessage.data)
         console.log('messageType', remoteMessage.messageType)
         console.log('messageCategory', remoteMessage.category)
-        console.log('Getting from Background IOS',remoteMessage); 
-          var e = await actions.navigate.toSwap(remoteMessage.data, navigation)
-      } catch (error) {
-        console.log('error', error)
-      }})
-  }else{
-    //Background Android
-    messaging().setBackgroundMessageHandler(async (remoteMessage) => {
-      try{
-        console.log('Getting from Background Android', remoteMessage)
-        var s = await goToThing(remoteMessage.data)
-      }catch(err){
-        console.log('back err', err)
+        console.log(
+          'Notification caused app to open from quit state:',
+          remoteMessage,
+        );
       }
-    })
-  }
-  
-    return () => {
-      // cleanup
-    }
-}, [])
-
-if (Platform.OS == 'ios'){
-  messaging().getInitialNotification()
-  .then(remoteMessage => {
-    if (remoteMessage) {
-      goToThing(remoteMessage.data)
-      console.log('messageType', remoteMessage.messageType)
-      console.log('messageCategory', remoteMessage.category)
-      console.log(
-        'Notification caused app to open from quit state:',
-        remoteMessage,
-      );
-    }
-  });
-}else{null}
-
-
-
-
-
+    });
+  }else{null}
 
   // FOREGROUND BOTH
   useEffect(() => {
@@ -139,7 +120,7 @@ if (Platform.OS == 'ios'){
   let noTracker = (status, a_refresh) => {
     return(
       <FlatList
-        
+        style={{ backgroundColor: currentStyle.background.color}}
         ListHeaderComponent={
           <Text style={styles.noTracker.text}> 
             You have no {status} tournaments{'\n'} at the moment. 
@@ -170,7 +151,7 @@ if (Platform.OS == 'ios'){
     return(
 
        
-<FlatList contentContainerStyle={{ alignSelf: 'stretch' }}
+      <FlatList contentContainerStyle={{ alignSelf: 'stretch' }}
         // refreshControl={ 
         //   <RefreshControl refreshing={refreshing} onRefresh={() => onRefresh1()} />}
         data={store.myCurrentTrackers}
@@ -196,7 +177,7 @@ if (Platform.OS == 'ios'){
         ListFooterComponent={
           <Button iconLeft style={{borderRadius:100}} onPress={() => onRefresh2()}>
             <Icon type='FontAwesome' name='refresh'/>
-            <Text>Refresh</Text>
+            <Text style={{color:currentStyle.text.color}}>Refresh</Text>
           </Button>}
         ListFooterComponentStyle={{alignSelf:'center', marginVertical:20}}
         stickyHeaderIndices={[0]}
@@ -235,13 +216,13 @@ if (Platform.OS == 'ios'){
           tabBarTextStyle={{fontWeight:'bold', color:'white'}}
         >
           {/* LIVE SWAPTRACKER BODY */}
-          <Tab tabBarUnderlineStyle='white'
+          <Tab tabBarUnderlineStyle='white' 
           heading={
             <TabHeading tabBarUnderlineStyle='white'
             style={{backgroundColor:'#174502'}}>
               <Text style={{color:'white'}}>LIVE</Text>
             </TabHeading>}>
-            <Content 
+            <Content contentContainerStyle={{backgroundColor:currentStyle.background.color}}
               refreshControl={
                 <RefreshControl onRefresh={onRefresh1} refreshing={refreshing} />}>
             {liveTracker}

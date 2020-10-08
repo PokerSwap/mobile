@@ -1,12 +1,11 @@
 import React from 'react';
 import { Container, Content  } from 'native-base';
-import { useRoute, useNavigation } from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native';
 
 import ProfileBio from './Components/ProfileBio';
 import HistoryList from './Components/HistoryList'
 
 export default ProfileScreen = (props) => {
-  const navigation = useNavigation()
   const route = useRoute()
   const { nickname } = route.params;
   const { user_id } = route.params;

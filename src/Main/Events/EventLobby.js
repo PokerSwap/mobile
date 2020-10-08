@@ -1,10 +1,10 @@
 import React, { useState, useContext, useEffect } from 'react';
+import { Context } from '../../Store/appContext'
+import { useNavigation, useRoute } from '@react-navigation/native'
+
 import { View } from 'react-native'
 import { Container, Content, List, Spinner, Header, Text } from 'native-base';
-import { useNavigation, useRef, useRoute } from '@react-navigation/native'
 import { HeaderBackButton } from '@react-navigation/stack'
-
-import { Context } from '../../Store/appContext'
 
 import EventHeader from './Components/EventHeader'
 import FlightSchedule from './Components/FlightSchedule';
@@ -12,18 +12,10 @@ import ActionBar from './Components/ActionBar'
 
 export default EventLobby = () => {
   const { store, actions } = useContext(Context)
-
-
-
   const route = useRoute()
   const navigation = useNavigation()
-  const { event } = route.params;
-  const { tournament_id } = route.params;  
-  const { tournament_start } = route.params;
-  const { tournament_name } = route.params;
-  const { tournament_address } = route.params;
 
-  const { flight_id } = route.params;
+  const { event,tournament_id, tournament_start, tournament_name, tournament_address } = route.params;
 
   var startAction, startTournament, startTime, startName, startEvent, startAddress, startLat, startLong;
   if(event){

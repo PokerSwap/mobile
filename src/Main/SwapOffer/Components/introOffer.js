@@ -1,13 +1,12 @@
 import React, { useContext } from 'react'
+import { Context } from '../../../Store/appContext'
+import { useNavigation } from '@react-navigation/native'
+
 import { View, Alert } from 'react-native'
 import { Button, Card, CardItem, Icon, Text } from 'native-base'
-import {useNavigation} from '@react-navigation/native'
-
-import { Context } from '../../../Store/appContext'
 
 export default IntroOffer = (props) => {
   const {store, actions } = useContext(Context)
-  
   const navigation = useNavigation()
   // CONFIMATION ALERT
   const confirmationAlert = (action, status) => {

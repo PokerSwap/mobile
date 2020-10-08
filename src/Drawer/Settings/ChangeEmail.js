@@ -9,6 +9,9 @@ export default ChangeEmail = () => {
   const { store, actions } = useContext(Context)
   const navigation = useNavigation()
 
+  var currentStyle
+  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
+
   const [currentEmail, setCurrentEmail] = useState('')
   const [newEmail, setNewEmail] = useState('')
   const [confirmEmail, setConfirmEmail] = useState('')

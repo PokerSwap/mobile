@@ -8,6 +8,9 @@ import '../../Images/placeholder.jpg';
 export default ChangeNickname = () => {
   const { store, actions } = useContext(Context)
 
+  var currentStyle
+  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
+
   const [newNickname, setNewNickname] = useState('')
   const [disabled, setDisabled] = useState(true)
 

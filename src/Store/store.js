@@ -61,8 +61,10 @@ const getState = ({ getStore, setStore, getActions }) => {
 			profileView:[ ],
 	  	// ALL TOURNAMENTS, FILTERED BY FIRST 10 RESULTS
 			tournamentList:[],
+			uiMode: null,
 			// USED TO GET PROFILE AND ACCESS ALL REQUESTS IN THE APP
-			userToken: null
+			userToken: null,
+
 		},
 		actions: {
 			// BUY IN ACTIONS
@@ -1499,6 +1501,16 @@ const getState = ({ getStore, setStore, getActions }) => {
 							if(getStore().userToken  && getStore().myProfile !== "Error"){
 								if(getStore().myProfile.message !== "Profile not found"){
 									getActions().tournament.getInitial()
+									.then(async() => {
+										var ww = await AsyncStorage.getItem('uiMode')
+										if (ww == undefined || ww== null){
+											var ww = await AsyncStorage.setItem('uiMode', 'false')
+										}else{
+											var xe
+											ww == 'true' ? xe=true : xe=false
+											getActions().uiMode.change(ww)
+										}
+									})
 									.then(() => getActions().firebase.login( data ))
 									.then(() => setStore({nowLoading: 'Loading Swaps...'}))
 									.then(() => getActions().tracker.getCurrent())
@@ -1752,6 +1764,11 @@ const getState = ({ getStore, setStore, getActions }) => {
 					}
 				} ,
 			},
+			uiMode: {
+				change: (value) => {
+					setStore({uiMode: value})
+				}
+			}
 		}
 	}
 }

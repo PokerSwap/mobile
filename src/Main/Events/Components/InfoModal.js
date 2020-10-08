@@ -1,9 +1,18 @@
-import React from 'react';
-import { Linking, TouchableOpacity, View } from 'react-native'
-import { Button, Text } from 'native-base'
+import React, { useContext } from 'react';
+import { Context } from '../../../Store/appContext'
 import moment from 'moment'
 
+import { Linking, TouchableOpacity, View } from 'react-native'
+import { Button, Text } from 'native-base'
+
+import darkStyle from '../../../Themes/dark.js'
+import lightStyle from '../../../Themes/light.js'
+
 export default InfoModal = (props) => {
+  const { store, actions } = useContext(Context)
+
+  var currentStyle
+  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
 
   const openGPS = () => {
     var scheme = Platform.OS === 'ios' ? 'maps:' : 'geo:';

@@ -1,14 +1,19 @@
-import React, {useContext} from 'react';
-import {Image, View } from 'react-native'
-import { Button, Icon, Card, CardItem, Text } from 'native-base';
-
-import {Context} from '../../../Store/appContext'
+import React, { useContext } from 'react';
+import { Context } from '../../../Store/appContext'
 import { useNavigation } from '@react-navigation/native';
 
+import { Image, View } from 'react-native'
+import { Button, Icon, Card, CardItem, Text } from 'native-base';
+
+import darkStyle from '../../../Themes/dark.js'
+import lightStyle from '../../../Themes/light.js'
+
 export default ProfileBioSideBar = (props) => {
-   
   const {store, actions} = useContext(Context)
   const navigation = useNavigation()
+
+  var currentStyle
+  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
 
   const enterProfile = async() => {
     navigation.push('Profile',{
@@ -18,7 +23,6 @@ export default ProfileBioSideBar = (props) => {
   }
 
   let ifNickName
-
   props.nickname !== '' && props.nickname !== null ?
     ifNickName = ' "' + props.nickname + '" '
     : ifNickName = ' '

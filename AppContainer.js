@@ -7,6 +7,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Store from './src/Store/appContext';
 import { LogBox } from 'react-native';
 
+import darkStyle from './src/Themes/dark.js'
+import lightStyle from './src/Themes/light.js'
 
 // AUTH VIEWS
 import SplashScreen from './src/Auth/Splash'
@@ -50,10 +52,7 @@ import CardFieldTextScreen from './src/Drawer/PayScenes/CardFieldTextScreen'
 import CardFormScreen from './src/Drawer/PayScenes/CardFormScreen'
 import CustomCardScreen from './src/Drawer/PayScenes/CustomCardScreen'
 
-import { Alert } from 'react-native'
-import messaging from '@react-native-firebase/messaging';
 import { Context } from './src/Store/appContext'
-import { drop } from 'lodash';
 
 var Stack = createStackNavigator()
 var Drawer = createDrawerNavigator()
@@ -74,10 +73,14 @@ var AuthStack = () => {
 }
 
 var MainTabs = () => {
+  const { store, actions } = useContext(Context)
+
+  var currentStyle
+  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
   return(
     <aTab.Navigator initialRouteName="Active Swaps" tabBarOptions= {{
       showLabel: false, activeTintColor: 'orange',
-      inactiveTintColor: 'gray', style: {height: 70, paddingTop:10}}} >
+      inactiveTintColor: 'gray', style: {height: 70, paddingTop:10, backgroundColor:currentStyle.background.color}}} >
       <aTab.Screen name="Active Swaps" component={SwapsStack} 
         options={{
           tabBarIcon: ({ color }) => 
@@ -252,49 +255,7 @@ const NavContainer = () => {
 const AppContainer = () => {
 
   const { store, actions } = useContext(Context)
-  
 
-  
-  // const goToThing = async(data) => {
-  //   const navigation = useNavigation()
-  //   console.log('name', data)
-  //   if(data.type == 'event'){
-  //     var cc = await actions.navigate.toEvent(data, navigation)
-  //   }else if(data.type == 'swap'){
-  //     var cc = await actions.navigate.toSwap(data, navigation)
-  //   }else{
-  //     null
-  //   }
-  // }
-
-  // const goToThing = async(data) => {
-  //   const navigation = useNavigation()
-  //   console.log('name', data)
-  //   if(data.type == 'event'){
-  //     var cc = await actions.navigate.toEvent(data, navigation)
-  //   }else if(data.type == 'swap'){
-  //     var cc = await actions.navigate.toSwap(data, navigation)
-  //   }else{
-  //     null
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   const unsubscribe = messaging().onMessage(async remoteMessage => {
-  //     Alert.alert(
-  //       remoteMessage.notification.title, 
-  //       remoteMessage.notification.body,
-  //       [
-  //         { text: 'Open', onPress: () => goToThing(remoteMessage.data) },
-  //         { text: 'Close', onPress: () => console.log("Cancel Pressed"), }
-  //       ]
-  //     );
-  //   });
-
-  //   return () => {
-  //     unsubscribe()
-  //   }
-  // }, []);
   LogBox.ignoreLogs(['VirtualizedLists', 'Warning: Picker', 'Warning: Async']); // Ignore log notification by message
 
   return(

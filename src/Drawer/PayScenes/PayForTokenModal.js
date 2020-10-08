@@ -22,6 +22,9 @@ export default PayForTokenModal = (props) => {
 
   const { store, actions } = useContext(Context)
 
+  var currentStyle
+  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
+
   const [merchant, setMerchant] = useState()
   const [isLoading, setIsLoading] = useState(false)
   const [lastOrderNumber, setLastOrderNumber] = useState(0)

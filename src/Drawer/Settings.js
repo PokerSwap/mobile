@@ -6,6 +6,9 @@ import OtherHeader from '../View-Components/OtherHeader'
 
 export default SettingsScreen = () => {
   const navigation = useNavigation()
+
+  var currentStyle
+  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
   return(
     <Container>
       <OtherHeader title={'Settings'} />

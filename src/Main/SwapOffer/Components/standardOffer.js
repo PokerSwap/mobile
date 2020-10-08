@@ -1,5 +1,6 @@
-import React, {useCallback, useState, useEffect} from 'react'
-import { View, TouchableOpacity, Pressable } from 'react-native'
+import React, { useState} from 'react'
+
+import { View, Pressable } from 'react-native'
 import { Text, Button, CardItem, Icon } from 'native-base'
 
 export default StandardOffer = (props) => {

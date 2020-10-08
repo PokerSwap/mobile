@@ -53,10 +53,8 @@ export default App = () => {
   return(
     <Root> 
       <AppearanceProvider>
-
         <AppContainer />
       </AppearanceProvider>
-
     </Root>
   )
 }

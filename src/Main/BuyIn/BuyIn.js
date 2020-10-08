@@ -1,18 +1,20 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { Context } from '../../Store/appContext'
+
 import { Button, ListItem, Text, Icon } from 'native-base';
-import { View } from 'react-native'
+import { View, TouchableOpacity } from 'react-native'
 import { Col, Row, Grid } from 'react-native-easy-grid'
+import { useNavigation } from '@react-navigation/native'
+
 import { throttle } from 'lodash'
 import moment from 'moment'
-import {useNavigation} from '@react-navigation/native'
 
-
-import { Context } from '../../Store/appContext'
+import darkStyle from '../../Themes/dark.js'
+import lightStyle from '../../Themes/light.js'
 
 import BuyInAttribute from './Components/BuyInAttribute'
 import SwapButton from './Components/SwapButton'
 import SwapRow from './Components/SwapRow'
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default BuyIn = (props) => {
   const { store, actions } = useContext(Context)
@@ -21,6 +23,9 @@ export default BuyIn = (props) => {
   const [buyinSince, setBuyinSince] = useState(null)
   const [refreshing, setRefreshing] = useState(true)
   const [ isExpanded, setIsExpanded ] = useState(false)
+
+  var currentStyle
+  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
 
   const shortenedTime = async() => {
     var ol = await actions.time.convertShort(moment(buyin.updated_at).fromNow())
@@ -73,13 +78,14 @@ export default BuyIn = (props) => {
     if (buyin.user_id == store.myProfile.id){
       bg='#686868', txt='white'
     }else{
-      bg='white', txt='black'}
+      bg=currentStyle.background.color, txt='black'}
+      console.log('the current tysle here', bg)
   }else{
     bg='red', txt='white'
   }
     
   return(
-    <ListItem noIndent style={{ backgroundColor:bg, flexDirection:'column',marginleft:0, paddingLeft:0}}>
+    <ListItem noIndent style={{ backgroundColor:currentStyle.background.color, flexDirection:'column',marginleft:0, paddingLeft:0}}>
       <Grid style={{marginVertical:10, marginleft:0,}}>
         <Row style={{width:'100%',  justifyContent:'space-between'}}>
           {/* BUYIN ACCORDION BUTTON */}

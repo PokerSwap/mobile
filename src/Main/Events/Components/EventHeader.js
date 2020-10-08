@@ -1,16 +1,22 @@
-import React, {useState} from 'react';
-import { TouchableOpacity, Modal } from 'react-native'
-import { ListItem, Text, Button } from 'native-base';
+import React, { useState, useContext } from 'react';
+import { Context } from '../../../Store/appContext.js'
 import moment from 'moment';
+
+import { Modal } from 'react-native'
+import { ListItem, Text, Button } from 'native-base';
+
+import darkStyle from '../../../Themes/dark.js'
+import lightStyle from '../../../Themes/light.js'
 
 import InfoModal from '../Components/InfoModal'
 
 export default EventHeader = (props) => {
+  const { store, actions } = useContext(Context)
+  const [ visible, setVisible ] = useState(false)
 
-  const [visible, setVisible] = useState(false)
+  var currentStyle
+  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
   
-
-
   return(
     <ListItem itemHeader first style={{flexDirection:'column'}}>
        <Modal

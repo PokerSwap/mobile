@@ -1,21 +1,18 @@
 
 import React, { useContext, useState, useEffect } from 'react';
+import { Context } from '../../../Store/appContext'
+import { useNavigation } from '@react-navigation/native';
+import { throttle } from 'lodash'
+
 import { View } from 'react-native'
 import { Text, Button, Icon, Toast } from 'native-base';
 import { Col } from 'react-native-easy-grid'
-import { throttle } from 'lodash'
-import { useNavigation } from '@react-navigation/native';
-
-
-
-import { Context } from '../../../Store/appContext'
 
 export default SwapButton = (props) => {
   const { store, actions } = useContext(Context)
-  const [busted, setBusted] = useState(false)
+  const [ busted, setBusted ] = useState(false)
 
   const navigation = useNavigation();
-
 
   useEffect(() => {
     props.buyin.chips == 0 ? setBusted(true) : setBusted(false)

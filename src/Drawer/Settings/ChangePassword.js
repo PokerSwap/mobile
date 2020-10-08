@@ -10,6 +10,9 @@ export default ChangePassword = () => {
   const { store, actions } = useContext(Context)
   const navigation = useNavigation()
 
+  var currentStyle
+  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
+
   const [currentEmail, setCurrentEmail] = useState('')
   const [currentPassword, setCurrentPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')

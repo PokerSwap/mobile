@@ -1,14 +1,13 @@
-import React, {useState, useContext, useEffect} from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+import { Context } from '../../Store/appContext';
+import { useRoute } from '@react-navigation/native';
+import moment from 'moment';
+
 import { Text } from 'react-native'
 import { Container, Content, Card } from 'native-base';
 import { Grid, Row, Col } from 'react-native-easy-grid'
 import Spinner from 'react-native-loading-spinner-overlay'
-import moment from 'moment';
-import { useRoute, useNavigation } from '@react-navigation/native';
 
-
-import { Context } from '../../Store/appContext';
-import EventHeader from '../Events/Components/EventHeader'
 import AgreedPath from './Paths/agreed';
 import CanceledPath from './Paths/canceled';
 import IncomingPath from './Paths/incoming';
@@ -18,17 +17,17 @@ import InactivePath from './Paths/inactive';
 import RejectedPath from './Paths/rejected';
 import PendingPath from './Paths/pending';
 
+import darkStyle from '../../Themes/dark.js'
+import lightStyle from '../../Themes/light.js'
+
 export default SwapOffer = (props) => {
   const { store, actions } = useContext(Context)
 
-  const navigation = useNavigation();
-  const route = useRoute();
-  const { status } = route.params;
-  const { swap } = route.params;
-  const { buyin } = route.params;
-  const { tournament } = route.params;
-  const { buyinSince } = route.params;
+  var currentStyle
+  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
 
+  const route = useRoute();
+  const { status, swap, buyin, tournament, buyinSince } = route.params;
   const [ loading, setLoading ] = useState(false)
   const [ currentSwap, setCurrentSwap ] = useState(swap)
   const [ aStatus, setAStatus ] = useState(status)
@@ -138,16 +137,6 @@ export default SwapOffer = (props) => {
     setTTime(x)
   }
 
-  var eeex = () => {
-    // actions.tracker.getCurrent()
-    // console.log('doing this')
-    // actions.tournament.getCurrent(tournament.id)
-    // console.log('doing it')
-    // actions.tournament.getAction(tournament.id)	
-    // console.log('doing final')
-    // actions.profile.get()
-    // console.log('doing that')
-  }
 
   useEffect(() => {
     getBuyin()
