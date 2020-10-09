@@ -7,6 +7,9 @@ import { Text, Card, Button, CardItem } from 'native-base'
 import StandardOffer from './standardOffer'
 import SpecialOffer from './specialOffer'
 
+import lightStyle from '../../../Themes/light'
+import darkStyle from '../../../Themes/dark'
+
 export default CounterOffer = (props) => {
   const { store, actions } = useContext(Context)
   const [ percentage, setPercentage ] = useState( props.percentage )

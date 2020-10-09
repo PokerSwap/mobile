@@ -54,7 +54,7 @@ export default SideBar = (props) => {
         onPress={()=>  Linking.openURL("mailto:contact@swapprofitonline.com?subject=" + profile.first_name + " " + profile.last_name + " Feedback")}/>
       
       <View style={{flexDirection:'row'}}>
-        <Icon />
+        <Icon type="FontAwesome5" name="moon" style={{color:currentStyle.text.color}}/>
         <Text style={{color:currentStyle.text.color}}>Dark Mode</Text>
         <Switch value={!currentMode} onValueChange={() => changeNow()}/>
       </View>

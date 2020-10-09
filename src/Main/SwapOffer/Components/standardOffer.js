@@ -3,6 +3,9 @@ import React, { useState} from 'react'
 import { View, Pressable } from 'react-native'
 import { Text, Button, CardItem, Icon } from 'native-base'
 
+import lightStyle from '../../../Themes/light'
+import darkStyle from '../../../Themes/dark'
+
 export default StandardOffer = (props) => {
 
   const [intervalID, setIntervalID] = useState(null)

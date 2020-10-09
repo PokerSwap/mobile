@@ -8,6 +8,9 @@ import { Grid, Row, Col } from 'react-native-easy-grid'
 
 import BustedModal from '../Components/BustedModal'
 
+import lightStyle from '../../../Themes/light'
+import darkStyle from '../../../Themes/dark'
+
 export default EditPath = (props) => {
   const { store, actions } = useContext(Context)
   const [ newTable, setNewTable ] = useState(parseInt(props.buyin.table))
@@ -21,7 +24,8 @@ export default EditPath = (props) => {
 
   newTable != '' && newSeat != '' && newChips != '' ?
     isDisabled = false : isDisabled = true
-
+    var currentStyle
+    store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
   const buyinEdit = async() => {
     if(newChips !== '0'){
     props.setLoading(true)
@@ -83,15 +87,15 @@ export default EditPath = (props) => {
   } 
 
   return(
-    <View style={{justifyContent:'center'}}>
+    <View style={{justifyContent:'center', backgroundColor:currentStyle.background.color}}>
       <View style={ styles.update.view }>
         <Icon type='FontAwesome5' name='angle-double-down'
-          style={ styles.update.icon } />
-        <Text style={ styles.update.title }>
+          style={ [styles.update.icon, {color:currentStyle.text.color}] } />
+        <Text style={ [styles.update.title, {color:currentStyle.text.color}] }>
         {' '}STATUS UPDATE
         </Text>
         <Icon type='FontAwesome5' name='angle-double-down'
-          style={ styles.update.icon } />
+          style={ [styles.update.icon, {color:currentStyle.text.color}] } />
       </View>
 
       <Modal
@@ -109,15 +113,15 @@ export default EditPath = (props) => {
           mode={'busted'}
           />  
       </Modal>
-      <Card style={{width:'90%', alignSelf:'center', paddingBottom:10}}>
-        <CardItem style={ styles.field.container }>
+      <Card style={{width:'90%', alignSelf:'center', paddingBottom:10, backgroundColor:currentStyle.background.color}}>
+        <CardItem style={ [styles.field.container, {backgroundColor:currentStyle.background.color}] }>
           <Row style={{alignItems:'center'}}>
-              <Text style={ styles.field.text }>
+              <Text style={ [styles.field.text, {color:currentStyle.text.color}] }>
                 Table:{'  '}
               </Text>
               <TextInput 
                 // placeholder={props.buyin.table.toString()}
-                style={ [styles.field.textInput, {width:'20%', marginRight:'5%'}] }              
+                style={ [styles.field.textInput, {width:'20%', marginRight:'5%', color:currentStyle.text.color, borderColor:currentStyle.text.color}] }              
                 placeholderTextColor='red'
                 keyboardType="number-pad"
                 blurOnSubmit={false}
@@ -130,13 +134,13 @@ export default EditPath = (props) => {
               />
               
             
-              <Text style={ styles.field.text }>
+              <Text style={[styles.field.text, {color:currentStyle.text.color}] }>
                 Seat: {'  '}
               </Text>
 
               <TextInput 
                 // placeholder={props.buyin.seat.toString()}
-                style={ [styles.field.textInput, {width:'20%'}] }              
+                style={ [styles.field.textInput, {width:'20%', color:currentStyle.text.color, borderColor:currentStyle.text.color}] }              
                 placeholderTextColor='red'
                 keyboardType="number-pad"
                 blurOnSubmit={false}
@@ -150,12 +154,12 @@ export default EditPath = (props) => {
           </Row>
 
           <Row style={{marginTop:30, alignItems:'center', alignItems:'center'}}>
-            <Text style={ styles.field.text }>
+            <Text style={ [styles.field.text,{color:currentStyle.text.color}] }>
               Chips:{'  '} 
             </Text>
             <TextInput 
               // placeholder={props.buyin.chips.toString()}
-              style={ [styles.field.textInput, {width:'40%', paddingRight:'2%', height:40, textAlign:'right'}]  }
+              style={ [styles.field.textInput, {width:'40%', paddingRight:'2%', height:40, textAlign:'right', color:currentStyle.text.color, borderColor:currentStyle.text.color}]  }
               placeholderTextColor='red'
               keyboardType="number-pad"
               returnKeyType="done"
@@ -203,7 +207,7 @@ const styles = {
       fontSize:24, alignItems:'center', textAlign:'center', marginBottom:10 },
     textInput:{
       alignSelf:'center',fontSize:20, textAlign:'center', 
-      paddingVertical:5,borderWidth:1, borderColor:'rgba(0,0,0,0.2)' },
+      paddingVertical:5,borderWidth:1 },
     view:{
       flex:1, justifyContent:'center' }
   },

@@ -1,12 +1,13 @@
 import React, {useContext, useState, useCallback} from 'react';
 import { Context } from '../../Store/appContext'
 
-import { RefreshControl,  FlatList } from 'react-native'
+import { RefreshControl,  FlatList, View } from 'react-native'
 import { Button, Container, Content, Icon, Text, Tabs, Tab, TabHeading} from 'native-base';
 
 import HomeHeader from '../../View-Components/HomeHeader'
 import ResultsTracker from './Components/ResultsTracker'
 
+import BounceColorWrapper from '../../Functional/BounceColorWrapper'
 import darkStyle from '../../Themes/dark.js'
 import lightStyle from '../../Themes/light.js'
 
@@ -49,7 +50,7 @@ export default SwapResults = (props) => {
             <Icon type='FontAwesome' name='refresh'/>
             <Text>Refresh</Text>
           </Button>}
-        ListFooterComponentStyle={{alignSelf:'center', marginTop:20, marginBottom:300}}
+        ListFooterComponentStyle={{alignSelf:'center', marginTop:20}}
       />
 
     )
@@ -74,7 +75,7 @@ export default SwapResults = (props) => {
             <Icon type='FontAwesome' name='refresh'/>
             <Text>Refresh</Text>
           </Button>}
-        ListFooterComponentStyle={{alignSelf:'center', marginVertical:20, marginBottom:400}}
+        ListFooterComponentStyle={{alignSelf:'center', marginVertical:20}}
         stickyHeaderIndices={[0]}
 />
     )
@@ -95,29 +96,35 @@ export default SwapResults = (props) => {
   } 
 
   return(
-    <Container>
+    <Container contentContainerStyle={{backgroundColor:currentStyle.background.color}}>
       <HomeHeader title={'Swap Results'} />
-       <Content contentContainerStyle={{flex:1}}>
+       <Content contentContainerStyle={{flex:1, backgroundColor:currentStyle.background.color}}>
          <Tabs tabBarUnderlineStyle={{backgroundColor:'white'}}
          tabBarTextStyle={{fontWeight:'bold', color:'white'}}>
            <Tab  heading={
             <TabHeading style={{backgroundColor:'orange'}} >
               <Text  style={{color:'white'}}>PENDING</Text>
             </TabHeading>}>
-            <Content  refreshControl={
-              <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}>
-              {pendingResultsTracker}
-            </Content>
+            <BounceColorWrapper style={{flex: 1}}
+              mainColor={currentStyle.background.color}>
+              <Content contentContainerStyle={{backgroundColor:currentStyle.background.color}} refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}>
+                {pendingResultsTracker}
+              </Content>
+            </BounceColorWrapper>
            </Tab>
            <Tab  heading={
             <TabHeading style={{backgroundColor:'rgb(38, 171, 75)'}}>
               <Text style={{color:'white'}}>CONFIRMED</Text>
             </TabHeading>}>
-              <Content  refreshControl={
+            <BounceColorWrapper style={{flex: 1}}
+              mainColor={currentStyle.background.color}>
+              <Content contentContainerStyle={{backgroundColor:currentStyle.background.color}}  refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}>
                 {confirmedResultsTracker}
               </Content>
-            
+            </BounceColorWrapper>
+
            </Tab>
          </Tabs>
         </Content>

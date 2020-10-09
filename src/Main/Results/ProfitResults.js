@@ -12,6 +12,7 @@ import _Header from '../../View-Components/HomeHeader'
 import ProfitTracker from './Components/ProfitTracker'
 import BustedModal from '../SwapOffer/Components/BustedModal'
 
+import BounceColorWrapper from '../../Functional/BounceColorWrapper'
 import darkStyle from '../../Themes/dark.js'
 import lightStyle from '../../Themes/light.js'
 
@@ -72,7 +73,8 @@ export default ProfitResults = (props) => {
 
   return(
     <Container> 
-      <Content>
+      <BounceColorWrapper style={{flex: 1}} mainColor={currentStyle.background.color}>
+      <Content contentContainerStyle={{backgroundColor:currentStyle.background.color}}>
         <Spinner visible={loading}/>
         {/* MODAL */}
         <Modal
@@ -90,32 +92,32 @@ export default ProfitResults = (props) => {
         {/* LOADING SPINNER */}
         <Spinner visible={loading}/>
         {/* MAIN BODY */}
-        <List>
+        <List style={{backgroundColor:currentStyle.background.color}}>
           <ListItem noIndent header style={{justifyContent:'center', flexDirection:'column'}}>
             <Grid>
               {/* TOURNAMENT NAME */}
               <Row>
-                <Text style={{justifyContent:'center', textAlign:'center', fontWeight:'600', fontSize:20}}>
+                <Text style={{justifyContent:'center', textAlign:'center', fontWeight:'600', fontSize:20, color:currentStyle.text.color}}>
                   {tournament.name}
                 </Text>
               </Row>
               <Row>
                 <Col style={{width:'70%'}}>
                   {/* TOURNAMENT CASINO and Address */}
-                  <Text style={{marginTop:20, textAlign:'center'}}>
+                  <Text style={{marginTop:20, textAlign:'center', color:currentStyle.text.color}}>
                     {tournament.casino + '\n' + tournament.address + '\n' + 
                       tournament.city + ', ' + tournament.state + ' ' + tournament.zip_code}
                   </Text>
                   {/* TOURNAMENT START TIME */}
-                  <Text style={{justifyContent:'center', marginVertical:10, textAlign:'center', fontSize:16}}>
+                  <Text style={{justifyContent:'center', marginVertical:10, textAlign:'center', fontSize:16, color:currentStyle.text.color}}>
                     {moment(tournament.start_at).format('llll')}
                   </Text>
                 </Col>
                 <Col style={{textAlign:'center', justifyContent:'center'}}>
-                  <Text style={{textAlign:'center'}}>
+                  <Text style={{textAlign:'center',color:currentStyle.text.color}}>
                     Swapped Players:
                   </Text>
-                  <Text style={{alignText:'center', fontSize:24}}>
+                  <Text style={{alignText:'center', color:currentStyle.text.color,fontSize:24}}>
                     {agreedBuyins.length}
                   </Text>
                 </Col>
@@ -124,11 +126,11 @@ export default ProfitResults = (props) => {
               {tournament.results_link ? 
                 <Row style={{flexDirection:'column', justifyContent:'center', marginTop:10}}>
                   <Button block onPress={() => openResults()}>
-                    <Text>
+                    <Text style={{color:currentStyle.text.color}}>
                       See Complete Event Results
                     </Text>
                   </Button>
-                  <Text style={{marginTop:15, marginBottom:5}}>
+                  <Text style={{marginTop:15, marginBottom:5, color:currentStyle.text.color}}>
                     Results posted {moment(tournament.updated_at).fromNow()}.
                   </Text>
                 </Row>                
@@ -138,7 +140,7 @@ export default ProfitResults = (props) => {
           {/* NO SWAPS TEXT */}
           {agreedBuyins.length == 0 ?
             <ListItem noIndent style={{justifyContent:'center'}}>
-              <Text style={{alignText:'center'}}>
+              <Text style={{alignText:'center', color:currentStyle.text.color}}>
                 You didn't agree to any swaps in this event.
               </Text>
             </ListItem>
@@ -152,15 +154,16 @@ export default ProfitResults = (props) => {
           )})}
           {/* FINAL PROFIT */}
           <ListItem style={{flexDirection:'column'}}>
-            <Text style={{fontSize:24, textAlign:'center'}}>
+            <Text style={{fontSize:24, textAlign:'center', color:currentStyle.text.color}}>
               Your final profit is:
             </Text>
-            <Text style={{fontSize:36, fontWeight:'600', textAlign:'center'}}>
+            <Text style={{fontSize:36, fontWeight:'600', textAlign:'center', color:currentStyle.text.color}}>
               {profit}
             </Text>
           </ListItem>
         </List>
       </Content>
+      </BounceColorWrapper>
     </Container>
   )
 }

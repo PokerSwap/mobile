@@ -1,17 +1,26 @@
-import React from 'react';
-import { View } from 'react-native'
-import { Text, Icon, List, ListItem, Content, Container } from 'native-base';
+import React, { useContext } from 'react';
+import { Context } from '../Store/appContext';
 import { useNavigation } from '@react-navigation/native'
+
+import { Text, Icon, List, ListItem, Content, Container } from 'native-base';
 
 import OtherHeader from '../View-Components/OtherHeader';
 
+import darkStyle from '../Themes/dark.js'
+import lightStyle from '../Themes/light.js'
+
 export default TutorialListScreen = () => {
+
+  var currentStyle
+  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
+
+  const { store, actions } = useContext(Context)
   const navigation = useNavigation()
 
   return(
     <Container>
       <OtherHeader title='Help'/>
-      <Content>
+      <Content contentContainerStyle={{backgroundColor:currentStyle.background.color}}>
       <List>
         {/* <ListItem onPress={() => navigation.navigate('How to Swap')}>
           <Icon type="FontAwesome5" name="handshake"/>
@@ -35,8 +44,8 @@ export default TutorialListScreen = () => {
         </ListItem> */}
         <ListItem onPress={() => navigation.navigate("Web View", 
           {url: 'https://www.swapprofitonline.com/faqspoker/'})}>
-          <Icon type="FontAwesome5" name="question-circle" style={{paddingRight:10}}/>
-          <Text>Frequently Asked Questions</Text>
+          <Icon type="FontAwesome5" name="question-circle" style={{paddingRight:10, color: currentStyle.background.color}}/>
+          <Text style={currentStyle.background.color}>Frequently Asked Questions</Text>
         </ListItem>
       </List>
       </Content>

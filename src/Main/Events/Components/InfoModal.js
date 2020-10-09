@@ -23,7 +23,7 @@ export default InfoModal = (props) => {
   return(
     <View style={modalStyles.background}>
       {/* WHITE BACKGROUND */}
-      <View style={ modalStyles.main, {backgroundColor:currentStyle.background.color} }> 
+      <View style={ [modalStyles.main, {backgroundColor:currentStyle.background.color}] }> 
         {/* TOURNAMENT ADDRESS */}
         <Text style={{fontSize:20, textAlign:'center', fontWeight:'600',color:currentStyle.text.color}}>
           {props.tournament_name}

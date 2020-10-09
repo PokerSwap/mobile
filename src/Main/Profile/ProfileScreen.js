@@ -1,24 +1,37 @@
-import React from 'react';
-import { Container, Content  } from 'native-base';
+import React, {useContext} from 'react';
+import { Context } from '../../Store/appContext'
 import { useRoute } from '@react-navigation/native';
+
+import { Container, Content  } from 'native-base';
 
 import ProfileBio from './Components/ProfileBio';
 import HistoryList from './Components/HistoryList'
 
+import BounceColorWrapper from '../../Functional/BounceColorWrapper'
+import darkStyle from '../../Themes/dark.js'
+import lightStyle from '../../Themes/light.js'
+
 export default ProfileScreen = (props) => {
+  const { store, actions } = useContext(Context)
+
+  var currentStyle
+	store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
   const route = useRoute()
-  const { nickname } = route.params;
-  const { user_id } = route.params;
+  const { nickname, user_id } = route.params;
   
   return(
-    <Container> 
-      <Content contentContainerStyle={{ justifyContent:'center'}}>
-        {/* PROFILE BIO */}
-        <ProfileBio user_id={user_id} nickname={nickname} />
-        {/* HISTORY LIST */}
-        <HistoryList user_id={user_id}/>
-   
-      </Content>
-    </Container>
+      <Container> 
+        <BounceColorWrapper style={{flex: 1}} mainColor={currentStyle.background.color}>
+
+        <Content contentContainerStyle={{ justifyContent:'center', }}>
+          {/* PROFILE BIO */}
+          <ProfileBio user_id={user_id} nickname={nickname} />
+          {/* HISTORY LIST */}
+          <HistoryList user_id={user_id}/>
+    
+        </Content>
+        </BounceColorWrapper>
+
+      </Container>
   )
 }

@@ -17,6 +17,7 @@ import InactivePath from './Paths/inactive';
 import RejectedPath from './Paths/rejected';
 import PendingPath from './Paths/pending';
 
+import BounceColorWrapper from '../../Functional/BounceColorWrapper'
 import darkStyle from '../../Themes/dark.js'
 import lightStyle from '../../Themes/light.js'
 
@@ -149,22 +150,22 @@ export default SwapOffer = (props) => {
   useEffect(() => {
     getSwap()
     setRefreshing(false)
-    return () => {
-      eeex()
-    }
+
   }, [refreshing])
 
   let currentPath;
 
   return(
     <Container>
+      <BounceColorWrapper style={{flex:1}} mainColor={currentStyle.background.color}>
+
       <Content>
       <Spinner visible={loading}/>
         {/* EVENT HEADER */}
         <Card transparent style={{marginVertical:40, width:'90%', alignSelf:'center', flexDirection:'column'}}>
-        <Text style={{marginVertical:10, fontSize:20, fontWeight:'bold', textAlign:'center'}}>
-        {tournament.name}
-      </Text>
+          <Text style={{marginVertical:10, fontSize:20, fontWeight:'bold', textAlign:'center', color: currentStyle.text.color}}>
+            {tournament.name}
+          </Text>
         </Card>
        
         {/* CURRENT STATUS OF BUYIN */}
@@ -227,6 +228,8 @@ export default SwapOffer = (props) => {
         {/* SWAP BODY PATH */}
         {currentPath}
       </Content>
+      </BounceColorWrapper>
+
     </Container>
   )
 }

@@ -1,11 +1,15 @@
 import React, { useContext, useState } from 'react'
-import { View, Alert } from 'react-native'
-import { Text, Button, Card, CardItem } from 'native-base'
+import { Context } from '../../../Store/appContext'
 import {useNavigation} from '@react-navigation/native'
 
-import { Context } from '../../../Store/appContext'
+import { View, Alert } from 'react-native'
+import { Text, Button, Card, CardItem } from 'native-base'
+
 import SpecialOffer from '../Components/specialOffer'
 import StandardOffer from '../Components/standardOffer'
+
+import lightStyle from '../../../Themes/light'
+import darkStyle from '../../../Themes/dark'
 
 export default InactivePath = (props) => {
   const { store, actions } = useContext(Context)
@@ -14,7 +18,8 @@ export default InactivePath = (props) => {
   const [ visible, setVisible ] = useState(false)
 
   const navigation = useNavigation()
-
+  var currentStyle
+  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
   // OFFER TYPE SWITCH
   var counterSwitch = () => {
     setVisible(!visible)
@@ -110,7 +115,7 @@ export default InactivePath = (props) => {
   }
 
   return(
-    <Card transparent>
+    <Card transparent style={{backgroundColor:currentStyle.background.color}}>
       
       {store.myProfile.coins > 0 ? 
         !visible ?
@@ -131,7 +136,7 @@ export default InactivePath = (props) => {
         : 
         <View>
           <CardItem>
-            <Text> 
+            <Text style={{color:currentStyle.text.color}}> 
               You need to purchase tokens in order 
               to swap with this person.
             </Text>

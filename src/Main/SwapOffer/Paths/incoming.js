@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
+import { Context } from '../../../Store/appContext'
+
 import { View } from 'react-native';
 import { Card, CardItem, Text, Spinner } from 'native-base'
 
@@ -6,18 +8,24 @@ import CompareCard from '../Components/CompareCard'
 import IntroOffer from '../Components/introOffer'
 import CounterOffer from '../Components/counterOffer'
 
-export default IncomingPath = (props) => {
-  const [ counter, setCounter ] = useState(false)
-  var {swap} = props, {buyin} = props;
+import lightStyle from '../../../Themes/light'
+import darkStyle from '../../../Themes/dark'
 
+export default IncomingPath = (props) => {
+  const { store, actions } = useContext(Context)
+
+  const [ counter, setCounter ] = useState(false)
+  var {swap, buyin} = props;
+  var currentStyle
+  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
   return(
-    <Card transparent style={{
+    <Card transparent style={{ backgroundColor:currentStyle.background.color,
       alignSelf:'center', width:'95%', justifyContent:'center'}}>
       {/* INCOMING SWAP INFO */}
       <CardItem style={{ alignSelf:'center'}}>
         {swap.percentage ?
           <View style={{width:'100%'}}>
-            <Text style={{fontSize:20, textAlign:'center'}}>
+            <Text style={{fontSize:20, textAlign:'center', color:currentStyle.text.color}}>
               INCOMING SWAP{'\n'}{props.swapSince}
             </Text>
             <CompareCard 

@@ -6,6 +6,7 @@ import { Alert, FlatList, Platform, RefreshControl } from 'react-native';
 import { Button, Container, Content, Icon, Tabs, Tab, TabHeading, Text } from 'native-base';
 import messaging from '@react-native-firebase/messaging'
 
+import BounceColorWrapper from '../../Functional/BounceColorWrapper'
 import HomeHeader from '../../View-Components/HomeHeader'
 import SwapTracker from './Components/SwapTracker';
 
@@ -122,7 +123,7 @@ export default SwapDashboard = (props) => {
       <FlatList
         style={{ backgroundColor: currentStyle.background.color}}
         ListHeaderComponent={
-          <Text style={styles.noTracker.text, {color:currentStyle.text.color}}> 
+          <Text style={[styles.noTracker.text, {color:currentStyle.text.color}]}> 
             You have no {status} tournaments{'\n'} at the moment. 
           </Text>}
         ListHeaderComponentStyle={{alignSelf:'center', marginTop:20}}
@@ -222,21 +223,27 @@ export default SwapDashboard = (props) => {
             style={{backgroundColor:'#174502'}}>
               <Text style={{color:'white'}}>LIVE</Text>
             </TabHeading>}>
-            <Content contentContainerStyle={{backgroundColor:currentStyle.background.color}}
-              refreshControl={
-                <RefreshControl onRefresh={onRefresh1} refreshing={refreshing} />}>
-            {liveTracker}
-            </Content>
+            <BounceColorWrapper style={{flex: 1}}
+              mainColor={currentStyle.background.color}>
+              <Content contentContainerStyle={{backgroundColor:currentStyle.background.color}}
+                refreshControl={
+                  <RefreshControl onRefresh={onRefresh1} refreshing={refreshing} />}>
+              {liveTracker}
+              </Content>
+            </BounceColorWrapper>
           </Tab>
           {/* UPCOMING SWAPTRACKER */}
           <Tab heading={
             <TabHeading style={{backgroundColor:'#000099'}}>
               <Text style={{color:'white'}}>UPCOMING</Text>
             </TabHeading>}>
+            <BounceColorWrapper style={{flex: 1}}
+              mainColor={currentStyle.background.color}>
               <Content refreshControl={
                 <RefreshControl onRefresh={onRefresh2} refreshing={refreshing} />}>
                  {upcomingTracker}
               </Content>
+            </BounceColorWrapper>
           </Tab>
         </Tabs>
       </Content>

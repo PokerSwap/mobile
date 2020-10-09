@@ -65,11 +65,11 @@ export default BustedModal = (props) => {
          <View style={modalStyles.background}>
 
 
-        <View style={ modalStyles.main }>        
+        <View style={ [modalStyles.main, {backgroundColor:currentStyle.background.color}] }>        
          
          <Spinner visible={loading}/>
 
-          <Text style={{fontSize:24, textAlign:'center'}}>
+          <Text style={{fontSize:24, textAlign:'center', color: currentStyle.text.color}}>
             Enter your place and cash amount you won.
           </Text>
 
@@ -77,13 +77,13 @@ export default BustedModal = (props) => {
             
             <Col style={{justifyContent:'center'}}>             
               <View style={ modalStyles.field.view }>
-                <Icon type='Ionicons' name='ios-ribbon'/>
-                <Text style={ modalStyles.field.text }>
+                <Icon type='Ionicons' name='ios-ribbon' style={{color:currentStyle.text.color}}/>
+                <Text style={ [modalStyles.field.text, {color:currentStyle.text.color}] }>
                 {'  '}Place
                 </Text>
 
               <TextInput 
-                style={ modalStyles.field.textInput }
+                style={ [modalStyles.field.textInput ,{color:currentStyle.text.color}] }
                 placeholder={'5'}
                 keyboardType='number-pad'
                 placeholderTextColor='grey'
@@ -95,13 +95,13 @@ export default BustedModal = (props) => {
               </View>
 
               <View style={modalStyles.field.view}>
-                <Icon type='FontAwesome5' name='dollar-sign'/>
-                <Text style={modalStyles.field.text}>
+                <Icon type='FontAwesome5' name='dollar-sign' style={{color:currentStyle.text.color}}/>
+                <Text style={[modalStyles.field.text, {color:currentStyle.text.color}]}>
                   {'  '}Cash
                 </Text>
 
               <TextInput 
-                style={modalStyles.field.textInput}
+                style={[modalStyles.field.textInput,{color:currentStyle.text.color}]}
                 keyboardType='decimal-pad'
                 returnKeyType="done"
                 placeholderTextColor='grey'

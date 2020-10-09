@@ -15,7 +15,7 @@ export default MyProfileHistoryCard = (props) => {
 	store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
 	
 	return(
-		<View style={{marginBottom:10}}>
+		<View style={{marginBottom:10, backgroundColor:currentStyle.background.color}}>
 			{/* TOURNAMENT NAME */}
 			<ListItem noIndent style={{ flexDirection:'column',
 				paddingVertical:5, backgroundColor:'black', 
@@ -46,9 +46,9 @@ export default MyProfileHistoryCard = (props) => {
 				return(
 					<View>
 						{/* USERS NAME */}
-						<ListItem noIndent key={index} style={{flexDirection:'column', backgroundColor:'#fffafa'}}>
+						<ListItem noIndent key={index} style={{flexDirection:'column', backgroundColor:currentStyle.background.color}}>
 							<Text style={{textAlign:'center', fontSize:24, 
-							fontWeight:'500', marginVertical:7, color:'black' }}>
+							fontWeight:'500', marginVertical:7, color:currentStyle.text.color }}>
 								{fullName}
 							</Text>
 						</ListItem>
@@ -69,13 +69,13 @@ export default MyProfileHistoryCard = (props) => {
 						{/* ROW OF SWAP DETAILS */}
 						{allSwaps ?
 							allSwaps.map((swap, sIndex)=>{
-								// console.log('alls',allSwaps)
+								console.log('alls',props.tournament.name,allSwaps)
 								return(
 									<MyHistoryAccordion 
 										swap={swap} key={sIndex} />
 								)
 							})
-							: <Row><Text>You did not make any swaps in this tournament</Text></Row>
+							: <Text>You did not make any swaps in this tournament</Text>
 						}
 					</View>
 				)

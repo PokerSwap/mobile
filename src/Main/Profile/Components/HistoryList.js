@@ -6,9 +6,16 @@ import { Text, List, ListItem, Spinner } from 'native-base';
 import MyProfileHistoryCard from './MyProfileHistoryCard'
 import TheirProfileHistoryCard from './TheirProfileHistoryCard'
 
+import darkStyle from '../../../Themes/dark.js'
+import lightStyle from '../../../Themes/light.js'
+
 export default HistoryList = (props) => {
   const { store, actions } = useContext(Context)
   const [ history, setHistory ] = useState(null)
+
+  var currentStyle
+  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
+
 
   useEffect(() => {
     getHistory()
@@ -84,8 +91,8 @@ export default HistoryList = (props) => {
   return(
     <List style={{justifyContent:'center'}}>
       {/* HISTORY HEADER */}
-      <ListItem noIndent itemHeader style={{ justifyContent:'center' }}>
-        <Text style={{ textAlign:'center', fontWeight:'600', fontSize:24}}>
+      <ListItem noIndent itemHeader style={{ justifyContent:'center', backgroundColor: currentStyle.background.color }}>
+        <Text style={{ textAlign:'center', fontWeight:'600', fontSize:24, color: currentStyle.text.color}}>
           History
         </Text>
       </ListItem>

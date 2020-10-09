@@ -10,6 +10,7 @@ import EventHeader from './Components/EventHeader'
 import FlightSchedule from './Components/FlightSchedule';
 import ActionBar from './Components/ActionBar'
 
+import BounceColorWrapper from '../../Functional/BounceColorWrapper'
 import darkStyle from '../../Themes/dark.js'
 import lightStyle from '../../Themes/light.js'
 
@@ -127,6 +128,8 @@ export default EventLobby = () => {
         <Text style={{textAlign:'center', width:'60%', alignSelf:'center', fontSize:24, fontWeight:'600'}}>Event Lobby</Text>
         <View style={{width:'20%'}}/>
       </Header> */}
+      <BounceColorWrapper style={{flex:1}} mainColor={currentStyle.background.color}>
+
       <Content contentContainerStyle={{backgroundColor:currentStyle.background.color}}>
         <List style={{backgroundColor:currentStyle.background.color}}>
           {/* TOURNAMENT HEADER */}
@@ -138,6 +141,8 @@ export default EventLobby = () => {
           {!aTournament ? <Spinner /> : Flights }          
         </List>
       </Content>
+      </BounceColorWrapper>
+
       {/* FOOTER CONTAINS NUMBER OF SWAPS AND ACTION  */}
       <ActionBar action={anAction} />
     </Container>

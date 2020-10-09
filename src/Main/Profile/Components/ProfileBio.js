@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Context } from '../../../Store/appContext';
 
 import { Image, View, Spinner, Linking, Modal } from 'react-native'
-import { Button, Icon, Card, CardItem, Text, Radio, Toast } from 'native-base';
+import { Button, Icon, Card, CardItem, Content, Text, Radio, Toast } from 'native-base';
 import { useNavigation } from '@react-navigation/native'
 import { Grid, Row, Col} from 'react-native-easy-grid'
 
@@ -146,7 +146,7 @@ export default ProfileBio = (props) => {
   // }
  
   return(
-    <Card transparent >
+    <Content transparent contentContainerStyle={{backgroundColor: currentStyle.background.color,}}>
       {/* REPORT MODAL */}
       <Modal
         animationType='fade'
@@ -158,7 +158,7 @@ export default ProfileBio = (props) => {
       </Modal>
       {/* PROFILE PICTURE AND STATS */}
       <CardItem style={{ alignItems:'center', backgroundColor: currentStyle.background.color, flex:1, flexDirection:'column'}}>
-        <Grid>
+        <Grid style={{backgroundColor:currentStyle.background.color}}>
           {/* PROFILE PICTURE AND NICKNAME */}
           <Col>
             <View  style={{marginTop:'4%', width: 150, 
@@ -183,12 +183,12 @@ export default ProfileBio = (props) => {
                 <Col>
                 <View style={{flex:1, flexDirection:'column', justifyContent:'center'}}>
                   <Text style={{
-                    textAlign:'center', marginBottom:10, fontWeight:'500'}}> 
+                    textAlign:'center', marginBottom:10, fontWeight:'500', color:currentStyle.text.color}}> 
                     R.O.I. 
                   </Text>
                   {profile !== undefined ?
                     <Text style={{
-                      textAlign:'center', fontSize:24, fontWeight:'600'}}> 
+                      textAlign:'center', fontSize:24, fontWeight:'600', color:currentStyle.text.color}}> 
                       {profile.roi_rating}%
                     </Text>
                     :
@@ -198,11 +198,11 @@ export default ProfileBio = (props) => {
                 <Col>
                 {/* SWAP RATING STAT */}
                 <View style={{flex:1, flexDirection:'column', justifyContent:'center'}}>
-                  <Text style={{textAlign:'center', marginBottom:10, fontWeight:'500'}}> 
+                  <Text style={{textAlign:'center', marginBottom:10, fontWeight:'500', color:currentStyle.text.color}}> 
                     Swap Rating 
                   </Text>
                   {profile !== undefined ?
-                    <Text style={{textAlign:'center', fontSize:24, fontWeight:'600'}}> 
+                    <Text style={{textAlign:'center', fontSize:24, fontWeight:'600', color:currentStyle.text.color}}> 
                       {profile.swap_rating}
                     </Text>
                     :
@@ -215,11 +215,11 @@ export default ProfileBio = (props) => {
               <Row>
                 {/* CONFIRMED SWAPS STAT */}
                 <View style={{flex:1, flexDirection:'column', justifyContent:'center'}}>
-                  <Text style={{textAlign:'center', marginBottom:10, fontWeight:'500'}}> 
+                  <Text style={{textAlign:'center', marginBottom:10, fontWeight:'500', color:currentStyle.text.color}}> 
                     Confirmed Swaps 
                   </Text>
                   {profile !== undefined ?
-                    <Text style={{textAlign:'center', fontSize:30, fontWeight:'600'}}> 
+                    <Text style={{textAlign:'center', fontSize:30, fontWeight:'600', color:currentStyle.text.color}}> 
                       {profile.total_swaps} 
                     </Text>
                     : <Spinner />}
@@ -230,7 +230,7 @@ export default ProfileBio = (props) => {
         </Grid>
         
         {/* FULL NAME AND HENDON URL */}
-        <View style={{flex:1, justifyContent:'center', height:70}}>
+        <View style={{flex:1, justifyContent:'center', height:70, backgroundColor:currentStyle.background.color}}>
           {profile !== undefined ?
             <Button transparent onPress={() => openHendon()}
               style={{flex:1, justifyContent:'center'}}>
@@ -243,7 +243,7 @@ export default ProfileBio = (props) => {
       </CardItem>
       {/* PROFILE COINS / CHAT BUTTON */}
       {props.user_id == store.myProfile.id ?
-        <CardItem style={{justifyContent:'center' , flexDirection:'column',marginVertical:-20, width:'100%'}}>
+        <CardItem style={{justifyContent:'center' , flexDirection:'column',marginVertical:-20, width:'100%', backgroundColor:currentStyle.background.color}}>
           <Button block iconLeft warning onPress={() => navigation.navigate("Purchase Tokens")}>
             <Icon type='FontAwesome5' name='coins'/>
             <Text>{store.myProfile.coins}</Text>
@@ -261,7 +261,7 @@ export default ProfileBio = (props) => {
             <Text>Report</Text>
           </Button>
         </CardItem>}
-    </Card>
+    </Content>
   )
 }
 

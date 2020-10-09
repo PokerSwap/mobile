@@ -5,6 +5,9 @@ import { useNavigation } from '@react-navigation/native'
 import { View, Alert } from 'react-native'
 import { Button, Card, CardItem, Icon, Text } from 'native-base'
 
+import lightStyle from '../../../Themes/light'
+import darkStyle from '../../../Themes/dark'
+
 export default IntroOffer = (props) => {
   const {store, actions } = useContext(Context)
   const navigation = useNavigation()

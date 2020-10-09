@@ -1,19 +1,20 @@
 import React, { useState, useContext, useEffect } from 'react';
+import { Context } from '../../Store/appContext';
+import { useRoute, useNavigation } from '@react-navigation/native';
+import {openSettings, requestMultiple, PERMISSIONS} from 'react-native-permissions';
+import { throttle } from 'lodash'
+
 import { Image,  TextInput, KeyboardAvoidingView, Modal, Platform, Alert } from 'react-native';
 import { Container,  Button, Text, Content, Card, CardItem, Icon} from 'native-base';
 import { Grid, Row, Col } from 'react-native-easy-grid';
-import { throttle } from 'lodash'
-import {openSettings, requestMultiple, PERMISSIONS} from 'react-native-permissions';
 import Spinner from 'react-native-loading-spinner-overlay'
-import { useRoute, useNavigation } from '@react-navigation/native';
-import moment from 'moment'
-
 import ImagePicker from 'react-native-image-picker';
 
-import { Context } from '../../Store/appContext';
 import _Header from "../../View-Components/HomeHeader";
 import InfoModal from './Components/InfoModal'
 
+import darkStyle from '../../Themes/dark.js'
+import lightStyle from '../../Themes/light.js'
 
 export default VerifyTicket = (props) => {
   const { store, actions } = useContext(Context)
@@ -27,15 +28,12 @@ export default VerifyTicket = (props) => {
   const [ visible, setVisible ] = useState(false)
   const [ currentTournament, setCurrentTournament ] = useState('')
 
+  var currentStyle
+  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
+
   var navigation = useNavigation();
   var route = useRoute();
-  const { tournament_name } = route.params;
-  const { tournament_start } = route.params;
-  const { flight_id } = route.params;
-  const { tournament_address } = route.params;
-
-  const { tournament_id } = route.params;
-  const { casino } = route.params;
+  const { tournament_name, tournament_start, flight_id, tournament_address,  tournament_id,  casino } = route.params;
 
   useEffect(() => {
     getTournament()
@@ -48,15 +46,10 @@ export default VerifyTicket = (props) => {
     var xw = await actions.tournament.getCurrent(tournament_id)
     setCurrentTournament(xw)
   }
-
-
-
-  // var xy = moment(tournament_start)
   
   const openSets = () => {
     openSettings().catch(() => console.warn('cannot open settings'));
   }
-
 
   const showAlert = () =>{
     Alert.alert(
@@ -147,8 +140,6 @@ Platform.OS == 'ios' ? styles = iosStyles : styles = androidStyles
     image, table, seat, chips, flight_id, tournament_id, tournament_name, tournament_start, tournament_address, casino, navigation )
     setLoading(false)
   }
-
-
  
   const handler = throttle(BuyInStart, 1000, { leading: true, trailing: false });
  
@@ -156,7 +147,7 @@ Platform.OS == 'ios' ? styles = iosStyles : styles = androidStyles
    
   return(
     <Container>
-      <Content>
+      <Content style={{backgroundColor:currentStyle.background.color}}>
         <Spinner visible={loading} />
       <KeyboardAvoidingView style={{flex:1,}} 
         behavior='position' keyboardVerticalOffset={-180}>
@@ -173,10 +164,10 @@ Platform.OS == 'ios' ? styles = iosStyles : styles = androidStyles
             />
         </Modal>
         {/* TOURNEY INFO */}
-        <Card transparent >
+        <Card transparent style={{backgroundColor:currentStyle.background.color}}>
           {/* TOURNAMENT INFO */}
-          <CardItem style={{justifyContent:'center', flexDirection:'column'}}>
-            <Text style={{textAlign:'center', fontSize:20, marginBottom:10, fontWeight:'bold'}}>
+          <CardItem style={{justifyContent:'center', flexDirection:'column',backgroundColor:currentStyle.background.color}}>
+            <Text style={{textAlign:'center', fontSize:20, marginBottom:10, fontWeight:'bold',color:currentStyle.text.color}}>
               {tournament_name} 
             </Text>
             {/* <Text>
@@ -189,16 +180,16 @@ Platform.OS == 'ios' ? styles = iosStyles : styles = androidStyles
             
           </CardItem>
           {/* INSTRUCTION TEXT  */}
-          <CardItem style={{selfAlign:'center', flex:1, marginBottom:-10,
+          <CardItem style={{selfAlign:'center', flex:1, marginBottom:-10,backgroundColor:currentStyle.background.color,
             justifyContent:'center', flexDirection:'column'}}>
-            <Text style={{textAlign:'center', fontSize:18,  flex:1}}>
+            <Text style={{textAlign:'center', fontSize:18, color:currentStyle.text.color,  flex:1}}>
               Enter the information and upload a photo of your tournament buyin ticket.
             </Text>
           </CardItem>
         </Card>
         {/* TICKET INPUT */}
-        <Card transparent>
-          <CardItem>
+        <Card transparent style={{backgroundColor:currentStyle.background.color}}>
+          <CardItem style={{backgroundColor:currentStyle.background.color}}>
             <Grid>
               <Col style={{justifyContent:'center'}}>
                 {/* IMAGE UPLOADED  */}
@@ -211,7 +202,7 @@ Platform.OS == 'ios' ? styles = iosStyles : styles = androidStyles
               {/* ALL BUYIN INPUTS */}
               <Col style={{justifyContent:'center'}}>
                 {/* TABLE INPUT */}
-                  <Text style={styles.text.input}>
+                  <Text style={[styles.text.input, {color:currentStyle.text.color}]}>
                     Table: 
                   </Text>
                   <TextInput 
@@ -219,7 +210,7 @@ Platform.OS == 'ios' ? styles = iosStyles : styles = androidStyles
                     placeholderTextColor='gray'
                     keyboardType="number-pad"
                     blurOnSubmit={false}
-                    style={styles.input}
+                    style={[styles.input, {color:currentStyle.text.color}]}
                     returnKeyType="done"
                     allowFontScaling={false}
                     autoCorrect={false} 
@@ -227,7 +218,7 @@ Platform.OS == 'ios' ? styles = iosStyles : styles = androidStyles
                     value={table}    
                     onChangeText={tableX => setTable( tableX )}/>
                 {/* SEAT INPUT */}
-                  <Text style={styles.text.input}>
+                  <Text style={[styles.text.input, {color:currentStyle.text.color}]}>
                     Seat: 
                   </Text>
                   <TextInput 
@@ -237,13 +228,13 @@ Platform.OS == 'ios' ? styles = iosStyles : styles = androidStyles
                     blurOnSubmit={false}
                     returnKeyType="done"
                     autoCorrect={false} 
-                    style={styles.input}
+                    style={[styles.input, {color:currentStyle.text.color}]}
                     ref={(input) => { textSeat = input; }} 
                     onSubmitEditing={() => { textChips.focus(); }}
                     value={seat}    
                     onChangeText={seatX => setSeat( seatX )}/>
                   {/* CHIPS INPUT */}
-                  <Text style={styles.text.input}>
+                  <Text style={[styles.text.input, {color:currentStyle.text.color}]}>
                     Chips: 
                   </Text>
                   <TextInput 
@@ -253,7 +244,7 @@ Platform.OS == 'ios' ? styles = iosStyles : styles = androidStyles
                     returnKeyType="done"
                     autoCorrect={false} 
                     blurOnSubmit={true}
-                    style={styles.input}
+                    style={[styles.input, {color:currentStyle.text.color}]}
                     ref={(input) => { textChips = input; }} 
                     value={chips}    
                     onChangeText={chips => setChips( chips )}/>
@@ -261,7 +252,7 @@ Platform.OS == 'ios' ? styles = iosStyles : styles = androidStyles
             </Grid>
           </CardItem>
           {/* SUBMIT BUTTON */}
-          <CardItem>
+          <CardItem style={{backgroundColor:currentStyle.background.color}}>
             <Button large style={styles.button} 
               onPress={() => handler()}>
               <Text style={styles.text.button}> 

@@ -1,13 +1,19 @@
 import React, {useContext} from 'react';
+import {Context} from '../../../Store/appContext';
+
 import { View } from 'react-native'
 import { ListItem, Text, Button } from 'native-base';
 import { Row, Col} from 'react-native-easy-grid'
 
-import {Context} from '../../../Store/appContext';
+import darkStyle from '../../../Themes/dark.js'
+import lightStyle from '../../../Themes/light.js'
  
 export default TheirProfileHistoryCard = (props) => {
 
 	const { store, actions } = useContext(Context)
+	
+  var currentStyle
+  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
 
 	return(
 		<View>

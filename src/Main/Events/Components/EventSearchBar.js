@@ -1,10 +1,10 @@
 import React, { useContext, useState } from 'react'
 import { Context } from '../../../Store/appContext'
+import Geolocation from '@react-native-community/geolocation';
+import { openSettings, request, PERMISSIONS } from 'react-native-permissions';
 
 import { TextInput, View, TouchableOpacity, Platform, Alert } from 'react-native';
 import { Icon, Item, Text} from 'native-base';
-import Geolocation from '@react-native-community/geolocation';
-import {openSettings, request, PERMISSIONS} from 'react-native-permissions';
  
 import darkStyle from '../../../Themes/dark.js'
 import lightStyle from '../../../Themes/light.js'
@@ -104,9 +104,8 @@ export default EventSearchBar = (props) => {
       {/* SEARCH BY LOCATION BUTTON */}
       <TouchableOpacity style={{marginRight:5}}
         onPress={()=> askPersmission()}>
-        <Icon 
-          name='location-arrow' type='FontAwesome5'
-          style={{color:'blue', fontSize:18}} />
+        <Icon name='location-arrow' type='FontAwesome5'
+          style={{color:currentStyle.text.color, fontSize:18}} />
       </TouchableOpacity>
     </View>
   )

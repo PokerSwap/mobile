@@ -1,17 +1,24 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { Context } from '../../../Store/appContext'
 
 import { View } from 'react-native'
 import { Text, CardItem } from 'native-base'
 import { Row, Col } from 'react-native-easy-grid'
 
-export default CompareCard = (props) => {
+import lightStyle from '../../../Themes/light'
+import darkStyle from '../../../Themes/dark'
 
+export default CompareCard = (props) => {
+  const { store, actions } = useContext(Context)
+
+  var currentStyle
+  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
   return(
-    <CardItem style={{justifyContent:'center'}}>
+    <CardItem style={{justifyContent:'center', backgroundColor:currentStyle.background.color}}>
       <Row>
         {/* YOUR SWAP PERCENTAGE */}
         <Col>
-          <Text style={styles.userTitle}> You </Text>
+          <Text style={[styles.userTitle, {color:currentStyle.text.color}]}> You </Text>
           <View style={[styles.percentageView,{backgroundColor:props.youColor}]}>
             <Text style={styles.percentageText}>
               {props.percentage}%</Text>
@@ -19,7 +26,7 @@ export default CompareCard = (props) => {
         </Col>
         {/* THEIR SWAP PERCENTAGE */}
         <Col>
-          <Text style={styles.userTitle}> Them </Text>
+          <Text style={[styles.userTitle, {color:currentStyle.text.color} ]}> Them </Text>
           <View style={[styles.percentageView,{backgroundColor:props.themColor}]}>
             <Text style={styles.percentageText}>
             {props.counter_percentage}%</Text>
