@@ -1,4 +1,5 @@
-import React, { useState} from 'react'
+import React, { useState, useContext } from 'react'
+import { Context } from '../../../Store/appContext'
 
 import { View, Pressable } from 'react-native'
 import { Text, Button, CardItem, Icon } from 'native-base'
@@ -7,7 +8,9 @@ import lightStyle from '../../../Themes/light'
 import darkStyle from '../../../Themes/dark'
 
 export default StandardOffer = (props) => {
-
+  const {store, actions } = useContext(Context)
+  var currentStyle
+  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
   const [intervalID, setIntervalID] = useState(null)
 
   var interval
@@ -28,11 +31,11 @@ export default StandardOffer = (props) => {
 
   return(
     <View>
-      <Text style={{textAlign:'center', fontSize:24}}>
-          You Both Swap:
-        </Text>
+      <Text style={{textAlign:'center', fontSize:24, color:currentStyle.text.color}}>
+        You Both Swap:
+      </Text>
       {/* BOTH SWAP PERCENTAGE */}
-      <CardItem style={{flex:1, justifyContent:'space-around'}}>
+      <CardItem style={{flex:1, justifyContent:'space-around', backgroundColor:currentStyle.background.color}}>
       
           {/* THE PERCENTAGE */}
           <View style={{flexDirection:'column', alignItems:'center', justifyContent:'center'}}>
@@ -48,7 +51,7 @@ export default StandardOffer = (props) => {
               </View>
             </Pressable>
             <View style={{justifyContent:'center',paddingVertical:2}}>
-              <Text style={{fontSize:48,  fontWeight:'600', color:'black',  textAlign:'center'}}> 
+              <Text style={{fontSize:48,  fontWeight:'600', color:currentStyle.text.color,  textAlign:'center'}}> 
                 {'  '}{props.percentage}% 
               </Text>
             </View>
@@ -66,7 +69,7 @@ export default StandardOffer = (props) => {
           </View>
       </CardItem>
       {/* SWAP BUTTONS */}
-      <CardItem style={{justifyContent:'space-around'}}>
+      <CardItem style={{justifyContent:'space-around', backgroundColor:currentStyle.background.color}}>
         {/* CHANGE SWAP TYPE */}
         <Button large info style={{width:'50%', justifyContent:'center'}} 
           onPress={()=>props.counterSwitch()}>

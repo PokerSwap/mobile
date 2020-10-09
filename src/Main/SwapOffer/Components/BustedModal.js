@@ -62,7 +62,7 @@ export default BustedModal = (props) => {
 
   return(
     <KeyboardAvoidingView  behavior={a_behavior} keyboardVerticalOffset={offBy}>
-         <View style={modalStyles.background}>
+        <View style={modalStyles.background}>
 
 
         <View style={ [modalStyles.main, {backgroundColor:currentStyle.background.color}] }>        
@@ -95,7 +95,8 @@ export default BustedModal = (props) => {
               </View>
 
               <View style={modalStyles.field.view}>
-                <Icon type='FontAwesome5' name='dollar-sign' style={{color:currentStyle.text.color}}/>
+                <Icon type='FontAwesome5' name='dollar-sign' 
+                style={{color:currentStyle.text.color}}/>
                 <Text style={[modalStyles.field.text, {color:currentStyle.text.color}]}>
                   {'  '}Cash
                 </Text>

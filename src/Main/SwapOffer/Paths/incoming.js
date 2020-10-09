@@ -22,7 +22,7 @@ export default IncomingPath = (props) => {
     <Card transparent style={{ backgroundColor:currentStyle.background.color,
       alignSelf:'center', width:'95%', justifyContent:'center'}}>
       {/* INCOMING SWAP INFO */}
-      <CardItem style={{ alignSelf:'center'}}>
+      <CardItem style={{ alignSelf:'center', backgroundColor:currentStyle.background.color}}>
         {swap.percentage ?
           <View style={{width:'100%'}}>
             <Text style={{fontSize:20, textAlign:'center', color:currentStyle.text.color}}>

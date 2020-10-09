@@ -17,6 +17,8 @@ export default CounterOffer = (props) => {
   const [ offerPath, setOfferPath ] = useState(true)
   const [ visible, setVisible ] = useState(false)
 
+  var currentStyle
+  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
   // OFFER TYPE SWITCH
   var counterSwitch = () => {
     setOfferPath(!offerPath)
@@ -110,7 +112,7 @@ export default CounterOffer = (props) => {
   }
 
   return(
-    <Card transparent style={{
+    <Card transparent style={{backgroundColor:currentStyle.background.color,
       alignSelf:'center', width:'90%', justifyContent:'center'}}>
       {offerPath ?
         <StandardOffer confirmationAlert={confirmationAlert}
@@ -124,7 +126,7 @@ export default CounterOffer = (props) => {
           pAdd={pAdd} pSubtract={pSubtract}
           cAdd={cAdd} cSubtract={cSubtract} />}
         {/* GO BACK TO OFFER */}
-        <CardItem style={{justifyContent:'center'}}>
+        <CardItem style={{justifyContent:'center', backgroundColor:currentStyle.background.color}}>
           <Button style={{alignSelf:'center', width:'90%', color:'grey'}} large block 
             onPress={()=> props.setCounter(!props.counter)}>
             <Text>Go Back</Text>

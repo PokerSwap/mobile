@@ -80,11 +80,12 @@ export default HistoryList = (props) => {
   // EMPTY HISTORY COMPONENT
   var emptyHistory = (message) => {
     return(
-      <ListItem style={{justifyContent:'center', marginTop:-20}} noIndent>
-        <Text style={{textAlign:'center', fontSize:20, fontWeight:'600'}}>
+      <ListItem noIndent style={{justifyContent:'center'}}>
+        <Text style={{textAlign:'center', textAlign:'center', fontSize:20, fontWeight:'600', color:currentStyle.text.color}}>
           {message}
         </Text>
       </ListItem>
+
     )
   }
   
@@ -100,7 +101,7 @@ export default HistoryList = (props) => {
       {history ?
         props.user_id !== store.myProfile.id ?
           history.length !== 0 ?
-            theirHistory : emptyHistory("You have not swapped with this user!")
+            theirHistory : emptyHistory("You have not swapped with this user in the past")
         : history.length !== 0 ?
             myHistory : emptyHistory("Start Swapping Today!")
       : <Spinner />}

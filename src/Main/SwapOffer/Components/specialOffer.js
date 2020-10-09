@@ -1,11 +1,18 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
+import { Context } from '../../../Store/appContext'
 
 import { View, Pressable } from 'react-native'
 import { Text, Button, CardItem, Icon } from 'native-base'
 import { Grid, Row, Col } from 'react-native-easy-grid'
 
-export default SpecialOffer = (props) => {
+import lightStyle from '../../../Themes/light'
+import darkStyle from '../../../Themes/dark'
 
+export default SpecialOffer = (props) => {
+  const {store, actions } = useContext(Context)
+  var currentStyle
+  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
+  
   const [intervalID, setIntervalID] = useState(null)
 
   var interval
@@ -28,12 +35,12 @@ export default SpecialOffer = (props) => {
   return(
     <View >
       {/* SWAP PERCENTAGES */}
-      <CardItem style={{justifyContent:'center', flexDirection:'column', paddingTop:0}}>
+      <CardItem style={{justifyContent:'center', flexDirection:'column', paddingTop:0, backgroundColor:currentStyle.background.color}}>
         <Grid>         
           {/* MY PERCENTAGE */}
           <Col style={{width:'50%'}}>
             <Row style={{justifyContent:'center'}}>
-              <Text style={{fontSize:40, fontWeight:'600', textAlign:'center'}}>
+              <Text style={{fontSize:40, fontWeight:'600', textAlign:'center', color:currentStyle.text.color}}>
                 You
               </Text>
             </Row>
@@ -50,7 +57,7 @@ export default SpecialOffer = (props) => {
                       style={{color:'white', alignSelf:'center', fontSize:24, textAlign:'center'}}/>
                   </View>
                 </Pressable>
-                <Text style={{fontSize:40, paddingVertical:4, fontWeight:'600', textAlign:'center'}}>
+                <Text style={{fontSize:40, paddingVertical:4, fontWeight:'600', textAlign:'center', color:currentStyle.text.color}}>
                 {'  '}{props.percentage}%
                 </Text>
                 {/* SUBTRACT BUTTON */}
@@ -70,7 +77,7 @@ export default SpecialOffer = (props) => {
           {/* THEIR PERCENTAGE */}
           <Col style={{width:'50%', justifyContent:'center', }}>
             <Row style={{justifyContent:'center'}}>
-              <Text style={{fontSize:40, fontWeight:'600', textAlign:'center'}}> 
+              <Text style={{fontSize:40, fontWeight:'600', textAlign:'center', color:currentStyle.text.color}}> 
                 Them
               </Text>
             </Row>
@@ -87,7 +94,7 @@ export default SpecialOffer = (props) => {
                       style={{color:'white', alignSelf:'center', fontSize:24, textAlign:'center'}}/>
                   </View>
                 </Pressable>
-                <Text style={{fontSize:40, paddingVertical:4, fontWeight:'600', textAlign:'center'}}> 
+                <Text style={{fontSize:40, paddingVertical:4, fontWeight:'600', textAlign:'center', color:currentStyle.text.color}}> 
                   {'  '}{props.counterPercentage}%
                 </Text>
                 {/* SUBTRACT BUTTON */}
@@ -108,7 +115,7 @@ export default SpecialOffer = (props) => {
         </Grid>
       </CardItem>
       {/* SWAP BUTTONS */}
-      <CardItem style={{justifyContent:'space-around'}}>
+      <CardItem style={{justifyContent:'space-around', backgroundColor:currentStyle.background.color}}>
         {/* CHANGE SWAP TYPE */}
         <Button large info style={{width:'50%', justifyContent:'center'}} 
           onPress={()=>props.counterSwitch()}>

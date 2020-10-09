@@ -10,6 +10,9 @@ import darkStyle from '../../../Themes/dark'
 
 export default IntroOffer = (props) => {
   const {store, actions } = useContext(Context)
+
+  var currentStyle
+  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
   const navigation = useNavigation()
   // CONFIMATION ALERT
   const confirmationAlert = (action, status) => {
@@ -33,12 +36,12 @@ export default IntroOffer = (props) => {
 
   return(
     <Card transparent style={{
-      alignSelf:'center', width:'90%', justifyContent:'center'}}>
+      alignSelf:'center', width:'90%', justifyContent:'center', backgroundColor:currentStyle.background.color}}>
       {store.myProfile.coins > 0 ?
         // WHEN YOU HAVE ENOUGH TOKENS
         <View style={{ alignSelf:'center', flexDirection:'column'}}>
           {/* COUNTER AND REJECT BUTTONS */}
-          <CardItem style={{justifyContent:'space-between'}}>
+          <CardItem style={{justifyContent:'space-between', backgroundColor:currentStyle.background.color}}>
             {/* COUNTER BUTTON */}
             <Button large warning style={{justifyContent:'center'}}
               onPress={()=> props.setCounter(!props.counter)}>
@@ -54,7 +57,7 @@ export default IntroOffer = (props) => {
             </Button>
           </CardItem>
           {/* ACCEPT BUTTON */}
-          <CardItem>
+          <CardItem style={{ backgroundColor:currentStyle.background.color}}>
             <Button success full large style={{width:'100%'}}
               onPress={()=> confirmationAlert('accept','agreed')}>
               <Text style={{fontWeight:'600', fontSize:24}}> Accept </Text>

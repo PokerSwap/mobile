@@ -207,7 +207,7 @@ export default SwapButton = (props) => {
   return(
     <Col style={{ justifyContent:'center', marginLeft:10, textAlign:'center'}}>
       {/* SWAP BUTTON */}
-      <Button style={{backgroundColor:buttonColor, width:70, height:70, 
+      <Button style={{backgroundColor:buttonColor, width:70, height:70,
         justifyContent:'center', alignSelf:'center'}}
         onPress={()=> handler()}>
         {lastCol}

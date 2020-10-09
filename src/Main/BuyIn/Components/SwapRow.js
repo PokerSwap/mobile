@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Context } from '../../../Store/appContext'
+import { useNavigation } from '@react-navigation/native'
 
 import { TouchableOpacity, View } from 'react-native';
 import { Text, Icon } from 'native-base';
 import { Col } from 'react-native-easy-grid';
-import { useNavigation } from '@react-navigation/native'
 
+import darkStyle from '../../../Themes/dark.js'
+import lightStyle from '../../../Themes/light.js'
 
 export default SwapRow = (props) => {
   const { store, actions } = useContext(Context)
@@ -99,7 +101,7 @@ export default SwapRow = (props) => {
     <View style={styles.rowContainer}>
       {/* SWAP STATUS */}
       <Col style={{ width:'30%' }}>
-        <Text style={{ textTransform:'capitalize', textAlign:'center' }}>
+        <Text style={{ textTransform:'capitalize', textAlign:'center', color:currentStyle.text.color }}>
           {props.swap.status !== 'counter_incoming' ?
             props.swap.status : ' Counter\nIncoming'}
         </Text>
@@ -107,7 +109,7 @@ export default SwapRow = (props) => {
       {/* SWAP TIME */}
       <Col style={{marginLeft:-25}}>
         {swapTime ?
-          <Text style={{fontSize:14}}>
+          <Text style={{fontSize:14, color:currentStyle.text.color}}>
             {swapTime.substring(0,12) + '  ' + swapTime.substring(19,30)}
           </Text>
           : null}

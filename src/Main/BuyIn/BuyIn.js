@@ -75,7 +75,7 @@ export default BuyIn = (props) => {
   var bg, txt;
   if (buyin.chips !== 0){
     if (buyin.user_id == store.myProfile.id){
-      bg='blue', txt='white'
+      bg='grey', txt='white'
     }else{
       bg=currentStyle.background.color, txt=currentStyle.text.color}
   }else{
@@ -83,7 +83,7 @@ export default BuyIn = (props) => {
   }
     
   return(
-    <ListItem noIndent style={{ backgroundColor:currentStyle.background.color, flexDirection:'column',marginleft:0, paddingLeft:0}}>
+    <ListItem noIndent style={{ backgroundColor:bg, flexDirection:'column',marginleft:0, paddingLeft:0}}>
       <Grid style={{marginVertical:10, marginleft:0,}}>
         <Row style={{width:'100%',  justifyContent:'space-between'}}>
           {/* BUYIN ACCORDION BUTTON */}

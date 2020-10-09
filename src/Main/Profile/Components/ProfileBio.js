@@ -250,7 +250,7 @@ export default ProfileBio = (props) => {
           </Button>
         </CardItem>
         : 
-        <CardItem style={{justifyContent:'center', flexDirection:'column', width:'100%', marginVertical:-20, paddingBottom: 0}}>
+        <CardItem style={{justifyContent:'center', flexDirection:'column', width:'100%', paddingBottom: 0, backgroundColor:currentStyle.background.color}}>
           {/* <Button full iconLeft info onPress={() => openChat()}>
             <Icon type='FontAwesome5' name='comments'/>
             <Text style={{fontSize:24}}>Chat</Text>
