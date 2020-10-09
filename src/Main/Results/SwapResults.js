@@ -38,7 +38,7 @@ export default SwapResults = (props) => {
       <FlatList
 
         ListHeaderComponent={
-          <Text style={{
+          <Text style={{ color:currentStyle.text.color,
             justifyContent:'center', textAlign:'center', 
             fontSize:20, width:'80%'}}> 
             You have no past events that{'\n'}{status} results. 
@@ -65,7 +65,7 @@ export default SwapResults = (props) => {
 
   var flatlist = (a_data) => {
     return(
-      <FlatList contentContainerStyle={{ alignSelf: 'stretch' }}
+      <FlatList contentContainerStyle={{ alignSelf: 'stretch', backgroundColor: currentStyle.background.color }}
         data={a_data}
         renderItem={aTracker}
         keyExtractor={(content, index) => index.toString()}

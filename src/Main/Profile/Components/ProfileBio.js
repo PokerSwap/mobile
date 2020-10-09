@@ -111,6 +111,10 @@ export default ProfileBio = (props) => {
   const [ visible, setVisible ] = useState(false)
 
   const navigation = useNavigation()
+
+
+  var currentStyle
+  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
  
   useEffect(() => {
     getProfile()
@@ -142,7 +146,7 @@ export default ProfileBio = (props) => {
   // }
  
   return(
-    <Card transparent>
+    <Card transparent >
       {/* REPORT MODAL */}
       <Modal
         animationType='fade'
@@ -153,7 +157,7 @@ export default ProfileBio = (props) => {
           myProfile={store.myProfile} theirProfile={profile} />
       </Modal>
       {/* PROFILE PICTURE AND STATS */}
-      <CardItem style={{ alignItems:'center', flex:1, flexDirection:'column'}}>
+      <CardItem style={{ alignItems:'center', backgroundColor: currentStyle.background.color, flex:1, flexDirection:'column'}}>
         <Grid>
           {/* PROFILE PICTURE AND NICKNAME */}
           <Col>

@@ -5,9 +5,11 @@ import {  Text, ListItem, Button } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid'
 import { throttle } from 'lodash'
 
-
 import BuyInAttribute from './Components/BuyInAttribute'
 import SwapButton from './Components/SwapButton'
+
+import darkStyle from '../../Themes/dark.js'
+import lightStyle from '../../Themes/light.js'
 
 export default TournamentBuyIn = (props) => {
   const { store, actions } = useContext(Context)
@@ -28,9 +30,9 @@ export default TournamentBuyIn = (props) => {
   var bg, txt;
   if (props.chips !== 0){
     if (buyin.user_id == store.myProfile.id){
-      bg='#686868', txt='white'
+      bg='blue', txt='white'
     }else{
-      bg='white', txt='black'}
+      bg=currentStyle.background.color, txt=currentStyle.text.color}
   }else{
     bg='red', txt='white'
   }
@@ -67,8 +69,7 @@ export default TournamentBuyIn = (props) => {
             tournament={props.tournament} action={props.action}
             updated_at={props.buyin.updated_at}
             my_buyin={props.my_buyin} buyin={buyin}
-            txt={txt}
-            setRefreshing={props.setRefreshing}/>
+            txt={txt} setRefreshing={props.setRefreshing}/>
         </Col>
       </Grid>
     </ListItem>

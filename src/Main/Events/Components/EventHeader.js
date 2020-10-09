@@ -5,10 +5,10 @@ import moment from 'moment';
 import { Modal } from 'react-native'
 import { ListItem, Text, Button } from 'native-base';
 
+import InfoModal from '../Components/InfoModal'
+
 import darkStyle from '../../../Themes/dark.js'
 import lightStyle from '../../../Themes/light.js'
-
-import InfoModal from '../Components/InfoModal'
 
 export default EventHeader = (props) => {
   const { store, actions } = useContext(Context)
@@ -18,7 +18,7 @@ export default EventHeader = (props) => {
   store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
   
   return(
-    <ListItem itemHeader first style={{flexDirection:'column'}}>
+    <ListItem itemHeader first style={{flexDirection:'column', backgroundColor:currentStyle.background.color}}>
        <Modal
           animationType='fade'
           visible={visible}
@@ -31,11 +31,11 @@ export default EventHeader = (props) => {
             tournament={props.currentTournament}/>
         </Modal>
       {/* TOURNAMENT NAME */}
-      <Text style={{ fontSize:18, fontWeight:'600', textAlign:'center', color:'black'}}>
+      <Text style={{ fontSize:18, fontWeight:'600', textAlign:'center', color:currentStyle.text.color}}>
         {props.tournament_name}
       </Text>
       {/* TOURNAMENT START */}
-      <Text style={{fontSize:14, textAlign:'center', marginTop:10, marginBottom:10, color:'black'}}>
+      <Text style={{fontSize:14, textAlign:'center', marginTop:10, marginBottom:10, color:currentStyle.text.color}}>
         {moment(props.tournamentTime).format('llll')}
       </Text>    
       <Button block info onPress={() => setVisible(!visible)}>

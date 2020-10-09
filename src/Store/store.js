@@ -1503,12 +1503,13 @@ const getState = ({ getStore, setStore, getActions }) => {
 									getActions().tournament.getInitial()
 									.then(async() => {
 										var ww = await AsyncStorage.getItem('uiMode')
+										console.log('ww', ww)
 										if (ww == undefined || ww== null){
 											var ww = await AsyncStorage.setItem('uiMode', 'false')
 										}else{
 											var xe
 											ww == 'true' ? xe=true : xe=false
-											getActions().uiMode.change(ww)
+											getActions().uiMode.change(xe)
 										}
 									})
 									.then(() => getActions().firebase.login( data ))

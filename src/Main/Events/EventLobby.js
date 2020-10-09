@@ -10,10 +10,16 @@ import EventHeader from './Components/EventHeader'
 import FlightSchedule from './Components/FlightSchedule';
 import ActionBar from './Components/ActionBar'
 
+import darkStyle from '../../Themes/dark.js'
+import lightStyle from '../../Themes/light.js'
+
 export default EventLobby = () => {
   const { store, actions } = useContext(Context)
   const route = useRoute()
   const navigation = useNavigation()
+
+  var currentStyle
+  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
 
   const { event,tournament_id, tournament_start, tournament_name, tournament_address } = route.params;
 
@@ -115,14 +121,14 @@ export default EventLobby = () => {
   
 
   return(
-    <Container>      
-      <Header style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between', backgroundColor:'rgb(248,248,248)'}}>
+    <Container contentContainerStyle={{backgroundColor:currentStyle.background.color}}>      
+      {/* <Header style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between', backgroundColor:'rgb(248,248,248)'}}>
         <HeaderBackButton onPress={()=> navigation.popToTop()} style={{width:'20%'}}/>
         <Text style={{textAlign:'center', width:'60%', alignSelf:'center', fontSize:24, fontWeight:'600'}}>Event Lobby</Text>
         <View style={{width:'20%'}}/>
-      </Header>
-      <Content>
-        <List>
+      </Header> */}
+      <Content contentContainerStyle={{backgroundColor:currentStyle.background.color}}>
+        <List style={{backgroundColor:currentStyle.background.color}}>
           {/* TOURNAMENT HEADER */}
           <EventHeader 
             tournament_name={startName}

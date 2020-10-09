@@ -1,20 +1,19 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Context } from '../../Store/appContext'
+import { throttle } from 'lodash'
+import moment from 'moment'
+import { useNavigation } from '@react-navigation/native'
 
 import { Button, ListItem, Text, Icon } from 'native-base';
 import { View, TouchableOpacity } from 'react-native'
 import { Col, Row, Grid } from 'react-native-easy-grid'
-import { useNavigation } from '@react-navigation/native'
-
-import { throttle } from 'lodash'
-import moment from 'moment'
-
-import darkStyle from '../../Themes/dark.js'
-import lightStyle from '../../Themes/light.js'
 
 import BuyInAttribute from './Components/BuyInAttribute'
 import SwapButton from './Components/SwapButton'
 import SwapRow from './Components/SwapRow'
+
+import darkStyle from '../../Themes/dark.js'
+import lightStyle from '../../Themes/light.js'
 
 export default BuyIn = (props) => {
   const { store, actions } = useContext(Context)
@@ -76,10 +75,9 @@ export default BuyIn = (props) => {
   var bg, txt;
   if (buyin.chips !== 0){
     if (buyin.user_id == store.myProfile.id){
-      bg='#686868', txt='white'
+      bg='blue', txt='white'
     }else{
-      bg=currentStyle.background.color, txt='black'}
-      console.log('the current tysle here', bg)
+      bg=currentStyle.background.color, txt=currentStyle.text.color}
   }else{
     bg='red', txt='white'
   }

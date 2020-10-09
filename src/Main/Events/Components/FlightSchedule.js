@@ -5,6 +5,8 @@ import { ListItem, Text } from 'native-base';
 import BuyIn from '../../BuyIn/BuyIn'
 import TournamentBuyIn from '../../BuyIn/TournamentBuyIn'
 
+
+
 export default FlightSchedule = (props) => {
   var startMonth = props.flight.start_at.substring(8,11)
   var startDay = props.flight.start_at.substring(5,7)

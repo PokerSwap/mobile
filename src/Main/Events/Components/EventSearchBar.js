@@ -79,12 +79,12 @@ export default EventSearchBar = (props) => {
   }
 
   return(
-    <View style={{flex:1, flexDirection:'row',
+    <View style={{flex:1, flexDirection:'row',backgroundColor:currentStyle.background.color,
     alignItems:'center', justifyContent:'space-around', marginVertical:15}}>
       
       {/* SEARCH INPUT */}
-      <Item rounded style={{width:'65%', height:40, backgroundColor:'#D3D3D3'}}>
-        <Icon name="ios-search" />
+      <Item rounded style={{width:'65%', height:40, backgroundColor:currentStyle.background.color}}>
+        <Icon name="ios-search" style={{color:currentStyle.text.color}} />
         <TextInput 
           value={value}
           autoCorrect={false}
@@ -92,13 +92,13 @@ export default EventSearchBar = (props) => {
           onChangeText={valueX=> setValue(valueX)}
           clearButtonMode='always'
           
-          placeholder="Search Tournaments"
-          placeholderTextColor='#696969' />
+          placeholder="Search Events"
+          placeholderTextColor={currentStyle.text.color} />
       </Item>
 
       {/* SEARCH BUTTON */}
       <TouchableOpacity onPress={()=> testValue(value)}>
-        <Text style={{color:'blue'}}>Search</Text>
+        <Text style={{color:currentStyle.text.color}}>Search</Text>
       </TouchableOpacity>
 
       {/* SEARCH BY LOCATION BUTTON */}

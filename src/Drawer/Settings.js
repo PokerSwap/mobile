@@ -1,38 +1,44 @@
-import React from 'react';
-import { Container, Content, Text, List, ListItem } from 'native-base';
+import React, { useContext } from 'react';
+import { Context } from '../Store/appContext'
 import { useNavigation } from '@react-navigation/native';
+
+import { Container, Content, Text, List, ListItem } from 'native-base';
 
 import OtherHeader from '../View-Components/OtherHeader'
 
+import darkStyle from '../Themes/dark.js'
+import lightStyle from '../Themes/light.js'
+
 export default SettingsScreen = () => {
   const navigation = useNavigation()
+  const { store, actions } = useContext(Context)
 
   var currentStyle
   store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
   return(
     <Container>
       <OtherHeader title={'Settings'} />
-      <Content>      
+      <Content style={{backgroundColor:currentStyle.background.color}}>      
         <List>
           {/* CHANGE EMAIL BUTTON */}
           <ListItem noIndent 
             onPress={()=> navigation.navigate('Change Email')}>
-            <Text> Change Email </Text>
+            <Text style={{color:currentStyle.text.color}}> Change Email </Text>
           </ListItem>
           {/* CHANGE PASSWORD BUTTON */}
           <ListItem noIndent 
             onPress={()=> navigation.navigate('Change Password')}>
-            <Text> Change Password </Text>
+            <Text style={{color:currentStyle.text.color}}> Change Password </Text>
           </ListItem>
           {/* CHANGE PICTURE BUTTON */}
           <ListItem noIndent 
             onPress={()=> navigation.navigate('Change Picture')}>
-            <Text> Change Profile Picture </Text>
+            <Text style={{color:currentStyle.text.color}}> Change Profile Picture </Text>
           </ListItem>
           {/* CHANGE NICKNAME BUTTON */}
           <ListItem noIndent 
             onPress={()=> navigation.navigate('Change Nickname')}>
-            <Text> Change Nickname </Text>
+            <Text style={{color:currentStyle.text.color}}> Change Nickname </Text>
           </ListItem>
         </List>
       </Content>  

@@ -1,28 +1,34 @@
-import React from 'react';
-import { Text, Icon } from 'native-base';
+import React, {useContext} from 'react';
+import { Context } from '../../../Store/appContext'
+
 import { View, TextInput, TouchableOpacity } from 'react-native'
+import { Text, Icon } from 'native-base';
 import { Grid, Row, Col} from 'react-native-easy-grid'
 import { Dropdown } from 'react-native-material-dropdown';
 
 export default PayModal = (props) => {
+
+  const { store, actions } = useContext(Context)
+  var currentStyle
+  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
   return(
       // FULL BACKGROUND
       <View style={styles.fullBackground}>
         {/* WHITE BOX BACKGROUND */}
-        <View style={styles.whiteBackground}>        
+        <View style={styles.whiteBackground, {color: currentStyle.background.color}}>        
           {/* MAIN BODY */}
           <Grid style={{marginVertical:10}}>
             <Col style={{justifyContent:'center'}}>
               {/* PAYMENT INSTRUCTION */}
               <Row style={{justifyContent:'center', alignSelf:'center', width:'80%'}}>
-                <Text style={{fontSize:20, textAlign:'center'}}>
+                <Text style={{fontSize:20, textAlign:'center', color: currentStyle.text.color}}>
                   Enter the type and amount of cash you're being paid
                 </Text>
               </Row>
               {/* PAYMENT TYPE TEXT */}
               <Row style={{ justifyContent:'center', alignItems:'center', paddingTop:0}}>
                 <Icon type='FontAwesome5' name='money-bill-wave'/>
-                <Text style={{fontSize:24, textAlign:'center'}}>
+                <Text style={{fontSize:24, textAlign:'center', color: currentStyle.text.color}}>
                 {'  '}Payment Type
                 </Text>
               </Row>
@@ -35,7 +41,7 @@ export default PayModal = (props) => {
               {/* CASH PAID TEXT */}
               <View style={{flexDirection:'row', justifyContent:'center', marginBottom:10, marginTop:25}}>
                 <Icon type='FontAwesome5' name='dollar-sign'/>
-                <Text style={{fontSize:24, textAlign:'center'}}>
+                <Text style={{fontSize:24, textAlign:'center', color: currentStyle.text.color}}>
                   {'  '}Cash Paid
                 </Text>
               </View>

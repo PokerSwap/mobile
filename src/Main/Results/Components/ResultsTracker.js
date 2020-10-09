@@ -1,12 +1,21 @@
-import React from 'react';
-import { ListItem, Icon } from 'native-base';
-import {View, Text, Platform } from 'react-native'
-import { Col } from 'react-native-easy-grid'
+import React, {useContext} from 'react';
+import { Context } from '../../../Store/appContext'
 import { useNavigation } from '@react-navigation/native'
 import moment from 'moment'
 
+import {View, Text, Platform } from 'react-native'
+import { ListItem, Icon } from 'native-base';
+import { Col } from 'react-native-easy-grid'
+
+import darkStyle from '../../../Themes/dark.js'
+import lightStyle from '../../../Themes/light.js'
 
 export default ResultsTracker = (props) => {  
+
+  const { store, actions } = useContext(Context)
+
+  var currentStyle
+  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
   
   const navigation = useNavigation()
   const enterProfitResults = () => {
@@ -56,7 +65,6 @@ export default ResultsTracker = (props) => {
   }else{
     y = "You must pay these swaps in order to reestablish your account"
   }
-  console.log('end', props.tournament_end)
  
   var space, heightx
   Platform.OS === 'ios' ? (space=-20, heightx=50) : (space =18, heightx=30)
@@ -81,14 +89,14 @@ export default ResultsTracker = (props) => {
         {/* TOURNAMENT TITLE */}
         <Col style={{width:'77%', justifyContent:'flex-end'}}>
           <Text style={{color:'black', fontSize:20, fontWeight:'600',
-            alignContent:'center', textAlign:'center' }}> 
+            alignContent:'center', textAlign:'center', color:currentStyle.text.color }}> 
             {props.tournament.name}
           </Text>
         </Col>
         {/* RIGHT ARROW NAVIGATION */}
         <Col style={{width:'20%', justifyContent:'flex-end'}}>
           <Icon type="FontAwesome5" name="angle-right" 
-            style={{justifyContent:'center', alignSelf:'center'}} />    
+            style={{justifyContent:'center', alignSelf:'center', color:currentStyle.text.color}} />    
         </Col>
       </ListItem>
     </View>

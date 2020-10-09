@@ -1,14 +1,18 @@
 import React, { useContext, useState } from 'react';
-import { ListItem, Text, Button } from 'native-base';
+import { Context } from '../../../Store/appContext'
+import { useNavigation } from '@react-navigation/native'
+
 import { Image, Modal, Alert, View } from 'react-native'
+import { ListItem, Text, Button } from 'native-base';
 import { Grid, Row, Col} from 'react-native-easy-grid'
 import  Spinner  from 'react-native-loading-spinner-overlay'
-import {useNavigation} from '@react-navigation/native'
 
-import { Context } from '../../../Store/appContext'
 import PayModal from './PayModal'
 import TotalOweRow from './TotalOweRow';
 import IndividualOweRow from './IndividualOweRow';
+
+import darkStyle from '../../../Themes/dark.js'
+import lightStyle from '../../../Themes/light.js'
 
 export default ProfitTracker = (props) => {
   const { store, actions } = useContext(Context)
@@ -17,6 +21,9 @@ export default ProfitTracker = (props) => {
   const [ paid, setPaid ] = useState(props.buyin.agreed_swaps[0].paid)
 
   const navigation = useNavigation()
+
+  var currentStyle
+  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
 
   const payAlert = () => {
     Alert.alert(
@@ -95,7 +102,7 @@ export default ProfitTracker = (props) => {
             <Image source={{uri: store.myProfile.profile_pic_url}} 
               style={{height:100, width:100, 
                 borderRadius:500, alignSelf:'center'}}/>
-            <Text style={{marginTop:10}}>
+            <Text style={{marginTop:10, color:currentStyle.text.color}}>
               You
             </Text>
           </Col>
@@ -108,7 +115,7 @@ export default ProfitTracker = (props) => {
             <Image source={{uri: props.buyin.recipient_user.profile_pic_url}} 
               style={{height:100, width:100,
               borderRadius:500, alignSelf:'center'}}/>  
-            <Text style={{marginTop:10}}>
+            <Text style={{marginTop:10, color:currentStyle.text.color}}>
               {props.buyin.recipient_user.first_name}
             </Text>
           </Col>
@@ -120,14 +127,14 @@ export default ProfitTracker = (props) => {
           </Col>
           <Col>
             {props.myPlace ? 
-              <Text style={{alignSelf:'center',  fontSize:20, fontWeight:'600'}}>
+              <Text style={{alignSelf:'center', fontSize:20, fontWeight:'600', color:currentStyle.text.color}}>
                 {props.myPlace}
               </Text>
               : null}
           </Col> 
           <Col>
             {props.buyin.their_place ? 
-              <Text style={{alignSelf:'center',  fontSize:20, fontWeight:'600'}}>
+              <Text style={{alignSelf:'center',  fontSize:20, fontWeight:'600', color:currentStyle.text.color}}>
                 {props.buyin.their_place}
               </Text>
               : null}
@@ -136,20 +143,20 @@ export default ProfitTracker = (props) => {
         {/* WINNINGS ROW */}
         <Row style={{paddingBottom:15, paddingTop:5}}>
           <Col style={{width:'25%'}}>
-            <Text style={{fontSize:18}}>
+            <Text style={{fontSize:18, color:currentStyle.text.color}}>
               Winnings
             </Text>
           </Col>
           <Col>
             {props.buyin.you_won ? 
-              <Text style={{alignSelf:'center',  fontSize:20}}>
+              <Text style={{alignSelf:'center',  fontSize:20, color:currentStyle.text.color}}>
                 ${props.buyin.you_won}
               </Text>
               : <Text> Pending </Text>}
           </Col> 
           <Col>
             {props.buyin.they_won ? 
-              <Text style={{alignSelf:'center',  fontSize:20}}>
+              <Text style={{alignSelf:'center',  fontSize:20, color:currentStyle.text.color}}>
                 ${props.buyin.they_won}
               </Text>
               : <Text> Pending </Text>}
@@ -174,10 +181,10 @@ export default ProfitTracker = (props) => {
           </Text>
           {props.buyin.they_owe_total && props.buyin.you_owe_total ?
               <View>
-                <Text style={{fontSize:24,marginTop:5}}>
+                <Text style={{fontSize:24,marginTop:5, color:currentStyle.text.color}}>
                   {final_swap_profit}
                 </Text>
-                <Text style={{fontSize:36, fontWeight:'600', marginTop:5}}>
+                <Text style={{fontSize:36, fontWeight:'600', marginTop:5, color:currentStyle.text.color}}>
                   ${Math.abs(swap_profit).toFixed(2)}
                 </Text>
               </View>

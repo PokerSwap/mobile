@@ -30,9 +30,9 @@ export default ProfileBioSideBar = (props) => {
   var goPurchase = () => navigation.navigate('Purchase Tokens')
   
   return(
-    <Card transparent style={{flex:1, flexDirection:'column', paddingTop:20}}>
+    <Card transparent style={{backgroundColor:currentStyle.background.color,flex:1, flexDirection:'column', paddingTop:20}}>
       {/* YOUR PICTURE AND TOKENS */}
-      <CardItem style={styles.topContainer}>
+      <CardItem style={styles.topContainer, {backgroundColor:currentStyle.background.color}}>
         {/* YOUR PICTURE */}
         <View style={styles.picture.container}>
           <Image source={{uri: props.profile_pic_url}} 
@@ -51,7 +51,7 @@ export default ProfileBioSideBar = (props) => {
         </View>
       </CardItem>
       {/* YOUR NAME */}
-      <CardItem style={styles.name.container}>
+      <CardItem style={styles.name.container, {backgroundColor:currentStyle.background.color}}>
         <Button style={styles.name.button} 
           transparent onPress={() => enterProfile()}>
           {ifNickName ?

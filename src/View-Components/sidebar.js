@@ -15,11 +15,11 @@ import lightStyle from '../../src/Themes/light.js'
 export default SideBar = (props) => {
   const navigation = useNavigation()
   const { store, actions } = useContext(Context)
-  
-  var profile = store.myProfile
-  
+    
   var uiMode = store.uiMode
   const [currentMode, setCurrentMode] = useState(uiMode)
+  var currentStyle
+  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
 
   const changeNow = async() => {
     var x = !currentMode
@@ -28,11 +28,10 @@ export default SideBar = (props) => {
     AsyncStorage.setItem('uiMode', x.toString())
   }
 
-  var currentStyle
-  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
+  var profile = store.myProfile
 
   return(
-    <DrawerContentScrollView {...props}>
+    <DrawerContentScrollView style={{backgroundColor:currentStyle.background.color}}{...props}>
     
       <ProfileBioSideBar
         user_id={profile.id}
@@ -49,20 +48,21 @@ export default SideBar = (props) => {
       {/* DEFAULT BUTTONS */}
       <DrawerItemList {...props} />
 
-      <DrawerItem label="Feedback"
-        icon= {() => <Icon type="FontAwesome5" style={{fontSize:24}} name="users-cog" />}
+      <DrawerItem label="Feedback" labelStyle={{color:currentStyle.text.color}}
+        icon= {() => <Icon type="FontAwesome5" name="users-cog"
+          style={{fontSize:24, color:currentStyle.text.color }} />}
         onPress={()=>  Linking.openURL("mailto:contact@swapprofitonline.com?subject=" + profile.first_name + " " + profile.last_name + " Feedback")}/>
       
-      <View>
+      <View style={{flexDirection:'row'}}>
         <Icon />
-        <Text></Text>
-        <Switch value={!currentMode} 
-              onValueChange={() => changeNow()}/>
+        <Text style={{color:currentStyle.text.color}}>Dark Mode</Text>
+        <Switch value={!currentMode} onValueChange={() => changeNow()}/>
       </View>
       
       {/* LOGOUT OPTION */}
-      <DrawerItem label="Log Out"
-        icon= {() => <Icon type="Ionicons" name="ios-exit" />}
+      <DrawerItem label="Log Out" labelStyle={{color:currentStyle.text.color}}
+        icon= {() => <Icon type="Ionicons" name="ios-exit" 
+          style={{fontSize:24, color:currentStyle.text.color }}/>}
         onPress={()=>
           Alert.alert(
             'Log out',

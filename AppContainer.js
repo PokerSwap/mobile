@@ -1,5 +1,5 @@
 import React, {useEffect, useContext} from 'react';
-import { Icon } from "native-base";
+import { Icon,Text } from "native-base";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
@@ -144,28 +144,38 @@ var ResultsStack = () => {
 }
 
 var MainDrawer = () => {
+  const { store, actions } = useContext(Context)
+
+  var currentStyle
+  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
   return(
     <Drawer.Navigator initialRouteName="Home" 
+    drawerContentOptions={{
+      activeTintColor: currentStyle.text.color,
+      inactiveTintColor:currentStyle.text.color,
+    }}
       drawerContent={(props) => <SideBar {...props} />}
       screenOptions={{ gestureEnabled: true }}>
       {/* HOME DRAWER TAB */}
       <Drawer.Screen name="Home" component={MainTabs}
         options={{
           drawerIcon: ({ focused }) => (
-          <Icon type="FontAwesome5" name="home" style={{fontSize:26}}
-            color={focused ? 'blue' : 'black'} />)}}/>
+          <Icon type="FontAwesome5" name="home" style={{fontSize:26, color:currentStyle.text.color}}
+            color={currentStyle.text.color} />)}}/>
       {/* SETTINGS DRAWER TAB */}
       <Drawer.Screen name="Settings" component={SettingsStack}
         screenOptions={{ gestureEnabled: false, headerShown: false }}
+        
         options={{
+          
           drawerIcon: ({ focused }) => (
-            <Icon type="FontAwesome5" name="cog" size={24} 
+            <Icon type="FontAwesome5" name="cog" style={{fontSize:26, color:currentStyle.text.color}}
               color={focused ? 'blue' : 'black'} />)}}/>
       {/* CATEGORIES DRAWER TAB */}
       <Drawer.Screen name="Categories" component={CategoriesScreen} 
         options={{
           drawerIcon: ({ focused }) => (
-          <Icon type="FontAwesome5" name="th-large" size={24} 
+          <Icon type="FontAwesome5" name="th-large" style={{fontSize:24, color:currentStyle.text.color}}
             color={focused ? 'blue' : 'black'} />)}}/>
       {/* CHAT SCREEN TAB */}
       {/* <Drawer.Screen name="Chat" component={ContactsScreen}
@@ -182,13 +192,14 @@ var MainDrawer = () => {
         screenOptions={{ gestureEnabled: false, headerShown: false }}
         options={{
           drawerIcon: ({ focused }) => (
-            <Icon type="FontAwesome5" name="question-circle" size={24} 
+            <Icon type="FontAwesome5" name="question-circle" style={{fontSize:24, color:currentStyle.text.color}} 
               color={focused ? 'blue' : 'black'} />)}}/>
     </Drawer.Navigator>
   )
 }
 
 var SettingsStack = () => {
+
   return(
     <Stack.Navigator initialRouteName="Settings Screen"  screenOptions={{ gestureEnabled: false, headerShown: false }}>
       <Stack.Screen name="Settings Screen" component={SettingsScreen} 

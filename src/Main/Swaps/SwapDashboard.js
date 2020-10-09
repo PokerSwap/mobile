@@ -122,7 +122,7 @@ export default SwapDashboard = (props) => {
       <FlatList
         style={{ backgroundColor: currentStyle.background.color}}
         ListHeaderComponent={
-          <Text style={styles.noTracker.text}> 
+          <Text style={styles.noTracker.text, {color:currentStyle.text.color}}> 
             You have no {status} tournaments{'\n'} at the moment. 
           </Text>}
         ListHeaderComponentStyle={{alignSelf:'center', marginTop:20}}
@@ -251,7 +251,7 @@ const styles = {
     upcoming:{
       height:48, backgroundColor:'gray'},
     text:{
-      fontSize:20, color:'white', fontWeight:'600', textAlign:'center' }
+      fontSize:20, fontWeight:'600', textAlign:'center' }
   },
   noTracker:{
     listItem:{

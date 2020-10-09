@@ -23,18 +23,18 @@ export default InfoModal = (props) => {
   return(
     <View style={modalStyles.background}>
       {/* WHITE BACKGROUND */}
-      <View style={ modalStyles.main }> 
+      <View style={ modalStyles.main, {backgroundColor:currentStyle.background.color} }> 
         {/* TOURNAMENT ADDRESS */}
-        <Text style={{fontSize:20, textAlign:'center', fontWeight:'600'}}>
+        <Text style={{fontSize:20, textAlign:'center', fontWeight:'600',color:currentStyle.text.color}}>
           {props.tournament_name}
         </Text>
         {/* TOURNAMENT START DATE */}
-        <Text style={{textAlign:'center', paddingVertical:10}}>
+        <Text style={{textAlign:'center', paddingVertical:10, color:currentStyle.text.color}}>
           {moment(props.tournament_start).format('llll')}
         </Text>
         {/* TOURNAMENT ADDRESS */}
         <TouchableOpacity onPress={() => openGPS()}>
-          <Text style={{textAlign:'center', color:'rgb(0, 122, 255)'}}>
+          <Text style={{textAlign:'center', color:'rgb(0, 122, 255)', color:currentStyle.text.color}}>
             {props.tournament_address}
           </Text>
         </TouchableOpacity>
@@ -42,25 +42,25 @@ export default InfoModal = (props) => {
         <View style={{flexDirection:'row', paddingTop:10}}>
           {/* STARTING STACK FIELD */}
           <View style={{width:'50%'}}>
-            <Text style={{fontWeight:'600',textAlign:'center'}}>Starting Stack:</Text>
-            <Text style={{textAlign:'center', fontSize:20}}>15,000</Text>
+            <Text style={{fontWeight:'600',textAlign:'center', color:currentStyle.text.color}}>Starting Stack:</Text>
+            <Text style={{textAlign:'center', fontSize:20, color:currentStyle.text.color}}>15,000</Text>
           </View>
           {/* BLINDS FIELD */}
           <View style={{width:'50%'}}>
-            <Text style={{fontWeight:'600',textAlign:'center'}}>Blinds:</Text>
-            <Text style={{textAlign:'center', fontSize:20}}>20</Text>
+            <Text style={{fontWeight:'600',textAlign:'center', color:currentStyle.text.color}}>Blinds:</Text>
+            <Text style={{textAlign:'center', fontSize:20, color:currentStyle.text.color}}>20</Text>
           </View>
         </View>
         {/* DETAIL ROW 2 */}
         <View style={{flexDirection:'row', paddingTop:10}}>           
           <View style={{width:'50%'}}>
-            <Text style={{fontWeight:'600',textAlign:'center'}}>Placeholder:</Text>
-            <Text style={{textAlign:'center', fontSize:20}}>Here</Text>
+            <Text style={{fontWeight:'600',textAlign:'center', color:currentStyle.text.color}}>Placeholder:</Text>
+            <Text style={{textAlign:'center', fontSize:20, color:currentStyle.text.color}}>Here</Text>
           </View>
           {/* BUY-IN AMOUNT */}
           <View style={{width:'50%'}}>
-            <Text style={{fontWeight:'600',textAlign:'center'}}>Buy-In:</Text>
-            <Text style={{textAlign:'center', fontSize:20}}>$500</Text>
+            <Text style={{fontWeight:'600',textAlign:'center', color:currentStyle.text.color}}>Buy-In:</Text>
+            <Text style={{textAlign:'center', fontSize:20, color:currentStyle.text.color}}>$500</Text>
           </View>
         </View>
         {/* CLOSE BUTTON */}
@@ -74,8 +74,7 @@ export default InfoModal = (props) => {
 }
 
 const modalStyles = {
-  background:{
-    backgroundColor:'rgba(0,0,0,0.6)', 
+  background:{ backgroundColor:'rgba(0,0,0,0.6)', 
     height:'100%', alignContent:'center' },
   button:{
     text:{
@@ -93,7 +92,7 @@ const modalStyles = {
       marginBottom:10, marginTop:25 }
   },
   main:{ 
-    padding:15, alignSelf:'center', backgroundColor:'white', flexDiection:'column', justifyContent:'center',
+    padding:15, alignSelf:'center',  flexDiection:'column', justifyContent:'center',
     width:'80%', height:'60%', margin: 'auto', position: 'relative',
     top: '20%', left: 0, bottom: 0, right: 0}
 }
