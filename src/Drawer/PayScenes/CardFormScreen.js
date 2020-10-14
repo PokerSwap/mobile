@@ -1,8 +1,6 @@
 import React, {useState, useEffect, useContext } from 'react';
 import {
-  Text, Image,
-  View, Dimensions, TouchableOpacity,
-  Platform, StyleSheet,
+  Text, Image, View, Dimensions, TouchableOpacity, Platform, StyleSheet,
   ActivityIndicator,
 } from 'react-native';
 import { Container, Content } from 'native-base';

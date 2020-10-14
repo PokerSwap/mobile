@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
-import { KeyboardAvoidingView, View, Text, Platform, StyleSheet } from 'react-native'
 import dismissKeyboard from 'react-native/Libraries/Utilities/dismissKeyboard'
 import { PaymentCardTextField } from 'tipsi-stripe'
+
+import { KeyboardAvoidingView, View, Text, Platform, StyleSheet } from 'react-native'
+
 import Spoiler from '../components/Spoiler'
 import testID from '../../utils/testID'
 

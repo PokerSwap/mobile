@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
+import { openSettings, requestMultiple, PERMISSIONS } from 'react-native-permissions';
+
 import { Image, Platform } from 'react-native';
 import { Button, Card, CardItem, Text, Icon } from 'native-base';
 import ImagePicker from 'react-native-image-picker';
-import '../../Images/placeholder.jpg';
 
-import {openSettings, requestMultiple, PERMISSIONS} from 'react-native-permissions';
+import '../../Images/placeholder.jpg';
 
 export default  PictureSetup = (props) => {
 

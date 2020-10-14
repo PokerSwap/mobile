@@ -1,8 +1,8 @@
-import React, {useState, useContext} from 'react';
-import { TextInput } from 'react-native'
-import {Button , Text, Container, Content, Item} from 'native-base';
+import React, { useState, useContext } from 'react';
+import { Context } from '../Store/appContext'
 
-import {Context} from '../Store/appContext'
+import { TextInput } from 'react-native'
+import { Button , Text, Container, Content, Item } from 'native-base';
 
 export default ForgotPassword = () => {
 	const { store, actions } = useContext(Context)

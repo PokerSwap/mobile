@@ -40,6 +40,7 @@ export default SettingsScreen = () => {
             onPress={()=> navigation.navigate('Change Nickname')}>
             <Text style={{color:currentStyle.text.color}}> Change Nickname </Text>
           </ListItem>
+          
         </List>
       </Content>  
     </Container>

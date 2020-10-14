@@ -1,11 +1,11 @@
 import React, { useContext, useState } from 'react';
+import { Context } from '../Store/appContext'
+import { useNavigation } from '@react-navigation/native'
+
 import { TouchableOpacity, View, StatusBar } from 'react-native'
 import { Text, Icon, Header } from 'native-base';
 import { Row } from 'react-native-easy-grid'
-import { useNavigation } from '@react-navigation/native'
 import Spinner from 'react-native-loading-spinner-overlay'
-
-import { Context } from '../Store/appContext'
 
 export default CategoriesScreen = (props) => {
   const { store, actions } = useContext(Context) 

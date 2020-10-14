@@ -1,13 +1,12 @@
-import React, {useContext, useState} from 'react';
+import React, { useContext, useState } from 'react';
+import { Context } from '../../Store/appContext'
+import stripe from 'tipsi-stripe';
+
 import { Text, Icon, Button } from 'native-base';
 import { View, Image, TouchableOpacity, Platform } from 'react-native'
 import { Grid, Row, Col} from 'react-native-easy-grid'
-import stripe from 'tipsi-stripe';
 import  Spinner  from 'react-native-loading-spinner-overlay'
 
-
-
-import {Context} from '../../Store/appContext'
 import btnGPay from '../../Images/buygooglepay.png';
 import AppleBtn from '../../Images/apple-pay.png';
 

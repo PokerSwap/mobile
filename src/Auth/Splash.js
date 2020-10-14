@@ -1,14 +1,13 @@
 import React, {useContext, useEffect, useState} from 'react';
-import { View, StatusBar, Image, Alert } from 'react-native';
-
+import { Context } from '../Store/appContext'
+import { useNavigation } from '@react-navigation/native'
+import AsyncStorage from '@react-native-community/async-storage';
 import messaging from '@react-native-firebase/messaging';
 import auth from '@react-native-firebase/auth'
 
-import AsyncStorage from '@react-native-community/async-storage';
+import { View, StatusBar, Image, Alert } from 'react-native';
 import NetInfo from "@react-native-community/netinfo";
-import { useNavigation } from '@react-navigation/native'
 
-import { Context } from '../Store/appContext'
 
 export default SplashScreen = () => {
 	const { store, actions } = useContext(Context)

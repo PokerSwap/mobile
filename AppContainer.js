@@ -1,14 +1,16 @@
-import React, {useEffect, useContext} from 'react';
-import { Icon,Text } from "native-base";
+import React, { useEffect, useContext } from 'react';
+import Store from './src/Store/appContext';
+
+import { LogBox } from 'react-native';
+import { Icon, Text } from "native-base";
+
+import darkStyle from './src/Themes/dark.js'
+import lightStyle from './src/Themes/light.js'
+
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import Store from './src/Store/appContext';
-import { LogBox } from 'react-native';
-
-import darkStyle from './src/Themes/dark.js'
-import lightStyle from './src/Themes/light.js'
 
 // AUTH VIEWS
 import SplashScreen from './src/Auth/Splash'
@@ -178,15 +180,15 @@ var MainDrawer = () => {
           <Icon type="FontAwesome5" name="th-large" style={{fontSize:24, color:currentStyle.text.color}}
             color={focused ? 'blue' : 'black'} />)}}/>
       {/* CHAT SCREEN TAB */}
-      {/* <Drawer.Screen name="Chat" component={ContactsScreen}
+      <Drawer.Screen name="Chat" component={ContactsScreen}
       screenOptions={{ gestureEnabled: false, headerShown: true }}
       options={{
-        params:{name:"Gabe"},
+        params:{name:store.myProfile.first_name},
         headerShown:true,
         drawerIcon: ({ focused }) => (
           <Icon type="FontAwesome5" name="comment-dots" size={24} 
             color={focused ? 'blue' : 'black'} />
-      )}} /> */}
+      )}} />
       {/* HELP DRAWER TAB */}
       <Drawer.Screen name="Help" component={HelpStack}
         screenOptions={{ gestureEnabled: false, headerShown: false }}

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { Root } from 'native-base';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import { AppearanceProvider } from 'react-native-appearance';
