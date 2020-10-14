@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Context } from '../../../Store/appContext';
+import { useNavigation } from '@react-navigation/native'
 
 import { Image, View, Spinner, Linking, Modal } from 'react-native'
 import { Button, Icon, Card, CardItem, Content, Text, Radio, Toast } from 'native-base';
-import { useNavigation } from '@react-navigation/native'
 import { Grid, Row, Col} from 'react-native-easy-grid'
 
 import darkStyle from '../../../Themes/dark.js'
@@ -138,12 +138,12 @@ export default ProfileBio = (props) => {
       }
     }
 
-  // const openChat = () => {
-  //   navigation.push('Chat', {
-  //     myProfile: store.myProfile,
-  //     theirProfile: profile
-  //   })
-  // }
+  const openChat = () => {
+    navigation.push('Chat', {
+      a_avatar: profile.profile_pic_url,
+      nickname: profile.first_name
+    })
+  }
  
   return(
     <Content transparent contentContainerStyle={{backgroundColor: currentStyle.background.color,}}>
@@ -251,10 +251,10 @@ export default ProfileBio = (props) => {
         </CardItem>
         : 
         <CardItem style={{justifyContent:'center', flexDirection:'column', width:'100%', paddingBottom: 0, backgroundColor:currentStyle.background.color}}>
-          {/* <Button full iconLeft info onPress={() => openChat()}>
+          <Button full iconLeft info onPress={() => openChat()}>
             <Icon type='FontAwesome5' name='comments'/>
             <Text style={{fontSize:24}}>Chat</Text>
-          </Button> */}
+          </Button>
           <Button style={{alignSelf:'center'}}transparent iconLeft light 
             onPress={() => setVisible(true)} title="play@thepokersociety.com">
             {/* <Icon type='FontAwesome5' name='exclamation-circle'/> */}

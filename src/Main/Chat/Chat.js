@@ -1,87 +1,58 @@
-// // @flow
-// import React, { useState, useEffect } from 'react';
-// import { GiftedChat } from 'react-native-gifted-chat'; // 0.3.0
 
-// import Fire from './Fire';
-// import { useRoute, useNavigation } from '@react-navigation/native';
+import React, { useState, useContext, useCallback, useEffect } from 'react'
+import { Context } from '../../Store/appContext'
+import { useRoute } from '@react-navigation/native'
 
-
-// export default ChatScreen = () => {
-
-//   const [messages, setMessages] = useState([])
-// 	const navigation = useNavigation()
-// 	const route = useRoute()
-// 	const name = 'pauk'
-
-// 	useEffect(() => {
-// 		Fire.shared.on(message =>
-//       setMessages(previousState => (GiftedChat.append(previousState.messages, message)),
-//       )
-// 		);
-// 		console.log("messages", messages)
-// 		console.log("user", user)
-
-// 		return () => {
-// 			Fire.shared.off();
-// 		}
-// 	}, [false])
-
-//   let user = {
-// 		name: name,
-// 		_id: Fire.shared.uid,
-// 	};
-
-
-
-  
-// 	return (
-// 		<GiftedChat
-// 			messages={messages}
-// 			onSend={Fire.shared.send}
-// 			user={user} />
-// 	)
-// }
-
-
-
-import React, { useState, useCallback, useEffect } from 'react'
 import { View } from 'react-native'
 import { GiftedChat } from 'react-native-gifted-chat'
+
 import OtherHeader from '../../View-Components/OtherHeader';
 import Fire from './Fire';
- 
+
+import darkStyle from '../../Themes/dark.js'
+import lightStyle from '../../Themes/light.js' 
+
 export default ChatScreen = (props) => {
+  const { store, actions } = useContext(Context)
+
+  var currentStyle
+  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
+
+  var route = useRoute()
+  var { a_avatar, nickname }  = route.params
+  const [ chat, setChat ] = useState()
   const [messages, setMessages] = useState([{
     _id: 1, // Message Id
     text: 'Hello developer', // Actual test
     createdAt: new Date(), //Fine
     user: {
       _id: 2, // Fire store ID
-      name: 'React Native', // Profile Name their_Profile.name
-      avatar: 'https://placeimg.com/140/140/any', // Profile Pic theirProifle.pic
+      name: nickname, // Profile Name their_Profile.name
+      avatar: a_avatar, // Profile Pic theirProifle.pic
     },
   }]);
 
 
   useEffect(() => {
+    actions.chat.getCurrent()
     Fire.shared.on(message => 
       setMessages(previousState => GiftedChat.append(previousState.messages, message))
     );
     Fire.shared.on(message => console.log('message in store',message))
     console.log('messahes', messages)
 
-    // setMessages([
-    //   {
-    //     _id: 1, // Message Id
-    //     text: 'Hello developer', // Actual test
-    //     createdAt: new Date(), //Fine
-    //     user: {
-    //       _id: 2, // Fire store ID
-    //       name: 'React Native', // Profile Name their_Profile.name
-    //       avatar: 'https://placeimg.com/140/140/any', // Profile Pic theirProifle.pic
-    //     },
-    //   },
-    // ])
+    setMessages([
+      {
+        _id: 1, // Message Id
+        text: 'Hello developer', // Actual test
+        createdAt: new Date(), //Fine
+        user: {
+          _id: 2, // Fire store ID
+          name: nickname, // Profile Name their_Profile.name
+          avatar: a_avatar, // Profile Pic theirProifle.pic
+        },
+      },
+    ])
     return () => {
       Fire.shared.off();
     }
@@ -98,15 +69,15 @@ export default ChatScreen = (props) => {
 
       <GiftedChat
         messages={messages}
-        // onSend={messages => onSend(messages)}
-        onSend={() => {
-          Fire.shared.send
-          console.log('ummm', Fire.shared.send)
-        }}
+         onSend={messages => onSend(messages)}
+        // onSend={() => {
+        //   Fire.shared.send
+        //   console.log('ummm', Fire.shared.send)
+        // }}
         user={{
           _id: Fire.shared.uid,
-          name:"Gabe",
-          avatar:'https://i.gadgets360cdn.com/large/Gabe_Newell_1484763796244.jpg', 
+          name:store.myProfile.first_name,
+          avatar:store.myProfile.profile_pic_url, 
            }} />
     </View>
     

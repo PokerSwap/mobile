@@ -180,7 +180,7 @@ var MainDrawer = () => {
           <Icon type="FontAwesome5" name="th-large" style={{fontSize:24, color:currentStyle.text.color}}
             color={focused ? 'blue' : 'black'} />)}}/>
       {/* CHAT SCREEN TAB */}
-      <Drawer.Screen name="Chat" component={ContactsScreen}
+      <Drawer.Screen name="Chat" component={ChatStack}
       screenOptions={{ gestureEnabled: false, headerShown: true }}
       options={{
         params:{name:store.myProfile.first_name},
@@ -198,6 +198,16 @@ var MainDrawer = () => {
               color={focused ? 'blue' : 'black'} />)}}/>
     </Drawer.Navigator>
   )
+}
+
+var ChatStack = () => {
+  return(
+    <Stack.Navigator initialRouteName="Contacts" 
+      screenOptions={{ gestureEnabled: false, headerShown: false }}>
+      <Stack.Screen name="Contacts" component={ContactsScreen} />
+      <Stack.Screen name="Chat" component={ChatScreen} />
+    </Stack.Navigator>
+    )
 }
 
 var SettingsStack = () => {
@@ -257,8 +267,8 @@ const NavContainer = () => {
           options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}}/> */}
         <Stack.Screen name="Swap Offer" component={SwapOffer} 
           options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}}/>
-        {/* <Stack.Screen name="Chat" component={ChatScreen} 
-          screenOptions={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}} /> */}
+        <Stack.Screen name="Chat" component={ChatScreen} 
+          screenOptions={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}} />
       </Stack.Navigator>
   )
 

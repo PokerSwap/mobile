@@ -32,6 +32,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 			currentAction: null,
 			// CURRENT BUYIN ON SCREEN
 			currentBuyin:{},
+			// CURRENT CHAT
+			currentChat:[],
 			// CURRENT SWAP ON SCREEN
 			currentSwap:{},
 			// CURRENT TOURNAMENT ON SCREEN
@@ -342,6 +344,85 @@ const getState = ({ getStore, setStore, getActions }) => {
 						console.log('problem with getting the current buyin:', error)
 					}
 				},
+			},
+			// CHAT ACTIONS
+			chat:{
+				getCurrent: async ( a_chat_id ) => {
+					try {
+						let url = databaseURL + '/chats/' + a_chat_id
+						let accessToken = getStore().userToken
+
+						let response = await fetch(url, {
+							method: 'GET',
+							headers: {
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							}, 
+						})
+						var currentChatResponse = await response.json()
+						console.log("Current Chat Response:", currentChatResponse)
+
+						if (currentChatResponse.message.includes("Chat not found")){
+							getStore().chat.open()
+						}else{null}
+
+					} catch (error) {
+						console.log("Getting current chat with this user did not work:", error)
+					}
+				},
+				open: async( their_id, a_tournament_id) => {
+					try {
+						let url = databaseURL + '/me/chats'
+						let accessToken = getStore().userToken
+						let data = {
+							user1_id: getStore().myProfile.id,
+							user2_id: their_id,
+							tournament_id: a_tournament_id
+						}
+
+						let response = await fetch(url, {
+							method: 'POST',
+							body: JSON.stringify(data),
+							headers: {
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							}, 
+						})
+						var openChatResponse = await response.json()
+						console.log("Open Chat Response:", openChatResponse)
+
+						if (openChatResponse.message.includes("Chat already exists")){
+
+						}else{null}
+
+					} catch (error) {
+						console.log("Opening a chat with user did not work:", error)
+					}
+				},
+				sendMessage: async( a_chat_id, a_message ) => {
+					try {
+						let url = databaseURL + '/messages/me/chats/' + a_chat_id
+						let accessToken = getStore().userToken
+						let data = {
+							message: a_message,
+							user_id: getStore().myProfile.id
+						}
+
+						let response = await fetch(url, {
+							method: 'POST',
+							body: JSON.stringify(data),
+							headers: {
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							}, 
+						})
+						var sendMessageResponse = await response.json()
+						console.log("Send Message Response:", sendMessageResponse)
+
+					} catch (error) {
+						console.log("Sending a message to this user did not work:", error)
+					}
+				}
 			},
 			// USER DEVICE TOKEN ACTIONS
 			deviceToken:{

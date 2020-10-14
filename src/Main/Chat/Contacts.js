@@ -1,29 +1,23 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, Image } from 'react-native'
-import { Container, Content, List, Spinner, ListItem, Text, Icon } from 'native-base';
-import { useNavigation, useRef, useRoute } from '@react-navigation/native'
+import { Context } from '../../Store/appContext'
+import { useNavigation, useRoute } from '@react-navigation/native'
+
+import { View, Image, TouchableOpacity } from 'react-native'
+import { Container, Content, List, ListItem, Text, Icon } from 'native-base';
 import { Col } from 'react-native-easy-grid'
 
-import { Context } from '../../Store/appContext'
-
 import OtherHeader from '../../View-Components/OtherHeader'
-import { TouchableOpacity } from 'react-native-gesture-handler';
+
+import darkStyle from '../../Themes/dark.js'
+import lightStyle from '../../Themes/light.js'
 
 export default ContactsScreen = (props) => {
   const { store, actions } = useContext(Context)
 
-  const route = useRoute()
+  var currentStyle
+  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
+
   const navigation = useNavigation()
-
-  // var aProfile
-
-  // useEffect(() => {
-  //   x()
-    
-  //   return () => {
-  //     // cleanup
-  //   }
-  // }, [null])
 
   var x = {
     coins: 0,
@@ -32,7 +26,7 @@ export default ContactsScreen = (props) => {
     email: "katz234@gmail.com",
     first_name: "Cary",
     hendon_url: "https://pokerdb.thehendonmob.com/player.php?a=r&n=26721",
-    id: 2,
+    id: 3,
     last_name: "Katz",
     nickname: "",
     profile_pic_url: "https://pokerdb.thehendonmob.com/pictures/carykatzpic.png",
@@ -47,17 +41,20 @@ export default ContactsScreen = (props) => {
   const enterProfile = () => {
     navigation.push('Profile',{
       user_id: x.id,
-      nickname: "Cary Katz" 
+      nickname: x.first_name,
     });
   }
 
   const enterChat = () => {
-    navigation.push('Chat');
+    navigation.push('Chat', {
+      a_avatar: x.profile_pic_url,
+      nickname: x.first_name,
+    });
   }
 
   return(
-    <Container>      
-      <Content>
+    <Container style={{backgroundColor:currentStyle.background.color}}>      
+      <Content contentContainerStyle={{backgroundColor:currentStyle.background.color}}>
       <OtherHeader title={'Contacts'} />
         <List>
           <ListItem noIdent>
@@ -80,8 +77,8 @@ export default ContactsScreen = (props) => {
             <Col style={{width:"80%" }}>
               <TouchableOpacity onPress={() => enterChat()}>
                 <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                  <Text style={{marginLeft:10,fontSize:24, textAlign:'left'}}>{x.first_name} {x.last_name}</Text>
-                  <Icon name="angle-right" type="FontAwesome5"/>
+                  <Text style={{marginLeft:10,fontSize:24, textAlign:'left', color: currentStyle.text.color}}>{x.first_name} {x.last_name}</Text>
+                  <Icon name="angle-right" type="FontAwesome5" style={{color: currentStyle.text.color}}/>
                 </View>
               </TouchableOpacity>
             </Col>

@@ -66,7 +66,8 @@ export default BuyIn = (props) => {
   const enterProfile = () => {
     navigation.push('Profile',{
       user_id: buyin.user_id,
-      nickname: buyin.user_name
+      nickname: buyin.user_name,
+      from_tournament: props.tournament.id
     });
   }
 
