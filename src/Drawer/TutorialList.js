@@ -10,15 +10,15 @@ import darkStyle from '../Themes/dark.js'
 import lightStyle from '../Themes/light.js'
 
 export default TutorialListScreen = () => {
+  const { store, actions } = useContext(Context)
 
   var currentStyle
   store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
 
-  const { store, actions } = useContext(Context)
   const navigation = useNavigation()
 
   return(
-    <Container>
+    <Container style={{backgroundColor:currentStyle.background.color}}>
       <OtherHeader title='Help'/>
       <Content contentContainerStyle={{backgroundColor:currentStyle.background.color}}>
       <List>
@@ -44,8 +44,8 @@ export default TutorialListScreen = () => {
         </ListItem> */}
         <ListItem onPress={() => navigation.navigate("Web View", 
           {url: 'https://www.swapprofitonline.com/faqspoker/'})}>
-          <Icon type="FontAwesome5" name="question-circle" style={{paddingRight:10, color: currentStyle.background.color}}/>
-          <Text style={currentStyle.background.color}>Frequently Asked Questions</Text>
+          <Icon type="FontAwesome5" name="question-circle" style={{paddingRight:10, color: currentStyle.text.color}}/>
+          <Text style={{color:currentStyle.text.color}}>Frequently Asked Questions</Text>
         </ListItem>
       </List>
       </Content>

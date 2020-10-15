@@ -5,6 +5,9 @@ import { Container, Content, Button, Text, Toast } from 'native-base';
 import { Context } from '../../Store/appContext'
 import '../../Images/placeholder.jpg';
 
+import darkStyle from '../../Themes/dark.js'
+import lightStyle from '../../Themes/light.js'
+
 export default ChangeNickname = () => {
   const { store, actions } = useContext(Context)
 

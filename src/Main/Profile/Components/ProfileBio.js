@@ -141,7 +141,8 @@ export default ProfileBio = (props) => {
   const openChat = () => {
     navigation.push('Chat', {
       a_avatar: profile.profile_pic_url,
-      nickname: profile.first_name
+      nickname: profile.first_name,
+      from_tournament: props.from_tournament
     })
   }
  

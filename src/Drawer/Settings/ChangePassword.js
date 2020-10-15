@@ -6,6 +6,9 @@ import { useNavigation } from '@react-navigation/native'
 import { Context } from '../../Store/appContext'
 import '../../Images/placeholder.jpg';
 
+import darkStyle from '../../Themes/dark.js'
+import lightStyle from '../../Themes/light.js'
+
 export default ChangePassword = () => {
   const { store, actions } = useContext(Context)
   const navigation = useNavigation()

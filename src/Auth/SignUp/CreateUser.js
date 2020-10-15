@@ -58,6 +58,8 @@ export default CreateUser = () => {
 						<TextInput 
 							placeholder=" Enter Email"
 							keyboardType="email-address"
+							placeholderTextColor={'grey'}
+
 							blurOnSubmit={false}
 							style={styles.textInput}
 							returnKeyType="next"
@@ -72,6 +74,8 @@ export default CreateUser = () => {
 						<Icon active name='key' style={{fontSize:40}}/>
 						<TextInput 
 							placeholder=" Enter Password"
+							placeholderTextColor={'grey'}
+
 							textContentType={'newPassword'}
   						selectTextOnFocus={true}
   						secureTextEntry={true}
@@ -89,6 +93,7 @@ export default CreateUser = () => {
 						<Icon active name='key' style={{fontSize:40}} />
 						<TextInput 
 							placeholder=" Confirm Password"
+							placeholderTextColor={'grey'}
 							secureTextEntry
 							style={styles.textInput}
 							autoCapitalize='none'

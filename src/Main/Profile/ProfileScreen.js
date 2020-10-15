@@ -2,6 +2,7 @@ import React, {useContext} from 'react';
 import { Context } from '../../Store/appContext'
 import { useRoute } from '@react-navigation/native';
 
+import { StatusBar } from 'react-native'
 import { Container, Content  } from 'native-base';
 
 import ProfileBio from './Components/ProfileBio';
@@ -17,12 +18,12 @@ export default ProfileScreen = (props) => {
   var currentStyle
 	store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
   const route = useRoute()
-  const { nickname, user_id } = route.params;
+  const { nickname, user_id, from_tournament } = route.params;
   
   return(
       <Container> 
         <BounceColorWrapper style={{flex: 1}} mainColor={currentStyle.background.color}>
-
+        <StatusBar translucent backgroundColor={currentStyle.text.color} {...props} />
         <Content contentContainerStyle={{ justifyContent:'center', }}>
           {/* PROFILE BIO */}
           <ProfileBio user_id={user_id} nickname={nickname} />

@@ -186,7 +186,7 @@ var MainDrawer = () => {
         params:{name:store.myProfile.first_name},
         headerShown:true,
         drawerIcon: ({ focused }) => (
-          <Icon type="FontAwesome5" name="comment-dots" size={24} 
+          <Icon type="FontAwesome5" name="comment-dots" size={24} style={{fontSize:24, color:currentStyle.text.color}} 
             color={focused ? 'blue' : 'black'} />
       )}} />
       {/* HELP DRAWER TAB */}

@@ -2,7 +2,7 @@ import React, {useContext, useState, useCallback, useEffect } from 'react';
 import { Context } from '../../Store/appContext'
 import { useNavigation } from '@react-navigation/native'
 
-import { Alert, FlatList, Platform, RefreshControl } from 'react-native';
+import { Alert, FlatList, Platform, RefreshControl, StatusBar, View } from 'react-native';
 import { Button, Container, Content, Icon, Tabs, Tab, TabHeading, Text } from 'native-base';
 import messaging from '@react-native-firebase/messaging'
 
@@ -212,15 +212,14 @@ export default SwapDashboard = (props) => {
     <Container >
       <HomeHeader title={'Active Swaps'} />
       <Content contentContainerStyle={{flex:1}}>
+
         {/* <Button onPress={()=> sendLocalNotification}><Text>Preess</Text></Button> */}
         <Tabs  tabBarUnderlineStyle={{backgroundColor:'white'}}
-          tabBarTextStyle={{fontWeight:'bold', color:'white'}}
-        >
+          tabBarTextStyle={{fontWeight:'bold', color:'white'}}>
           {/* LIVE SWAPTRACKER BODY */}
           <Tab tabBarUnderlineStyle='white' 
           heading={
-            <TabHeading tabBarUnderlineStyle='white'
-            style={{backgroundColor:'#174502'}}>
+            <TabHeading tabBarUnderlineStyle='white' style={{backgroundColor:'#174502'}}>
               <Text style={{color:'white'}}>LIVE</Text>
             </TabHeading>}>
             <BounceColorWrapper style={{flex: 1}}

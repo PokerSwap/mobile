@@ -5,6 +5,9 @@ import { Container, Content, Button, Text, Toast } from 'native-base';
 import { Context } from '../../Store/appContext'
 import { useNavigation } from '@react-navigation/native';
 
+import darkStyle from '../../Themes/dark.js'
+import lightStyle from '../../Themes/light.js'
+
 export default ChangeEmail = () => {
   const { store, actions } = useContext(Context)
   const navigation = useNavigation()

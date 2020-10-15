@@ -19,36 +19,18 @@ export default ContactsScreen = (props) => {
 
   const navigation = useNavigation()
 
-  var x = {
-    coins: 0,
-    created_at: "Sun, 26 Jul 2020 21:35:15 GMT",
-    devices: [],
-    email: "katz234@gmail.com",
-    first_name: "Cary",
-    hendon_url: "https://pokerdb.thehendonmob.com/player.php?a=r&n=26721",
-    id: 3,
-    last_name: "Katz",
-    nickname: "",
-    profile_pic_url: "https://pokerdb.thehendonmob.com/pictures/carykatzpic.png",
-    roi_rating: 100.0,
-    swap_availability_status: "active",
-    swap_rating: 4.3,
-    total_swaps: 26,
-    transactions: [],
-    updated_at: "Mon, 27 Jul 2020 00:35:12 GMT"
-  }
-
-  const enterProfile = () => {
+  const enterProfile = (id, first_name) => {
     navigation.push('Profile',{
-      user_id: x.id,
-      nickname: x.first_name,
+      user_id: id,
+      nickname: first_name,
     });
   }
 
-  const enterChat = () => {
+  const enterChat = (chat_id, profile_pic_url, first_name) => {
     navigation.push('Chat', {
-      a_avatar: x.profile_pic_url,
-      nickname: x.first_name,
+      a_avatar: profile_pic_url,
+      nickname: first_name,
+      chat_id: chat_id
     });
   }
 
@@ -57,32 +39,42 @@ export default ContactsScreen = (props) => {
       <Content contentContainerStyle={{backgroundColor:currentStyle.background.color}}>
       <OtherHeader title={'Contacts'} />
         <List>
-          <ListItem noIdent>
+          {store.myChats.map(chat => {
+            var chatName
+            chat.chat_user.nickname !== "" ? chatName = chat.chat_user.nickname : chatName = chat.chat_user.first_name + ' ' + chat.chat_user.last_name
+            return(
+            <ListItem noIdent key={chat.id}>
             <Col style={{width:"20%"}}>
-              <TouchableOpacity onPress={() => enterProfile()}>
+              <TouchableOpacity onPress={() => enterProfile(chat.chat_user.id, chat.chat_user.first_name)}>
               <View  
             style={{marginTop:'4%', width: 60, 
                 height: 60, position: 'relative',
                 overflow: 'hidden', borderRadius: 100}}>
-                {x ?
+                {chat.chat_user.profile_pic_url ?
                   <Image style={{
                     display: 'flex', margin: 'auto', 
                     height: '100%', width: 'auto'}} 
-                    source={{uri: x.profile_pic_url}} />
+                    source={{uri: chat.chat_user.profile_pic_url}} />
                   : null}
                 </View>
               </TouchableOpacity>
             
             </Col>
             <Col style={{width:"80%" }}>
-              <TouchableOpacity onPress={() => enterChat()}>
+              <TouchableOpacity onPress={() => enterChat(chat.chat_user.id,chat.chat_user.profile_pic_url, chat.chat_user.first_name)}>
                 <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                  <Text style={{marginLeft:10,fontSize:24, textAlign:'left', color: currentStyle.text.color}}>{x.first_name} {x.last_name}</Text>
+                  <Text style={{marginLeft:10,fontSize:24, textAlign:'left', color: currentStyle.text.color}}>{chatName}</Text>
+                  <View>
                   <Icon name="angle-right" type="FontAwesome5" style={{color: currentStyle.text.color}}/>
+                  <Text style={{color: currentStyle.text.color}}>{chat.since}</Text>
+
+                  </View>
                 </View>
               </TouchableOpacity>
             </Col>
-          </ListItem>
+          </ListItem>)
+          })}
+          
         </List>
       </Content>
     </Container>

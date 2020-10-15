@@ -40,6 +40,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 			currentTournament:null,
 			// MY DEVICE TOKEN
 			deviceToken: null,
+			myChats:[],
 			// MY PROFILE
 			myProfile:null, 
 			// LIVE AND UPCOMING SWAP TRACKER
@@ -362,12 +363,68 @@ const getState = ({ getStore, setStore, getActions }) => {
 						var currentChatResponse = await response.json()
 						console.log("Current Chat Response:", currentChatResponse)
 
-						if (currentChatResponse.message.includes("Chat not found")){
-							getStore().chat.open()
-						}else{null}
+						
+						setStore({currentChat:currentChatResponse.messages})
+						
 
 					} catch (error) {
 						console.log("Getting current chat with this user did not work:", error)
+					}
+				},
+				getMine: async () => {
+					try {
+						let url = databaseURL + 'me/chats'
+						let accessToken = getStore().userToken
+
+						let response = await fetch(url, {
+							method: 'GET',
+							headers: {
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							}, 
+						})
+						var AllChatsResponse = await response.json()
+						console.log("Current Chat Response:", AllChatsResponse)
+
+						var getIds = AllChatsResponse.map(chat => chat.user2_id)
+						console.log('ids are', getIds)
+						
+						const asyncRes = await Promise.all(getIds.map(async (i) => {
+							console.log('get Is', i)
+							 var e = await getActions().profile.retrieve(i);
+							 console.log('comes out',e.first_name)
+							return e;
+						}));
+
+						const asyncRex = await Promise.all(getIds.map(async (i) => {
+							console.log('get Is', i)
+							 var e = await getActions().time.convertShort(i);
+							 console.log('comes out',e.first_name)
+							return e;
+						}));
+						
+						var newChatData = AllChatsResponse.map((chat, index)=> {						
+							var a_since = getActions().time.convertShort(moment(chat.updated_at).fromNow())
+							console.log("this is ",asyncRes[index].first_name)
+							return({
+								...chat,
+								chat_user:asyncRes[index],
+								since: a_since
+							})
+						})
+
+						console.log('newChatData',newChatData)
+
+						setStore({myChats: newChatData})
+
+						// if (allChatResponse.message.includes("Chat not found")){
+						// 	getStore().chat.open()
+						// }else{
+						// 	setStore({myChats:response.messages})
+						// }
+
+					} catch (error) {
+						console.log("Something went wrong in getting all of your chats", error)
 					}
 				},
 				open: async( their_id, a_tournament_id) => {
@@ -845,6 +902,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 							getActions().profile.store(profileData)
 							:
 							console.log('this means you couldnt store your profile')
+						
+							return profileData
 
 					} catch(error){
 						console.log('Something went wrong in getting profile', error)
@@ -857,6 +916,25 @@ const getState = ({ getStore, setStore, getActions }) => {
 						setStore({myProfile: null})
 					} catch(error) {
 						console.log('Something went wrong in removing userToken', error)
+					}
+				},
+				retrieve: async (id) => {
+					try {
+						const accessToken = getStore().userToken;
+						const url = databaseURL + 'profiles/' + id;
+
+						let response = await fetch(url, {
+							method:'GET',
+							headers: {
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							}, 
+						})
+
+						let profileData = await response.json()
+						return profileData
+					} catch (error) {
+						console.log("something went wrong in retrieving file")
 					}
 				},
 				// WHILE LOGGED IN, STORES PROFILE DATA IN STORE
@@ -1594,6 +1672,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 										}
 									})
 									.then(() => getActions().firebase.login( data ))
+									.then(() => getActions().chat.getMine())
 									.then(() => setStore({nowLoading: 'Loading Swaps...'}))
 									.then(() => getActions().tracker.getCurrent())
 									.then(() => getActions().tracker.getUpcoming())
@@ -1628,7 +1707,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				logout: async( navigation ) => {
 					navigation.navigate('Auth', {screen:'Login'})
 					getActions().deviceToken.remove()
-					getActions().firebase.logout()
+					// getActions().firebase.logout()
 					setStore({currentSwap:{}})
 					setStore({currentBuyin:{}})
 					setStore({myCurrentTrackers:{}})

@@ -19,48 +19,23 @@ export default ChatScreen = (props) => {
   store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
 
   var route = useRoute()
-  var { a_avatar, nickname }  = route.params
-  const [ chat, setChat ] = useState()
-  const [messages, setMessages] = useState([{
-    _id: 1, // Message Id
-    text: 'Hello developer', // Actual test
-    createdAt: new Date(), //Fine
-    user: {
-      _id: 2, // Fire store ID
-      name: nickname, // Profile Name their_Profile.name
-      avatar: a_avatar, // Profile Pic theirProifle.pic
-    },
-  }]);
+  var { a_avatar, nickname, their_id, from_tournament, chat_id }  = route.params
+  const [messages, setMessages] = useState();
 
 
   useEffect(() => {
-    actions.chat.getCurrent()
-    Fire.shared.on(message => 
-      setMessages(previousState => GiftedChat.append(previousState.messages, message))
-    );
-    Fire.shared.on(message => console.log('message in store',message))
-    console.log('messahes', messages)
+    actions.chat.getCurrent(chat_id)
+    // setMessages(previousState => GiftedChat.append(previousState.messages, message))
+    setMessages(store.currentChat.messages)
 
-    setMessages([
-      {
-        _id: 1, // Message Id
-        text: 'Hello developer', // Actual test
-        createdAt: new Date(), //Fine
-        user: {
-          _id: 2, // Fire store ID
-          name: nickname, // Profile Name their_Profile.name
-          avatar: a_avatar, // Profile Pic theirProifle.pic
-        },
-      },
-    ])
     return () => {
-      Fire.shared.off();
+      // Fire.shared.off();
     }
   }, [true])
 
- 
-  const onSend = useCallback((messages) => {
-    setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
+  const onSend = useCallback((message) => {
+    actions.chat.sendMessage(chat_id, message)
+    setMessages(store.currentChat.messages)
   }, [])
  
   return (
@@ -69,13 +44,13 @@ export default ChatScreen = (props) => {
 
       <GiftedChat
         messages={messages}
-         onSend={messages => onSend(messages)}
+         onSend={messagesd => onSend(messagesd)}
         // onSend={() => {
         //   Fire.shared.send
         //   console.log('ummm', Fire.shared.send)
         // }}
         user={{
-          _id: Fire.shared.uid,
+          _id: store.myProfile.id,
           name:store.myProfile.first_name,
           avatar:store.myProfile.profile_pic_url, 
            }} />
