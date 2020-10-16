@@ -1,9 +1,10 @@
 import React, { useContext, useState } from 'react';
-import { Alert, TextInput, View} from 'react-native'
-import { Container, Content, Button, Text, Toast } from 'native-base';
+import { Context } from '../../Store/appContext'
 import { useNavigation } from '@react-navigation/native'
 
-import { Context } from '../../Store/appContext'
+import { Alert, TextInput, View} from 'react-native'
+import { Container, Content, Button, Text, Toast } from 'native-base';
+
 import '../../Images/placeholder.jpg';
 
 import darkStyle from '../../Themes/dark.js'
@@ -56,16 +57,16 @@ export default ChangePassword = () => {
 
   return(
     <Container style={{justifyContent:'center'}}>
-      <Content contentContainerStyle={{paddingTop:50,
+      <Content contentContainerStyle={{paddingTop:50, backgroundColor: currentStyle.background.color,
         justifyContent:'flex-start', alignItems:'center', flex:1, flexDirection:'column'}}>
         {/* EMAIL ADDRESS FIELD */}
-        <Text style={{fontSize:20, textAlign:'center', marginBottom:5}}> 
+        <Text style={{fontSize:20, textAlign:'center', marginBottom:5, color:currentStyle.text.color}}> 
           Email Current Email: 
         </Text>
-        <View style={{borderColor:'black', borderWidth:1, width:'80%', padding:10, marginVeritcal:5}}>
+        <View style={{borderColor: currentStyle.text.color, borderWidth:1, width:'80%', padding:10, marginVeritcal:5}}>
 
           <TextInput 
-            style={{fontSize:20, textAlign:'center', width:'100%'}}
+            style={{fontSize:20, textAlign:'center', width:'100%', color:currentStyle.text.color}}
             placeholder="Enter Current Email"
             placeholderTextColor='gray'
             keyboardType="email-address"
@@ -79,12 +80,12 @@ export default ChangePassword = () => {
             onChangeText={email => setCurrentEmail( email )}  />
         </View>
         {/* ENTER CURRENT PASSWORD */}
-        <Text style={{fontSize:20, marginTop:20, textAlign:'center',marginBottom:5}}>
+        <Text style={{fontSize:20, marginTop:20, textAlign:'center',marginBottom:5, color: currentStyle.text.color}}>
           Enter Current Password:
         </Text>
-        <View style={{borderColor:'black', borderWidth:1, width:'80%', padding:10, marginVeritcal:5}}>
+        <View style={{borderColor:currentStyle.text.color, borderWidth:1, width:'80%', padding:10, marginVeritcal:5}}>
           <TextInput 
-            style={{fontSize:20, textAlign:'center', width:'100%'}}
+            style={{fontSize:20, textAlign:'center', width:'100%', color:currentStyle.text.color}}
             placeholder="Enter Current Password"
             placeholderTextColor='gray'
             blurOnSubmit={false}
@@ -98,12 +99,12 @@ export default ChangePassword = () => {
             onChangeText={password => setCurrentPassword( password )} />
         </View>
         {/* ENTER NEW PASSWORD */}
-        <Text style={{fontSize:20, marginTop:20, textAlign:'center',marginBottom:5}}>
+        <Text style={{fontSize:20, marginTop:20, textAlign:'center',marginBottom:5, color:currentStyle.text.color}}>
           Enter New Password:
         </Text>
-        <View style={{borderColor:'black', borderWidth:1, width:'80%', padding:10, marginVeritcal:5}}>
+        <View style={{borderColor:currentStyle.text.color, borderWidth:1, width:'80%', padding:10, marginVeritcal:5}}>
           <TextInput 
-            style={{fontSize:20, textAlign:'center', width:'100%'}}
+            style={{fontSize:20, textAlign:'center', width:'100%', color:currentStyle.text.color}}
             placeholder="Enter Password"
             placeholderTextColor='gray'
             secureTextEntry
@@ -118,12 +119,12 @@ export default ChangePassword = () => {
             onChangeText={password2 => setNewPassword( password2 )} />
           </View>
         {/* CONFIRM NEW PASSWORD */}
-        <Text style={{fontSize:20, marginTop:20, textAlign:'center',marginBottom:5}}>
+        <Text style={{fontSize:20, marginTop:20, textAlign:'center',marginBottom:5, color:currentStyle.text.color}}>
           Confirm New Password:
         </Text>
-        <View style={{borderColor:'black', borderWidth:1, width:'80%', padding:10, marginVeritcal:5}}>
+        <View style={{borderColor:currentStyle.text.color, borderWidth:1, width:'80%', padding:10, marginVeritcal:5}}>
           <TextInput 
-            style={{fontSize:20, textAlign:'center', width:'100%'}}
+            style={{fontSize:20, textAlign:'center', width:'100%', color:currentStyle.text.color}}
             placeholder="Confirm New Password"
             placeholderTextColor='gray'
             secureTextEntry          
@@ -138,12 +139,12 @@ export default ChangePassword = () => {
         </View>
         <View style={{justifyContent:'center'}}>
            {/* SUBMIT BUTTON */}
-        <Button large disabled={isDisabled} style={{marginTop:40, selfAlign:'center', justifyContent:'center'}}
-          onPress={()=> showAlert()}>
-          <Text style={{fontSize:30, fontWeight:'600'}}> 
-            SUBMIT 
-          </Text>
-        </Button>
+          <Button large disabled={isDisabled} style={{marginTop:40, selfAlign:'center', justifyContent:'center'}}
+            onPress={()=> showAlert()}>
+            <Text style={{fontSize:30, fontWeight:'600'}}> 
+              SUBMIT 
+            </Text>
+          </Button>
 
         </View>
        

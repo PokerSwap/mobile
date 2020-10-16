@@ -384,36 +384,29 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}, 
 						})
 						var AllChatsResponse = await response.json()
-						console.log("Current Chat Response:", AllChatsResponse)
 
 						var getIds = AllChatsResponse.map(chat => chat.user2_id)
-						console.log('ids are', getIds)
 						
 						const asyncRes = await Promise.all(getIds.map(async (i) => {
-							console.log('get Is', i)
 							 var e = await getActions().profile.retrieve(i);
-							 console.log('comes out',e.first_name)
 							return e;
 						}));
 
-						const asyncRex = await Promise.all(getIds.map(async (i) => {
-							console.log('get Is', i)
+						var getTimes = AllChatsResponse.map(chat => moment(chat.updated_at).fromNow())
+
+						const asyncRex = await Promise.all(getTimes.map(async (i) => {
 							 var e = await getActions().time.convertShort(i);
-							 console.log('comes out',e.first_name)
 							return e;
 						}));
 						
 						var newChatData = AllChatsResponse.map((chat, index)=> {						
-							var a_since = getActions().time.convertShort(moment(chat.updated_at).fromNow())
-							console.log("this is ",asyncRes[index].first_name)
 							return({
 								...chat,
 								chat_user:asyncRes[index],
-								since: a_since
+								since: asyncRex[index]
 							})
 						})
 
-						console.log('newChatData',newChatData)
 
 						setStore({myChats: newChatData})
 

@@ -55,7 +55,7 @@ export default ProfitResults = (props) => {
     var eee = await actions.buy_in.getCurrent(my_buyin.id) 
   }
 
-  console.log('allPaid',allPaid, tournament.results_link, final_profit)
+  // console.log('allPaid',allPaid, tournament.results_link, final_profit)
   var profit
   allPaid & tournament.results_link !== null ? 
     final_profit >= 0 ?
@@ -117,7 +117,7 @@ export default ProfitResults = (props) => {
                   <Text style={{textAlign:'center',color:currentStyle.text.color}}>
                     Swapped Players:
                   </Text>
-                  <Text style={{alignText:'center', color:currentStyle.text.color,fontSize:24}}>
+                  <Text style={{textAlign:'center', color:currentStyle.text.color,fontSize:24}}>
                     {agreedBuyins.length}
                   </Text>
                 </Col>

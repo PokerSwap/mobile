@@ -16,7 +16,7 @@ export default OtherHeader = (props) => {
   store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
   
   return(
-    <Header  style={{justifyContent:'space-between', alignItems:'center', backgroundColor:currentStyle.background.color}}>
+    <Header  style={{justifyContent:'space-between', alignItems:'center', backgroundColor:currentStyle.header.color}}>
       {/* MENU ICON */}
       <Icon type="Ionicons" name="ios-chevron-back" style={{marginLeft:10, color:currentStyle.text.color}}
         onPress={() => navigation.goBack(null)} />

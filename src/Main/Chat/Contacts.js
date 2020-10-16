@@ -64,10 +64,9 @@ export default ContactsScreen = (props) => {
               <TouchableOpacity onPress={() => enterChat(chat.chat_user.id,chat.chat_user.profile_pic_url, chat.chat_user.first_name)}>
                 <View style={{flexDirection:'row', justifyContent:'space-between'}}>
                   <Text style={{marginLeft:10,fontSize:24, textAlign:'left', color: currentStyle.text.color}}>{chatName}</Text>
-                  <View>
-                  <Icon name="angle-right" type="FontAwesome5" style={{color: currentStyle.text.color}}/>
-                  <Text style={{color: currentStyle.text.color}}>{chat.since}</Text>
-
+                  <View style={{flexDirection:'row'}}>
+                    <Text style={{color: currentStyle.text.color}}>{chat.since}</Text>
+                    <Icon name="angle-right" type="FontAwesome5" style={{marginLeft:10,color: currentStyle.text.color}}/>
                   </View>
                 </View>
               </TouchableOpacity>

@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react';
-import { TextInput, View } from 'react-native'
-import { Container, Content, Button, Text, Toast } from 'native-base';
-
 import { Context } from '../../Store/appContext'
 import { useNavigation } from '@react-navigation/native';
+
+import { TextInput, View } from 'react-native'
+import { Container, Content, Button, Text, Toast } from 'native-base';
 
 import darkStyle from '../../Themes/dark.js'
 import lightStyle from '../../Themes/light.js'
@@ -46,16 +46,16 @@ export default ChangeEmail = () => {
   }
 
   return(
-    <Container>
+    <Container >
       <Content contentContainerStyle={{paddingTop:50,
-        justifyContent:'flex-start', alignItems:'center', flex:1, flexDirection:'column'}}>
+        justifyContent:'flex-start', alignItems:'center', flex:1, flexDirection:'column', backgroundColor:currentStyle.background.color}}>
         {/* ENTER CURRENT EMAIL FIELD */}
-        <Text style={{fontSize:20, textAlign:'center', marginBottom:5}}>
+        <Text style={{fontSize:20, textAlign:'center', marginBottom:5, color:currentStyle.text.color}}>
           Enter Current Email:
         </Text>
-        <View style={{borderColor:'black', borderWidth:1, width:'80%', padding:10, marginVeritcal:5}}>
+        <View style={{borderColor:currentStyle.text.color, borderWidth:1, width:'80%', padding:10, marginVeritcal:5}}>
           <TextInput 
-            style={{fontSize:20, textAlign:'center'}}
+            style={{fontSize:20, textAlign:'center', color:currentStyle.text.color}}
             placeholder="Enter Current Email"
             placeholderTextColor='gray'
             keyboardType="email-address"
@@ -70,12 +70,12 @@ export default ChangeEmail = () => {
         </View>
         
         {/* ENTER NEW EMAIL FIELD */}
-        <Text style={{fontSize:20, textAlign:'center', marginTop:15, marginBottom:5}}>
+        <Text style={{fontSize:20, textAlign:'center', marginTop:15, marginBottom:5, color:currentStyle.text.color}}>
           Enter Current Password:
         </Text>
-        <View style={{borderColor:'black', borderWidth:1, width:'80%', padding:10, marginVeritcal:5}}>
+        <View style={{borderColor:currentStyle.text.color, borderWidth:1, width:'80%', padding:10, marginVeritcal:5}}>
           <TextInput 
-            style={{fontSize:20, textAlign:'center', paddingHorizontal:10, width:'100%'}}
+            style={{fontSize:20, textAlign:'center', paddingHorizontal:10, width:'100%', color:currentStyle.text.color}}
             placeholder="Enter Current Password"
             placeholderTextColor='gray'
             secureTextEntry
@@ -90,12 +90,12 @@ export default ChangeEmail = () => {
             onChangeText={currentPassword => setCurrentPassword( currentPassword )} />
         </View>
         {/* ENTER NEW EMAIL FIELD */}
-        <Text style={{fontSize:20, textAlign:'center', marginTop:15, marginBottom:5}}>
+        <Text style={{fontSize:20, textAlign:'center', marginTop:15, marginBottom:5, color:currentStyle.text.color}}>
           Enter New Email:
         </Text>
-        <View style={{borderColor:'black', borderWidth:1, width:'80%', padding:10, marginVeritcal:5}}>
+        <View style={{borderColor:currentStyle.text.color, borderWidth:1, width:'80%', padding:10, marginVeritcal:5}}>
           <TextInput 
-            style={{fontSize:20, textAlign:'center'}}
+            style={{fontSize:20, textAlign:'center', color:currentStyle.text.color}}
             placeholder="Enter New Email Address"
             placeholderTextColor='gray'
             keyboardType="email-address"
@@ -110,12 +110,12 @@ export default ChangeEmail = () => {
             onChangeText={email => setNewEmail( email )} />
         </View>
         {/* CONFIRM NEW EMAIL FIELD */}
-        <Text style={{fontSize:20, textAlign:'center', marginTop:15, marginBottom:5}}>
+        <Text style={{fontSize:20, textAlign:'center', marginTop:15, marginBottom:5, color:currentStyle.text.color}}>
           Confirm New Email:
         </Text>
-        <View style={{borderColor:'black', borderWidth:1, width:'80%', padding:10, marginVeritcal:5}}>
+        <View style={{borderColor:currentStyle.text.color, borderWidth:1, width:'80%', padding:10, marginVeritcal:5}}>
           <TextInput 
-            style={{fontSize:20, textAlign:'center'}}
+            style={{fontSize:20, textAlign:'center', color:currentStyle.text.color}}
             placeholder="Confirm New Email Address"
             placeholderTextColor='gray'
             keyboardType="email-address"

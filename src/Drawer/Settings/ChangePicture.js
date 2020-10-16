@@ -1,17 +1,18 @@
 import React, { useContext, useState, useEffect } from 'react';
+import { Context } from '../../Store/appContext'
+import { useNavigation } from '@react-navigation/native'
+import {openSettings, requestMultiple, PERMISSIONS} from 'react-native-permissions';
+
 import { Alert, Image, Platform, YellowBox } from 'react-native'
 import { Container, Content, Icon, Button, Text, Card } from 'native-base';
-import { useNavigation } from '@react-navigation/native'
-
 import ImagePicker from 'react-native-image-picker'
 import Spinner from 'react-native-loading-spinner-overlay'
-import {openSettings, requestMultiple, PERMISSIONS} from 'react-native-permissions';
+
+import '../../Images/placeholder.jpg';
 
 import darkStyle from '../../Themes/dark.js'
 import lightStyle from '../../Themes/light.js'
 
-import { Context } from '../../Store/appContext'
-import '../../Images/placeholder.jpg';
 
 export default ChangePicture = (props) => {
   const { store, actions } = useContext(Context)
@@ -116,14 +117,14 @@ export default ChangePicture = (props) => {
   }
 
   return(
-    <Container>
+    <Container style={{backgroundColor:currentStyle.background.color}}>
       <Content contentContainerStyle={{
-        justifyContent:'center', alignItems:'center'}}>
+        justifyContent:'center', alignItems:'center', backgroundColor:currentStyle.background.color}}>
         <Spinner visible={loading} textContent={'Changing Avatar...'}/>
         <Card transparent style={{
             justifyContent:'center', alignItems:'center', 
             flex:1, flexDirection:'column', marginTop:100}}>
-          <Image source={{uri: image.uri}} style={{width:300, height:300, borderWidth:1, borderColor:'black'}} />
+          <Image source={{uri: image.uri}} style={{width:300, height:300, borderWidth:1, borderColor:currentStyle.text.color}} />
           <Button style={{width:300, justifyContent:'center'}} 
             onPress={()=> askPersmission()}>
             <Icon type='FontAwesome5' name='plus' style={{color:'white'}}/>

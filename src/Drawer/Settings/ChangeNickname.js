@@ -1,8 +1,9 @@
 import React, { useContext, useState, useEffect } from 'react';
+import { Context } from '../../Store/appContext'
+
 import { Alert, TextInput, View } from 'react-native'
 import { Container, Content, Button, Text, Toast } from 'native-base';
 
-import { Context } from '../../Store/appContext'
 import '../../Images/placeholder.jpg';
 
 import darkStyle from '../../Themes/dark.js'
@@ -46,15 +47,15 @@ export default ChangeNickname = () => {
 
   return(
     <Container style={{justifyContent:'center'}}>
-      <Content contentContainerStyle={{paddingTop:50,
+      <Content contentContainerStyle={{paddingTop:50, backgroundColor:currentStyle.background.color,
         justifyContent:'flex-start', alignItems:'center', flex:1, flexDirection:'column'}}>
         {/* TEXT FIELD */}
-        <Text style={{fontSize:20, marginTop:20, textAlign:'center',marginBottom:5}}>
+        <Text style={{fontSize:20, marginTop:20, textAlign:'center',marginBottom:5, color:currentStyle.text.color}}>
           Change Nickname: 
         </Text>
-        <View style={{borderColor:'black', borderWidth:1, width:'80%', padding:10, marginVeritcal:5}}>
+        <View style={{borderColor:currentStyle.text.color, borderWidth:1, width:'80%', padding:10, marginVeritcal:5}}>
           <TextInput 
-            style={{fontSize:20, textAlign:'center', width:'100%'}}
+            style={{fontSize:20, textAlign:'center', width:'100%', color:currentStyle.text.color}}
             placeholder="Enter New Nickname"
             placeholderTextColor='gray'
             blurOnSubmit={false}
