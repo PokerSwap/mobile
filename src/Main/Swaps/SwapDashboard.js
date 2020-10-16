@@ -1,9 +1,9 @@
-import React, {useContext, useState, useCallback, useEffect } from 'react';
+import React, {useContext, useState, useRef, useCallback, useEffect } from 'react';
 import { Context } from '../../Store/appContext'
 import { useNavigation } from '@react-navigation/native'
 
 import { Alert, FlatList, Platform, RefreshControl, StatusBar, View } from 'react-native';
-import { Button, Container, Content, Icon, Tabs, Tab, TabHeading, Text } from 'native-base';
+import { Button, Container, Content, Icon, Tabs, Tab, TabHeading, Text, Toast } from 'native-base';
 import messaging from '@react-native-firebase/messaging'
 
 import BounceColorWrapper from '../../Functional/BounceColorWrapper'
@@ -16,12 +16,38 @@ import lightStyle from '../../Themes/light.js'
 export default SwapDashboard = (props) => {
   const { store, actions } = useContext(Context) 
   const navigation = useNavigation()
+  const { navigate, dangerouslyGetState } = useNavigation()
+
 
   var currentStyle
   store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
   
   const goToThing = async(data) => {
     console.log('name', data)
+    const { index, routes } = dangerouslyGetState()
+    const screenName = routes[index].name
+    console.log('screenname', screenName)
+    console.log('data ID', remoteMessage.data.id, store.currentSwap.id)
+    const customMessage = (x) => {
+      Toast.show({text:x, duration:3000, position:'top'})}
+
+    
+    if (screenName =="Swap Offer" && remoteMessage.data.id==store.currentSwap.id){
+      var s = actions.refresh.toggle()
+      var e = await actions.swap.getCurrent(remoteMessage.data.id)
+      var tour = store.currentSwap.tournament_id
+      var eee = store.currentSwap.recipient_user.id
+      var x = await actions.tournament.getCurrent(tour)
+      var ree = x.buyins.filter(buyin => buyin.recipient_user.id == eee)
+      var dwer = await actions.buyin.getCurrent(ree[0].recipient_buyin.id)
+
+      var sw = actions.refresh.toggle()
+      return customMessage(remoteMessage.data.alert)
+    }else{
+      null
+    }
+ 
+
     if(data.type == 'event'){
       var cc = await actions.navigate.toEvent(data, navigation)
     }else if(data.type == 'swap'){
@@ -81,6 +107,24 @@ export default SwapDashboard = (props) => {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
       console.log('messageType', remoteMessage)
       console.log('messageCategory', remoteMessage.category)
+    const { index, routes } = dangerouslyGetState()
+    const screenName = routes[index].name
+    console.log('screenname', screenName)
+    console.log('data ID', remoteMessage.data.id, store.currentSwap.id)
+    const customMessage = (x) => {
+      Toast.show({text:x, duration:3000, position:'top'})}
+
+    var xee = await actions.tracker.getCurrent()
+    var xee = await actions.tracker.getUpcoming()
+
+    if (screenName =="Swap Offer" && remoteMessage.data.id==store.currentSwap.id){
+      var s = actions.refresh.toggle()
+      var e = await actions.swap.getCurrent(remoteMessage.data.id)
+      var sw = actions.refresh.toggle()
+      return customMessage(remoteMessage.data.alert)
+    }else{
+      null
+    }
       Alert.alert(
         remoteMessage.notification.title, 
         remoteMessage.notification.body,

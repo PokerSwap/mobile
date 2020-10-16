@@ -16,7 +16,8 @@ stripe.setOptions({
   androidPayMode: 'test',
 });
 
-
+import darkStyle from '../../Themes/dark.js'
+import lightStyle from '../../Themes/light.js'
 export default PayForTokenModal = (props) => {
 
   const { store, actions } = useContext(Context)
@@ -241,23 +242,23 @@ export default PayForTokenModal = (props) => {
     // FULL BACKGROUND
     <View style={styles.fullBackground}>
       {/* WHITE BOX BACKGROUND */}
-      <View style={styles.whiteBackground}> 
+      <View style={[styles.whiteBackground, {backgroundColor:currentStyle.background.color}]}> 
       <Spinner visible={isLoading}/>
-      <Text style={{textAlign:'center', marginTop:10, fontSize:24}}>Buy Tokens</Text>
+      <Text style={{textAlign:'center', marginTop:10, fontSize:24,color:currentStyle.text.color}}>Buy Tokens</Text>
       <Grid>
         <Col>
           <Row style={{justifyContent:'flex-end', alignItems:'center'}}>
-            <Text style={{textAlign:'right', fontSize:20}}>
+            <Text style={{textAlign:'right', fontSize:20,color:currentStyle.text.color}}>
               Current Coins:
             </Text>
           </Row>
           <Row style={{justifyContent:'flex-end', alignItems:'center'}}>
-            <Text style={{textAlign:'right', fontSize:20}}>
+            <Text style={{textAlign:'right', fontSize:20, color:currentStyle.text.color}}>
               Added Coins:
             </Text>
           </Row>
           <Row style={{justifyContent:'flex-end', alignItems:'center'}}>
-            <Text style={{textAlign:'right', fontSize:20}}>
+            <Text style={{textAlign:'right', fontSize:20, color:currentStyle.text.color}}>
               New Coins: 
             </Text>
           </Row>
@@ -265,26 +266,26 @@ export default PayForTokenModal = (props) => {
         <Col>
           <Row style={{alignItems:'center'}}>
             <Icon type="FontAwesome5" name='coins' style={{color:'#FFD700'}}/>
-            <Text style={{fontSize:20}}> {store.myProfile.coins}</Text>      
+            <Text style={{fontSize:20, color:currentStyle.text.color}}>{store.myProfile.coins}</Text>      
           </Row>
           <Row style={{alignItems:'center'}}>
             <Icon type="FontAwesome5" name='circle' style={{color:'#FFD700'}}/>
-            <Text style={{fontSize:20}}> {props.swapTokens}</Text>      
+            <Text style={{fontSize:20, color:currentStyle.text.color}}>{props.swapTokens}</Text>      
           </Row>
           <Row style={{alignItems:'center'}}>
             <Icon type="FontAwesome5" name='coins' style={{color:'#FFD700'}}/>
-            <Text style={{fontSize:20}}> {store.myProfile.coins + props.swapTokens}</Text>      
+            <Text style={{fontSize:20, color:currentStyle.text.color}}>{store.myProfile.coins + props.swapTokens}</Text>      
           </Row>
         </Col>
       </Grid>
       <Grid>
         <Row style={{justifyContent:'center'}}>
-          <Text style={{fontSize:30, textAlign:'center'}}>
+          <Text style={{fontSize:30, textAlign:'center', color:currentStyle.text.color}}>
             ${props.dollars}
           </Text>
         </Row>
         <Row style={{justifyContent:'center'}}>
-          <TouchableOpacity style={{borderWidth:1, borderRadius:50, justifyContent:'center'}} // disabled={disabled} 
+          <TouchableOpacity style={{borderWidth:1, backgroundColor:currentStyle.text.color, borderRadius:50, justifyContent:'center'}} // disabled={disabled} 
             onPress={() => handleOnPressPayBtn()}>
               {Platform.OS === 'ios' ? 
                 <View style={{width:250, justifyContent:'center'}}>
@@ -300,7 +301,7 @@ export default PayForTokenModal = (props) => {
         </Row>
         <Row style={{justifyContent:'center'}}>
           <TouchableOpacity style={{alignSelf:'center'}} onPress={()=>props.setVisible(false)}>
-            <Text style={{textAlign:'center', fontSize:20, color:"gray"}}>
+            <Text style={{textAlign:'center', fontSize:20, color:currentStyle.text.color}}>
               Cancel
             </Text>
           </TouchableOpacity>
@@ -316,7 +317,7 @@ const styles = {
     backgroundColor:'rgba(0,0,0,0.6)', height:'100%', 
     alignContent:'stretch'},
   whiteBackground:{
-    alignSelf:'center', backgroundColor:'white', flexDirection:'column',
+    alignSelf:'center',  flexDirection:'column',
     width:'80%', height:'80%', margin: 'auto', position: 'relative',
     top: '13%', left: 0, bottom: 0, right: 0}
 }

@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react';
-import { TextInput } from 'react-native'
-import { Button, Container, Item, Content, Toast, Icon, Text, View } from 'native-base';
+import { Context } from '../../Store/appContext';
 import { throttle } from 'lodash'
 
-import { Context } from '../../Store/appContext';
+import { TextInput } from 'react-native'
+import { Button, Container, Item, Content, Toast, Icon, Text, View } from 'native-base';
 
 export default CreateUser = () => {
 	const { store, actions } = useContext(Context)
@@ -15,10 +15,12 @@ export default CreateUser = () => {
 	const [ submitted, setSubmitted ] = useState(false)
 
 	const createUser = async() => {
-		email !== ''|| password !== '' ?
+		email !== ''?
+		 password.length >= 6 ?
 			password == c_password ?
 				userStart() : errorMessage('Make sure your passwords match')
-		: errorMessage('Please enter your desired email and password')
+		: errorMessage('Please enter a password with 6 characters or more')
+				: errorMessage('Please enter your desired email and password')
 	}
 
 	const userStart = async() => {
@@ -50,7 +52,7 @@ export default CreateUser = () => {
 					{/* USER INSTRUCTIONS */}
 					<Text style={{textAlign:"center", fontSize:20}}>
 						Please enter your personal email address and {}
-						create a password for your Swap account.
+						create a password with at least 6 characters for your Swap account.
 					</Text>
 					{/* EMAIL ADDRESS FIELD */}
 					<Item style={styles.item}>

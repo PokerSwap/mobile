@@ -10,6 +10,12 @@ const darkStyle =  StyleSheet.create({
     header:{
       color:'rgb(37,41,49)'
     },
+    searchBar:{
+      color:'rgb(23,32,42)'
+    },
+    searchInput:{
+      color:'rgb(23,32,42)'
+    }
   })
 
   export default darkStyle;

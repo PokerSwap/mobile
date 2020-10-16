@@ -18,18 +18,24 @@ export default CompareCard = (props) => {
       <Row>
         {/* YOUR SWAP PERCENTAGE */}
         <Col>
-          <Text style={[styles.userTitle, {color:currentStyle.text.color}]}> You </Text>
+          <Text style={[styles.userTitle, {color:currentStyle.text.color}]}>
+            You Give
+          </Text>
           <View style={[styles.percentageView,{backgroundColor:props.youColor}]}>
             <Text style={styles.percentageText}>
-              {props.percentage}%</Text>
+              {props.percentage}%
+            </Text>
           </View>
         </Col>
         {/* THEIR SWAP PERCENTAGE */}
         <Col>
-          <Text style={[styles.userTitle, {color:currentStyle.text.color} ]}> Them </Text>
+          <Text style={[styles.userTitle, {color:currentStyle.text.color} ]}>
+            They Give
+          </Text>
           <View style={[styles.percentageView,{backgroundColor:props.themColor}]}>
             <Text style={styles.percentageText}>
-            {props.counter_percentage}%</Text>
+              {props.counter_percentage}%
+            </Text>
           </View>
         </Col>
       </Row>

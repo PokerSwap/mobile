@@ -19,6 +19,8 @@ export default ChangePicture = (props) => {
   const [loading, setLoading] = useState(false)
   const [image, setImage ]= useState(require('../../Images/placeholder.jpg'));
  
+  const navigation = useNavigation()
+
   var currentStyle
   store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
 
@@ -111,7 +113,7 @@ export default ChangePicture = (props) => {
 
   const changePicture = async() => {
     setLoading(true)
-    var answer = await actions.profile.uploadPhoto(image)
+    var answer = await actions.profile.changePhoto(image, navigation)
     setLoading(false)
 
   }

@@ -41,6 +41,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 			// MY DEVICE TOKEN
 			deviceToken: null,
 			myChats:[],
+			refresh:false,
 			// MY PROFILE
 			myProfile:null, 
 			// LIVE AND UPCOMING SWAP TRACKER
@@ -70,6 +71,11 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 		},
 		actions: {
+			refresh:{
+				toggle: () => {
+					setStore({refresh: !getStore().refresh})
+				}
+			},
 			// BUY IN ACTIONS
 			buy_in:{
 				// CREATING A BUYIN AND (RE)-BUYING-IN INTO A TOURNAMENT
@@ -116,46 +122,46 @@ const getState = ({ getStore, setStore, getActions }) => {
 						});
 
 						// PREVENTS WRONG PICTURE UPLOADED
-						// if (newBuyin.message && newBuyin.message == 'Take another photo'){
-						// 	var eee = await getActions().buy_in.delete(newBuyin.buyin_id)
-						// 	console.log('lol', newBuyin)
-						// 	return errorMessage(newBuyin.message)
-						// }else{null}
+						if (newBuyin.message && newBuyin.message == 'Take another photo'){
+							// var eee = await getActions().buy_in.delete(newBuyin.buyin_id)
+							console.log('lol', newBuyin)
+							return errorMessage(newBuyin.message)
+						}else{null}
 						console.log('newBuyin',newBuyin)
-						if(a_tournament_id !== 882){
-							null
-						}else{
-							if (newBuyin.receipt_data.table !== a_table || newBuyin.receipt_data.seat !== a_seat){
-								var eee = await getActions().buy_in.delete(newBuyin.buyin_id)
-								return errorMessage("One of the fields is not correct")
-							}else{null}
+						// if(a_tournament_id !== 882){
+						// 	null
+						// }else{
+						// 	if (newBuyin.receipt_data.table !== a_table || newBuyin.receipt_data.seat !== a_seat){
+						// 		var eee = await getActions().buy_in.delete(newBuyin.buyin_id)
+						// 		return errorMessage("One of the fields is not correct")
+						// 	}else{null}
 	
-							if(newBuyin.receipt_data.casino.includes(a_casino)){
-								console.log('go ahead')
-							}else{
-								console.log('Stop')
-							}
+						// 	if(newBuyin.receipt_data.casino.includes(a_casino)){
+						// 		console.log('go ahead')
+						// 	}else{
+						// 		console.log('Stop')
+						// 	}
 	
-							if(newBuyin.ocr_data.includes('Tournament Date:')){
-								var x = newBuyin.ocr_data.indexOf('Tournament Date:')
-								var a = x+17, b = x +27, c=x -9, d=x-1 ;
-								var alls = newBuyin.ocr_data.substring(a,b) +' '+ newBuyin.ocr_data.substring(c,d) + 'GMT'
-								var x = new Date(alls)
-								var y = new Date(a_tournament_start)
-								console.log('x',x)
-								console.log('y',y)
+						// 	if(newBuyin.ocr_data.includes('Tournament Date:')){
+						// 		var x = newBuyin.ocr_data.indexOf('Tournament Date:')
+						// 		var a = x+17, b = x +27, c=x -9, d=x-1 ;
+						// 		var alls = newBuyin.ocr_data.substring(a,b) +' '+ newBuyin.ocr_data.substring(c,d) + 'GMT'
+						// 		var x = new Date(alls)
+						// 		var y = new Date(a_tournament_start)
+						// 		console.log('x',x)
+						// 		console.log('y',y)
 	
 								
-							}else{
-								console.log('not c')
-							}
+						// 	}else{
+						// 		console.log('not c')
+						// 	}
 	
-							if(newBuyin.validation.first_name.valid && newBuyin.validation.last_name.valid){
-								console.log("All is valid")
-							}else{
-								return(console.log("Not All is valid"))
-							}
-						}
+						// 	if(newBuyin.validation.first_name.valid && newBuyin.validation.last_name.valid){
+						// 		console.log("All is valid")
+						// 	}else{
+						// 		return(console.log("Not All is valid"))
+						// 	}
+						// }
 
 						
 			 
@@ -197,12 +203,12 @@ const getState = ({ getStore, setStore, getActions }) => {
 							action: null
 						})
 
-						PushNotification.localNotificationSchedule({
-							//... You can use all the options from localNotifications
-							message: a_tournament_name + "just started!", // (required)
-							date: new Date(Date.now() + 60 * 1000), // in 60 secs
-							allowWhileIdle: false, // (optional) set notification to work while on doze, default: false
-						});
+						// PushNotification.localNotificationSchedule({
+						// 	//... You can use all the options from localNotifications
+						// 	message: a_tournament_name + "just started!", // (required)
+						// 	date: new Date(Date.now() + 60 * 1000), // in 60 secs
+						// 	allowWhileIdle: false, // (optional) set notification to work while on doze, default: false
+						// });
 
 					} catch(error) {
 						console.log("Some went wrong in adding a buyin", error)
@@ -407,14 +413,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							})
 						})
 
-
 						setStore({myChats: newChatData})
-
-						// if (allChatResponse.message.includes("Chat not found")){
-						// 	getStore().chat.open()
-						// }else{
-						// 	setStore({myChats:response.messages})
-						// }
 
 					} catch (error) {
 						console.log("Something went wrong in getting all of your chats", error)
@@ -939,15 +938,10 @@ const getState = ({ getStore, setStore, getActions }) => {
 					}
         },
         // CHANGE NICKNAME
-        changeNickName: async( a_nickname ) => {
+        changeNickName: async( a_nickname, navigation ) => {
           try{
             const url = databaseURL + 'profiles/me'
 						const accessToken = getStore().userToken;
-
-            if (a_nickname.length < 1){ 
-							return errorMessage("You must enter something in the field") 
-						} else { null }
-
             var data = {
               nickname: a_nickname
             }
@@ -961,16 +955,15 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}
 						})
 						.then(response => response.json())
-						var e = await getActions().profile.get()
-						console.log('Nickname changed:', response)  
+						.then(() => getActions().profile.get())
+						.then(() => navigation.goBack())
 						return customMessage('Your nickname change was successful')   
-
 
           }catch(error) {
             console.log('Something went wrong with changing nickname:', error)
           }
         },
-				// UPLOAD NEW PROFILE PHOTO
+				// UPLOAD FIRST PROFILE PHOTO
 				uploadPhoto: async ( image ) => {
 					try {
 						const url = databaseURL + 'profiles/image'
@@ -999,6 +992,43 @@ const getState = ({ getStore, setStore, getActions }) => {
 							// return responseJson;
 						})
 						.then(()=> getActions().profile.get())
+						.catch((error) => {
+							console.log('error in json of profile pic',error);
+						});
+					} catch(error) {
+						return errorMessage(error.message)
+					}
+				},
+				// CHANGE PROFILE PHOTO
+				changePhoto: async ( image, navigation ) => {
+					try {
+						const url = databaseURL + 'profiles/image'
+						const accessToken = getStore().userToken;
+						const imageData = new FormData();
+
+						imageData.append("image", {
+							uri: image.uri,
+							type: image.type,
+							name: "example"
+						});
+
+						console.log("Image's Data:", imageData)
+
+						var xee = await fetch(url, {
+							method: 'PUT',
+							headers: {
+								'Content-Type': 'multipart/form-data',
+								'Authorization': 'Bearer ' + accessToken,
+							},
+							body: imageData,
+						})
+						.then(response => response.json())
+						.then((responseJson) => {
+							console.log('responseJson',responseJson);
+							// return responseJson;
+						})
+						.then(()=> getActions().profile.get())
+						.then(() => navigation.goBack())
 						.catch((error) => {
 							console.log('error in json of profile pic',error);
 						});
@@ -1066,7 +1096,10 @@ const getState = ({ getStore, setStore, getActions }) => {
 						.then(response => response.json())
 						
 						console.log('response should be here', response)
-						if(response.message.includes("Swap percentage too large for recipient.")){
+						if(response.message && response.message.includes("Swap percentage too large.")){
+							return errorMessage(response.message)}
+
+						if(response.message && response.message.includes("Swap percentage too large for recipient.")){
 							return errorMessage(response.message)}
 						
 						var spendToken = await getActions().swapToken.spend()

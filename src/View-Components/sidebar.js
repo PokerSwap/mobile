@@ -53,6 +53,7 @@ export default SideBar = (props) => {
           style={{fontSize:24, color:currentStyle.text.color }} />}
         onPress={()=>  Linking.openURL("mailto:contact@swapprofitonline.com?subject=" + profile.first_name + " " + profile.last_name + " Feedback")}/>
       
+      
       <View style={{flexDirection:'row'}}>
         <Icon type="FontAwesome5" name="moon" style={{color:currentStyle.text.color}}/>
         <Text style={{color:currentStyle.text.color}}>Dark Mode</Text>

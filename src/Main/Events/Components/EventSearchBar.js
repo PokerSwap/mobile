@@ -79,16 +79,16 @@ export default EventSearchBar = (props) => {
   }
 
   return(
-    <View style={{flex:1, flexDirection:'row',backgroundColor:currentStyle.background.color,
+    <View style={{flex:1, flexDirection:'row',
     alignItems:'center', justifyContent:'space-around', marginVertical:15}}>
       
       {/* SEARCH INPUT */}
-      <Item rounded style={{width:'65%', height:40, backgroundColor:currentStyle.background.color}}>
+      <Item rounded style={{width:'65%', height:40, backgroundColor:currentStyle.searchInput.color}}>
         <Icon name="ios-search" style={{color:currentStyle.text.color}} />
         <TextInput 
           value={value}
           autoCorrect={false}
-          style={{width:'85%'}}
+          style={{width:'85%', }}
           onChangeText={valueX=> setValue(valueX)}
           clearButtonMode='always'
           

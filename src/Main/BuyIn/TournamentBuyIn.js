@@ -1,5 +1,6 @@
 import React, { useContext }  from 'react'
 import { Context } from '../../Store/appContext'
+import { useNavigation } from '@react-navigation/native'
 
 import {  Text, ListItem, Button } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid'
@@ -13,13 +14,15 @@ import lightStyle from '../../Themes/light.js'
 
 export default TournamentBuyIn = (props) => {
   const { store, actions } = useContext(Context)
-  const { navigation } = props, {buyin} = props;
+  const { buyin} = props;
+
+  const navigation = useNavigation()
 
   var currentStyle
   store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
 
   const enterProfile = () => {
-    console.log('tid',props.tournament.id)
+    console.log('tid',buyin)
     navigation.push('Profile',{
       user_id: buyin.user_id,
       nickname: buyin.user_name,

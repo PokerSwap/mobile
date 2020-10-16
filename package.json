@@ -1,6 +1,6 @@
 {
   "name": "SwapProfit",
-  "version": "0.5.4",
+  "version": "0.5.7",
   "private": true,
   "scripts": {
     "android": "npx react-native run-android",
@@ -24,11 +24,11 @@
     "@react-native-firebase/auth": "^9.2.7",
     "@react-native-firebase/in-app-messaging": "^7.5.1",
     "@react-native-firebase/messaging": "^7.8.6",
-    "@react-navigation/bottom-tabs": "^5.8.0",
-    "@react-navigation/drawer": "^5.9.0",
+    "@react-navigation/bottom-tabs": "^5.9.2",
+    "@react-navigation/drawer": "^5.9.3",
     "@react-navigation/material-bottom-tabs": "^5.2.16",
-    "@react-navigation/native": "^5.7.3",
-    "@react-navigation/stack": "^5.9.0",
+    "@react-navigation/native": "^5.7.6",
+    "@react-navigation/stack": "^5.9.3",
     "apsl-react-native-button": "^3.1.1",
     "core-js": "^3.6.5",
     "docusaurus": "^1.14.4",

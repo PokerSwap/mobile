@@ -16,7 +16,7 @@ export default AgreedPath = (props) => {
   return(
     <Card transparent style={{backgroundColor:currentStyle.background.color}}>
       <CardItem 
-        style={{justifyContent:'center', flexDirection:'column'}}>
+        style={{justifyContent:'center', flexDirection:'column',backgroundColor:currentStyle.background.color}}>
         {swap.percentage ?
           <View style={{width:'100%'}}>
             <Text style={{textAlign:'center', color:currentStyle.text.color}}>

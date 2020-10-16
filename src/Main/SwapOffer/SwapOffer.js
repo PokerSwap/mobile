@@ -146,7 +146,12 @@ export default SwapOffer = (props) => {
       // cleanup
     }
   }, [false])
+  useEffect(() => {
+    getBuyin()
 
+    getSwap()
+
+  },[store.refresh] )
   useEffect(() => {
     getSwap()
     setRefreshing(false)

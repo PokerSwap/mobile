@@ -39,16 +39,17 @@ export default SwapTracker = (props) => {
   return(
     <View style={{width:'100%', color:'black'}}>
       {/* TOURNAMENT TITLE */}
-      <View style={styles.title.container}>
-        <TouchableOpacity onPress={()=> handler()}>
+      <TouchableOpacity onPress={()=> handler()}>
+        <View style={styles.title.container}>
           <Text style={styles.title.text}>
             {props.tournament.name}
           </Text>
-        </TouchableOpacity>
-        <Text style={{color:'white', textAlign:'center', marginTop:10}}>
-          {props.timeBy} {props.countdown}
-        </Text>
-      </View>
+          <Text style={{color:'white', textAlign:'center', marginTop:10}}>
+            {props.timeBy} {props.countdown}
+          </Text>
+        </View>
+      </TouchableOpacity>
+
       {/* MY BUYIN IN TOURNAMENT */}
       <BuyIn tournament ={props.tournament} action={props.action}
         my_buyin = {props.my_buyin} buyin = {props.my_buyin} />

@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { Context } from '../../Store/appContext'
+import { useNavigation } from '@react-navigation/native'
 
 import { Alert, TextInput, View } from 'react-native'
 import { Container, Content, Button, Text, Toast } from 'native-base';
@@ -11,6 +12,8 @@ import lightStyle from '../../Themes/light.js'
 
 export default ChangeNickname = () => {
   const { store, actions } = useContext(Context)
+
+  const navigation = useNavigation()
 
   var currentStyle
   store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
@@ -42,7 +45,7 @@ export default ChangeNickname = () => {
 
   const changeNickname = async() => {
     console.log(newNickname)
-      var answer = await actions.profile.changeNickName(newNickname)
+      var answer = await actions.profile.changeNickName(newNickname, navigation)
   }
 
   return(

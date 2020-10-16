@@ -167,7 +167,7 @@ Platform.OS == 'ios' ? styles = iosStyles : styles = androidStyles
         <Card transparent style={{backgroundColor:currentStyle.background.color}}>
           {/* TOURNAMENT INFO */}
           <CardItem style={{justifyContent:'center', flexDirection:'column',backgroundColor:currentStyle.background.color}}>
-            <Text style={{textAlign:'center', fontSize:20, marginBottom:10, fontWeight:'bold',color:currentStyle.text.color}}>
+            <Text style={{textAlign:'center', fontSize:20, marginBottom:10, fontWeight:'600',color:currentStyle.text.color}}>
               {tournament_name} 
             </Text>
             {/* <Text>
@@ -182,7 +182,7 @@ Platform.OS == 'ios' ? styles = iosStyles : styles = androidStyles
           {/* INSTRUCTION TEXT  */}
           <CardItem style={{selfAlign:'center', flex:1, marginBottom:-10,backgroundColor:currentStyle.background.color,
             justifyContent:'center', flexDirection:'column'}}>
-            <Text style={{textAlign:'center', fontSize:18, color:currentStyle.text.color,  flex:1}}>
+            <Text style={{textAlign:'center', fontWeight:'600', fontSize:18, color:currentStyle.text.color,  flex:1}}>
               Enter the information and upload a photo of your tournament buyin ticket.
             </Text>
           </CardItem>
