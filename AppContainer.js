@@ -110,6 +110,8 @@ var SwapsStack = () => {
       <Stack.Screen name="Swap Dashboard" component={SwapDashboard}/>
       <Stack.Screen name="Swap Offer" component={SwapOffer} 
         options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
+      <Stack.Screen name="Verify Ticket" component={VerifyTicket} 
+        options={{ gestureEnabled: false,  headerShown: true, headerBackTitle:''}}/>
       <Stack.Screen name="Event Lobby" component={EventLobby} 
         options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
     </Stack.Navigator>

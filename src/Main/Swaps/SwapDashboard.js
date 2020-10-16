@@ -115,7 +115,7 @@ export default SwapDashboard = (props) => {
       Toast.show({text:x, duration:3000, position:'top'})}
 
     var xee = await actions.tracker.getCurrent()
-    var xee = await actions.tracker.getUpcoming()
+    var xeee = await actions.tracker.getUpcoming()
 
     if (screenName =="Swap Offer" && remoteMessage.data.id==store.currentSwap.id){
       var s = actions.refresh.toggle()

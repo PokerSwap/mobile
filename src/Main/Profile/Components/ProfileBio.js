@@ -171,11 +171,7 @@ export default ProfileBio = (props) => {
                   source={{uri: profile.profile_pic_url}} />
                 : null}
               </View>
-            {profile.first_name && props.nickname !== profile.first_name + " " + profile.last_name ?
-              <Text style={{textAlign:'center', marginTop:5, fontSize:18}}>
-                {props.nickname}
-              </Text>
-              : null }
+            
             
           </Col>
           {/* PROFILE STATS */}
@@ -231,10 +227,18 @@ export default ProfileBio = (props) => {
         </Grid>
         
         {/* FULL NAME AND HENDON URL */}
-        <View style={{flex:1, justifyContent:'center', height:70, backgroundColor:currentStyle.background.color}}>
+        <View style={{flex:1, marginVertical:10, justifyContent:'center', height:70, backgroundColor:currentStyle.background.color}}>
+          {profile !== undefined ?
+            profile.first_name && props.nickname !== profile.first_name + " " + profile.last_name ?
+              <Text style={{textAlign:'center', marginTop:5, fontSize:18, color:currentStyle.text.color}}>
+                "{props.nickname}"
+              </Text>
+              : null 
+            : null}
           {profile !== undefined ?
             <Button transparent onPress={() => openHendon()}
               style={{flex:1, justifyContent:'center'}}>
+                
               <Text style={{fontSize:24, textAlign:'center'}}>
                 {profile.first_name} {profile.last_name}
               </Text>
@@ -244,7 +248,7 @@ export default ProfileBio = (props) => {
       </CardItem>
       {/* PROFILE COINS / CHAT BUTTON */}
       {props.user_id == store.myProfile.id ?
-        <CardItem style={{justifyContent:'center' , flexDirection:'column',marginVertical:-20, width:'100%', backgroundColor:currentStyle.background.color}}>
+        <CardItem style={{justifyContent:'center' , flexDirection:'column', width:'100%', backgroundColor:currentStyle.background.color}}>
           <Button block iconLeft warning onPress={() => navigation.navigate("Purchase Tokens")}>
             <Icon type='FontAwesome5' name='coins'/>
             <Text>{store.myProfile.coins}</Text>

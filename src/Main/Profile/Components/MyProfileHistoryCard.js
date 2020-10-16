@@ -26,63 +26,68 @@ export default MyProfileHistoryCard = (props) => {
 				</Text>
 			</ListItem>
 			{/* ALL RELATED SWAPS */}
-			{props.buyins.map((buyin, index) => {
-				var fullName = buyin.recipient_buyin.user_name
-				var allSwaps 
-				if (buyin.agreed_swaps.length !== 0){
-					if (buyin.other_swaps.length !== 0){
-						allSwaps = [ ...buyin.agreed_swaps, ...buyin.other_swaps ]
-					}else{
-						allSwaps = [ ...buyin.agreed_swaps ]
-					}
-				}else{
-					if (buyin.other_swaps.length !== 0){
-						allSwaps = [ ...buyin.other_swaps ]
-					}else{
-						allSwaps = null
-					}
-				}
-
-				return(
-					<View>
-						{/* USERS NAME */}
-						<ListItem noIndent key={index} style={{flexDirection:'column', backgroundColor:currentStyle.background.color}}>
-							<Text style={{textAlign:'center', fontSize:24, 
-							fontWeight:'500', marginVertical:7, color:currentStyle.text.color }}>
-								{fullName}
-							</Text>
-						</ListItem>
-						{/* ROW OF SWAP ATTRIBUTE HEADERS */}
-						<ListItem noIndent style={{backgroundColor:'#a3a3a3'}}>
-							<Col style={{width:'25%', justifyContent:'center'}}>
-								<Text style={{textAlign:'center', color:'white'}}>
-									Status
-								</Text>
-							</Col>
-							<Col style={{width:'35%'}}>
-								<Text style={{color:'white'}}>Date {'&'} Time</Text>
-							</Col>
-							<Col style={{width:'40%'}}>
-								<Text style={{color:'white'}}>You / Them</Text>
-							</Col>
-						</ListItem>
-						{/* ROW OF SWAP DETAILS */}
-						{allSwaps ?
-							allSwaps.map((swap, sIndex)=>{
-								console.log('alls',props.tournament.name,allSwaps)
-								return(
-									<MyHistoryAccordion 
-										swap={swap} key={sIndex} />
-								)
-							})
-							: <Text>You did not make any swaps in this tournament</Text>
+			{props.buyins.length > 0 ?
+				props.buyins.map((buyin, index) => {
+					var fullName = buyin.recipient_buyin.user_name
+					var allSwaps 
+					if (buyin.agreed_swaps.length !== 0){
+						if (buyin.other_swaps.length !== 0){
+							allSwaps = [ ...buyin.agreed_swaps, ...buyin.other_swaps ]
+						}else{
+							allSwaps = [ ...buyin.agreed_swaps ]
 						}
-					</View>
-				)
-			})}
-		</View>
-	)
-}
+					}else{
+						if (buyin.other_swaps.length !== 0){
+							allSwaps = [ ...buyin.other_swaps ]
+						}else{
+							allSwaps = null
+						}
+					}
+					console.log("all of tem,",allSwaps)
+					return(
+						<View>
+							{/* USERS NAME */}
+							<ListItem noIndent key={index} style={{flexDirection:'column', backgroundColor:currentStyle.background.color}}>
+								<Text style={{textAlign:'center', fontSize:24, 
+								fontWeight:'500', marginVertical:7, color:currentStyle.text.color }}>
+									{fullName}
+								</Text>
+							</ListItem>
+							{/* ROW OF SWAP ATTRIBUTE HEADERS */}
+							<ListItem noIndent style={{backgroundColor:'#a3a3a3'}}>
+								<Col style={{width:'25%', justifyContent:'center'}}>
+									<Text style={{textAlign:'center', color:'white'}}>
+										Status
+									</Text>
+								</Col>
+								<Col style={{width:'35%'}}>
+									<Text style={{color:'white'}}>Date {'&'} Time</Text>
+								</Col>
+								<Col style={{width:'40%'}}>
+									<Text style={{color:'white'}}>You / Them</Text>
+								</Col>
+							</ListItem>
+							{/* ROW OF SWAP DETAILS */}
+							{allSwaps ?
+								allSwaps.map((swap, sIndex)=>{
+									return(
+										<MyHistoryAccordion 
+											swap={swap} key={sIndex} />)})
+								: 
+								<ListItem>
+									<Text>You did not make any swaps in this tournament</Text>
+								</ListItem>
+							}
+						</View>)
+				})
+				:
+				<ListItem noIndent style={{justifyContent:'center'}}>
+					<Text style={{color:currentStyle.text.color, textAlign:'center', fontSize:24, width:'80%'}}>
+						You did not make any swaps in this tournament
+					</Text>
+				</ListItem>
+			}
+		</View>)}
 
 MyHistoryAccordion = (props) => {
 	

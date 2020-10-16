@@ -44,7 +44,8 @@ export default HistoryList = (props) => {
 
   // MAPPING HISTORY COMPONENT
   if(history){
-    var myHistory = history.map((content, index) =>{
+    var myHistory = history.map((content, index) =>{ 
+      console.log('hello', content)
       return(
         <MyProfileHistoryCard key={index}
           tournament={content.tournament}
