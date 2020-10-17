@@ -22,8 +22,8 @@ export default SwapDashboard = (props) => {
   var currentStyle
   store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
   
-  const goToThing = async(data) => {
-    console.log('name', data)
+  const goToThing = async(remoteMessage) => {
+    console.log('name', remoteMessage)
     const { index, routes } = dangerouslyGetState()
     const screenName = routes[index].name
     console.log('screenname', screenName)
@@ -32,26 +32,45 @@ export default SwapDashboard = (props) => {
       Toast.show({text:x, duration:3000, position:'top'})}
 
     
-    if (screenName =="Swap Offer" && remoteMessage.data.id==store.currentSwap.id){
-      var s = actions.refresh.toggle()
+    if (screenName =="Swap Offer"){
+      // var s = actions.refresh.toggle()
       var e = await actions.swap.getCurrent(remoteMessage.data.id)
       var tour = store.currentSwap.tournament_id
       var eee = store.currentSwap.recipient_user.id
       var x = await actions.tournament.getCurrent(tour)
       var ree = x.buyins.filter(buyin => buyin.recipient_user.id == eee)
-      var dwer = await actions.buyin.getCurrent(ree[0].recipient_buyin.id)
+      var dwer = await actions.buy_in.getCurrent(ree[0].recipient_buyin.id)
+      
+      var data= {
+        
+          status: store.currentSwap.status,
+          buyin: store.currentBuyin,
+          tournament: store.currentTournament,
+          buyinSince: store.currentBuyin.updated_at,
+          swap: store.currentSwap
+        
+      }
+      console.log('data', data)
+      navigation.push("Swap Offer",{
+        status: store.currentSwap.status,
+        buyin: store.currentBuyin,
+        tournament: store.currentTournament,
+        buyinSince: store.currentBuyin.updated_at,
+        swap: store.currentSwap
+      })
 
-      var sw = actions.refresh.toggle()
+      
+      // var sw = actions.refresh.toggle()
       return customMessage(remoteMessage.data.alert)
     }else{
       null
     }
  
 
-    if(data.type == 'event'){
-      var cc = await actions.navigate.toEvent(data, navigation)
-    }else if(data.type == 'swap'){
-      var cc = await actions.navigate.toSwap(data, navigation)
+    if(remoteMessage.data.type == 'event'){
+      var cc = await actions.navigate.toEvent(remoteMessage.data, navigation)
+    }else if(remoteMessage.data.type == 'swap'){
+      var cc = await actions.navigate.toSwap(remoteMessage.data, navigation)
     }else{
       null
     }
@@ -74,7 +93,9 @@ export default SwapDashboard = (props) => {
       messaging().setBackgroundMessageHandler(async (remoteMessage) => {
         try{
           console.log('Getting from Background Android', remoteMessage)
-          var s = await goToThing(remoteMessage.data)
+          // var s = await goToThing(remoteMessage.data)
+          var e = await actions.navigate.toSwap(remoteMessage.data, navigation)
+
         }catch(err){
           console.log('back err', err)
         }
@@ -129,7 +150,7 @@ export default SwapDashboard = (props) => {
         remoteMessage.notification.title, 
         remoteMessage.notification.body,
         [
-          { text: 'Open', onPress: () => goToThing(remoteMessage.data) },
+          { text: 'Open', onPress: () => goToThing(remoteMessage) },
           { text: 'Close', onPress: () => console.log("Cancel Pressed"), }
         ]
       );
