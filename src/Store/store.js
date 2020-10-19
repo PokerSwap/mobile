@@ -413,6 +413,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 								}
 							)
 						})
+						newChatData.sort((a,b) => {
+							return new Date(b.createdAt) - new Date(a.createdAt);
+						})
 						console.log('newChatData', newChatData)
 
 						setStore({currentChat:newChatData})
@@ -436,8 +439,13 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 						var AllChatsResponse = await response.json()
 
-						var getIds = AllChatsResponse.map(chat => chat.user2_id)
-						
+						var getIds = AllChatsResponse.map(chat => {
+							if(chat.user2_id !== getStore().myProfile.id){
+								return chat.user2_id
+							
+							}else{return chat.user1_id}
+						})
+						console.log('dddds', getIds)
 						const asyncRes = await Promise.all(getIds.map(async (i) => {
 							 var e = await getActions().profile.retrieve(i);
 							return e;
@@ -457,6 +465,10 @@ const getState = ({ getStore, setStore, getActions }) => {
 								since: asyncRex[index]
 							})
 						})
+
+
+
+
 
 						setStore({myChats: newChatData})
 

@@ -41,9 +41,26 @@ export default ContactsScreen = (props) => {
       <OtherHeader title={'Contacts'} />
         <List>
           {store.myChats.map(chat => {
+            console.log(chat)
+
             var chatName
-            chat.chat_user.nickname !== "" ? chatName = chat.chat_user.nickname : chatName = chat.chat_user.first_name + ' ' + chat.chat_user.last_name
-          console.log('chat', chat)
+            chat.chat_user.nickname !== "" ? chatName = chat.chat_user.nickname : chatName = chat.chat_user.first_name
+            var userr
+            var xyz = chat.messages[chat.messages.length -1].message
+
+            if (chat.messages[chat.messages.length - 1].user_id == store.myProfile.id){
+              userr = "You: "
+            }else{
+              userr = chatName + ": "
+            }
+            var preview 
+            if (xyz.length < 16){
+              preview = userr + xyz
+            }else{
+              preview = userr + xyz.substr(0,16) + '...'
+            }
+            
+           
             return(
             <ListItem noIdent key={chat.id}>
             <Col style={{width:"20%"}}>
@@ -63,15 +80,22 @@ export default ContactsScreen = (props) => {
             
             </Col>
             <Col style={{width:"80%" }}>
-              <TouchableOpacity onPress={() => enterChat(chat.chat_user.id,chat.chat_user.profile_pic_url, chat.chat_user.first_name)}>
+              <TouchableOpacity onPress={() => enterChat(chat.id,chat.chat_user.profile_pic_url, chat.chat_user.first_name)}>
                 <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                  <View>
-                    <Text style={{marginLeft:10,fontSize:24, textAlign:'left', color: currentStyle.text.color}}>{chatName}</Text>
-                    {/* <Text>{chat.chat_user.messages[-1]}</Text> */}
+                  <View style={{flexDirection:'column', alignItems:'flex-start', justifyContent:'flex-start', textAlign:'left'}}>
+                    <Text style={{marginLeft:10,fontSize:24, textAlign:'left', alignSelf:'flex-start', color: currentStyle.text.color}}>
+                      {chatName}
+                    </Text>
+                    <Text style={{alignSelf:'flex-start',marginLeft:10, color: currentStyle.text.color}}>
+                      {preview}
+                    </Text>
                   </View>
-                  <View style={{flexDirection:'row'}}>
-                    <Text style={{color: currentStyle.text.color}}>{chat.since}</Text>
-                    <Icon name="angle-right" type="FontAwesome5" style={{marginLeft:10,color: currentStyle.text.color}}/>
+                  <View style={{flexDirection:'row', alignItems:'center'}}>
+                    <Text style={{color: currentStyle.text.color}}>
+                      {chat.since}
+                    </Text>
+                    <Icon name="angle-right" type="FontAwesome5" 
+                      style={{marginLeft:10,color: currentStyle.text.color}}/>
                   </View>
                 </View>
               </TouchableOpacity>
