@@ -27,6 +27,7 @@ export default ContactsScreen = (props) => {
   }
 
   const enterChat = (chat_id, profile_pic_url, first_name) => {
+    console.log("Chat id", chat_id)
     navigation.push('Chat', {
       a_avatar: profile_pic_url,
       nickname: first_name,
@@ -42,6 +43,7 @@ export default ContactsScreen = (props) => {
           {store.myChats.map(chat => {
             var chatName
             chat.chat_user.nickname !== "" ? chatName = chat.chat_user.nickname : chatName = chat.chat_user.first_name + ' ' + chat.chat_user.last_name
+          console.log('chat', chat)
             return(
             <ListItem noIdent key={chat.id}>
             <Col style={{width:"20%"}}>
@@ -63,7 +65,10 @@ export default ContactsScreen = (props) => {
             <Col style={{width:"80%" }}>
               <TouchableOpacity onPress={() => enterChat(chat.chat_user.id,chat.chat_user.profile_pic_url, chat.chat_user.first_name)}>
                 <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                  <Text style={{marginLeft:10,fontSize:24, textAlign:'left', color: currentStyle.text.color}}>{chatName}</Text>
+                  <View>
+                    <Text style={{marginLeft:10,fontSize:24, textAlign:'left', color: currentStyle.text.color}}>{chatName}</Text>
+                    {/* <Text>{chat.chat_user.messages[-1]}</Text> */}
+                  </View>
                   <View style={{flexDirection:'row'}}>
                     <Text style={{color: currentStyle.text.color}}>{chat.since}</Text>
                     <Icon name="angle-right" type="FontAwesome5" style={{marginLeft:10,color: currentStyle.text.color}}/>

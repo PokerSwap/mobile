@@ -116,13 +116,13 @@ export default BustedModal = (props) => {
               <Row style={{marginTop:20, justifyContent:'space-around'}}>
               
                 <TouchableOpacity onPress={()=> bustedComplete()}>
-                  <Text style={modalStyles.button.text}>
+                  <Text style={[modalStyles.button.text, {color:currentStyle.text.color}]}>
                     Submit
                   </Text>
                 </TouchableOpacity>
               
                 <TouchableOpacity onPress={()=>props.setVisible(false)}>
-                  <Text style={modalStyles.button.text}>
+                  <Text style={[modalStyles.button.text, {color:currentStyle.text.color}]}>
                     Cancel
                   </Text>
                 </TouchableOpacity>

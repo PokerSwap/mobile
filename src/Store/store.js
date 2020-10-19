@@ -354,6 +354,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 			},
 			// CHAT ACTIONS
 			chat:{
+				wipe: async() => {
+					setStore({currentChat:[]})
+				},
 				getCurrent: async ( a_chat_id ) => {
 					try {
 						let url = databaseURL + '/chats/' + a_chat_id
@@ -368,9 +371,51 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 						var currentChatResponse = await response.json()
 						console.log("Current Chat Response:", currentChatResponse)
+						// {
+						// 	_id: 1, #message id
+						// 	text: 'Hello developer',
+						// 	createdAt: new Date(), #message time
+						// 	user: {
+						// 		_id: 2, #user id
+						// 		name: nickname,
+						// 		avatar: a_avatar,
+						// 	},
+
+						if (currentChatResponse.messages.length == 0){
+							return setStore({currentChat:[]})}else {null}
+
+						var xx = await getActions().profile.retrieve(currentChatResponse.user1_id)
+						var yy = await getActions().profile.retrieve(currentChatResponse.user2_id)
+						
 
 						
-						setStore({currentChat:currentChatResponse.messages})
+						var newChatData = currentChatResponse.messages.map(message => {
+							var whoDis
+							var thisMe
+							if (message.user_id == xx.id){
+								whoDis = xx.profile_pic_url
+								thisMe = xx.first_name
+							}else{
+								whoDis = yy.profile_pic_url
+								thisMe= yy.first_name
+							}
+							
+							return(
+								{
+									_id: message.id,
+									text:message.message,
+									createdAt:message.created_at,
+									user:{
+										_id: message.user_id,
+										name: thisMe,
+										avatar: whoDis
+									}
+								}
+							)
+						})
+						console.log('newChatData', newChatData)
+
+						setStore({currentChat:newChatData})
 						
 
 					} catch (error) {
@@ -452,6 +497,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					try {
 						let url = databaseURL + '/messages/me/chats/' + a_chat_id
 						let accessToken = getStore().userToken
+						console.log('message', a_message)
 						let data = {
 							message: a_message,
 							user_id: getStore().myProfile.id

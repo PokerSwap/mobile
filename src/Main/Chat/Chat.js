@@ -2,6 +2,7 @@
 import React, { useState, useContext, useCallback, useEffect } from 'react'
 import { Context } from '../../Store/appContext'
 import { useRoute } from '@react-navigation/native'
+import moment from 'moment'
 
 import { View } from 'react-native'
 import { GiftedChat } from 'react-native-gifted-chat'
@@ -22,20 +23,24 @@ export default ChatScreen = (props) => {
   var { a_avatar, nickname, their_id, from_tournament, chat_id }  = route.params
   const [messages, setMessages] = useState();
 
-
+var x = async() => await actions.chat.getCurrent(chat_id)
+.then(()=> setMessages(store.currentChat))
   useEffect(() => {
-    actions.chat.getCurrent(chat_id)
-    // setMessages(previousState => GiftedChat.append(previousState.messages, message))
-    setMessages(store.currentChat.messages)
+    x()
+    // setMessages(previousState => GiftedChat.append(previousState.messages))
+    console.log("this messages", messages)
+    console.log("This is current Chat",store.currentChat)
 
     return () => {
-      // Fire.shared.off();
+      actions.chat.wipe()
     }
   }, [true])
 
-  const onSend = useCallback((message) => {
-    actions.chat.sendMessage(chat_id, message)
-    setMessages(store.currentChat.messages)
+  const onSend = useCallback(async(messages) => {
+    // actions.chat.sendMessage(chat_id, message)
+    // .then(()=>setMessages(store.currentChat.messages))
+    setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
+    var wx = await actions.chat.sendMessage(chat_id, messages[messages.length -1].text)
   }, [])
  
   return (
@@ -44,7 +49,7 @@ export default ChatScreen = (props) => {
 
       <GiftedChat
         messages={messages}
-         onSend={messagesd => onSend(messagesd)}
+         onSend={messages => onSend(messages)}
         // onSend={() => {
         //   Fire.shared.send
         //   console.log('ummm', Fire.shared.send)
