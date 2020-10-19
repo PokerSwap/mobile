@@ -26,11 +26,12 @@ export default ContactsScreen = (props) => {
     });
   }
 
-  const enterChat = (chat_id, profile_pic_url, first_name) => {
+  const enterChat = (chat_id, their_id, profile_pic_url, first_name) => {
     console.log("Chat id", chat_id)
     navigation.push('Chat', {
       a_avatar: profile_pic_url,
       nickname: first_name,
+      their_id: their_id,
       chat_id: chat_id
     });
   }
@@ -80,7 +81,7 @@ export default ContactsScreen = (props) => {
             
             </Col>
             <Col style={{width:"80%" }}>
-              <TouchableOpacity onPress={() => enterChat(chat.id,chat.chat_user.profile_pic_url, chat.chat_user.first_name)}>
+              <TouchableOpacity onPress={() => enterChat(chat.id, chat.chat_user.id, chat.chat_user.profile_pic_url, chat.chat_user.first_name)}>
                 <View style={{flexDirection:'row', justifyContent:'space-between'}}>
                   <View style={{flexDirection:'column', alignItems:'flex-start', justifyContent:'flex-start', textAlign:'left'}}>
                     <Text style={{marginLeft:10,fontSize:24, textAlign:'left', alignSelf:'flex-start', color: currentStyle.text.color}}>

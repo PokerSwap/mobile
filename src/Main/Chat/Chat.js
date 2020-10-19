@@ -1,7 +1,7 @@
 
 import React, { useState, useContext, useCallback, useEffect } from 'react'
 import { Context } from '../../Store/appContext'
-import { useRoute } from '@react-navigation/native'
+import { useRoute, useNavigation } from '@react-navigation/native'
 import moment from 'moment'
 
 import { View } from 'react-native'
@@ -22,11 +22,19 @@ export default ChatScreen = (props) => {
   store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
 
   var route = useRoute()
+  const { navigate, dangerouslyGetState } = useNavigation()
+
+  const { index, routes } = dangerouslyGetState()
+  const screenName = routes[index].name
+  console.log('screenname', screenName)
+
   var { a_avatar, nickname, their_id, from_tournament, chat_id }  = route.params
   const [messages, setMessages] = useState();
 console.log('chat id', chat_id)
-var x = async() => actions.chat.getCurrent(chat_id)
-  .then(()=> setMessages(store.currentChat))
+var x = async() => {
+    actions.chat.getCurrent(chat_id)
+    .then(()=> setMessages(store.currentChat))
+    .then(()=> actions.chat.refresh(false))}
   useEffect(() => {
 
     x()
@@ -37,11 +45,11 @@ var x = async() => actions.chat.getCurrent(chat_id)
       actions.chat.wipe()
       actions.chat.getMine()
     }
-  }, [true])
+  }, [store.chatRefresh])
 
   const onSend = useCallback(async(messages) => {
     setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
-    var wx = await actions.chat.sendMessage(chat_id, messages[messages.length -1].text)
+    var wx = await actions.chat.sendMessage(chat_id, their_id, messages[messages.length -1].text)
   }, [])
  
   return (

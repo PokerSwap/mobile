@@ -3,7 +3,7 @@ import { Context } from '../Store/appContext'
 import { useNavigation } from '@react-navigation/native'
 import AsyncStorage from '@react-native-community/async-storage'
 
-import { Alert,  Linking, Switch, Text, View } from 'react-native'
+import { Alert,  Linking, Switch, Text, View, TouchableOpacity } from 'react-native'
 import { Icon } from 'native-base'
 import { DrawerContentScrollView, DrawerItemList, DrawerItem } from '@react-navigation/drawer'
 
@@ -48,6 +48,11 @@ export default SideBar = (props) => {
       {/* DEFAULT BUTTONS */}
       <DrawerItemList {...props} />
 
+      <DrawerItem label="Chat2" labelStyle={{color:currentStyle.text.color}}
+        icon= {() => <Icon type="FontAwesome5" name="users-cog"
+          style={{fontSize:24, color:currentStyle.text.color }} />}
+        onPress={()=>  navigation.navigate("Contacts")}/>
+
       <DrawerItem label="Feedback" labelStyle={{color:currentStyle.text.color}}
         icon= {() => <Icon type="FontAwesome5" name="users-cog"
           style={{fontSize:24, color:currentStyle.text.color }} />}
@@ -55,7 +60,8 @@ export default SideBar = (props) => {
       
       
       <View style={{flexDirection:'row'}}>
-        <Icon type="FontAwesome5" name="moon" style={{color:currentStyle.text.color}}/>
+        <Icon type="FontAwesome5" name="moon" 
+        style={{color:currentStyle.text.color}}/>
         <Text style={{color:currentStyle.text.color}}>Dark Mode</Text>
         <Switch value={!currentMode} onValueChange={() => changeNow()}/>
       </View>
@@ -74,6 +80,7 @@ export default SideBar = (props) => {
             ],
             { cancelable: false }
       )}/>
+      
     </DrawerContentScrollView>
   )
 }

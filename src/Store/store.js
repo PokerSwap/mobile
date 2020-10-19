@@ -42,6 +42,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 			deviceToken: null,
 			myChats:[],
 			refresh:false,
+			chatRefresh:false,
 			// MY PROFILE
 			myProfile:null, 
 			// LIVE AND UPCOMING SWAP TRACKER
@@ -357,6 +358,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 				wipe: async() => {
 					setStore({currentChat:[]})
 				},
+				refresh: async(x) => {
+					setStore({chatRefresh: x})
+				},
 				getCurrent: async ( a_chat_id ) => {
 					try {
 						let url = databaseURL + '/chats/' + a_chat_id
@@ -505,14 +509,14 @@ const getState = ({ getStore, setStore, getActions }) => {
 						console.log("Opening a chat with user did not work:", error)
 					}
 				},
-				sendMessage: async( a_chat_id, a_message ) => {
+				sendMessage: async( a_chat_id, their_user_id, a_message ) => {
 					try {
 						let url = databaseURL + '/messages/me/chats/' + a_chat_id
 						let accessToken = getStore().userToken
 						console.log('message', a_message)
 						let data = {
 							message: a_message,
-							user_id: getStore().myProfile.id
+							user_id: their_user_id
 						}
 
 						let response = await fetch(url, {
@@ -730,6 +734,27 @@ const getState = ({ getStore, setStore, getActions }) => {
 			},
 			// NAVIGATION ACTIONS
 			navigate:{
+				toChat: async(data, navigation) => {
+					try {
+						// NAVIGATION ACTION
+						var navigateAction = CommonActions.navigate({
+							name: data.finalPath,
+							params: answerParams
+						});
+
+						setStore({notificationData:null})
+
+						try{
+							navigation.dispatch(navigateAction);
+							console.log('dispatch succesgul')
+						} catch(error){
+							console.log('Cant navigate to event', error)
+							navigation.navigate('Contact Screen');
+						}
+					} catch (error) {
+						console.log("Something went wrong with going to chat", error)
+					}
+				},
 				// NAVIGATING TO EVENT AFTER NOTIFICATION
 				toEvent: async(data, navigation) => {
 					try {

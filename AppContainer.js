@@ -169,10 +169,10 @@ var MainDrawer = () => {
       {/* SETTINGS DRAWER TAB */}
       <Drawer.Screen name="Settings" component={SettingsStack}
         screenOptions={{ gestureEnabled: false, headerShown: false }}
-        
         options={{
-          
+          component:()=>(<Text>"aaaa"</Text>),
           drawerIcon: ({ focused }) => (
+            
             <Icon type="FontAwesome5" name="cog" style={{fontSize:26, color:currentStyle.text.color}}
               color={focused ? 'blue' : 'black'} />)}}/>
       {/* CATEGORIES DRAWER TAB */}

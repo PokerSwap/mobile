@@ -12,7 +12,8 @@ import SwapTracker from './Components/SwapTracker';
 
 import darkStyle from '../../Themes/dark.js'
 import lightStyle from '../../Themes/light.js'
-
+const customMessage = (x) => {
+  Toast.show({text:x, duration:3000, position:'top'})}
 export default SwapDashboard = (props) => {
   const { store, actions } = useContext(Context) 
   const navigation = useNavigation()
@@ -23,11 +24,10 @@ export default SwapDashboard = (props) => {
   store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
   
   const goToThing = async(remoteMessage) => {
-    console.log('name', remoteMessage)
     const { index, routes } = dangerouslyGetState()
     const screenName = routes[index].name
     console.log('screenname', screenName)
-    console.log('data ID', remoteMessage.data.id, store.currentSwap.id)
+
     const customMessage = (x) => {
       Toast.show({text:x, duration:3000, position:'top'})}
 
@@ -71,6 +71,8 @@ export default SwapDashboard = (props) => {
       var cc = await actions.navigate.toEvent(remoteMessage.data, navigation)
     }else if(remoteMessage.data.type == 'swap'){
       var cc = await actions.navigate.toSwap(remoteMessage.data, navigation)
+    }else if(remoteMessage.data.type == 'chat'){
+      var cc = await actions.navigate.toChat(remoteMessage.data, navigation)
     }else{
       null
     }
@@ -84,8 +86,12 @@ export default SwapDashboard = (props) => {
           console.log('messageType', remoteMessage.messageType)
           console.log('messageCategory', remoteMessage.category)
           console.log('Getting from Background IOS',remoteMessage); 
+
+          if(remoteMessage.data.type=='swap'){
             var e = await actions.navigate.toSwap(remoteMessage.data, navigation)
-        } catch (error) {
+          }else if(remoteMessage.data.type=='chat'){
+            var e = await actions.navigate.toChat(remoteMessage.data, navigation)
+          }else{null}        } catch (error) {
           console.log('error', error)
         }})
     }else{
@@ -94,7 +100,11 @@ export default SwapDashboard = (props) => {
         try{
           console.log('Getting from Background Android', remoteMessage)
           // var s = await goToThing(remoteMessage.data)
-          var e = await actions.navigate.toSwap(remoteMessage.data, navigation)
+          if(remoteMessage.data.type=='swap'){
+            var e = await actions.navigate.toSwap(remoteMessage.data, navigation)
+          }else if(remoteMessage.data.type=='chat'){
+            var e = await actions.navigate.toChat(remoteMessage.data, navigation)
+          }else{null}
 
         }catch(err){
           console.log('back err', err)
@@ -124,28 +134,37 @@ export default SwapDashboard = (props) => {
 
   // FOREGROUND BOTH
   useEffect(() => {
+
     console.log('retrieving')
     const unsubscribe = messaging().onMessage(async remoteMessage => {
       console.log('messageType', remoteMessage)
-      console.log('messageCategory', remoteMessage.category)
     const { index, routes } = dangerouslyGetState()
-    const screenName = routes[index].name
+    const screenName = routes
     console.log('screenname', screenName)
-    console.log('data ID', remoteMessage.data.id, store.currentSwap.id)
-    const customMessage = (x) => {
-      Toast.show({text:x, duration:3000, position:'top'})}
+    console.log('screenname', screenName)
 
-    var xee = await actions.tracker.getCurrent()
-    var xeee = await actions.tracker.getUpcoming()
-
-    if (screenName =="Swap Offer" && remoteMessage.data.id==store.currentSwap.id){
-      var s = actions.refresh.toggle()
-      var e = await actions.swap.getCurrent(remoteMessage.data.id)
-      var sw = actions.refresh.toggle()
-      return customMessage(remoteMessage.data.alert)
-    }else{
-      null
+    if(remoteMessage.data.type == 'swap'){
+      var xee = await actions.tracker.getCurrent()
+      var xeee = await actions.tracker.getUpcoming()
+  
+      if (screenName =="Swap Offer" && remoteMessage.data.id==store.currentSwap.id){
+        var s = actions.refresh.toggle()
+        var e = await actions.swap.getCurrent(remoteMessage.data.id)
+        var sw = actions.refresh.toggle()
+        return customMessage(remoteMessage.data.alert)
+      }else{
+        null
+      }
     }
+    
+    console.log('screenname', screenName)
+
+    if(screenName == "Chat"  && remoteMessage.data.type == 'chat'){
+      return actions.chat.refresh(true)
+    }else if(remoteMessage.data.type == 'chat'){
+      return Toast.show({duration:3000,text:remoteMessage.data.alert, position:'top'})
+    }
+    else{null}
       Alert.alert(
         remoteMessage.notification.title, 
         remoteMessage.notification.body,
