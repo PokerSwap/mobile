@@ -18,7 +18,6 @@ export default ContactsScreen = (props) => {
   store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
 
   const navigation = useNavigation()
-
   const enterProfile = (id, first_name) => {
     navigation.push('Profile',{
       user_id: id,
@@ -26,12 +25,13 @@ export default ContactsScreen = (props) => {
     });
   }
 
-  const enterChat = (chat_id, their_id, profile_pic_url, first_name) => {
-    console.log("Chat id", chat_id)
+  const enterChat = (chat_id, they_id, profile_pic_url, first_name) => {
+    // console.log("Chat id", chat_id)
+    console.log('theyid', they_id)
     navigation.push('Chat', {
       a_avatar: profile_pic_url,
       nickname: first_name,
-      their_id: their_id,
+      their_id: they_id,
       chat_id: chat_id
     });
   }
@@ -42,7 +42,6 @@ export default ContactsScreen = (props) => {
       <OtherHeader title={'Contacts'} />
         <List>
           {store.myChats.map(chat => {
-            console.log(chat)
 
             var chatName
             chat.chat_user.nickname !== "" ? 

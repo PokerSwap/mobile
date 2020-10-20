@@ -375,7 +375,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}, 
 						})
 						var currentChatResponse = await response.json()
-						console.log("Current Chat Response:", currentChatResponse)
+						// console.log("Current Chat Response:", currentChatResponse)
 						// {
 						// 	_id: 1, #message id
 						// 	text: 'Hello developer',
@@ -421,7 +421,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						newChatData.sort((a,b) => {
 							return new Date(b.createdAt) - new Date(a.createdAt);
 						})
-						console.log('newChatData', newChatData)
+						//console.log('newChatData', newChatData)
 
 						setStore({currentChat:newChatData})
 						
@@ -450,7 +450,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							
 							}else{return chat.user1_id}
 						})
-						console.log('dddds', getIds)
+						// console.log('dddds', getIds)
 						const asyncRes = await Promise.all(getIds.map(async (i) => {
 							 var e = await getActions().profile.retrieve(i);
 							return e;
@@ -474,14 +474,13 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 
 
-
 						setStore({myChats: newChatData})
 
 					} catch (error) {
 						console.log("Something went wrong in getting all of your chats", error)
 					}
 				},
-				open: async( their_id, a_tournament_id) => {
+				open: async( their_id) => {
 					try {
 						let url = databaseURL + '/me/chats'
 						let accessToken = getStore().userToken
@@ -500,7 +499,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}, 
 						})
 						var openChatResponse = await response.json()
-						console.log("Open Chat Response:", openChatResponse)
+						//console.log("Open Chat Response:", openChatResponse)
 
 						if (openChatResponse.message.includes("Chat already exists")){
 
@@ -516,8 +515,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 						let accessToken = getStore().userToken
 						console.log('message', a_message)
 						let data = {
+							user_id: getStore().myProfile.id, 
 							message: a_message,
-							user_id: their_user_id
+							their_id: their_user_id
 						}
 
 						let response = await fetch(url, {
@@ -529,8 +529,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}, 
 						})
 						var sendMessageResponse = await response.json()
-						console.log("Send Message Response:", sendMessageResponse)
-
+						//console.log("Send Message Response:", sendMessageResponse)
+						console.log('message sent', sendMessageResponse)
 					} catch (error) {
 						console.log("Sending a message to this user did not work:", error)
 					}

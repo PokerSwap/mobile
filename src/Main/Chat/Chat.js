@@ -1,15 +1,12 @@
 
 import React, { useState, useContext, useCallback, useEffect } from 'react'
 import { Context } from '../../Store/appContext'
-import { useRoute, useNavigation } from '@react-navigation/native'
-import moment from 'moment'
+import { useRoute } from '@react-navigation/native'
 
 import { View } from 'react-native'
 import { GiftedChat } from 'react-native-gifted-chat'
-import {Spinner} from 'react-native-loading-spinner-overlay'
 
 import OtherHeader from '../../View-Components/OtherHeader';
-import Fire from './Fire';
 
 import darkStyle from '../../Themes/dark.js'
 import lightStyle from '../../Themes/light.js' 
@@ -26,7 +23,6 @@ export default ChatScreen = (props) => {
 
   var { a_avatar, nickname, their_id, from_tournament, chat_id }  = route.params
   const [messages, setMessages] = useState();
-console.log('chat id', chat_id)
 var x = async() => {
     actions.chat.getCurrent(chat_id)
     .then(()=> setMessages(store.currentChat))
@@ -34,8 +30,6 @@ var x = async() => {
   useEffect(() => {
 
     x()
-    console.log("this messages", messages)
-    console.log("This is current Chat",store.currentChat)
 
     return () => {
       actions.chat.wipe()

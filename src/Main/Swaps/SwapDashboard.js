@@ -14,12 +14,13 @@ import SwapTracker from './Components/SwapTracker';
 
 import darkStyle from '../../Themes/dark.js'
 import lightStyle from '../../Themes/light.js'
+
 const customMessage = (x) => {
   Toast.show({text:x, duration:3000, position:'top'})}
+  
 export default SwapDashboard = (props) => {
   const { store, actions } = useContext(Context) 
   const navigation = useNavigation()
-  const { navigate, dangerouslyGetState } = useNavigation()
 
 
   var currentStyle
@@ -129,7 +130,8 @@ export default SwapDashboard = (props) => {
   useEffect(() => {
 
     const unsubscribe = messaging().onMessage(async remoteMessage => {
-
+        console.log('message recieved', remoteMessage)
+        console.log('my id', store.myProfile.first_name)
       if(remoteMessage.data.type == 'swap'){
         var xee = await actions.tracker.getCurrent()
         var xeee = await actions.tracker.getUpcoming()
