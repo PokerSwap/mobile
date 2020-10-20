@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useRef, useContext } from 'react';
 import Store from './src/Store/appContext';
 
 import { LogBox } from 'react-native';
@@ -283,8 +283,21 @@ const AppContainer = () => {
 
   LogBox.ignoreLogs(['VirtualizedLists', 'Warning: Picker', 'Warning: Async']); // Ignore log notification by message
 
+  const routeNameRef = useRef();
+  const navigationRef = useRef();
+  
   return(
-    <NavigationContainer>
+    <NavigationContainer
+      ref={navigationRef}
+      onReady={() => routeNameRef.current = navigationRef.current.getCurrentRoute().name}
+      onStateChange={() => {
+        const previousRouteName = routeNameRef.current;
+        const currentRouteName = navigationRef.current.getCurrentRoute().name
+        actions.navigate.currentPage(currentRouteName)
+        // Save the current route name for later comparision
+        routeNameRef.current = currentRouteName;
+      }}
+    >
       <NavContainer />
     </NavigationContainer>
   )

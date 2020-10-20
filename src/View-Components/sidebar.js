@@ -48,16 +48,10 @@ export default SideBar = (props) => {
       {/* DEFAULT BUTTONS */}
       <DrawerItemList {...props} />
 
-      <DrawerItem label="Chat2" labelStyle={{color:currentStyle.text.color}}
-        icon= {() => <Icon type="FontAwesome5" name="users-cog"
-          style={{fontSize:24, color:currentStyle.text.color }} />}
-        onPress={()=>  navigation.navigate("Contacts")}/>
-
       <DrawerItem label="Feedback" labelStyle={{color:currentStyle.text.color}}
         icon= {() => <Icon type="FontAwesome5" name="users-cog"
           style={{fontSize:24, color:currentStyle.text.color }} />}
         onPress={()=>  Linking.openURL("mailto:contact@swapprofitonline.com?subject=" + profile.first_name + " " + profile.last_name + " Feedback")}/>
-      
       
       <View style={{flexDirection:'row'}}>
         <Icon type="FontAwesome5" name="moon" 

@@ -22,11 +22,7 @@ export default ChatScreen = (props) => {
   store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
 
   var route = useRoute()
-  const { navigate, dangerouslyGetState } = useNavigation()
-
-  const { index, routes } = dangerouslyGetState()
-  const screenName = routes[index].name
-  console.log('screenname', screenName)
+ 
 
   var { a_avatar, nickname, their_id, from_tournament, chat_id }  = route.params
   const [messages, setMessages] = useState();

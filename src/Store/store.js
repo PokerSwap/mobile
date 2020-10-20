@@ -39,6 +39,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 			// CURRENT TOURNAMENT ON SCREEN
 			currentTournament:null,
 			// MY DEVICE TOKEN
+			currentPage:"",
 			deviceToken: null,
 			myChats:[],
 			refresh:false,
@@ -868,6 +869,14 @@ const getState = ({ getStore, setStore, getActions }) => {
 						console.log("Something went wrong with navigating to swap:", error)
 					}
 					setStore({notificationData:null})
+				},
+				currentPage: async( name ) => {
+					try {
+						setStore({currentPage: name})
+						console.log('currentPage is ', getStore().currentPage)
+					} catch (error) {
+						console.log("Something went wrong with getting page name", error)
+					}
 				}
 			},
 			// PUSH NOTIFICATION ACTIONS

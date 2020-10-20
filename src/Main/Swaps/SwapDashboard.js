@@ -1,10 +1,12 @@
-import React, {useContext, useState, useRef, useCallback, useEffect } from 'react';
+import React, {useContext, useState, 
+  useCallback, useEffect } from 'react';
 import { Context } from '../../Store/appContext'
 import { useNavigation } from '@react-navigation/native'
-
-import { Alert, FlatList, Platform, RefreshControl, StatusBar, View } from 'react-native';
-import { Button, Container, Content, Icon, Tabs, Tab, TabHeading, Text, Toast } from 'native-base';
 import messaging from '@react-native-firebase/messaging'
+
+import { Alert, FlatList, Platform, RefreshControl } from 'react-native';
+import { Button, Container, Content, Icon, Tabs, Tab, 
+TabHeading, Text, Toast } from 'native-base';
 
 import BounceColorWrapper from '../../Functional/BounceColorWrapper'
 import HomeHeader from '../../View-Components/HomeHeader'
@@ -24,15 +26,8 @@ export default SwapDashboard = (props) => {
   store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
   
   const goToThing = async(remoteMessage) => {
-    const { index, routes } = dangerouslyGetState()
-    const screenName = routes[index].name
-    console.log('screenname', screenName)
-
-    const customMessage = (x) => {
-      Toast.show({text:x, duration:3000, position:'top'})}
-
-    
-    if (screenName =="Swap Offer"){
+ 
+    if (remoteMessage.data.type == 'swap' && store.currentPage =="Swap Offer"){
       // var s = actions.refresh.toggle()
       var e = await actions.swap.getCurrent(remoteMessage.data.id)
       var tour = store.currentSwap.tournament_id
@@ -62,15 +57,13 @@ export default SwapDashboard = (props) => {
       
       // var sw = actions.refresh.toggle()
       return customMessage(remoteMessage.data.alert)
-    }else{
-      null
-    }
+    }else if(remoteMessage.data.type == 'swap'){
+      var cc = await actions.navigate.toSwap(remoteMessage.data, navigation)
+    }else{null}
  
 
     if(remoteMessage.data.type == 'event'){
       var cc = await actions.navigate.toEvent(remoteMessage.data, navigation)
-    }else if(remoteMessage.data.type == 'swap'){
-      var cc = await actions.navigate.toSwap(remoteMessage.data, navigation)
     }else if(remoteMessage.data.type == 'chat'){
       var cc = await actions.navigate.toChat(remoteMessage.data, navigation)
     }else{
@@ -84,14 +77,14 @@ export default SwapDashboard = (props) => {
       messaging().onNotificationOpenedApp(async remoteMessage => {
         try {
           console.log('messageType', remoteMessage.messageType)
-          console.log('messageCategory', remoteMessage.category)
           console.log('Getting from Background IOS',remoteMessage); 
 
           if(remoteMessage.data.type=='swap'){
             var e = await actions.navigate.toSwap(remoteMessage.data, navigation)
           }else if(remoteMessage.data.type=='chat'){
             var e = await actions.navigate.toChat(remoteMessage.data, navigation)
-          }else{null}        } catch (error) {
+          }else{null}        
+        } catch (error) {
           console.log('error', error)
         }})
     }else{
@@ -135,36 +128,28 @@ export default SwapDashboard = (props) => {
   // FOREGROUND BOTH
   useEffect(() => {
 
-    console.log('retrieving')
     const unsubscribe = messaging().onMessage(async remoteMessage => {
-      console.log('messageType', remoteMessage)
-    const { index, routes } = dangerouslyGetState()
-    const screenName = routes
-    console.log('screenname', screenName)
-    console.log('screenname', screenName)
 
-    if(remoteMessage.data.type == 'swap'){
-      var xee = await actions.tracker.getCurrent()
-      var xeee = await actions.tracker.getUpcoming()
-  
-      if (screenName =="Swap Offer" && remoteMessage.data.id==store.currentSwap.id){
-        var s = actions.refresh.toggle()
-        var e = await actions.swap.getCurrent(remoteMessage.data.id)
-        var sw = actions.refresh.toggle()
-        return customMessage(remoteMessage.data.alert)
-      }else{
-        null
+      if(remoteMessage.data.type == 'swap'){
+        var xee = await actions.tracker.getCurrent()
+        var xeee = await actions.tracker.getUpcoming()
+        if (store.currentPage =="Swap Offer" && remoteMessage.data.id==store.currentSwap.id){
+          var s = actions.refresh.toggle()
+          var e = await actions.swap.getCurrent(remoteMessage.data.id)
+          var sw = actions.refresh.toggle()
+          return customMessage(remoteMessage.data.alert)
+        }else{
+          null
+        }
       }
-    }
-    
-    console.log('screenname', screenName)
+      
+      if(store.currentPage == "Chat"  && remoteMessage.data.type == 'chat'){
+        return actions.chat.refresh(true)
+      }else if(remoteMessage.data.type == 'chat'){
+        actions.chat.refresh(true)
+        return Toast.show({duration:3000,text:remoteMessage.data.alert, position:'top'})
+      }else{null}
 
-    if(screenName == "Chat"  && remoteMessage.data.type == 'chat'){
-      return actions.chat.refresh(true)
-    }else if(remoteMessage.data.type == 'chat'){
-      return Toast.show({duration:3000,text:remoteMessage.data.alert, position:'top'})
-    }
-    else{null}
       Alert.alert(
         remoteMessage.notification.title, 
         remoteMessage.notification.body,
@@ -224,9 +209,10 @@ export default SwapDashboard = (props) => {
   // OCCUPIED CURRENT TRACKER COMPONENT
   var aTracker = ({item, index}) => {
     var x
-    if(item.countdown.includes('in')){x='Starts'}else{x='Started'}
+    item.countdown.includes('in') ? x = 'Starts' : x = 'Started'
     return(
-      <SwapTracker key={index}  event={item} countdown={item.countdown} timeBy={x}
+      <SwapTracker key={index}  event={item} 
+      countdown={item.countdown} timeBy={x}
         my_buyin= {item.my_buyin} buyins = {item.buyins}
         tournament={item.tournament} action={item.action}/>
     )
@@ -290,14 +276,10 @@ export default SwapDashboard = (props) => {
     upcomingTracker = noTracker('upcoming', onRefresh2)
   }  
 
-
-
   return(
     <Container >
       <HomeHeader title={'Active Swaps'} />
       <Content contentContainerStyle={{flex:1}}>
-
-        {/* <Button onPress={()=> sendLocalNotification}><Text>Preess</Text></Button> */}
         <Tabs  tabBarUnderlineStyle={{backgroundColor:'white'}}
           tabBarTextStyle={{fontWeight:'bold', color:'white'}}>
           {/* LIVE SWAPTRACKER BODY */}

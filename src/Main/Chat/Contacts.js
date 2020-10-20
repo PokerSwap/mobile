@@ -45,21 +45,19 @@ export default ContactsScreen = (props) => {
             console.log(chat)
 
             var chatName
-            chat.chat_user.nickname !== "" ? chatName = chat.chat_user.nickname : chatName = chat.chat_user.first_name
+            chat.chat_user.nickname !== "" ? 
+              chatName = chat.chat_user.nickname : chatName = chat.chat_user.first_name
             var userr
-            var xyz = chat.messages[chat.messages.length -1].message
 
-            if (chat.messages[chat.messages.length - 1].user_id == store.myProfile.id){
-              userr = "You: "
-            }else{
-              userr = chatName + ": "
-            }
+            var xyz = chat.last_message.message
+            chat.last_message.user_id == store.myProfile.id ?
+              userr = "You: " : userr = chatName + ": "
+            var xyz = chat.last_message.message
+
             var preview 
-            if (xyz.length < 16){
-              preview = userr + xyz
-            }else{
-              preview = userr + xyz.substr(0,16) + '...'
-            }
+            xyz.length < 16 ? 
+              preview = userr + xyz : preview = userr + xyz.substr(0,16) + '...'
+            
             
            
             return(
