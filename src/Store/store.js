@@ -34,6 +34,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 			currentBuyin:{},
 			// CURRENT CHAT
 			currentChat:[],
+			currentChatID:[],
 			// CURRENT SWAP ON SCREEN
 			currentSwap:{},
 			// CURRENT TOURNAMENT ON SCREEN
@@ -358,13 +359,14 @@ const getState = ({ getStore, setStore, getActions }) => {
 			chat:{
 				wipe: async() => {
 					setStore({currentChat:[]})
+					setStore({currentChatID:[]})
 				},
 				refresh: async(x) => {
 					setStore({chatRefresh: x})
 				},
 				getCurrent: async ( a_chat_id ) => {
 					try {
-						console.log('chat', a_chat_id)
+						setStore({ currentChatID: a_chat_id})
 						let url = databaseURL + '/chats/' + a_chat_id
 						let accessToken = getStore().userToken
 
@@ -386,7 +388,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 						// 		name: nickname,
 						// 		avatar: a_avatar,
 						// 	},
-console.log('lol ok', currentChatResponse)
 						
 
 						var xx = await getActions().profile.retrieve(currentChatResponse.user1_id)
@@ -424,7 +425,7 @@ console.log('lol ok', currentChatResponse)
 						//console.log('newChatData', newChatData)
 
 						setStore({currentChat:newChatData})
-						console.log('newwChatData', newChatData)
+						console.log('Chat In Store:', newChatData)
 
 					} catch (error) {
 						console.log("Getting current chat with this user did not work:", error)
@@ -508,7 +509,7 @@ console.log('lol ok', currentChatResponse)
 					try {
 						let url = databaseURL + '/me/chats'
 						let accessToken = getStore().userToken
-						console.log('fff', their_id, a_message)
+
 						let data = {
 							user1_id: getStore().myProfile.id,
 							user2_id: their_id,
@@ -525,14 +526,13 @@ console.log('lol ok', currentChatResponse)
 						})
 						var openChatResponse = await response.json()
 						//console.log("Open Chat Response:", openChatResponse)
-						console.log('eweewe',openChatResponse)
+						setStore({currentChatID:openChatResponse.id})
 
-						var ert = await getActions().chat.getCurrent(openChatResponse.id)
+						var ert = await getActions().chat.getCurrent(getStore().currentChatID)
 						var xee = await getActions().chat.refresh(true)
 						var eeewe = await getActions().chat.getMine()
 
-						return openChatResponse.id
-
+						return getStore().currentChatID
 					} catch (error) {
 						console.log('eeee', a_message, their_id)
 						console.log("Opening a chat with user did not work:", error)

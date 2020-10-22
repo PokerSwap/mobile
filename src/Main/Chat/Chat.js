@@ -27,8 +27,8 @@ export default ChatScreen = (props) => {
   var x = async() => {
     actions.chat.getCurrent(chat_id)
     .then(()=> setMessages(store.currentChat))
-    .then(()=> actions.chat.refresh(false))
-    .then(()=> console.log('messages', messages))}
+    .then(()=> actions.chat.refresh(false))}
+    // .then(()=> console.log('messages', messages))}
   useEffect(() => {
 
     x()

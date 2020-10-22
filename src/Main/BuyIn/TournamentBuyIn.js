@@ -22,7 +22,6 @@ export default TournamentBuyIn = (props) => {
   store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
 
   const enterProfile = () => {
-    console.log('tid',buyin)
     navigation.push('Profile',{
       user_id: buyin.user_id,
       nickname: buyin.user_name,

@@ -116,11 +116,12 @@ var MessageModal = (props) => {
     }else{null}
 
     var sk = await actions.chat.open(props.their_id, message)
+    .then(()=> console.log('sk', sk))
     .then(()=> navigation.push('Chat', {
       a_avatar: props.profile.profile_pic_url,
       nickname: props.profile.first_name,
       their_id: props.profile.id,
-      chat_id: sk
+      chat_id: store.currentChatID
     }))
     .then(() => props.setVisible2(false))
   }
@@ -128,9 +129,14 @@ var MessageModal = (props) => {
   return(
     <View style={modalStyles.background}>
       <View style={ modalStyles.main }> 
-      <Text>Enter Something loser</Text>
+      <View style={modalStyles.field.view2}>
+      <Text style={modalStyles.field.text}>
+        Enter Something loser</Text>
+      </View>
+      <View style={modalStyles.field.view2}>
+
       <TextInput 
-              
+              style={modalStyles.field.textInput2}
               placeholder="Hi there! Wanna swap?"
               placeholderTextColor='grey'
               keyboardType="email-address"
@@ -141,12 +147,19 @@ var MessageModal = (props) => {
               autoCorrect={false} 
               value={message}    
               onChangeText={messageX => setMessage( messageX )} />
+                    </View>
+      <View style={modalStyles.field.view2}>
+
       <Button onPress={()=> startChat()}>
         <Text>Start Chat</Text>
       </Button>
+      </View>
+      <View style={modalStyles.field.view2}>
+
       <TouchableOpacity onPress={()=> props.setVisible2(false)}>
         <Text>Cancel</Text>
       </TouchableOpacity>
+      </View>
       </View>
     </View>
   )
@@ -351,12 +364,18 @@ const modalStyles = {
       padding:10, borderRadius:10, alignSelf:'center',
       fontSize:24, borderWidth:1, width:'50%', 
       textAlign:'center', borderColor:'rgba(0,0,0,0.2)' },
+      textInput2:{
+        padding:10, borderRadius:10, alignSelf:'center',
+        fontSize:18, borderWidth:1, width:'100%', 
+        textAlign:'center', borderColor:'rgba(0,0,0,0.2)' },
     view:{
       flexDirection:'row', justifyContent:'flex-start', alignItems:'center',
-      marginBottom:10, marginTop:25 }
+      marginBottom:10, marginTop:25 },
+    view2:{flexDirection:'row', width:'85%', justifyContent:'center', alignItems:'center',
+    marginBottom:10, marginTop:25 }
   },
   main:{ 
-    padding:15, alignSelf:'center', backgroundColor:'white', 
+    padding:15, justifyContent:'center', alignSelf:'center', backgroundColor:'white', 
     width:'80%', height:'50%', margin: 'auto', position: 'relative',
     top: '10%', left: 0, bottom: 0, right: 0}
 }

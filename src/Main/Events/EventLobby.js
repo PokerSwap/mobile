@@ -60,7 +60,6 @@ export default EventLobby = () => {
       setATournament(store.currentTournament.tournament)
       setAnEvent(store.currentTournament)
       var answer2 = await actions.tournament.retrieveAction(tournament_id)
-      console.log('Tournament os:', store.currentTournament, aTournament)
       setAnAction(answer2)
 
       
@@ -116,7 +115,6 @@ export default EventLobby = () => {
     })
   }else{
     null
-    console.log('was null?', aTournament)
   }
 
   

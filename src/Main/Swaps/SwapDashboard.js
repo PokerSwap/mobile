@@ -27,7 +27,6 @@ export default SwapDashboard = (props) => {
   store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
   
   const goToThing = async(remoteMessage) => {
- 
     if (remoteMessage.data.type == 'swap' && store.currentPage =="Swap Offer"){
       // var s = actions.refresh.toggle()
       var e = await actions.swap.getCurrent(remoteMessage.data.id)
@@ -70,6 +69,7 @@ export default SwapDashboard = (props) => {
     }else{
       null
     }
+
   }
   //BACKGROUND
   useEffect(() => {
@@ -77,14 +77,14 @@ export default SwapDashboard = (props) => {
     if(Platform.OS == 'ios'){
       messaging().onNotificationOpenedApp(async remoteMessage => {
         try {
-          console.log('messageType', remoteMessage.messageType)
           console.log('Getting from Background IOS',remoteMessage); 
 
           if(remoteMessage.data.type=='swap'){
             var e = await actions.navigate.toSwap(remoteMessage.data, navigation)
           }else if(remoteMessage.data.type=='chat'){
             var e = await actions.navigate.toChat(remoteMessage.data, navigation)
-          }else{null}        
+          }else{null}  
+      
         } catch (error) {
           console.log('error', error)
         }})
@@ -109,15 +109,13 @@ export default SwapDashboard = (props) => {
       return () => {
         // cleanup
       }
-  }, [])
+  }, [false])
 
   if (Platform.OS == 'ios'){
     messaging().getInitialNotification()
     .then(remoteMessage => {
-      if (remoteMessage) {
-        goToThing(remoteMessage.data)
-        console.log('messageType', remoteMessage.messageType)
-        console.log('messageCategory', remoteMessage.category)
+      if (remoteMessage && store.notificationData) {
+        goToThing(remoteMessage)
         console.log(
           'Notification caused app to open from quit state:',
           remoteMessage,
@@ -130,8 +128,7 @@ export default SwapDashboard = (props) => {
   useEffect(() => {
 
     const unsubscribe = messaging().onMessage(async remoteMessage => {
-        console.log('message recieved', remoteMessage)
-        console.log('my id', store.myProfile.first_name)
+        console.log('Recieved in Foreground', remoteMessage)
       if(remoteMessage.data.type == 'swap'){
         var xee = await actions.tracker.getCurrent()
         var xeee = await actions.tracker.getUpcoming()
@@ -196,7 +193,6 @@ export default SwapDashboard = (props) => {
     setRefreshing(true);
     actions.tracker.getCurrent()
     wait(2000).then(() => setRefreshing(false));
-    console.log('done')
   }, [refreshing]);
 
   const onRefresh2 = useCallback(() => {
