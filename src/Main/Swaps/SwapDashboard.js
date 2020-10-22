@@ -22,7 +22,7 @@ export default SwapDashboard = (props) => {
   const { store, actions } = useContext(Context) 
   const navigation = useNavigation()
 
-
+  
   var currentStyle
   store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
   
@@ -71,7 +71,7 @@ export default SwapDashboard = (props) => {
       null
     }
   }
-    
+  //BACKGROUND
   useEffect(() => {
     //Background IOS
     if(Platform.OS == 'ios'){
@@ -144,12 +144,29 @@ export default SwapDashboard = (props) => {
           null
         }
       }
-      
+      var checkPress = (reason) => {
+        console.log(reason)
+
+        if (reason =='user'){
+          goToThing(remoteMessage)
+        }else{null}
+      }
       if(store.currentPage == "Chat"  && remoteMessage.data.type == 'chat'){
         return actions.chat.refresh(true)
+      }else if(store.currentPage == "Contacts"  && remoteMessage.data.type == 'chat'){
+        return actions.chat.getMine()
       }else if(remoteMessage.data.type == 'chat'){
         actions.chat.refresh(true)
-        return Toast.show({duration:3000,text:remoteMessage.data.alert, position:'top'})
+        return Toast.show({
+          style: {
+           backgroundColor: "rgb(10,132,255)"},
+           duration:3000,
+           buttonText: "Go To",
+          buttonTextStyle: { color: "#008000" },
+          buttonStyle: { backgroundColor: "#5cb85c" },
+           onClose: (reason)=> checkPress(reason),
+          text:remoteMessage.notification.title+ ':  '+ remoteMessage.data.alert, 
+           position:'top'})
       }else{null}
 
       Alert.alert(

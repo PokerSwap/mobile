@@ -21,12 +21,14 @@ export default ChatScreen = (props) => {
   var route = useRoute()
  
 
-  var { a_avatar, nickname, their_id, from_tournament, chat_id }  = route.params
-  const [messages, setMessages] = useState();
-var x = async() => {
+  var { a_avatar, nickname, their_id, chat_id }  = route.params
+  const [messages, setMessages] = useState([]);
+
+  var x = async() => {
     actions.chat.getCurrent(chat_id)
     .then(()=> setMessages(store.currentChat))
-    .then(()=> actions.chat.refresh(false))}
+    .then(()=> actions.chat.refresh(false))
+    .then(()=> console.log('messages', messages))}
   useEffect(() => {
 
     x()

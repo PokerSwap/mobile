@@ -43,7 +43,7 @@ export default MyProfileHistoryCard = (props) => {
 							allSwaps = null
 						}
 					}
-					console.log("all of tem,",allSwaps)
+
 					return(
 						<View>
 							{/* USERS NAME */}

@@ -2,16 +2,16 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Context } from '../../../Store/appContext';
 import { useNavigation } from '@react-navigation/native'
 
-import { Image, View, Spinner, Linking, Modal } from 'react-native'
+import { Image, View, Spinner, Linking, Modal, TextInput, TouchableOpacity } from 'react-native'
 import { Button, Icon, Card, CardItem, Content, Text, Radio, Toast } from 'native-base';
 import { Grid, Row, Col} from 'react-native-easy-grid'
 
 import darkStyle from '../../../Themes/dark.js'
 import lightStyle from '../../../Themes/light.js'
 
+
  ReportModal = (props) => {
   const { store, actions } = useContext(Context)
-
 
   var currentStyle
   store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
@@ -105,10 +105,58 @@ import lightStyle from '../../../Themes/light.js'
   )
 }
 
+var MessageModal = (props) => {
+  const { store, actions } = useContext(Context)
+  const [message, setMessage] = useState('')
+
+  var navigation = useNavigation()
+  const startChat = async () => {
+    if (message.length == 0){
+      return Toast.show({duration:4000, text:"You need to write something"})
+    }else{null}
+
+    var sk = await actions.chat.open(props.their_id, message)
+    .then(()=> navigation.push('Chat', {
+      a_avatar: props.profile.profile_pic_url,
+      nickname: props.profile.first_name,
+      their_id: props.profile.id,
+      chat_id: sk
+    }))
+    .then(() => props.setVisible2(false))
+  }
+
+  return(
+    <View style={modalStyles.background}>
+      <View style={ modalStyles.main }> 
+      <Text>Enter Something loser</Text>
+      <TextInput 
+              
+              placeholder="Hi there! Wanna swap?"
+              placeholderTextColor='grey'
+              keyboardType="email-address"
+              blurOnSubmit={true}
+              selectionColor={'#D3D3D3'}
+              returnKeyType="next"
+              autoCapitalize='none'
+              autoCorrect={false} 
+              value={message}    
+              onChangeText={messageX => setMessage( messageX )} />
+      <Button onPress={()=> startChat()}>
+        <Text>Start Chat</Text>
+      </Button>
+      <TouchableOpacity onPress={()=> props.setVisible2(false)}>
+        <Text>Cancel</Text>
+      </TouchableOpacity>
+      </View>
+    </View>
+  )
+}
+
 export default ProfileBio = (props) => { 
   const { store, actions } = useContext(Context)
   const [ profile, setProfile ] = useState({})
   const [ visible, setVisible ] = useState(false)
+  const [ visible2, setVisible2 ] = useState(false)
 
   const navigation = useNavigation()
 
@@ -138,12 +186,22 @@ export default ProfileBio = (props) => {
       }
     }
 
-  const openChat = () => {
-    navigation.push('Chat', {
+  const openChat = async() => {
+    var z = await actions.chat.retrieve(props.user_id)
+    console.log('data here', {
       a_avatar: profile.profile_pic_url,
       nickname: profile.first_name,
-      from_tournament: props.from_tournament
+      their_id: profile.id,
+      chat_id: z
     })
+    if(z){navigation.push('Chat', {
+      a_avatar: profile.profile_pic_url,
+      nickname: profile.first_name,
+      their_id: profile.id,
+      chat_id: z
+    })}else{
+      setVisible2(true)
+    }
   }
  
   return(
@@ -155,8 +213,16 @@ export default ProfileBio = (props) => {
         presentationStyle='overFullScreen'
         transparent={true}>
         <ReportModal  setVisible={setVisible}
-          myProfile={store.myProfile} theirProfile={profile} />
+          myProfile={store.myProfile} theirProfile={props.profile} />
       </Modal>
+      <Modal
+        animationType='fade'
+        visible={visible2}
+        presentationStyle='overFullScreen'
+        transparent={true}> 
+        <MessageModal  setVisible2={setVisible2} their_id={props.user_id}
+          myProfile={store.myProfile} profile={profile}  />
+     </Modal>
       {/* PROFILE PICTURE AND STATS */}
       <CardItem style={{ alignItems:'center', backgroundColor: currentStyle.background.color, flex:1, flexDirection:'column'}}>
         <Grid style={{backgroundColor:currentStyle.background.color}}>

@@ -39,9 +39,8 @@ export default TheirProfileHistoryCard = (props) => {
 				</Col>
 			</ListItem>
 
-			{props.allSwaps != null ?
+			{props.allSwaps !== null ?
 				props.allSwaps.map((swap,index) => {
-					console.log('over here',allSwaps)
 				var swapTime = swap.updated_at
 				var day_name = swapTime.substring(0,3)
 				var startMonth = swapTime.substring(8,11)

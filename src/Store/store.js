@@ -364,6 +364,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				},
 				getCurrent: async ( a_chat_id ) => {
 					try {
+						console.log('chat', a_chat_id)
 						let url = databaseURL + '/chats/' + a_chat_id
 						let accessToken = getStore().userToken
 
@@ -385,9 +386,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 						// 		name: nickname,
 						// 		avatar: a_avatar,
 						// 	},
-
-						if (currentChatResponse.messages.length == 0){
-							return setStore({currentChat:[]})}else {null}
+console.log('lol ok', currentChatResponse)
+						
 
 						var xx = await getActions().profile.retrieve(currentChatResponse.user1_id)
 						var yy = await getActions().profile.retrieve(currentChatResponse.user2_id)
@@ -424,7 +424,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						//console.log('newChatData', newChatData)
 
 						setStore({currentChat:newChatData})
-						
+						console.log('newwChatData', newChatData)
 
 					} catch (error) {
 						console.log("Getting current chat with this user did not work:", error)
@@ -480,14 +480,39 @@ const getState = ({ getStore, setStore, getActions }) => {
 						console.log("Something went wrong in getting all of your chats", error)
 					}
 				},
-				open: async( their_id) => {
+				retrieve: async( a_user2 ) => {
+					try {
+						let url = databaseURL + '/chats/me/users/' + a_user2
+						let accessToken = getStore().userToken
+
+						let response = await fetch(url, {
+							method: 'GET',
+							headers: {
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							}, 
+						})
+						var currentChatResponse = await response.json()
+						console.log('check',currentChatResponse)
+						if (currentChatResponse.messages){
+							return currentChatResponse.id
+						}else{
+							return false
+						}
+					} catch (error) {
+						console.log('2id', a_user2)
+						console.log('Simething went wrong with retrieving cgat', error)
+					}
+				},
+				open: async( their_id, a_message ) => {
 					try {
 						let url = databaseURL + '/me/chats'
 						let accessToken = getStore().userToken
+						console.log('fff', their_id, a_message)
 						let data = {
 							user1_id: getStore().myProfile.id,
 							user2_id: their_id,
-							tournament_id: a_tournament_id
+							message: a_message
 						}
 
 						let response = await fetch(url, {
@@ -500,12 +525,16 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 						var openChatResponse = await response.json()
 						//console.log("Open Chat Response:", openChatResponse)
+						console.log('eweewe',openChatResponse)
 
-						if (openChatResponse.message.includes("Chat already exists")){
+						var ert = await getActions().chat.getCurrent(openChatResponse.id)
+						var xee = await getActions().chat.refresh(true)
+						var eeewe = await getActions().chat.getMine()
 
-						}else{null}
+						return openChatResponse.id
 
 					} catch (error) {
+						console.log('eeee', a_message, their_id)
 						console.log("Opening a chat with user did not work:", error)
 					}
 				},
@@ -738,6 +767,14 @@ const getState = ({ getStore, setStore, getActions }) => {
 				toChat: async(data, navigation) => {
 					try {
 						// NAVIGATION ACTION
+						var ecd = await getActions().profile.retrieve(data.sender)
+						var answerParams = {
+							a_avatar: ecd.profile_pic_url,
+							nickname: ecd.first_name,
+							their_id: ecd.id,
+							chat_id: data.id
+						}
+
 						var navigateAction = CommonActions.navigate({
 							name: data.finalPath,
 							params: answerParams
@@ -746,11 +783,11 @@ const getState = ({ getStore, setStore, getActions }) => {
 						setStore({notificationData:null})
 
 						try{
-							navigation.dispatch(navigateAction);
+							navigation.push("Chat",answerParams);
 							console.log('dispatch succesgul')
 						} catch(error){
 							console.log('Cant navigate to event', error)
-							navigation.navigate('Contact Screen');
+							navigation.navigate('Contacts');
 						}
 					} catch (error) {
 						console.log("Something went wrong with going to chat", error)
@@ -1800,7 +1837,13 @@ const getState = ({ getStore, setStore, getActions }) => {
 									.then(() => navigation.navigate('Drawer', { screen: 'Home' }))
 									.then(() => {
 										if(wew !== null){
-											getActions().navigate.toSwap(wew.data, navigation)
+											if(wew.data.type=='swap'){
+												getActions().navigate.toSwap(wew.data, navigation)
+											}else if(wew.data.type=='event'){
+												getActions().navigate.toEvent(wew.data, navigation)
+											}else if(wew.data.type=='chat'){
+												getActions().navigate.toChat(wew.data, navigation)
+											}else{null}
 											AsyncStorage.removeItem('notificationData')
 										}else{
 											null

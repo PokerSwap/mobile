@@ -45,7 +45,7 @@ export default HistoryList = (props) => {
   // MAPPING HISTORY COMPONENT
   if(history){
     var myHistory = history.map((content, index) =>{ 
-      console.log('hello', content)
+      // console.log('hello', content)
       return(
         <MyProfileHistoryCard key={index}
           tournament={content.tournament}
@@ -67,7 +67,7 @@ export default HistoryList = (props) => {
         other_swaps !== [] ?
           allSwaps = [...other_swaps]
           : allSwaps = null
-      
+      // console.log('allSwaps', allSwaps)
       return(
         <TheirProfileHistoryCard key={index}
           allSwaps={allSwaps} buyin={content}
