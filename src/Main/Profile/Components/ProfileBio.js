@@ -139,7 +139,6 @@ var MessageModal = (props) => {
               style={modalStyles.field.textInput2}
               placeholder="Hi there! Wanna swap?"
               placeholderTextColor='grey'
-              keyboardType="email-address"
               blurOnSubmit={true}
               selectionColor={'#D3D3D3'}
               returnKeyType="next"
