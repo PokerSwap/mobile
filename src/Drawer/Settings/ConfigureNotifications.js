@@ -1,48 +1,52 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { TextInput, View } from 'react-native'
-import { Container, Content, Button, Text, Toast, List, ListItem, Switch } from 'native-base';
-import AsyncStorage from '@react-native-community/async-storage';
-
 import { Context } from '../../Store/appContext'
 import { useNavigation } from '@react-navigation/native';
+
+import { Container, Content, Button, Text, Toast, List, ListItem, Switch } from 'native-base';
+
+import darkStyle from '../../Themes/dark.js'
+import lightStyle from '../../Themes/light.js'
 
 export default ConfigureNotifications = () => {
   const { store, actions } = useContext(Context)
   const navigation = useNavigation()
 
-
-
-  const [coinSetting, setCoinSetting] = useState(store.settings.coinUpdate)
-  const [swapSetting, setSwapSetting] = useState(store.settings.swapUpdate)
-  const [tournamentSetting, setTournamentSetting] = useState(store.settings.tournamentUpdate)
-
-  const toggleIt = async( oldValue, onPage, asyncd ) => {
+  const [buyinSetting, setBuyinSetting] = useState(store.myProfile.buyin_update)
+  const [swapSetting, setSwapSetting] = useState(store.myProfile.swap_update)
+  const [eventSetting, setEventSetting] = useState(store.myProfile.event_update)
+  const [chatSetting, setChatSetting] = useState(store.myProfile.chat_update)
+  var currentStyle
+  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
+  
+  const toggleIt = async( oldValue, onPage, attribute ) => {
     onPage(!oldValue)
-    var newValue = (!oldValue).toString()
-    var ax = await AsyncStorage.setItem(asyncd, newValue)
-    var bx = await AsyncStorage.getItem(asyncd)
-    console.log(asyncd + ' is now: ' + bx)
+    var e = await actions.profile.changeNotificationSetting(attribute)
   }
 
   return(
     <Container>
-      <Content contentContainerStyle={{paddingTop:50,
+      <Content contentContainerStyle={{paddingTop:50, backgroundColor:currentStyle.background.color,
         justifyContent:'flex-start', alignItems:'center', flex:1, flexDirection:'column'}}>
         <List>
           <ListItem>
-            <Text>Update Coins</Text>
-            <Switch value={coinSetting} 
-              onValueChange={() => toggleIt(coinSetting, setCoinSetting, 'coinUpdate')}/>
+            <Text style={{color:currentStyle.text.color}}>Update Coins</Text>
+            <Switch value={buyinSetting} 
+              onValueChange={() => toggleIt(buyinSetting, setBuyinSetting, 'buyin')}/>
           </ListItem>
           <ListItem>
-            <Text>Swap Updates</Text>
+            <Text style={{color:currentStyle.text.color}}>Swap Updates</Text>
             <Switch value={swapSetting}
-              onValueChange={() => toggleIt(swapSetting, setSwapSetting, 'swapUpdate')}/>
+              onValueChange={() => toggleIt(swapSetting, setSwapSetting, 'swap')}/>
           </ListItem>
           <ListItem>
-            <Text>Tournament Updates</Text>
-            <Switch value={tournamentSetting}
-              onValueChange={() => toggleIt(tournamentSetting, setTournamentSetting, 'tournamentUpdate')} />
+            <Text style={{color:currentStyle.text.color}}>Tournament Updates</Text>
+            <Switch value={eventSetting}
+              onValueChange={() => toggleIt(eventSetting, setEventSetting, 'event')} />
+          </ListItem>
+          <ListItem>
+            <Text style={{color:currentStyle.text.color}}>Tournament Updates</Text>
+            <Switch value={chatSetting}
+              onValueChange={() => toggleIt(chatSetting, setChatSetting, 'chat')} />
           </ListItem>
         </List>
       </Content>  

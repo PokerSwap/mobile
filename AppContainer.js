@@ -48,6 +48,7 @@ import ContactsScreen from './src/Main/Chat/Contacts'
 import TutorialsScreen from './src/Drawer/Tutorials/TutorialsScreen'
 import TutorialListScreen from './src/Drawer/TutorialList'
 import ChangeNickname from './src/Drawer/Settings/ChangeNickname'
+import ConfigureNotifications from './src/Drawer/Settings/ConfigureNotifications'
 
 import PurchaseTokens from './src/Drawer/PurchaseTokens'
 import CardFieldTextScreen from './src/Drawer/PayScenes/CardFieldTextScreen'
@@ -226,7 +227,7 @@ var SettingsStack = () => {
         options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
       <Stack.Screen name="Change Nickname" component={ChangeNickname}
         options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
-      <Stack.Screen name="Change Nickname" component={ConfigureNotifications}
+      <Stack.Screen name="Configure Notifications" component={ConfigureNotifications}
         options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
     </Stack.Navigator>
   )
