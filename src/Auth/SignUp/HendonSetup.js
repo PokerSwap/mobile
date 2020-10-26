@@ -5,7 +5,12 @@ import { WebView } from 'react-native-webview';
 
 export default HendonSetup = (props) => {
 	const [hendon, setHendon] = useState('https://www.thehendonmob.com/search/')
-
+	const [webViewKey, setWebViewKey] = useState(0)
+	const webViewRef = useRef(null)
+  
+  const goback = () => {
+    webViewRef.current.goBack();
+  };
 	const confirmationAlert = () =>{
     Alert.alert(
       "Confirmation",
@@ -31,10 +36,16 @@ export default HendonSetup = (props) => {
 					If you have a Hendon Mob profile, please enter your name {}
 					in the search engine in the live Hendon Mob search below.
 				</Text>
-			</CardItem>			
+			</CardItem>		
+			<Button onPress={()=> goBack()}>
+				<Text>Go Back in Webview</Text>
+			</Button>	
 			{/* HENDON WEBVIEW */}
 			<CardItem style={{height:300}}>
 				<WebView 
+					key={webViewKey}
+					ref={webViewRef}
+        	onContentProcessDidTerminate={() => setWebViewKey(webViewKey + 1)}
 					source={{ uri: hendon }}
 					originWhitelist={['*']}
 					// ref="webview"

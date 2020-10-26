@@ -67,7 +67,7 @@ export default EventListings = (props, navigation) => {
       </Segment>
       {/* MAIN TOURNAMENT COMPONENT */}
       {/* <EventBody mode={mode} myCoords={myCoords} event={testData} />  */}
-      {store.tournamentList != null ?
+      {store.tournamentList != null && !store.myProfile.naughty ?
         store.tournamentList.length != 0 && typeof(store.tournamentList) != 'string' ?
           // TOURNAMENT LIST GENERATOR 
           <FlatList

@@ -276,18 +276,21 @@ export default SwapDashboard = (props) => {
   let liveTracker, upcomingTracker
   
   // CURRENT TRACKER LIST
-  if( Object.keys(store.myCurrentTrackers)[0] !== "message" && store.myCurrentTrackers.length !== 0){
+  if( Object.keys(store.myCurrentTrackers)[0] !== "message" && store.myCurrentTrackers.length !== 0 && !store.myProfile.naughty){
     liveTracker = aflatlist()} 
   // NO LIVE TOURNAMENTS AND/OR NEW USER VIEW
-  else{
+  else if (store.myProfile.naughty){
+    liveTracker = <Text>You've been put on the naughty list</Text>
+  } else{
     liveTracker = noTracker('live', onRefresh1)
-  }       
+  }
 
   // UPCOMING TRACKER LIST
-  if( Object.keys(store.myUpcomingTrackers)[0] !== "message" && store.myUpcomingTrackers.length !== 0){
-    upcomingTracker = bflatlist()} 
-  // NO UPCOMING TOURNAMENTS AND/OR NEW USER VIEW
-  else{
+  if( Object.keys(store.myUpcomingTrackers)[0] !== "message" && store.myUpcomingTrackers.length !== 0 && !store.myProfile.naughty){
+    upcomingTracker = bflatlist()
+  }else if(store.myProfile.naughty){
+    upcomingTracker = <Text>You've been put on the naughty list</Text>
+  } else{
     upcomingTracker = noTracker('upcoming', onRefresh2)
   }  
 

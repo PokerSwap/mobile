@@ -29,13 +29,12 @@ export default SettingsScreen = () => {
           <ListItem noIndent header>
             <Grid>
               <Col style={{width:'33%'}}>
-              <View style={{marginLeft:10, width: 100, height:100, 
-      position: 'relative',
-      overflow: 'hidden', borderRadius: 100}}>
-          <Image source={{uri: store.myProfile.profile_pic_url}} 
-            style={{display: 'flex', margin: 'auto', 
-            height: '100%', width: 'auto'}} />
-        </View>
+                <View style={{marginLeft:10, width: 100, height:100, 
+                  position: 'relative', overflow: 'hidden', borderRadius: 100}}>
+                  <Image source={{uri: store.myProfile.profile_pic_url}} 
+                    style={{display: 'flex', margin: 'auto', 
+                    height: '100%', width: 'auto'}} />
+                </View>
               </Col>
               <Col>
                 <Row>
@@ -50,27 +49,37 @@ export default SettingsScreen = () => {
           {/* CHANGE EMAIL BUTTON */}
           <ListItem noIndent 
             onPress={()=> navigation.navigate('Change Email')}>
-            <Text style={{color:currentStyle.text.color}}> Change Email </Text>
+            <Text style={{color:currentStyle.text.color}}> 
+              Change Email 
+            </Text>
           </ListItem>
           {/* CHANGE PASSWORD BUTTON */}
           <ListItem noIndent 
             onPress={()=> navigation.navigate('Change Password')}>
-            <Text style={{color:currentStyle.text.color}}> Change Password </Text>
+            <Text style={{color:currentStyle.text.color}}>
+              Change Password 
+            </Text>
           </ListItem>
           {/* CHANGE PICTURE BUTTON */}
           <ListItem noIndent 
             onPress={()=> navigation.navigate('Change Picture')}>
-            <Text style={{color:currentStyle.text.color}}> Change Profile Picture </Text>
+            <Text style={{color:currentStyle.text.color}}> 
+              Change Profile Picture 
+            </Text>
           </ListItem>
           {/* CHANGE NICKNAME BUTTON */}
           <ListItem noIndent 
             onPress={()=> navigation.navigate('Change Nickname')}>
-            <Text style={{color:currentStyle.text.color}}> Change Nickname </Text>
+            <Text style={{color:currentStyle.text.color}}> 
+              Change Nickname 
+            </Text>
           </ListItem>
           {/* CHANGE NICKNAME BUTTON */}
           <ListItem noIndent 
             onPress={()=> navigation.navigate('Configure Notifications')}>
-            <Text style={{color:currentStyle.text.color}}> Configure Notifications </Text>
+            <Text style={{color:currentStyle.text.color}}> 
+              Configure Notifications 
+            </Text>
           </ListItem>
           
         </List>

@@ -118,11 +118,12 @@ const getState = ({ getStore, setStore, getActions }) => {
 						.then((responseJson) => {
 							console.log('responseJson',responseJson)
 								newBuyin = responseJson;
-								console.log('newBuyin',newBuyin)
+								console.log('newBuyined',newBuyin)
 						})
 						.catch((error) => {
 							console.log('error in json of image',error);
 						});
+						// console.log('newBuyin', response.json())
 
 						// PREVENTS WRONG PICTURE UPLOADED
 						if (newBuyin.message && newBuyin.message == 'Take another photo'){
@@ -305,6 +306,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							seat: parseInt(a_seat),
 							chips: parseInt(some_chips),
 						}
+						console.log('special', special)
 
 						console.log('data', data)
 
@@ -996,9 +998,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 					return new Promise(resolve =>
 						resolve(getActions().profile.uploadPhoto(a_Picture)
 						.then(() => getActions().profile.get())
-						.then(() => getActions().firebase.signup(uuser.email, uuser.password, full_name, a_nickname))
-						.then(() => getActions().firebase.login(uuser))
-						.then(() => getActions().firebase.updateAvatar(getStore().myProfile.profile_pic_url))
+						// .then(() => getActions().firebase.signup(uuser.email, uuser.password, full_name, a_nickname))
+						// .then(() => getActions().firebase.login(uuser))
+						// .then(() => getActions().firebase.updateAvatar(getStore().myProfile.profile_pic_url))
 						.then(() => navigation.navigate('Drawer', { screen: 'Categories' }))
 						.catch((error) => console.log(error))
 						))
@@ -1069,7 +1071,7 @@ const getState = ({ getStore, setStore, getActions }) => {
         // CHANGE NICKNAME
         changeNickName: async( a_nickname, navigation ) => {
           try{
-            const url = databaseURL + 'profiles/me'
+            const url = databaseURL + '/me/notification/setting/update'
 						const accessToken = getStore().userToken;
             var data = {
               nickname: a_nickname
@@ -1837,10 +1839,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 							console.log('Profile', getStore().myProfile.first_name + ' ' + getStore().myProfile.last_name  )
 							if(getStore().userToken  && getStore().myProfile !== "Error"){
 								if(getStore().myProfile.message !== "Profile not found"){
-									getActions().tournament.getInitial()
+									var ww = AsyncStorage.getItem('uiMode')
 									.then(async() => {
-										var ww = await AsyncStorage.getItem('uiMode')
-										console.log('ww', ww)
 										if (ww == undefined || ww== null){
 											var ww = await AsyncStorage.setItem('uiMode', 'false')
 										}else{
@@ -1849,30 +1849,37 @@ const getState = ({ getStore, setStore, getActions }) => {
 											getActions().uiMode.change(xe)
 										}
 									})
-									.then(() => getActions().firebase.login( data ))
-									.then(() => getActions().chat.getMine())
-									.then(() => setStore({nowLoading: 'Loading Swaps...'}))
-									.then(() => getActions().tracker.getCurrent())
-									.then(() => getActions().tracker.getUpcoming())
 									.then(() => getActions().tracker.getPast())
-									.then(() => setStore({nowLoading: ''}))
-									// .then(() => console.log('hello'))
-									.then(() => navigation.navigate('Drawer', { screen: 'Home' }))
-									.then(() => {
-										if(wew !== null){
-											if(wew.data.type=='swap'){
-												getActions().navigate.toSwap(wew.data, navigation)
-											}else if(wew.data.type=='event'){
-												getActions().navigate.toEvent(wew.data, navigation)
-											}else if(wew.data.type=='chat'){
-												getActions().navigate.toChat(wew.data, navigation)
-											}else{null}
-											AsyncStorage.removeItem('notificationData')
-										}else{
-											null
-										}
-									})
-									.catch((err) => console.log('err',err))
+									.catch(() => "somthing went wrong here")
+									if (getStore().myProfile.naughty == true){
+										navigation.navigate('Drawer', { screen: 'Home' })
+									}else{
+										getActions().tournament.getInitial()
+										// .then(() => getActions().firebase.login( data ))
+										.then(() => getActions().chat.getMine())
+										.then(() => setStore({nowLoading: 'Loading Swaps...'}))
+										.then(() => getActions().tracker.getCurrent())
+										.then(() => getActions().tracker.getUpcoming())
+										.then(() => setStore({nowLoading: ''}))
+										// .then(() => console.log('hello'))
+										.then(() => navigation.navigate('Drawer', { screen: 'Home' }))
+										.then(() => {
+											if(wew !== null){
+												if(wew.data.type=='swap'){
+													getActions().navigate.toSwap(wew.data, navigation)
+												}else if(wew.data.type=='event'){
+													getActions().navigate.toEvent(wew.data, navigation)
+												}else if(wew.data.type=='chat'){
+													getActions().navigate.toChat(wew.data, navigation)
+												}else{null}
+												AsyncStorage.removeItem('notificationData')
+											}else{
+												null
+											}
+										})
+										.catch((err) => console.log('err',err))
+									}
+									
 								} else { 
 									AsyncStorage.setItem('loginInfo', JSON.stringify(data))
 									var x  = AsyncStorage.getItem('loginInfo')
