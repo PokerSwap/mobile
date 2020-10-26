@@ -1091,7 +1091,30 @@ const getState = ({ getStore, setStore, getActions }) => {
           }catch(error) {
             console.log('Something went wrong with changing nickname:', error)
           }
-        },
+				},
+				changeNotificationSetting: async ( type ) => {
+					try {
+						const url = databaseURL + '/me/notification/setting'
+						const accessToken = getStore().userToken;
+            var data = {
+              notification_type: type
+            }
+
+            let response = await fetch(url,{
+							method:"PUT",
+							body: JSON.stringify(data),
+							headers:{
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							}
+						})
+						.then(response => response.json())
+						.then(() => getActions().profile.get())
+
+					} catch (error) {
+						console.log("error: soemthign went worng with changing notifiaction setting")
+					}
+				},
 				// UPLOAD FIRST PROFILE PHOTO
 				uploadPhoto: async ( image ) => {
 					try {

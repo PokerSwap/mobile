@@ -88,7 +88,7 @@ export default EventSearchBar = (props) => {
         <TextInput 
           value={value}
           autoCorrect={false}
-          style={{width:'85%', }}
+          style={{width:'85%', color: currentStyle.text.color}}
           onChangeText={valueX=> setValue(valueX)}
           clearButtonMode='always'
           

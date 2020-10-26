@@ -226,6 +226,8 @@ var SettingsStack = () => {
         options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
       <Stack.Screen name="Change Nickname" component={ChangeNickname}
         options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
+      <Stack.Screen name="Change Nickname" component={ConfigureNotifications}
+        options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
     </Stack.Navigator>
   )
 }

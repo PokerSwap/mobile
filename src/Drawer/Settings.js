@@ -67,6 +67,11 @@ export default SettingsScreen = () => {
             onPress={()=> navigation.navigate('Change Nickname')}>
             <Text style={{color:currentStyle.text.color}}> Change Nickname </Text>
           </ListItem>
+          {/* CHANGE NICKNAME BUTTON */}
+          <ListItem noIndent 
+            onPress={()=> navigation.navigate('Configure Notifications')}>
+            <Text style={{color:currentStyle.text.color}}> Configure Notifications </Text>
+          </ListItem>
           
         </List>
       </Content>  
