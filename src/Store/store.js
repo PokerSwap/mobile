@@ -1096,7 +1096,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				},
 				changeNotificationSetting: async ( type ) => {
 					try {
-						const url = databaseURL + '/me/notification/setting'
+						const url = databaseURL + '/me/notification/setting/update'
 						const accessToken = getStore().userToken;
             var data = {
               notification_type: type
@@ -1112,9 +1112,10 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 						.then(response => response.json())
 						.then(() => getActions().profile.get())
+						.then(() => console.log(getStore().myProfile))
 
 					} catch (error) {
-						console.log("error: soemthign went worng with changing notifiaction setting")
+						console.log("error: soemthign went worng with changing notifiaction setting", error)
 					}
 				},
 				// UPLOAD FIRST PROFILE PHOTO

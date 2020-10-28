@@ -83,6 +83,8 @@ export default SwapDashboard = (props) => {
             var e = await actions.navigate.toSwap(remoteMessage.data, navigation)
           }else if(remoteMessage.data.type=='chat'){
             var e = await actions.navigate.toChat(remoteMessage.data, navigation)
+          }else if(remoteMessage.data.type=='event'){
+            var e = await actions.navigate.toEvent(remoteMessage.data, navigation)
           }else{null}  
       
         } catch (error) {
@@ -98,6 +100,14 @@ export default SwapDashboard = (props) => {
             var e = await actions.navigate.toSwap(remoteMessage.data, navigation)
           }else if(remoteMessage.data.type=='chat'){
             var e = await actions.navigate.toChat(remoteMessage.data, navigation)
+          }else if(remoteMessage.data.type=='event'){
+            var e = await actions.navigate.toChat(remoteMessage.data, navigation)
+          }else if(remoteMessage.data.type=='buyin'){
+            var e = await actions.navigate.toBuyin(remoteMessage.data, navigation)
+          }else if(remoteMessage.data.type=='result'){
+            var e = await actions.navigate.toResult(remoteMessage.data, navigation)
+          }else if(remoteMessage.data.type=='coin'){
+            var e = await actions.navigate.toResult(remoteMessage.data, navigation)
           }else{null}
 
         }catch(err){
@@ -224,7 +234,7 @@ export default SwapDashboard = (props) => {
   // OCCUPIED CURRENT TRACKER COMPONENT
   var aTracker = ({item, index}) => {
     var x
-    item.countdown.includes('in') ? x = 'Starts' : x = 'Started'
+    item.countdown.includes('in') ? x = 'Started' : x = 'Starts'
     return(
       <SwapTracker key={index}  event={item} 
       countdown={item.countdown} timeBy={x}
