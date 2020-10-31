@@ -4,7 +4,7 @@ import { Context } from '../../Store/appContext'
 import { useNavigation } from '@react-navigation/native'
 import messaging from '@react-native-firebase/messaging'
 
-import { Alert, FlatList, Platform, RefreshControl } from 'react-native';
+import { Alert, FlatList, Platform, RefreshControl, View, StatusBar } from 'react-native';
 import { Button, Container, Content, Icon, Tabs, Tab, 
 TabHeading, Text, Toast } from 'native-base';
 
@@ -85,6 +85,12 @@ export default SwapDashboard = (props) => {
             var e = await actions.navigate.toChat(remoteMessage.data, navigation)
           }else if(remoteMessage.data.type=='event'){
             var e = await actions.navigate.toEvent(remoteMessage.data, navigation)
+          }else if(remoteMessage.data.type=='result'){
+            var e = await actions.navigate.toResult(remoteMessage.data, navigation)
+          }else if(remoteMessage.data.type=='coin'){
+            var e = await actions.navigate.toCoin(remoteMessage.data, navigation)
+          }else if(remoteMessage.data.type=='buyin'){
+            var e = await actions.navigate.toBuyin(remoteMessage.data, navigation)
           }else{null}  
       
         } catch (error) {
@@ -107,7 +113,7 @@ export default SwapDashboard = (props) => {
           }else if(remoteMessage.data.type=='result'){
             var e = await actions.navigate.toResult(remoteMessage.data, navigation)
           }else if(remoteMessage.data.type=='coin'){
-            var e = await actions.navigate.toResult(remoteMessage.data, navigation)
+            var e = await actions.navigate.toCoin(remoteMessage.data, navigation)
           }else{null}
 
         }catch(err){
@@ -234,7 +240,7 @@ export default SwapDashboard = (props) => {
   // OCCUPIED CURRENT TRACKER COMPONENT
   var aTracker = ({item, index}) => {
     var x
-    item.countdown.includes('in') ? x = 'Started' : x = 'Starts'
+    item.countdown.includes('ago') ? x = 'Started' : x = 'Starts'
     return(
       <SwapTracker key={index}  event={item} 
       countdown={item.countdown} timeBy={x}
@@ -290,7 +296,11 @@ export default SwapDashboard = (props) => {
     liveTracker = aflatlist()} 
   // NO LIVE TOURNAMENTS AND/OR NEW USER VIEW
   else if (store.myProfile.naughty){
-    liveTracker = <Text>You've been put on the naughty list</Text>
+    liveTracker = <Text style={{color:currentStyle.text.color, width:'80%', alignSelf:'center', marginTop:20, textAlign:'center', fontSize:18}}>
+                    You've been put on the naughty list.{'\n'}{'\n'}
+                    To start swapping again,{'\n'}
+                    please pay your overdue swaps and have the other users confirm payment.
+                  </Text>
   } else{
     liveTracker = noTracker('live', onRefresh1)
   }
@@ -299,15 +309,24 @@ export default SwapDashboard = (props) => {
   if( Object.keys(store.myUpcomingTrackers)[0] !== "message" && store.myUpcomingTrackers.length !== 0 && !store.myProfile.naughty){
     upcomingTracker = bflatlist()
   }else if(store.myProfile.naughty){
-    upcomingTracker = <Text>You've been put on the naughty list</Text>
+    upcomingTracker = <Text style={{color:currentStyle.text.color, width:'80%', alignSelf:'center', marginTop:20, textAlign:'center', fontSize:18}}>
+                        You've been put on the naughty list.{'\n'}{'\n'}
+                        To start swapping again,{'\n'}
+                        please pay your overdue swaps and have the other users confirm payment.
+                      </Text>
   } else{
     upcomingTracker = noTracker('upcoming', onRefresh2)
   }  
 
   return(
     <Container >
-      <HomeHeader title={'Active Swaps'} />
+      <View style={{height:20,  backgroundColor:currentStyle.header.color}}>
+      <StatusBar StatusBarAnimation={'fade'} barStyle={'light-content'}
+				backgroundColor={'rgb(38, 171, 75)'}/>
+      </View>
+      
       <Content contentContainerStyle={{flex:1}}>
+      <HomeHeader title={'Active Swaps'} />
         <Tabs  tabBarUnderlineStyle={{backgroundColor:'white'}}
           tabBarTextStyle={{fontWeight:'bold', color:'white'}}>
           {/* LIVE SWAPTRACKER BODY */}

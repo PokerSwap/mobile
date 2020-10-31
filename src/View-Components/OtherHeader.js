@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Context } from '../Store/appContext'
 import { useNavigation } from '@react-navigation/native'
 
+import {View, StatusBar} from 'react-native';
 import { Header, Text, Icon } from 'native-base';
 
 import darkStyle from '../Themes/dark.js'
@@ -16,7 +17,9 @@ export default OtherHeader = (props) => {
   store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
   
   return(
-    <Header  style={{justifyContent:'space-between', alignItems:'center', backgroundColor:currentStyle.header.color}}>
+
+     
+<View  style={{justifyContent:'space-between', flexDirection:'row', alignItems:'center', backgroundColor:currentStyle.header.color, height:50}}>
       {/* MENU ICON */}
       <Icon type="Ionicons" name="ios-chevron-back" style={{marginLeft:10, color:currentStyle.text.color}}
         onPress={() => navigation.goBack(null)} />
@@ -32,6 +35,7 @@ export default OtherHeader = (props) => {
         // onPress={()=> props.tutorial()}
       />
     
-    </Header>
+    </View>
+    
   )
 }

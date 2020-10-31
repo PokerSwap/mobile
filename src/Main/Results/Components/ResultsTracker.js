@@ -20,7 +20,7 @@ export default ResultsTracker = (props) => {
   const navigation = useNavigation()
   const enterProfitResults = () => {
     console.log('the final profit is', props.final_profit)
-    navigation.push('Profit Results', {
+    navigation.push('Swap Results', {
       tournament: props.tournament,
       my_buyin: props.my_buyin,
       buyins: props.buyins,

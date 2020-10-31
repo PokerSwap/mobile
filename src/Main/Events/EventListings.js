@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Context } from '../../Store/appContext';
 
 import { Text,  Segment, Spinner, ListItem } from 'native-base';
-import {  RefreshControl, FlatList, View} from 'react-native'
+import {  RefreshControl, FlatList, View, StatusBar} from 'react-native'
  
 import HomeHeader from "../../View-Components/HomeHeader";
 import EventBody from './Components/EventBody';
@@ -59,6 +59,10 @@ export default EventListings = (props, navigation) => {
   return(
     <View style={{flex:1, backgroundColor:currentStyle.background.color}}>
       {/* HEADER */}
+      <View style={{height:20,  backgroundColor:currentStyle.header.color}}>
+      <StatusBar StatusBarAnimation={'fade'} barStyle={'light-content'}
+				backgroundColor={'rgb(38, 171, 75)'}/>
+      </View>
       <HomeHeader title={'Event Listings'} />
       {/* SEARCH BAR COMPONENT */}
       <Segment style={{backgroundColor:currentStyle.background.color, marginVertical:5}}>
@@ -91,7 +95,15 @@ export default EventListings = (props, navigation) => {
             </Text>
           </Segment>
         // CONDITION USED WHILE LOADING THE TOURNAMENTS
-       :<Spinner /> }
+       :
+       !store.myProfile.naughty ?
+        <Spinner /> 
+        :
+        <Text style={{color:currentStyle.text.color, width:'80%', alignSelf:'center', marginTop:20, textAlign:'center', fontSize:18}}>
+            You've been put on the naughty list.{'\n'}{'\n'}
+            To start swapping again,{'\n'}
+            please pay your overdue swaps and have the other users confirm payment.
+          </Text> }
   </View>
   )
 }

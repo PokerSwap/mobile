@@ -23,8 +23,8 @@ import ForgotPassword from './src/Auth/ForgotPassword'
 // MAIN VIEWS
 import EventListings from './src/Main/Events/EventListings'
 import SwapDashboard from './src/Main/Swaps/SwapDashboard'
+import EventResults from './src/Main/Results/EventResults'
 import SwapResults from './src/Main/Results/SwapResults'
-import ProfitResults from './src/Main/Results/ProfitResults'
 
 // TOURNAMENT VIEWS
 import EventLobby from './src/Main/Events/EventLobby'
@@ -95,7 +95,7 @@ var MainTabs = () => {
             <Icon type="FontAwesome5" name="trophy" 
               size={24} style={{ color: color }}/>
         }}/>
-      <aTab.Screen name="Swap Results" component={ResultsStack} options={{
+      <aTab.Screen name="Event Results" component={ResultsStack} options={{
           tabBarIcon: ({ color }) => 
             <Icon type="FontAwesome5" name="comments-dollar" 
               size={24} style={{ color: color }}/>
@@ -137,10 +137,10 @@ var EventsStack = () => {
 
 var ResultsStack = () => {
   return(
-    <Stack.Navigator initialRouteName="Swap Results" 
+    <Stack.Navigator initialRouteName="Event Results" 
       screenOptions={{ gestureEnabled: false, headerShown: false }}>
-      <Stack.Screen name="Swap Results" component={SwapResults}/>
-      <Stack.Screen name="Profit Results" component={ProfitResults} 
+      <Stack.Screen name="Event Results" component={EventResults}/>
+      <Stack.Screen name="Swap Results" component={SwapResults} 
         options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}}/>
       <Stack.Screen name="Profile" component={ProfileScreen} 
         options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}}/>

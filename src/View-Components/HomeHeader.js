@@ -17,7 +17,7 @@ export default HomeHeader = (props) => {
   
   const navigation = useNavigation()
   return(
-    <Header style={{ justifyContent:'space-between', alignItems:'center', 
+    <View style={{ height:50,justifyContent:'space-between', flexDirection:'row', alignItems:'center', 
       backgroundColor:currentStyle.header.color}}>
       {/* MENU ICON */}
       <Icon type="FontAwesome5" name="bars" style={{marginLeft:10, color:currentStyle.text.color}}
@@ -31,6 +31,6 @@ export default HomeHeader = (props) => {
       {/* <Icon style={{marginRight:10}} type="FontAwesome5" name="bell"
         // onPress={()=> navigation.push("Notifications")} 
         /> */}
-    </Header>
+    </View>
   )
 }

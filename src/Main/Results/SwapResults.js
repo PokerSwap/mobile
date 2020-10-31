@@ -1,133 +1,169 @@
-import React, {useContext, useState, useCallback} from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Context } from '../../Store/appContext'
+import { useNavigation, useRoute } from '@react-navigation/native'
+import moment from 'moment'
 
-import { RefreshControl,  FlatList, View } from 'react-native'
-import { Button, Container, Content, Icon, Text, Tabs, Tab, TabHeading} from 'native-base';
+import { Modal, View } from 'react-native';
+import { Container, Content, List, Text, ListItem, Button } from 'native-base';
+import Spinner from 'react-native-loading-spinner-overlay'
+import { Grid, Row, Col } from 'react-native-easy-grid'
 
-import HomeHeader from '../../View-Components/HomeHeader'
-import ResultsTracker from './Components/ResultsTracker'
+import _Header from '../../View-Components/HomeHeader'
+import ProfitTracker from './Components/ProfitTracker'
+import BustedModal from '../SwapOffer/Components/BustedModal'
 
 import BounceColorWrapper from '../../Functional/BounceColorWrapper'
 import darkStyle from '../../Themes/dark.js'
 import lightStyle from '../../Themes/light.js'
 
-export default SwapResults = (props) => {
-  const {store, actions} = useContext(Context)
+export default ProfitResults = (props) => {
+  const { store, actions } = useContext(Context)
+
+  const route = useRoute()
+  const navigation = useNavigation();
+  const { tournament, my_buyin, buyins, final_profit } = route.params;
 
   var currentStyle
   store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
-  
-  const [ refreshing, setRefreshing ] = useState(false);
 
-  function wait(timeout) {
-    return new Promise(resolve => {
-      setTimeout(resolve, timeout);
+  const [ loading, setLoading ] = useState(false)
+  const [ visible, setVisible ] = useState(false)
+  const [ refreshing, setRefreshing ] = useState(false)
+  const [ allPaid, setAllPaid ] = useState(true)
+
+  var agreedBuyins = buyins.filter(buyin => buyin.agreed_swaps.length > 0)
+  
+  useEffect(() => {
+    if (agreedBuyins.length!== 0){
+      var x = agreedBuyins.forEach((buyin, index) => {
+        if (buyin.they_owe_total && buyin.you_owe_total){
+          null
+        }else{
+          setAllPaid(false)
+        }
+      })
+    }
+    
+    getBuyin()
+    setRefreshing(false)
+    return () => {
+      // cleanup
+    }
+  }, [refreshing])
+
+  var getBuyin = async() => {
+    var eee = await actions.buy_in.getCurrent(my_buyin.id) 
+  }
+
+  // console.log('allPaid',allPaid, tournament.results_link, final_profit)
+  var profit
+  allPaid & tournament.results_link !== null ? 
+    final_profit >= 0 ?
+      profit = "$" + Math.abs(final_profit).toFixed(2)
+      : profit = "-$" + Math.abs(final_profit).toFixed(2)
+    : agreedBuyins.length == 0 ? 
+        profit= '$0.00' : profit = "Pending"
+  
+
+  var openResults = () => {
+    navigation.push('Web View',{
+      url: tournament.results_link
     })
   }
 
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    actions.tracker.getPast()
-    wait(2000).then(() => setRefreshing(false));
-  }, [refreshing]);
-
-
-
-      // EMPTY CURRENT TRACKER COMPONENT
-  let noTracker = (status) => {
-    return(
-      <FlatList
-
-        ListHeaderComponent={
-          <Text style={{ color:currentStyle.text.color,
-            justifyContent:'center', textAlign:'center', 
-            fontSize:20, width:'80%'}}> 
-            You have no past events that{'\n'}{status} results. 
-          </Text>}
-        ListHeaderComponentStyle={{alignSelf:'center', marginTop:20}}
-        ListFooterComponent={
-          <Button iconLeft style={{borderRadius:100}} onPress={() => onRefresh()}>
-            <Icon type='FontAwesome' name='refresh'/>
-            <Text>Refresh</Text>
-          </Button>}
-        ListFooterComponentStyle={{alignSelf:'center', marginTop:20}}
-      />
-
-    )
-  }
-
-  var aTracker = ({item, index}) => {
-    return(
-      <ResultsTracker key={index} event={item} tournament_end={item.tournament_end}
-        my_buyin= {item.my_buyin} buyins = {item.buyins} final_profit={item.final_profit}
-        tournament={item.tournament} action={item.action}/>
-    )
-  }
-
-  var flatlist = (a_data) => {
-    return(
-      <FlatList contentContainerStyle={{ alignSelf: 'stretch', backgroundColor: currentStyle.background.color }}
-        data={a_data}
-        renderItem={aTracker}
-        keyExtractor={(content, index) => index.toString()}
-        ListFooterComponent={
-          <Button iconLeft style={{borderRadius:100}} onPress={() => onRefresh()}>
-            <Icon type='FontAwesome' name='refresh'/>
-            <Text>Refresh</Text>
-          </Button>}
-        ListFooterComponentStyle={{alignSelf:'center', marginVertical:20}}
-        stickyHeaderIndices={[0]}
-/>
-    )
-  }
-    
-  var pendingResultsTracker, confirmedResultsTracker;
-
-  if( store.myPendingResultsTrackers !== [] && store.myPendingResultsTrackers.length !== 0){
-    pendingResultsTracker = flatlist(store.myPendingResultsTrackers)}  
-  else {
-    pendingResultsTracker = noTracker('are pending')
-  } 
-
-  if( store.myConfirmedResultsTrackers !== [] && store.myConfirmedResultsTrackers.length !== 0){
-    confirmedResultsTracker = flatlist(store.myConfirmedResultsTrackers)}  
-  else {
-    confirmedResultsTracker = noTracker('have confirmed')
-  } 
-
   return(
-    <Container contentContainerStyle={{backgroundColor:currentStyle.background.color}}>
-      <HomeHeader title={'Swap Results'} />
-       <Content contentContainerStyle={{flex:1, backgroundColor:currentStyle.background.color}}>
-         <Tabs tabBarUnderlineStyle={{backgroundColor:'white'}}
-         tabBarTextStyle={{fontWeight:'bold', color:'white'}}>
-           <Tab  heading={
-            <TabHeading style={{backgroundColor:'orange'}} >
-              <Text  style={{color:'white'}}>PENDING</Text>
-            </TabHeading>}>
-            <BounceColorWrapper style={{flex: 1}}
-              mainColor={currentStyle.background.color}>
-              <Content contentContainerStyle={{backgroundColor:currentStyle.background.color}} refreshControl={
-                <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}>
-                {pendingResultsTracker}
-              </Content>
-            </BounceColorWrapper>
-           </Tab>
-           <Tab  heading={
-            <TabHeading style={{backgroundColor:'rgb(38, 171, 75)'}}>
-              <Text style={{color:'white'}}>CONFIRMED</Text>
-            </TabHeading>}>
-            <BounceColorWrapper style={{flex: 1}}
-              mainColor={currentStyle.background.color}>
-              <Content contentContainerStyle={{backgroundColor:currentStyle.background.color}}  refreshControl={
-                <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}>
-                {confirmedResultsTracker}
-              </Content>
-            </BounceColorWrapper>
-
-           </Tab>
-         </Tabs>
-        </Content>
+    <Container> 
+      <BounceColorWrapper style={{flex: 1}} mainColor={currentStyle.background.color}>
+      <Content contentContainerStyle={{backgroundColor:currentStyle.background.color}}>
+        <Spinner visible={loading}/>
+        {/* MODAL */}
+        <Modal
+          animationType='fade'
+          visible={visible}
+          presentationStyle='overFullScreen'
+          transparent={true}>
+          <BustedModal 
+            setRefreshing={setRefreshing}
+            setVisible={setVisible} setLoading={setLoading}
+            buyin_id={my_buyin.id} 
+            tournament_id={tournament.id}
+            mode={'entry'} />  
+        </Modal>
+        {/* LOADING SPINNER */}
+        <Spinner visible={loading}/>
+        {/* MAIN BODY */}
+        <List style={{backgroundColor:currentStyle.background.color}}>
+          <ListItem noIndent header style={{justifyContent:'center', flexDirection:'column'}}>
+            <Grid style={{alignSelf:'center', width:'100%'}}>
+              {/* TOURNAMENT NAME */}
+              <Row style={{justifyContent:'center', marginTop:10}}>
+                <Text style={{justifyContent:'center', textAlign:'center', fontWeight:'600', fontSize:20, color:currentStyle.text.color}}>
+                  {tournament.name}
+                </Text>
+              </Row>
+              <Row style={{justifyContent:'space-around'}}>
+                <Col style={{ width:'70%'}}>
+                  {/* TOURNAMENT CASINO and Address */}
+                  <Text style={{marginTop:20, textAlign:'center', color:currentStyle.text.color}}>
+                    {tournament.casino + '\n' + tournament.address + '\n' + 
+                      tournament.city + ', ' + tournament.state + ' ' + tournament.zip_code}
+                  </Text>
+                  {/* TOURNAMENT START TIME */}
+                  <Text style={{justifyContent:'center', marginVertical:10, textAlign:'center', fontSize:16, color:currentStyle.text.color}}>
+                    {moment(tournament.start_at).format('llll')}
+                  </Text>
+                </Col>
+                <Col style={{textAlign:'center', justifyContent:'center'}}>
+                  <Text style={{textAlign:'center',marginBottom:10,color:currentStyle.text.color}}>
+                    Swapped Players:
+                  </Text>
+                  <Text style={{textAlign:'center', color:currentStyle.text.color,fontSize:24}}>
+                    {agreedBuyins.length}
+                  </Text>
+                </Col>
+              </Row>
+              {/* TOURNAMENT RESULTS LINK */}
+              {tournament.results_link ? 
+                <Row style={{flexDirection:'column', justifyContent:'center', marginTop:10}}>
+                  <Button block onPress={() => openResults()}>
+                    <Text style={{color:currentStyle.text.color}}>
+                      See Complete Event Results
+                    </Text>
+                  </Button>
+                  <Text style={{marginTop:15, marginBottom:5, color:currentStyle.text.color}}>
+                    Results posted {moment(tournament.updated_at).fromNow()}.
+                  </Text>
+                </Row>                
+              : null}
+            </Grid>
+          </ListItem>         
+          {/* NO SWAPS TEXT */}
+          {agreedBuyins.length == 0 ?
+            <ListItem noIndent style={{justifyContent:'center'}}>
+              <Text style={{textAlign:'center', paddingVertical:10, color:currentStyle.text.color}}>
+                You didn't agree to any swaps in this event.
+              </Text>
+            </ListItem>
+            : null }
+          {/* ALL PROFIT TRACKERS */}
+          {agreedBuyins.map((buyin, index) => {
+            // console.log('myPlace', buyin)
+            return(
+              <ProfitTracker key={index}  myPlace={my_buyin.place}
+                buyin={buyin} agreed_swaps={buyin.agreed_swaps}/>
+          )})}
+          {/* FINAL PROFIT */}
+          <ListItem noIndent style={{flexDirection:'column'}}>
+            <Text style={{fontSize:24, textAlign:'center', color:currentStyle.text.color}}>
+              Your final profit is:
+            </Text>
+            <Text style={{fontSize:36, fontWeight:'600', textAlign:'center', color:currentStyle.text.color}}>
+              {profit}
+            </Text>
+          </ListItem>
+        </List>
+      </Content>
+      </BounceColorWrapper>
     </Container>
   )
 }
