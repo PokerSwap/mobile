@@ -4,10 +4,11 @@ import { Toast } from 'native-base'
 import AsyncStorage from '@react-native-community/async-storage'
 import { CommonActions } from '@react-navigation/native';
 import moment from 'moment'
-import PushNotification from 'react-native-push-notification'
 import firebase from 'firebase'; // 4.8.1
 
-var databaseURL = 'https://swapprofit-beta.herokuapp.com/'
+// var databaseURL = 'https://swapprofit-beta.herokuapp.com/'
+var databaseURL = 'http://gabriels-imac.local:3000/'
+
 
 var errorMessage = (error) => {
 	Toast.show({
@@ -34,17 +35,22 @@ const getState = ({ getStore, setStore, getActions }) => {
 			currentBuyin:{},
 			// CURRENT CHAT
 			currentChat:[],
+			// CURRENT CHAT ID, USED FOR REFRESH
 			currentChatID:[],
+			// CURRENT PAGE, USED FOR NOTIFICATION USAGE
+			currentPage:"",
 			// CURRENT SWAP ON SCREEN
 			currentSwap:{},
 			// CURRENT TOURNAMENT ON SCREEN
 			currentTournament:null,
 			// MY DEVICE TOKEN
-			currentPage:"",
 			deviceToken: null,
-			myChats:[],
+			// REFRESH ON SWAP
 			refresh:false,
+			// REFRESH CHAT
 			chatRefresh:false,
+			// MY CHATS
+			myChats:[],
 			// MY PROFILE
 			myProfile:null, 
 			// LIVE AND UPCOMING SWAP TRACKER
@@ -68,10 +74,10 @@ const getState = ({ getStore, setStore, getActions }) => {
 			profileView:[ ],
 	  	// ALL TOURNAMENTS, FILTERED BY FIRST 10 RESULTS
 			tournamentList:[],
+			// CURRENT UI MODE
 			uiMode: null,
 			// USED TO GET PROFILE AND ACCESS ALL REQUESTS IN THE APP
 			userToken: null,
-
 		},
 		actions: {
 			refresh:{
@@ -842,7 +848,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					try {
 						// GETTING SWAP JSON
 						console.log('New Swap Notification Data:', data)
-						var gettingSwap = await getActions().swap.getCurrent(data.id)
+						var gettingSwap = await getActions().buyin.getCurrent(data.id)
 						var gettingTournament = await getActions().tournament.getCurrent(getStore().currentSwap.tournament_id)
 
 						// if (getStore().currentTournament.tournament.tournament_status !== 'open'){
@@ -908,6 +914,22 @@ const getState = ({ getStore, setStore, getActions }) => {
 						console.log("Something went wrong with navigating to swap:", error)
 					}
 					setStore({notificationData:null})
+				},
+				toResult: async ( data, navigation ) => {
+					try {
+						console.log('New Result Notification Data:', data)
+
+					} catch (error) {
+						
+					}
+				},
+				toBuyin: async ( data, navigation ) => {
+					try {
+						console.log('New Buyin Notification Data:', data)
+
+					} catch (error) {
+						
+					}
 				},
 				currentPage: async( name ) => {
 					try {
@@ -1067,57 +1089,57 @@ const getState = ({ getStore, setStore, getActions }) => {
 					} catch (error) {
 						console.log('Something went wrong in storing profile', error)
 					}
-        },
-        // CHANGE NICKNAME
-        changeNickName: async( a_nickname, navigation ) => {
-          try{
-            const url = databaseURL + '/me/notification/setting/update'
-						const accessToken = getStore().userToken;
-            var data = {
-              nickname: a_nickname
-            }
+		        },
+		        // CHANGE NICKNAME
+		        changeNickName: async( a_nickname, navigation ) => {
+		          try{
+		            const url = databaseURL + '/me/notification/setting/update'
+								const accessToken = getStore().userToken;
+		            var data = {
+		              nickname: a_nickname
+		            }
 
-            let response = await fetch(url,{
-							method:"PUT",
-							body: JSON.stringify(data),
-							headers:{
-								'Authorization': 'Bearer ' + accessToken,
-								'Content-Type':'application/json'
-							}
-						})
-						.then(response => response.json())
-						.then(() => getActions().profile.get())
-						.then(() => navigation.goBack())
-						return customMessage('Your nickname change was successful')   
+		            let response = await fetch(url,{
+									method:"PUT",
+									body: JSON.stringify(data),
+									headers:{
+										'Authorization': 'Bearer ' + accessToken,
+										'Content-Type':'application/json'
+									}
+								})
+								.then(response => response.json())
+								.then(() => getActions().profile.get())
+								.then(() => navigation.goBack())
+								return customMessage('Your nickname change was successful')   
 
-          }catch(error) {
-            console.log('Something went wrong with changing nickname:', error)
-          }
+		          }catch(error) {
+		            console.log('Something went wrong with changing nickname:', error)
+		          }
 				},
 				changeNotificationSetting: async ( type ) => {
 					try {
 						const url = databaseURL + '/me/notification/setting/update'
 						const accessToken = getStore().userToken;
-            var data = {
-              notification_type: type
-            }
+			            var data = {
+			              notification_type: type
+			            }
 
-            let response = await fetch(url,{
-							method:"PUT",
-							body: JSON.stringify(data),
-							headers:{
-								'Authorization': 'Bearer ' + accessToken,
-								'Content-Type':'application/json'
-							}
-						})
-						.then(response => response.json())
-						.then(() => getActions().profile.get())
-						.then(() => console.log(getStore().myProfile))
+			            let response = await fetch(url,{
+										method:"PUT",
+										body: JSON.stringify(data),
+										headers:{
+											'Authorization': 'Bearer ' + accessToken,
+											'Content-Type':'application/json'
+										}
+									})
+									.then(response => response.json())
+									.then(() => getActions().profile.get())
+									.then(() => console.log(getStore().myProfile))
 
-					} catch (error) {
-						console.log("error: soemthign went worng with changing notifiaction setting", error)
-					}
-				},
+								} catch (error) {
+									console.log("error: soemthign went worng with changing notifiaction setting", error)
+								}
+							},
 				// UPLOAD FIRST PROFILE PHOTO
 				uploadPhoto: async ( image ) => {
 					try {
@@ -2051,40 +2073,40 @@ const getState = ({ getStore, setStore, getActions }) => {
 			// USER TOKEN ACTIONS
 			userToken: {
 				check: async( myUserToken ) => {
-          try {      
-            const taskURL = databaseURL + "/profiles/me" 
-                           
-            let response = await fetch(taskURL, { 
-              method: 'GET',
-              cache: 'no-cache',
-              headers: {
-                'Authorization': 'Bearer ' + myUserToken,
-                'Content-Type': 'application/json',
-                'Cache-Control': 'no-cache'},
-              body: JSON.stringify(),
-            });
-            let checkedResponse = await response.json();
+			          try {      
+			            const taskURL = databaseURL + "/profiles/me" 
+			                           
+			            let response = await fetch(taskURL, { 
+			              method: 'GET',
+			              cache: 'no-cache',
+			              headers: {
+			                'Authorization': 'Bearer ' + myUserToken,
+			                'Content-Type': 'application/json',
+			                'Cache-Control': 'no-cache'},
+			              body: JSON.stringify(),
+			            });
+			            let checkedResponse = await response.json();
 
-            let isValid;
-            if(checkedResponse.id){
-              isValid = true;
-              setStore({userToken: myUserToken})
-            }else{
-              isValid = false
-              AsyncStorage.removeItem('userToken')
-              AsyncStorage.removeItem('loginInfo')
-            }
-            console.log('Is it a valid token:', isValid)
-            return isValid
-          }catch(error){
-            console.log('something went wrong in gchecking access token', error)
+			            let isValid;
+			            if(checkedResponse.id){
+			              isValid = true;
+			              setStore({userToken: myUserToken})
+			            }else{
+			              isValid = false
+			              AsyncStorage.removeItem('userToken')
+			              AsyncStorage.removeItem('loginInfo')
+			            }
+			            console.log('Is it a valid token:', isValid)
+			            return isValid
+			          }catch(error){
+			            console.log('something went wrong in gchecking access token', error)
 					}
 				} ,
 
 				get: async( data ) => {
 					try{
 						const url = databaseURL + 'users/token'
-
+						console.log("this url", url, data)
 						let response1 = await fetch(url, {
 							method: 'POST',
 							body: JSON.stringify(data),
@@ -2117,6 +2139,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					}
 				} ,
 			},
+			// USER INTERACTION MODE
 			uiMode: {
 				change: (value) => {
 					setStore({uiMode: value})
