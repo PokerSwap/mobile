@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Context } from '../../../Store/appContext'
 import { useNavigation } from '@react-navigation/native'
 
-import { Image, Modal, Alert, View } from 'react-native'
+import { Image, Modal, Alert, View, TouchableOpacity } from 'react-native'
 import { ListItem, Text, Button } from 'native-base';
 import { Grid, Row, Col} from 'react-native-easy-grid'
 import  Spinner  from 'react-native-loading-spinner-overlay'
@@ -19,7 +19,12 @@ export default ProfitTracker = (props) => {
   const [ visible, setVisible ] = useState(false)
   const [ loading, setLoading ] = useState(false)
   const [ paid, setPaid ] = useState(props.buyin.agreed_swaps[0].paid)
+  const [ confirmed, setConfirmed ] = useState(props.buyin.agreed_swaps[0].confirmed)
+  const [ theyPaid, setTheyPaid ] = useState(props.buyin.agreed_swaps[0].they_paid)
+  const [ theyConfirmed, setTheyConfirmed ] = useState(props.buyin.agreed_swaps[0].they_confirmed)
 
+
+  
   const navigation = useNavigation()
 
   var currentStyle
@@ -30,18 +35,40 @@ export default ProfitTracker = (props) => {
       "Pay Confirmation",
       "Are you sure you paid what you owe to this person? ",
       [
-        {text: 'Yes', onPress: () => noLyingAlert()},
+        {text: 'Yes', onPress: () => finalPayAlert()},
         {text: 'No', onPress: () => console.log("Cancel Pressed"),}
       ]
     )
   }
 
-  const noLyingAlert = () => {
+  const finalPayAlert = () => {
     Alert.alert(
-      "Final Confirmation",
-      "If we recieve a complaint that you haven't paid this user, you will be put on the Naughty List and be prevented from making Swaps until all other parties are paid. Is this understood?",
+      "Final Pay Confirmation",
+      "If you have not paid your swaps, the other user may file a dispute. Is this understood?",
       [
         {text: 'Yes', onPress: () => paySwap()},
+        {text: 'No', onPress: () => console.log("Cancel Pressed"),}
+      ]
+    )
+  }
+
+  const confirmAlert = () => {
+    Alert.alert(
+      "Swap Paid Confirmation",
+      "Are you sure this person paid what you were owed? ",
+      [
+        {text: 'Yes', onPress: () => finalConfirmAlert()},
+        {text: 'No', onPress: () => console.log("Cancel Pressed"),}
+      ]
+    )
+  }
+
+  const finalConfirmAlert = () => {
+    Alert.alert(
+      "Final Confirmation",
+      "If you confirm and the other user has not their paid their swaps to you, you cannot file a dispute afterwards. Is this understood?",
+      [
+        {text: 'Yes', onPress: () => confirmSwap()},
         {text: 'No', onPress: () => console.log("Cancel Pressed"),}
       ]
     )
@@ -55,26 +82,47 @@ export default ProfitTracker = (props) => {
     
   var message, fn, buttonColor
   if (swap_profit !== 0 && (props.buyin.they_owe_total && props.buyin.you_owe_total)){
-    if(swap_profit > 0){
-      if(paid){
-        message = "You Were Paid", fn = () => console.log('Nothing Happend'), buttonColor = 'green'
-      }else{
-        message = "Waiting on them", fn = () => console.log('Nothing Happend'), buttonColor = 'rgb(241, 191, 86)'
+    if (paid && confirmed){
+      if ( theyPaid && theyConfirmed ){
+        message = "Swap Confirmed", fn = () => console.log('Nothing Happend'), buttonColor = 'green'
+      } else if ( theyPaid ){
+        message = "Confirm Swap Payment", fn = () => confirmAlert(), buttonColor = 'orange'
+      } else {
+        message = "Waiting on their Payment", fn = () => console.log('Nothing Happend'), buttonColor = 'rgb(241, 191, 86)'
       }
-    }else{
-      if(paid){
-        message = "You Paid This Swap", fn = () => console.log('Nothing Happend'), buttonColor = 'green'
-      }else{
-        message = "Did You Pay This Swap?", fn = payAlert, buttonColor = 'rgb(241, 191, 86)'
-      }
+    } else if ( paid ){
+      message = "Waiting for their Confirmation", fn = () => console.log('Nothing Happend'), buttonColor = 'rgb(241, 191, 86)'
+    } else {
+      message = "Paid Your Swaps?", fn = payAlert, buttonColor = 'rgb(241, 191, 86)'
     }
+
   }else{null}
 
   const paySwap = async() => {
     setLoading(true)
-    var answer = actions.swap.paid(
-      props.buyin.recipient_buyin.tournament_id, props.buyin.recipient_user.id, props.buyin.agreed_swaps[0].id)
-    setPaid(true)
+    var answer = await actions.swap.paid(
+      props.buyin.recipient_buyin.tournament_id, 
+      props.buyin.recipient_user.id, 
+      props.buyin.agreed_swaps[0].id)
+    if (answer == true) {
+      setPaid(true)
+    setVisible(false)
+    setLoading(false)}
+    else{
+      setVisible(false)
+      setLoading(false)
+    }
+  }
+
+  const confirmSwap = async() => {
+    setLoading(true)
+    var answer = await actions.swap.confirmed(
+      props.buyin.recipient_buyin.tournament_id, 
+      props.buyin.agreed_swaps[0].recipient_user.id, 
+      props.buyin.agreed_swaps[0].counter_swap_id)
+    if (answer == true) {
+      setTheyConfirmed(true)
+    } 
     setVisible(false)
     setLoading(false)
   }
@@ -175,7 +223,7 @@ export default ProfitTracker = (props) => {
           they_owe_total = {props.buyin.they_owe_total}/>
         {/* SWAP PROFIT OWE */}
         <Row style={{flexDirection:'column'}}>
-          <Text style={{ fontSize:36, fontWeight:'600', textAlign:'center', marginTop:30}}>
+          <Text style={{ fontSize:36, fontWeight:'600', color:currentStyle.text.color, textAlign:'center', marginTop:30}}>
             Swap Profit
             
           </Text>
@@ -203,6 +251,17 @@ export default ProfitTracker = (props) => {
                 {message}
               </Text> 
             </Button>
+          </Row>
+        : null}
+        {/* DISPUTE BUTTON */}
+        {props.buyin.you_won && paid && confirmed && theyPaid && !(theyConfirmed) ?
+          <Row style={{marginTop:30}}>
+            <TouchableOpacity  onPress={() => fn()}
+              style={{justifyContent:'center'}} >
+              <Text style={{textAlign:'center', color:'red', fontWeight:'600'}}>
+                DISPUTE
+              </Text> 
+            </TouchableOpacity>
           </Row>
         : null}
         

@@ -1,13 +1,17 @@
 
-import { Alert } from 'react-native'
+import { Alert, Platform } from 'react-native'
 import { Toast } from 'native-base'
 import AsyncStorage from '@react-native-community/async-storage'
 import { CommonActions } from '@react-navigation/native';
 import moment from 'moment'
 import firebase from 'firebase'; // 4.8.1
+var databaseURL
 
-// var databaseURL = 'https://swapprofit-beta.herokuapp.com/'
-var databaseURL = 'http://gabriels-imac.local:3000/'
+// Platform.OS == 'ios' ?
+// 	databaseURL = 'http://gabriels-imac.local:3000/' : databaseURL = 'http://10.0.2.2:3000/'
+
+
+databaseURL = 'https://swapprofit-beta.herokuapp.com/'
 
 
 var errorMessage = (error) => {
@@ -15,7 +19,7 @@ var errorMessage = (error) => {
 		text:error, 
 		duration:3000, 
 		position:'bottom',
-		style:{bottom: "50%",backgroundColor:'red'}
+		style:{bottom: "20%",backgroundColor:'red'}
 	})
 }
 
@@ -805,7 +809,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				toEvent: async(data, navigation) => {
 					try {
 						// GETTING TOURNAMENT JSON
-						var gettingTournament = await getActions().tournament.getAction(data.id);
+						var gettingTournament = await getActions().tournament.getCurrent(data.id);
 						var currentTournament = await getStore().currentTournament
 						var answerParams = {
 							tournament_name: currentTournament.tournament.name,
@@ -816,7 +820,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						console.log('Notification Event Parameters: ', answerParams)
 
 						// PREVENTS ENTERING CLOSED TOURNAMENT
-						if (currentTournament.tournament.status !== 'open'){
+						if (currentTournament.tournament.tournament_status !== 'open'){
 							setStore({notificationData:null})
 							var e = await navigation.navigate('Active Swaps')
 							return errorMessage('This event is not open')
@@ -917,10 +921,41 @@ const getState = ({ getStore, setStore, getActions }) => {
 				},
 				toResult: async ( data, navigation ) => {
 					try {
-						console.log('New Result Notification Data:', data)
+						var currentTournament = await getActions().tracker.getPastSpecific(data.id)
+						var answerParams = {
+							tournament: currentTournament[0].tournament,
+							my_buyin: currentTournament[0].my_buyin,
+							buyins: currentTournament[0].buyins,
+							final_profit: currentTournament[0].final_profit,
+							tournament_end: currentTournament[0].tournament_end
+						}
+						console.log('Buyin Parameter: ', answerParams.buyins)
+
+						
+
+						// NAVIGATION ACTION
+						navigation.push(data.finalPath,{
+							tournament: currentTournament[0].tournament,
+							my_buyin: currentTournament[0].my_buyin,
+							buyins: currentTournament[0].buyins,
+							final_profit: currentTournament[0].final_profit,
+							tournament_end: currentTournament[0].tournament_end
+						});
+
+						setStore({notificationData:null})
+
+						// try{
+						// 	navigation.dispatch(navigateAction);
+						// 	console.log('dispatch succesgul')
+						// } catch(error){
+						// 	console.log('Cant navigate to event results', error)
+						// 	navigation.navigate('Event Results');
+						// }
 
 					} catch (error) {
-						
+						console.log("Something went wrong with navigating to event:", error)
+						setStore({notificationData:null})
+						navigation.navigate('Event Results')
 					}
 				},
 				toBuyin: async ( data, navigation ) => {
@@ -1048,7 +1083,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 							:
 							console.log('this means you couldnt store your profile')
 						
-							return profileData
+						console.log('profileData', profileData)
+						return profileData
 
 					} catch(error){
 						console.log('Something went wrong in getting profile', error)
@@ -1337,14 +1373,49 @@ const getState = ({ getStore, setStore, getActions }) => {
 						console.log("Something went wrong with getting the current swap: ", error)
 					}
 				},
+
+				// YOU AND OTHER USER CONFIRMS PAYMENT
+				confirmed: async ( a_tournament_id, a_recipient_id, a_swap_id) => {
+					try{
+						const url = databaseURL + 'users/me/swaps/'+ a_swap_id.toString() + '/confirmed'
+						
+						let accessToken = getStore().userToken
+						let data = {
+							tournament_id: parseInt(a_tournament_id),
+							recipient_id: parseInt(a_recipient_id)
+						}
+
+						let response = await fetch(url,{
+							method:"PUT",
+							body: JSON.stringify(data),
+							headers:{
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							}
+						})
+						.then(response => response.json())
+						console.log('Confirmed Swap Response:', response)
+						if(response.hasOwnProperty('message') && response.message.includes('has been confirmed') ){
+							var x = await getActions().tracker.getPast()
+							return true
+						}else{
+							return false
+						}
+						
+					}catch(error){
+						console.log('Something went wrong with paying a swap: ', error)
+					}
+				},
 				// YOU AND OTHER USER CONFIRMS PAYMENT
 				paid: async ( a_tournament_id, a_recipient_id, a_swap_id) => {
 					try{
-						const url = databaseURL + 'users/me/swaps/'+ a_swap_id + '/done'
+						const url = databaseURL + 'users/me/swaps/'+ a_swap_id.toString() + '/paid'
+						// console.log('pay check', a_tournament_id.typeOf(), a_recipient_id.typeOf(), a_swap_id.typeOf())
+						console.log('ur', url)
 						let accessToken = getStore().userToken
 						let data = {
-							tournament_id: a_tournament_id,
-							recipient_id: a_recipient_id
+							tournament_id: parseInt(a_tournament_id),
+							recipient_id: parseInt(a_recipient_id)
 						}
 
 						let response = await fetch(url,{
@@ -1357,9 +1428,13 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 						.then(response => response.json())
 						console.log('You Paid Swap Response:', response)
-
-						var x = await getActions().tracker.getPast()
-
+						if(response.hasOwnProperty('message') && response.message.includes('has been paid') ){
+							var x = await getActions().tracker.getPast()
+							return true
+						}else{
+							return false
+						}
+						
 					}catch(error){
 						console.log('Something went wrong with paying a swap: ', error)
 					}
@@ -1740,7 +1815,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 						let trackerData = await response.json()
 
-
+						console.log('tracker', trackerData)
 						var newTrackerData = trackerData.map((tracker, index)=> {			
 							var latest = null
 							var deded = tracker.tournament.flights.forEach(flight =>{
@@ -1767,6 +1842,54 @@ const getState = ({ getStore, setStore, getActions }) => {
 						var y = newTrackerData.filter(tracker => tracker.tournament.results_link)
 						setStore({myPendingResultsTrackers: x})
 						setStore({myConfirmedResultsTrackers: y})
+
+					}catch(error){
+						console.log('Something went wrong in getting past trackers: ', error)
+					}
+
+				},
+				getPastSpecific: async( specificID) => {
+					try{
+						const url = databaseURL + 'me/swap_tracker?history=true'
+						let accessToken = getStore().userToken
+
+						let response = await fetch(url, {
+							method:'GET',
+							headers: {
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							}, 
+						})
+
+						let trackerData = await response.json()
+
+						console.log('tracker', trackerData)
+
+						var x = trackerData.filter(tracker => tracker.tournament.id == specificID)
+
+						var newTrackerData = x.map((tracker, index)=> {			
+							var latest = null
+							var deded = tracker.tournament.flights.forEach(flight =>{
+								var thisTime = flight.start_at
+								// console.log('thisTime', thisTime)
+
+								if(latest || moment(thisTime).isBefore(latest)){
+									null
+								}else
+								latest = thisTime
+							})
+							var new_latest = new Date(latest)
+							new_latest.setHours( new_latest.getHours() + 17)
+							var true_end = moment(new_latest).format('llll')
+							// console.log('EEEE', true_end)
+							return({
+								...tracker,
+								tournament_end: true_end
+							})
+						})
+						return newTrackerData
+						// console.log('myPastTrackers', getStore().myPastTrackers)
+						
 
 					}catch(error){
 						console.log('Something went wrong in getting past trackers: ', error)
@@ -1812,7 +1935,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						setStore({myUpcomingTrackers: upcomingList})
 						
 					} catch(error){
-						console.log('Something went wrong in getting current trackers: ', error)
+						console.log('Something went wrong in getting upcoming trackers: ', error)
 					}
 
 				},
@@ -1857,7 +1980,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 						.then(() => setStore({nowLoading: 'Logging In...'}))
 						.then(() => getActions().deviceToken.get(data.device_token))
 						.then(()=> getActions().profile.get())
-						.then(()=> myPassword = '')
 						.then(()=> {
 							console.log('Profile', getStore().myProfile.first_name + ' ' + getStore().myProfile.last_name  )
 							if(getStore().userToken  && getStore().myProfile !== "Error"){
@@ -1874,6 +1996,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 									})
 									.then(() => getActions().tracker.getPast())
 									.catch(() => "somthing went wrong here")
+									console.log('got through half')
 									if (getStore().myProfile.naughty == true){
 										navigation.navigate('Drawer', { screen: 'Home' })
 									}else{
@@ -1888,12 +2011,17 @@ const getState = ({ getStore, setStore, getActions }) => {
 										.then(() => navigation.navigate('Drawer', { screen: 'Home' }))
 										.then(() => {
 											if(wew !== null){
+												console.log('wew', wew)
 												if(wew.data.type=='swap'){
 													getActions().navigate.toSwap(wew.data, navigation)
 												}else if(wew.data.type=='event'){
 													getActions().navigate.toEvent(wew.data, navigation)
 												}else if(wew.data.type=='chat'){
 													getActions().navigate.toChat(wew.data, navigation)
+												}else if(wew.data.type=='result'){
+													getActions().navigate.toResult(wew.data, navigation)
+												}else if(wew.data.type=='buyin'){
+													getActions().navigate.toBuyin(wew.data, navigation)
 												}else{null}
 												AsyncStorage.removeItem('notificationData')
 											}else{
@@ -1911,7 +2039,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 								}									
 							}else{
 								console.log("There is an error with userToken or the profile returns error");
-								return errorMessage("You did not login correctly")
+								// return errorMessage("You did not login correctly")
 							}
 						})
 						.catch((error)=> console.log('Something went wrong in logging in: ', error))
@@ -2116,7 +2244,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						});
 
 						let res = await response1.json();
-						
+						console.log('res', res, response1)
 						if (response1.status >= 200 && response1.status < 300) {
 							data.error = "";
 							setStore({userToken: res.jwt});

@@ -19,6 +19,7 @@ export default BuyIn = (props) => {
   const { store, actions } = useContext(Context)
   const navigation = useNavigation()  
   const {buyin} = props;
+  // console.log('bbb',buyin)
   const [buyinSince, setBuyinSince] = useState(null)
   const [refreshing, setRefreshing] = useState(true)
   const [ isExpanded, setIsExpanded ] = useState(false)
@@ -107,9 +108,11 @@ export default BuyIn = (props) => {
                   textTransform:'capitalize'}}> 
                   {buyin.user_id !== store.myProfile.id ? 
                     buyin.user_name 
-                    : store.myProfile.user_name == null ?
+                    : 
+                    store.myProfile.user_name == null ?
                       store.myProfile.first_name
-                      : store.myProfile.user_name} 
+                      : 
+                      store.myProfile.user_name} 
                 </Text>
               </Button>
             </Row>

@@ -14,7 +14,7 @@ export default IndividualOweRow = (props) => {
   store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
 
   return(
-    <Row style={{padding:5, borderTopWidth:1, 
+    <Row style={{padding:10, borderTopWidth:1, 
       borderColor:'#D3D3D3' }}>
       <Col style={{width:'25%', alignSelf:'center'}}>
         <Text style={{textAlign:'left',  fontSize:24, color:currentStyle.text.color}}>

@@ -61,11 +61,16 @@ export default SwapDashboard = (props) => {
       var cc = await actions.navigate.toSwap(remoteMessage.data, navigation)
     }else{null}
  
-
     if(remoteMessage.data.type == 'event'){
       var cc = await actions.navigate.toEvent(remoteMessage.data, navigation)
     }else if(remoteMessage.data.type == 'chat'){
       var cc = await actions.navigate.toChat(remoteMessage.data, navigation)
+    }else{
+      null
+    }
+
+    if(remoteMessage.data.type == 'result'){
+      var cc = await actions.navigate.toResult(remoteMessage.data, navigation)
     }else{
       null
     }
@@ -290,7 +295,7 @@ export default SwapDashboard = (props) => {
     )
   } 
   let liveTracker, upcomingTracker
-  
+
   // CURRENT TRACKER LIST
   if( Object.keys(store.myCurrentTrackers)[0] !== "message" && store.myCurrentTrackers.length !== 0 && !store.myProfile.naughty){
     liveTracker = aflatlist()} 

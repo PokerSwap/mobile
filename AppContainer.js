@@ -272,6 +272,8 @@ const NavContainer = () => {
           options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}}/> */}
         <Stack.Screen name="Swap Offer" component={SwapOffer} 
           options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}}/>
+        <Stack.Screen name="Swap Results" component={SwapResults} 
+          options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}}/>
         <Stack.Screen name="Chat" component={ChatScreen} 
           screenOptions={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}} />
       </Stack.Navigator>

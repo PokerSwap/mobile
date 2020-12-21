@@ -30,7 +30,7 @@ export default ProfitResults = (props) => {
   const [ visible, setVisible ] = useState(false)
   const [ refreshing, setRefreshing ] = useState(false)
   const [ allPaid, setAllPaid ] = useState(true)
-
+  console.log('Buyins in the Results: ', buyins)
   var agreedBuyins = buyins.filter(buyin => buyin.agreed_swaps.length > 0)
   
   useEffect(() => {
@@ -66,6 +66,7 @@ export default ProfitResults = (props) => {
   
 
   var openResults = () => {
+    console.log('url',tournament.results_link)
     navigation.push('Web View',{
       url: tournament.results_link
     })
@@ -153,7 +154,7 @@ export default ProfitResults = (props) => {
                 buyin={buyin} agreed_swaps={buyin.agreed_swaps}/>
           )})}
           {/* FINAL PROFIT */}
-          <ListItem noIndent style={{flexDirection:'column'}}>
+          <ListItem noIndent style={{flexDirection:'column', paddingTop:30, paddingBottom:30}}>
             <Text style={{fontSize:24, textAlign:'center', color:currentStyle.text.color}}>
               Your final profit is:
             </Text>

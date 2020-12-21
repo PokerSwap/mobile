@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Context } from '../../Store/appContext'
-import stripe from 'tipsi-stripe';
+import stripe, { errorCodes } from 'tipsi-stripe';
 
 import { Text, Icon, Button } from 'native-base';
 import { View, Image, TouchableOpacity, Platform } from 'react-native'
