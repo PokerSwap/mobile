@@ -87,13 +87,21 @@ export default EventListings = (props, navigation) => {
             ListFooterComponent={<Text style={{textAlign:'center'}}></Text>} />
           :
           // CONDITION IF NO TOURNAMENTS ARE FOUND UNDER FIELDS
-          <Segment style={{
-            width:'80%', marginTop:10, alignSelf:'center', backgroundColor:'rgba(0,0,0,0)'}}>
-            <Text style={{textAlign:'center', color:currentStyle.text.color, 
-              fontSize:18, justifyContent:'center'}}> 
-              There are no tournamnents under that name in our database
-            </Text>
-          </Segment>
+          <FlatList
+            
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh} />}
+            ListFooterComponent={
+              <Segment style={{
+                width:'80%', marginTop:20, alignSelf:'center', backgroundColor:'rgba(0,0,0,0)'}}>
+                <Text style={{textAlign:'center', color:currentStyle.text.color, 
+                  fontSize:18, justifyContent:'center'}}> 
+                  There are no tournamnents under that name in our database
+                </Text>
+              </Segment>} />
+          
         // CONDITION USED WHILE LOADING THE TOURNAMENTS
        :
        !store.myProfile.naughty ?

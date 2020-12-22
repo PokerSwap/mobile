@@ -128,25 +128,26 @@ var MessageModal = (props) => {
 
   return(
     <View style={modalStyles.background}>
+      
       <View style={ modalStyles.main }> 
+      
       <View style={modalStyles.field.view2}>
-      <Text style={modalStyles.field.text}>
-        Enter Something loser</Text>
+        <Text style={modalStyles.field.text}>Enter Something loser</Text>
       </View>
-      <View style={modalStyles.field.view2}>
 
-      <TextInput 
-              style={modalStyles.field.textInput2}
-              placeholder="Hi there! Wanna swap?"
-              placeholderTextColor='grey'
-              blurOnSubmit={true}
-              selectionColor={'#D3D3D3'}
-              returnKeyType="next"
-              autoCapitalize='none'
-              autoCorrect={false} 
-              value={message}    
-              onChangeText={messageX => setMessage( messageX )} />
-                    </View>
+      <View style={modalStyles.field.view2}>
+        <TextInput 
+          style={modalStyles.field.textInput2}
+          placeholder="Hi there! Wanna swap?"
+          placeholderTextColor='grey'
+          blurOnSubmit={true}
+          selectionColor={'#D3D3D3'}
+          returnKeyType="next"
+          autoCapitalize='none'
+          autoCorrect={false} 
+          value={message}    
+          onChangeText={messageX => setMessage( messageX )} />
+        </View>
       <View style={modalStyles.field.view2}>
 
       <Button onPress={()=> startChat()}>
@@ -278,7 +279,7 @@ export default ProfileBio = (props) => {
                   </Text>
                   {profile !== undefined ?
                     <Text style={{textAlign:'center', fontSize:24, fontWeight:'600', color:currentStyle.text.color}}> 
-                      {profile.swap_rating}
+                      {parseFloat(profile.swap_rating).toFixed(1)}
                     </Text>
                     :
                     <Spinner /> }

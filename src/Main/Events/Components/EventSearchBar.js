@@ -83,7 +83,7 @@ export default EventSearchBar = (props) => {
     alignItems:'center', justifyContent:'space-around', marginVertical:15}}>
       
       {/* SEARCH INPUT */}
-      <Item rounded style={{width:'65%', height:40, backgroundColor:currentStyle.searchInput.color}}>
+      <Item rounded style={{width:'65%', paddingRight:10, height:40, backgroundColor:currentStyle.searchInput.color}}>
         <Icon name="ios-search" style={{color:currentStyle.text.color}} />
         <TextInput 
           value={value}

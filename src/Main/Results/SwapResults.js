@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { Context } from '../../Store/appContext'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import moment from 'moment'
 
-import { Modal, View } from 'react-native';
+import { Modal, View, FlatList, RefreshControl } from 'react-native';
 import { Container, Content, List, Text, ListItem, Button } from 'native-base';
 import Spinner from 'react-native-loading-spinner-overlay'
 import { Grid, Row, Col } from 'react-native-easy-grid'
@@ -30,8 +30,12 @@ export default ProfitResults = (props) => {
   const [ visible, setVisible ] = useState(false)
   const [ refreshing, setRefreshing ] = useState(false)
   const [ allPaid, setAllPaid ] = useState(true)
-  console.log('Buyins in the Results: ', buyins)
-  var agreedBuyins = buyins.filter(buyin => buyin.agreed_swaps.length > 0)
+  const [ theTournament, setTheTournament ] = useState(tournament)
+  const [ _my_buyin, set_My_Buyin ] = useState(my_buyin)
+  const [ theBuyins, setTheBuyins ] = useState(buyins)
+  const [ theFinalProfit, setTheFinalProfit ] = useState(final_profit)
+  console.log('Buyins in the Results: ', theBuyins)
+  var agreedBuyins = theBuyins.filter(buyin => buyin.agreed_swaps.length > 0)
   
   useEffect(() => {
     if (agreedBuyins.length!== 0){
@@ -52,24 +56,42 @@ export default ProfitResults = (props) => {
   }, [refreshing])
 
   var getBuyin = async() => {
-    var eee = await actions.buy_in.getCurrent(my_buyin.id) 
+    var eee = await actions.buy_in.getCurrent(_my_buyin.id) 
   }
 
+
+  const onRefresh = useCallback(async() => {
+    setRefreshing(true);
+    var answer = await actions.tracker.getPastSpecific(theTournament.id)
+    setTheTournament(answer.tournament)
+    set_My_Buyin(answer.my_buyin)
+    setTheFinalProfit(answer.final_profit)
+    setTheBuyins(answer.buyins)
+     agreedBuyins = theBuyins.filter(buyin => buyin.agreed_swaps.length > 0)
+     wait(2000).then(() => setRefreshing(false));
+  }, [refreshing]);
   // console.log('allPaid',allPaid, tournament.results_link, final_profit)
   var profit
-  allPaid & tournament.results_link !== null ? 
-    final_profit >= 0 ?
-      profit = "$" + Math.abs(final_profit).toFixed(2)
-      : profit = "-$" + Math.abs(final_profit).toFixed(2)
+  allPaid & theTournament.results_link !== null ? 
+    theFinalProfit >= 0 ?
+      profit = "$" + Math.abs(theFinalProfit).toFixed(2)
+      : profit = "-$" + Math.abs(theFinalProfit).toFixed(2)
     : agreedBuyins.length == 0 ? 
         profit= '$0.00' : profit = "Pending"
   
 
   var openResults = () => {
-    console.log('url',tournament.results_link)
+    console.log('url',theTournament.results_link)
     navigation.push('Web View',{
-      url: tournament.results_link
+      url: theTournament.results_link
     })
+  }
+
+  const profitTracker = ({ item, index }) => { 
+    return(
+      <ProfitTracker key={index}  myPlace={_my_buyin.place}
+            buyin={item} agreed_swaps={item.agreed_swaps}/>
+    )
   }
 
   return(
@@ -86,8 +108,8 @@ export default ProfitResults = (props) => {
           <BustedModal 
             setRefreshing={setRefreshing}
             setVisible={setVisible} setLoading={setLoading}
-            buyin_id={my_buyin.id} 
-            tournament_id={tournament.id}
+            buyin_id={_my_buyin.id} 
+            tournament_id={theTournament.id}
             mode={'entry'} />  
         </Modal>
         {/* LOADING SPINNER */}
@@ -99,19 +121,19 @@ export default ProfitResults = (props) => {
               {/* TOURNAMENT NAME */}
               <Row style={{justifyContent:'center', marginTop:10}}>
                 <Text style={{justifyContent:'center', textAlign:'center', fontWeight:'600', fontSize:20, color:currentStyle.text.color}}>
-                  {tournament.name}
+                  {theTournament.name}
                 </Text>
               </Row>
               <Row style={{justifyContent:'space-around'}}>
                 <Col style={{ width:'70%'}}>
                   {/* TOURNAMENT CASINO and Address */}
                   <Text style={{marginTop:20, textAlign:'center', color:currentStyle.text.color}}>
-                    {tournament.casino + '\n' + tournament.address + '\n' + 
-                      tournament.city + ', ' + tournament.state + ' ' + tournament.zip_code}
+                    {theTournament.casino + '\n' + theTournament.address + '\n' + 
+                      theTournament.city + ', ' + theTournament.state + ' ' + theTournament.zip_code}
                   </Text>
                   {/* TOURNAMENT START TIME */}
                   <Text style={{justifyContent:'center', marginVertical:10, textAlign:'center', fontSize:16, color:currentStyle.text.color}}>
-                    {moment(tournament.start_at).format('llll')}
+                    {moment(theTournament.start_at).format('llll')}
                   </Text>
                 </Col>
                 <Col style={{textAlign:'center', justifyContent:'center'}}>
@@ -124,7 +146,7 @@ export default ProfitResults = (props) => {
                 </Col>
               </Row>
               {/* TOURNAMENT RESULTS LINK */}
-              {tournament.results_link ? 
+              {theTournament.results_link ? 
                 <Row style={{flexDirection:'column', justifyContent:'center', marginTop:10}}>
                   <Button block onPress={() => openResults()}>
                     <Text style={{color:currentStyle.text.color}}>
@@ -132,7 +154,7 @@ export default ProfitResults = (props) => {
                     </Text>
                   </Button>
                   <Text style={{marginTop:15, marginBottom:5, color:currentStyle.text.color}}>
-                    Results posted {moment(tournament.updated_at).fromNow()}.
+                    Results posted {moment(theTournament.updated_at).fromNow()}.
                   </Text>
                 </Row>                
               : null}
@@ -140,19 +162,37 @@ export default ProfitResults = (props) => {
           </ListItem>         
           {/* NO SWAPS TEXT */}
           {agreedBuyins.length == 0 ?
-            <ListItem noIndent style={{justifyContent:'center'}}>
+            <FlatList
+              refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+              ListFooterComponent={
+                <Segment style={{
+                  width:'80%', marginTop:20, alignSelf:'center', backgroundColor:'rgba(0,0,0,0)'}}>
+                
+            {/* <ListItem noIndent style={{justifyContent:'center'}}> */}
               <Text style={{textAlign:'center', paddingVertical:10, color:currentStyle.text.color}}>
                 You didn't agree to any swaps in this event.
               </Text>
-            </ListItem>
+            </Segment>}/>
+
             : null }
+            
+          <Content contentContainerStyle={{backgroundColor:currentStyle.background.color}} 
+          refreshControl={ <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}>       
+            <FlatList
+            data={agreedBuyins}
+            renderItem={profitTracker}
+            keyExtractor={(content, index) => index.toString()}
+            ListFooterComponent={<Text style={{textAlign:'center'}}></Text>} />
+          </Content>
+          
           {/* ALL PROFIT TRACKERS */}
-          {agreedBuyins.map((buyin, index) => {
+          {/* {agreedBuyins.map((buyin, index) => {
             // console.log('myPlace', buyin)
             return(
-              <ProfitTracker key={index}  myPlace={my_buyin.place}
+              <ProfitTracker key={index}  myPlace={_my_buyin.place}
                 buyin={buyin} agreed_swaps={buyin.agreed_swaps}/>
-          )})}
+          )})} */}
           {/* FINAL PROFIT */}
           <ListItem noIndent style={{flexDirection:'column', paddingTop:30, paddingBottom:30}}>
             <Text style={{fontSize:24, textAlign:'center', color:currentStyle.text.color}}>

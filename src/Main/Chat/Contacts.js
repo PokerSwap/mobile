@@ -38,8 +38,8 @@ export default ContactsScreen = (props) => {
 
   return(
     <Container style={{backgroundColor:currentStyle.background.color}}>      
-      <Content contentContainerStyle={{backgroundColor:currentStyle.background.color}}>
       <OtherHeader title={'Contacts'} />
+      <Content contentContainerStyle={{backgroundColor:currentStyle.background.color}}>
         <List>
           {store.myChats.length != 0 ?
             store.myChats.map(chat => {

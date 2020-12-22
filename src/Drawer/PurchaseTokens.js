@@ -59,10 +59,13 @@ export default PurchaseTokens = (props) => {
 
   return(
     <Container>
-      <Content>
       <OtherHeader title={'Purchase Tokens'} />
+
+      <Content>
       <ScrollView style={{ alignSelf: 'stretch' }}>    
-      <Button onPress={()=> actions.swapToken.buy(5)}><Text>ADD 5 TOKENS</Text></Button>       
+      <Button onPress={()=> actions.swapToken.buy(5)}>
+        <Text>ADD 5 TOKENS</Text>
+      </Button>       
         <Grid transparent>
           {/* TIER 1 PURCHASES */}
           <Row style={{alignItems:'center'}}>

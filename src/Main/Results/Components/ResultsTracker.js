@@ -31,9 +31,11 @@ export default ResultsTracker = (props) => {
   }
 
   var allPaid = []
+  var allConfirmed = []
   const isTrues = (currentValue) => currentValue ==true;
 
   var eee = props.buyins.forEach(buyin => buyin.agreed_swaps.forEach(swap => allPaid.push(swap.paid)))
+  var xxx = props.buyins.forEach(buyin => buyin.agreed_swaps.forEach(swap => allConfirmed.push(swap.confirmed)))
 
   var x = 'You have ' + ' to pay your swaps for a ' + + ' star rating'
   const fiveStar = moment(props.tournament.updated_at).add(48, 'hours')
@@ -45,8 +47,11 @@ export default ResultsTracker = (props) => {
 
   var x = (e, f) =>  'To recieve a ' + f + ' star Swap rating,\ncomplete full payment of your Swaps by :\n' + e
   var y, wColor
-  if(allPaid.every(isTrues)){
-    y = 'All Swaps Paid'
+  if(allPaid.every(isTrues) && allConfirmed.every(isTrues)){
+    y = 'All Swaps Paid and Confirmed'
+    wColor = 'black'
+  }else if(allPaid.every(isTrues)){
+    y = 'All Swaps Paid, Waiting on Confirmation'
     wColor = 'black'
   }else if(now.isBefore(fiveStar)){
     y = x(fiveStar.format('h:mm A dddd MMMM Do'), 5)

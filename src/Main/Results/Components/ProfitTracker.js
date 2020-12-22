@@ -213,7 +213,7 @@ export default ProfitTracker = (props) => {
         {/* INDIVIDUAL SWAPS ROW */}
         {props.agreed_swaps.map((swap, index) =>{
           return(
-            <IndividualOweRow 
+            <IndividualOweRow key={swap.id}
               number={index} swap={swap}
               you_owe={swap.you_owe} they_owe= {swap.they_owe}/>)
         })}

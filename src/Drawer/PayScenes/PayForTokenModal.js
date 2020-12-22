@@ -61,37 +61,14 @@ export default PayForTokenModal = (props) => {
           setIsLoadingPayment(true)
           setIsLoading(true)
           const accessToken = store.userToken;
-          const url = 'https://swapprofit-beta.herokuapp.com/me/transactions'
-          let data = { coins: props.swapTokens }
-          
-          let response = await fetch(url, {
-            method:'POST',
-            body: JSON.stringify(data),
-            headers: {
-              'Authorization': 'Bearer ' + accessToken,
-              'Content-Type':'application/json'
-            }, 
-          })
-          .then(async (res) => {
-            console.log('RESPONSE REQUEST', res);
-            if (res.ok == true) {
-  // //               // console.log('Succcess enpoint stripe ', res.data.charge);
-  // //               // const dataSave = {
-  // //               //   idPayment: res.data.charge.id,
-  // //               //   userBuyer: userInfo.email,
-  // //               //   totalAmount: (res.data.charge.amount / 100).toFixed(2),
-  // //               //   balance_transaction: res.data.charge.balance_transaction,
-  // //               //   name: token.card.name,
-  // //               //   last4digi: token.card.last4,
-  // //               //   brand: token.card.brand,
-  // //               // };
-  // //               // await fetchNewPayment(dataSave).then(() => {
-  // //               //   order.promos.forEach((promo) => this.props.promoCart.removeFromCart(promo.id));
-  // //               // });
-  // //               // await fetchNewOrder(order, res.data.charge.id).then(() => {
-  // //               //   this.setState({ isLoadingPayment: false, isLoading: false });
-  // //               //   this.props.navigation.push('SuccessfulOrderScreen');
-  // //               // });
+          const startURL = 'http://gabriels-imac.local:3000'
+          // const url = 'https://swapprofit-beta.herokuapp.com/'
+          const url = startURL + '/me/transactions'
+          try{
+          var e = await actions.swapToken.buy(props.swapTokens)
+
+          console.log('RESPONSE REQUEST', e);
+          if (e !== null) {
                 setIsLoadingPayment(false)
                 setIsLoading(false)
                 
@@ -104,15 +81,15 @@ export default PayForTokenModal = (props) => {
                 console.log('Error', 'Error processing the request');
                 stripe.cancelNativePayRequest();
               }
-            })
+           
           // APPLE BACKEND FAILURE
-          .catch((err) => {
+          }catch(err){
             console.log('ERROR REQUEST ENDPOINT STRIPE IOS', err);
             setIsLoadingPayment(false)
             setIsLoading(false)
             console.log('Error', 'Error processing the request');
             stripe.cancelNativePayRequest();
-          });
+          };
         } 
         // APPLE TOKEN FAILED
         else {
@@ -145,77 +122,41 @@ export default PayForTokenModal = (props) => {
         if (token) {
           setIsLoading(true)
           setIsLoadingPayment(true)
-
+          console.log('INSIDE TOKEN')
           const accessToken = store.userToken;
-          const url = 'https://swapprofit-beta.herokuapp.com/me/transactions'
+          var startURL = 'http://gabriels-imac.local:3000'
+          // const url = 'https://swapprofit-beta.herokuapp.com/me/transactions'
+          var url = startURL +'/me/transactions'
           let data = {
             coins: props.swapTokens
           }
+          try{
 
-          await fetch(url, {
-            method:'POST',
-            body: JSON.stringify(data),
-            headers: {
-              'Authorization': 'Bearer ' + accessToken,
-              'Content-Type':'application/json'
-            }, 
-          })
+            var e = await actions.swapToken.buy(props.swapTokens)
 
-  //         // await axios
-  //         //   .post(
-  //         //     URLPAYMENT,
-  //         //     {
-  //         //       token: token.tokenId,
-  //         //       emailCustomer: userInfo.email,
-  //         //       totalAmount: this.getTotals().total.toFixed(2),
-  //         //     },
-  //         //     {
-  //         //       headers: {
-  //         //         Authorization: accessTokenAuthorization,
-  //         //       },
-  //         //     },
-  //         //   )
-          .then(async (res) => {
-            console.log('RESPONSE REQUESTS ANDROID ', res);
-            if (res.ok) {
-//             //   // console.log('Succcess enpoint stripe ', res.data.charge);
-//             //   const dataSave = {
-//             //     idPayment: res.data.charge.id,
-//             //     userBuyer: userInfo.email,
-//             //     totalAmount: (res.data.charge.amount / 100).toFixed(2),
-//             //     balance_transaction: res.data.charge.balance_transaction,
-//             //     name: token.card.name,
-//             //     last4digi: token.card.last4,
-//             //     brand: token.card.brand,
-//             //   };
-//             //   await fetchNewPayment(dataSave).then(() => {
-//             //     order.promos.forEach((promo) => this.props.promoCart.removeFromCart(promo.id));
-//             //   });
-//             //   await fetchNewOrder(order, res.data.charge.id).then(() => {
-//             //     this.setState({ isLoadingPayment: false, isLoading: false });
-//             //     this.props.navigation.push('SuccessfulOrderScreen');
-//             //   });
-              setIsLoadingPayment(false)
-              setIsLoading(false)
-              await stripe.completeNativePayRequest();
-              actions.profile.get()
-              props.setVisible(false)
-            } else {
-              console.log('Error', 'Error processing the request');
-              setIsLoadingPayment(false),
-              setIsLoading(false)
-              stripe.cancelNativePayRequest();
-            }
-          })
+            console.log('RESPONSE REQUESTS ANDROID ', e);
+              if (e !== null) {
+                setIsLoadingPayment(false)
+                setIsLoading(false)
+                await stripe.completeNativePayRequest();
+                actions.profile.get()
+                props.setVisible(false)
+              } else {
+                console.log('Error', 'Error processing the request');
+                setIsLoadingPayment(false),
+                setIsLoading(false)
+                stripe.cancelNativePayRequest();
+              }
+ 
           // ANDROID PAYMENT ENDPOINT FAILURE
-          .catch((err) => {
+        }catch( err) {
             console.log('ERROR ENDPOINT STRIPE ANDROID', err);
             setIsLoadingPayment(false)
             setIsLoading(false)
             console.log('Error', 'Error processing the request');
             stripe.cancelNativePayRequest();
             // console.log('errror endpoint stripe', err);
-          });
+          };
         } else {
           console.log('Error', 'Error processing the request');
           setIsLoadingPayment(false)

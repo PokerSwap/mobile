@@ -17,24 +17,26 @@ export default OtherHeader = (props) => {
   store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
   
   return(
-
-     
-<View  style={{justifyContent:'space-between', flexDirection:'row', alignItems:'center', backgroundColor:currentStyle.header.color, height:50}}>
+    <View  style={{
+      justifyContent:'space-between', flexDirection:'row', 
+      alignItems:'flex-end', paddingBottom:12, 
+      backgroundColor:currentStyle.header.color,  height:'10%'}}>
       {/* MENU ICON */}
-      <Icon type="Ionicons" name="ios-chevron-back" style={{marginLeft:10, color:currentStyle.text.color}}
+      <Icon type="Ionicons" name="ios-chevron-back" 
+        style={{marginLeft:10, color:currentStyle.text.color}}
         onPress={() => navigation.goBack(null)} />
       {/* TITLE */}
-      <Text style={{fontWeight:'bold', fontSize:20, color:currentStyle.text.color}}>
+      <Text style={{fontWeight:'bold', textAlign:'center', fontSize:20, 
+        color:currentStyle.text.color}}>
         {props.title}
       </Text>
       {/* TUTORIAL ICON */}
       <Icon 
-        // style={{marginRight:10}}
-        // type="SimpleLineIcons" 
-        // name="question"
-        // onPress={()=> props.tutorial()}
-      />
-    
+        style={{opacity:0}}
+        type="SimpleLineIcons" 
+        name="question"
+        onPress={()=> props.tutorial()}/>
+
     </View>
     
   )

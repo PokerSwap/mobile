@@ -69,7 +69,9 @@ export default SwapDashboard = (props) => {
       null
     }
 
-    if(remoteMessage.data.type == 'result'){
+    if(remoteMessage.data.type == 'result' && store.currentPage =="Swap Results"){
+
+    }else if (remoteMessage.data.type == 'result'){
       var cc = await actions.navigate.toResult(remoteMessage.data, navigation)
     }else{
       null
@@ -256,8 +258,6 @@ export default SwapDashboard = (props) => {
 
   var aflatlist = () => {
     return(
-
-       
       <FlatList contentContainerStyle={{ alignSelf: 'stretch' }}
         // refreshControl={ 
         //   <RefreshControl refreshing={refreshing} onRefresh={() => onRefresh1()} />}
