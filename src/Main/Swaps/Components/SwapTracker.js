@@ -22,15 +22,17 @@ export default SwapTracker = (props) => {
   })
 
   const enterTournament = () => {
-    var address = props.event.tournament.casino + '\n' + props.event.tournament.address + '\n' 
-      + props.event.tournament.city + ' ' + props.event.tournament.state + ' ' + props.event.tournament.zip_code
+    var {event} = props
+    var address = event.tournament.casino + '\n' + event.tournament.address + '\n' 
+      + event.tournament.city + ' ' + event.tournament.state + ' ' + event.tournament.zip_code
     navigation.push('Event Lobby', {
-      event: props.event,
-      tournament_id: props.event.tournament.id,
-      tournament_name: props.event.name,
-      tournament_start: props.event.tournament.start_at,
-      tournament_address: address,
-      tournamet_players: props.event.tournament.buy_ins.length
+      tournament_id: event.tournament.id,
+      tournament_name: event.tournament.name,
+      tournament_start: event.tournament.start_at,
+      tournament_address: address, 
+      tournament_lat: event.tournament.latitude,
+      tournament_long: event.tournament.longitude,
+      casino: event.casino
     });
   }
  

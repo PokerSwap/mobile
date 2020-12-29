@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import { Button, Card, CardItem, Text, Icon } from 'native-base';
 import { Alert, KeyboardAvoidingView } from "react-native";
 import { WebView } from 'react-native-webview';

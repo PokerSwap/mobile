@@ -15,15 +15,17 @@ export default CounterIncomingPath = (props) => {
   const { store, actions } = useContext(Context)
   const [counter, setCounter] = useState(false)
   var {swap, buyin} = props;
+
+  // swap.percentage == swap.counter_percentage ? setCounter() : setCounter()
   var currentStyle
   store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
   return(
     <Card transparent style={{
       alignSelf:'center', width:'95%', justifyContent:'center', backgroundColor:currentStyle.background.color}}>
       {/* COUNTER SWAP INFO */}
-      <CardItem style={{ alignSelf:'center'}}>
+      <CardItem style={{ alignSelf:'center', backgroundColor:currentStyle.background.color}}>
         {swap.percentage ?
-          <View style={{width:'100%'}}>
+          <View style={{width:'100%', backgroundColor:currentStyle.background.color}}>
           <Text style={{fontSize:20, textAlign:'center', color:currentStyle.text.color}}>
             COUNTER SWAP{'\n'}{props.swapSince}
           </Text>

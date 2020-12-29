@@ -15,11 +15,12 @@ export default SettingsScreen = () => {
   const navigation = useNavigation()
   const { store, actions } = useContext(Context)
 
-    var nick
+  var nick
   store.myProfile.nickname == '' ? nick="N/A" : nick=store.myProfile.nickname
 
   var currentStyle
   store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
+
   return(
     <Container>
       <OtherHeader title={'Settings'} />
@@ -38,10 +39,14 @@ export default SettingsScreen = () => {
               </Col>
               <Col>
                 <Row>
-                  <Text style={{color:currentStyle.text.color}}>Full Name: {store.myProfile.first_name} {store.myProfile.last_name}</Text>
+                  <Text style={{color:currentStyle.text.color}}>
+                    Full Name: {store.myProfile.first_name} {store.myProfile.last_name}
+                  </Text>
                 </Row>
                 <Row>
-                  <Text style={{color:currentStyle.text.color}}>Nickname: {nick}</Text>
+                  <Text style={{color:currentStyle.text.color}}>
+                    Nickname: {nick}
+                  </Text>
                 </Row>
               </Col>
             </Grid>

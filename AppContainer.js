@@ -110,11 +110,11 @@ var SwapsStack = () => {
       screenOptions={{ gestureEnabled: false, headerShown: false }}>
       <Stack.Screen name="Swap Dashboard" component={SwapDashboard}/>
       <Stack.Screen name="Swap Offer" component={SwapOffer} 
-        options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
+        options={{ gestureEnabled: false, headerShown: false, headerBackTitle:'' }}/>
       <Stack.Screen name="Verify Ticket" component={VerifyTicket} 
         options={{ gestureEnabled: false,  headerShown: true, headerBackTitle:''}}/>
       <Stack.Screen name="Event Lobby" component={EventLobby} 
-        options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
+        options={{ gestureEnabled: false, headerShown: false, headerBackTitle:'' }}/>
     </Stack.Navigator>
   )
 }
@@ -128,9 +128,9 @@ var EventsStack = () => {
       <Stack.Screen name="Event Lobby" component={EventLobby}  
         options={{ gestureEnabled: false }} />
       <Stack.Screen name="Swap Offer" component={SwapOffer} 
-        options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
+        options={{ gestureEnabled: false, headerShown: false, headerBackTitle:'' }}/>
         <Stack.Screen name="Profile" component={ProfileScreen} 
-          options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}}/>
+          options={{ gestureEnabled: false, headerShown: false, headerBackTitle:''}}/>
     </Stack.Navigator>
   )
 }
@@ -141,9 +141,9 @@ var ResultsStack = () => {
       screenOptions={{ gestureEnabled: false, headerShown: false }}>
       <Stack.Screen name="Event Results" component={EventResults}/>
       <Stack.Screen name="Swap Results" component={SwapResults} 
-        options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}}/>
+        options={{ gestureEnabled: false, headerShown: false, headerBackTitle:''}}/>
       <Stack.Screen name="Profile" component={ProfileScreen} 
-        options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}}/>
+        options={{ gestureEnabled: false, headerShown: false, headerBackTitle:''}}/>
     </Stack.Navigator>
   )
 }
@@ -263,19 +263,19 @@ const NavContainer = () => {
         <Stack.Screen name="Drawer" component={MainDrawer}/>
         <Stack.Screen name="Home" component={MainTabs}/>
         <Stack.Screen name="Web View" component={WebViewScreen} 
-          options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}} />
+          options={{ gestureEnabled: false, headerShown: false, headerBackTitle:''}} />
         <Stack.Screen name="Purchase Tokens" component={TokenStack} 
           options={{ gestureEnabled: false, headerShown: false}} />
         <Stack.Screen name="Profile" component={ProfileScreen} 
-          options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}}/>
+          options={{ gestureEnabled: false, headerShown: false, headerBackTitle:''}}/>
         {/* <Stack.Screen name="Notifications" component={NotificationsScreen} 
           options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}}/> */}
         <Stack.Screen name="Swap Offer" component={SwapOffer} 
-          options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}}/>
+          options={{ gestureEnabled: false, headerShown: false, headerBackTitle:''}}/>
         <Stack.Screen name="Swap Results" component={SwapResults} 
-          options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}}/>
+          options={{ gestureEnabled: false, headerShown: false, headerBackTitle:''}}/>
         <Stack.Screen name="Chat" component={ChatScreen} 
-          screenOptions={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}} />
+          screenOptions={{ gestureEnabled: false, headerShown: false, headerBackTitle:''}} />
       </Stack.Navigator>
   )
 

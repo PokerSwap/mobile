@@ -109,10 +109,7 @@ export default BuyIn = (props) => {
                   {buyin.user_id !== store.myProfile.id ? 
                     buyin.user_name 
                     : 
-                    store.myProfile.user_name == null ?
-                      store.myProfile.first_name
-                      : 
-                      store.myProfile.user_name} 
+                    store.myProfile.first_name }
                 </Text>
               </Button>
             </Row>

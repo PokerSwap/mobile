@@ -1,14 +1,16 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useCallback } from 'react';
 import { Context } from '../../Store/appContext'
 import { useNavigation, useRoute } from '@react-navigation/native'
 
-import { View } from 'react-native'
-import { Container, Content, List, Spinner, Header, Text } from 'native-base';
+import { View, RefreshControl,StatusBar, FlatList } from 'react-native'
+import { Container, Content, List,ListItem, Spinner, Header, Text } from 'native-base';
 import { HeaderBackButton } from '@react-navigation/stack'
+import messaging from '@react-native-firebase/messaging'
 
 import EventHeader from './Components/EventHeader'
 import FlightSchedule from './Components/FlightSchedule';
 import ActionBar from './Components/ActionBar'
+import OtherHeader from '../../View-Components/OtherHeader'
 
 import BounceColorWrapper from '../../Functional/BounceColorWrapper'
 import darkStyle from '../../Themes/dark.js'
@@ -22,127 +24,99 @@ export default EventLobby = () => {
   var currentStyle
   store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
 
-  const { event,tournament_id, tournament_start, tournament_name, tournament_address } = route.params;
+  const { tournament_id, tournament_start, tournament_name, tournament_address,
+    tournament_lat, tournament_long, casino } = route.params;
 
-  var startAction, startTournament, startTime, startName, startEvent, startAddress, startLat, startLong;
-  if(event){
-    startEvent= event, startName=event.tournament.name, startAction = event.action,
-    startTournament = event.tournament, startTime = event.tournament.start_at, 
-    startLat=event.tournament.latitude, startLong=event.tournament.longitude,
-    startAddress = event.tournament.casino + '\n' +event.tournament.address + '\n' + 
-      event.tournament.city + ', ' + event.tournament.state + ' ' + event.tournament.zip_code
-  }else{
-    startEvent= null, startName=tournament_name, startAction = null, 
-    startTournament = null, startTime = tournament_start, startAddress = tournament_address,
-    startLat= null, startLong= null
-  }
+  const [ anEvent, setAnEvent ] = useState(null)
+  const [ aTournament, setATournament ] = useState(null)
+  const [ tStart, setTStart ] = useState(tournament_start)
+  const [flights, setFlights] = useState([])
+  const [ anAction, setAnAction] = useState(null)
+  const [ refreshing, setRefreshing ] = useState(false)
 
-  const [ anEvent, setAnEvent ] = useState(startEvent)
-  const [ aTournament, setATournament ] = useState(startTournament)
-  const [ tStart, setTStart ] = useState(startTime)
-  const [ anAction, setAnAction] = useState(startAction)
-  const [ refreshing, setRefreshing ] = useState(true)
 
-  useEffect(() => {  
-    const unsubscribe = navigation.addListener('focus', () => {
-      getTournament() 
-    });
-    return () => {
-      unsubscribe
-    }
-  }, [])
- 
   const getTournament = async() => {
     try{
-      console.log('getting tournament from lobby')
       var answer1 = await actions.tournament.getCurrent(tournament_id)
-
-      setATournament(store.currentTournament.tournament)
-      setAnEvent(store.currentTournament)
+      console.log('answer1', answer1)
+      setATournament(answer1.tournament)
+      setAnEvent(answer1)
       var answer2 = await actions.tournament.retrieveAction(tournament_id)
-      setAnAction(answer2)
-
-      
-      // setAnEvent(store.currentTournament)     
-      // var answer3 = await actions.time.convertLong(startTime)     
-      // setTStart(answer3)
+      setAnAction(answer2) 
+      var xee = actions.tournament.setCurrentLobby(answer1, answer1.tournament)
     } catch(error){
       console.log('Something went wrong with getting Tournaent',error)
     }
   }
 
-
-  
-  // FLIGHT SCHEDUELE MAPPER
-  if(anEvent && aTournament){
-    var toFilterOne  = []
-    var addToFilter = anEvent.buyins.forEach((buyin) => 
-      toFilterOne.push(buyin.recipient_user.id));
-    var toFilter2 = [anEvent.my_buyin.user_id, ...toFilterOne]  
-
-    let tournamentBuyins 
-    if (aTournament.buy_ins.length !== 0){
-      tournamentBuyins = aTournament.buy_ins.filter( buyin => 
-        toFilter2.includes(buyin.user_id) != true)
-    }else{
-      tournamentBuyins = []
-    }
-
-    // FLIGHT SCHEDUELE RENDER METHOD
-    var Flights = aTournament.flights.map((flight, index) => {       
-      var myBuyInFlight
-      anEvent.my_buyin.flight_id == flight.id ? 
-        myBuyInFlight = anEvent.my_buyin : myBuyInFlight = []
+  useEffect(() => {  
+    const unsubscribe = navigation.addListener('focus', () => {
+      getTournament() 
       
-      var swappedBuyins =[]
-      var addingtoSwappedBuyins = anEvent.buyins.forEach(buyin => {
-        buyin.recipient_buyin.flight_id == flight.id ?
-          swappedBuyins.push(buyin) : null
-      })
-      
-      var unswappedBuyins = []
-      var addingtoSwappedBuyins = tournamentBuyins.forEach(buyin => {
-        buyin.flight_id == flight.id ?
-          unswappedBuyins.push(buyin) : null
     });
+    return () => {
+      unsubscribe
+    }
+  }, [refreshing])
 
-    return(
-      <FlightSchedule key={index} 
-        action={anAction} my_buyin={myBuyInFlight}
-        setRefreshing={setRefreshing}
-        buyins={swappedBuyins} unbuyins={unswappedBuyins}
-        flight = {flight} tournament={aTournament}/>)
-    })
-  }else{
-    null
+  function wait(timeout) {
+    return new Promise(resolve => {
+      setTimeout(resolve, timeout);
+    });
   }
 
-  
 
-  return(
-    <Container contentContainerStyle={{backgroundColor:currentStyle.background.color}}>      
-      {/* <Header style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between', backgroundColor:'rgb(248,248,248)'}}>
-        <HeaderBackButton onPress={()=> navigation.popToTop()} style={{width:'20%'}}/>
-        <Text style={{textAlign:'center', width:'60%', alignSelf:'center', fontSize:24, fontWeight:'600'}}>Event Lobby</Text>
-        <View style={{width:'20%'}}/>
-      </Header> */}
-      <BounceColorWrapper style={{flex:1}} mainColor={currentStyle.background.color}>
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    getTournament()
+    wait(2000).then(() => setRefreshing(false));
+  }, [refreshing]);
 
-      <Content contentContainerStyle={{backgroundColor:currentStyle.background.color}}>
-        <List style={{backgroundColor:currentStyle.background.color}}>
-          {/* TOURNAMENT HEADER */}
-          <EventHeader 
-            tournament_name={startName}
-            tournament_address={startAddress} tournamentTime={tStart} 
-            lat={startLat} long={startLong} />
-          {/* TOURNEY BUYIN ENTRIES  */}
-          {!aTournament ? <Spinner /> : Flights }          
+  var FlightRow = ({item, index}) => {
+
+    return(
+      <FlightSchedule key={index}  event={aTournament} 
+        action={anAction} my_buyin={item.myBuyInFlight}
+        buyins={item.swapped_buyins} unbuyins={item.unswapped_buyins}
+        flight = {item.flight} tournament={aTournament}/>
+    )
+  }  
+
+   return(
+
+    <View style={{flex:1, backgroundColor:currentStyle.background.color}}>
+
+      <View style={{height:20,  backgroundColor:currentStyle.header.color}}>
+        <StatusBar StatusBarAnimation={'fade'} barStyle={'light-content'}
+          backgroundColor={'rgb(38, 171, 75)'}/>
+      </View>
+
+      <OtherHeader title={'Event Lobby'}/>
+      {/* <BounceColorWrapper style={{flex:1}} mainColor={currentStyle.background.color}> */}
+      <List style={{backgroundColor:currentStyle.background.color}}>
+        {/* TOURNAMENT HEADER */}
+        <EventHeader 
+          tournament_name={tournament_name} casino={casino}
+          tournament_address={tournament_address} tournament_time={tournament_start} 
+          lat={tournament_lat} long={tournament_long} />
+        {/* TOURNEY BUYIN ENTRIES  */}
+        {!aTournament ? 
+          <Spinner /> 
+          : 
+          <FlatList
+          data={store.currentLobby}
+          renderItem={FlightRow}
+          keyExtractor={(content, index) => index.toString()}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh} />}
+          
+          ListFooterComponent={<Text style={{textAlign:'center'}}></Text>} />}          
         </List>
-      </Content>
-      </BounceColorWrapper>
-
+        {/* </BounceColorWrapper> */}
       {/* FOOTER CONTAINS NUMBER OF SWAPS AND ACTION  */}
       <ActionBar action={anAction} />
-    </Container>
+    </View>
   )
 }

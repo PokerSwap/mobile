@@ -47,7 +47,7 @@ if (!firebase.apps.length) {
 if (Platform.OS == 'android'){
   messaging().setBackgroundMessageHandler(async (remoteMessage) => {
     try{
-      console.log('messagetype', remoteMessage.messageType)
+
       console.log('Get from Quit Android', remoteMessage)
       var wwx = await AsyncStorage.setItem('notificationData', JSON.stringify(remoteMessage))
     }catch(err){

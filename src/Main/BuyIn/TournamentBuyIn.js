@@ -53,7 +53,7 @@ export default TournamentBuyIn = (props) => {
               onPress={()=> handler()}>
               <Text style={{fontSize:24, color:txt,
                 textTransform:'capitalize'}}> 
-                {buyin.user_name}
+                {buyin.first_name} {buyin.last_name}
               </Text>
             </Button> 
           </Row>

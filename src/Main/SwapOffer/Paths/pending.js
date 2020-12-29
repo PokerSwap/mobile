@@ -29,8 +29,10 @@ export default PendingPath = (props) => {
   var cancelSwap = async() => {
     props.setLoading(true)
     props.setRefreshing(true)
+
     var answer = await actions.swap.statusChange(
       props.tournament.id, swap.id, buyin.id, "pending", "canceled") 
+
     props.setLoading(false)
     props.setRefreshing(false)
   }
@@ -56,7 +58,7 @@ export default PendingPath = (props) => {
       {/* CANCEL SWAP BUTTON */}
       {swap ?
         <CardItem style={{justifyContent:'center', backgroundColor:currentStyle.background.color}}>  
-          <Button full large style={{width:'100%', backgroundColor:'#a3a3a3'}}onPress={()=> showAlert()}>
+          <Button full large style={{width:'100%', backgroundColor:'#a3a3a3'}} onPress={()=> showAlert()}>
             <Text>Cancel</Text>
           </Button>
         </CardItem>

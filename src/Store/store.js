@@ -45,6 +45,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 			currentPage:"",
 			// CURRENT SWAP ON SCREEN
 			currentSwap:{},
+			currentLobby:[],
 			// CURRENT TOURNAMENT ON SCREEN
 			currentTournament:null,
 			// MY DEVICE TOKEN
@@ -53,6 +54,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 			refresh:false,
 			// REFRESH CHAT
 			chatRefresh:false,
+
+			tournamentRefresh: false,
 			// MY CHATS
 			myChats:[],
 			// MY PROFILE
@@ -343,7 +346,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						var refreshAction = await getActions().tournament.getAction(a_tournament_id)
 						var refreshBuyin = await getActions().tournament.getCurrent(a_tournament_id)
 						var refreshSwap = await getActions().buy_in.getCurrent(a_buyin_id)
-						return customMessage('Your buyin has been updated.')
+						return customMessage('Your status has been updated.')
 
 					}catch(error){
 						console.log('Something went wrong with editing a buyin', error)
@@ -360,7 +363,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							},
 						})
 						var theBuyin = await response.json()	
-						// console.log('theBuyin', theBuyin)					
+						console.log('theBuyin', theBuyin)					
 						setStore({currentBuyin: theBuyin})
 					}catch(error){
 						console.log('problem with getting the current buyin:', error)
@@ -379,7 +382,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				getCurrent: async ( a_chat_id ) => {
 					try {
 						setStore({ currentChatID: a_chat_id})
-						let url = databaseURL + '/chats/' + a_chat_id
+						let url = databaseURL + 'chats/' + a_chat_id
 						let accessToken = getStore().userToken
 
 						let response = await fetch(url, {
@@ -437,7 +440,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						//console.log('newChatData', newChatData)
 
 						setStore({currentChat:newChatData})
-						console.log('Chat In Store:', newChatData)
+						// console.log('Chat In Store:', newChatData)
 
 					} catch (error) {
 						console.log("Getting current chat with this user did not work:", error)
@@ -495,7 +498,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				},
 				retrieve: async( a_user2 ) => {
 					try {
-						let url = databaseURL + '/chats/me/users/' + a_user2
+						let url = databaseURL + 'chats/me/users/' + a_user2
 						let accessToken = getStore().userToken
 
 						let response = await fetch(url, {
@@ -519,7 +522,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				},
 				open: async( their_id, a_message ) => {
 					try {
-						let url = databaseURL + '/me/chats'
+						let url = databaseURL + 'me/chats'
 						let accessToken = getStore().userToken
 
 						let data = {
@@ -552,7 +555,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				},
 				sendMessage: async( a_chat_id, their_user_id, a_message ) => {
 					try {
-						let url = databaseURL + '/messages/me/chats/' + a_chat_id
+						let url = databaseURL + 'messages/me/chats/' + a_chat_id
 						let accessToken = getStore().userToken
 						console.log('message', a_message)
 						let data = {
@@ -571,7 +574,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 						var sendMessageResponse = await response.json()
 						//console.log("Send Message Response:", sendMessageResponse)
-						console.log('message sent', sendMessageResponse)
+						console.log('message sent', sendMessageResponse.messages[sendMessageResponse.messages.length - 1].message)
 					} catch (error) {
 						console.log("Sending a message to this user did not work:", error)
 					}
@@ -854,7 +857,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 					try {
 						// GETTING SWAP JSON
 						console.log('New Swap Notification Data:', data)
-						var gettingSwap = await getActions().buyin.getCurrent(data.id)
+						var gettingBuyin = await getActions().buy_in.getCurrent(data.buyin_id)
+						var gettingSwap = await getActions().swap.getCurrent(data.id)
 						var gettingTournament = await getActions().tournament.getCurrent(getStore().currentSwap.tournament_id)
 
 						// if (getStore().currentTournament.tournament.tournament_status !== 'open'){
@@ -864,15 +868,16 @@ const getState = ({ getStore, setStore, getActions }) => {
 						// }
 						// GETS MOST CURRENT BUYIN OF OTHER USER
 						var theirBuyin
+						console.log('its', getStore().currentTournament)
 						var settingCurrentBuyin = getStore().currentTournament.tournament.buy_ins.forEach(buyin => {
-							if(buyin.user_id == getStore().currentSwap.recipient_user.id){
+							if(buyin.user_id == getStore().currentBuyin.id){
 								theirBuyin = buyin
 								setStore({currentBuyin: theirBuyin})
 								console.log('Buyin from swap opened from notification:', theirBuyin)
 							}
 						})
 						// PREVENTS SWAP IF OTHER USER HAS 0 CHIPS
-						if(theirBuyin.chips == 0){
+						if(getStore().currentBuyin.chips == 0){
 							navigation.navigate('Active Swaps')
 							setStore({notificationData:null})
 							console.log("The user you're trying to was busted out")
@@ -1085,7 +1090,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							:
 							console.log('this means you couldnt store your profile')
 						
-						console.log('profileData', profileData)
+						// console.log('profileData', profileData)
 						return profileData
 
 					} catch(error){
@@ -1131,24 +1136,24 @@ const getState = ({ getStore, setStore, getActions }) => {
 		        // CHANGE NICKNAME
 		        changeNickName: async( a_nickname, navigation ) => {
 		          try{
-		            const url = databaseURL + '/me/notification/setting/update'
+		            const url = databaseURL + 'profiles/me'
 								const accessToken = getStore().userToken;
 		            var data = {
 		              nickname: a_nickname
 		            }
 
 		            let response = await fetch(url,{
-									method:"PUT",
-									body: JSON.stringify(data),
-									headers:{
-										'Authorization': 'Bearer ' + accessToken,
-										'Content-Type':'application/json'
-									}
-								})
-								.then(response => response.json())
-								.then(() => getActions().profile.get())
-								.then(() => navigation.goBack())
-								return customMessage('Your nickname change was successful')   
+						method:"PUT",
+						body: JSON.stringify(data),
+						headers:{
+							'Authorization': 'Bearer ' + accessToken,
+							'Content-Type':'application/json'
+						}
+					})
+					.then(response => response.json())
+					.then(() => getActions().profile.get())
+					.then(() => navigation.goBack())
+					return customMessage('Your nickname change was successful')   
 
 		          }catch(error) {
 		            console.log('Something went wrong with changing nickname:', error)
@@ -1349,7 +1354,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 						
 						var answer = await response.json()
-						console.log('currentSwap', answer)
+						console.log('currentSwap', answer.id)
 						setStore({currentSwap:answer})
 					}catch(error){
 						console.log("Something went wrong with getting the current swap: ", error)
@@ -1369,7 +1374,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 						
 						var answer = await response.json()
-						console.log('currentSwap', answer)
+						console.log('currentSwap', answer.id)
 						return answer
 					}catch(error){
 						console.log("Something went wrong with getting the current swap: ", error)
@@ -1497,22 +1502,22 @@ const getState = ({ getStore, setStore, getActions }) => {
 						console.log('2. Current Swap in Store:', getStore().currentSwap)
 						console.log('3. Current Buyin in Store:', getStore().currentBuyin)
 
-						// if (a_current_status == 'incoming'){
-						// 	var a = await getActions().swapToken.spend()
-						// }else{null}
+						if (a_current_status == 'incoming'){
+							var a = await getActions().swapToken.spend()
+						}else{null}
 
-						// if (a_current_status == 'counter_incoming'){
-						// 	if(a_new_status =='rejected'){
-						// 		var a = await getActions().swapToken.return()
-						// 	} else{null}
-						// }else{null}
+						if (a_current_status == 'counter_incoming'){
+							if(a_new_status =='rejected'){
+								var a = await getActions().swapToken.return()
+							} else{null}
+						}else{null}
 
-						// if(a_new_status == 'canceled'){
-						// 	console.log('repsonse if canceled', response )
-							// if(response[1].status == 'counter_incoming'){
-								// var a = await getActions().swapToken.return()
-							// }else{null}
-						// }	
+						if(a_new_status == 'canceled'){
+							console.log('repsonse if canceled', response )
+							if(response[1].status == 'counter_incoming'){
+								var a = await getActions().swapToken.return()
+							}else{null}
+						}	
 						
 					
 					}catch(error){
@@ -1760,6 +1765,62 @@ const getState = ({ getStore, setStore, getActions }) => {
 						console.log('Something went wrong in retreiving action from a tournament: ', error)
 					}
 				},
+				setCurrentLobby: async (eVent, tOurnament) => {
+					console.log(eVent, tOurnament)
+					// FLIGHT SCHEDUELE MAPPER
+					  if(eVent && tOurnament){
+						var toFilterOne  = []
+						var addToFilter = eVent.buyins.forEach((buyin) => 
+						  toFilterOne.push(buyin.recipient_user.id));
+						var toFilter2 = [eVent.my_buyin.user_id, ...toFilterOne]  
+					
+						let tournamentBuyins 
+						if (tOurnament.buy_ins.length !== 0){
+						  tournamentBuyins = tOurnament.buy_ins.filter( buyin => 
+							toFilter2.includes(buyin.user_id) != true)
+						}else{
+						  tournamentBuyins = []
+						}
+						var flightSet =[]
+						// FLIGHT SCHEDUELE RENDER METHOD
+						tOurnament.flights.forEach((flight, index) => {       
+						  var myBuyInFlight
+						  eVent.my_buyin.flight_id == flight.id ? 
+							myBuyInFlight = eVent.my_buyin : myBuyInFlight = []
+						  
+						  var swappedBuyins =[]
+						  var addingtoSwappedBuyins = eVent.buyins.forEach(buyin => {
+							buyin.recipient_buyin.flight_id == flight.id ?
+							  swappedBuyins.push(buyin) : null
+						  })
+						  
+						  var unswappedBuyins = []
+						  var addingtoSwappedBuyins = tournamentBuyins.forEach(buyin => {
+							buyin.flight_id == flight.id ?
+							  unswappedBuyins.push(buyin) : null
+						});
+						var result = {
+						  "flight":flight,
+						  "tournamentBuyins": tournamentBuyins,
+						  "myBuyInFlight": myBuyInFlight,
+						  "swapped_buyins": swappedBuyins, 
+						  "unswapped_buyins": unswappedBuyins,}
+						  flightSet.push(result)
+						
+					
+					  })
+					  setStore({currentLobby: flightSet})
+					
+					  }else{
+						null
+					  }
+				},
+
+				refresh: async ( x ) => {
+					setStore({tournamentRefresh: x})
+
+				}
+				
 			},
 			// SWAP RESULTS ACTIONS
 			tracker: {
@@ -1822,7 +1883,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 						let trackerData = await response.json()
 
-						console.log('tracker', trackerData)
+						// console.log('tracker', trackerData)
 						var newTrackerData = trackerData.map((tracker, index)=> {			
 							var latest = null
 							var deded = tracker.tournament.flights.forEach(flight =>{
@@ -1870,7 +1931,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 						let trackerData = await response.json()
 
-						console.log('tracker', trackerData)
+						// console.log('tracker', trackerData)
 
 						var x = trackerData.filter(tracker => tracker.tournament.id == specificID)
 
@@ -1894,7 +1955,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 								tournament_end: true_end
 							})
 						})
-						return newTrackerData
+						console.log('newZTeackerSDat', newTrackerData)
+						return newTrackerData[0]
 						// console.log('myPastTrackers', getStore().myPastTrackers)
 						
 
@@ -2251,7 +2313,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						});
 
 						let res = await response1.json();
-						console.log('res', res, response1)
+						// console.log('res', res, response1)
 						if (response1.status >= 200 && response1.status < 300) {
 							data.error = "";
 							setStore({userToken: res.jwt});

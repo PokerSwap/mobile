@@ -27,8 +27,10 @@ export default EventHeader = (props) => {
           <InfoModal  setVisible={setVisible}
             tournament_name={props.tournament_name}
             tournament_address={props.tournament_address} 
-            tournament_start={props.tournamentTime}
-            tournament={props.currentTournament}/>
+            tournament_start={props.tournament_time}
+            latitude={props.lat}
+            longitude={props.lat}
+            casino={props.casino}/>
         </Modal>
       {/* TOURNAMENT NAME */}
       <Text style={{ fontSize:18, fontWeight:'600', textAlign:'center', color:currentStyle.text.color}}>
@@ -36,7 +38,7 @@ export default EventHeader = (props) => {
       </Text>
       {/* TOURNAMENT START */}
       <Text style={{fontSize:14, textAlign:'center', marginTop:10, marginBottom:10, color:currentStyle.text.color}}>
-        {moment(props.tournamentTime).format('llll')}
+        {moment(props.tournament_time).format('llll')}
       </Text>    
       <Button block info onPress={() => setVisible(!visible)}>
         <Text>Event Info</Text>

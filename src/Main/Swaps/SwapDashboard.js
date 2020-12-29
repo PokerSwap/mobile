@@ -65,6 +65,8 @@ export default SwapDashboard = (props) => {
       var cc = await actions.navigate.toEvent(remoteMessage.data, navigation)
     }else if(remoteMessage.data.type == 'chat'){
       var cc = await actions.navigate.toChat(remoteMessage.data, navigation)
+    }else if(remoteMessage.data.type == 'buyin'){
+      var cc = await actions.navigate.toBuyin(remoteMessage.data, navigation)
     }else{
       null
     }
@@ -155,6 +157,8 @@ export default SwapDashboard = (props) => {
       if(remoteMessage.data.type == 'swap'){
         var xee = await actions.tracker.getCurrent()
         var xeee = await actions.tracker.getUpcoming()
+        var e = await actions.swap.returnCurrent(remoteMessage.data.id)
+        var x = await actions.tournament.getCurrent(e.tournament_id)
         if (store.currentPage =="Swap Offer" && remoteMessage.data.id==store.currentSwap.id){
           var s = actions.refresh.toggle()
           var e = await actions.swap.getCurrent(remoteMessage.data.id)
@@ -163,6 +167,14 @@ export default SwapDashboard = (props) => {
         }else{
           null
         }
+        if(store.currentPage =="Event Lobby"){
+          console.log('in event lobby')
+
+          var e = await actions.swap.returnCurrent(remoteMessage.data.id)
+          var x = await actions.tournament.getCurrent(e.tournament_id)
+          var xr = await actions.tournament.setCurrentLobby(x, x.tournament)
+          return customMessage(remoteMessage.data.alert)
+        }
       }
       var checkPress = (reason) => {
         console.log(reason)
@@ -170,6 +182,9 @@ export default SwapDashboard = (props) => {
         if (reason =='user'){
           goToThing(remoteMessage)
         }else{null}
+      }
+      if(remoteMessage.data.type == 'buyin'){
+
       }
       if(store.currentPage == "Chat"  && remoteMessage.data.type == 'chat'){
         return actions.chat.refresh(true)

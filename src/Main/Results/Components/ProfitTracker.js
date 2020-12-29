@@ -77,8 +77,8 @@ export default ProfitTracker = (props) => {
   let final_swap_profit
   let swap_profit = props.buyin.they_owe_total - props.buyin.you_owe_total
   swap_profit >= 0 ?
-    final_swap_profit = props.buyin.recipient_buyin.user_name +' owes you:' 
-    : final_swap_profit = "You owe " + props.buyin.recipient_buyin.user_name + ":"
+    final_swap_profit = props.buyin.recipient_buyin.first_name +' owes you:' 
+    : final_swap_profit = "You owe " + props.buyin.recipient_buyin.first_name + ":"
     
   var message, fn, buttonColor
   if (swap_profit !== 0 && (props.buyin.they_owe_total && props.buyin.you_owe_total)){
@@ -200,14 +200,14 @@ export default ProfitTracker = (props) => {
               <Text style={{alignSelf:'center',  fontSize:20, color:currentStyle.text.color}}>
                 ${props.buyin.you_won}
               </Text>
-              : <Text> Pending </Text>}
+              : <Text style={{color:currentStyle.text.color}}> Pending </Text>}
           </Col> 
           <Col>
             {props.buyin.they_won ? 
               <Text style={{alignSelf:'center',  fontSize:20, color:currentStyle.text.color}}>
                 ${props.buyin.they_won}
               </Text>
-              : <Text> Pending </Text>}
+              : <Text style={{color:currentStyle.text.color}}> Pending </Text>}
           </Col>
         </Row>
         {/* INDIVIDUAL SWAPS ROW */}
@@ -237,7 +237,7 @@ export default ProfitTracker = (props) => {
                 </Text>
               </View>
               : 
-            <Text>
+            <Text style={{fontSize:24, marginTop:20, color:currentStyle.text.color}}>
               Pending
             </Text>}
           

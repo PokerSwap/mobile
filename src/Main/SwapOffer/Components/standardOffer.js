@@ -74,7 +74,7 @@ export default StandardOffer = (props) => {
         <Button large info style={{width:'50%', justifyContent:'center'}} 
           onPress={()=>props.counterSwitch()}>
           <Text style={{textAlign:'center', fontWeight:'600', fontSize:24, paddingVertical:10}}>
-            TOGGLE
+            HAGGLE
           </Text>
         </Button>
         {/* OFFER SWAP BUTTON */}

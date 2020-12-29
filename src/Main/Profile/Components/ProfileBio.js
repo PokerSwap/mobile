@@ -132,7 +132,7 @@ var MessageModal = (props) => {
       <View style={ modalStyles.main }> 
       
       <View style={modalStyles.field.view2}>
-        <Text style={modalStyles.field.text}>Enter Something loser</Text>
+        <Text style={modalStyles.field.text}>Start Chatting!</Text>
       </View>
 
       <View style={modalStyles.field.view2}>
@@ -375,7 +375,7 @@ const modalStyles = {
     marginBottom:10, marginTop:25 }
   },
   main:{ 
-    padding:15, justifyContent:'center', alignSelf:'center', backgroundColor:'white', 
+    padding:15, justifyContent:'center', borderRadius:25, alignSelf:'center', backgroundColor:'white', 
     width:'80%', height:'50%', margin: 'auto', position: 'relative',
     top: '10%', left: 0, bottom: 0, right: 0}
 }

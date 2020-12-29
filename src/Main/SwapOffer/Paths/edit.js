@@ -26,17 +26,18 @@ export default EditPath = (props) => {
     isDisabled = false : isDisabled = true
     var currentStyle
     store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
-  const buyinEdit = async() => {
-    if(newChips !== '0'){
-    props.setLoading(true)
-    var answer = await actions.buy_in.edit(
-      props.buyin.id, newTable, newSeat, newChips, props.buyin.tournament_id, false
-    )
-    props.setRefreshing(true)
-    props.setLoading(false)
-    }else{
-      bustedAlert()
-    }
+  
+    const buyinEdit = async() => {
+      if(newChips !== '0'){
+        props.setLoading(true)
+        var answer = await actions.buy_in.edit(
+          props.buyin.id, newTable, newSeat, newChips, props.buyin.tournament_id, false
+        )
+        props.onRefresh()
+        props.setLoading(false)
+      }else{
+        bustedAlert()
+      }
   }
 
   const bustedAlert = () =>{
@@ -92,7 +93,7 @@ export default EditPath = (props) => {
         <Icon type='FontAwesome5' name='angle-double-down'
           style={ [styles.update.icon, {color:currentStyle.text.color}] } />
         <Text style={ [styles.update.title, {color:currentStyle.text.color}] }>
-        {' '}STATUS UPDATE
+          {'   '}STATUS UPDATE
         </Text>
         <Icon type='FontAwesome5' name='angle-double-down'
           style={ [styles.update.icon, {color:currentStyle.text.color}] } />
@@ -140,7 +141,8 @@ export default EditPath = (props) => {
 
               <TextInput 
                 // placeholder={props.buyin.seat.toString()}
-                style={ [styles.field.textInput, {width:'20%', color:currentStyle.text.color, borderColor:currentStyle.text.color}] }              
+                style={ [styles.field.textInput, {
+                  width:'20%', color:currentStyle.text.color, borderColor:currentStyle.text.color}] }              
                 placeholderTextColor='red'
                 keyboardType="number-pad"
                 blurOnSubmit={false}

@@ -13,7 +13,7 @@ import darkStyle from '../../../Themes/dark'
 export default CounterOffer = (props) => {
   const { store, actions } = useContext(Context)
   const [ percentage, setPercentage ] = useState( props.percentage )
-  const [ cPercentage, setCPercentage ] = useState( props.counter_percentage )
+  const [ cPercentage, setCPercentage ] = useState( props.percentage )
   const [ offerPath, setOfferPath ] = useState(true)
   const [ visible, setVisible ] = useState(false)
 
@@ -93,7 +93,9 @@ export default CounterOffer = (props) => {
       setPercentage(prev => prev + 1) 
       setCPercentage(prev => prev + 1) 
       ere++
+      
       console.log('percentage', percentage)
+      console.log('cpercentage', cPercentage)
     } else {
       setPercentage(50), setCPercentage(50)
       console.log('added enough')
@@ -102,9 +104,12 @@ export default CounterOffer = (props) => {
 
   // BOTH PERCENTAGE - SUBTRACT
   const tSubtract = () => {
+    
     if(ere > 1){
       setPercentage(prev => prev - 1) 
       setCPercentage(prev => prev - 1) 
+      console.log('percentage', percentage)
+      console.log('cpercentage', cPercentage)
       ere--
     } else {
       setPercentage(1), setCPercentage(1)

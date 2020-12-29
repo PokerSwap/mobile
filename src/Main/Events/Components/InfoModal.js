@@ -16,7 +16,7 @@ export default InfoModal = (props) => {
 
   const openGPS = () => {
     var scheme = Platform.OS === 'ios' ? 'maps:' : 'geo:';
-    var url = scheme + `${props.tournament.latitude},${props.tournament.longitude}` 
+    var url = scheme + `${props.latitude},${props.longitude}` 
     Linking.openURL(url);
   }
 

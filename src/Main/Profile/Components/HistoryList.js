@@ -47,7 +47,7 @@ export default HistoryList = (props) => {
     var myHistory = history.map((content, index) =>{ 
       // console.log('hello', content)
       return(
-        <MyProfileHistoryCard key={content.tournament.id}
+        <MyProfileHistoryCard key={index}
           tournament={content.tournament}
           my_buyin={content.my_buyin} buyins={content.buyins}
           final_profit={content.final_profit}/>

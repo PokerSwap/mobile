@@ -1,9 +1,9 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useCallback } from 'react';
 import { Context } from '../../Store/appContext';
 import { useRoute } from '@react-navigation/native';
 import moment from 'moment';
 
-import { Text } from 'react-native'
+import { RefreshControl, Text, View, StatusBar } from 'react-native'
 import { Container, Content, Card } from 'native-base';
 import { Grid, Row, Col } from 'react-native-easy-grid'
 import Spinner from 'react-native-loading-spinner-overlay'
@@ -38,11 +38,57 @@ export default SwapOffer = (props) => {
   const [ bTime, setBTime ] = useState(buyinSince)
   const [ refreshing, setRefreshing ] = useState(false);
 
+
+  var getBuyin = async() => {
+    var x = await actions.buy_in.getCurrent(buyin.id)
+    setCurrentBuyin(store.currentBuyin)
+    var xy = moment(store.currentBuyin.updated_at).fromNow()
+    var Time = await actions.time.convertShort(xy)
+    setBTime(Time)
+  }
+
+  var getSwap = async() => {
+    if (aStatus !== 'inactive' && aStatus !== 'edit'){
+      // console.log('getting swap from SwapOffer', swap)
+      var x = await actions.swap.getCurrent(currentSwap.id)
+      setCurrentSwap(store.currentSwap)
+      setAStatus(store.currentSwap.status)
+      var labelTime = moment(store.currentSwap.updated_at).fromNow()
+      setSTime(labelTime)
+    } else{
+      if(buyin.user_id == store.myProfile.id){
+        setAStatus('edit')
+      }else{
+        setAStatus('inactive')
+      }
+    }
+  }
+
+  let getTime = async() => {
+    var x = await actions.time.convertLong(tournament.start_at)
+    setTTime(x)
+  }
+
+  function wait(timeout) {
+    return new Promise(resolve => {
+      setTimeout(resolve, timeout);
+    });
+  }
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    getBuyin()
+    getSwap()
+    getTime()
+    wait(2000).then(() => setRefreshing(false));
+  }, [refreshing]);
+
+
    // YOUR SWAP VIEW
    if (store.myProfile.id == buyin.user_id){ 
     currentPath = 
       <EditPath 
-        setLoading={setLoading} setRefreshing={setRefreshing} 
+        setLoading={setLoading} onRefresh={onRefresh} setRefreshing={setRefreshing} 
         buyin={buyin} tournament={tournament}/>
   }    
   // INCOMING SWAP VIEW
@@ -108,75 +154,46 @@ export default SwapOffer = (props) => {
         tournament={tournament} buyin={buyin}/>
   }
 
-  var getBuyin = async() => {
-    var x = await actions.buy_in.getCurrent(buyin.id)
-    setCurrentBuyin(store.currentBuyin)
-    var xy = moment(store.currentBuyin.updated_at).fromNow()
-    var Time = await actions.time.convertShort(xy)
-    setBTime(Time)
-  }
-
-  var getSwap = async() => {
-    if (aStatus !== 'inactive' && aStatus !== 'edit'){
-      // console.log('getting swap from SwapOffer', swap)
-      var x = await actions.swap.getCurrent(currentSwap.id)
-      setCurrentSwap(store.currentSwap)
-      setAStatus(store.currentSwap.status)
-      var labelTime = moment(store.currentSwap.updated_at).fromNow()
-      setSTime(labelTime)
-    } else{
-      if(buyin.user_id == store.myProfile.id){
-        setAStatus('edit')
-      }else{
-        setAStatus('inactive')
-      }
-    }
-  }
-
-  let getTime = async() => {
-    var x = await actions.time.convertLong(tournament.start_at)
-    setTTime(x)
-  }
-
 
   useEffect(() => {
     getBuyin()
+    getSwap()
     getTime()
     return () => {
       // cleanup
     }
   }, [false])
-  useEffect(() => {
-    getBuyin()
 
-    getSwap()
+  // useEffect(() => {
+  //   getBuyin()
+  //   getSwap()
+  //   getTime()
+  //   actions.refresh.toggle()
+  // },[store.refresh] )
 
-  },[store.refresh] )
-  useEffect(() => {
-    getSwap()
-    setRefreshing(false)
-
-  }, [refreshing])
 
   let currentPath;
 
   return(
-    <Container>
-      <BounceColorWrapper style={{flex:1}} mainColor={currentStyle.background.color}>
-
-      <Content>
+    <View style={{flex:1,  backgroundColor:currentStyle.background.color}}>
+      <View style={{height:20,  backgroundColor:currentStyle.header.color}}>
+        <StatusBar StatusBarAnimation={'fade'} barStyle={'light-content'}
+          backgroundColor={'rgb(38, 171, 75)'}/>
+      </View>
+      <OtherHeader title={'Swap Offer'} />
       <Spinner visible={loading}/>
+      <Content contentContainerStyle={{backgroundColor:currentStyle.background.color}}  refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}>
         {/* EVENT HEADER */}
-        <Card transparent style={{marginVertical:40, width:'90%', alignSelf:'center', flexDirection:'column'}}>
+        <Card transparent style={{marginVertical:40, width:'90%', alignSelf:'center', flexDirection:'column', backgroundColor:currentStyle.background.color}}>
           <Text style={{marginVertical:10, fontSize:20, fontWeight:'bold', textAlign:'center', color: currentStyle.text.color}}>
             {tournament.name}
           </Text>
         </Card>
        
         {/* CURRENT STATUS OF BUYIN */}
-        <Card style={{alignSelf:'center', width:'90%', 
+        <Card style={{alignSelf:'center', flex:1, width:'90%', 
           paddingTop:15, backgroundColor:'rgb(38, 171, 75)'}}>
-          <Grid>
             {/* USERNAME */}
             <Row style={{
               justifyContent:'center', marginBottom:10}}>
@@ -228,13 +245,12 @@ export default SwapOffer = (props) => {
                 Updated: {bTime}
               </Text>
             </Row>
-          </Grid>
         </Card>        
         {/* SWAP BODY PATH */}
         {currentPath}
-      </Content>
-      </BounceColorWrapper>
+        </Content>
 
-    </Container>
+        </View>
+      
   )
 }

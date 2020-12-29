@@ -17,6 +17,7 @@ export default OtherHeader = (props) => {
   store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
   
   return(
+    
     <View  style={{
       justifyContent:'space-between', flexDirection:'row', 
       alignItems:'flex-end', paddingBottom:12, 

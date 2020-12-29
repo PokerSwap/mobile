@@ -80,7 +80,7 @@ export default CreateUser = () => {
 
 							textContentType={'newPassword'}
   						selectTextOnFocus={true}
-  						secureTextEntry={true}
+  						secureTextEntry
 							style={styles.textInput}								
 							autoCapitalize='none'
 							returnKeyType="next"
