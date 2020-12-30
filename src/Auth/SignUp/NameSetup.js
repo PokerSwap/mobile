@@ -43,7 +43,7 @@ export default NameSetup = (props) => {
         {/* NICK NAME INPUT */}
         <Item>
           <Input 
-            placeholder='Enter Buyin Alias'
+            placeholder='Enter Buy-In Alias'
             value={props.nickname}    
             onChangeText={props.onChangeNickName} 
             autoCorrect={false}/>

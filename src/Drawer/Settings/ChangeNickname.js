@@ -35,7 +35,7 @@ export default ChangeNickname = () => {
   const showAlert = () =>{
     Alert.alert(
       "Confirmation",
-      "Remember if you solely rely on your nickname for your buyin ticket,you may not be able to verify your buyin ticket on SwapProfit if its different than what is registered.\n\n  Do you wish to continue?",
+      "Remember if you solely rely on your nickname for your buy-in ticket,you may not be able to verify your buyin ticket on SwapProfit if its different than what is registered.\n\n  Do you wish to continue?",
       [
         { text: 'Yes', onPress: () => changeNickname() },
         { text: 'No',  onPress: () => console.log("Cancel Pressed"), }

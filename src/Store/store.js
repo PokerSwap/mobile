@@ -51,11 +51,12 @@ const getState = ({ getStore, setStore, getActions }) => {
 			// MY DEVICE TOKEN
 			deviceToken: null,
 			// REFRESH ON SWAP
-			refresh:false,
-			// REFRESH CHAT
-			chatRefresh:false,
 
-			tournamentRefresh: false,
+			refreshOffer:false,
+			refreshChat:false,
+			refreshEvent:false,
+			refreshResult:false,
+			
 			// MY CHATS
 			myChats:[],
 			// MY PROFILE
@@ -88,9 +89,19 @@ const getState = ({ getStore, setStore, getActions }) => {
 		},
 		actions: {
 			refresh:{
-				toggle: () => {
-					setStore({refresh: !getStore().refresh})
-				}
+				chat: () => {
+					setStore({refreshChat: !getStore().refreshChat})
+				},
+				offer:() => {
+					setStore({refreshOffer: !getStore().refreshOffer})
+				},
+				event: () => {
+					setStore({refreshEvent: !getStore().refreshEvent})
+				},
+				result:() => {
+					setStore({refreshResult: !getStore().refreshResult})
+				},
+
 			},
 			// BUY IN ACTIONS
 			buy_in:{
@@ -220,12 +231,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							action: null
 						})
 
-						// PushNotification.localNotificationSchedule({
-						// 	//... You can use all the options from localNotifications
-						// 	message: a_tournament_name + "just started!", // (required)
-						// 	date: new Date(Date.now() + 60 * 1000), // in 60 secs
-						// 	allowWhileIdle: false, // (optional) set notification to work while on doze, default: false
-						// });
+						
 
 					} catch(error) {
 						console.log("Some went wrong in adding a buyin", error)
@@ -235,7 +241,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				// YOUR BUYIN HAS BUSTED (REACHED 0 COINS)
 				busted: async ( a_buyin_id, a_place, some_cash, a_tournament_id ) => {
 					try{
-						let url = databaseURL + '/buy_ins/' + a_buyin_id
+						let url = databaseURL + 'buy_ins/' + a_buyin_id
 						let accessToken = getStore().userToken
 						let data = {
 							place: parseInt(a_place),
@@ -291,7 +297,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				},
 				delete: async ( a_buyin_id ) => {
 					const accessToken = getStore().userToken
-					var url = databaseURL + '/buy_ins/' + a_buyin_id 
+					var url = databaseURL + 'buy_ins/' + a_buyin_id 
 
 
 					let response = await fetch(url, {
@@ -333,7 +339,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 						.then(response => response.json())
 						.then((responseJson) => {
-							console.log('added buyin', responseJson)
+							console.log('edited buy_in', responseJson.buy_in.id)
 						})
 						.catch((error) => {
 							console.log('error in json of edit buyin',error);
@@ -345,7 +351,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						var refreshTournaments = await getActions().tournament.getInitial()
 						var refreshAction = await getActions().tournament.getAction(a_tournament_id)
 						var refreshBuyin = await getActions().tournament.getCurrent(a_tournament_id)
-						var refreshSwap = await getActions().buy_in.getCurrent(a_buyin_id)
+						// var refreshSwap = await getActions().buy_in.getCurrent(a_buyin_id)
 						return customMessage('Your status has been updated.')
 
 					}catch(error){
@@ -363,7 +369,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							},
 						})
 						var theBuyin = await response.json()	
-						console.log('theBuyin', theBuyin)					
+						// console.log('theBuyin', theBuyin)					
 						setStore({currentBuyin: theBuyin})
 					}catch(error){
 						console.log('problem with getting the current buyin:', error)
@@ -375,9 +381,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 				wipe: async() => {
 					setStore({currentChat:[]})
 					setStore({currentChatID:[]})
-				},
-				refresh: async(x) => {
-					setStore({chatRefresh: x})
 				},
 				getCurrent: async ( a_chat_id ) => {
 					try {
@@ -704,7 +707,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				buy: async ( some_tokens ) => {
 					try{
 						const accessToken = getStore().userToken;
-						const url = databaseURL + '/me/transactions'
+						const url = databaseURL + 'me/transactions'
 
 						let data = {
 							coins: some_tokens
@@ -731,7 +734,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				return: async ( ) => {
 					try{
 						const accessToken = getStore().userToken;
-						const url = databaseURL + '/me/transactions'
+						const url = databaseURL + 'me/transactions'
 
 						let data = {
 							coins: 1
@@ -756,7 +759,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					
 					try{
 						const accessToken = getStore().userToken;
-						const url = databaseURL + '/me/transactions'
+						const url = databaseURL + 'me/transactions'
 
 						let data = {
 							coins: -1
@@ -868,12 +871,11 @@ const getState = ({ getStore, setStore, getActions }) => {
 						// }
 						// GETS MOST CURRENT BUYIN OF OTHER USER
 						var theirBuyin
-						console.log('its', getStore().currentTournament)
+
 						var settingCurrentBuyin = getStore().currentTournament.tournament.buy_ins.forEach(buyin => {
 							if(buyin.user_id == getStore().currentBuyin.id){
 								theirBuyin = buyin
 								setStore({currentBuyin: theirBuyin})
-								console.log('Buyin from swap opened from notification:', theirBuyin)
 							}
 						})
 						// PREVENTS SWAP IF OTHER USER HAS 0 CHIPS
@@ -976,7 +978,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				currentPage: async( name ) => {
 					try {
 						setStore({currentPage: name})
-						console.log('currentPage is ', getStore().currentPage)
+						// console.log('currentPage is ', getStore().currentPage)
 					} catch (error) {
 						console.log("Something went wrong with getting page name", error)
 					}
@@ -1161,7 +1163,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				},
 				changeNotificationSetting: async ( type ) => {
 					try {
-						const url = databaseURL + '/me/notification/setting/update'
+						const url = databaseURL + 'me/notification/setting/update'
 						const accessToken = getStore().userToken;
 			            var data = {
 			              notification_type: type
@@ -1315,7 +1317,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 						.then(response => response.json())
 						
-						console.log('response should be here', response)
+						console.log('Swap Creation Response: ', response)
 						if(response.message && response.message.includes("Swap percentage too large.")){
 							return errorMessage(response.message)}
 
@@ -1330,9 +1332,18 @@ const getState = ({ getStore, setStore, getActions }) => {
 						var refreshingSwap = await getActions().swap.getCurrent(response.swap_id)
 						// var refreshingBuyin = await getActions().buy_in.getCurrent(response.swap_id)
 
-						console.log('1. After creating a swap, this is the response: ', response)
-						console.log('2. Current Swap in Store:', getStore().currentSwap)
-						console.log('3. Current Buyin in Store:', getStore().currentBuyin)
+						console.log('\n1. After creating a swap, this is the response: ', response)
+						console.log('\n2. Current Swap in Store:', {
+							"swap_id": getStore().currentSwap.id, 
+							'swap_owner':getStore().currentSwap.recipient_user.first_name,
+							'status': getStore().currentSwap.status,
+							'percentage': getStore().currentSwap.percentage, 
+							'counter_percentage': getStore().currentSwap.counter_percentage
+						})
+						console.log('\n3. Current Buyin in Store:', {
+							"buyin_id": getStore().currentBuyin.id, 
+							'chips': getStore().currentBuyin.chips
+						})
 
 					}catch(error){
 						console.log('Something went wrong with adding a swap', error)
@@ -1342,6 +1353,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				// RETIREVES SWAP YOU ARE CURRENTLY VIEWING
 				getCurrent: async ( a_swap_id ) => {
 					try{
+						console.log(getStore().currentSwap)
 						const url = databaseURL + 'swaps/' + a_swap_id;
 						const accessToken = getStore().userToken ;
 						
@@ -1354,7 +1366,13 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 						
 						var answer = await response.json()
-						console.log('currentSwap', answer.id)
+						console.log('currentSwap', {
+							"swap_id":answer.id, 
+							"swap_owner": answer.recipient_user.first_name,
+							'status': answer.status,
+							'percentage':answer.percentage, 
+							'counter_percentage': answer.counter_percentage
+						})
 						setStore({currentSwap:answer})
 					}catch(error){
 						console.log("Something went wrong with getting the current swap: ", error)
@@ -1379,6 +1397,10 @@ const getState = ({ getStore, setStore, getActions }) => {
 					}catch(error){
 						console.log("Something went wrong with getting the current swap: ", error)
 					}
+				},
+				removeCurrent: async() => {
+					setStore({currentSwap:{}})
+					console.log('removed', getStore().currentSwap)
 				},
 
 				// YOU AND OTHER USER CONFIRMS PAYMENT
@@ -1473,7 +1495,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 									percentage: a_percentage
 								}
 
-							// console.log('data',data)
+							console.log('data',data)
 
 						let response = await fetch(url,{
 							method:"PUT",
@@ -1484,7 +1506,16 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}
 						})
 						.then(response => response.json())
-						.finally(()=>console.log('Swap Status Change Result:', response))
+						
+						console.log('Swap Status Change Result:\n', 
+							{'me':response[0].recipient_user.first_name,
+							'status':response[0].status,
+							'percentage':response[0].percentage,
+							}, '\n',
+							{'swap_owner':response[1].recipient_user.first_name,
+							'status':response[1].status,
+							'percentage':response[1].percentage,
+							})
 						
 						if(response.message){
 							if(response.message.includes("Cannot agree")){
@@ -1498,9 +1529,25 @@ const getState = ({ getStore, setStore, getActions }) => {
 						var refreshingBuyin = await getActions().buy_in.getCurrent(a_buyin_id)
 						var refreshingSwap = await getActions().swap.getCurrent(my_swap_id)
 
-						console.log('1. After ' + a_new_status + ' swap, this is the response: ', response)
-						console.log('2. Current Swap in Store:', getStore().currentSwap)
-						console.log('3. Current Buyin in Store:', getStore().currentBuyin)
+						console.log('\n1. After ' + a_new_status + ' swap, this is the response: ', {
+							'swap_id':response[0].id, 
+							'swap_owner':response[0].recipient_user.first_name,
+							'status':response[0].status,
+							'percentage':response[0].percentage,
+							'counter_percentage':response[0].counter_percentage,
+						})
+						console.log('\n2. Current Swap in Store:', {
+							'swap_id':getStore().currentSwap.id, 
+							'swap_owner':response[0].recipient_user.first_name,
+							'status':getStore().currentSwap.status,
+							'percentage':getStore().currentSwap.percentage,
+							'counter_percentage':getStore().currentSwap.counter_percentage,
+						})
+						console.log('\n3. Current Buyin in Store:', {
+							'buyin_owner':response[0].recipient_user.first_name,
+							'buyin_id':getStore().currentBuyin.id,
+							'chips':getStore().currentBuyin.chips
+						})
 
 						if (a_current_status == 'incoming'){
 							var a = await getActions().swapToken.spend()
@@ -1513,7 +1560,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						}else{null}
 
 						if(a_new_status == 'canceled'){
-							console.log('repsonse if canceled', response )
+							console.log('repsonse if canceled', response[1].recipient_user.id )
 							if(response[1].status == 'counter_incoming'){
 								var a = await getActions().swapToken.return()
 							}else{null}
@@ -1815,11 +1862,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 						null
 					  }
 				},
-
-				refresh: async ( x ) => {
-					setStore({tournamentRefresh: x})
-
-				}
 				
 			},
 			// SWAP RESULTS ACTIONS
@@ -2041,7 +2083,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				login: async ( data, navigation ) => {
 					var wwx = await AsyncStorage.getItem('notificationData')
 					var wew = JSON.parse(wwx)
-					console.log('Notification storedd', wwx)
+					// console.log('Notification storedd', wwx)
 
 
 					return new Promise(resolve =>
@@ -2050,7 +2092,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						.then(() => getActions().deviceToken.get(data.device_token))
 						.then(()=> getActions().profile.get())
 						.then(()=> {
-							console.log('Profile', getStore().myProfile.first_name + ' ' + getStore().myProfile.last_name  )
+							// console.log('Profile', getStore().myProfile.first_name + ' ' + getStore().myProfile.last_name  )
 							if(getStore().userToken  && getStore().myProfile !== "Error"){
 								if(getStore().myProfile.message !== "Profile not found"){
 									var ww = AsyncStorage.getItem('uiMode')
@@ -2065,7 +2107,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 									})
 									.then(() => getActions().tracker.getPast())
 									.catch(() => "somthing went wrong here")
-									console.log('got through half')
+									// console.log('got through half')
 									if (getStore().myProfile.naughty == true){
 										navigation.navigate('Drawer', { screen: 'Home' })
 									}else{
@@ -2213,7 +2255,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					try {
 						let accessToken = getStore().userToken;
 
-						const imageURL = databaseURL + '/profiles/image'
+						const imageURL = databaseURL + 'profiles/image'
 						const imageData = new FormData();
 							imageData.append("image", {
 									uri: image.uri,
@@ -2271,7 +2313,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 			userToken: {
 				check: async( myUserToken ) => {
 			          try {      
-			            const taskURL = databaseURL + "/profiles/me" 
+			            const taskURL = databaseURL + "profiles/me" 
 			                           
 			            let response = await fetch(taskURL, { 
 			              method: 'GET',
@@ -2293,7 +2335,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 			              AsyncStorage.removeItem('userToken')
 			              AsyncStorage.removeItem('loginInfo')
 			            }
-			            console.log('Is it a valid token:', isValid)
+			            // console.log('Is it a valid token:', isValid)
 			            return isValid
 			          }catch(error){
 			            console.log('something went wrong in gchecking access token', error)
@@ -2303,7 +2345,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				get: async( data ) => {
 					try{
 						const url = databaseURL + 'users/token'
-						console.log("this url", url, data)
+						// console.log("this url", url, data)
 						let response1 = await fetch(url, {
 							method: 'POST',
 							body: JSON.stringify(data),

@@ -45,7 +45,7 @@ export default IncomingPath = (props) => {
             percentage={swap.percentage}
             counter_percentage={swap.counter_percentage}
             tournament_id={props.tournament_id} 
-            setRefreshing={props.setRefreshing}
+            onRefresh={props.onRefresh}
             setLoading={props.setLoading}
             counter={counter} setCounter={setCounter}/>
           :
@@ -55,7 +55,7 @@ export default IncomingPath = (props) => {
             percentage={swap.percentage} 
             counter_percentage={swap.counter_percentage}
             tournament_id={props.tournament_id} 
-            setRefreshing={props.setRefreshing}
+            onRefresh={props.onRefresh}
             setLoading={props.setLoading}
             counter={counter} setCounter={setCounter} />
         : null} 

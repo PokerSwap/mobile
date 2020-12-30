@@ -45,7 +45,7 @@ export default SwapDashboard = (props) => {
           swap: store.currentSwap
         
       }
-      console.log('data', data)
+      console.log('data', Object.keys(data))
       navigation.push("Swap Offer",{
         status: store.currentSwap.status,
         buyin: store.currentBuyin,
@@ -80,6 +80,20 @@ export default SwapDashboard = (props) => {
     }
 
   }
+
+
+  async function requestUserPermission() {
+    const authStatus = await messaging().requestPermission();
+    const enabled =
+      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+  
+    if (enabled) {
+      console.log('Authorization status:', authStatus);
+    }
+  }
+
+  requestUserPermission()
   //BACKGROUND
   useEffect(() => {
     //Background IOS
@@ -160,9 +174,9 @@ export default SwapDashboard = (props) => {
         var e = await actions.swap.returnCurrent(remoteMessage.data.id)
         var x = await actions.tournament.getCurrent(e.tournament_id)
         if (store.currentPage =="Swap Offer" && remoteMessage.data.id==store.currentSwap.id){
-          var s = actions.refresh.toggle()
+          var s = actions.refresh.offer()
           var e = await actions.swap.getCurrent(remoteMessage.data.id)
-          var sw = actions.refresh.toggle()
+          var sw = actions.refresh.offer()
           return customMessage(remoteMessage.data.alert)
         }else{
           null

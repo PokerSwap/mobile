@@ -30,7 +30,7 @@ export default IntroOffer = (props) => {
     props.setLoading(true)
     var answer = await actions.swap.statusChange(
       props.tournament_id, props.swap_id, props.buyin_id, props.currentStatus, status)
-    props.setRefreshing(true)
+    props.onRefresh()
     props.setLoading(false)
   }
 

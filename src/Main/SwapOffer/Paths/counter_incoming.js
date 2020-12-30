@@ -41,14 +41,14 @@ export default CounterIncomingPath = (props) => {
       {swap ? 
         counter == false ?
           <IntroOffer buyin_id={buyin.id}
-            setLoading={props.setLoading} setRefreshing={props.setRefreshing}
+            setLoading={props.setLoading} onRefresh={props.onRefresh}
             percentage={swap.percentage} counter_percentage={swap.counter_percentage}
             swap_id={swap.id} tournament_id={props.tournament_id}
             counter={counter} setCounter={setCounter} />
           :
           <CounterOffer  swap_id={swap.id} tournament_id={props.tournament_id}
             buyin_id={buyin.id} percentage={swap.percentage} counter_percentage={swap.counter_percentage}
-            setLoading={props.setLoading} setRefreshing={props.setRefreshing}
+            setLoading={props.setLoading} onRefresh={props.onRefresh}
             counter={counter} setCounter={setCounter} />
         : null}
     </Card>

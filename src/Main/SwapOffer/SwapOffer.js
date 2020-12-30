@@ -52,6 +52,7 @@ export default SwapOffer = (props) => {
       // console.log('getting swap from SwapOffer', swap)
       var x = await actions.swap.getCurrent(currentSwap.id)
       setCurrentSwap(store.currentSwap)
+      console.log('should be updated here')
       setAStatus(store.currentSwap.status)
       var labelTime = moment(store.currentSwap.updated_at).fromNow()
       setSTime(labelTime)
@@ -95,7 +96,7 @@ export default SwapOffer = (props) => {
   else if (aStatus == 'incoming'){
     currentPath = 
       <IncomingPath 
-        setLoading={setLoading} setRefreshing={setRefreshing}
+        setLoading={setLoading} onRefresh={onRefresh}
         tournament_status={tournament.tournament_status}
         swap={currentSwap} swapSince={sTime}
         tournament_id={tournament.id} buyin={buyin} />
@@ -104,7 +105,7 @@ export default SwapOffer = (props) => {
   else if (aStatus == 'counter_incoming'){
     currentPath = 
       <CounterIncomingPath 
-        setLoading={setLoading} setRefreshing={setRefreshing}
+        setLoading={setLoading} onRefresh={onRefresh}
         swapSince={sTime} swap={currentSwap}
         tournament_status={tournament.tournament_status}
         tournament_id={tournament.id} buyin={buyin} />
@@ -113,7 +114,7 @@ export default SwapOffer = (props) => {
   else if (aStatus == 'pending'){
     currentPath = 
       <PendingPath 
-        setLoading={setLoading} setRefreshing={setRefreshing}
+        setLoading={setLoading} onRefresh={onRefresh}
         tournament_status={tournament.tournament_status}
         swapSince={sTime} swap={currentSwap}
         tournament={tournament} buyin={buyin}/>
@@ -160,17 +161,9 @@ export default SwapOffer = (props) => {
     getSwap()
     getTime()
     return () => {
-      // cleanup
+      actions.swap.removeCurrent()
     }
-  }, [false])
-
-  // useEffect(() => {
-  //   getBuyin()
-  //   getSwap()
-  //   getTime()
-  //   actions.refresh.toggle()
-  // },[store.refresh] )
-
+  }, [store.refreshOffer])
 
   let currentPath;
 

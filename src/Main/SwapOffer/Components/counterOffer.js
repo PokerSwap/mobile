@@ -46,7 +46,7 @@ export default CounterOffer = (props) => {
       var answer2 = await actions.swap.statusChange(
         props.tournament_id, props.swap_id, props.buyin_id, props.currentStatus, 'pending', percentage, cPercentage )
     }
-    props.setRefreshing(true)
+    props.onRefresh()
     props.setLoading(false)
   }
   var ere = percentage

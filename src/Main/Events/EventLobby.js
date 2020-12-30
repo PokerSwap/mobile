@@ -38,7 +38,7 @@ export default EventLobby = () => {
   const getTournament = async() => {
     try{
       var answer1 = await actions.tournament.getCurrent(tournament_id)
-      console.log('answer1', answer1)
+      // console.log('answer1', answer1)
       setATournament(answer1.tournament)
       setAnEvent(answer1)
       var answer2 = await actions.tournament.retrieveAction(tournament_id)

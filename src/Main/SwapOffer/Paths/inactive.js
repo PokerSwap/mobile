@@ -112,6 +112,8 @@ export default InactivePath = (props) => {
     props.setAStatus('pending')
     props.setRefreshing(true)
     props.setLoading(false)
+    props.setRefreshing(false)
+
   }
 
   return(
@@ -123,8 +125,7 @@ export default InactivePath = (props) => {
             confirmationAlert={confirmationAlert}
             counterSwitch={counterSwitch}
             percentage={percentage} 
-            tAdd={tAdd} tSubtract={tSubtract} 
-            />
+            tAdd={tAdd} tSubtract={tSubtract}  />
           :
           <SpecialOffer confirmationAlert={confirmationAlert}
             otherUser={props.buyin.user_name} 

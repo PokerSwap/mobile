@@ -13,7 +13,6 @@ export default SwapTracker = (props) => {
   const navigation = useNavigation()
 
   let other_swaps = props.buyins.map((content, index) => {
-    var x = actions.tournament.retrieveAction(props.tournament.id)
     return(
       <BuyIn key = {index}
         buyin = {content.recipient_buyin} my_buyin={props.my_buyin}

@@ -9,6 +9,8 @@ import { Col } from 'react-native-easy-grid';
 import darkStyle from '../../../Themes/dark.js'
 import lightStyle from '../../../Themes/light.js'
 
+import moment from 'moment-timezone'
+
 export default SwapRow = (props) => {
   const { store, actions } = useContext(Context)
   const [swapTime, setSwapTime] = useState(null)
@@ -23,8 +25,7 @@ export default SwapRow = (props) => {
   var swap = props.swap
   
   const longedTime = async() => {
-    var c = await actions.time.convertLong(swap.updated_at) 
-    setSwapTime(c)
+    setSwapTime(moment(swap.updated_at).tz('America/New_York').format('ddd. MMM. d  hh:mm A z'))
     setRefreshing(false)
   }
 
@@ -110,7 +111,7 @@ export default SwapRow = (props) => {
       <Col style={{marginLeft:-25}}>
         {swapTime ?
           <Text style={{fontSize:14, color:currentStyle.text.color}}>
-            {swapTime.substring(0,12) + '  ' + swapTime.substring(19,30)}
+            {swapTime}
           </Text>
           : null}
       </Col>
