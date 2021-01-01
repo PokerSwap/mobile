@@ -28,6 +28,7 @@ export default EventBody = (props) => {
       tournament_start: event.start_at,
       tournament_name: event.name,
       tournament_address: startAddress,
+      flight_id: event.id,
       tournament_lat: event.tournament.latitude,
       tournament_long: event.tournament.longitude,
       casino: event.casino

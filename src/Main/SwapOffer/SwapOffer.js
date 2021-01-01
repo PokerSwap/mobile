@@ -1,9 +1,9 @@
-import React, { useState, useContext, useEffect, useCallback } from 'react';
+import React, { useState, useContext, useEffect, useCallback, useRef } from 'react';
 import { Context } from '../../Store/appContext';
 import { useRoute } from '@react-navigation/native';
 import moment from 'moment';
 
-import { RefreshControl, Text, View, StatusBar } from 'react-native'
+import { AppState, RefreshControl, Text, View, StatusBar } from 'react-native'
 import { Container, Content, Card } from 'native-base';
 import { Grid, Row, Col } from 'react-native-easy-grid'
 import Spinner from 'react-native-loading-spinner-overlay'
@@ -33,41 +33,36 @@ export default SwapOffer = (props) => {
   const [ currentSwap, setCurrentSwap ] = useState(swap)
   const [ aStatus, setAStatus ] = useState(status)
   const [ currentBuyin, setCurrentBuyin ] = useState(buyin)
-  const [ tTime, setTTime ] = useState(null)
   const [ sTime, setSTime ] = useState(null)
   const [ bTime, setBTime ] = useState(buyinSince)
   const [ refreshing, setRefreshing ] = useState(false);
 
 
+
   var getBuyin = async() => {
     var x = await actions.buy_in.getCurrent(buyin.id)
     setCurrentBuyin(store.currentBuyin)
-    var xy = moment(store.currentBuyin.updated_at).fromNow()
-    var Time = await actions.time.convertShort(xy)
-    setBTime(Time)
   }
 
   var getSwap = async() => {
-    if (aStatus !== 'inactive' && aStatus !== 'edit'){
-      // console.log('getting swap from SwapOffer', swap)
-      var x = await actions.swap.getCurrent(currentSwap.id)
-      setCurrentSwap(store.currentSwap)
-      console.log('should be updated here')
-      setAStatus(store.currentSwap.status)
-      var labelTime = moment(store.currentSwap.updated_at).fromNow()
-      setSTime(labelTime)
-    } else{
-      if(buyin.user_id == store.myProfile.id){
-        setAStatus('edit')
-      }else{
-        setAStatus('inactive')
-      }
-    }
-  }
 
-  let getTime = async() => {
-    var x = await actions.time.convertLong(tournament.start_at)
-    setTTime(x)
+    if (aStatus !== 'edit'){
+      console.log('currentSwap', currentSwap)
+      if (currentSwap !== undefined){
+        console.log('getting swap from SwapOffer', store.currentSwap)
+        var x = await actions.swap.getCurrent(currentSwap.id)
+      }else{
+        null
+      }
+      if (store.currentSwap.id !== undefined){
+        setCurrentSwap(store.currentSwap)
+        setAStatus(store.currentSwap.status)
+      } else{
+        return setAStatus('inactive')
+      }
+    } else{
+        setAStatus('edit') 
+    }
   }
 
   function wait(timeout) {
@@ -78,9 +73,10 @@ export default SwapOffer = (props) => {
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
+    console.log('Refresh from Page')
+
     getBuyin()
     getSwap()
-    getTime()
     wait(2000).then(() => setRefreshing(false));
   }, [refreshing]);
 
@@ -98,17 +94,17 @@ export default SwapOffer = (props) => {
       <IncomingPath 
         setLoading={setLoading} onRefresh={onRefresh}
         tournament_status={tournament.tournament_status}
-        swap={currentSwap} swapSince={sTime}
-        tournament_id={tournament.id} buyin={buyin} />
+        swap={currentSwap} buyin={buyin}
+        tournament_id={tournament.id}  />
   } 
   // COUNTER INCOMING SWAP VIEW
   else if (aStatus == 'counter_incoming'){
     currentPath = 
       <CounterIncomingPath 
         setLoading={setLoading} onRefresh={onRefresh}
-        swapSince={sTime} swap={currentSwap}
+        swap={currentSwap} buyin={buyin}
         tournament_status={tournament.tournament_status}
-        tournament_id={tournament.id} buyin={buyin} />
+        tournament_id={tournament.id}  />
   }
   // PENDING SWAP VIEW
   else if (aStatus == 'pending'){
@@ -116,25 +112,25 @@ export default SwapOffer = (props) => {
       <PendingPath 
         setLoading={setLoading} onRefresh={onRefresh}
         tournament_status={tournament.tournament_status}
-        swapSince={sTime} swap={currentSwap}
-        tournament={tournament} buyin={buyin}/>
+        swap={currentSwap} buyin={buyin}
+        tournament={tournament} />
   } 
   // AGREED SWAP VIEW
   else if (aStatus == 'agreed'){
     currentPath = 
       <AgreedPath 
         setLoading={setLoading} setRefreshing={setRefreshing} 
-        tournament_status={tournament.tournament_status}
-        swapSince={sTime} swap={currentSwap} 
-        tournament={tournament} buyin={buyin}/>
+        tournament_status={tournament.tournament_status} 
+        tournament={tournament} 
+        swap={currentSwap} buyin={buyin}/>
   }
   // REJECTED SWAP VIEW 
   else if (aStatus == 'rejected'){
     currentPath = 
       <RejectedPath 
         setLoading={setLoading} setRefreshing={setRefreshing}
-        tournament_status={tournament.tournament_status}
-        swapSince={sTime} buyin={buyin} swap={currentSwap}/>
+        tournament_status={tournament.tournament_status} 
+        buyin={buyin} swap={currentSwap}/>
   }
   // CANCELED SWAP VIEW 
   else if (aStatus == 'canceled'){
@@ -142,27 +138,31 @@ export default SwapOffer = (props) => {
       <CanceledPath 
         setLoading={setLoading} setRefreshing={setRefreshing}
         tournament_status={tournament.tournament_status}
-        swap={currentSwap} swapSince={sTime}
-         buyin={buyin}/>
+        swap={currentSwap} buyin={buyin}/>
   }
   // INACTIVE SWAP VIEW
   else {
     currentPath = 
       <InactivePath 
-        setAStatus={setAStatus} setCurrentSwap ={setCurrentSwap}
-        setLoading={setLoading} setRefreshing={setRefreshing}
+        setAStatus={setAStatus} swap={currentSwap} setCurrentSwap ={setCurrentSwap}
+        setLoading={setLoading} setRefreshing={setRefreshing} onRefresh={onRefresh}
         tournament_status={tournament.tournament_status}
         tournament={tournament} buyin={buyin}/>
   }
 
 
+
   useEffect(() => {
+    setRefreshing(true)
     getBuyin()
     getSwap()
-    getTime()
-    return () => {
-      actions.swap.removeCurrent()
-    }
+    console.log('Refresh from store')
+    actions.refresh.offer(false)
+    setRefreshing(false)
+
+    // return () => {
+    //   actions.swap.removeCurrent()
+    // }
   }, [store.refreshOffer])
 
   let currentPath;
@@ -235,7 +235,7 @@ export default SwapOffer = (props) => {
             <Row style={{justifyContent:'flex-end', alignItems:'flex-end'}}>
               <Text style={{color:'white', fontWeight:'bold', paddingVertical:10, paddingRight:10,
                 textAlign:'right', fontSize:12}}>
-                Updated: {bTime}
+                Updated: {moment(currentBuyin.updated_at).fromNow()}
               </Text>
             </Row>
         </Card>        

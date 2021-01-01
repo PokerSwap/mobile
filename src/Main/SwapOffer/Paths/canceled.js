@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react'
 import { Context } from '../../../Store/appContext'
+import moment from 'moment'
 
 import { View } from 'react-native';
 import {Text, Card, CardItem, Spinner} from 'native-base'
@@ -21,7 +22,7 @@ export default CanceledPath = (props) => {
       {swap.percentage ?
         <View style={{width:'100%'}}>
           <Text style={{textAlign:'center',color:currentStyle.text.color}}> 
-            CANCELED SWAP{'\n'}{props.swapSince}
+            CANCELED SWAP{'\n'}{moment(swap.updated_at).fromNow()}
           </Text>
           <CompareCard 
           percentage={swap.percentage} 

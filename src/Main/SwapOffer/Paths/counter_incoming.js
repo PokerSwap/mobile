@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react'
 import { Context } from '../../../Store/appContext'
+import moment from 'moment'
 
 import { View } from 'react-native'
 import { Card, CardItem, Text, Spinner } from 'native-base'
@@ -27,7 +28,7 @@ export default CounterIncomingPath = (props) => {
         {swap.percentage ?
           <View style={{width:'100%', backgroundColor:currentStyle.background.color}}>
           <Text style={{fontSize:20, textAlign:'center', color:currentStyle.text.color}}>
-            COUNTER SWAP{'\n'}{props.swapSince}
+            COUNTER SWAP{'\n'}{moment(swap.updated_at).fromNow()}
           </Text>
           <CompareCard 
             percentage={swap.percentage} 

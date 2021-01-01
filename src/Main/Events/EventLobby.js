@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect, useCallback } from 'react';
 import { Context } from '../../Store/appContext'
 import { useNavigation, useRoute } from '@react-navigation/native'
 
-import { View, RefreshControl,StatusBar, FlatList } from 'react-native'
+import { View, RefreshControl,StatusBar, FlatList, ScrollView } from 'react-native'
 import { Container, Content, List,ListItem, Spinner, Header, Text } from 'native-base';
 import { HeaderBackButton } from '@react-navigation/stack'
 import messaging from '@react-native-firebase/messaging'
@@ -84,24 +84,31 @@ export default EventLobby = () => {
 
    return(
 
-    <View style={{flex:1, backgroundColor:currentStyle.background.color}}>
-
-      <View style={{height:20,  backgroundColor:currentStyle.header.color}}>
+    <View style={{flex:1, height:'100%',flexDirection:'column', top:0,  backgroundColor:currentStyle.background.color}}>
+      
+      <View style={{height:20, position:'absolute', top:0, alignSelf:'flex-start',  backgroundColor:currentStyle.header.color}}>
         <StatusBar StatusBarAnimation={'fade'} barStyle={'light-content'}
           backgroundColor={'rgb(38, 171, 75)'}/>
       </View>
 
-      <OtherHeader title={'Event Lobby'}/>
+      <OtherHeader style={{alignSelf:'flex-start', }} title={'Event Lobby'}/>
+      
       {/* <BounceColorWrapper style={{flex:1}} mainColor={currentStyle.background.color}> */}
+
+      <View  style={{alignSelf:'flex-start', }}>
+      
       <List style={{backgroundColor:currentStyle.background.color}}>
         {/* TOURNAMENT HEADER */}
         <EventHeader 
           tournament_name={tournament_name} casino={casino}
           tournament_address={tournament_address} tournament_time={tournament_start} 
           lat={tournament_lat} long={tournament_long} />
+        <ActionBar style={{alignSelf:'flex-start'}} action={anAction} />
+
         {/* TOURNEY BUYIN ENTRIES  */}
         {!aTournament ? 
-          <Spinner /> 
+            <Spinner /> 
+          
           : 
           <FlatList
           data={store.currentLobby}
@@ -114,9 +121,11 @@ export default EventLobby = () => {
           
           ListFooterComponent={<Text style={{textAlign:'center'}}></Text>} />}          
         </List>
+
+        </View> 
+
         {/* </BounceColorWrapper> */}
       {/* FOOTER CONTAINS NUMBER OF SWAPS AND ACTION  */}
-      <ActionBar action={anAction} />
     </View>
   )
 }

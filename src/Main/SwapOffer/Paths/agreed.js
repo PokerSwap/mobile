@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react'
 import { Context } from '../../../Store/appContext'
+import moment from 'moment'
 
 import { View } from 'react-native'
 import {Text, Button, Card, CardItem, Spinner} from 'native-base'
@@ -20,7 +21,7 @@ export default AgreedPath = (props) => {
         {swap.percentage ?
           <View style={{width:'100%'}}>
             <Text style={{textAlign:'center', color:currentStyle.text.color}}>
-              AGREED SWAP{'\n'}{props.swapSince}
+              AGREED SWAP{'\n'}{moment(swap.updated_at).fromNow()}
             </Text>
             <CompareCard 
               youColor={'green'} themColor={'green'}

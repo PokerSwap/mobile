@@ -131,35 +131,36 @@ var MessageModal = (props) => {
       
       <View style={ modalStyles.main }> 
       
-      <View style={modalStyles.field.view2}>
-        <Text style={modalStyles.field.text}>Start Chatting!</Text>
-      </View>
-
-      <View style={modalStyles.field.view2}>
-        <TextInput 
-          style={modalStyles.field.textInput2}
-          placeholder="Hi there! Wanna swap?"
-          placeholderTextColor='grey'
-          blurOnSubmit={true}
-          selectionColor={'#D3D3D3'}
-          returnKeyType="next"
-          autoCapitalize='none'
-          autoCorrect={false} 
-          value={message}    
-          onChangeText={messageX => setMessage( messageX )} />
+        <View style={modalStyles.field.view2}>
+          <Text style={modalStyles.field.text}>Start Chatting!</Text>
         </View>
-      <View style={modalStyles.field.view2}>
 
-      <Button onPress={()=> startChat()}>
-        <Text>Start Chat</Text>
-      </Button>
-      </View>
-      <View style={modalStyles.field.view2}>
+        <View style={modalStyles.field.view2}>
+          <TextInput 
+            style={modalStyles.field.textInput2}
+            placeholder="Hi there! Wanna swap?"
+            placeholderTextColor='grey'
+            blurOnSubmit={true}
+            selectionColor={'#D3D3D3'}
+            returnKeyType="next"
+            autoCapitalize='none'
+            autoCorrect={false} 
+            value={message}    
+            onChangeText={messageX => setMessage( messageX )} />
+        </View>
 
-      <TouchableOpacity onPress={()=> props.setVisible2(false)}>
-        <Text>Cancel</Text>
-      </TouchableOpacity>
-      </View>
+        <View style={modalStyles.field.view2}>
+          <Button style={{alignSelf:'center'}} onPress={()=> startChat()}>
+            <Text>Start Chat</Text>
+          </Button>
+        </View>
+
+        <View style={modalStyles.field.view2}>
+          <TouchableOpacity onPress={()=> props.setVisible2(false)}>
+            <Text>Cancel</Text>
+          </TouchableOpacity>
+        </View>
+      
       </View>
     </View>
   )
@@ -249,7 +250,7 @@ export default ProfileBio = (props) => {
                   height: '100%', width: 'auto'}} 
                   source={{uri: profile.profile_pic_url}} />
                 : null}
-              </View>
+             </View>
             
             
           </Col>
@@ -308,9 +309,9 @@ export default ProfileBio = (props) => {
         {/* FULL NAME AND HENDON URL */}
         <View style={{flex:1, marginVertical:10, justifyContent:'center', height:70, backgroundColor:currentStyle.background.color}}>
           {profile !== undefined ?
-            profile.first_name && props.nickname !== profile.first_name + " " + profile.last_name ?
+            profile.nickname !== "" ?
               <Text style={{textAlign:'center', marginTop:5, fontSize:18, color:currentStyle.text.color}}>
-                "{props.nickname}"
+                "{profile.nickname}"
               </Text>
               : null 
             : null}
@@ -369,13 +370,13 @@ const modalStyles = {
         fontSize:18, borderWidth:1, width:'100%', 
         textAlign:'center', borderColor:'rgba(0,0,0,0.2)' },
     view:{
-      flexDirection:'row', justifyContent:'flex-start', alignItems:'center',
+      flexDirection:'row', justifyContent:'center', alignItems:'center',
       marginBottom:10, marginTop:25 },
-    view2:{flexDirection:'row', width:'85%', justifyContent:'center', alignItems:'center',
+    view2:{flexDirection:'row', width:'85%', justifyContent:'center', alignItems:'center', alignSelf:'center',
     marginBottom:10, marginTop:25 }
   },
   main:{ 
-    padding:15, justifyContent:'center', borderRadius:25, alignSelf:'center', backgroundColor:'white', 
-    width:'80%', height:'50%', margin: 'auto', position: 'relative',
+    padding:15, display:'flex',justifyContent:'center', alignText:'center', borderRadius:25, alignSelf:'center', backgroundColor:'white', 
+    width:'80%', height:'50%', position: 'relative',
     top: '10%', left: 0, bottom: 0, right: 0}
 }

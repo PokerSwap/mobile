@@ -22,10 +22,11 @@ export default TournamentBuyIn = (props) => {
   store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
 
   const enterProfile = () => {
+    console.log('entering',buyin.user_name)
     navigation.push('Profile',{
       user_id: buyin.user_id,
       nickname: buyin.user_name,
-      from_tournamet: props.tournament.id
+      from_tournament: props.tournament.id
     });
   }
 
@@ -53,7 +54,7 @@ export default TournamentBuyIn = (props) => {
               onPress={()=> handler()}>
               <Text style={{fontSize:24, color:txt,
                 textTransform:'capitalize'}}> 
-                {buyin.first_name} {buyin.last_name}
+                {buyin.user_name}
               </Text>
             </Button> 
           </Row>

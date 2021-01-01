@@ -94,7 +94,7 @@ export default SwapRow = (props) => {
       tournament: props.tournament,
       swap: swap,
       buyinSince: props.buyinSince,
-      swapSince: swapTime
+      // swapSince: swapTime
     });
   }
 

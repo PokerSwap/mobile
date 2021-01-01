@@ -24,7 +24,8 @@ export default SwapButton = (props) => {
   const {allSwaps} = props
 
   var allStatuses =[]
-  allSwaps ?
+  // console.log('allSwaps',allSwaps)
+  allSwaps !== null && allSwaps !== undefined && allSwaps !== [] ?
     allSwaps.forEach(swap => allStatuses.push(swap.status))
     : allStatuses = ['inactive']
 
@@ -108,7 +109,7 @@ export default SwapButton = (props) => {
       <Icon type="FontAwesome5" name="handshake" 
         style={{alignSelf:'center', fontSize:24}} />;
     path = "inactive";
-    swap=undefined
+    swap={}
     buttonColor = 'rgb(56,68,165)';
   } 
 

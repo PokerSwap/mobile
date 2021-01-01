@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react'
 import { Context } from '../../../Store/appContext'
+import moment from 'moment'
 
 import { Alert, View } from 'react-native'
 import { Text, Card, Button, CardItem, Spinner } from 'native-base'
@@ -41,7 +42,7 @@ export default PendingPath = (props) => {
         {swap.percentage ?
           <View style={{width:'100%', backgroundColor:currentStyle.background.color}}>
             <Text style={{textAlign:'center', color:currentStyle.text.color}}>
-              PENDING SWAP{'\n'}{props.swapSince}
+              PENDING SWAP{'\n'}{moment(swap.updated_at).fromNow()}
             </Text>
             <CompareCard 
               youColor={'orange'} themColor={'orange'}

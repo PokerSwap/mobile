@@ -22,18 +22,44 @@ export default SwapDashboard = (props) => {
   const { store, actions } = useContext(Context) 
   const navigation = useNavigation()
 
-  
   var currentStyle
   store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
   
   const goToThing = async(remoteMessage) => {
-    if (remoteMessage.data.type == 'swap' && store.currentPage =="Swap Offer"){
-      // var s = actions.refresh.toggle()
+    // IF SWAP IS RECIEVED IN FOREGROUND
+    if (remoteMessage.data.type == 'swap' && store.currentPage =="Swap Offer" && remoteMessage.data.id == store.currentSwap.id ){
+
+
+      // var e = await actions.swap.getCurrent(remoteMessage.data.id)
+      // var x = await actions.tournament.getCurrent(store.currentSwap.tournament_id)
+      // var ree = x.buyins.filter(buyin => buyin.recipient_user.id == store.currentSwap.recipient_user.id)
+      // var dwer = await actions.buy_in.getCurrent(ree[0].recipient_buyin.id)
+      
+      // var data= {
+        
+      //     status: store.currentSwap.status,
+      //     buyin: store.currentBuyin,
+      //     tournament: store.currentTournament,
+      //     buyinSince: store.currentBuyin.updated_at,
+      //     swap: store.currentSwap
+        
+      // }
+      // navigation.push("Swap Offer",{
+      //   status: store.currentSwap.status,
+      //   buyin: store.currentBuyin,
+      //   tournament: store.currentTournament,
+      //   buyinSince: store.currentBuyin.updated_at,
+      //   swap: store.currentSwap
+      // })
+//
+      
+      var sw = await actions.refresh.offer(true)
+      return customMessage(remoteMessage.data.alert)
+    }
+    else if(remoteMessage.data.type == 'swap' && store.currentPage =="Swap Offer"){
       var e = await actions.swap.getCurrent(remoteMessage.data.id)
-      var tour = store.currentSwap.tournament_id
-      var eee = store.currentSwap.recipient_user.id
-      var x = await actions.tournament.getCurrent(tour)
-      var ree = x.buyins.filter(buyin => buyin.recipient_user.id == eee)
+      var x = await actions.tournament.getCurrent(store.currentSwap.tournament_id)
+      var ree = x.buyins.filter(buyin => buyin.recipient_user.id == store.currentSwap.recipient_user.id)
       var dwer = await actions.buy_in.getCurrent(ree[0].recipient_buyin.id)
       
       var data= {
@@ -45,7 +71,6 @@ export default SwapDashboard = (props) => {
           swap: store.currentSwap
         
       }
-      console.log('data', Object.keys(data))
       navigation.push("Swap Offer",{
         status: store.currentSwap.status,
         buyin: store.currentBuyin,
@@ -57,9 +82,12 @@ export default SwapDashboard = (props) => {
       
       // var sw = actions.refresh.toggle()
       return customMessage(remoteMessage.data.alert)
-    }else if(remoteMessage.data.type == 'swap'){
+    }
+
+    else if(remoteMessage.data.type == 'swap'){
       var cc = await actions.navigate.toSwap(remoteMessage.data, navigation)
-    }else{null}
+    }
+    else{null}
  
     if(remoteMessage.data.type == 'event'){
       var cc = await actions.navigate.toEvent(remoteMessage.data, navigation)
@@ -82,20 +110,21 @@ export default SwapDashboard = (props) => {
   }
 
 
-  async function requestUserPermission() {
+  const requestUserPermission = async () => {
     const authStatus = await messaging().requestPermission();
     const enabled =
       authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
       authStatus === messaging.AuthorizationStatus.PROVISIONAL;
   
     if (enabled) {
-      console.log('Authorization status:', authStatus);
+      // console.log('Authorization status:', authStatus);
     }
   }
 
-  requestUserPermission()
   //BACKGROUND
   useEffect(() => {
+    requestUserPermission()
+
     //Background IOS
     if(Platform.OS == 'ios'){
       messaging().onNotificationOpenedApp(async remoteMessage => {
@@ -128,7 +157,11 @@ export default SwapDashboard = (props) => {
           if(remoteMessage.data.type=='swap'){
             var e = await actions.navigate.toSwap(remoteMessage.data, navigation)
           }else if(remoteMessage.data.type=='chat'){
-            var e = await actions.navigate.toChat(remoteMessage.data, navigation)
+            if (store.currentPage == "Chat"){
+              var x = actions.refresh.chat(true)
+            }else{
+              var e = await actions.navigate.toChat(remoteMessage.data, navigation)
+            }
           }else if(remoteMessage.data.type=='event'){
             var e = await actions.navigate.toChat(remoteMessage.data, navigation)
           }else if(remoteMessage.data.type=='buyin'){
@@ -173,14 +206,31 @@ export default SwapDashboard = (props) => {
         var xeee = await actions.tracker.getUpcoming()
         var e = await actions.swap.returnCurrent(remoteMessage.data.id)
         var x = await actions.tournament.getCurrent(e.tournament_id)
+        console.log(store.currentPage =="Swap Offer")
+        console.log(remoteMessage.data.id==store.currentSwap.id)
+        console.log(remoteMessage.data.buyin_id==store.currentBuyin.id)
+        console.log(store.currentSwap.id==null, store.currentSwap.id)
+        // UPDATING THE CURRENT SWAP
         if (store.currentPage =="Swap Offer" && remoteMessage.data.id==store.currentSwap.id){
-          var s = actions.refresh.offer()
+          console.log('refreshing here UPDATING THE CURRENT SWAP')
+
+          var s = actions.refresh.offer(true)
           var e = await actions.swap.getCurrent(remoteMessage.data.id)
-          var sw = actions.refresh.offer()
+          var sw = actions.refresh.offer(false)
           return customMessage(remoteMessage.data.alert)
+        } 
+        // UPDATING SWAP OFFER ON INACTIVE SWAP
+        else if(store.currentPage =="Swap Offer" && remoteMessage.data.buyin_id==store.currentBuyin.id){
+          console.log('refreshing here UPDATING SWAP OFFER ON INACTIVE SWAP')
+          var e = await actions.swap.getCurrent(remoteMessage.data.id)
+          var sw = actions.refresh.offer(true)
+
+          return customMessage(remoteMessage.data.alert)
+
         }else{
           null
         }
+
         if(store.currentPage =="Event Lobby"){
           console.log('in event lobby')
 
@@ -201,11 +251,12 @@ export default SwapDashboard = (props) => {
 
       }
       if(store.currentPage == "Chat"  && remoteMessage.data.type == 'chat'){
-        return actions.chat.refresh(true)
+        console.log('refresh chat now [lease')
+        return actions.refresh.chat(true)
       }else if(store.currentPage == "Contacts"  && remoteMessage.data.type == 'chat'){
         return actions.chat.getMine()
       }else if(remoteMessage.data.type == 'chat'){
-        actions.chat.refresh(true)
+        actions.refresh.chat(true)
         return Toast.show({
           style: {
            backgroundColor: "rgb(10,132,255)"},
@@ -353,13 +404,13 @@ export default SwapDashboard = (props) => {
   }  
 
   return(
-    <Container >
+    <Container style={{position:'absolute'}}>
       <View style={{height:20,  backgroundColor:currentStyle.header.color}}>
       <StatusBar StatusBarAnimation={'fade'} barStyle={'light-content'}
 				backgroundColor={'rgb(38, 171, 75)'}/>
       </View>
       
-      <Content contentContainerStyle={{flex:1}}>
+      {/* <Content contentContainerStyle={{flex:1,position:'absolute'}}> */}
       <HomeHeader title={'Active Swaps'} />
         <Tabs  tabBarUnderlineStyle={{backgroundColor:'white'}}
           tabBarTextStyle={{fontWeight:'bold', color:'white'}}>
@@ -392,7 +443,7 @@ export default SwapDashboard = (props) => {
             </BounceColorWrapper>
           </Tab>
         </Tabs>
-      </Content>
+      {/* </Content> */}
     </Container>
   )
 }

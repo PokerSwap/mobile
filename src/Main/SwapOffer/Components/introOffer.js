@@ -67,14 +67,14 @@ export default IntroOffer = (props) => {
         </View>
         :
         // WHEN YOU HAVE ZERO TOKENS
-        <CardItem style={{flexDirection:'column'}}>
+        <CardItem style={{flexDirection:'column', color:currentStyle.background.color}}>
           {/* NO TOKENS WARNING */}
           <Text style={{textAlign:'center', fontSize:18, marginBottom:25}}> 
             In order to accept or counter this swap, 
             you need to purchase tokens.
           </Text>
           {/* PURCHASE TOKENS BUTTON */}
-          <Button large success 
+          <Button large success style={{alignSelf:'center'}} 
             onPress={() => navigation.navigate('Purchase Tokens')}>
             <Text>Purchase Tokens</Text>
           </Button>

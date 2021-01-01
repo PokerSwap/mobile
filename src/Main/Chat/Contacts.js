@@ -1,8 +1,8 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import { Context } from '../../Store/appContext'
 import { useNavigation, useRoute } from '@react-navigation/native'
 
-import { View, Image, TouchableOpacity } from 'react-native'
+import { AppState, View, Image, TouchableOpacity } from 'react-native'
 import { Container, Content, List, ListItem, Text, Icon } from 'native-base';
 import { Col } from 'react-native-easy-grid'
 
@@ -35,6 +35,41 @@ export default ContactsScreen = (props) => {
       chat_id: chat_id
     });
   }
+
+  useEffect(() => {  
+    const unsubscribe = navigation.addListener('focus', () => {
+      actions.chat.getMine() 
+      
+    });
+    return () => {
+      unsubscribe
+    }
+  }, [])
+
+  const appState = useRef(AppState.currentState);
+  const [appStateVisible, setAppStateVisible] = useState(appState.current);
+
+  useEffect(() => {
+    AppState.addEventListener("change", _handleAppStateChange);
+
+    return () => {
+      AppState.removeEventListener("change", _handleAppStateChange);
+    };
+  }, []);
+
+  const _handleAppStateChange = (nextAppState) => {
+    if (
+      appState.current.match(/inactive|background/) &&
+      nextAppState === "active"
+    ) {
+      console.log("App has come to the foreground!");
+    }
+
+    appState.current = nextAppState;
+    setAppStateVisible(appState.current);
+    actions.chat.getMine()
+    console.log("AppState", appState.current);
+  };
 
   return(
     <Container style={{backgroundColor:currentStyle.background.color}}>      

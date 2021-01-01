@@ -6,7 +6,7 @@ export default ActionBar = (props) => {
 
   var bg;
   !props.action ?
-    null : props.action.actions < 50 ?
+    bg='grey' : props.action.actions < 50 ?
       bg ='green' : bg='red'
 
   return(

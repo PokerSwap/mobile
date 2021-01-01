@@ -120,36 +120,36 @@ export default InactivePath = (props) => {
     <Card transparent style={{backgroundColor:currentStyle.background.color}}>
       
       {store.myProfile.coins > 0 ? 
-        !visible ?
-          <StandardOffer 
-            confirmationAlert={confirmationAlert}
-            counterSwitch={counterSwitch}
-            percentage={percentage} 
-            tAdd={tAdd} tSubtract={tSubtract}  />
-          :
-          <SpecialOffer confirmationAlert={confirmationAlert}
-            otherUser={props.buyin.user_name} 
-            counterSwitch={counterSwitch}
-            percentage={percentage}
-            counterPercentage={counterPercentage}
-            pAdd={pAdd} pSubtract={pSubtract}
-            cAdd={cAdd} cSubtract={cSubtract} />
-        : 
-        <View>
-          <CardItem>
-            <Text style={{color:currentStyle.text.color}}> 
-              You need to purchase tokens in order 
-              to swap with this person.
-            </Text>
-          </CardItem>
+          !visible ?
+            <StandardOffer 
+              confirmationAlert={confirmationAlert}
+              counterSwitch={counterSwitch}
+              percentage={percentage} 
+              tAdd={tAdd} tSubtract={tSubtract}  />
+            :
+            <SpecialOffer confirmationAlert={confirmationAlert}
+              otherUser={props.buyin.user_name} 
+              counterSwitch={counterSwitch}
+              percentage={percentage}
+              counterPercentage={counterPercentage}
+              pAdd={pAdd} pSubtract={pSubtract}
+              cAdd={cAdd} cSubtract={cSubtract} />
+          : 
+          <View style={{backgroundColor:currentStyle.background.color}}>
+            <CardItem style={{backgroundColor:currentStyle.background.color, justifyContent:'center'}}>
+              <Text style={{color:currentStyle.text.color, textAlign:'center'}}> 
+                You need to purchase tokens{'\n'}
+                to swap with this person.
+              </Text>
+            </CardItem>
 
-          <CardItem>
-            <Button large success 
-              onPress={()=> navigation.navigate('Purchase Tokens')}>
-              <Text>Purchase Tokens</Text>
-            </Button>
-          </CardItem>
-        </View>}
+            <CardItem style={{backgroundColor:currentStyle.background.color, justifyContent:'center'}}>
+              <Button large success 
+                onPress={()=> navigation.navigate('Purchase Tokens')}>
+                <Text>Purchase Tokens</Text>
+              </Button>
+            </CardItem>
+          </View>}
     </Card>
   )
 }

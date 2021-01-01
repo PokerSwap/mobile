@@ -22,10 +22,6 @@ export default ProfileBioSideBar = (props) => {
     });
   }
 
-  let ifNickName
-  props.nickname !== '' && props.nickname !== null ?
-    ifNickName = ' "' + props.nickname + '" '
-    : ifNickName = ' '
 
   var goPurchase = () => navigation.navigate('Purchase Tokens')
   
@@ -54,9 +50,9 @@ export default ProfileBioSideBar = (props) => {
       <CardItem style={styles.name.container, {backgroundColor:currentStyle.background.color}}>
         <Button style={styles.name.button} 
           transparent onPress={() => enterProfile()}>
-          {ifNickName ?
-            <Text style={{fontSize:20, textAlign:'center', marginBottom:5}}>
-              {ifNickName}
+          {props.nickname !== '' ?
+            <Text style={{fontSize:14, color:currentStyle.text.color, textAlign:'center', marginBottom:5}}>
+              {props.nickname}
             </Text> 
             : null}
           <Text style={styles.name.text} >
