@@ -1,8 +1,10 @@
-import React, {useContext, useState, useCallback} from 'react';
+import React, {useContext, useState, useCallback, useEffect, useRef} from 'react';
 import { Context } from '../../Store/appContext'
 
-import { RefreshControl,  FlatList, View, StatusBar } from 'react-native'
+import { AppState, RefreshControl,  FlatList, View, StatusBar } from 'react-native'
 import { Button, Container, Content, Icon, Text, Tabs, Tab, TabHeading} from 'native-base';
+import { useNavigation } from '@react-navigation/native'
+
 
 import HomeHeader from '../../View-Components/HomeHeader'
 import ResultsTracker from './Components/ResultsTracker'
@@ -17,6 +19,17 @@ export default EventResults = (props) => {
   var currentStyle
   store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
   
+  var navigation = useNavigation()
+
+  useEffect(() => {  
+    const unsubscribe = navigation.addListener('focus', () => {
+      actions.tracker.getPast()
+    });
+    return () => {
+      unsubscribe
+    }
+  }, [refreshing])
+
   const [ refreshing, setRefreshing ] = useState(false);
 
   function wait(timeout) {
@@ -31,9 +44,36 @@ export default EventResults = (props) => {
     wait(2000).then(() => setRefreshing(false));
   }, [refreshing]);
 
+  // REFRESH AFTER REOPENING FROM BACKGROUND (START)
 
+  const appState = useRef(AppState.currentState);
+  const [appStateVisible, setAppStateVisible] = useState(appState.current);
 
-      // EMPTY CURRENT TRACKER COMPONENT
+  useEffect(() => {
+    AppState.addEventListener("change", _handleAppStateChange);
+
+    return () => {
+      AppState.removeEventListener("change", _handleAppStateChange);
+    };
+  }, []);
+
+  const _handleAppStateChange = (nextAppState) => {
+    if (
+      appState.current.match(/inactive|background/) &&
+      nextAppState === "active"
+    ) {
+      console.log("App has come to the foreground! on Event Results");
+    }
+
+    appState.current = nextAppState;
+    setAppStateVisible(appState.current);
+    actions.tracker.getPast()    
+    console.log("AppState", appState.current);
+  };
+
+  // REFRESH AFTER REOPENING FROM BACKGROUND (END)
+
+  // EMPTY CURRENT TRACKER COMPONENT
   let noTracker = (status) => {
     return(
       <FlatList
@@ -95,6 +135,8 @@ export default EventResults = (props) => {
     confirmedResultsTracker = noTracker('have confirmed')
   } 
 
+
+  
   return(
     <Container contentContainerStyle={{backgroundColor:currentStyle.background.color}}>
       <View style={{height:20,  backgroundColor:currentStyle.background.color}}>

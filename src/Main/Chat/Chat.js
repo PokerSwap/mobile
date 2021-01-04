@@ -44,7 +44,8 @@ export default ChatScreen = (props) => {
     var wx = await actions.chat.sendMessage(chat_id, their_id, messages[messages.length -1].text)
   }, [])
 
-  // REFRESH AFTER REOPENING FROM BACKGROUND
+  // REFRESH AFTER REOPENING FROM BACKGROUND (START)
+  
   const appState = useRef(AppState.currentState);
   const [appStateVisible, setAppStateVisible] = useState(appState.current);
 
@@ -70,6 +71,8 @@ export default ChatScreen = (props) => {
     console.log("AppState", appState.current);
   };
  
+  // REFRESH AFTER REOPENING FROM BACKGROUND (END)
+
   return (
     <View style={{flex:1}}>
       <View style={{height:20, position:'absolute', top:0, alignSelf:'flex-start',  backgroundColor:currentStyle.header.color}}>

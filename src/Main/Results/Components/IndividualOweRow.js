@@ -13,6 +13,7 @@ export default IndividualOweRow = (props) => {
   var currentStyle
   store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
 
+  console.log('we',props.swap)
   return(
     <Row style={{padding:10, borderTopWidth:1, 
       borderColor:'#D3D3D3' }}>
@@ -33,7 +34,7 @@ export default IndividualOweRow = (props) => {
       :
         <Col style={{justifyContent:'flex-start'}}>
           <Text style={{alignSelf:'center', fontSize:24, marginBottom:5, textAlign:'center', color:currentStyle.text.color}}>
-            {props.swap.counter_percentage}%
+            {props.swap.percentage}%
           </Text>
           <Text style={{fontSize:36, color:currentStyle.text.color}}>-</Text>                
         </Col>}

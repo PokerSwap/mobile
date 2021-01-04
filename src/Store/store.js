@@ -7,11 +7,11 @@ import moment from 'moment'
 import firebase from 'firebase'; // 4.8.1
 var databaseURL
 
-Platform.OS == 'ios' ?
-	databaseURL = 'http://gabriels-imac.local:3000/' : databaseURL = 'http://10.0.2.2:3000/'
+// Platform.OS == 'ios' ?
+// 	databaseURL = 'http://gabriels-imac.local:3000/' : databaseURL = 'http://10.0.2.2:3000/'
 
 
-// databaseURL = 'https://swapprofit-beta.herokuapp.com/'
+databaseURL = 'https://swapprofit-beta.herokuapp.com/'
 
 
 var errorMessage = (error) => {

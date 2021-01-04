@@ -1,10 +1,9 @@
-import React, {useContext, useState, 
-  useCallback, useEffect } from 'react';
+import React, {useContext, useState, useCallback, useEffect, useRef } from 'react';
 import { Context } from '../../Store/appContext'
 import { useNavigation } from '@react-navigation/native'
 import messaging from '@react-native-firebase/messaging'
 
-import { Alert, FlatList, Platform, RefreshControl, View, StatusBar } from 'react-native';
+import { AppState, FlatList, Platform, RefreshControl, View, StatusBar } from 'react-native';
 import { Button, Container, Content, Icon, Tabs, Tab, 
 TabHeading, Text, Toast } from 'native-base';
 
@@ -206,10 +205,6 @@ export default SwapDashboard = (props) => {
         var xeee = await actions.tracker.getUpcoming()
         var e = await actions.swap.returnCurrent(remoteMessage.data.id)
         var x = await actions.tournament.getCurrent(e.tournament_id)
-        console.log(store.currentPage =="Swap Offer")
-        console.log(remoteMessage.data.id==store.currentSwap.id)
-        console.log(remoteMessage.data.buyin_id==store.currentBuyin.id)
-        console.log(store.currentSwap.id==null, store.currentSwap.id)
         // UPDATING THE CURRENT SWAP
         if (store.currentPage =="Swap Offer" && remoteMessage.data.id==store.currentSwap.id){
           console.log('refreshing here UPDATING THE CURRENT SWAP')
@@ -253,9 +248,11 @@ export default SwapDashboard = (props) => {
       if(store.currentPage == "Chat"  && remoteMessage.data.type == 'chat'){
         console.log('refresh chat now [lease')
         return actions.refresh.chat(true)
-      }else if(store.currentPage == "Contacts"  && remoteMessage.data.type == 'chat'){
+      }
+      else if(store.currentPage == "Contacts"  && remoteMessage.data.type == 'chat'){
         return actions.chat.getMine()
-      }else if(remoteMessage.data.type == 'chat'){
+      }
+      else if(remoteMessage.data.type == 'chat'){
         actions.refresh.chat(true)
         return Toast.show({
           style: {
@@ -267,7 +264,19 @@ export default SwapDashboard = (props) => {
            onClose: (reason)=> checkPress(reason),
           text:remoteMessage.notification.title+ ':  '+ remoteMessage.data.alert, 
            position:'top'})
-      }else{null}
+      }
+      else{null}
+
+      if(store.currentPage == "Swap Results" && remoteMessage.data.type == 'result'){
+        return actions.refresh.result(true)
+      }
+      else if(store.currentPage = "Event Results" && remoteMessage.data.type == 'result'){
+        var xee = await actions.tracker.getPast()
+      }
+      else if(remoteMessage.data.type == 'result'){
+        var xee = await actions.tracker.getPast()
+      }
+      else{}
 
       Alert.alert(
         remoteMessage.notification.title, 
@@ -402,6 +411,37 @@ export default SwapDashboard = (props) => {
   } else{
     upcomingTracker = noTracker('upcoming', onRefresh2)
   }  
+
+  // REFRESH AFTER REOPENING FROM BACKGROUND (START)
+
+  const appState = useRef(AppState.currentState);
+  const [appStateVisible, setAppStateVisible] = useState(appState.current);
+
+  useEffect(() => {
+    AppState.addEventListener("change", _handleAppStateChange);
+
+    return () => {
+      AppState.removeEventListener("change", _handleAppStateChange);
+    };
+  }, []);
+
+  const _handleAppStateChange = (nextAppState) => {
+    if (
+      appState.current.match(/inactive|background/) &&
+      nextAppState === "active"
+    ) {
+      console.log("App has come to the foreground on Swap Dashboard!");
+    }
+
+    appState.current = nextAppState;
+    setAppStateVisible(appState.current);
+    actions.tracker.getUpcoming()
+    actions.tracker.getCurrent()
+
+    console.log("AppState", appState.current);
+  };
+
+  // REFRESH AFTER REOPENING FROM BACKGROUND (END)
 
   return(
     <Container style={{position:'absolute'}}>

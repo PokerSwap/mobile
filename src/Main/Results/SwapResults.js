@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useContext, useCallback } from 'react';
+import React, { useState, useEffect, useContext, useCallback, useRef } from 'react';
 import { Context } from '../../Store/appContext'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import moment from 'moment'
 
-import { Modal, View, FlatList, RefreshControl, StatusBar } from 'react-native';
+import { AppState, Modal, View, FlatList, RefreshControl, StatusBar } from 'react-native';
 import { Container, Content, List, Text, ListItem, Button } from 'native-base';
 import Spinner from 'react-native-loading-spinner-overlay'
 import { Grid, Row, Col } from 'react-native-easy-grid'
@@ -73,6 +73,41 @@ export default ProfitResults = (props) => {
      agreedBuyins = theBuyins.filter(buyin => buyin.agreed_swaps.length > 0)
      wait(2000).then(() => setRefreshing(false));
   }, [refreshing]);
+
+  // REFRESH AFTER REOPENING FROM BACKGROUND (START)
+
+  const appState = useRef(AppState.currentState);
+  const [appStateVisible, setAppStateVisible] = useState(appState.current);
+
+  useEffect(() => {
+    AppState.addEventListener("change", _handleAppStateChange);
+
+    return () => {
+      AppState.removeEventListener("change", _handleAppStateChange);
+    };
+  }, []);
+
+  const _handleAppStateChange = (nextAppState) => {
+    if (
+      appState.current.match(/inactive|background/) &&
+      nextAppState === "active"
+    ) {
+      console.log("App has come to the foreground on Swap Results");
+    }
+
+    appState.current = nextAppState;
+    setAppStateVisible(appState.current);
+    var answer = actions.tracker.getPastSpecific(theTournament.id)    
+    setTheTournament(answer.tournament)
+    set_My_Buyin(answer.my_buyin)
+    setTheFinalProfit(answer.final_profit)
+    setTheBuyins(answer.buyins)
+     agreedBuyins = theBuyins.filter(buyin => buyin.agreed_swaps.length > 0)
+    console.log("AppState", appState.current);
+  };
+
+  // REFRESH AFTER REOPENING FROM BACKGROUND (END)
+
 
   var profit
   allPaid & theTournament.results_link !== null ? 
