@@ -11,7 +11,9 @@ import { Col } from 'react-native-easy-grid'
 export default SwapButton = (props) => {
   const { store, actions } = useContext(Context)
   const [ busted, setBusted ] = useState(false)
+  const {allSwaps} = props
 
+  const [disabled, setDisabled] = useState(false)
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -21,7 +23,7 @@ export default SwapButton = (props) => {
     }
   }, [busted])
 
-  const {allSwaps} = props
+
 
   var allStatuses =[]
   // console.log('allSwaps',allSwaps)
@@ -203,19 +205,23 @@ export default SwapButton = (props) => {
     }
   }
       
-  const handler = throttle(preliminary, 2000, { leading: true, trailing: false });
+  // const handler = throttle(preliminary, 2000, { leading: true, trailing: false });
+  const handler = () => {
+    setDisabled(true)
+    preliminary();
+    setTimeout(()=>{setDisabled(false)}, 2000)
+  }
 
   return(
     <Col style={{ justifyContent:'center', marginLeft:10, textAlign:'center'}}>
       {/* SWAP BUTTON */}
-      <Button style={{backgroundColor:buttonColor, width:70, height:70,
-        justifyContent:'center', alignSelf:'center'}}
-        onPress={()=> handler()}>
+      <Button disabled={disabled} onPress={()=> handler()}
+        style={{backgroundColor:buttonColor, width:70, height:70,
+        justifyContent:'center', alignSelf:'center'}}>
         {lastCol}
       </Button>
       {/* LAST UPDATE DESCRIPTOR */}
-      <Text style={{marginTop:10, color:props.txt, 
-        textAlign:'center', alignSelf:'center'}}>
+      <Text style={{marginTop:10, color:props.txt,textAlign:'center', alignSelf:'center'}}>
         {props.buyinSince}
       </Text>
     </Col>

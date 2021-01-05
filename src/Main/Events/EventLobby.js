@@ -113,12 +113,12 @@ export default EventLobby = () => {
 
     <View style={{flex:1, height:'100%',flexDirection:'column', top:0,  backgroundColor:currentStyle.background.color}}>
       
-      <View style={{height:20, position:'absolute', top:0, alignSelf:'flex-start',  backgroundColor:currentStyle.header.color}}>
+      <View style={{height:40, position:'absolute', top:0, alignSelf:'flex-start',  backgroundColor:currentStyle.header.color}}>
         <StatusBar StatusBarAnimation={'fade'} barStyle={'light-content'}
           backgroundColor={'rgb(38, 171, 75)'}/>
       </View>
 
-      <OtherHeader style={{alignSelf:'flex-start', }} title={'Event Lobby'}/>
+      <OtherHeader  title={'Event Lobby'}/>
       
       {/* <BounceColorWrapper style={{flex:1}} mainColor={currentStyle.background.color}> */}
 

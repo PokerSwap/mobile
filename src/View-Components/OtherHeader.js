@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Context } from '../Store/appContext'
 import { useNavigation } from '@react-navigation/native'
 
@@ -10,12 +10,24 @@ import lightStyle from '../Themes/light.js'
 
 export default OtherHeader = (props) => {
   const { store, actions } = useContext(Context)
+  const [disabled, setDisabled] = useState(false)
 
   const navigation = useNavigation()
 
   var currentStyle
   store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
   
+
+  const handler = () => {
+    setDisabled(true)
+    if(props.title == "Event Lobby"){
+      navigation.popToTop()
+    }else{
+      navigation.goBack(null)
+    }
+    setTimeout(()=>{setDisabled(false)}, 1000)
+  }
+
   return(
     
     <View  style={{
@@ -23,9 +35,9 @@ export default OtherHeader = (props) => {
       alignItems:'flex-end', paddingBottom:12, 
       backgroundColor:currentStyle.header.color,  height:'10%'}}>
       {/* MENU ICON */}
-      <Icon type="Ionicons" name="ios-chevron-back" 
+      <Icon disabled={disabled} type="Ionicons" name="ios-chevron-back" 
         style={{marginLeft:10, color:currentStyle.text.color}}
-        onPress={() => navigation.goBack(null)} />
+        onPress={() => handler()} />
       {/* TITLE */}
       <Text style={{fontWeight:'bold', textAlign:'center', fontSize:20, 
         color:currentStyle.text.color}}>

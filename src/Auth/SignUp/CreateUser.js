@@ -13,6 +13,7 @@ export default CreateUser = () => {
 	const [ password, setPassword ] = useState('')
 	const [ c_password, setC_Password] = useState('')
 	const [ submitted, setSubmitted ] = useState(false)
+	const [ disabled, setDisabled] = useState(false)
 
 	const createUser = async() => {
 		email !== ''?
@@ -28,7 +29,11 @@ export default CreateUser = () => {
 		setSubmitted(answer323)
 	}
 
-	const handler = throttle(userStart, 2000, { leading: true, trailing: false });
+	const handler = () => {
+		setDisabled(true)
+		userStart();
+		setTimeout(()=>{setDisabled(false)}, 2000)
+	  }
 
 	const errorMessage = (x) => {
 		Toast.show({text:x, duration:3000, position:'top'})}
@@ -107,7 +112,7 @@ export default CreateUser = () => {
 							onChangeText={password => setC_Password( password )}/>
 					</Item>
 					{/* SUBMIT BUTTON */}
-					<Button large style={{alignSelf:'center'}}
+					<Button disabled={disabled} large style={{alignSelf:'center'}}
 						onPress={() => handler()} >
 						<Text> SUBMIT </Text>
 					</Button>	

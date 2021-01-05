@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Context } from '../../../Store/appContext'
 import { useNavigation } from '@react-navigation/native'
 import { throttle } from 'lodash'
@@ -11,6 +11,8 @@ import BuyIn from '../../BuyIn/BuyIn'
 export default SwapTracker = (props) => {
   const { store, actions } = useContext(Context) 
   const navigation = useNavigation()
+
+  const [disabled, setDisabled] = useState(false)
 
   let other_swaps = props.buyins.map((content, index) => {
     return(
@@ -35,12 +37,17 @@ export default SwapTracker = (props) => {
     });
   }
  
-  const handler = throttle(enterTournament, 1000, { leading: true, trailing: false });
+  // const handler = throttle(enterTournament, 1000, { leading: true, trailing: false });
+  const handler = () => {
+    setDisabled(true)
+    enterTournament();
+    setTimeout(()=>{setDisabled(false)}, 2000)
+  }
 
   return(
     <View style={{width:'100%', color:'black'}}>
       {/* TOURNAMENT TITLE */}
-      <TouchableOpacity onPress={()=> handler()}>
+      <TouchableOpacity disabled={disabled} onPress={()=> handler()}>
         <View style={styles.title.container}>
           <Text style={styles.title.text}>
             {props.tournament.name}

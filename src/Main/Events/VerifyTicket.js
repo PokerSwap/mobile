@@ -4,7 +4,7 @@ import { useRoute, useNavigation } from '@react-navigation/native';
 import {openSettings, requestMultiple, PERMISSIONS} from 'react-native-permissions';
 import { throttle } from 'lodash'
 
-import { Image,  TextInput, KeyboardAvoidingView, Modal, Platform, Alert } from 'react-native';
+import { Image,  TextInput, KeyboardAvoidingView, Modal, Platform, Alert, StatusBar, View } from 'react-native';
 import { Container,  Button, Text, Content, Card, CardItem, Icon} from 'native-base';
 import { Grid, Row, Col } from 'react-native-easy-grid';
 import Spinner from 'react-native-loading-spinner-overlay'
@@ -27,6 +27,8 @@ export default VerifyTicket = (props) => {
   const [ info, setInfo ] = useState(false)
   const [ visible, setVisible ] = useState(false)
   const [ currentTournament, setCurrentTournament ] = useState('')
+  const [ disabled, setDisabled] = useState(false)
+
 
   var currentStyle
   store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
@@ -137,16 +139,27 @@ Platform.OS == 'ios' ? styles = iosStyles : styles = androidStyles
   const BuyInStart = async() => {
     setLoading(true)
     var x = await actions.buy_in.add( 
-    image, table, seat, chips, flight_id, tournament_id, tournament_name, tournament_start, tournament_address, casino, navigation )
+    image, table, seat, chips, flight_id, tournament_id, tournament_name, 
+    tournament_start, tournament_address, casino, navigation )
     setLoading(false)
   }
  
-  const handler = throttle(BuyInStart, 1000, { leading: true, trailing: false });
+
+  const handler = () => {
+    setDisabled(true)
+    BuyInStart();
+    setTimeout(()=>{setDisabled(false)}, 2000)
+  }
  
   let textSeat = null, textChips = null;
    
   return(
     <Container>
+      <View style={{height:20, position:'absolute', top:0, alignSelf:'flex-start',  backgroundColor:currentStyle.header.color}}>
+        <StatusBar StatusBarAnimation={'fade'} barStyle={'light-content'}
+          backgroundColor={'rgb(38, 171, 75)'}/>
+      </View>
+      <OtherHeader title={"Verify Ticket"} />
       <Content style={{backgroundColor:currentStyle.background.color}}>
         <Spinner visible={loading} />
       <KeyboardAvoidingView style={{flex:1,}} 
@@ -166,13 +179,13 @@ Platform.OS == 'ios' ? styles = iosStyles : styles = androidStyles
         {/* TOURNEY INFO */}
         <Card transparent style={{backgroundColor:currentStyle.background.color}}>
           {/* TOURNAMENT INFO */}
-          <CardItem style={{justifyContent:'center', flexDirection:'column',backgroundColor:currentStyle.background.color}}>
-            <Text style={{textAlign:'center', fontSize:20, marginBottom:10, fontWeight:'600',color:currentStyle.text.color}}>
+          <CardItem style={{justifyContent:'center', flexDirection:'column',
+            backgroundColor:currentStyle.background.color}}>
+            <Text style={{textAlign:'center', fontSize:20, marginBottom:10, 
+              fontWeight:'600',color:currentStyle.text.color}}>
               {tournament_name} 
             </Text>
-            {/* <Text>
-              {tournament_address}
-            </Text> */}
+
             <Button block info onPress={() => setVisible(!visible)}>
               <Text>Event Info</Text>
             </Button>
@@ -180,9 +193,11 @@ Platform.OS == 'ios' ? styles = iosStyles : styles = androidStyles
             
           </CardItem>
           {/* INSTRUCTION TEXT  */}
-          <CardItem style={{selfAlign:'center', flex:1, marginBottom:-10,backgroundColor:currentStyle.background.color,
+          <CardItem style={{selfAlign:'center', flex:1, marginBottom:-10,
+            backgroundColor:currentStyle.background.color,
             justifyContent:'center', flexDirection:'column'}}>
-            <Text style={{textAlign:'center', fontWeight:'600', fontSize:18, color:currentStyle.text.color,  flex:1}}>
+            <Text style={{textAlign:'center', fontWeight:'600', fontSize:18, 
+              color:currentStyle.text.color,  flex:1}}>
               Enter the information and upload a photo of your tournament buyin ticket.
             </Text>
           </CardItem>
@@ -253,7 +268,7 @@ Platform.OS == 'ios' ? styles = iosStyles : styles = androidStyles
           </CardItem>
           {/* SUBMIT BUTTON */}
           <CardItem style={{backgroundColor:currentStyle.background.color}}>
-            <Button large style={styles.button} 
+            <Button disabled={disabled} large style={styles.button} 
               onPress={() => handler()}>
               <Text style={styles.text.button}> 
                 SUBMIT 

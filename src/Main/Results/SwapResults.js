@@ -196,26 +196,27 @@ export default ProfitResults = (props) => {
               
     
               {theTournament.results_link ? 
-              <View style={{flexDirection:'column', justifyContent:'center', marginTop:10}}>
-                <Button block onPress={() => openResults()}>
-                  <Text style={{color:currentStyle.text.color}}>
-                    See Complete Event Results
+                <View style={{flexDirection:'column', justifyContent:'center', marginTop:10}}>
+                  <Button style={{width:'80%', alignSelf:'center'}} block onPress={() => openResults()}>
+                    <Text style={{color:currentStyle.text.color}}>
+                      See Complete Event Results
+                    </Text>
+                  </Button>
+                  <Text style={{marginTop:15, textAlign:'center', marginBottom:5, color:currentStyle.text.color}}>
+                    Results posted {moment(theTournament.updated_at).fromNow()}.
                   </Text>
-                </Button>
-                <Text style={{marginTop:15, marginBottom:5, color:currentStyle.text.color}}>
-                  Results posted {moment(theTournament.updated_at).fromNow()}.
-                </Text>
-              </View>                
-            : null}
+                </View>                
+              : null}
           
         </View>}
-          ListFooterComponent={<View style={{paddingVertical:30}}>
-            <Text style={{fontSize:24, textAlign:'center', color:currentStyle.text.color}}>
-            Your final profit is:
-          </Text>
-          <Text style={{fontSize:36, fontWeight:'600', textAlign:'center', color:currentStyle.text.color}}>
-            {profit}
-          </Text>
+          ListFooterComponent={
+            <View style={{paddingVertical:30}}>
+                <Text style={{fontSize:24, textAlign:'center', color:currentStyle.text.color}}>
+                Your final profit is:
+              </Text>
+              <Text style={{fontSize:36, fontWeight:'600', textAlign:'center', color:currentStyle.text.color}}>
+                {profit}
+              </Text>
             </View>} /> }
           
          

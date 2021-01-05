@@ -112,7 +112,7 @@ var SwapsStack = () => {
       <Stack.Screen name="Swap Offer" component={SwapOffer} 
         options={{ gestureEnabled: false, headerShown: false, headerBackTitle:'' }}/>
       <Stack.Screen name="Verify Ticket" component={VerifyTicket} 
-        options={{ gestureEnabled: false,  headerShown: true, headerBackTitle:''}}/>
+        options={{ gestureEnabled: false,  headerShown: false, headerBackTitle:''}}/>
       <Stack.Screen name="Event Lobby" component={EventLobby} 
         options={{ gestureEnabled: false, headerShown: false, headerBackTitle:'' }}/>
     </Stack.Navigator>
@@ -124,7 +124,7 @@ var EventsStack = () => {
     <Stack.Navigator initialRouteName="Event Listings" screenOptions={{ gestureEnabled: false, headerShown: false }}>
       <Stack.Screen name="Event Listings" component={EventListings}/>
       <Stack.Screen name="Verify Ticket" component={VerifyTicket} 
-        options={{ gestureEnabled: false,  headerShown: true, headerBackTitle:''}}/>
+        options={{ gestureEnabled: false,  headerShown: false, headerBackTitle:''}}/>
       <Stack.Screen name="Event Lobby" component={EventLobby}  
         options={{ gestureEnabled: false }} />
       <Stack.Screen name="Swap Offer" component={SwapOffer} 

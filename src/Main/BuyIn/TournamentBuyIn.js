@@ -15,6 +15,7 @@ import lightStyle from '../../Themes/light.js'
 export default TournamentBuyIn = (props) => {
   const { store, actions } = useContext(Context)
   const { buyin} = props;
+  const [disabled, setDisabled] = useState(false)
 
   const navigation = useNavigation()
 
@@ -30,8 +31,11 @@ export default TournamentBuyIn = (props) => {
     });
   }
 
-  const handler = throttle(enterProfile, 1000, { leading: true, trailing: false });
-
+  const handler = () => {
+    setDisabled(true)
+    enterProfile();
+    setTimeout(()=>{setDisabled(false)}, 2000)
+  }
   var bg, txt;
   if (props.chips !== 0){
     if (buyin.user_id == store.myProfile.id){
@@ -50,7 +54,7 @@ export default TournamentBuyIn = (props) => {
         <Col style={{width:'70%'}}>
           {/* PROFILE NAME */}
           <Row style={{justifyContent:'center'}}>
-            <Button transparent 
+            <Button disabled={disabled} transparent 
               onPress={()=> handler()}>
               <Text style={{fontSize:24, color:txt,
                 textTransform:'capitalize'}}> 

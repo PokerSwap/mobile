@@ -3,7 +3,7 @@ import { Context } from '../../Store/appContext'
 import { useNavigation } from '@react-navigation/native'
 import messaging from '@react-native-firebase/messaging'
 
-import { AppState, FlatList, Platform, RefreshControl, View, StatusBar } from 'react-native';
+import { AppState, FlatList, Platform, RefreshControl, View, StatusBar, Alert } from 'react-native';
 import { Button, Container, Content, Icon, Tabs, Tab, 
 TabHeading, Text, Toast } from 'native-base';
 

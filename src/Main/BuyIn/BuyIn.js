@@ -24,6 +24,8 @@ export default BuyIn = (props) => {
   const [refreshing, setRefreshing] = useState(true)
   const [ isExpanded, setIsExpanded ] = useState(false)
 
+  const [disabled, setDisabled] = useState(false)
+
   var currentStyle
   store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
 
@@ -72,8 +74,12 @@ export default BuyIn = (props) => {
     });
   }
 
-  const handler = throttle(enterProfile, 1000, { leading: true, trailing: false });
-
+  const handler = () => {
+    setDisabled(true)
+    enterProfile();
+    setTimeout(()=>{setDisabled(false)}, 2000)
+  }
+  
   var bg, txt;
   if (buyin.chips !== 0){
     if (buyin.user_id == store.myProfile.id){
@@ -102,14 +108,12 @@ export default BuyIn = (props) => {
           <Col style={{width:'60%'}}>
             {/* PROFILE NAME */}
             <Row style={{justifyContent:'center'}}>
-              <Button transparent 
+              <Button disabled={disabled} transparent 
                 onPress={()=> handler()}>
                 <Text style={{fontSize:24, color:txt,
                   textTransform:'capitalize'}}> 
                   {buyin.user_id !== store.myProfile.id ? 
-                    buyin.user_name 
-                    : 
-                    store.myProfile.first_name }
+                    buyin.user_name  :  store.myProfile.first_name }
                 </Text>
               </Button>
             </Row>

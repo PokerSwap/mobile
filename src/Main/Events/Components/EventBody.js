@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Context } from '../../../Store/appContext'
 import { useNavigation } from '@react-navigation/native'
-import { throttle } from 'lodash';
+import { throttle, debounce } from 'lodash';
 
 import { View } from 'react-native';
 import { ListItem, Text, Icon } from 'native-base';
@@ -17,10 +17,13 @@ export default EventBody = (props) => {
   var start_at = props.event.start_at
   var bgColor, textColor, borderWidths, buttonColor, path;
 
+  const [disabled, setDisabled] = useState(false)
+
   var currentStyle
   store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
 
   const enterTournament = () => {
+   
     var startAddress = event.casino + '\n' + event.address + '\n' + event.city + ', ' +
       event.state + ' ' + event.zip_code
     navigation.push(path, {
@@ -33,9 +36,14 @@ export default EventBody = (props) => {
       tournament_long: event.tournament.longitude,
       casino: event.casino
     });
+  
   }
 
-  const handler = throttle(enterTournament, 1000, { leading: true, trailing: false });
+  const handler = () => {
+    setDisabled(true)
+    enterTournament();
+    setTimeout(()=>{setDisabled(false)}, 2000)
+  }
 
   // ACTIVE TOURNAMENT VIEW
   if (event.buy_in) { 
@@ -85,7 +93,7 @@ export default EventBody = (props) => {
   }
 
   return(
-    <ListItem noIndent onPress={()=> handler()}
+    <ListItem disabled={disabled} noIndent onPress={()=>  handler()}
       style={{backgroundColor: bgColor, flexGrow:1, 
         flexDirection:'row', justifyContent:'space-between'}}>
       {/* TOURNAMENT DATE */}

@@ -932,24 +932,26 @@ const getState = ({ getStore, setStore, getActions }) => {
 				toResult: async ( data, navigation ) => {
 					try {
 						var currentTournament = await getActions().tracker.getPastSpecific(data.id)
-						var answerParams = {
-							tournament: currentTournament[0].tournament,
-							my_buyin: currentTournament[0].my_buyin,
-							buyins: currentTournament[0].buyins,
-							final_profit: currentTournament[0].final_profit,
-							tournament_end: currentTournament[0].tournament_end
-						}
-						console.log('Buyin Parameter: ', answerParams.buyins)
+						console.log('currentTournament', currentTournament)
+						// var answerParams = {
+						// 	tournament: currentTournament[0].tournament,
+						// 	my_buyin: currentTournament[0].my_buyin,
+						// 	buyins: currentTournament[0].buyins,
+						// 	final_profit: currentTournament[0].final_profit,
+						// 	tournament_end: currentTournament[0].tournament_end
+						// }
+						// console.log('Buyin Parameter: ', answerParams.buyins)
 
 						
 
 						// NAVIGATION ACTION
 						navigation.push(data.finalPath,{
-							tournament: currentTournament[0].tournament,
-							my_buyin: currentTournament[0].my_buyin,
-							buyins: currentTournament[0].buyins,
-							final_profit: currentTournament[0].final_profit,
-							tournament_end: currentTournament[0].tournament_end
+							tournament: currentTournament.tournament,
+							my_buyin: currentTournament.my_buyin,
+							buyins: currentTournament.buyins,
+							final_profit: currentTournament.final_profit,
+							results_link: currentTournament.tournament.results_link,
+							tournament_end: currentTournament.tournament_end
 						});
 
 						setStore({notificationData:null})

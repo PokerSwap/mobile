@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import { Context } from '../../../Store/appContext'
 import { useNavigation } from '@react-navigation/native'
 import moment from 'moment'
@@ -16,6 +16,8 @@ export default ResultsTracker = (props) => {
 
   var currentStyle
   store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
+
+  const [resultsLink, setResultsLink] = useState(props.tournament.results_link)
   
   const navigation = useNavigation()
   const enterProfitResults = () => {
@@ -23,6 +25,7 @@ export default ResultsTracker = (props) => {
     // console.log('buyins as normal', props.buyins)
     navigation.push('Swap Results', {
       tournament: props.tournament,
+      results_link: props.tournament.results_link,
       my_buyin: props.my_buyin,
       buyins: props.buyins,
       final_profit: props.final_profit,
@@ -85,7 +88,7 @@ export default ResultsTracker = (props) => {
         </Text>
       </ListItem>
 
-      {props.tournament.results_link ?
+      {resultsLink ?
         <ListItem noIndent style={{backgroundColor:wColor, justifyContent:'center'}}>
           <Text style={{textAlign:'center', color:'white'}}>{y}</Text>
         </ListItem>
