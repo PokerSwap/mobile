@@ -2,11 +2,13 @@ import React from 'react';
 import { Button, Card, CardItem, 
 Container, Content, Text, H2 } from 'native-base';
 import { useNavigation } from '@react-navigation/native'
+import OtherHeader from '../../View-Components/OtherHeader';
 
 export default TermsAndConditions = (props) => {
   var navigation = useNavigation()
   return(
     <Container>
+      <OtherHeader title={"Terms and Conditions"}/>
       <Content contentContainerStyle={{alignContent:"center",justifyContent:"center"}}>
         {/* PAGE CONTAINER */}
         <Card transparent style={{justifyContent:"center"}} >

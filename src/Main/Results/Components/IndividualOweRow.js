@@ -13,7 +13,7 @@ export default IndividualOweRow = (props) => {
   var currentStyle
   store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
 
-  console.log('we',props.swap)
+  // console.log('we',props.swap)
   return(
     <Row style={{padding:10, borderTopWidth:1, 
       borderColor:'#D3D3D3' }}>

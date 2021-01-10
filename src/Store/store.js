@@ -7,11 +7,11 @@ import moment from 'moment'
 import firebase from 'firebase'; // 4.8.1
 var databaseURL
 
-// Platform.OS == 'ios' ?
-// 	databaseURL = 'http://gabriels-imac.local:3000/' : databaseURL = 'http://10.0.2.2:3000/'
+Platform.OS == 'ios' ?
+	databaseURL = 'http://gabriels-imac.local:3000/' : databaseURL = 'http://10.0.2.2:3000/'
 
 
-databaseURL = 'https://swapprofit-beta.herokuapp.com/'
+// databaseURL = 'https://swapprofit-beta.herokuapp.com/'
 
 
 var errorMessage = (error) => {
@@ -46,6 +46,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 			// CURRENT SWAP ON SCREEN
 			currentSwap:{},
 			currentLobby:[],
+			currentResult:[],
 			// CURRENT TOURNAMENT ON SCREEN
 			currentTournament:null,
 			// MY DEVICE TOKEN
@@ -1063,6 +1064,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						}, 
 					})
 					var addedProfile = await response.json()
+					console.log('Added Profile response', addedProfile)
 
 					return new Promise(resolve =>
 						resolve(getActions().profile.uploadPhoto(a_Picture)
@@ -1190,6 +1192,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				// UPLOAD FIRST PROFILE PHOTO
 				uploadPhoto: async ( image ) => {
 					try {
+						console.log('image', image.uri, image.type)
 						const url = databaseURL + 'profiles/image'
 						const accessToken = getStore().userToken;
 						const imageData = new FormData();
@@ -1197,7 +1200,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						imageData.append("image", {
 							uri: image.uri,
 							type: image.type,
-							name: "example"
+							name: "example.jpg"
 						});
 
 						console.log("Image's Data:", imageData)
@@ -1948,10 +1951,29 @@ const getState = ({ getStore, setStore, getActions }) => {
 							var new_latest = new Date(latest)
 							new_latest.setHours( new_latest.getHours() + 17)
 							var true_end = moment(new_latest).format('llll')
+							// console.log('tracker', tracker)
+							var agreedBuyins = tracker.buyins.filter(buyin => buyin.agreed_swaps.length > 0)
+							var allPaid = []
+								var allConfirmed = []
+							if (agreedBuyins.length !== 0){
+								
+								var eee = tracker.buyins.forEach(buyin => buyin.agreed_swaps.forEach(swap => allPaid.push(swap.paid)))
+								var xxx = tracker.buyins.forEach(buyin => buyin.agreed_swaps.forEach(swap => allConfirmed.push(swap.confirmed)))
+								const isTrues = (currentValue) => currentValue ==true;
+								allPaid.every(isTrues) ? allPaid = true : allPaid = false
+								allConfirmed.every(isTrues) ? allConfirmed = true : allConfirmed = false
+							} else{ 
+								allPaid= null
+								allConfirmed= null
+							}
 							// console.log('EEEE', true_end)
 							return({
 								...tracker,
-								tournament_end: true_end
+								allPaid:allPaid,
+								allConfirmed:allConfirmed,
+								tournament_end: true_end,
+								agreed_buyins: agreedBuyins,
+								results_link: tracker.tournament.results_link,
 							})
 						})
 						setStore({myPastTrackers: newTrackerData})
@@ -1985,7 +2007,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 						var x = trackerData.filter(tracker => tracker.tournament.id == specificID)
 
-						var newTrackerData = x.map((tracker, index)=> {			
+						var newTrackerData = x.map( (tracker, index)=> {			
 							var latest = null
 							var deded = tracker.tournament.flights.forEach(flight =>{
 								var thisTime = flight.start_at
@@ -1999,12 +2021,37 @@ const getState = ({ getStore, setStore, getActions }) => {
 							var new_latest = new Date(latest)
 							new_latest.setHours( new_latest.getHours() + 17)
 							var true_end = moment(new_latest).format('llll')
-							// console.log('EEEE', true_end)
+							var agreedBuyins = tracker.buyins.filter(buyin => buyin.agreed_swaps.length > 0)
+							console.log('agreedBuyuins', agreedBuyins)
+							var allPaid = []
+								var allConfirmed = []
+							if (agreedBuyins.length !== 0){
+								
+								var eee = tracker.buyins.forEach(buyin => buyin.agreed_swaps.forEach(swap => allPaid.push(swap.paid)))
+								var xxx = tracker.buyins.forEach(buyin => buyin.agreed_swaps.forEach(swap => allConfirmed.push(swap.confirmed)))
+								const isTrues = (currentValue) => currentValue ==true;
+								allPaid.every(isTrues) ? allPaid = true : allPaid = false
+								allConfirmed.every(isTrues) ? allConfirmed = true : allConfirmed = false
+							} else{ 
+								allPaid= null
+								allConfirmed= null
+							}
+							console.log(allPaid)
+							console.log(allConfirmed)
+							
+
 							return({
 								...tracker,
-								tournament_end: true_end
+								results_link: tracker.tournament.results_link,
+								allPaid:allPaid,
+								allConfirmed:allConfirmed,
+								tournament_end: true_end,
+								agreed_buyins: agreedBuyins
 							})
 						})
+
+						// console.log( 'NEWST TEKX', newTrackerData[0])
+						setStore({currentResult:newTrackerData[0]})
 						// console.log('newZTeackerSDat', newTrackerData)
 						return newTrackerData[0]
 						// console.log('myPastTrackers', getStore().myPastTrackers)

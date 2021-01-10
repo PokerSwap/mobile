@@ -4,6 +4,7 @@ import { throttle } from 'lodash'
 
 import { TextInput } from 'react-native'
 import { Button, Container, Item, Content, Toast, Icon, Text, View } from 'native-base';
+import OtherHeader from '../../View-Components/OtherHeader';
 
 export default CreateUser = () => {
 	const { store, actions } = useContext(Context)
@@ -42,6 +43,7 @@ export default CreateUser = () => {
 
 	return(
 		<Container >
+			<OtherHeader title={"User Creation"}/>
 			<Content contentContainerStyle={styles.mainContainer}>
 			{submitted ? 
 				// Submitted Success
@@ -84,8 +86,8 @@ export default CreateUser = () => {
 							placeholderTextColor={'grey'}
 
 							textContentType={'newPassword'}
-  						selectTextOnFocus={true}
-  						secureTextEntry
+							selectTextOnFocus={true}
+							secureTextEntry
 							style={styles.textInput}								
 							autoCapitalize='none'
 							returnKeyType="next"

@@ -98,8 +98,9 @@ export default EventResults = (props) => {
 
   var aTracker = ({item, index}) => {
     return(
-      <ResultsTracker key={index} event={item} tournament_end={item.tournament_end}
-        my_buyin= {item.my_buyin} buyins = {item.buyins} final_profit={item.final_profit}
+      <ResultsTracker key={index} event={item} tournament_end={item.tournament_end} 
+      allPaid={item.allPaid} allConfirmed={item.allConfirmed} results_link={item.results_link}
+        my_buyin= {item.my_buyin} agreed_buyins = {item.agreed_buyins} final_profit={item.final_profit}
         tournament={item.tournament} action={item.action}/>
     )
   }
@@ -116,8 +117,7 @@ export default EventResults = (props) => {
             <Text>Refresh</Text>
           </Button>}
         ListFooterComponentStyle={{alignSelf:'center', marginVertical:20}}
-        stickyHeaderIndices={[0]}
-/>
+        stickyHeaderIndices={[0]}/>
     )
   }
     
@@ -138,10 +138,10 @@ export default EventResults = (props) => {
 
   
   return(
-    <Container contentContainerStyle={{backgroundColor:currentStyle.background.color}}>
-      <View style={{height:20,  backgroundColor:currentStyle.background.color}}>
+    <Container contentContainerStyle={{backgroundColor:currentStyle.header.color}}>
+      <View style={{height:20,  backgroundColor:currentStyle.header.color}}>
       <StatusBar StatusBarAnimation={'fade'} barStyle={'light-content'}
-				backgroundColor={currentStyle.background.color}/>
+				backgroundColor={'rgb(38, 171, 75)'}/>
       </View>
       <HomeHeader title={'Event Results'} />
        <Content contentContainerStyle={{flex:1, backgroundColor:currentStyle.background.color}}>

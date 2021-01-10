@@ -19,26 +19,23 @@ export default ResultsTracker = (props) => {
 
   const [resultsLink, setResultsLink] = useState(props.tournament.results_link)
   
+  const {allPaid, allConfirmed} = props
   const navigation = useNavigation()
   const enterProfitResults = () => {
     // console.log('the final profit is', props.final_profit)
-    // console.log('buyins as normal', props.buyins)
+    console.log('buyins as normal', props.agreed_buyins)
     navigation.push('Swap Results', {
       tournament: props.tournament,
       results_link: props.tournament.results_link,
       my_buyin: props.my_buyin,
-      buyins: props.buyins,
+      agreed_buyins: props.agreed_buyins,
       final_profit: props.final_profit,
+      allPaid: props.allPaid,
       tournament_end: props.tournament_end
     })
   }
 
-  var allPaid = []
-  var allConfirmed = []
-  const isTrues = (currentValue) => currentValue ==true;
 
-  var eee = props.buyins.forEach(buyin => buyin.agreed_swaps.forEach(swap => allPaid.push(swap.paid)))
-  var xxx = props.buyins.forEach(buyin => buyin.agreed_swaps.forEach(swap => allConfirmed.push(swap.confirmed)))
 
   var x = 'You have ' + ' to pay your swaps for a ' + + ' star rating'
   const fiveStar = moment(props.tournament.updated_at).add(48, 'hours')
@@ -50,10 +47,10 @@ export default ResultsTracker = (props) => {
 
   var x = (e, f) =>  'To recieve a ' + f + ' star Swap rating,\ncomplete full payment of your Swaps by :\n' + e
   var y, wColor
-  if(allPaid.every(isTrues) && allConfirmed.every(isTrues)){
+  if(allPaid && allConfirmed){
     y = 'All Swaps Paid and Confirmed'
     wColor = 'black'
-  }else if(allPaid.every(isTrues)){
+  }else if(allPaid){
     y = 'All Swaps Paid, Waiting on Confirmation'
     wColor = 'black'
   }else if(now.isBefore(fiveStar)){

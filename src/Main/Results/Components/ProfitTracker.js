@@ -73,12 +73,12 @@ export default ProfitTracker = (props) => {
       ]
     )
   }
-
+  console.log(props.buyin.recipient_buyin)
   let final_swap_profit
   let swap_profit = props.buyin.they_owe_total - props.buyin.you_owe_total
   swap_profit >= 0 ?
-    final_swap_profit = props.buyin.recipient_buyin.first_name +' owes you:' 
-    : final_swap_profit = "You owe " + props.buyin.recipient_buyin.first_name + ":"
+    final_swap_profit = props.buyin.recipient_buyin.user_name +' owes you:' 
+    : final_swap_profit = "You owe " + props.buyin.recipient_buyin.user_name + ":"
     
   var message, fn, buttonColor
   if (swap_profit !== 0 && (props.buyin.they_owe_total && props.buyin.you_owe_total)){

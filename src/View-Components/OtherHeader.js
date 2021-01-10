@@ -22,6 +22,8 @@ export default OtherHeader = (props) => {
     setDisabled(true)
     if(props.title == "Event Lobby"){
       navigation.popToTop()
+    }else if(props.title == "User Creation"){
+      navigation.pop(2)
     }else{
       navigation.goBack(null)
     }

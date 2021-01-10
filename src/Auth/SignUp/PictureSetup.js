@@ -65,7 +65,7 @@ export default  PictureSetup = (props) => {
     };
     
     ImagePicker.showImagePicker(options, (response) => {
-      console.log('Response = ', response);
+      console.log('Response = ', Object.keys(response));
     
       if (response.didCancel) {
         console.log('User cancelled image picker');
@@ -97,7 +97,7 @@ export default  PictureSetup = (props) => {
       const selectedImage = {
         uri: response.uri,
         type: type.toLowerCase(),
-        name,
+        name: name,
       };
       props.onChangePicture(selectedImage)
       setImage(selectedImage.uri );

@@ -4,7 +4,7 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 import moment from 'moment'
 
 import { AppState, Modal, View, FlatList, RefreshControl, StatusBar } from 'react-native';
-import { Container, Content, List, Text, ListItem, Button } from 'native-base';
+import { Container, Content, List, Text, ListItem, Button, Segment } from 'native-base';
 import Spinner from 'react-native-loading-spinner-overlay'
 import { Grid, Row, Col } from 'react-native-easy-grid'
 
@@ -21,7 +21,7 @@ export default ProfitResults = (props) => {
 
   const route = useRoute()
   const navigation = useNavigation();
-  const { tournament, my_buyin, buyins, final_profit } = route.params;
+  const { tournament, my_buyin, agreed_buyins, final_profit, results_link } = route.params;
 
   var currentStyle
   store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
@@ -29,35 +29,46 @@ export default ProfitResults = (props) => {
   const [ loading, setLoading ] = useState(false)
   const [ visible, setVisible ] = useState(false)
   const [ refreshing, setRefreshing ] = useState(false)
-  const [ allPaid, setAllPaid ] = useState(true)
-  const [ theTournament, setTheTournament ] = useState(tournament)
+  const [ resultsLink, setResultsLink] = useState(results_link)
+  const [ allPaid, setAllPaid ] = useState(route.params.allPaid)
   const [ _my_buyin, set_My_Buyin ] = useState(my_buyin)
-  const [ theBuyins, setTheBuyins ] = useState(buyins)
+  const [ agreedBuyins, setAgreedBuyins] = useState(agreed_buyins)
   const [ theFinalProfit, setTheFinalProfit ] = useState(final_profit)
 
-  var agreedBuyins = theBuyins.filter(buyin => buyin.agreed_swaps.length > 0)
-  
-  useEffect(() => {
-    if (agreedBuyins.length!== 0){
-      var x = agreedBuyins.forEach((buyin, index) => {
-        if (buyin.they_owe_total && buyin.you_owe_total){
-          null
-        }else{
-          setAllPaid(false)
-        }
-      })
-    }
-    
-    getBuyin()
-    setRefreshing(false)
+
+  useEffect(() => {  
+    const unsubscribe = navigation.addListener('focus', () => {
+      
+      
+    getT()
+    set_My_Buyin(store.currentResult.my_buyin)
+    setResultsLink(store.currentResult.resultsLink)
+    setTheFinalProfit(store.currentResult.final_profit)
+    setAgreedBuyins(store.currentResult.agreed_buyins)
+    setAllPaid(store.currentResult.allPaid)
+    wait(2000).then(() => setRefreshing(false));
+  });
+
     return () => {
-      // cleanup
+      unsubscribe
     }
   }, [refreshing])
 
-  var getBuyin = async() => {
-    var eee = await actions.buy_in.getCurrent(_my_buyin.id) 
+  var getT = () => {
+    return(actions.tracker.getPastSpecific(tournament.id))
   }
+
+  // useEffect(() => {
+  //   setRefreshing(true)
+    
+  //   actions.refresh.offer(false)
+  //   setRefreshing(false)
+  //   // return () => {
+  //   //   cleanup
+  //   // }
+  // }, [store.refreshResult])
+
+
   function wait(timeout) {
     return new Promise(resolve => {
       setTimeout(resolve, timeout);
@@ -65,12 +76,12 @@ export default ProfitResults = (props) => {
   }
   const onRefresh = useCallback(async() => {
     setRefreshing(true);
-    var answer = await actions.tracker.getPastSpecific(theTournament.id)
-    setTheTournament(answer.tournament)
+    var answer = await actions.tracker.getPastSpecific(tournament.id)
     set_My_Buyin(answer.my_buyin)
+    setResultsLink(store.currentResult.resultsLink)
+    setAllPaid(store.currentResult.allPaid)
+    setAgreedBuyins(store.currentResult.agreed_buyins)
     setTheFinalProfit(answer.final_profit)
-    setTheBuyins(answer.buyins)
-     agreedBuyins = theBuyins.filter(buyin => buyin.agreed_swaps.length > 0)
      wait(2000).then(() => setRefreshing(false));
   }, [refreshing]);
 
@@ -97,43 +108,45 @@ export default ProfitResults = (props) => {
 
     appState.current = nextAppState;
     setAppStateVisible(appState.current);
-    var answer = actions.tracker.getPastSpecific(theTournament.id)    
-    setTheTournament(answer.tournament)
+    var answer = actions.tracker.getPastSpecific(tournament.id)    
     set_My_Buyin(answer.my_buyin)
     setTheFinalProfit(answer.final_profit)
-    setTheBuyins(answer.buyins)
-     agreedBuyins = theBuyins.filter(buyin => buyin.agreed_swaps.length > 0)
+    setAgreedBuyins(answer.agreed_buyins)
+    setResultsLink(answer.resultsLink)
+    setAllPaid(answer.allPaid)
     console.log("AppState", appState.current);
   };
 
+  console.log('check', agreedBuyins)
   // REFRESH AFTER REOPENING FROM BACKGROUND (END)
 
 
   var profit
-  allPaid & theTournament.results_link !== null ? 
+  allPaid & results_link !== null ? 
     theFinalProfit >= 0 ?
       profit = "$" + Math.abs(theFinalProfit).toFixed(2)
       : profit = "-$" + Math.abs(theFinalProfit).toFixed(2)
-    : agreedBuyins.length == 0 ? 
+    : agreedBuyins == [] || agreedBuyins == undefined ? 
         profit= '$0.00' : profit = "Pending"
   
 
   var openResults = () => {
-    console.log('url',theTournament.results_link)
     navigation.push('Web View',{
-      url: theTournament.results_link
+      url: results_link
     })
   }
 
+    console.log('item', Object.keys(store.currentResult)  )
+
   const profitTracker = ({ item, index }) => { 
+    console.log('item', Object.keys(item))
     return(
-      <ProfitTracker key={index}  myPlace={_my_buyin.place}
+      <ProfitTracker key={index} my_buyin={my_buyin}  myPlace={my_buyin.place}
             buyin={item} agreed_swaps={item.agreed_swaps}/>
     )
   }
-
   return(
-    <View style={{flex:1}}>
+    <Container style={{flex:1, height:'100%'}}>
       <View style={{height:20,  backgroundColor:currentStyle.header.color}}>
         <StatusBar StatusBarAnimation={'fade'} barStyle={'light-content'}
           backgroundColor={'rgb(38, 171, 75)'}/>
@@ -149,81 +162,74 @@ export default ProfitResults = (props) => {
         <BustedModal 
           setRefreshing={setRefreshing}
           setVisible={setVisible} setLoading={setLoading}
-          buyin_id={_my_buyin.id} 
-          tournament_id={theTournament.id}
+          buyin_id={my_buyin.id} 
+          tournament_id={tournament.id}
           mode={'entry'} />  
       </Modal>
-    
-    
-   
-      {/* NO SWAPS TEXT */}
-      {agreedBuyins.length == 0 ?
-        <FlatList
-          refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-          ListFooterComponent={
-            <Segment style={{
-              width:'80%', marginTop:20, alignSelf:'center', backgroundColor:'rgba(0,0,0,0)'}}>
-              <Text style={{textAlign:'center', paddingVertical:10, color:currentStyle.text.color}}>
-                You didn't agree to any swaps in this event.
-              </Text>
-            </Segment>}/>
-        : <FlatList
-          style={{backgroundColor:currentStyle.background.color}}
-          data={agreedBuyins}
-          renderItem={profitTracker}
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={onRefresh} />}
-          keyExtractor={(content, index) => index.toString()}
-          ListHeaderComponent={<View style={{backgroundColor:currentStyle.background.color}}>
-          <Text style={{justifyContent:'center', marginTop:20, textAlign:'center', fontWeight:'600', fontSize:20, color:currentStyle.text.color}}> 
-              {theTournament.name}
-            </Text>
-    
-            <View style={{ width:'100%'}}>
-                {/* TOURNAMENT CASINO and Address*/}
-                <Text style={{marginTop:20, textAlign:'center', color:currentStyle.text.color}}>
-                  {theTournament.casino + '\n' + theTournament.address + '\n' + 
-                    theTournament.city + ', ' + theTournament.state + ' ' + theTournament.zip_code}
-                </Text>
-                {/* TOURNAMENT START TIME */}
-                <Text style={{justifyContent:'center', marginVertical:10, textAlign:'center', fontSize:16, color:currentStyle.text.color}}>
-                  {moment(theTournament.start_at).format('llll')}
-                </Text>
-              </View>
-              
-    
-              {theTournament.results_link ? 
-                <View style={{flexDirection:'column', justifyContent:'center', marginTop:10}}>
-                  <Button style={{width:'80%', alignSelf:'center'}} block onPress={() => openResults()}>
-                    <Text style={{color:currentStyle.text.color}}>
-                      See Complete Event Results
-                    </Text>
-                  </Button>
-                  <Text style={{marginTop:15, textAlign:'center', marginBottom:5, color:currentStyle.text.color}}>
-                    Results posted {moment(theTournament.updated_at).fromNow()}.
-                  </Text>
-                </View>                
-              : null}
-          
-        </View>}
-          ListFooterComponent={
-            <View style={{paddingVertical:30}}>
-                <Text style={{fontSize:24, textAlign:'center', color:currentStyle.text.color}}>
-                Your final profit is:
-              </Text>
-              <Text style={{fontSize:36, fontWeight:'600', textAlign:'center', color:currentStyle.text.color}}>
-                {profit}
-              </Text>
-            </View>} /> }
-          
-         
-      {/* FINAL PROFIT */}
-            
-          
+      <View style={{backgroundColor:currentStyle.background.color, height:'100%'}}>
+     
 
-    </View>
+      
+    
+      {/* NO SWAPS TEXT */}
+      <FlatList
+          style={{backgroundColor:currentStyle.background.color}}
+          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+          data={store.currentResult.agreed_buyins}
+          renderItem={profitTracker}
+          ListHeaderComponent={
+            <View style={{ width:'100%', backgroundColor:currentStyle.backgroundColor}}>
+              <Text style={{justifyContent:'center', marginTop:20, textAlign:'center', fontWeight:'600', fontSize:20, color:currentStyle.text.color}}> 
+                {tournament.name}
+              </Text>
+              {/* TOURNAMENT CASINO and Address*/}
+              <Text style={{marginTop:20, textAlign:'center', color:currentStyle.text.color}}>
+                {tournament.casino.name + '\n' + tournament.casino.address + '\n' + 
+                  tournament.casino.city + ', ' + tournament.casino.state + ' ' + tournament.casino.zip_code}
+              </Text>
+              {/* TOURNAMENT START TIME */}
+              <Text style={{justifyContent:'center', marginVertical:10, textAlign:'center', fontSize:16, color:currentStyle.text.color}}>
+                {moment(tournament.start_at).format('llll')}
+              </Text>
+              {store.currentResult.results_link !== null ? 
+              <View style={{flexDirection:'column', alignSelf:'center', width:'80%', justifyContent:'center', marginTop:10}}>
+                <Button style={{alignSelf:'center'}} block onPress={() => openResults()}>
+                  <Text style={{color:currentStyle.text.color, }}>
+                    See Complete Event Results
+                  </Text>
+                </Button>
+                 <Text style={{marginTop:15, marginBottom:5, textAlign:'center', color:currentStyle.text.color}}>
+                   Results posted {moment(tournament.updated_at).fromNow()}.
+                 </Text>
+               </View>                
+            : null}
+            </View>}
+          ListFooterComponent={
+            <View style={{backgroundColor:currentStyle.background.color, alignSelf:'center', width:'80%'}}>
+          {store.currentResult.agreed_buyins == [] || store.currentResult.agreed_buyins == undefined ?
+            <Text style={{color:currentStyle.text.color, paddingTop:20,  fontSize:20, textAlign:'center'}}>
+              You did not agree to any swaps in this event.
+            </Text> 
+            : <View style={{paddingVertical:30, paddingBottom:100}}>
+            <Text style={{fontSize:24, textAlign:'center', color:currentStyle.text.color}}>
+              Your final profit is:
+            </Text>
+            <Text style={{fontSize:36, fontWeight:'600', textAlign:'center', color:currentStyle.text.color}}>
+              {profit}
+            </Text>
+          </View> }
+            
+          </View>
+          }
+        />
+        
+          
+    
+          
+           
+         
+     </View>     
+
+    </Container>
   )
 }

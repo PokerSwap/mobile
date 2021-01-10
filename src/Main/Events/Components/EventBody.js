@@ -23,18 +23,21 @@ export default EventBody = (props) => {
   store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
 
   const enterTournament = () => {
+
+    var {casino} = event
+    console.log('casino', casino.address)
    
-    var startAddress = event.casino + '\n' + event.address + '\n' + event.city + ', ' +
-      event.state + ' ' + event.zip_code
+    var startAddress = casino.name + '\n' + casino.address + '\n' + casino.city + ', ' +
+    casino.state + ' ' + casino.zip_code
     navigation.push(path, {
       tournament_id: event.tournament_id,
       tournament_start: event.start_at,
       tournament_name: event.name,
       tournament_address: startAddress,
       flight_id: event.id,
-      tournament_lat: event.tournament.latitude,
-      tournament_long: event.tournament.longitude,
-      casino: event.casino
+      tournament_lat: casino.latitude,
+      tournament_long: casino.longitude,
+      casino: casino.name
     });
   
   }
@@ -76,7 +79,7 @@ export default EventBody = (props) => {
     renderedItem = 
       <Text style={{fontWeight:"600", fontSize:12, 
         color:textColor, marginTop:5}}>
-        {event.city}
+        {event.casino.city}
       </Text>
   }else if(props.mode=='byLocation'){
     renderedItem=

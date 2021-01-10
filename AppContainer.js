@@ -68,8 +68,8 @@ var AuthStack = () => {
       <Stack.Screen name="Splash" component={SplashScreen} />
       <Stack.Screen name="Login" component={LogInScreen} options={{ headerShown: false }}/>
       <Stack.Screen name="Forgot Password" component={ForgotPassword} options={{ headerShown: true }}/>
-      <Stack.Screen name="User Creation" component={CreateUser} options={{ headerShown: true }}/>
-      <Stack.Screen name="Terms and Conditions" component={TermsAndConditions} options={{ headerShown: true }}/>
+      <Stack.Screen name="User Creation" component={CreateUser} options={{ headerShown: false }}/>
+      <Stack.Screen name="Terms and Conditions" component={TermsAndConditions} options={{ headerShown: false }}/>
       <Stack.Screen name="Profile Creation" component={CreateProfile} options={{ headerShown: true }}/>
     </Stack.Navigator>
   )

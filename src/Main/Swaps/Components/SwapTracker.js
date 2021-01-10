@@ -24,16 +24,17 @@ export default SwapTracker = (props) => {
 
   const enterTournament = () => {
     var {event} = props
-    var address = event.tournament.casino + '\n' + event.tournament.address + '\n' 
-      + event.tournament.city + ' ' + event.tournament.state + ' ' + event.tournament.zip_code
+    var {casino} = props.event.tournament
+    var address = casino.name + '\n' + casino.address + '\n' 
+      + casino.city + ' ' + casino.state + ' ' + casino.zip_code
     navigation.push('Event Lobby', {
       tournament_id: event.tournament.id,
       tournament_name: event.tournament.name,
       tournament_start: event.tournament.start_at,
       tournament_address: address, 
-      tournament_lat: event.tournament.latitude,
-      tournament_long: event.tournament.longitude,
-      casino: event.casino
+      tournament_lat: casino.latitude,
+      tournament_long: casino.longitude,
+      casino: casino.name
     });
   }
  
