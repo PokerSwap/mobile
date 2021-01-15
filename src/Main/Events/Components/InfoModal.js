@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Context } from '../../../Store/appContext'
-import moment from 'moment'
+import moment from 'moment-timezone'
 
 import { Linking, TouchableOpacity, View } from 'react-native'
 import { Button, Text } from 'native-base'
@@ -11,12 +11,13 @@ import lightStyle from '../../../Themes/light.js'
 export default InfoModal = (props) => {
   const { store, actions } = useContext(Context)
 
+  const {casino} = props.tournament
   var currentStyle
   store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
 
   const openGPS = () => {
     var scheme = Platform.OS === 'ios' ? 'maps:' : 'geo:';
-    var url = scheme + `${props.latitude},${props.longitude}` 
+    var url = scheme + `${props.tournament.casino.latitude},${props.tournament.casino.longitude}` 
     Linking.openURL(url);
   }
 
@@ -26,24 +27,33 @@ export default InfoModal = (props) => {
       <View style={ [modalStyles.main, {backgroundColor:currentStyle.background.color}] }> 
         {/* TOURNAMENT ADDRESS */}
         <Text style={{fontSize:20, textAlign:'center', fontWeight:'600',color:currentStyle.text.color}}>
-          {props.tournament_name}
+          {props.tournament.name}
         </Text>
         {/* TOURNAMENT START DATE */}
         <Text style={{textAlign:'center', paddingVertical:10, color:currentStyle.text.color}}>
-          {moment(props.tournament_start).format('llll')}
+          {moment(props.tournament.start_at).tz(props.tournament.casino.time_zone).format('llll z')}
         </Text>
         {/* TOURNAMENT ADDRESS */}
         <TouchableOpacity onPress={() => openGPS()}>
           <Text style={{textAlign:'center', color:'rgb(0, 122, 255)', color:currentStyle.text.color}}>
-            {props.tournament_address}
+            {casino.name}{'\n'}{casino.address}{'\n'}{casino.city}, {casino.state} {casino.zip_code}
           </Text>
         </TouchableOpacity>
         {/* DETAIL ROW 1 */}
         <View style={{flexDirection:'row', paddingTop:10}}>
           {/* STARTING STACK FIELD */}
-          <View style={{width:'50%'}}>
+          <View style={{width:'100%'}}>
             <Text style={{fontWeight:'600',textAlign:'center', color:currentStyle.text.color}}>Starting Stack:</Text>
             <Text style={{textAlign:'center', fontSize:20, color:currentStyle.text.color}}>15,000</Text>
+          </View>
+        </View>
+        {/* DETAIL ROW 2 */}
+        <View style={{flexDirection:'row', paddingTop:10}}>           
+
+          {/* BUY-IN AMOUNT */}
+          <View style={{width:'50%'}}>
+            <Text style={{fontWeight:'600',textAlign:'center', color:currentStyle.text.color}}>Buy-In:</Text>
+            <Text style={{textAlign:'center', fontSize:20, color:currentStyle.text.color}}>$500</Text>
           </View>
           {/* BLINDS FIELD */}
           <View style={{width:'50%'}}>
@@ -51,17 +61,20 @@ export default InfoModal = (props) => {
             <Text style={{textAlign:'center', fontSize:20, color:currentStyle.text.color}}>20</Text>
           </View>
         </View>
-        {/* DETAIL ROW 2 */}
-        <View style={{flexDirection:'row', paddingTop:10}}>           
-          <View style={{width:'50%'}}>
-            <Text style={{fontWeight:'600',textAlign:'center', color:currentStyle.text.color}}>Placeholder:</Text>
-            <Text style={{textAlign:'center', fontSize:20, color:currentStyle.text.color}}>Here</Text>
-          </View>
-          {/* BUY-IN AMOUNT */}
-          <View style={{width:'50%'}}>
-            <Text style={{fontWeight:'600',textAlign:'center', color:currentStyle.text.color}}>Buy-In:</Text>
-            <Text style={{textAlign:'center', fontSize:20, color:currentStyle.text.color}}>$500</Text>
-          </View>
+        <View style={{flexDirection:'row', paddingTop:10}}>
+          
+            <View style={{width:'100%'}}>
+              <Text style={{fontWeight:'600',textAlign:'center', color:currentStyle.text.color}}>Structure Link:</Text>
+              {props.tournament.structure_link ?
+              <TouchableOpacity onPress={()=> console.log('ney')}>
+                <Text style={{textAlign:'center', fontSize:20, color:currentStyle.text.color}}>Click Here</Text>
+              </TouchableOpacity>
+                
+                :
+                <Text style={{textAlign:'center', fontSize:20, color:currentStyle.text.color}}>Not Available</Text>}
+            </View>
+           
+          
         </View>
         {/* CLOSE BUTTON */}
         <Button block  light iconRight onPress={() => props.setVisible(false)}

@@ -35,7 +35,8 @@ export default VerifyTicket = (props) => {
 
   var navigation = useNavigation();
   var route = useRoute();
-  const { tournament_name, tournament_start, flight_id, tournament_address,  tournament_id,  casino } = route.params;
+  const { tournament } = route.params;
+  console.log('this is the result', tournament)
 
   useEffect(() => {
     getTournament()
@@ -45,7 +46,7 @@ export default VerifyTicket = (props) => {
   }, [])
 
   const getTournament = async() => {
-    var xw = await actions.tournament.getCurrent(tournament_id)
+    var xw = await actions.tournament.getCurrent(tournament.id)
     setCurrentTournament(xw)
   }
   
@@ -85,6 +86,8 @@ Platform.OS == 'ios' ? styles = iosStyles : styles = androidStyles
       }
     )
   };
+
+  // console.log('casino', casino)
 
   const UploadTicketPhoto = async() => {
 
@@ -139,8 +142,7 @@ Platform.OS == 'ios' ? styles = iosStyles : styles = androidStyles
   const BuyInStart = async() => {
     setLoading(true)
     var x = await actions.buy_in.add( 
-    image, table, seat, chips, flight_id, tournament_id, tournament_name, 
-    tournament_start, tournament_address, casino, navigation )
+    image, table, seat, chips, tournament, navigation )
     setLoading(false)
   }
  
@@ -169,12 +171,9 @@ Platform.OS == 'ios' ? styles = iosStyles : styles = androidStyles
           visible={visible}
           presentationStyle='overFullScreen'
           transparent={true}>
-          <InfoModal  setVisible={setVisible}
-            tournament_name={tournament_name}
-            tournament_address={tournament_address} 
-            tournament_start={tournament_start}
-            tournament={currentTournament}
-            />
+          <InfoModal  
+            setVisible={setVisible}
+            tournament={tournament} />
         </Modal>
         {/* TOURNEY INFO */}
         <Card transparent style={{backgroundColor:currentStyle.background.color}}>
@@ -183,7 +182,7 @@ Platform.OS == 'ios' ? styles = iosStyles : styles = androidStyles
             backgroundColor:currentStyle.background.color}}>
             <Text style={{textAlign:'center', fontSize:20, marginBottom:10, 
               fontWeight:'600',color:currentStyle.text.color}}>
-              {tournament_name} 
+              {tournament.name} 
             </Text>
 
             <Button block info onPress={() => setVisible(!visible)}>

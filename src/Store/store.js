@@ -3,7 +3,8 @@ import { Alert, Platform } from 'react-native'
 import { Toast } from 'native-base'
 import AsyncStorage from '@react-native-community/async-storage'
 import { CommonActions } from '@react-navigation/native';
-import moment from 'moment'
+import moment from 'moment-timezone'
+
 import firebase from 'firebase'; // 4.8.1
 var databaseURL
 
@@ -107,8 +108,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 			// BUY IN ACTIONS
 			buy_in:{
 				// CREATING A BUYIN AND (RE)-BUYING-IN INTO A TOURNAMENT
-				add: async ( image, a_table, a_seat, some_chips, a_flight_id, a_tournament_id, a_tournament_name, a_tournament_start, a_tournament_address, a_casino, navigation) => {
+				add: async ( image, a_table, a_seat, some_chips, a_tournament, navigation) => {
 					try{	
+						console.log('a_tournament', a_tournament)
 						// console.log('flight_id', a_flight_id)
 						// PREVENTS EMPTY PICTURE SUBMISSION
 						if (image == 3){
@@ -122,7 +124,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						// BUYIN DATA SETUP
 						var newBuyin
 						let accessToken = getStore().userToken
-						const imageURL = databaseURL + 'me/buy_ins/flight/'+ a_flight_id +'/image'	
+						const imageURL = databaseURL + 'me/buy_ins/flight/'+ a_tournament.id +'/image'	
 						console.log('eeee', imageURL)
 	
 						const imageData = new FormData();
@@ -223,14 +225,11 @@ const getState = ({ getStore, setStore, getActions }) => {
 						// }else{null}
 
 						// VALIDATING BUYIN (DONE ONCE)
-						var validatingBuyin = await getActions().buy_in.edit(newBuyin.buyin_id, a_table, a_seat, some_chips, a_tournament_id, true)
+						var validatingBuyin = await getActions().buy_in.edit(newBuyin.buyin_id, a_table, a_seat, some_chips, a_tournament.tournament_id, true)
 
 						var enteringTournament = await navigation.push('Event Lobby', {
-							tournament_name: a_tournament_name,
-							tournament_id: a_tournament_id,
-							tournament_start: a_tournament_start,
-							tournament_address: a_tournament_address,
-							action: null
+							tournament: a_tournament,
+							tournament_id: a_tournament.tournament_id
 						})
 
 						
@@ -1725,6 +1724,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 						var initialTournaments = await response.json()
 						// console.log('iii', initialTournaments)
+						console.log(initialTournaments[0].tournament_id)
+
 						var aaaa = []
 
 						var allInitialTournaments =  initialTournaments.forEach(tournament =>{
@@ -1734,12 +1735,17 @@ const getState = ({ getStore, setStore, getActions }) => {
 							var action =null
 
 							if(tournament.buyin){
-								 action = getActions().tournament.retrieveAction(tournament.id)}
+								 action = getActions().tournament.retrieveAction(tournament.tournament_id)}
+							
+							
+								 
 							aaaa.push({
 								'action': action,
 								'name': tournament.tournament + x,
+								'local': moment(tournament.start_at).tz(tournament.casino.time_zone).format('h:mm A z'),
 								...tournament
 							})
+							// console.log('aaaa',aaaa)
 						})
 						// var now = moment()
 						// var aaaab = aaaa.filter(x => now.isBefore(moment(x.start_at).add(17, 'hours')))
@@ -1771,9 +1777,11 @@ const getState = ({ getStore, setStore, getActions }) => {
 								'Content-Type':'application/json'
 							}, 
 						})
+						console.log()
 
 						var tournamentData = getStore().tournamentList
 						let newData = await response.json()
+
 
 						var aaaa = []
 
@@ -1785,7 +1793,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 									
 									var action =null
 									if(tournament.buyin){
-								 		action = getActions().tournament.retrieveAction(tournament.id)}
+								 		action = getActions().tournament.retrieveAction(tournament.tournament_id)}
 						
 									aaaa.push({
 										'action': action,
@@ -1808,6 +1816,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				// RETRIEVES CURRENT ACTION FOR FORMULA USE 
 				retrieveAction: async ( a_tournament_id ) => {
 					try{
+						console.log('Coming in', a_tournament_id)
 						const url = databaseURL + 'swaps/me/tournament/' + a_tournament_id;
 						const accessToken = getStore().userToken ;
 						let response = await fetch(url, {
@@ -1893,7 +1902,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						let trackerData = await response.json()
 						// console.log('trackerData',trackerData)
 						
-						var getIds = trackerData.map(tracker => tracker.tournament.id)
+						var getIds = trackerData.map(tracker => tracker.tournament.tournament_id)
 						
 						const asyncRes = await Promise.all(getIds.map(async (i) => {
 							 var e = await getActions().tournament.retrieveAction(i);
@@ -2078,7 +2087,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						let trackerData = await response.json()
 						// console.log('trackerData',trackerData)
 						
-						var getIds = trackerData.map(tracker => tracker.tournament.id)
+						var getIds = trackerData.map(tracker => tracker.tournament.tournament_id)
 						
 						const asyncRes = await Promise.all(getIds.map(async (i) => {
 							 var e = await getActions().tournament.retrieveAction(i);

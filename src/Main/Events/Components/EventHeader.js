@@ -24,21 +24,17 @@ export default EventHeader = (props) => {
           visible={visible}
           presentationStyle='overFullScreen'
           transparent={true}>
-          <InfoModal  setVisible={setVisible}
-            tournament_name={props.tournament_name}
-            tournament_address={props.tournament_address} 
-            tournament_start={props.tournament_time}
-            latitude={props.lat}
-            longitude={props.lat}
-            casino={props.casino}/>
+          <InfoModal  
+            setVisible={setVisible} 
+            tournament={props.tournament} />
         </Modal>
       {/* TOURNAMENT NAME */}
       <Text style={{ fontSize:18, fontWeight:'600', textAlign:'center', color:currentStyle.text.color}}>
-        {props.tournament_name}
+        {props.tournament.name}
       </Text>
       {/* TOURNAMENT START */}
       <Text style={{fontSize:14, textAlign:'center', marginTop:10, marginBottom:10, color:currentStyle.text.color}}>
-        {moment(props.tournament_time).format('llll')}
+        {moment(props.tournament.start_at).format('llll')}
       </Text>    
       <Button block info onPress={() => setVisible(!visible)}>
         <Text>Event Info</Text>

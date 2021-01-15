@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, useCallback, useRef } from 'react';
 import { Context } from '../../Store/appContext'
 import { useNavigation, useRoute } from '@react-navigation/native'
-import moment from 'moment'
+import moment from 'moment-timezone'
 
 import { AppState, Modal, View, FlatList, RefreshControl, StatusBar } from 'react-native';
 import { Container, Content, List, Text, ListItem, Button, Segment } from 'native-base';
@@ -117,7 +117,7 @@ export default ProfitResults = (props) => {
     console.log("AppState", appState.current);
   };
 
-  console.log('check', agreedBuyins)
+  // console.log('check', agreedBuyins)
   // REFRESH AFTER REOPENING FROM BACKGROUND (END)
 
 
@@ -189,7 +189,7 @@ export default ProfitResults = (props) => {
               </Text>
               {/* TOURNAMENT START TIME */}
               <Text style={{justifyContent:'center', marginVertical:10, textAlign:'center', fontSize:16, color:currentStyle.text.color}}>
-                {moment(tournament.start_at).format('llll')}
+                {moment(tournament.start_at).tz(tournament.casino.time_zone).format('llll z')}
               </Text>
               {store.currentResult.results_link !== null ? 
               <View style={{flexDirection:'column', alignSelf:'center', width:'80%', justifyContent:'center', marginTop:10}}>

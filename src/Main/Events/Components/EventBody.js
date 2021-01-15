@@ -24,20 +24,10 @@ export default EventBody = (props) => {
 
   const enterTournament = () => {
 
-    var {casino} = event
-    console.log('casino', casino.address)
-   
-    var startAddress = casino.name + '\n' + casino.address + '\n' + casino.city + ', ' +
-    casino.state + ' ' + casino.zip_code
+    
     navigation.push(path, {
-      tournament_id: event.tournament_id,
-      tournament_start: event.start_at,
-      tournament_name: event.name,
-      tournament_address: startAddress,
-      flight_id: event.id,
-      tournament_lat: casino.latitude,
-      tournament_long: casino.longitude,
-      casino: casino.name
+      tournament: event,
+      tournament_id:event.tournament_id
     });
   
   }
@@ -69,7 +59,8 @@ export default EventBody = (props) => {
       if(startHour == 0){ startM = ' AM', startHour=12 }
       else{ startM = ' PM' }
     }
-  var startTime = startHour + ':' + start_at.substring(20,22) + startM
+  var startTime = event.local
+  // startHour + ':' + start_at.substring(20,22) + startM + event.casino.time_zone
 
 
   var renderedItem 
@@ -116,7 +107,7 @@ export default EventBody = (props) => {
             {month} {day}
           </Text>
           {/* TOURNAMENT START DATE */}
-          <Text style={{fontWeight:"400", fontSize:16, 
+          <Text style={{fontWeight:"400", fontSize:12, 
             color:textColor, marginTop:5, textAlign:'center'}}>
             {startTime}
           </Text>

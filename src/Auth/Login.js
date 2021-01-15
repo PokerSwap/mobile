@@ -26,8 +26,8 @@ if (Platform.OS == 'ios'){
 
 export default LoginScreen = ({navigation}) => {
   const { store, actions } = useContext(Context)
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('gherndon5@gmail.com')
+  const [password, setPassword] = useState('Tryagain5')
   const [loading, setLoading] = useState(false)
   const [loginColor, setLoginColor] = useState('#000099')
   const [signupColor, setSignupColor] = useState('#FF6600')
@@ -99,7 +99,7 @@ export default LoginScreen = ({navigation}) => {
               keyboardType="email-address"
               blurOnSubmit={false}
               selectionColor={'#D3D3D3'}
-              returnKeyType="next"
+              returnKeyType="next" 
               autoCapitalize='none'
               autoCorrect={false} 
               onSubmitEditing={() => { txtPassword.focus(); }}

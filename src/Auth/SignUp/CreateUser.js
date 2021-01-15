@@ -16,13 +16,14 @@ export default CreateUser = () => {
 	const [ submitted, setSubmitted ] = useState(false)
 	const [ disabled, setDisabled] = useState(false)
 
+	let ree = /^(?=.{6,})(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+-=]).*$/
+
 	const createUser = async() => {
-		email !== ''?
-		 password.length >= 6 ?
-			password == c_password ?
-				userStart() : errorMessage('Make sure your passwords match')
-		: errorMessage('Please enter a password with 6 characters or more')
-				: errorMessage('Please enter your desired email and password')
+		email !== '' ? 
+			password.length >= 6 && ree.test(password) ?
+				password == c_password ? userStart() : errorMessage('Make sure your passwords match')
+			: errorMessage('Your password must have at least 6 characters long with one number and one symbol')
+		: errorMessage('Please enter your desired email and password')
 	}
 
 	const userStart = async() => {
@@ -57,10 +58,15 @@ export default CreateUser = () => {
 				// Waiting for Valid Email
 				<View transparent style={styles.validateContainer}>
 					{/* USER INSTRUCTIONS */}
-					<Text style={{textAlign:"center", fontSize:20}}>
-						Please enter your personal email address and {}
-						create a password with at least 6 characters for your Swap account.
-					</Text>
+					<View style={{width:'90%', alignSelf:'center'}}>
+						<Text style={{textAlign:"center", fontSize:16, marginBottom:10}}>
+							Please enter your personal email address.
+						</Text>
+						<Text style={{textAlign:"center", fontSize:16}}>
+							Then create a password 6 characters long with at least one number and symbol.
+						</Text>
+					</View>
+					
 					{/* EMAIL ADDRESS FIELD */}
 					<Item style={styles.item}>
 						<Icon active name='mail' style={{fontSize:40}}/>
@@ -114,7 +120,7 @@ export default CreateUser = () => {
 							onChangeText={password => setC_Password( password )}/>
 					</Item>
 					{/* SUBMIT BUTTON */}
-					<Button disabled={disabled} large style={{alignSelf:'center'}}
+					<Button large block disabled={disabled}  style={{alignSelf:'center', textAlign:'center'}}
 						onPress={() => handler()} >
 						<Text> SUBMIT </Text>
 					</Button>	

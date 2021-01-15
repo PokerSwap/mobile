@@ -24,14 +24,13 @@ export default EventLobby = () => {
   var currentStyle
   store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
 
-  const { tournament_id, tournament_start, tournament_name, tournament_address,
-    tournament_lat, tournament_long, casino } = route.params;
+  const { tournament, tournament_id } = route.params;
 
   const [ anEvent, setAnEvent ] = useState(null)
   const [ aTournament, setATournament ] = useState(null)
-  const [ tStart, setTStart ] = useState(tournament_start)
-  const [flights, setFlights] = useState([])
-  const [ anAction, setAnAction] = useState(null)
+  const [ tStart, setTStart ] = useState(tournament.start_at)
+  const [ flights, setFlights ] = useState([])
+  const [ anAction, setAnAction ] = useState(null)
   const [ refreshing, setRefreshing ] = useState(false)
 
 
@@ -114,8 +113,8 @@ export default EventLobby = () => {
     <View style={{flex:1, height:'100%',flexDirection:'column', top:0,  backgroundColor:currentStyle.background.color}}>
       
       <View style={{height:40, position:'absolute', top:0, alignSelf:'flex-start',  backgroundColor:currentStyle.header.color}}>
-        <StatusBar StatusBarAnimation={'fade'} barStyle={'light-content'}
-          backgroundColor={'rgb(38, 171, 75)'}/>
+    	<StatusBar StatusBarAnimation={'fade'} barStyle={'light-content'}
+        	backgroundColor={'rgb(38, 171, 75)'}/>
       </View>
 
       <OtherHeader  title={'Event Lobby'}/>
@@ -126,27 +125,20 @@ export default EventLobby = () => {
       
       <List style={{backgroundColor:currentStyle.background.color}}>
         {/* TOURNAMENT HEADER */}
-        <EventHeader 
-          tournament_name={tournament_name} casino={casino}
-          tournament_address={tournament_address} tournament_time={tournament_start} 
-          lat={tournament_lat} long={tournament_long} />
+        <EventHeader tournament={tournament}  />
         <ActionBar style={{alignSelf:'flex-start'}} action={anAction} />
 
         {/* TOURNEY BUYIN ENTRIES  */}
         {!aTournament ? 
-            <Spinner /> 
+        	<Spinner /> 
           
-          : 
-          <FlatList
-          data={store.currentLobby}
-          renderItem={FlightRow}
-          keyExtractor={(content, index) => index.toString()}
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={onRefresh} />}
-          
-          ListFooterComponent={<Text style={{textAlign:'center'}}></Text>} />}          
+			: 
+			<FlatList
+				data={store.currentLobby}
+				renderItem={FlightRow}
+				keyExtractor={(content, index) => index.toString()}
+				refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+				ListFooterComponent={<Text style={{textAlign:'center'}}></Text>} />}          
         </List>
 
         </View> 
