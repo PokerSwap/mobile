@@ -30,8 +30,10 @@ export default EditPath = (props) => {
     const buyinEdit = async() => {
       if(newChips !== '0'){
         props.setLoading(true)
+        var rex
+        if (newTable == "" || newTable == " "){rex = props.buyin.table}else{rex= newTable}
         var answer = await actions.buy_in.edit(
-          props.buyin.id, newTable, newSeat, newChips, props.buyin.tournament_id, false
+          props.buyin.id, rex, newSeat, newChips, props.buyin.tournament_id, false
         )
         props.onRefresh()
         props.setLoading(false)

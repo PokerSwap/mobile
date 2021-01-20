@@ -150,6 +150,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 						.catch((error) => {
 							console.log('error in json of image',error);
+							
 						});
 						// console.log('newBuyin', response.json())
 
@@ -513,7 +514,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}, 
 						})
 						var currentChatResponse = await response.json()
-						console.log('check',currentChatResponse)
+						// console.log('check',currentChatResponse)
 						if (currentChatResponse.messages){
 							return currentChatResponse.id
 						}else{
@@ -1816,7 +1817,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				// RETRIEVES CURRENT ACTION FOR FORMULA USE 
 				retrieveAction: async ( a_tournament_id ) => {
 					try{
-						console.log('Coming in', a_tournament_id)
+						// console.log('Coming in', a_tournament_id)
 						const url = databaseURL + 'swaps/me/tournament/' + a_tournament_id;
 						const accessToken = getStore().userToken ;
 						let response = await fetch(url, {
@@ -1835,6 +1836,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 				setCurrentLobby: async (eVent, tOurnament) => {
 					// console.log(eVent, tOurnament)
 					// FLIGHT SCHEDUELE MAPPER
+					console.log('eVent', eVent)
+					console.log('tOurnament', Object.keys(tOurnament))
+
 					  if(eVent && tOurnament){
 						var toFilterOne  = []
 						var addToFilter = eVent.buyins.forEach((buyin) => 
@@ -1902,7 +1906,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						let trackerData = await response.json()
 						// console.log('trackerData',trackerData)
 						
-						var getIds = trackerData.map(tracker => tracker.tournament.tournament_id)
+						var getIds = trackerData.map(tracker => tracker.tournament. id)
 						
 						const asyncRes = await Promise.all(getIds.map(async (i) => {
 							 var e = await getActions().tournament.retrieveAction(i);
@@ -1911,7 +1915,6 @@ const getState = ({ getStore, setStore, getActions }) => {
 						
 						var newTrackerData = trackerData.map((tracker, index)=> {						
 							var a_countdown = moment(tracker.tournament.start_at).fromNow()
-
 							return({
 								...tracker,
 								action:asyncRes[index],
@@ -2031,7 +2034,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							new_latest.setHours( new_latest.getHours() + 17)
 							var true_end = moment(new_latest).format('llll')
 							var agreedBuyins = tracker.buyins.filter(buyin => buyin.agreed_swaps.length > 0)
-							console.log('agreedBuyuins', agreedBuyins)
+							// console.log('agreedBuyuins', agreedBuyins)
 							var allPaid = []
 								var allConfirmed = []
 							if (agreedBuyins.length !== 0){
@@ -2284,7 +2287,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							email: myEmail,
 							password: myPassword,
 							new_password: myNewPassword
-						}
+						} 
 	
 						let accessToken = getStore().userToken;
 						const url = databaseURL + 'users/me/password'

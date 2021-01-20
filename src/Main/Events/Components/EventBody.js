@@ -23,13 +23,10 @@ export default EventBody = (props) => {
   store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
 
   const enterTournament = () => {
-
-    
     navigation.push(path, {
       tournament: event,
       tournament_id:event.tournament_id
     });
-  
   }
 
   const handler = () => {

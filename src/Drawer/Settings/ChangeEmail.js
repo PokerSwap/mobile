@@ -39,7 +39,7 @@ export default ChangeEmail = () => {
         currentEmail, currentPassword, newEmail, navigation)
       :
       Toast.show({
-        text:'Make sure both passwords are the same',
+        text:'Make sure both emails are the same',
         duration:3000,
         position:top
       })

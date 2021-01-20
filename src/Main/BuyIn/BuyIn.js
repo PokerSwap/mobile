@@ -130,6 +130,7 @@ export default BuyIn = (props) => {
           {/* BUTTON WITH VARIABLE PATHS */}
           <SwapButton 
             allSwaps={allSwaps}  
+            
             my_buyin={props.my_buyin}
             agreed_swaps={props.agreed_swaps}
             other_swaps={props.other_swaps}

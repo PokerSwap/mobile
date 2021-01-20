@@ -4,12 +4,24 @@ import {TextInput, Keyboard } from 'react-native'
 import { Button, Card, CardItem, Item, Icon, Input, Text } from 'native-base';
 
 export default NameSetup = (props) => {
+
+  var rrr = /^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/
+
   let x;
-  (props.first_name == '' || props.last_name == '') ? 
-    x = true : x = false
+  if(props.first_name == '' || props.last_name == ''){
+    x = true
+  }else{
+    if(rrr.test(props.first_name) && rrr.test(props.last_name)){
+      x = false
+    }else{
+      x = true
+    }
+  }
+
 
   let txtLastName = null
   let txtNickName = null
+
 
     
   return(

@@ -76,26 +76,31 @@ export default HendonSetup = (props) => {
 					</View>
 				</View>
 				:
-				<View>
+				<View style={{width:'80%', height:500, flexDirection:'column', justifyContent:'space-around', alignSelf:'center', marginTop:20}}>
 					{/* HENDON INSTRUCTIONS */}
 					<View style={{flexDirection:"column", justifyContent:"center", textAlign:'center'}}>
-						<Text style={{textAlign:'center'}}>
-							Have a Hendon Mob profile? Enter your name in the search engine and find your profile.
+						<View>
+						<Text style={{textAlign:'center', fontSize:20, marginBottom:5}}>
+							Have a Hendon Mob profile? 
 						</Text>
+						<Text style={{textAlign:'center', fontSize:20}}>
+							Enter your name in the search engine and find your profile.
+						</Text>
+						</View>
 
-						<TouchableOpacity style={{marginTop:20}}
+						<TouchableOpacity style={{marginTop:40, alignSelf:'center'}}
 							onPress={() => setLookHendon(true)}>
-							<Text>Yes, I do</Text>
+							<Text style={{fontSize:36,}}>Yes, I do</Text>
 						</TouchableOpacity>	
 
-						<TouchableOpacity  style={{marginTop:20}}
+						<TouchableOpacity  style={{marginTop:30, alignSelf:'center'}}
 						onPress={() => goToNextPage()}>
-							<Text>No, I don't want to</Text>
+							<Text style={{fontSize:36,}}>No, I don't want to</Text>
 						</TouchableOpacity>	
 
 					</View>
 					{/* PREV BUTTON */}
-					<View style={{justifyContent:'center'}}>
+					<View style={{justifyContent:'center', alignSelf:'center', marginTop:30}}>
 						<Button info iconLeft large onPress={() => props.prev()}>
 							<Icon name='arrow-back'/>
 							<Text>Go Back</Text>

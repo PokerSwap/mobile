@@ -36,7 +36,6 @@ export default VerifyTicket = (props) => {
   var navigation = useNavigation();
   var route = useRoute();
   const { tournament } = route.params;
-  console.log('this is the result', tournament)
 
   useEffect(() => {
     getTournament()
@@ -132,7 +131,7 @@ Platform.OS == 'ios' ? styles = iosStyles : styles = androidStyles
       const selectedImage = {
         uri: response.uri,
         type: type.toLowerCase(),
-        name: name,
+        name: 'default',
       };
       setImage(selectedImage);
       }

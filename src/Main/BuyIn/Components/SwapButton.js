@@ -132,11 +132,13 @@ export default SwapButton = (props) => {
     else{
       // REBUYING BACK INTO THE TOURNAMENT
       if(path == 'edit'){
+        console.log(Object.keys(props.tournament))
         navigation.push('Verify Ticket',{
-          tournament_name: props.tournament.name,
+          tournament: props.tournament,
+          // tournament_name: props.tournament.name,
           tournament_id: props.buyin.tournament_id,
-          tournament_start: props.tournament.start_at,
-          flight_id: props.buyin.flight_id
+          // tournament_start: props.tournament.start_at,
+          // flight_id: props.buyin.flight_id
         }) 
       } 
       // YOU CANNOT SWAP WHILE BUSTED
@@ -149,6 +151,7 @@ export default SwapButton = (props) => {
   const enterSwapOffer = async() => {
     // CHECKING IF ITS MY BUYIN
     if( props.buyin.user_id !== store.myProfile){
+      // console.log('action', props.action)
       // SWAPPING WITH ACTION LEFT
       if( props.action.actions !== 50 ){
         // console.log('doesnt equal 50?', props.action)

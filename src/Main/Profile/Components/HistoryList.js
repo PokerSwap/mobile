@@ -93,8 +93,10 @@ export default HistoryList = (props) => {
   return(
     <List style={{justifyContent:'center'}}>
       {/* HISTORY HEADER */}
-      <ListItem noIndent itemHeader style={{ justifyContent:'center', backgroundColor: currentStyle.background.color }}>
-        <Text style={{ textAlign:'center', fontWeight:'600', fontSize:24, color: currentStyle.text.color}}>
+      <ListItem noIndent itemHeader style={{ justifyContent:'center', 
+        backgroundColor: currentStyle.background.color }}>
+        <Text style={{ textAlign:'center', fontWeight:'600', fontSize:24, 
+          color: currentStyle.text.color}}>
           History
         </Text>
       </ListItem>
@@ -102,9 +104,9 @@ export default HistoryList = (props) => {
       {history ?
         props.user_id !== store.myProfile.id ?
           history.length !== 0 ?
-            theirHistory : emptyHistory("You have not swapped with this user in the past")
+            theirHistory : emptyHistory("You have not swapped with this user in the past.")
         : history.length !== 0 ?
-            myHistory : emptyHistory("Start Swapping Today!")
+            myHistory : emptyHistory("You have no past swaps. Start Swapping Today!")
       : <Spinner />}
       
     </List>  

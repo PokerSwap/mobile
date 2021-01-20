@@ -17,13 +17,18 @@ export default CreateUser = () => {
 	const [ disabled, setDisabled] = useState(false)
 
 	let ree = /^(?=.{6,})(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+-=]).*$/
+	let xxx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
 	const createUser = async() => {
-		email !== '' ? 
-			password.length >= 6 && ree.test(password) ?
-				password == c_password ? userStart() : errorMessage('Make sure your passwords match')
-			: errorMessage('Your password must have at least 6 characters long with one number and one symbol')
-		: errorMessage('Please enter your desired email and password')
+		if(email !== '' && xxx.test(email)){
+			if(password.length >= 6 && ree.test(password)){
+				password == c_password ? userStart(): errorMessage('Make sure your passwords match')
+			} else{
+				errorMessage('Your password must have at least 6 characters long with one number and one uppercase letter')
+			}
+		} else{
+			errorMessage('Please enter a valid email address')
+		}
 	}
 
 	const userStart = async() => {
@@ -33,7 +38,7 @@ export default CreateUser = () => {
 
 	const handler = () => {
 		setDisabled(true)
-		userStart();
+		createUser();
 		setTimeout(()=>{setDisabled(false)}, 2000)
 	  }
 

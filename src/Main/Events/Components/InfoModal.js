@@ -1,12 +1,17 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Context } from '../../../Store/appContext'
 import moment from 'moment-timezone'
+import Geolocation from '@react-native-community/geolocation';
+import { openSettings, request, PERMISSIONS } from 'react-native-permissions';
 
-import { Linking, TouchableOpacity, View } from 'react-native'
+import { Alert, Linking, TouchableOpacity, View } from 'react-native'
 import { Button, Text } from 'native-base'
 
 import darkStyle from '../../../Themes/dark.js'
 import lightStyle from '../../../Themes/light.js'
+
+import Spinner from 'react-native-loading-spinner-overlay'
+
 
 export default InfoModal = (props) => {
   const { store, actions } = useContext(Context)
@@ -15,9 +20,49 @@ export default InfoModal = (props) => {
   var currentStyle
   store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
 
-  const openGPS = () => {
-    var scheme = Platform.OS === 'ios' ? 'maps:' : 'geo:';
-    var url = scheme + `${props.tournament.casino.latitude},${props.tournament.casino.longitude}` 
+
+
+  const [loading, setLoading] = useState(initialState)
+
+  const askPersmission = async () => {
+    var locationStatus;
+    
+    Platform.OS == 'ios' ?
+      locationStatus = PERMISSIONS.IOS.LOCATION_WHEN_IN_USE
+      : locationStatus = PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION;
+      
+    request(locationStatus).then(
+      (status) => {
+        console.log('staus', status);
+        status == 'granted' ? getByLocation() : showAlert()
+    })
+  };
+
+  let getByLocation = () => {
+    let a_latitude, a_longitude;
+    let myCoordinates = Geolocation.getCurrentPosition(
+      position => {
+        console.log('locationinfo',position);
+        a_latitude = position.coords.latitude;
+        a_longitude = position.coords.longitude;  
+        openGPS(a_latitude, a_longitude)
+      },
+      error => Alert.alert('Error', JSON.stringify(error)),
+      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
+
+    )
+    
+  }
+
+
+
+  const openGPS = (myLatitude, myLongitude) => {
+    var {casino} = props.tournament
+    var url
+    Platform.OS === 'ios' ? 
+      url = "maps://?daddr=" + `${casino.latitude},\ ${casino.longitude}` 
+      : 
+      url = 'google.navigation:q=' + `${casino.latitude},\ ${casino.longitude}`
     Linking.openURL(url);
   }
 
@@ -34,7 +79,7 @@ export default InfoModal = (props) => {
           {moment(props.tournament.start_at).tz(props.tournament.casino.time_zone).format('llll z')}
         </Text>
         {/* TOURNAMENT ADDRESS */}
-        <TouchableOpacity onPress={() => openGPS()}>
+        <TouchableOpacity onPress={() => askPersmission()}>
           <Text style={{textAlign:'center', color:'rgb(0, 122, 255)', color:currentStyle.text.color}}>
             {casino.name}{'\n'}{casino.address}{'\n'}{casino.city}, {casino.state} {casino.zip_code}
           </Text>

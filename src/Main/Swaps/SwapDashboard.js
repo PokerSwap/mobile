@@ -337,6 +337,7 @@ export default SwapDashboard = (props) => {
   var aTracker = ({item, index}) => {
     var x
     item.countdown.includes('ago') ? x = 'Started' : x = 'Starts'
+    // console.log(item)
     return(
       <SwapTracker key={index}  event={item} 
       countdown={item.countdown} timeBy={x}
