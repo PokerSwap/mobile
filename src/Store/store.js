@@ -58,6 +58,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 			refreshChat:false,
 			refreshEvent:false,
 			refreshResult:false,
+			refreshDashboard:false,
 			
 			// MY CHATS
 			myChats:[],
@@ -93,6 +94,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 			refresh:{
 				chat: (x) => {
 					setStore({refreshChat: x})
+				},
+				dashboard: (x) => {
+					setStore({refreshDashboard: x})
 				},
 				offer:(x) => {
 					setStore({refreshOffer: x})
@@ -232,6 +236,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 							tournament: a_tournament,
 							tournament_id: a_tournament.tournament_id
 						})
+						getActions().refresh.dashboard(true)
+						getActions().refresh.dashboard(false)
 
 						
 
@@ -822,10 +828,11 @@ const getState = ({ getStore, setStore, getActions }) => {
 						var gettingTournament = await getActions().tournament.getCurrent(data.id);
 						var currentTournament = await getStore().currentTournament
 						var answerParams = {
-							tournament_name: currentTournament.tournament.name,
+							tournament: currentTournament.tournament,
+							// tournament_name: currentTournament.tournament.name,
 							tournament_id: currentTournament.tournament.id,
-							tournament_start: currentTournament.tournament.start_at,
-							flight_id: currentTournament.my_buyin.flight_id,
+							// tournament_start: currentTournament.tournament.start_at,
+							// flight_id: currentTournament.my_buyin.flight_id,
 						}
 						console.log('Notification Event Parameters: ', answerParams)
 
@@ -1734,9 +1741,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 							tournament.day !== null ? 
 								x = ' - Day '+ tournament.day : x = ''
 							var action =null
-
+							// console.log('lol',typeOf(tournament.tournament_id))
 							if(tournament.buyin){
-								 action = getActions().tournament.retrieveAction(tournament.tournament_id)}
+								 action = getActions().tournament.retrieveAction(tournament.tournament_id.toString())}
 							
 							
 								 
@@ -1906,7 +1913,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						let trackerData = await response.json()
 						// console.log('trackerData',trackerData)
 						
-						var getIds = trackerData.map(tracker => tracker.tournament. id)
+						var getIds = trackerData.map(tracker => tracker.tournament.id)
 						
 						const asyncRes = await Promise.all(getIds.map(async (i) => {
 							 var e = await getActions().tournament.retrieveAction(i);
@@ -1925,6 +1932,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 							moment().isAfter(moment(tracker.tournament.start_at)))
 
 						setStore({myCurrentTrackers: currentList})
+
+						var x = await getActions().refresh.dashboard(true)
+    					// var eeee = await getActions().refresh.dashboard(false) 
 						// setStore({myTrackers: newTrackerData})
 						
 					} catch(error){
@@ -2111,6 +2121,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 							moment().isBefore(moment(tracker.tournament.start_at)))
 
 						setStore({myUpcomingTrackers: upcomingList})
+
+						var x = await getActions().refresh.dashboard(true)
+    					// getActions().refresh.dashboard(false) 
 						
 					} catch(error){
 						console.log('Something went wrong in getting upcoming trackers: ', error)

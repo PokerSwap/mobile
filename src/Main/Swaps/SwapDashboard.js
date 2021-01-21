@@ -61,15 +61,15 @@ export default SwapDashboard = (props) => {
       var ree = x.buyins.filter(buyin => buyin.recipient_user.id == store.currentSwap.recipient_user.id)
       var dwer = await actions.buy_in.getCurrent(ree[0].recipient_buyin.id)
       
-      var data= {
+    //   var data= {
         
-          status: store.currentSwap.status,
-          buyin: store.currentBuyin,
-          tournament: store.currentTournament,
-          buyinSince: store.currentBuyin.updated_at,
-          swap: store.currentSwap
+    //       status: store.currentSwap.status,
+    //       buyin: store.currentBuyin,
+    //       tournament: store.currentTournament,
+    //       buyinSince: store.currentBuyin.updated_at,
+    //       swap: store.currentSwap
         
-      }
+    //   }
       navigation.push("Swap Offer",{
         status: store.currentSwap.status,
         buyin: store.currentBuyin,
@@ -304,61 +304,98 @@ export default SwapDashboard = (props) => {
   const onRefresh1 = useCallback(() => {
     setRefreshing(true);
     actions.tracker.getCurrent()
+    console.log(store.myCurrentTrackers)
     wait(2000).then(() => setRefreshing(false));
   }, [refreshing]);
 
   const onRefresh2 = useCallback(() => {
     setRefreshing(true);
+    
     actions.tracker.getUpcoming()
     wait(2000).then(() => setRefreshing(false));
   }, [refreshing]);
 
   // EMPTY CURRENT TRACKER COMPONENT
-  let noTracker = (status, a_refresh) => {
-    return(
-      <FlatList
-        style={{ backgroundColor: currentStyle.background.color}}
-        ListHeaderComponent={
-          <Text style={[styles.noTracker.text, {color:currentStyle.text.color}]}> 
-            You have no {status} tournaments{'\n'} at the moment. 
-          </Text>}
-        ListHeaderComponentStyle={{alignSelf:'center', marginTop:20}}
-        ListFooterComponent={
-          <Button iconLeft style={{borderRadius:100}} onPress={() => a_refresh()}>
-            <Icon type='FontAwesome' name='refresh'/>
-            <Text>Refresh</Text>
-          </Button>}
-        ListFooterComponentStyle={{alignSelf:'center', marginTop:20, marginBottom:300}}
-      />
+//   let noTracker = (status, a_refresh) => {
+//     return(
+//       <FlatList
+//         style={{ backgroundColor: currentStyle.background.color}}
+//         ListHeaderComponent={
+//           <Text style={[styles.noTracker.text, {color:currentStyle.text.color}]}> 
+//             You have no {status} tournaments{'\n'} at the moment. 
+//           </Text>}
+//         ListHeaderComponentStyle={{alignSelf:'center', marginTop:20}}
+//         ListFooterComponent={
+//           <Button iconLeft style={{borderRadius:100}} onPress={() => a_refresh()}>
+//             <Icon type='FontAwesome' name='refresh'/>
+//             <Text>Refresh</Text>
+//           </Button>}
+//         ListFooterComponentStyle={{alignSelf:'center', marginTop:20, marginBottom:300}}
+//       />
 
-    )
-  }
+//     )
+//   }
   // OCCUPIED CURRENT TRACKER COMPONENT
   var aTracker = ({item, index}) => {
+    // console.log('lol', item)
     var x
     item.countdown.includes('ago') ? x = 'Started' : x = 'Starts'
-    // console.log(item)
+
+
     return(
       <SwapTracker key={index}  event={item} 
-      countdown={item.countdown} timeBy={x}
+        countdown={item.countdown} timeBy={x}
         my_buyin= {item.my_buyin} buyins = {item.buyins}
         tournament={item.tournament} action={item.action}/>
     )
   }
 
+  useEffect(() => {
+      setCurrent(store.myCurrentTrackers)
+      actions.refresh.dashboard(false)
+    //   return () => {
+    //       cleanup
+    //   }
+  }, [store.refreshDashboard])
+
+    const [current, setCurrent] = useState(store.myCurrentTrackers)
+  
+
   var aflatlist = () => {
+
     return(
-      <FlatList contentContainerStyle={{ alignSelf: 'stretch' }}
+      <FlatList contentContainerStyle={{ alignSelf: 'center', flex:1, width:'95%' }}
         // refreshControl={ 
         //   <RefreshControl refreshing={refreshing} onRefresh={() => onRefresh1()} />}
-        data={store.myCurrentTrackers}
+        style={{flex:1}}
+        data={current}
+        extraData={store.myCurrentTrackers}
+        
         renderItem={aTracker}
         keyExtractor={(content, index) => index.toString()}
         ListFooterComponent={
-          <Button iconLeft style={{borderRadius:100}} onPress={() => onRefresh1()}>
-            <Icon type='FontAwesome' name='refresh'/>
-            <Text>Refresh</Text>
-          </Button>}
+            <View style={{alignSelf:'center', justifyContent:'center'}}>
+                {!store.myProfile.naughty ?
+                    Object.keys(store.myCurrentTrackers) !== "message" && store.myCurrentTrackers.length !== 0 ?
+                        null
+                        :
+                        <Text style={[styles.noTracker.text, {color:currentStyle.text.color}]}> 
+                            You have no live tournaments{'\n'} at the moment. 
+                        </Text>
+                    :
+                    <Text style={{color:currentStyle.text.color, width:'80%', 
+                        alignSelf:'center', marginTop:20, textAlign:'center', fontSize:18}}>
+                        You've been put on the naughty list.{'\n'}{'\n'}
+                        To start swapping again,{'\n'}
+                        please pay your overdue swaps and have the other users confirm payment.
+                    </Text>}
+                <Button iconLeft onPress={() => onRefresh1()}
+                    style={{alignSelf:'center', borderRadius:100, marginVertical:20}} >
+                    <Icon type='FontAwesome' name='refresh'/>
+                    <Text>Refresh</Text>
+                </Button>
+            </View>
+            }
         ListFooterComponentStyle={{alignSelf:'center', marginVertical:20}}
         stickyHeaderIndices={[0]} />
       
@@ -372,10 +409,28 @@ export default SwapDashboard = (props) => {
         renderItem={aTracker}
         keyExtractor={(content, index) => index.toString()}
         ListFooterComponent={
-          <Button iconLeft style={{borderRadius:100}} onPress={() => onRefresh2()}>
-            <Icon type='FontAwesome' name='refresh'/>
-            <Text style={{color:currentStyle.text.color}}>Refresh</Text>
-          </Button>}
+            <View style={{alignSelf:'center', justifyContent:'center'}}>
+                {!store.myProfile.naughty ?
+                    Object.keys(store.myUpcomingTrackers) !== "message" && store.myUpcomingTrackers.length !== 0 ?
+                        null
+                        :
+                        <Text style={[styles.noTracker.text, {color:currentStyle.text.color}]}> 
+                            You have no upcoming tournaments{'\n'} at the moment. 
+                        </Text>
+                    :
+                    <Text style={{color:currentStyle.text.color, width:'80%', 
+                        alignSelf:'center', marginTop:20, textAlign:'center', fontSize:18}}>
+                        You've been put on the naughty list.{'\n'}{'\n'}
+                        To start swapping again,{'\n'}
+                        please pay your overdue swaps and have the other users confirm payment.
+                    </Text>}
+                <Button iconLeft onPress={() => onRefresh2()}
+                    style={{alignSelf:'center', borderRadius:100, marginVertical:20}}>
+                    <Icon type='FontAwesome' name='refresh'/>
+                    <Text>Refresh</Text>
+                </Button>
+            </View>
+            }
         ListFooterComponentStyle={{alignSelf:'center', marginVertical:20}}
         stickyHeaderIndices={[0]}
         // refreshControl={ 
@@ -384,34 +439,52 @@ export default SwapDashboard = (props) => {
 
     )
   } 
-  let liveTracker, upcomingTracker
 
-  // CURRENT TRACKER LIST
-  if( Object.keys(store.myCurrentTrackers)[0] !== "message" && store.myCurrentTrackers.length !== 0 && !store.myProfile.naughty){
-    liveTracker = aflatlist()} 
-  // NO LIVE TOURNAMENTS AND/OR NEW USER VIEW
-  else if (store.myProfile.naughty){
-    liveTracker = <Text style={{color:currentStyle.text.color, width:'80%', alignSelf:'center', marginTop:20, textAlign:'center', fontSize:18}}>
-                    You've been put on the naughty list.{'\n'}{'\n'}
-                    To start swapping again,{'\n'}
-                    please pay your overdue swaps and have the other users confirm payment.
-                  </Text>
-  } else{
-    liveTracker = noTracker('live', onRefresh1)
-  }
+//   let liveTracker, upcomingTracker
 
-  // UPCOMING TRACKER LIST
-  if( Object.keys(store.myUpcomingTrackers)[0] !== "message" && store.myUpcomingTrackers.length !== 0 && !store.myProfile.naughty){
-    upcomingTracker = bflatlist()
-  }else if(store.myProfile.naughty){
-    upcomingTracker = <Text style={{color:currentStyle.text.color, width:'80%', alignSelf:'center', marginTop:20, textAlign:'center', fontSize:18}}>
-                        You've been put on the naughty list.{'\n'}{'\n'}
-                        To start swapping again,{'\n'}
-                        please pay your overdue swaps and have the other users confirm payment.
-                      </Text>
-  } else{
-    upcomingTracker = noTracker('upcoming', onRefresh2)
-  }  
+    // const [liveTracker, setLiveTracker] = useState(null)
+    // const [upcomingTracker, setUpcomingTracker] = useState(null)
+
+//   useEffect(() => {
+//     const unsubscribe = navigation.addListener('focus', () => {
+//          // CURRENT TRACKER LIST
+//   if( Object.keys(store.myCurrentTrackers) !== "message" && store.myCurrentTrackers.length !== 0 && !store.myProfile.naughty){
+//     setLiveTracker(aflatlist())} 
+//   // NO LIVE TOURNAMENTS AND/OR NEW USER VIEW
+//   else if (store.myProfile.naughty){
+//     setLiveTracker(<Text style={{color:currentStyle.text.color, width:'80%', 
+//                     alignSelf:'center', marginTop:20, textAlign:'center', fontSize:18}}>
+//                     You've been put on the naughty list.{'\n'}{'\n'}
+//                     To start swapping again,{'\n'}
+//                     please pay your overdue swaps and have the other users confirm payment.
+//                   </Text>)
+//   } else{
+//     setLiveTracker(noTracker('live', onRefresh1))
+//   }
+
+//   // UPCOMING TRACKER LIST
+//   if( Object.keys(store.myUpcomingTrackers)[0] !== "message" && store.myUpcomingTrackers.length !== 0 && !store.myProfile.naughty){
+//     setUpcomingTracker(bflatlist())
+//   } else if(store.myProfile.naughty){
+//     setUpcomingTracker(<Text style={{color:currentStyle.text.color, width:'80%', 
+//                           alignSelf:'center', marginTop:20, textAlign:'center', fontSize:18}}>
+//                         You've been put on the naughty list.{'\n'}{'\n'}
+//                         To start swapping again,{'\n'}
+//                         please pay your overdue swaps and have the other users confirm payment.
+//                       </Text>)
+//   } else{
+//     setUpcomingTracker(noTracker('upcoming', onRefresh2))
+//   }  
+//       });
+//       return () => {
+//         unsubscribe
+//       }
+     
+//     //   return () => {
+//     //     //   cleanup
+//     //   }
+//   }, [store.refreshDashboard])
+  
 
   // REFRESH AFTER REOPENING FROM BACKGROUND (START)
 
@@ -463,10 +536,10 @@ export default SwapDashboard = (props) => {
             </TabHeading>}>
             <BounceColorWrapper style={{flex: 1}}
               mainColor={currentStyle.background.color}>
-              <Content contentContainerStyle={{backgroundColor:currentStyle.background.color}}
+              <Content contentContainerStyle={{backgroundColor:currentStyle.background.color, display:'flex'}}
                 refreshControl={
                   <RefreshControl onRefresh={onRefresh1} refreshing={refreshing} />}>
-              {liveTracker}
+              {aflatlist()}
               </Content>
             </BounceColorWrapper>
           </Tab>
@@ -479,7 +552,7 @@ export default SwapDashboard = (props) => {
               mainColor={currentStyle.background.color}>
               <Content refreshControl={
                 <RefreshControl onRefresh={onRefresh2} refreshing={refreshing} />}>
-                 {upcomingTracker}
+                 {bflatlist()}
               </Content>
             </BounceColorWrapper>
           </Tab>

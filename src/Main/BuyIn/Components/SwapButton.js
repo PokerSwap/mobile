@@ -159,6 +159,7 @@ export default SwapButton = (props) => {
         // console.log('Swap going in', swap.status, swap.percentage)
 
         if (path !== 'inactive') {
+          
           navigation.push('Swap Offer',{
             status: path,
             buyin: props.buyin,
@@ -167,6 +168,7 @@ export default SwapButton = (props) => {
             swap: swap
           })
         } else {
+          actions.swap.removeCurrent()
           console.log('this inactive')
           navigation.push('Swap Offer',{
             status: 'inactive',

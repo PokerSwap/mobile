@@ -106,7 +106,7 @@ export default HistoryList = (props) => {
           history.length !== 0 ?
             theirHistory : emptyHistory("You have not swapped with this user in the past.")
         : history.length !== 0 ?
-            myHistory : emptyHistory("You have no past swaps. Start Swapping Today!")
+            myHistory : emptyHistory("You have no past swaps.\nStart Swapping Today!")
       : <Spinner />}
       
     </List>  

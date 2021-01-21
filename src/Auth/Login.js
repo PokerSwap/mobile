@@ -17,12 +17,12 @@ import DeviceInfo from 'react-native-device-info'
 import firebase from '@react-native-firebase/app';
 import messaging from '@react-native-firebase/messaging'
 
-var exex 
-if (Platform.OS === 'ios') {
-  exex = 'techpriest.gabriel@gmail.com'
-}else{
-  exex = 'gherndon5@hotmail.com'
-}
+// var exex 
+// if (Platform.OS === 'ios') {
+//   exex = 'techpriest.gabriel@gmail.com'
+// }else{
+//   exex = 'gherndon5@hotmail.com'
+// }
 
 // KEYBOARD AVOIDING VIEW SETTINGS
 var a_behavior, offBy, marginee
@@ -33,8 +33,8 @@ if (Platform.OS == 'ios'){
 
 export default LoginScreen = ({navigation}) => {
   const { store, actions } = useContext(Context)
-  const [email, setEmail] = useState(exex)
-  const [password, setPassword] = useState('casper5')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [loginColor, setLoginColor] = useState('#000099')
   const [signupColor, setSignupColor] = useState('#FF6600')

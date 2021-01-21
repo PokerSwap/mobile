@@ -28,7 +28,7 @@ export default EventLobby = () => {
 
   const [ anEvent, setAnEvent ] = useState(null)
   const [ aTournament, setATournament ] = useState(null)
-  const [ tStart, setTStart ] = useState(tournament.start_at)
+  // const [ tStart, setTStart ] = useState(tournament.start_at)
   const [ flights, setFlights ] = useState([])
   const [ anAction, setAnAction ] = useState(null)
   const [ refreshing, setRefreshing ] = useState(false)

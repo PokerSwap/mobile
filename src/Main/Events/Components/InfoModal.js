@@ -22,7 +22,7 @@ export default InfoModal = (props) => {
 
 
 
-  const [loading, setLoading] = useState(initialState)
+  // const [loading, setLoading] = useState(initialState)
 
   const askPersmission = async () => {
     var locationStatus;
