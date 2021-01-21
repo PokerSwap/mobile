@@ -132,11 +132,11 @@ export default SwapButton = (props) => {
     else{
       // REBUYING BACK INTO THE TOURNAMENT
       if(path == 'edit'){
-        console.log(Object.keys(props.tournament))
+        console.log(props.tournament, props.tournament.id)
         navigation.push('Verify Ticket',{
           tournament: props.tournament,
           // tournament_name: props.tournament.name,
-          tournament_id: props.buyin.tournament_id,
+          tournament_id: props.tournament.id,
           // tournament_start: props.tournament.start_at,
           // flight_id: props.buyin.flight_id
         }) 

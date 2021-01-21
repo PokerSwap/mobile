@@ -74,66 +74,91 @@ export default EventResults = (props) => {
   // REFRESH AFTER REOPENING FROM BACKGROUND (END)
 
   // EMPTY CURRENT TRACKER COMPONENT
-  let noTracker = (status) => {
-    return(
-      <FlatList
+  // let noTracker = (status) => {
+  //   return(
+  //     <FlatList
 
-        ListHeaderComponent={
-          <Text style={{ color:currentStyle.text.color,
-            justifyContent:'center', textAlign:'center', 
-            fontSize:20, width:'80%'}}> 
-            You have no past events that{'\n'}{status} results. 
-          </Text>}
-        ListHeaderComponentStyle={{alignSelf:'center', marginTop:20}}
-        ListFooterComponent={
-          <Button iconLeft style={{borderRadius:100}} onPress={() => onRefresh()}>
-            <Icon type='FontAwesome' name='refresh'/>
-            <Text>Refresh</Text>
-          </Button>}
-        ListFooterComponentStyle={{alignSelf:'center', marginTop:20}}
-      />
+  //       ListHeaderComponent={
+  //         <Text style={{ color:currentStyle.text.color,
+  //           justifyContent:'center', textAlign:'center', 
+  //           fontSize:20, width:'80%'}}> 
+  //           You have no past events that{'\n'}{status} results. 
+  //         </Text>}
+  //       ListHeaderComponentStyle={{alignSelf:'center', marginTop:20}}
+  //       ListFooterComponent={
+  //         <Button iconLeft style={{borderRadius:100}} onPress={() => onRefresh()}>
+  //           <Icon type='FontAwesome' name='refresh'/>
+  //           <Text>Refresh</Text>
+  //         </Button>}
+  //       ListFooterComponentStyle={{alignSelf:'center', marginTop:20}}
+  //     />
 
-    )
-  }
+  //   )
+  // }
 
   var aTracker = ({item, index}) => {
-    return(
-      <ResultsTracker key={index} event={item} tournament_end={item.tournament_end} 
-      allPaid={item.allPaid} allConfirmed={item.allConfirmed} results_link={item.results_link}
-        my_buyin= {item.my_buyin} agreed_buyins = {item.agreed_buyins} final_profit={item.final_profit}
-        tournament={item.tournament} action={item.action}/>
-    )
+    var y
+    if (item.message && item.message == true){
+      return(null)
+    }else{
+      return(
+        <ResultsTracker key={index} event={item} 
+          allPaid={item.allPaid} allConfirmed={item.allConfirmed} 
+          results_link={item.results_link} final_profit={item.final_profit}
+          my_buyin= {item.my_buyin} agreed_buyins = {item.agreed_buyins} 
+          tournament={item.tournament} tournament_end={item.tournament_end} 
+          action={item.action}/>
+      )
+    }
+
+   
   }
 
-  var flatlist = (a_data) => {
+  var flatlist = (a_data, if_none) => {
     return(
       <FlatList contentContainerStyle={{ alignSelf: 'stretch', backgroundColor: currentStyle.background.color }}
         data={a_data}
         renderItem={aTracker}
         keyExtractor={(content, index) => index.toString()}
         ListFooterComponent={
-          <Button iconLeft style={{borderRadius:100}} onPress={() => onRefresh()}>
-            <Icon type='FontAwesome' name='refresh'/>
-            <Text>Refresh</Text>
-          </Button>}
+            <View style={{alignSelf:'center', justifyContent:'center', paddingBottom:100}}>
+                {!store.myProfile.naughty ?
+                    Object.keys(a_data[0])[0] == 'message' ?
+                        <Text style={[styles.noTracker.text, {color:currentStyle.text.color}]}> 
+                            You have no past events that{'\n'}{if_none} results. 
+                        </Text>
+                        :
+                        null
+                    :
+                    <Text style={{color:currentStyle.text.color, width:'80%', 
+                        alignSelf:'center', marginTop:20, textAlign:'center', fontSize:18}}>
+                        You've been put on the naughty list.{'\n'}{'\n'}
+                        To start swapping again,{'\n'}
+                        please pay your overdue swaps and have the other users confirm payment.
+                    </Text>}
+                <Button iconLeft style={{alignSelf:'center', borderRadius:100, marginVertical:20}} onPress={() => onRefresh()}>
+                    <Icon type='FontAwesome' name='refresh'/>
+                    <Text>Refresh</Text>
+                </Button>
+            </View>}
         ListFooterComponentStyle={{alignSelf:'center', marginVertical:20}}
         stickyHeaderIndices={[0]}/>
     )
   }
     
-  var pendingResultsTracker, confirmedResultsTracker;
+//   var pendingResultsTracker, confirmedResultsTracker;
 
-  if( store.myPendingResultsTrackers !== [] && store.myPendingResultsTrackers.length !== 0){
-    pendingResultsTracker = flatlist(store.myPendingResultsTrackers)}  
-  else {
-    pendingResultsTracker = noTracker('are pending')
-  } 
+//   if( store.myPendingResultsTrackers !== [] && store.myPendingResultsTrackers.length !== 0){
+//     pendingResultsTracker = flatlist(store.myPendingResultsTrackers)}  
+//   else {
+//     pendingResultsTracker = noTracker('are pending')
+//   } 
 
-  if( store.myConfirmedResultsTrackers !== [] && store.myConfirmedResultsTrackers.length !== 0){
-    confirmedResultsTracker = flatlist(store.myConfirmedResultsTrackers)}  
-  else {
-    confirmedResultsTracker = noTracker('have confirmed')
-  } 
+//   if( store.myConfirmedResultsTrackers !== [] && store.myConfirmedResultsTrackers.length !== 0){
+//     confirmedResultsTracker = flatlist(store.myConfirmedResultsTrackers)}  
+//   else {
+//     confirmedResultsTracker = noTracker('have confirmed')
+//   } 
 
 
   
@@ -155,7 +180,7 @@ export default EventResults = (props) => {
               mainColor={currentStyle.background.color}>
               <Content contentContainerStyle={{backgroundColor:currentStyle.background.color}} refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}>
-                {pendingResultsTracker}
+                {flatlist(store.myPendingResultsTrackers, "have pending")}
               </Content>
             </BounceColorWrapper>
            </Tab>
@@ -167,7 +192,7 @@ export default EventResults = (props) => {
               mainColor={currentStyle.background.color}>
               <Content contentContainerStyle={{backgroundColor:currentStyle.background.color}}  refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}>
-                {confirmedResultsTracker}
+                {flatlist(store.myConfirmedResultsTrackers, "have confirmed")}
               </Content>
             </BounceColorWrapper>
 
@@ -177,3 +202,19 @@ export default EventResults = (props) => {
     </Container>
   )
 }
+const styles = {
+    separator:{
+      live:{
+        height:48, backgroundColor:'rgb(56,68,165)' },
+      upcoming:{
+        height:48, backgroundColor:'gray'},
+      text:{
+        fontSize:20, fontWeight:'600', textAlign:'center' }
+    },
+    noTracker:{
+      listItem:{
+        justifyContent:'center'},
+      text:{
+        justifyContent:'center', textAlign:'center', fontSize:18, width:'90%', marginVertical: 5}
+    }
+  }

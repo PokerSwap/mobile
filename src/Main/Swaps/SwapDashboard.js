@@ -108,7 +108,6 @@ export default SwapDashboard = (props) => {
 
   }
 
-
   const requestUserPermission = async () => {
     const authStatus = await messaging().requestPermission();
     const enabled =
@@ -315,39 +314,24 @@ export default SwapDashboard = (props) => {
     wait(2000).then(() => setRefreshing(false));
   }, [refreshing]);
 
-  // EMPTY CURRENT TRACKER COMPONENT
-//   let noTracker = (status, a_refresh) => {
-//     return(
-//       <FlatList
-//         style={{ backgroundColor: currentStyle.background.color}}
-//         ListHeaderComponent={
-//           <Text style={[styles.noTracker.text, {color:currentStyle.text.color}]}> 
-//             You have no {status} tournaments{'\n'} at the moment. 
-//           </Text>}
-//         ListHeaderComponentStyle={{alignSelf:'center', marginTop:20}}
-//         ListFooterComponent={
-//           <Button iconLeft style={{borderRadius:100}} onPress={() => a_refresh()}>
-//             <Icon type='FontAwesome' name='refresh'/>
-//             <Text>Refresh</Text>
-//           </Button>}
-//         ListFooterComponentStyle={{alignSelf:'center', marginTop:20, marginBottom:300}}
-//       />
 
-//     )
-//   }
   // OCCUPIED CURRENT TRACKER COMPONENT
   var aTracker = ({item, index}) => {
     // console.log('lol', item)
-    var x
+    
+    var y
+    if (item.message && item.message == true){
+      return(null)
+    }else{
+      var x
     item.countdown.includes('ago') ? x = 'Started' : x = 'Starts'
+      return(<SwapTracker  key={index}  event={item} 
+      countdown={item.countdown} timeBy={x}
+      my_buyin= {item.my_buyin} buyins = {item.buyins}
+      tournament={item.tournament} action={item.action}/>)
+    }
 
-
-    return(
-      <SwapTracker key={index}  event={item} 
-        countdown={item.countdown} timeBy={x}
-        my_buyin= {item.my_buyin} buyins = {item.buyins}
-        tournament={item.tournament} action={item.action}/>
-    )
+   
   }
 
   useEffect(() => {
@@ -364,24 +348,24 @@ export default SwapDashboard = (props) => {
   var aflatlist = () => {
 
     return(
-      <FlatList contentContainerStyle={{ alignSelf: 'center', flex:1, width:'95%' }}
+      <FlatList contentContainerStyle={{ alignSelf: 'stretch', flex:1, }}
         // refreshControl={ 
         //   <RefreshControl refreshing={refreshing} onRefresh={() => onRefresh1()} />}
         style={{flex:1}}
         data={current}
-        extraData={store.myCurrentTrackers}
+        extraData={refreshing}
         
         renderItem={aTracker}
         keyExtractor={(content, index) => index.toString()}
         ListFooterComponent={
-            <View style={{alignSelf:'center', justifyContent:'center'}}>
+            <View style={{alignSelf:'center', justifyContent:'center', paddingBottom:100}}>
                 {!store.myProfile.naughty ?
-                    Object.keys(store.myCurrentTrackers) !== "message" && store.myCurrentTrackers.length !== 0 ?
-                        null
-                        :
+                    Object.keys(store.myCurrentTrackers[0])[0] == 'message' ?
                         <Text style={[styles.noTracker.text, {color:currentStyle.text.color}]}> 
                             You have no live tournaments{'\n'} at the moment. 
                         </Text>
+                        :
+                        null
                     :
                     <Text style={{color:currentStyle.text.color, width:'80%', 
                         alignSelf:'center', marginTop:20, textAlign:'center', fontSize:18}}>
@@ -390,7 +374,7 @@ export default SwapDashboard = (props) => {
                         please pay your overdue swaps and have the other users confirm payment.
                     </Text>}
                 <Button iconLeft onPress={() => onRefresh1()}
-                    style={{alignSelf:'center', borderRadius:100, marginVertical:20}} >
+                    style={{alignSelf:'center', borderRadius:100, marginVertical:10}} >
                     <Icon type='FontAwesome' name='refresh'/>
                     <Text>Refresh</Text>
                 </Button>
@@ -404,19 +388,19 @@ export default SwapDashboard = (props) => {
 
   var bflatlist = () => {
     return(
-      <FlatList contentContainerStyle={{ alignSelf: 'stretch' }}
+      <FlatList contentContainerStyle={{ alignSelf: 'stretch', flex:1 }}
         data={store.myUpcomingTrackers}
         renderItem={aTracker}
         keyExtractor={(content, index) => index.toString()}
         ListFooterComponent={
-            <View style={{alignSelf:'center', justifyContent:'center'}}>
+            <View style={{alignSelf:'center', justifyContent:'center', paddingBottom:100}}>
                 {!store.myProfile.naughty ?
-                    Object.keys(store.myUpcomingTrackers) !== "message" && store.myUpcomingTrackers.length !== 0 ?
-                        null
-                        :
+                    Object.keys(store.myUpcomingTrackers[0])[0] == 'message' ?
                         <Text style={[styles.noTracker.text, {color:currentStyle.text.color}]}> 
                             You have no upcoming tournaments{'\n'} at the moment. 
                         </Text>
+                        :
+                        null
                     :
                     <Text style={{color:currentStyle.text.color, width:'80%', 
                         alignSelf:'center', marginTop:20, textAlign:'center', fontSize:18}}>
@@ -550,7 +534,8 @@ export default SwapDashboard = (props) => {
             </TabHeading>}>
             <BounceColorWrapper style={{flex: 1}}
               mainColor={currentStyle.background.color}>
-              <Content refreshControl={
+              <Content contentContainerStyle={{backgroundColor:currentStyle.background.color, display:'flex'}} 
+              refreshControl={
                 <RefreshControl onRefresh={onRefresh2} refreshing={refreshing} />}>
                  {bflatlist()}
               </Content>

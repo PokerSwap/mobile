@@ -65,7 +65,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 			// MY PROFILE
 			myProfile:null, 
 			// LIVE AND UPCOMING SWAP TRACKER
-			myCurrentTrackers:[],
+			myCurrentTrackers:[{message:'suck it'}],
 			// LIVE AND UPCOMING SWAP TRACKER
 			myUpcomingTrackers:[],
 			// ALL PAST SWAP TRACKER
@@ -112,7 +112,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 			// BUY IN ACTIONS
 			buy_in:{
 				// CREATING A BUYIN AND (RE)-BUYING-IN INTO A TOURNAMENT
-				add: async ( image, a_table, a_seat, some_chips, a_tournament, navigation) => {
+				add: async ( image, a_table, a_seat, some_chips, a_tournament, a_tournament_id, navigation) => {
 					try{	
 						console.log('a_tournament', a_tournament)
 						// console.log('flight_id', a_flight_id)
@@ -123,6 +123,11 @@ const getState = ({ getStore, setStore, getActions }) => {
 						// PREVENTS EMPTY FIELDS
 						if (a_table == '' || a_seat == '' || some_chips == ''){
 							return customMessage('You need to fill in all the fields listed')
+
+						}
+
+						if (some_chips == 0){
+							return customMessage('You can not enter with zero chips')
 
 						}
 						// BUYIN DATA SETUP
@@ -231,10 +236,10 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 						// VALIDATING BUYIN (DONE ONCE)
 						var validatingBuyin = await getActions().buy_in.edit(newBuyin.buyin_id, a_table, a_seat, some_chips, a_tournament.tournament_id, true)
-
+						console.log("CHECK THIS BITCH ASS",a_tournament)
 						var enteringTournament = await navigation.push('Event Lobby', {
 							tournament: a_tournament,
-							tournament_id: a_tournament.tournament_id
+							tournament_id: a_tournament_id
 						})
 						getActions().refresh.dashboard(true)
 						getActions().refresh.dashboard(false)
@@ -1888,6 +1893,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					
 					  })
 					  setStore({currentLobby: flightSet})
+					  var xdxr = getActions().tracker.getCurrent()
 					
 					  }else{
 						null
@@ -1916,7 +1922,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 						var getIds = trackerData.map(tracker => tracker.tournament.id)
 						
 						const asyncRes = await Promise.all(getIds.map(async (i) => {
-							 var e = await getActions().tournament.retrieveAction(i);
+							 
+							console.log("TOURNAMENT ID", i)
+							var e = await getActions().tournament.retrieveAction(i);
 							return e;
 						}));
 						
@@ -1928,11 +1936,15 @@ const getState = ({ getStore, setStore, getActions }) => {
 								countdown: a_countdown
 							})
 						})
+						var xp
 						var currentList = newTrackerData.filter(tracker => 
 							moment().isAfter(moment(tracker.tournament.start_at)))
-
-						setStore({myCurrentTrackers: currentList})
-
+						console.log('cruent list', currentList)
+						
+						var xss = await console.log('jellp')
+						currentList.length == 0 ? xp=[{message:true}] : xp=currentList
+						setStore({myCurrentTrackers: xp})
+						console.log("HERE HERE HER", Object.keys(getStore().myCurrentTrackers[0]))
 						var x = await getActions().refresh.dashboard(true)
     					// var eeee = await getActions().refresh.dashboard(false) 
 						// setStore({myTrackers: newTrackerData})
@@ -1961,6 +1973,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						// console.log('tracker', trackerData)
 						var newTrackerData = trackerData.map((tracker, index)=> {			
 							var latest = null
+							console.log('CHECK HERE', Object.keys(tracker))
 							var deded = tracker.tournament.flights.forEach(flight =>{
 								var thisTime = flight.start_at
 								// console.log('thisTime', thisTime)
@@ -1998,10 +2011,16 @@ const getState = ({ getStore, setStore, getActions }) => {
 								results_link: tracker.tournament.results_link,
 							})
 						})
+						var xp
+
 						setStore({myPastTrackers: newTrackerData})
 						// console.log('myPastTrackers', getStore().myPastTrackers)
 						var x = newTrackerData.filter(tracker => !tracker.tournament.results_link)
+						x.length == 0 ? x = [{message:true}] : null
+
 						var y = newTrackerData.filter(tracker => tracker.tournament.results_link)
+						y.length == 0 ? y = [{message:true}] : null
+
 						setStore({myPendingResultsTrackers: x})
 						setStore({myConfirmedResultsTrackers: y})
 
@@ -2119,8 +2138,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 						var upcomingList = newTrackerData.filter(tracker => 
 							moment().isBefore(moment(tracker.tournament.start_at)))
-
-						setStore({myUpcomingTrackers: upcomingList})
+						var xp
+						upcomingList.length == 0 ? xp=[{message:true}] : xp=upcomingList
+						setStore({myUpcomingTrackers: xp})
 
 						var x = await getActions().refresh.dashboard(true)
     					// getActions().refresh.dashboard(false) 
@@ -2189,7 +2209,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 									.catch(() => "somthing went wrong here")
 									// console.log('got through half')
 									if (getStore().myProfile.naughty == true){
-										navigation.navigate('Drawer', { screen: 'Home' })
+										navigation.navigate( 'Home' )
 									}else{
 										getActions().tournament.getInitial()
 										// .then(() => getActions().firebase.login( data ))
@@ -2199,7 +2219,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 										.then(() => getActions().tracker.getUpcoming())
 										.then(() => setStore({nowLoading: ''}))
 										// .then(() => console.log('hello'))
-										.then(() => navigation.navigate('Drawer', { screen: 'Home' }))
+										.then(() => navigation.navigate('Home' ))
 										.then(() => {
 											if(wew !== null){
 												// console.log('wew', wew)

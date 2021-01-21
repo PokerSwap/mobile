@@ -42,6 +42,7 @@ export default EventLobby = () => {
       setAnEvent(answer1)
       var answer2 = await actions.tournament.retrieveAction(tournament_id)
       setAnAction(answer2) 
+      console.log("ISSUE IS HERE", Object.keys(answer1), answer1)
       var xee = actions.tournament.setCurrentLobby(answer1, answer1.tournament)
     } catch(error){
       console.log('Something went wrong with getting Tournaent',error)

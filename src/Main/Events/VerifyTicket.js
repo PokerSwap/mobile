@@ -35,7 +35,7 @@ export default VerifyTicket = (props) => {
 
   var navigation = useNavigation();
   var route = useRoute();
-  const { tournament } = route.params;
+  const { tournament, tournament_id } = route.params;
 
   useEffect(() => {
     getTournament()
@@ -45,7 +45,7 @@ export default VerifyTicket = (props) => {
   }, [])
 
   const getTournament = async() => {
-    var xw = await actions.tournament.getCurrent(tournament.id)
+    var xw = await actions.tournament.getCurrent(tournament_id)
     setCurrentTournament(xw)
   }
   
@@ -140,8 +140,7 @@ Platform.OS == 'ios' ? styles = iosStyles : styles = androidStyles
  
   const BuyInStart = async() => {
     setLoading(true)
-    var x = await actions.buy_in.add( 
-    image, table, seat, chips, tournament, navigation )
+    var x = await actions.buy_in.add( image, table, seat, chips, tournament, tournament_id, navigation )
     setLoading(false)
   }
  

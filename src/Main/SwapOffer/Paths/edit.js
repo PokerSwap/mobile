@@ -66,16 +66,12 @@ export default EditPath = (props) => {
   }
 
   const rebuyEnter = async() => {
-    var answer1 = await actions.tournament.getAction(props.buyin.tournament_id);
+    // var answer1 = await actions.tournament.getAction(props.buyin.tournament_id);
     var answer2 = await actions.tournament.getCurrent(props.buyin.tournament_id);
+    console.log('lllll', store.currentTournament.tournament.id, store.currentTournament.tournament)
     navigation.push('Verify Ticket', {
-        action: store.action,
-        tournament_name: store.currentTournament.tournament.name,
-        tournament_start: store.currentTournament.tournament.start_at,
         tournament: store.currentTournament.tournament,
-        buyins: store.currentTournament.buyins,
-        flights: store.currentTournament.tournament.flights,
-        my_buyin: store.currentTournament.my_buyin
+        tournament_id: store.currentTournament.tournament.id
     });
   }
 
