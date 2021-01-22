@@ -83,9 +83,9 @@ export default HendonSetup = (props) => {
 						<Text style={{textAlign:'center', fontSize:20, marginBottom:5}}>
 							Have a Hendon Mob profile? 
 						</Text>
-						<Text style={{textAlign:'center', fontSize:20}}>
+						{/* <Text style={{textAlign:'center', fontSize:20}}>
 							Enter your name in the search engine and find your profile.
-						</Text>
+						</Text> */}
 						</View>
 
 						<TouchableOpacity style={{marginTop:40, alignSelf:'center'}}
@@ -95,7 +95,7 @@ export default HendonSetup = (props) => {
 
 						<TouchableOpacity  style={{marginTop:30, alignSelf:'center'}}
 						onPress={() => goToNextPage()}>
-							<Text style={{fontSize:36,}}>No, I don't want to</Text>
+							<Text style={{fontSize:36,}}>No, I don't</Text>
 						</TouchableOpacity>	
 
 					</View>

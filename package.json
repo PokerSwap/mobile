@@ -64,7 +64,7 @@
     "react-native-webview": "^7.6.0",
     "save": "^2.4.0",
     "stripe": "^8.96.0",
-    "tipsi-stripe": "^8.0.0-beta.10"
+    "tipsi-stripe": "^8.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",

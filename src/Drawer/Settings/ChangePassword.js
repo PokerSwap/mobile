@@ -68,10 +68,11 @@ export default ChangePassword = () => {
           <TextInput 
             style={{fontSize:20, textAlign:'center', width:'100%', color:currentStyle.text.color}}
             placeholder="Enter Current Email"
+            selectionColor={currentStyle.text.color}
             placeholderTextColor='gray'
             keyboardType="email-address"
             blurOnSubmit={false}
-            selectionColor={'black'}
+            selectionColor={'white'}
             returnKeyType="next"
             autoCapitalize='none'
             autoCorrect={false} 
@@ -86,10 +87,12 @@ export default ChangePassword = () => {
         <View style={{borderColor:currentStyle.text.color, borderWidth:1, width:'80%', padding:10, marginVeritcal:5}}>
           <TextInput 
             style={{fontSize:20, textAlign:'center', width:'100%', color:currentStyle.text.color}}
+            selectionColor={currentStyle.text.color}
             placeholder="Enter Current Password"
             placeholderTextColor='gray'
             blurOnSubmit={false}
             autoCapitalize='none'
+            secureTextEntry
             returnKeyType="next"
             autoCorrect={false} 
             selectionColor={'black'}
@@ -107,6 +110,8 @@ export default ChangePassword = () => {
             style={{fontSize:20, textAlign:'center', width:'100%', color:currentStyle.text.color}}
             placeholder="Enter Password"
             placeholderTextColor='gray'
+            selectionColor={currentStyle.text.color}
+
             secureTextEntry
             blurOnSubmit={false}
             autoCapitalize='none'
@@ -125,6 +130,8 @@ export default ChangePassword = () => {
         <View style={{borderColor:currentStyle.text.color, borderWidth:1, width:'80%', padding:10, marginVeritcal:5}}>
           <TextInput 
             style={{fontSize:20, textAlign:'center', width:'100%', color:currentStyle.text.color}}
+            selectionColor={currentStyle.text.color}
+
             placeholder="Confirm New Password"
             placeholderTextColor='gray'
             secureTextEntry          

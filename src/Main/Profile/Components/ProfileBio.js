@@ -307,23 +307,31 @@ export default ProfileBio = (props) => {
         </Grid>
         
         {/* FULL NAME AND HENDON URL */}
-        <View style={{flex:1, marginVertical:10, justifyContent:'center', height:70, backgroundColor:currentStyle.background.color}}>
+        <View style={{flex:1, marginVertical:10, justifyContent:'center', height:100, backgroundColor:currentStyle.background.color}}>
           {profile !== undefined ?
-            profile.nickname !== "" ?
+            profile.nickname !== "" || profile.nickanme.length !== 0 ?
               <Text style={{textAlign:'center', marginTop:5, fontSize:18, color:currentStyle.text.color}}>
                 "{profile.nickname}"
               </Text>
               : null 
             : null}
-          {profile !== undefined ?
-            <Button transparent onPress={() => openHendon()}
-              style={{flex:1, justifyContent:'center'}}>
-                
-              <Text style={{fontSize:24, textAlign:'center'}}>
-                {profile.first_name} {profile.last_name}
-              </Text>
-            </Button>
-            : <Spinner /> }
+          
+            {profile !== undefined ?
+                <Text style={{fontSize:24, textAlign:'center', color:currentStyle.text.color}}>
+                    {profile.first_name} {profile.last_name}
+                </Text>
+                : 
+                null }
+
+            {profile !== undefined ?
+                <TouchableOpacity transparent onPress={() => openHendon()}
+                    style={{flex:1, justifyContent:'center'}}>
+                    <Text style={{fontSize:18, textAlign:'center',  color:'#4682bf', textDecorationLine: 'underline'}}>
+                        See Profile
+                    </Text>
+                </TouchableOpacity>
+                : 
+                null }
         </View>
       </CardItem>
       {/* PROFILE COINS / CHAT BUTTON */}

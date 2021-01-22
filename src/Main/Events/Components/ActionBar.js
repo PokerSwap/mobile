@@ -32,7 +32,7 @@ export default ActionBar = (props) => {
           <Spinner/> 
           : 
           <Text style={{fontSize:24, fontWeight:'600', color:'white', textAlign:'center'}}>
-             {100 - (50 + props.action.actions)}%
+             {props.action.actions}%
           </Text>}
       </Col>
     </Footer> 

@@ -2209,7 +2209,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 									.catch(() => "somthing went wrong here")
 									// console.log('got through half')
 									if (getStore().myProfile.naughty == true){
-										navigation.navigate( 'Home' )
+										navigation.navigate('Drawer', {screen: 'Home'} )
 									}else{
 										getActions().tournament.getInitial()
 										// .then(() => getActions().firebase.login( data ))
@@ -2219,7 +2219,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 										.then(() => getActions().tracker.getUpcoming())
 										.then(() => setStore({nowLoading: ''}))
 										// .then(() => console.log('hello'))
-										.then(() => navigation.navigate('Home' ))
+										.then(() => navigation.navigate('Drawer', {screen: 'Home'} ))
 										.then(() => {
 											if(wew !== null){
 												// console.log('wew', wew)

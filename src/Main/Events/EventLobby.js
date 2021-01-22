@@ -111,7 +111,7 @@ export default EventLobby = () => {
 
    return(
 
-    <View style={{flex:1, height:'100%',flexDirection:'column', top:0,  backgroundColor:currentStyle.background.color}}>
+    <View style={{flex:1,  height:'100%',flexDirection:'column', top:0,  backgroundColor:currentStyle.background.color}}>
       
       <View style={{height:40, position:'absolute', top:0, alignSelf:'flex-start',  backgroundColor:currentStyle.header.color}}>
     	<StatusBar StatusBarAnimation={'fade'} barStyle={'light-content'}

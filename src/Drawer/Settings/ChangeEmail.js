@@ -35,8 +35,15 @@ export default ChangeEmail = () => {
 
   const changeEmail = async() => {
     newEmail == confirmEmail ?
-      actions.user.changeEmail(
-        currentEmail, currentPassword, newEmail, navigation)
+      newEmail !== store.myProfile.email ?
+        actions.user.changeEmail(currentEmail, currentPassword, newEmail, navigation)
+        :
+        Toast.show({
+          text:'This is already your email address',
+          duration:3000,
+          position:top
+        })
+      
       :
       Toast.show({
         text:'Make sure both emails are the same',
@@ -60,7 +67,8 @@ export default ChangeEmail = () => {
             placeholderTextColor='gray'
             keyboardType="email-address"
             blurOnSubmit={false}
-            selectionColor={'black'}
+            selectionColor={currentStyle.text.color}
+
             returnKeyType="next"
             autoCapitalize='none'
             autoCorrect={false} 
@@ -83,7 +91,8 @@ export default ChangeEmail = () => {
             autoCapitalize='none'
             returnKeyType="next"
             autoCorrect={false} 
-            selectionColor={'black'}
+            selectionColor={currentStyle.text.color}
+
             ref={(input) => { txtCurrentPassword1 = input; }} 
             onSubmitEditing={() => { txtNewEmail.focus(); }}
             value={currentPassword}
@@ -102,7 +111,8 @@ export default ChangeEmail = () => {
             blurOnSubmit={true}
             ref={(input) => { txtNewEmail = input; }} 
             onSubmitEditing={() => { txtConfirmEmail.focus(); }}
-            selectionColor={'#D3D3D3'}
+            selectionColor={currentStyle.text.color}
+
             returnKeyType="go"
             autoCapitalize='none'
             autoCorrect={false} 
@@ -121,7 +131,8 @@ export default ChangeEmail = () => {
             keyboardType="email-address"
             blurOnSubmit={true}
             ref={(input) => { txtConfirmEmail = input; }} 
-            selectionColor={'#D3D3D3'}
+            selectionColor={currentStyle.text.color}
+
             returnKeyType="go"
             autoCapitalize='none'
             autoCorrect={false} 
