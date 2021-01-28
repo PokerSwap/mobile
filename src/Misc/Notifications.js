@@ -4,35 +4,35 @@ import OtherHeader from '../View-Components/OtherHeader'
 
 export default NotificationsScreen = (props) => {
 
-  return(
-    <Container>
+    return(
+        <Container>
 
-      <Content>
-        <List>
-          
-          <Separator>
-            <Text style={styles.separator.text}> 
-              Recent 
-            </Text>
-          </Separator>
+            <Content>
+                <List>
+                
+                <Separator>
+                    <Text style={styles.separator.text}> 
+                    Recent 
+                    </Text>
+                </Separator>
 
-          <Separator>
-            <Text style={styles.separator.text}> 
-              A Month Ago
-            </Text>
-          </Separator>
-          
-          <Separator>
-            <Text style={styles.separator.text}>
-              Earlier
-            </Text>
-          </Separator>
+                <Separator>
+                    <Text style={styles.separator.text}> 
+                    A Month Ago
+                    </Text>
+                </Separator>
+                
+                <Separator>
+                    <Text style={styles.separator.text}>
+                    Earlier
+                    </Text>
+                </Separator>
 
 
-        </List>
-      </Content>
-    </Container>
-  )
+                </List>
+            </Content>
+        </Container>
+    )
 }
 
 const styles ={

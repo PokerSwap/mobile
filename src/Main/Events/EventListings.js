@@ -61,57 +61,58 @@ export default EventListings = (props, navigation) => {
       {/* HEADER */}
       <View style={{height:20,  backgroundColor:currentStyle.header.color}}>
       <StatusBar StatusBarAnimation={'fade'} barStyle={'light-content'}
-				backgroundColor={'rgb(38, 171, 75)'}/>
+			backgroundColor={'rgb(38, 171, 75)'}/>
       </View>
       <HomeHeader title={'Event Listings'} />
       {/* SEARCH BAR COMPONENT */}
       <Segment style={{backgroundColor:currentStyle.background.color, marginVertical:5}}>
-        <EventSearchBar setMyCoords={setMyCoords} 
-          setMode={setMode} setPage={setPage} />
+            <EventSearchBar setMyCoords={setMyCoords} 
+            setMode={setMode} setPage={setPage} />
       </Segment>
       {/* MAIN TOURNAMENT COMPONENT */}
       {/* <EventBody mode={mode} myCoords={myCoords} event={testData} />  */}
-      {store.tournamentList != null && !store.myProfile.naughty ?
-        store.tournamentList.length != 0 && typeof(store.tournamentList) != 'string' ?
-          // TOURNAMENT LIST GENERATOR 
-          <FlatList
-            data={store.tournamentList}
-            renderItem={EventRow}
-            keyExtractor={(content, index) => index.toString()}
-            refreshControl={
-              <RefreshControl
-                refreshing={refreshing}
-                onRefresh={onRefresh} />}
-            onEndReachedThreshold={0.99}
-            onEndReached ={()=>getMore(page) }
-            ListFooterComponent={<Text style={{textAlign:'center'}}></Text>} />
-          :
-          // CONDITION IF NO TOURNAMENTS ARE FOUND UNDER FIELDS
-          <FlatList
+        {store.tournamentList != null && !store.myProfile.naughty ?
+            store.tournamentList.length != 0 && typeof(store.tournamentList) != 'string' ?
+            // TOURNAMENT LIST GENERATOR 
+            <FlatList
+                data={store.tournamentList}
+                renderItem={EventRow}
+                keyExtractor={(content, index) => index.toString()}
+                refreshControl={
+                <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={onRefresh} />}
+                onEndReachedThreshold={0.99}
+                onEndReached ={()=>getMore(page) }
+                ListFooterComponent={<Text style={{textAlign:'center'}}></Text>} />
+            :
+            // CONDITION IF NO TOURNAMENTS ARE FOUND UNDER FIELDS
+            <FlatList
+                
+                refreshControl={
+                <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={onRefresh} />}
+                ListFooterComponent={
+                <Segment style={{
+                    width:'80%', marginTop:20, alignSelf:'center', backgroundColor:'rgba(0,0,0,0)'}}>
+                    <Text style={{textAlign:'center', color:currentStyle.text.color, 
+                    fontSize:18, justifyContent:'center'}}> 
+                    There are no tournamnents under that name in our database
+                    </Text>
+                </Segment>} />
             
-            refreshControl={
-              <RefreshControl
-                refreshing={refreshing}
-                onRefresh={onRefresh} />}
-            ListFooterComponent={
-              <Segment style={{
-                width:'80%', marginTop:20, alignSelf:'center', backgroundColor:'rgba(0,0,0,0)'}}>
-                <Text style={{textAlign:'center', color:currentStyle.text.color, 
-                  fontSize:18, justifyContent:'center'}}> 
-                  There are no tournamnents under that name in our database
-                </Text>
-              </Segment>} />
-          
-        // CONDITION USED WHILE LOADING THE TOURNAMENTS
-       :
-       !store.myProfile.naughty ?
-        <Spinner /> 
+            // CONDITION USED WHILE LOADING THE TOURNAMENTS
         :
-        <Text style={{color:currentStyle.text.color, width:'80%', alignSelf:'center', marginTop:20, textAlign:'center', fontSize:18}}>
-            You've been put on the naughty list.{'\n'}{'\n'}
-            To start swapping again,{'\n'}
-            please pay your overdue swaps and have the other users confirm payment.
-          </Text> }
-  </View>
-  )
+        !store.myProfile.naughty ?
+            <Spinner /> 
+            :
+            <Text style={{color:currentStyle.text.color, width:'80%', alignSelf:'center', 
+                marginTop:20, textAlign:'center', fontSize:18}}>
+                You've been put on the naughty list.{'\n'}{'\n'}
+                To start swapping again,{'\n'}
+                please pay your overdue swaps and have the other users confirm payment.
+            </Text> }
+        </View>
+    )
 }

@@ -48,7 +48,12 @@ import ContactsScreen from './src/Main/Chat/Contacts'
 import TutorialsScreen from './src/Drawer/Tutorials/TutorialsScreen'
 import TutorialListScreen from './src/Drawer/TutorialList'
 import ChangeNickname from './src/Drawer/Settings/ChangeNickname'
+import UpdateHendon from './src/Drawer/Settings/UpdateHendon'
+
 import ConfigureNotifications from './src/Drawer/Settings/ConfigureNotifications'
+
+import HendonSelection from './src/Misc/HendonSelection'
+
 
 import PurchaseTokens from './src/Drawer/PurchaseTokens'
 import CardFieldTextScreen from './src/Drawer/PayScenes/CardFieldTextScreen'
@@ -215,22 +220,24 @@ var ChatStack = () => {
 
 var SettingsStack = () => {
 
-  return(
-    <Stack.Navigator initialRouteName="Settings Screen"  screenOptions={{ gestureEnabled: false, headerShown: false }}>
-      <Stack.Screen name="Settings Screen" component={SettingsScreen} 
-        screenOptions={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
-      <Stack.Screen name="Change Picture" component={ChangePicture}
-        options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
-      <Stack.Screen name="Change Email" component={ChangeEmail}
-        options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
-      <Stack.Screen name="Change Password" component={ChangePassword}
-        options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
-      <Stack.Screen name="Change Nickname" component={ChangeNickname}
-        options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
-      <Stack.Screen name="Configure Notifications" component={ConfigureNotifications}
-        options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
-    </Stack.Navigator>
-  )
+    return(
+        <Stack.Navigator initialRouteName="Settings Screen"  screenOptions={{ gestureEnabled: false, headerShown: false }}>
+        <Stack.Screen name="Settings Screen" component={SettingsScreen} 
+            screenOptions={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
+        <Stack.Screen name="Change Picture" component={ChangePicture}
+            options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
+        <Stack.Screen name="Change Email" component={ChangeEmail}
+            options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
+        <Stack.Screen name="Change Password" component={ChangePassword}
+            options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
+        <Stack.Screen name="Change Nickname" component={ChangeNickname}
+            options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
+        <Stack.Screen name="Update Hendon" component={UpdateHendon}
+            options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
+        <Stack.Screen name="Configure Notifications" component={ConfigureNotifications}
+            options={{ gestureEnabled: false, headerShown: true, headerBackTitle:'' }}/>
+        </Stack.Navigator>
+    )
 }
 
 var HelpStack = () => {
@@ -273,6 +280,8 @@ const NavContainer = () => {
         <Stack.Screen name="Swap Offer" component={SwapOffer} 
           options={{ gestureEnabled: false, headerShown: false, headerBackTitle:''}}/>
         <Stack.Screen name="Swap Results" component={SwapResults} 
+          options={{ gestureEnabled: false, headerShown: false, headerBackTitle:''}}/>
+        <Stack.Screen name="Hendon Selection" component={HendonSelection} 
           options={{ gestureEnabled: false, headerShown: false, headerBackTitle:''}}/>
         <Stack.Screen name="Chat" component={ChatScreen} 
           screenOptions={{ gestureEnabled: false, headerShown: false, headerBackTitle:''}} />

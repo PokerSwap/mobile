@@ -548,18 +548,18 @@ export default SwapDashboard = (props) => {
 }
 
 const styles = {
-  separator:{
-    live:{
-      height:48, backgroundColor:'rgb(56,68,165)' },
-    upcoming:{
-      height:48, backgroundColor:'gray'},
-    text:{
-      fontSize:20, fontWeight:'600', textAlign:'center' }
-  },
-  noTracker:{
-    listItem:{
-      justifyContent:'center'},
-    text:{
-      justifyContent:'center', textAlign:'center', fontSize:18, width:'90%', marginVertical: 5}
-  }
+    separator:{
+        live:{
+        height:48, backgroundColor:'rgb(56,68,165)' },
+        upcoming:{
+        height:48, backgroundColor:'gray'},
+        text:{
+        fontSize:20, fontWeight:'600', textAlign:'center' }
+    },
+    noTracker:{
+        listItem:{
+        justifyContent:'center'},
+        text:{
+        justifyContent:'center', textAlign:'center', fontSize:18, width:'90%', marginVertical: 5}
+    }
 }

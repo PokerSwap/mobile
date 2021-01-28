@@ -433,7 +433,7 @@ PODS:
     - RNPermissions
   - Permission-PhotoLibrary (2.2.2):
     - RNPermissions
-  - PromisesObjC (1.2.11)
+  - PromisesObjC (1.2.12)
   - Protobuf (3.14.0)
   - RCTRequired (0.63.3)
   - RCTTypeSafety (0.63.3):
@@ -698,7 +698,7 @@ PODS:
     - Firebase/InAppMessaging (~> 6.30.0)
     - React-Core
     - RNFBApp
-  - RNFBMessaging (7.8.11):
+  - RNFBMessaging (7.9.2):
     - Firebase/Messaging (~> 6.30.0)
     - React-Core
     - RNFBApp
@@ -713,7 +713,7 @@ PODS:
   - RNVectorIcons (6.7.0):
     - React
   - Stripe (19.0.1)
-  - tipsi-stripe (8.0.0-beta.11):
+  - tipsi-stripe (8.0.2):
     - React
     - Stripe (>= 19.0.1)
   - toolbar-android (0.1.0-rc.2):
@@ -992,7 +992,7 @@ SPEC CHECKSUMS:
   Permission-Camera: 375576c57ea625c88137d2cc52ba6dfeb21db036
   Permission-LocationWhenInUse: bed1bcdd4e98aa956e69f1e41281aa608930055e
   Permission-PhotoLibrary: bb20a7ac8aec0f7459558e5fbe2bd0a6f2744be3
-  PromisesObjC: 8c196f5a328c2cba3e74624585467a557dcb482f
+  PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   Protobuf: 0cde852566359049847168e51bd1c690e0f70056
   RCTRequired: 48884c74035a0b5b76dbb7a998bd93bcfc5f2047
   RCTTypeSafety: edf4b618033c2f1c5b7bc3d90d8e085ed95ba2ab
@@ -1030,18 +1030,18 @@ SPEC CHECKSUMS:
   RNFBApp: 570b136767f588b7eef0ab918284e9fe364d0c3e
   RNFBAuth: 5d071451384af263ac5f3598452c304db314a6ef
   RNFBInAppMessaging: 16adc3690f0d909947f80ad1f94aeee73d52c591
-  RNFBMessaging: eba0f7304bde2a6e785caa8661f8368df757272a
+  RNFBMessaging: 529010210069b299089317e1be3967a1006140c7
   RNGestureHandler: 7a5833d0f788dbd107fbb913e09aa0c1ff333c39
   RNPermissions: 067727df624665d4a6c8e2cffcc172ba608b96ed
   RNReanimated: dd8c286ab5dd4ba36d3a7fef8bff7e08711b5476
   RNScreens: 0e91da98ab26d5d04c7b59a9b6bd694124caf88c
   RNVectorIcons: 368d6d8b8301224e5ffb6254191f4f8876c2be0d
   Stripe: 03313f9520a0786e2c00d9a7a2672c11e08821af
-  tipsi-stripe: 3f978858a4e88536fea8addea820192fe21ff811
+  tipsi-stripe: e8352b11b34a5c4303debc2bc563ba2d427e2347
   toolbar-android: 404f4450b203597e7b417f714ff417bed562a1be
   Yoga: 7d13633d129fd179e01b8953d38d47be90db185a
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
 PODFILE CHECKSUM: b8ea8568d6e8eb3d19917e72ecfc4e7eefae67c6
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.10.1

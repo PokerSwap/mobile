@@ -118,24 +118,24 @@ export default ChangePicture = (props) => {
 
   }
 
-  return(
-    <Container style={{backgroundColor:currentStyle.background.color}}>
-      <Content contentContainerStyle={{
-        justifyContent:'center', alignItems:'center', backgroundColor:currentStyle.background.color}}>
-        <Spinner visible={loading} textContent={'Changing Avatar...'}/>
-        <Card transparent style={{
-            justifyContent:'center', alignItems:'center', 
-            flex:1, flexDirection:'column', marginTop:100}}>
-          <Image source={{uri: image.uri}} style={{width:300, height:300, borderWidth:1, borderColor:currentStyle.text.color}} />
-          <Button style={{width:300, justifyContent:'center'}} 
-            onPress={()=> askPersmission()}>
-            <Icon type='FontAwesome5' name='plus' style={{color:'white'}}/>
-          </Button>
-          <Button  large style={{marginTop:40, alignSelf:'center'}} onPress={() => changePicture()}>
-            <Text style={{fontSize:30, fontWeight:'600'}}> SUBMIT </Text>
-          </Button>
-        </Card>
-      </Content>  
-    </Container>
-  )
+    return(
+        <Container style={{backgroundColor:currentStyle.background.color}}>
+            <Content contentContainerStyle={{
+                justifyContent:'center', alignItems:'center', backgroundColor:currentStyle.background.color}}>
+                <Spinner visible={loading} textContent={'Changing Avatar...'}/>
+                <Card transparent style={{
+                    justifyContent:'center', alignItems:'center', 
+                    flex:1, flexDirection:'column', marginTop:100}}>
+                <Image source={{uri: image.uri}} style={{width:300, height:300, borderWidth:1, 
+                    borderColor:currentStyle.text.color}} />
+                <Button style={{width:300, justifyContent:'center'}}  onPress={()=> askPersmission()}>
+                    <Icon type='FontAwesome5' name='plus' style={{color:'white'}}/>
+                </Button>
+                <Button  large style={{marginTop:40, alignSelf:'center'}} onPress={() => changePicture()}>
+                    <Text style={{fontSize:30, fontWeight:'600'}}> SUBMIT </Text>
+                </Button>
+                </Card>
+            </Content>  
+        </Container>
+    )
 }

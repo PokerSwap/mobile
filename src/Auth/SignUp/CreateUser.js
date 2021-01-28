@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Context } from '../../Store/appContext';
 import { throttle } from 'lodash'
+import { useNavigation } from '@react-navigation/native'
 
 import { TextInput } from 'react-native'
 import { Button, Container, Item, Content, Toast, Icon, Text, View } from 'native-base';
@@ -15,6 +16,8 @@ export default CreateUser = () => {
 	const [ c_password, setC_Password] = useState('')
 	const [ submitted, setSubmitted ] = useState(false)
 	const [ disabled, setDisabled] = useState(false)
+
+	const navigation = useNavigation()
 
 	let ree = /^(?=.{6,})(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+-=]).*$/
 	let xxx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -34,6 +37,7 @@ export default CreateUser = () => {
 	const userStart = async() => {
 		var answer323 = await actions.user.add(email, password)
 		setSubmitted(answer323)
+		if(answer323 ==true){setTimeout(()=>{navigation.pop(2)}, 5000)}
 	}
 
 	const handler = () => {

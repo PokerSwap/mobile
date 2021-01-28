@@ -40,6 +40,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 			currentBuyin:{},
 			// CURRENT CHAT
 			currentChat:[],
+
+			currentHendonURL:'',
 			// CURRENT CHAT ID, USED FOR REFRESH
 			currentChatID:[],
 			// CURRENT PAGE, USED FOR NOTIFICATION USAGE
@@ -65,7 +67,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 			// MY PROFILE
 			myProfile:null, 
 			// LIVE AND UPCOMING SWAP TRACKER
-			myCurrentTrackers:[{message:'suck it'}],
+			myCurrentTrackers:[{message:true}],
 			// LIVE AND UPCOMING SWAP TRACKER
 			myUpcomingTrackers:[],
 			// ALL PAST SWAP TRACKER
@@ -1050,6 +1052,11 @@ const getState = ({ getStore, setStore, getActions }) => {
 			},
 			// PROFILE ACTIONS
 			profile:{
+
+
+				hendonUrlCurrent: async(dd) => {
+					setStore({currentHendonURL: dd})
+				},
 				// AFTER COMPLETING SIGN UP, CREATES PROFILE
 				add: async ( a_nickname, firstName, lastName, a_hendon_url, a_Picture, navigation ) => {
 					const accessToken = getStore().userToken;
@@ -1177,6 +1184,31 @@ const getState = ({ getStore, setStore, getActions }) => {
 		          }catch(error) {
 		            console.log('Something went wrong with changing nickname:', error)
 		          }
+				},
+				changeHendon: async( a_hendon_url, navigation) => {
+					try{
+						const url = databaseURL + 'profiles/me'
+									const accessToken = getStore().userToken;
+						var data = {
+						  hendon_url: a_hendon_url
+						}
+	
+						let response = await fetch(url,{
+							method:"PUT",
+							body: JSON.stringify(data),
+							headers:{
+								'Authorization': 'Bearer ' + accessToken,
+								'Content-Type':'application/json'
+							}
+						})
+						.then(response => response.json())
+						.then(() => getActions().profile.get())
+						.then(() => navigation.goBack())
+						return customMessage('Your nickname change was successful')   
+	
+					  }catch(error) {
+						console.log('Something went wrong with changing nickname:', error)
+					  }
 				},
 				changeNotificationSetting: async ( type ) => {
 					try {
@@ -1939,12 +1971,12 @@ const getState = ({ getStore, setStore, getActions }) => {
 						var xp
 						var currentList = newTrackerData.filter(tracker => 
 							moment().isAfter(moment(tracker.tournament.start_at)))
-						console.log('cruent list', currentList)
+						// console.log('cruent list', currentList)
 						
-						var xss = await console.log('jellp')
+						// var xss = await console.log('jellp')
 						currentList.length == 0 ? xp=[{message:true}] : xp=currentList
 						setStore({myCurrentTrackers: xp})
-						console.log("HERE HERE HER", Object.keys(getStore().myCurrentTrackers[0]))
+						// console.log("HERE HERE HER", Object.keys(getStore().myCurrentTrackers[0]))
 						var x = await getActions().refresh.dashboard(true)
     					// var eeee = await getActions().refresh.dashboard(false) 
 						// setStore({myTrackers: newTrackerData})
@@ -2158,6 +2190,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				add: async ( myEmail, myPassword ) => {
 					try{
 						// DATA SETUP
+						console.log('email and pass', myEmail, myPassword)
 						const url = databaseURL + 'users'
 						const data = {
 							email: myEmail,
@@ -2263,11 +2296,11 @@ const getState = ({ getStore, setStore, getActions }) => {
 					// getActions().firebase.logout()
 					setStore({currentSwap:{}})
 					setStore({currentBuyin:{}})
-					setStore({myCurrentTrackers:{}})
-					setStore({myUpcomingTrackers:{}})
-					setStore({myPastTrackers:{}})
-					setStore({myConfirmedResultsTrackers:{}})
-					setStore({myPendingResultsTrackers:{}})
+					setStore({myCurrentTrackers:[{message:true}]})
+					setStore({myUpcomingTrackers:[{message:true}]})
+					setStore({myPastTrackers:[{message:true}]})
+					setStore({myConfirmedResultsTrackers:[{message:true}]})
+					setStore({myPendingResultsTrackers:[{message:true}]})
 					setStore({userToken:{}})
 					// setStore({ myProfile: null })
 
@@ -2303,6 +2336,11 @@ const getState = ({ getStore, setStore, getActions }) => {
 							position:'top',
 							duration:3000,
 						})
+						setStore({myCurrentTrackers: [{message:true}]})
+						setStore({myUpcomingrackers: [{message:true}]})
+						console.log('check', getStore().myCurrentTrackers)
+						var xss = await console.log('check', Object.keys(getStore().myCurrentTrackers[0])[0])
+
 						if (response.message == "Please verify your new email"){
 							getActions().user.logout(navigation)
 						}else{

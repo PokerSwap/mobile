@@ -1,100 +1,100 @@
 import React from 'react';
 
-import {TextInput, Keyboard } from 'react-native'
+import {TextInput, Keyboard, View } from 'react-native'
 import { Button, Card, CardItem, Item, Icon, Input, Text } from 'native-base';
 
 export default NameSetup = (props) => {
 
-  var rrr = /^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/
+    var rrr = /^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/
 
-  let x;
-  if(props.first_name == '' || props.last_name == ''){
-    x = true
-  }else{
-    if(rrr.test(props.first_name) && rrr.test(props.last_name)){
-      x = false
+    let x;
+    if(props.first_name == '' || props.last_name == ''){
+        x = true
     }else{
-      x = true
+        if(rrr.test(props.first_name) && rrr.test(props.last_name)){
+            x = false
+        }else{
+            x = true
+        }
     }
-  }
 
 
-  let txtLastName = null
-  let txtNickName = null
+    let txtLastName = null
+    let txtNickName = null
 
 
     
-  return(
-    <Card transparent>
-      {/* NAME INSTRUCTIONS */}
-      <CardItem style={{justifyContent:'center'}}>
-        <Text style={{fontSize:16,textAlign:'center', width:'90%'}}>
-          Please enter your first and last name in the 
-          fields below as it appears on your tournament reciepts.
-        </Text>
-      </CardItem>
-      {/* NAME TEXT INPUTS */}
-      <CardItem body style={{flexDirection:"column"}}>
-        {/* FIRST NAME INPUT */}
-        <Item style={{width:'80%'}}>
-          <TextInput 
-            placeholder='First Name'
-            placeholderTextColor='grey'
-            value={props.first_name}
-            onChangeText={props.onChangeFirstName}
-            autoCorrect={false}
-            
-            style={{height:40, fontSize:20, marginTop: 1, color: "black", 
-            paddingHorizontal: 10, fontWeight:'bold'}}
-              // keyboardType="email-address"
-              blurOnSubmit={false}
-              returnKeyType="next" 
-              onSubmitEditing={() => { txtLastName.focus(); }} />
-        </Item>
-        {/* LAST NAME INPUT */}
-        <Item style={{width:'80%'}}>
-          <TextInput 
-            placeholder='Last Name'
-            placeholderTextColor='grey'
-            style={{height:40, fontSize:20, marginTop: 20, color: "black", 
-            paddingHorizontal: 10, fontWeight:'bold'}}
-            value={props.last_name}    
-            onChangeText={props.onChangeLastName} 
-            autoCorrect={false}
-            blurOnSubmit={false}
-            ref={(input) => { txtLastName = input; }} 
-            returnKeyType="next" 
-            onSubmitEditing={() => { txtNickName.focus(); }} />
-        </Item>
-      </CardItem>
-      {/* NICK NAME BODY */}
-      <CardItem body style={{flexDirection:"column"}}>  
-        {/* NICK NAME INSTRUCTIONS */}
-        <Text style={{alignSelf:'flex-start',textAlign:'center', fontSize:16, paddingTop:30, paddingBottom:20, width:'90%'}}>
-          (Optional) Enter any other name that may show up on your receipt. 
-        </Text>
-        {/* NICK NAME INPUT */}
-        <Item style={{width:'80%'}}>
-          <TextInput 
-            placeholder='Enter Buy-In Alias'
-            placeholderTextColor='grey'
-            style={{height:40, fontSize:20, marginTop: 1, color: "black", 
-            paddingHorizontal: 10, fontWeight:'bold'}}
-            value={props.nickname}    
-            onChangeText={props.onChangeNickName} 
-            autoCorrect={false}
-            blurOnSubmit={true}
-            ref={(input) => { txtNickName = input; }} 
-            returnKeyType="done" />
-        </Item>
-      </CardItem>
-      {/* SUBMIT BUTTON */}
-      <CardItem footer style={{justifyContent:"flex-end", alignContent:'flex-end'}}>
-        <Button iconRight large disabled={x} onPress={() => {Keyboard.dismiss(); props.next()}}>
-          <Text>NEXT</Text>
-          <Icon name='arrow-forward'/>
-        </Button>
-      </CardItem>
-    </Card>     
-  )
+    return(
+        <Card transparent>
+            {/* NAME INSTRUCTIONS */}
+            <CardItem style={{justifyContent:'center'}}>
+                <Text style={{fontSize:16,textAlign:'center', width:'90%'}}>
+                    Please enter your first and last name in the 
+                    fields below as it appears on your tournament reciepts.
+                </Text>
+            </CardItem>
+            {/* NAME TEXT INPUTS */}
+            <CardItem body style={{flexDirection:"column"}}>
+                {/* FIRST NAME INPUT */}
+                <View style={{width:'80%', borderBottomWidth:0.5, borderBottomColor: 'grey'}}>
+                    <TextInput 
+                        placeholder='First Name'
+                        placeholderTextColor='grey'
+                        value={props.first_name}
+                        onChangeText={props.onChangeFirstName}
+                        autoCorrect={false}
+                        
+                        style={{height:40, fontSize:20, marginTop: 1, color: "black", 
+                        paddingHorizontal: 10, fontWeight:'bold'}}
+                        // keyboardType="email-address"
+                        blurOnSubmit={false}
+                        returnKeyType="next" 
+                        onSubmitEditing={() => { txtLastName.focus(); }} />
+                </View>
+                {/* LAST NAME INPUT */}
+                <View style={{width:'80%', borderBottomWidth:0.5, borderBottomColor: 'grey'}}>
+                    <TextInput 
+                        placeholder='Last Name'
+                        placeholderTextColor='grey'
+                        style={{height:40, width:'100%', fontSize:20, marginTop: 20, color: "black", 
+                        paddingHorizontal: 10, fontWeight:'bold'}}
+                        value={props.last_name}    
+                        onChangeText={props.onChangeLastName} 
+                        autoCorrect={false}
+                        blurOnSubmit={false}
+                        ref={(input) => { txtLastName = input; }} 
+                        returnKeyType="next" 
+                        onSubmitEditing={() => { txtNickName.focus(); }} />
+                </View>
+            </CardItem>
+            {/* NICK NAME BODY */}
+            <CardItem body style={{flexDirection:"column"}}>  
+                {/* NICK NAME INSTRUCTIONS */}
+                <Text style={{alignSelf:'flex-start',textAlign:'center', fontSize:16, paddingTop:30, paddingBottom:20, width:'90%'}}>
+                    (Optional) Enter any other name that may show up on your receipt. 
+                </Text>
+                {/* NICK NAME INPUT */}
+                <View style={{width:'80%', borderBottomWidth:0.5, borderBottomColor: 'grey'}}>
+                    <TextInput 
+                        placeholder='Enter Buy-In Alias'
+                        placeholderTextColor='grey'
+                        style={{height:40, fontSize:20, marginTop: 1, color: "black", 
+                        paddingHorizontal: 10, fontWeight:'bold'}}
+                        value={props.nickname}    
+                        onChangeText={props.onChangeNickName} 
+                        autoCorrect={false}
+                        blurOnSubmit={true}
+                        ref={(input) => { txtNickName = input; }} 
+                        returnKeyType="done" />
+                </View>
+            </CardItem>
+            {/* SUBMIT BUTTON */}
+            <CardItem footer style={{justifyContent:"flex-end", alignContent:'flex-end'}}>
+                <Button iconRight large disabled={x} onPress={() => {Keyboard.dismiss(); props.next()}}>
+                <Text>To Picture</Text>
+                <Icon name='arrow-forward'/>
+                </Button>
+            </CardItem>
+        </Card>     
+    )
 }

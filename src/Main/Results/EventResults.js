@@ -162,59 +162,59 @@ export default EventResults = (props) => {
 
 
   
-  return(
-    <Container contentContainerStyle={{backgroundColor:currentStyle.header.color}}>
-      <View style={{height:20,  backgroundColor:currentStyle.header.color}}>
-      <StatusBar StatusBarAnimation={'fade'} barStyle={'light-content'}
-				backgroundColor={'rgb(38, 171, 75)'}/>
-      </View>
-      <HomeHeader title={'Event Results'} />
-       <Content contentContainerStyle={{flex:1, backgroundColor:currentStyle.background.color}}>
-         <Tabs tabBarUnderlineStyle={{backgroundColor:'white'}}
-         tabBarTextStyle={{fontWeight:'bold', color:'white'}}>
-           <Tab  heading={
-            <TabHeading style={{backgroundColor:'orange'}} >
-              <Text  style={{color:'white'}}>PENDING</Text>
-            </TabHeading>}>
-            <BounceColorWrapper style={{flex: 1}}
-              mainColor={currentStyle.background.color}>
-              <Content contentContainerStyle={{backgroundColor:currentStyle.background.color}} refreshControl={
-                <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}>
-                {flatlist(store.myPendingResultsTrackers, "have pending")}
-              </Content>
-            </BounceColorWrapper>
-           </Tab>
-           <Tab  heading={
-            <TabHeading style={{backgroundColor:'rgb(38, 171, 75)'}}>
-              <Text style={{color:'white'}}>CONFIRMED</Text>
-            </TabHeading>}>
-            <BounceColorWrapper style={{flex: 1}}
-              mainColor={currentStyle.background.color}>
-              <Content contentContainerStyle={{backgroundColor:currentStyle.background.color}}  refreshControl={
-                <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}>
-                {flatlist(store.myConfirmedResultsTrackers, "have confirmed")}
-              </Content>
-            </BounceColorWrapper>
+    return(
+        <Container contentContainerStyle={{backgroundColor:currentStyle.header.color}}>
+            <View style={{height:20,  backgroundColor:currentStyle.header.color}}>
+                <StatusBar StatusBarAnimation={'fade'} barStyle={'light-content'}
+                            backgroundColor={'rgb(38, 171, 75)'}/>
+            </View>
+            <HomeHeader title={'Event Results'} />
+            <Content contentContainerStyle={{flex:1, backgroundColor:currentStyle.background.color}}>
+                <Tabs tabBarUnderlineStyle={{backgroundColor:'white'}}
+                tabBarTextStyle={{fontWeight:'bold', color:'white'}}>
+                    <Tab  heading={
+                        <TabHeading style={{backgroundColor:'orange'}} >
+                        <Text  style={{color:'white'}}>PENDING</Text>
+                        </TabHeading>}>
+                        <BounceColorWrapper style={{flex: 1}}
+                        mainColor={currentStyle.background.color}>
+                        <Content contentContainerStyle={{backgroundColor:currentStyle.background.color}} refreshControl={
+                            <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}>
+                            {flatlist(store.myPendingResultsTrackers, "have pending")}
+                        </Content>
+                        </BounceColorWrapper>
+                    </Tab>
+                    <Tab  heading={
+                        <TabHeading style={{backgroundColor:'rgb(38, 171, 75)'}}>
+                        <Text style={{color:'white'}}>CONFIRMED</Text>
+                        </TabHeading>}>
+                        <BounceColorWrapper style={{flex: 1}}
+                        mainColor={currentStyle.background.color}>
+                        <Content contentContainerStyle={{backgroundColor:currentStyle.background.color}}  refreshControl={
+                            <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}>
+                            {flatlist(store.myConfirmedResultsTrackers, "have confirmed")}
+                        </Content>
+                        </BounceColorWrapper>
 
-           </Tab>
-         </Tabs>
-        </Content>
-    </Container>
-  )
+                    </Tab>
+                </Tabs>
+            </Content>
+        </Container>
+    )
 }
 const styles = {
     separator:{
-      live:{
-        height:48, backgroundColor:'rgb(56,68,165)' },
-      upcoming:{
-        height:48, backgroundColor:'gray'},
-      text:{
-        fontSize:20, fontWeight:'600', textAlign:'center' }
+        live:{
+            height:48, backgroundColor:'rgb(56,68,165)' },
+        upcoming:{
+            height:48, backgroundColor:'gray'},
+        text:{
+            fontSize:20, fontWeight:'600', textAlign:'center' }
     },
     noTracker:{
-      listItem:{
-        justifyContent:'center'},
-      text:{
-        justifyContent:'center', textAlign:'center', fontSize:18, width:'90%', marginVertical: 5}
+        listItem:{
+            justifyContent:'center'},
+        text:{
+            justifyContent:'center', textAlign:'center', fontSize:18, width:'90%', marginVertical: 5}
     }
-  }
+}

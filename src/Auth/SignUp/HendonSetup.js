@@ -2,41 +2,20 @@ import React, {useState, useRef} from 'react';
 
 import { Alert, KeyboardAvoidingView, TouchableOpacity, View } from "react-native";
 import { Button, Content, Text, Icon } from 'native-base';
-import { WebView } from 'react-native-webview';
-import Spinner from 'react-native-loading-spinner-overlay'
 
+
+import { useNavigation } from '@react-navigation/native'
 
 
 export default HendonSetup = (props) => {
 	
+	const [ hendonURL, setHendonURL ] = useState(props.hendon)
 	const [ lookHendon, setLookHendon] = useState(false)
-	const [ hendon, setHendon ] = useState('https://www.thehendonmob.com/search/')
-	const [ webViewKey, setWebViewKey ] = useState(0)
-	const [ loading, setLoading ] = useState(null)
-	const webViewRef = useRef(null)
-
+	const navigation = useNavigation()
 	
 	const goToNextPage = () => {
 		props.onChangeHendon('');
 		props.next();
-	}
-
-	const goBack = () => {
-		setLoading(false)
-
-		webViewRef.current.goBack();
-		setLoading(false)
-	  };
-
-	const confirmationAlert = () =>{
-		Alert.alert(
-		  "Confirmation",
-		  'Are you sure this is you?',
-		  [
-			{ text: 'Yes', onPress: () => props.next() },
-			{ text: 'No', onPress: () => console.log("Cancel Pressed"), }
-		  ]
-		)
 	}
 
 	return(
@@ -44,7 +23,20 @@ export default HendonSetup = (props) => {
 		<View transparent>
 			{lookHendon ?
 				<View style={{height:'99%'}}>
-					<Spinner visible={loading} textContent={''}/>
+					<Text>Current Hendon Mob Profile:</Text>
+					<Text></Text>
+					<Button onPress={() => navigation.push('Hendon Selection', {
+						onChangeHendon: props.onChangeHendon,
+						setHendonURL: setHendonURL
+					})}>
+						<Text>Click Here</Text>
+					</Button>
+					<Text>{hendonURL}</Text>
+
+					<Button onPress={() => goToNextPage()}>
+						<Text>Maybe Later</Text>
+					</Button>
+					{/* <Spinner visible={loading} textContent={''}/>
 					<WebView 
 					style={{height:'100%'}} 
 					key={webViewKey}
@@ -73,6 +65,13 @@ export default HendonSetup = (props) => {
 						<TouchableOpacity onPress={()=>setLookHendon(false)}>
 							<Text style={{fontSize:20, textAlign:'center'}}>Cancel</Text>
 						</TouchableOpacity>
+					</View> */}
+					{/* PREV BUTTON */}
+					<View style={{justifyContent:'center', alignSelf:'center', marginTop:30}}>
+						<Button info iconLeft large onPress={() => props.prev()}>
+							<Icon name='arrow-back'/>
+							<Text>To Picture</Text>
+						</Button>
 					</View>
 				</View>
 				:
@@ -94,7 +93,7 @@ export default HendonSetup = (props) => {
 						</TouchableOpacity>	
 
 						<TouchableOpacity  style={{marginTop:30, alignSelf:'center'}}
-						onPress={() => goToNextPage()}>
+							onPress={() => goToNextPage()}>
 							<Text style={{fontSize:36,}}>No, I don't</Text>
 						</TouchableOpacity>	
 
@@ -103,7 +102,7 @@ export default HendonSetup = (props) => {
 					<View style={{justifyContent:'center', alignSelf:'center', marginTop:30}}>
 						<Button info iconLeft large onPress={() => props.prev()}>
 							<Icon name='arrow-back'/>
-							<Text>Go Back</Text>
+							<Text>To Picture</Text>
 						</Button>
 					</View>
 		

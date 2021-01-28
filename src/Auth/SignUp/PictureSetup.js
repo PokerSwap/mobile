@@ -134,12 +134,12 @@ export default  PictureSetup = (props) => {
         {/* PREVUIOS BUTTON */}
         <Button large iconLeft onPress={() => props.prev()}>
           <Icon name='arrow-back'/>
-          <Text>Go Back</Text>
+          <Text>To Name</Text>
         </Button>
         {/* NEXT BUTTON */}
         <Button large disabled={x} iconRight 
           onPress={() => props.next()}>
-          <Text>Next</Text>
+          <Text>To Hendon</Text>
           <Icon name='arrow-forward'/>
         </Button>
       </CardItem>

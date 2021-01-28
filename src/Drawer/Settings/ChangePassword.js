@@ -63,75 +63,80 @@ export default ChangePassword = () => {
         <Text style={{fontSize:20, textAlign:'center', marginBottom:5, color:currentStyle.text.color}}> 
           Email Current Email: 
         </Text>
-        <View style={{borderColor: currentStyle.text.color, borderWidth:1, width:'80%', padding:10, marginVeritcal:5}}>
-
-          <TextInput 
-            style={{fontSize:20, textAlign:'center', width:'100%', color:currentStyle.text.color}}
-            placeholder="Enter Current Email"
-            selectionColor={currentStyle.text.color}
-            placeholderTextColor='gray'
-            keyboardType="email-address"
-            blurOnSubmit={false}
-            selectionColor={'white'}
-            returnKeyType="next"
-            autoCapitalize='none'
-            autoCorrect={false} 
-            onSubmitEditing={() => { txtCurrentPassword2.focus(); }}
-            value={currentEmail}    
-            onChangeText={email => setCurrentEmail( email )}  />
+        <View style={{borderColor: currentStyle.text.color, borderWidth:1, 
+            width:'80%', padding:10, marginVeritcal:5}}>
+            <TextInput 
+                style={{fontSize:20, textAlign:'center', width:'100%', color:currentStyle.text.color}}
+                placeholder="Enter Current Email"
+                selectionColor={currentStyle.text.color}
+                placeholderTextColor='gray'
+                keyboardType="email-address"
+                blurOnSubmit={false}
+                selectionColor={'white'}
+                returnKeyType="next"
+                autoCapitalize='none'
+                autoCorrect={false} 
+                onSubmitEditing={() => { txtCurrentPassword2.focus(); }}
+                value={currentEmail}    
+                onChangeText={email => setCurrentEmail( email )}  />
         </View>
         {/* ENTER CURRENT PASSWORD */}
-        <Text style={{fontSize:20, marginTop:20, textAlign:'center',marginBottom:5, color: currentStyle.text.color}}>
+        <Text style={{fontSize:20, marginTop:20, textAlign:'center',marginBottom:5, 
+            color: currentStyle.text.color}}>
           Enter Current Password:
         </Text>
-        <View style={{borderColor:currentStyle.text.color, borderWidth:1, width:'80%', padding:10, marginVeritcal:5}}>
-          <TextInput 
-            style={{fontSize:20, textAlign:'center', width:'100%', color:currentStyle.text.color}}
-            selectionColor={currentStyle.text.color}
-            placeholder="Enter Current Password"
-            placeholderTextColor='gray'
-            blurOnSubmit={false}
-            autoCapitalize='none'
-            secureTextEntry
-            returnKeyType="next"
-            autoCorrect={false} 
-            selectionColor={'black'}
-            ref={(input) => { txtCurrentPassword2 = input; }} 
-            onSubmitEditing={() => { txtNewPassword.focus(); }}
-            value={currentPassword}
-            onChangeText={password => setCurrentPassword( password )} />
+        <View style={{borderColor:currentStyle.text.color, borderWidth:1, width:'80%', 
+            padding:10, marginVeritcal:5}}>
+            <TextInput 
+                style={{fontSize:20, textAlign:'center', width:'100%', color:currentStyle.text.color}}
+                selectionColor={currentStyle.text.color}
+                placeholder="Enter Current Password"
+                placeholderTextColor='gray'
+                blurOnSubmit={false}
+                autoCapitalize='none'
+                secureTextEntry
+                returnKeyType="next"
+                autoCorrect={false} 
+                selectionColor={'black'}
+                ref={(input) => { txtCurrentPassword2 = input; }} 
+                onSubmitEditing={() => { txtNewPassword.focus(); }}
+                value={currentPassword}
+                onChangeText={password => setCurrentPassword( password )} />
         </View>
         {/* ENTER NEW PASSWORD */}
-        <Text style={{fontSize:20, marginTop:20, textAlign:'center',marginBottom:5, color:currentStyle.text.color}}>
+        <Text style={{fontSize:20, marginTop:20, textAlign:'center',marginBottom:5, 
+            color:currentStyle.text.color}}>
           Enter New Password:
         </Text>
-        <View style={{borderColor:currentStyle.text.color, borderWidth:1, width:'80%', padding:10, marginVeritcal:5}}>
-          <TextInput 
-            style={{fontSize:20, textAlign:'center', width:'100%', color:currentStyle.text.color}}
-            placeholder="Enter Password"
-            placeholderTextColor='gray'
-            selectionColor={currentStyle.text.color}
+        <View style={{borderColor:currentStyle.text.color, borderWidth:1, width:'80%', 
+            padding:10, marginVeritcal:5}}>
+            <TextInput 
+                style={{fontSize:20, textAlign:'center', width:'100%', color:currentStyle.text.color}}
+                placeholder="Enter Password"
+                placeholderTextColor='gray'
+                selectionColor={currentStyle.text.color}
 
-            secureTextEntry
-            blurOnSubmit={false}
-            autoCapitalize='none'
-            returnKeyType="next"
-            autoCorrect={false} 
-            selectionColor={'black'}
-            ref={(input) => { txtNewPassword = input; }} 
-            onSubmitEditing={() => { txtConfirmPassword.focus(); }}
-            value={newPassword}
-            onChangeText={password2 => setNewPassword( password2 )} />
-          </View>
+                secureTextEntry
+                blurOnSubmit={false}
+                autoCapitalize='none'
+                returnKeyType="next"
+                autoCorrect={false} 
+                selectionColor={'black'}
+                ref={(input) => { txtNewPassword = input; }} 
+                onSubmitEditing={() => { txtConfirmPassword.focus(); }}
+                value={newPassword}
+                onChangeText={password2 => setNewPassword( password2 )} />
+        </View>
         {/* CONFIRM NEW PASSWORD */}
-        <Text style={{fontSize:20, marginTop:20, textAlign:'center',marginBottom:5, color:currentStyle.text.color}}>
+        <Text style={{fontSize:20, marginTop:20, textAlign:'center',marginBottom:5, 
+        color:currentStyle.text.color}}>
           Confirm New Password:
         </Text>
-        <View style={{borderColor:currentStyle.text.color, borderWidth:1, width:'80%', padding:10, marginVeritcal:5}}>
+        <View style={{borderColor:currentStyle.text.color, borderWidth:1, width:'80%', 
+            padding:10, marginVeritcal:5}}>
           <TextInput 
             style={{fontSize:20, textAlign:'center', width:'100%', color:currentStyle.text.color}}
             selectionColor={currentStyle.text.color}
-
             placeholder="Confirm New Password"
             placeholderTextColor='gray'
             secureTextEntry          
@@ -146,10 +151,11 @@ export default ChangePassword = () => {
         </View>
         <View style={{justifyContent:'center'}}>
            {/* SUBMIT BUTTON */}
-          <Button large disabled={isDisabled} style={{marginTop:40, selfAlign:'center', justifyContent:'center'}}
+          <Button large disabled={isDisabled} style={{marginTop:40, selfAlign:'center', 
+            justifyContent:'center'}}
             onPress={()=> showAlert()}>
             <Text style={{fontSize:30, fontWeight:'600'}}> 
-              SUBMIT 
+                SUBMIT 
             </Text>
           </Button>
 
