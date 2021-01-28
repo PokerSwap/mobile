@@ -1163,7 +1163,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 		        changeNickName: async( a_nickname, navigation ) => {
 		          try{
 		            const url = databaseURL + 'profiles/me'
-								const accessToken = getStore().userToken;
+					const accessToken = getStore().userToken;
 		            var data = {
 		              nickname: a_nickname
 		            }
@@ -1176,9 +1176,10 @@ const getState = ({ getStore, setStore, getActions }) => {
 							'Content-Type':'application/json'
 						}
 					})
-					.then(response => response.json())
-					.then(() => getActions().profile.get())
-					.then(() => navigation.goBack())
+					var addedProfile = await response.json()
+						console.log('Added Profile response', addedProfile)
+					var d = await getActions().profile.get()
+					var b = await navigation.goBack()
 					return customMessage('Your nickname change was successful')   
 
 		          }catch(error) {
@@ -1188,10 +1189,11 @@ const getState = ({ getStore, setStore, getActions }) => {
 				changeHendon: async( a_hendon_url, navigation) => {
 					try{
 						const url = databaseURL + 'profiles/me'
-									const accessToken = getStore().userToken;
+						const accessToken = getStore().userToken;
 						var data = {
 						  hendon_url: a_hendon_url
 						}
+						console.log('data', data, url, accessToken)
 	
 						let response = await fetch(url,{
 							method:"PUT",
@@ -1201,13 +1203,23 @@ const getState = ({ getStore, setStore, getActions }) => {
 								'Content-Type':'application/json'
 							}
 						})
-						.then(response => response.json())
-						.then(() => getActions().profile.get())
-						.then(() => navigation.goBack())
-						return customMessage('Your nickname change was successful')   
+						var addedProfile = await response.json()
+						console.log('Added Profile response', addedProfile)
+
+						var d = await getActions().profile.get()
+					
+						
+					if(addedProfile.message == 'This Hendon Mob profile has already been assigned to another user.'){
+						return errorMessage(addedProfile.message)  
+					}else{
+						var b = await navigation.goBack()
+						return customMessage(addedProfile.message)   
+
+					}
 	
 					  }catch(error) {
-						console.log('Something went wrong with changing nickname:', error)
+						console.log('Something went wrong with changing hendon:', error.message)
+						return errorMessage(error.message)
 					  }
 				},
 				changeNotificationSetting: async ( type ) => {

@@ -309,7 +309,7 @@ export default ProfileBio = (props) => {
         {/* FULL NAME AND HENDON URL */}
         <View style={{flex:1, marginVertical:10, justifyContent:'center', height:100, backgroundColor:currentStyle.background.color}}>
           {profile !== undefined ?
-            profile.nickname !== "" || profile.nickanme.length !== 0 ?
+            profile.nickname !== "" || profile.nickname.length !== 0 ?
               <Text style={{textAlign:'center', marginTop:5, fontSize:18, color:currentStyle.text.color}}>
                 "{profile.nickname}"
               </Text>

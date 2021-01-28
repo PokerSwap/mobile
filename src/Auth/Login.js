@@ -33,8 +33,8 @@ if (Platform.OS == 'ios'){
 
 export default LoginScreen = ({navigation}) => {
   const { store, actions } = useContext(Context)
-  const [email, setEmail] = useState('techpriest.gabriel@gmail.com')
-  const [password, setPassword] = useState('Tryagain5!')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [loginColor, setLoginColor] = useState('#000099')
   const [signupColor, setSignupColor] = useState('#FF6600')

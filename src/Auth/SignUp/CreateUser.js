@@ -19,7 +19,7 @@ export default CreateUser = () => {
 
 	const navigation = useNavigation()
 
-	let ree = /^(?=.{6,})(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+-=]).*$/
+	let ree = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}.*$/
 	let xxx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
 	const createUser = async() => {
@@ -27,7 +27,7 @@ export default CreateUser = () => {
 			if(password.length >= 6 && ree.test(password)){
 				password == c_password ? userStart(): errorMessage('Make sure your passwords match')
 			} else{
-				errorMessage('Your password must have at least 6 characters long with one number and one uppercase letter')
+				errorMessage('Your password must have at least 6 characters containing one lowercase letter, one uppercase letter, and one number.')
 			}
 		} else{
 			errorMessage('Please enter a valid email address')
@@ -72,7 +72,7 @@ export default CreateUser = () => {
 							Please enter your personal email address.
 						</Text>
 						<Text style={{textAlign:"center", fontSize:16}}>
-							Then create a password 6 characters long with at least one number and symbol.
+							Then create a password at least 6 characters long containing one lowercase letter, one uppercase letter, and one number.
 						</Text>
 					</View>
 					

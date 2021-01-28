@@ -30,7 +30,7 @@ export default UpdateHendon = () => {
             console.log(store.currentHendonURL, 'newhendon')
         });
         return () => {
-          unsubscribe
+          actions.profile.hendonUrlCurrent('')
         }
       }, [])
 
