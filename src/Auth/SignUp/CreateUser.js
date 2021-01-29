@@ -3,7 +3,7 @@ import { Context } from '../../Store/appContext';
 import { throttle } from 'lodash'
 import { useNavigation } from '@react-navigation/native'
 
-import { TextInput } from 'react-native'
+import { Keyboard, TextInput } from 'react-native'
 import { Button, Container, Item, Content, Toast, Icon, Text, View } from 'native-base';
 import OtherHeader from '../../View-Components/OtherHeader';
 
@@ -43,7 +43,7 @@ export default CreateUser = () => {
 	const handler = () => {
 		setDisabled(true)
 		createUser();
-		setTimeout(()=>{setDisabled(false)}, 2000)
+		setTimeout(()=>{setDisabled(false)}, 4000)
 	  }
 
 	const errorMessage = (x) => {
@@ -122,7 +122,7 @@ export default CreateUser = () => {
 							style={styles.textInput}
 							autoCapitalize='none'
 							returnKeyType="go"
-							onSubmitEditing={() => createUser() }
+							onSubmitEditing={() => Keyboard.dismiss() }
 							autoCorrect={false} 
 							ref={(input) => { confirmPassword = input; }} 
 							value={c_password}

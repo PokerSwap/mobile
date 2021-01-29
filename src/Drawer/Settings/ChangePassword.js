@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Context } from '../../Store/appContext'
 import { useNavigation } from '@react-navigation/native'
 
-import { Alert, TextInput, View} from 'react-native'
+import { Alert, TextInput, View, ScrollView} from 'react-native'
 import { Container, Content, Button, Text, Toast } from 'native-base';
 
 import '../../Images/placeholder.jpg';
@@ -56,9 +56,10 @@ export default ChangePassword = () => {
   }
 
   return(
-    <Container style={{justifyContent:'center'}}>
-      <Content contentContainerStyle={{paddingTop:50, backgroundColor: currentStyle.background.color,
-        justifyContent:'flex-start', alignItems:'center', flex:1, flexDirection:'column'}}>
+    <Container style={{backgroundColor:currentStyle.background.color}}>
+    <Content contentContainerStyle={{paddingTop:30, paddingBottom:30,
+        justifyContent:'flex-start', alignItems:'center', flex:1, flexDirection:'column', backgroundColor:currentStyle.background.color}}>
+        
         {/* EMAIL ADDRESS FIELD */}
         <Text style={{fontSize:20, textAlign:'center', marginBottom:5, color:currentStyle.text.color}}> 
           Email Current Email: 
@@ -97,12 +98,17 @@ export default ChangePassword = () => {
                 secureTextEntry
                 returnKeyType="next"
                 autoCorrect={false} 
-                selectionColor={'black'}
                 ref={(input) => { txtCurrentPassword2 = input; }} 
                 onSubmitEditing={() => { txtNewPassword.focus(); }}
                 value={currentPassword}
                 onChangeText={password => setCurrentPassword( password )} />
         </View>
+        {/* ENTER NEW PASSWORD */}
+        <Text style={{fontSize:16, marginTop:20, width:'80%', textAlign:'center',marginBottom:5, 
+            color:currentStyle.text.color}}>
+          Your new password must be at least 6 characters containing:{'\n'} 
+          one lowercase letter, one uppercase letter, and one number.
+        </Text>
         {/* ENTER NEW PASSWORD */}
         <Text style={{fontSize:20, marginTop:20, textAlign:'center',marginBottom:5, 
             color:currentStyle.text.color}}>
@@ -121,7 +127,6 @@ export default ChangePassword = () => {
                 autoCapitalize='none'
                 returnKeyType="next"
                 autoCorrect={false} 
-                selectionColor={'black'}
                 ref={(input) => { txtNewPassword = input; }} 
                 onSubmitEditing={() => { txtConfirmPassword.focus(); }}
                 value={newPassword}
@@ -142,7 +147,6 @@ export default ChangePassword = () => {
             secureTextEntry          
             blurOnSubmit={true}
             ref={(input) => { txtConfirmPassword = input; }} 
-            selectionColor={'#D3D3D3'}
             returnKeyType="go"
             autoCapitalize='none'
             autoCorrect={false} 
@@ -151,7 +155,7 @@ export default ChangePassword = () => {
         </View>
         <View style={{justifyContent:'center'}}>
            {/* SUBMIT BUTTON */}
-          <Button large disabled={isDisabled} style={{marginTop:40, selfAlign:'center', 
+          <Button large disabled={isDisabled} style={{marginTop:20, selfAlign:'center', 
             justifyContent:'center'}}
             onPress={()=> showAlert()}>
             <Text style={{fontSize:30, fontWeight:'600'}}> 
@@ -161,7 +165,7 @@ export default ChangePassword = () => {
 
         </View>
        
-      </Content>  
-    </Container>
+      </Content>
+      </Container>  
   )
 }

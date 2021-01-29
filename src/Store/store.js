@@ -1186,7 +1186,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 		            console.log('Something went wrong with changing nickname:', error)
 		          }
 				},
-				changeHendon: async( a_hendon_url, navigation) => {
+
+				changeHendon: async( a_hendon_url ) => {
 					try{
 						const url = databaseURL + 'profiles/me'
 						const accessToken = getStore().userToken;
@@ -2217,11 +2218,22 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}, 
 						})
 						var x = await response.json()
-						console.log('Added User Response: ', response)
-						return true
+
+						if (x.message !== undefined){x == x.message}
+						console.log('Added User Response: ', x)
+						if (x.message == 'This email address is already taken'){
+								Toast.show({
+									text:x.message,
+									position:'top',
+									duration:3000,
+								})
+								return false
+						} else{ return true}
+						
+
 					} catch(error) {
 						console.log("Something went wrong with adding user: ", error)
-						return errorMessage("Sorry, this email address is already taken")
+						return errorMessage(error)
 					}
 				},
 				// LOGIN PROCESS
@@ -2328,7 +2340,10 @@ const getState = ({ getStore, setStore, getActions }) => {
 							password: myPassword,
 							new_email: myNewEmail
 						}
+
+						let xxx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 	
+						if(!xxx.test(myNewEmail)){return errorMessage('Please enter a valid email address')}
 						let accessToken = getStore().userToken;
 	
 						const url = databaseURL + 'users/me/email'
@@ -2363,6 +2378,38 @@ const getState = ({ getStore, setStore, getActions }) => {
 						return errorMessage("Something went wrong with your email address change")
 					}
 				},
+				checkHendonAvailability: async( hendon_wanted ) => {
+					try {
+						let data= {
+							hendon_url: hendon_wanted
+						}
+
+						const url = databaseURL + 'hendon_availability'
+						const accessToken = getStore().userToken;
+
+
+						let response = await fetch(url, {
+							method:'POST',
+							body: JSON.stringify(data),
+							headers: {
+								'Content-Type':'application/json',
+								'Authorization': 'Bearer ' + accessToken
+							}, 
+						})
+						.then(response => response.json())
+						console.log('Change Password Response: ', response)
+						
+
+						if(response.message == 'This Hendon Mob profile is available') {
+							return(true)
+						}else{
+							return(false)
+						}
+						
+					} catch (error) {
+						console.log('error', error)
+					}
+				},
 				// IN CHANGE SETTINGS, CHANGE YOUR PASSWORD
 				changePassword: async( myEmail, myPassword, myNewPassword, navigation ) => {
 					try {
@@ -2371,6 +2418,10 @@ const getState = ({ getStore, setStore, getActions }) => {
 							password: myPassword,
 							new_password: myNewPassword
 						} 
+
+						let ree = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}.*$/
+						if(!ree.test(myNewPassword)){return errorMessage('Your password must have at least 6 characters containing one lowercase letter, one uppercase letter, and one number.')}
+
 	
 						let accessToken = getStore().userToken;
 						const url = databaseURL + 'users/me/password'

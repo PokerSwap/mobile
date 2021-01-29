@@ -41,14 +41,14 @@ export default ChangeEmail = () => {
                 Toast.show({
                 text:'This is already your email address',
                 duration:3000,
-                position:top
+                position:'top'
                 })
             
             :
             Toast.show({
                 text:'Make sure both emails are the same',
                 duration:3000,
-                position:top
+                position:'top'
             })
     }
 
