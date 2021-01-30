@@ -3,8 +3,8 @@ import React, {useState, useEffect, useContext} from 'react';
 import { Alert, KeyboardAvoidingView, TouchableOpacity, View } from "react-native";
 import { Button, Content, Text, Icon } from 'native-base';
 
-import {Context} from '../../Store/appContext'
-import { useNavigation } from '@react-navigation/native'
+import {Context} from '../Store/appContext'
+import { useNavigation, useRoute } from '@react-navigation/native'
 
 
 export default HendonSetup = (props) => {
@@ -12,23 +12,28 @@ export default HendonSetup = (props) => {
 
 	const { store, actions } = useContext(Context)
 
-	const [ hendonURL, setHendonURL ] = useState(props.hendon)
+	const [ hendonURL, setHendonURL ] = useState('None Selected')
 	const [ lookHendon, setLookHendon] = useState(false)
 	const [ available, setAvailable] = useState(false)
-	const navigation = useNavigation()
-	
-	const goToNextPage = () => {
-		props.onChangeHendon('');
-		actions.profile.hendonUrlCurrent('')
-		props.next();
-	}
+    
+
+
+
+    const navigation = useNavigation()
+    const route = useRoute()
+
+    
+	// const goToNextPage = () => {
+	// 	props.onChangeHendon('');
+	// 	actions.profile.hendonUrlCurrent('')
+	// }
 
 	const showAlert = () =>{
         Alert.alert(
             "Confirmation",
             " Please be advised that if you claim a hendon mob profile that is not your own, you may be banned from Swapping?",
             [
-                { text: 'Yes', onPress: () => {props.onChangeHendon(hendonURL);props.next()} },
+                { text: 'Yes', onPress: () => {actions.profile.changeHendon(hendonURL, navigation, true);actions.profile.hendonUrlCurrent(''); } },
                 { text: 'No',  onPress: () => console.log("Cancel Pressed"), }
             ]
         )
@@ -51,12 +56,13 @@ export default HendonSetup = (props) => {
 				checkBaby()
 			}  else{setDisabled(true)
 				setAvailable(false)
-				actions.profile.hendonUrlCurrent('')}
+                // actions.profile.hendonUrlCurrent('')
+            }
             console.log(store.currentHendonURL, 'newhendon')
         });
-        return () => {
-          actions.profile.hendonUrlCurrent('')
-        }
+        // return () => {
+        //   actions.profile.hendonUrlCurrent('')
+        // }
       }, [])
 
 	return(
@@ -65,19 +71,24 @@ export default HendonSetup = (props) => {
 			{lookHendon ?
 				<View style={{height:'99%', alignText:'center', display:'flex', justifyContent:'center'}}>
 
+                    <Text style={{fontSize:16, width:'95%', alignSelf:'center',  marginTop:20, textAlign:'center', marginBottom:20,}}>
+                        Enter your name on the following page. Once you have found your actual profile page, confirm it. {'\n'}{'\n'} Please be advised that if you claim a hendon mob profile that is not your own, you may be banned from Swapping
+                    </Text>
+
 					<Button large style={{marginBottom:40, alignSelf:'center'}} onPress={() => navigation.push('Hendon Selection', {
-									onChangeHendon: props.onChangeHendon,
-									setHendonURL: setHendonURL
+									onChangeHendon: setHendonURL,
+                                    setHendonURL: setHendonURL,
+                                    setAvailable: setAvailable
 								})}>
 						<Text>Click Here to Search</Text>
 					</Button>
 					<Text style={{textAlign:"center", marginBottom:10, fontSize:18}}>Current Hendon Mob Profile:</Text>
-					{ store.currentHendonURL == '' ?
+					{ store.currentHendonURL == '' && hendonURL == 'None Selected' ?
 						<Text style={{fontSize:18,alignSelf:'center', textAlign:'center'}}>
 							None Selected
 						</Text>
 						:
-						store.currentHendonURL.includes('https://pokerdb.thehendonmob.com/player.php?a=r&n=') ?
+						store.currentHendonURL.includes('https://pokerdb.thehendonmob.com/player.php?a=r&n=') || hendonURL.includes('https://pokerdb.thehendonmob.com/player.php?a=r&n=') ?
 							available ?
 								<Text style={{fontSize:16, textAlign:'center',alignSelf:'center', width:'80%'}}>
 									{hendonURL}
@@ -94,40 +105,10 @@ export default HendonSetup = (props) => {
 								
 					
 
-					<Button style={{alignSelf:'center', marginTop:20}} onPress={() => goToNextPage()}>
+					<Button style={{alignSelf:'center', marginTop:20}} onPress={() => navigation.navigate('Drawer', {screen:'Home'})}>
 						<Text>Maybe Later</Text>
 					</Button>
-					{/* <Spinner visible={loading} textContent={''}/>
-					<WebView 
-					style={{height:'100%'}} 
-					key={webViewKey}
-					ref={webViewRef}
-					onContentProcessDidTerminate={() => setWebViewKey(webViewKey + 1)}
-					source={{ uri: hendon }}
-					originWhitelist={['*']}
-					// ref="webview"
-					onNavigationStateChange={(webViewState) => {
-						setHendon(webViewState.url)
-						props.onChangeHendon(webViewState.url)
-					}}
-					onLoadStart={() => setLoading(true)} onLoadProgress={() => setLoading(false)} onLoad={() => setLoading(false)}
-					javaScriptEnabled = {true}
-					domStorageEnabled = {true}
-					startInLoadingState={false}/>
-					<View>
-						<View style={{flexDirection:'row', justifyContent:'space-around', marginVertical:20}}>
-							<TouchableOpacity onPress={()=>goBack()}>
-								<Text style={{fontSize:20}}>Go Back</Text>
-							</TouchableOpacity>
-							<TouchableOpacity onPress={()=>confirmationAlert()}>
-								<Text style={{fontSize:20}}>This is my profile!</Text>
-							</TouchableOpacity>
-						</View>
-						<TouchableOpacity onPress={()=>setLookHendon(false)}>
-							<Text style={{fontSize:20, textAlign:'center'}}>Cancel</Text>
-						</TouchableOpacity>
-					</View> */}
-					{/* PREV BUTTON */}
+					
 					<View style={{justifyContent:'center'}}>
 						<Button large disabled={disabled} style={{marginTop:40, alignSelf:'center', justifyContent:'center'}}
 							onPress={()=> showAlert()}>
@@ -136,12 +117,7 @@ export default HendonSetup = (props) => {
 							</Text>
 						</Button>
 					</View>
-					<View style={{justifyContent:'center', alignSelf:'center', marginTop:30}}>
-						<Button info iconLeft large onPress={() => props.prev()}>
-							<Icon name='arrow-back'/>
-							<Text>Next</Text>
-						</Button>
-					</View>
+					
 				</View>
 				:
 				<View style={{width:'80%', height:500, flexDirection:'column', justifyContent:'space-around', alignSelf:'center', marginTop:20}}>
@@ -162,19 +138,12 @@ export default HendonSetup = (props) => {
 						</TouchableOpacity>	
 
 						<TouchableOpacity  style={{marginTop:30, alignSelf:'center'}}
-							onPress={() => goToNextPage()}>
+							onPress={() => navigation.navigate('Drawer', {screen:'Home'})}>
 							<Text style={{fontSize:36,}}>No, I don't</Text>
 						</TouchableOpacity>	
 
 					</View>
-					{/* PREV BUTTON */}
-					<View style={{justifyContent:'center', alignSelf:'center', marginTop:30}}>
-						<Button info iconLeft large onPress={() => props.prev()}>
-							<Icon name='arrow-back'/>
-							<Text>Back</Text>
-						</Button>
-						
-					</View>
+					
 		
 				</View>}
 			

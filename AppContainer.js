@@ -49,6 +49,7 @@ import TutorialsScreen from './src/Drawer/Tutorials/TutorialsScreen'
 import TutorialListScreen from './src/Drawer/TutorialList'
 import ChangeNickname from './src/Drawer/Settings/ChangeNickname'
 import UpdateHendon from './src/Drawer/Settings/UpdateHendon'
+import HendonSetup from './src/Misc/HendonSetup'
 
 import ConfigureNotifications from './src/Drawer/Settings/ConfigureNotifications'
 
@@ -75,7 +76,7 @@ var AuthStack = () => {
       <Stack.Screen name="Forgot Password" component={ForgotPassword} options={{ headerShown: true }}/>
       <Stack.Screen name="User Creation" component={CreateUser} options={{ headerShown: false }}/>
       <Stack.Screen name="Terms and Conditions" component={TermsAndConditions} options={{ headerShown: false }}/>
-      <Stack.Screen name="Profile Creation" component={CreateProfile} options={{ headerShown: true }}/>
+      <Stack.Screen name="Profile Creation" component={CreateProfile} options={{ headerShown: false }}/>
     </Stack.Navigator>
   )
 }
@@ -280,6 +281,8 @@ const NavContainer = () => {
         <Stack.Screen name="Swap Offer" component={SwapOffer} 
           options={{ gestureEnabled: false, headerShown: false, headerBackTitle:''}}/>
         <Stack.Screen name="Swap Results" component={SwapResults} 
+          options={{ gestureEnabled: false, headerShown: false, headerBackTitle:''}}/>
+        <Stack.Screen name="Hendon Setup"  component={HendonSetup} 
           options={{ gestureEnabled: false, headerShown: false, headerBackTitle:''}}/>
         <Stack.Screen name="Hendon Selection" component={HendonSelection} 
           options={{ gestureEnabled: false, headerShown: false, headerBackTitle:''}}/>

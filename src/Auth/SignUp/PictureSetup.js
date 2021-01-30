@@ -105,16 +105,15 @@ export default  PictureSetup = (props) => {
     });
   };
 
-  let x;
-  (props.picture == 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png') ? 
-    x = true : x = false;
+  
+    props.f()
 
   return(
     <Card transparent>
       {/* IMAGE PREVIEW */}
       <CardItem header style={{justifyContent:'center'}}>
         <Image source={{uri:image}}
-          style={{height:200, width:200, marginTop:25, borderRadius:500}}>
+          style={{height:150, width:150, marginTop:25, borderRadius:500}}>
           </Image>
       </CardItem>
       {/* PICTURE INSTRUCTIONS */}
@@ -130,19 +129,19 @@ export default  PictureSetup = (props) => {
         </Button>
       </CardItem>
       {/* NAVIGATION BUTTONS */}
-      <CardItem footer style={{justifyContent:"space-around"}}>
+      {/* <CardItem footer style={{justifyContent:"space-around"}}> */}
         {/* PREVUIOS BUTTON */}
-        <Button large iconLeft onPress={() => props.prev()}>
+        {/* <Button large iconLeft onPress={() => props.prev()}>
           <Icon name='arrow-back'/>
           <Text>To Name</Text>
-        </Button>
+        </Button> */}
         {/* NEXT BUTTON */}
-        <Button large disabled={x} iconRight 
+        {/* <Button large disabled={x} iconRight 
           onPress={() => props.next()}>
           <Text>To Hendon</Text>
           <Icon name='arrow-forward'/>
         </Button>
-      </CardItem>
+      </CardItem> */}
     </Card>
   )
 }

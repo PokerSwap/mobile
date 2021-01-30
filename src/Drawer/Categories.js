@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Context } from '../Store/appContext'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 
 import { TouchableOpacity, View, StatusBar } from 'react-native'
 import { Text, Icon, Header } from 'native-base';
@@ -12,6 +12,9 @@ export default CategoriesScreen = (props) => {
   const [ loading, setLoading ] = useState(false) 
 
   const navigation = useNavigation()
+  const route = useRoute()
+
+  console.log('route.params', route.params)
 
   const goToCategory = async() => {
     setLoading(true)
@@ -21,7 +24,14 @@ export default CategoriesScreen = (props) => {
     var answer2 = await actions.tracker.getPast()
     var answer3 = await actions.tournament.getInitial()
     setLoading(false)
-    navigation.navigate('Home', {screen:'Active Swaps'})
+    if(store.initialSetup){
+      var e = await actions.profile.initialSetupCurrent(false)
+      navigation.navigate('Hendon Setup')
+    }else{
+      actions.profile.initialSetupCurrent(false)
+      var e = await navigation.push('Drawer', {screen:'Home'})
+    }
+    
   }
   
   return(

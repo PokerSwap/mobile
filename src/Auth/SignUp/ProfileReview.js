@@ -14,19 +14,20 @@ export default  ProfileReview = (props) => {
 
 	let lol = new RegExp('^https:\/\/pokerdb.thehendonmob.com')
 	var xxx
-	props.hendon.includes('https://pokerdb.thehendonmob.com/player.php?a=r&n=') ? xxx = props.hendon : xxx = null
+	// props.hendon.includes('https://pokerdb.thehendonmob.com/player.php?a=r&n=') ? xxx = props.hendon : xxx = null
 
 	const createProfile = async() => {
 		setLoading(true)
 		var creatingProfile = await actions.profile.add(
 			props.nickname, props.first_name, props.last_name, 
-			xxx, props.picture, navigation
+			null, 
+			props.picture, navigation
 		) 
 		setLoading(false)
 	}
 
 	return(
-		<Card style={{flexDirection:'column'}}>
+		<Card transparent style={{flexDirection:'column'}}>
 			<Spinner visible={loading} />
 			{/* PROFILE PICTURE FIELD */}
 			<CardItem transparent style={{justifyContent:'center'}}>
@@ -53,7 +54,7 @@ export default  ProfileReview = (props) => {
 					</Text>
 				</CardItem>
 			{/* HENDON URL FIELD */}
-			<CardItem transparent 
+			{/* <CardItem transparent 
 				style={{flexDirection:'column',marginVertical:10}}>		
 				{props.hendon !== '' ?
 					props.hendon.includes('https://pokerdb.thehendonmob.com/player.php?a=r&n=') ?
@@ -62,18 +63,18 @@ export default  ProfileReview = (props) => {
 						</Text>
 					: <Text> You did not submit a valid hendon profile</Text>
 				: <Text> You did not submit a hendon profile </Text> }
-			</CardItem>
+			</CardItem> */}
 			{/* NAVIGATION BUTTONS */}
-			<CardItem transparent style={{justifyContent:'space-around'}}>		
+			{/* <CardItem transparent style={{justifyContent:'space-around'}}>		 */}
 				{/* GO BACK BUTTON */}
-				<Button light onPress={() => props.prev()}>
+				{/* <Button light onPress={() => props.prev()}>
 					<Text>Go Back</Text>
-				</Button>
+				</Button> */}
 				{/* CREATE PROFILE BUTTON */}
-				<Button success large onPress={()=> createProfile()}>
+				{/* <Button success large onPress={()=> createProfile()}>
 					<Text>Finalize</Text>
 				</Button>
-			</CardItem>
+			</CardItem> */}
 		</Card>
 	)
 }

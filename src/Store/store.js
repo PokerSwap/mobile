@@ -6,6 +6,7 @@ import { CommonActions } from '@react-navigation/native';
 import moment from 'moment-timezone'
 
 import firebase from 'firebase'; // 4.8.1
+import { initial } from 'lodash';
 var databaseURL
 
 // Platform.OS == 'ios' ?
@@ -62,8 +63,11 @@ const getState = ({ getStore, setStore, getActions }) => {
 			refreshResult:false,
 			refreshDashboard:false,
 			
+
+			initialSetup:true,
 			// MY CHATS
 			myChats:[],
+
 			// MY PROFILE
 			myProfile:null, 
 			// LIVE AND UPCOMING SWAP TRACKER
@@ -1053,7 +1057,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 			// PROFILE ACTIONS
 			profile:{
 
-
+				initialSetupCurrent: async(x) => {
+					setStore({initialSetup:x})
+				},
 				hendonUrlCurrent: async(dd) => {
 					setStore({currentHendonURL: dd})
 				},
@@ -1088,6 +1094,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					return new Promise(resolve =>
 						resolve(getActions().profile.uploadPhoto(a_Picture)
 						.then(() => getActions().profile.get())
+						.then(() => getActions().profile.initialSetupCurrent(true))
 						// .then(() => getActions().firebase.signup(uuser.email, uuser.password, full_name, a_nickname))
 						// .then(() => getActions().firebase.login(uuser))
 						// .then(() => getActions().firebase.updateAvatar(getStore().myProfile.profile_pic_url))
@@ -1187,7 +1194,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 		          }
 				},
 
-				changeHendon: async( a_hendon_url ) => {
+				changeHendon: async( a_hendon_url, navigation, first_time ) => {
 					try{
 						const url = databaseURL + 'profiles/me'
 						const accessToken = getStore().userToken;
@@ -1213,7 +1220,13 @@ const getState = ({ getStore, setStore, getActions }) => {
 					if(addedProfile.message == 'This Hendon Mob profile has already been assigned to another user.'){
 						return errorMessage(addedProfile.message)  
 					}else{
-						var b = await navigation.goBack()
+						if(first_time){
+							var xxx = await navigation.navigate('Drawer', {screen: "Home"})
+							
+						}else{
+							var b = await navigation.goBack()
+						}
+						
 						return customMessage(addedProfile.message)   
 
 					}
@@ -2262,6 +2275,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 											getActions().uiMode.change(xe)
 										}
 									})
+									.then(() => getActions().profile.initialSetupCurrent(false))
 									.then(() => getActions().tracker.getPast())
 									.catch(() => "somthing went wrong here")
 									// console.log('got through half')
@@ -2420,7 +2434,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						} 
 
 						let ree = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}.*$/
-						if(!ree.test(myNewPassword)){return errorMessage('Your password must have at least 6 characters containing one lowercase letter, one uppercase letter, and one number.')}
+						if(!ree.test(myNewPassword)){return errorMessage('Your password must have at least 6 characters containing at least one lowercase letter, one uppercase letter, and one number.')}
 
 	
 						let accessToken = getStore().userToken;

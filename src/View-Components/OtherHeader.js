@@ -7,16 +7,20 @@ import { Header, Text, Icon } from 'native-base';
 
 import darkStyle from '../Themes/dark.js'
 import lightStyle from '../Themes/light.js'
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default OtherHeader = (props) => {
   const { store, actions } = useContext(Context)
   const [disabled, setDisabled] = useState(false)
-
+   x =disabled
   const navigation = useNavigation()
 
   var currentStyle
   store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
   
+  if (props.auto && props.auto == true){
+    x = true
+  }
 
   const handler = () => {
     setDisabled(true)
@@ -24,10 +28,12 @@ export default OtherHeader = (props) => {
       navigation.popToTop()
     }else if(props.title == "User Creation"){
       navigation.pop(2)
+      setTimeout(()=>{setDisabled(false); x=false}, 1000)
+      return true 
     }else{
       navigation.goBack(null)
     }
-    setTimeout(()=>{setDisabled(false)}, 1000)
+    setTimeout(()=>{setDisabled(false), x=false}, 1000)
   }
 
   return(
@@ -36,10 +42,12 @@ export default OtherHeader = (props) => {
       justifyContent:'space-between', flexDirection:'row', 
       alignItems:'flex-end', paddingBottom:12, 
       backgroundColor:currentStyle.header.color,  height:'10%'}}>
-      {/* MENU ICON */}
-      <Icon disabled={disabled} type="Ionicons" name="ios-chevron-back" 
+      {/* MENU ICON */}<TouchableOpacity disabled={x} onPress={() => {x =true;handler()}}>
+      <Icon  type="Ionicons" name="ios-chevron-back" 
         style={{marginLeft:10, color:currentStyle.text.color}}
-        onPress={() => handler()} />
+         />
+      </TouchableOpacity >
+      
       {/* TITLE */}
       <Text style={{fontWeight:'bold', textAlign:'center', fontSize:20, 
         color:currentStyle.text.color}}>

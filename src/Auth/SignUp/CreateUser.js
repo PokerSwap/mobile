@@ -16,6 +16,7 @@ export default CreateUser = () => {
 	const [ c_password, setC_Password] = useState('')
 	const [ submitted, setSubmitted ] = useState(false)
 	const [ disabled, setDisabled] = useState(false)
+	const [ an_auto, set_An_Auto] = useState(false)
 
 	const navigation = useNavigation()
 
@@ -27,7 +28,7 @@ export default CreateUser = () => {
 			if(password.length >= 6 && ree.test(password)){
 				password == c_password ? userStart(): errorMessage('Make sure your passwords match')
 			} else{
-				errorMessage('Your password must have at least 6 characters containing one lowercase letter, one uppercase letter, and one number.')
+				errorMessage('Your password must have at least 6 characters containing at least one lowercase letter, one uppercase letter, and one number.')
 			}
 		} else{
 			errorMessage('Please enter a valid email address')
@@ -37,7 +38,8 @@ export default CreateUser = () => {
 	const userStart = async() => {
 		var answer323 = await actions.user.add(email, password)
 		setSubmitted(answer323)
-		if(answer323 ==true){setTimeout(()=>{navigation.pop(2)}, 5000)}
+		if(answer323 ==true){set_An_Auto(true);setTimeout(()=>{navigation.pop(2)}, 5000)}
+		else{set_An_Auto(false)}
 	}
 
 	const handler = () => {
@@ -53,7 +55,7 @@ export default CreateUser = () => {
 
 	return(
 		<Container >
-			<OtherHeader title={"User Creation"}/>
+			<OtherHeader title={"User Creation"} auto={an_auto}/>
 			<Content contentContainerStyle={styles.mainContainer}>
 			{submitted ? 
 				// Submitted Success
@@ -72,7 +74,7 @@ export default CreateUser = () => {
 							Please enter your personal email address.
 						</Text>
 						<Text style={{textAlign:"center", fontSize:16}}>
-							Then create a password at least 6 characters long containing one lowercase letter, one uppercase letter, and one number.
+							Then create a password at least 6 characters long containing at least one lowercase letter, one uppercase letter, and one number.
 						</Text>
 					</View>
 					

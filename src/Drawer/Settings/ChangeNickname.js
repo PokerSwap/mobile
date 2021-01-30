@@ -66,7 +66,7 @@ export default ChangeNickname = () => {
                 placeholder="Enter New Nickname"
                 placeholderTextColor='gray'
                 blurOnSubmit={false}
-                selectionColor={'black'}
+                selectionColor={currentStyle.text.color}
                 returnKeyType="next"
                 autoCapitalize='none'
                 autoCorrect={false} 

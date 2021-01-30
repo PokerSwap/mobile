@@ -24,10 +24,13 @@ export default UpdateHendon = () => {
     const [currentHendon, setCurrentHendon] = useState(store.myProfile.hendon_url)
     const [newHendon, setNewHendon] = useState('None Selected')
 
+    const [ available, setAvailable] = useState(false)
+
     useEffect(() => {  
         const unsubscribe = navigation.addListener('focus', () => {
             store.currentHendonURL.includes('https://pokerdb.thehendonmob.com/player.php?a=r&n=')  ? setDisabled(false): setDisabled(true)
             console.log(store.currentHendonURL, 'newhendon')
+            checkBaby()
         });
         return () => {
           actions.profile.hendonUrlCurrent('')
@@ -35,7 +38,15 @@ export default UpdateHendon = () => {
       }, [])
 
 
-
+      var checkBaby = async() => {
+		var x = await actions.user.checkHendonAvailability(store.currentHendonURL)
+		if (x == true){
+			setAvailable(true)
+			setDisabled(false)
+		}else{
+			setAvailable(false)
+				setDisabled(true)}
+	}
 
     
     const showAlert = () =>{
@@ -43,13 +54,13 @@ export default UpdateHendon = () => {
             "Confirmation",
             "Remember if you solely rely on your nickname for your buy-in ticket,you may not be able to verify your buyin ticket on SwapProfit if its different than what is registered.\n\n  Do you wish to continue?",
             [
-                { text: 'Yes', onPress: () => actions.profile.changeHendon(newHendon, navigation) },
+                { text: 'Yes', onPress: () => actions.profile.changeHendon(newHendon, navigation, false) },
                 { text: 'No',  onPress: () => console.log("Cancel Pressed"), }
             ]
         )
     }
-
-
+    var y
+    available ? y = 'green': y = 'red'
 return(
     <Container style={{justifyContent:'center'}}>
         <Content contentContainerStyle={{backgroundColor:currentStyle.background.color,
@@ -58,13 +69,14 @@ return(
         {/* TEXT FIELD */}
         <Text style={{fontSize:20, width:'70%', marginTop:20, textAlign:'center',marginBottom:5, 
             color:currentStyle.text.color, marginBottom:20,}}>
-            Do you want to update your Hendon Mob Profile? 
+            Enter your name on the following page. Once you have found your actual profile page, confirm it. {'\n'}{'\n'} Please be advised that if you claim a hendon mob profile that is not your own, you may be banned from Swapping
         </Text>
 
         <Button style={{alignSelf:'center', marginBottom:40,}} 
         onPress={() => navigation.push('Hendon Selection', {
                         onChangeHendon: setNewHendon,
-                        setHendonURL: setNewHendon
+                        setHendonURL: setNewHendon,
+                        setAvailable: setAvailable
 					})}>
 						<Text>Click Here</Text>
 					</Button>
@@ -77,9 +89,15 @@ return(
             </Text>
             :
             store.currentHendonURL.includes('https://pokerdb.thehendonmob.com/player.php?a=r&n=') ?
-                <Text style={{color:currentStyle.text.color, fontSize:18, textAlign:'center', width:'70%'}}>
-                    {newHendon}
-                </Text>
+                <View style={{ width:'70%'}}>
+                    <Text style={{color:currentStyle.text.color, fontSize:12, textAlign:'center',}}>
+                        {newHendon}
+                    </Text>
+                    <Text style={{color: y, textAlign:'center', fontSize:20, paddingTop:10}}>
+                        This profile is {available ? 'available.' : 'already taken.'} 
+                    </Text>
+                </View>
+                
                 :
                 <Text style={{color:currentStyle.text.color, fontSize:18, width:'70%', textAlign:'center'}}>
                     You did not submit a valid Hendon Mob profile

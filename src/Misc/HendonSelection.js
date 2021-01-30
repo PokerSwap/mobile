@@ -50,7 +50,7 @@ export default HendonSelection = () => {
 			<OtherHeader title={'Update Hendon'}/>
 			<Content contentContainerStyle={{flex:1, height:'70%'}}>
 
- 					<Spinner visible={loading} textContent={''}/>
+ 					{/* <Spinner visible={loading} textContent={''}/> */}
 					<WebView 
 					style={{maxHeight:'100%', height:400}} 
 					key={webViewKey}

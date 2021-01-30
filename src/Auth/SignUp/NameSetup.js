@@ -5,18 +5,7 @@ import { Button, Card, CardItem, Item, Icon, Input, Text } from 'native-base';
 
 export default NameSetup = (props) => {
 
-    var rrr = /^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/
-
-    let x;
-    if(props.first_name == '' || props.last_name == ''){
-        x = true
-    }else{
-        if(rrr.test(props.first_name) && rrr.test(props.last_name)){
-            x = false
-        }else{
-            x = true
-        }
-    }
+    props.e()
 
 
     let txtLastName = null
@@ -30,7 +19,7 @@ export default NameSetup = (props) => {
             <CardItem style={{justifyContent:'center'}}>
                 <Text style={{fontSize:16,textAlign:'center', width:'90%'}}>
                     Please enter your first and last name in the 
-                    fields below as it appears on your tournament reciepts.
+                    fields below as it appears on your competitive event reciepts.
                 </Text>
             </CardItem>
             {/* NAME TEXT INPUTS */}
@@ -89,12 +78,12 @@ export default NameSetup = (props) => {
                 </View>
             </CardItem>
             {/* SUBMIT BUTTON */}
-            <CardItem footer style={{justifyContent:"flex-end", alignContent:'flex-end'}}>
+            {/* <CardItem footer style={{justifyContent:"flex-end", alignContent:'flex-end'}}>
                 <Button iconRight large disabled={x} onPress={() => {Keyboard.dismiss(); props.next()}}>
-                <Text>To Picture</Text>
+                <Text>Next</Text>
                 <Icon name='arrow-forward'/>
                 </Button>
-            </CardItem>
+            </CardItem> */}
         </Card>     
     )
 }
