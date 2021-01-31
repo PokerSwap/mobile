@@ -55,7 +55,7 @@ if (Platform.OS == 'android'){
     }
   
   })
-} else{null}
+} else {null}
 
 
 

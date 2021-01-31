@@ -33,13 +33,13 @@ export default MyProfileHistoryCard = (props) => {
 					if (buyin.agreed_swaps.length !== 0){
 						if (buyin.other_swaps.length !== 0){
 							allSwaps = [ ...buyin.agreed_swaps, ...buyin.other_swaps ]
-						}else{
+						} else {
 							allSwaps = [ ...buyin.agreed_swaps ]
 						}
-					}else{
+					} else {
 						if (buyin.other_swaps.length !== 0){
 							allSwaps = [ ...buyin.other_swaps ]
-						}else{
+						} else {
 							allSwaps = null
 						}
 					}
@@ -102,15 +102,15 @@ MyHistoryAccordion = (props) => {
 	var startHour = parseInt(swapTime.substring(16,19))
 	var startM 
 	if (startHour % 12!==0){
-		if(startHour/12 >= 1){
+		if (startHour/12 >= 1){
 			startM = ' P.M.', startHour%=12
-		}else{
+		} else {
 			startM = ' A.M.'
 		}
-	} else{
+	} else {
 		if(startHour == 0){
 			startM = ' A.M.', startHour=12
-		}else{
+		} else {
 			startM = ' P.M.'
 		}
 	}

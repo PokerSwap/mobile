@@ -80,15 +80,17 @@ export default BuyIn = (props) => {
     setTimeout(()=>{setDisabled(false)}, 2000)
   }
   
-  var bg, txt;
-  if (buyin.chips !== 0){
-    if (buyin.user_id == store.myProfile.id){
-      bg='grey', txt='white'
-    }else{
-      bg=currentStyle.background.color, txt=currentStyle.text.color}
-  }else{
-    bg='red', txt='white'
-  }
+    var bg, txt;
+
+
+    if (buyin.chips !== 0){
+        if (buyin.user_id == store.myProfile.id){
+            bg='grey', txt='white'
+        } else { 
+            bg=currentStyle.background.color, txt=currentStyle.text.color}
+    } else {
+        bg='red', txt='white'
+    }
     
   return(
     <ListItem noIndent style={{ backgroundColor:bg, flexDirection:'column',marginleft:0, paddingLeft:0}}>

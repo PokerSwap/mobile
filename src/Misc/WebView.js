@@ -33,9 +33,7 @@ export default WebViewScreen = () => {
 			<Content>
 				<Spinner visible={loading} textContent={''}/>
 				<WebView source={{uri: url}} style={{height:1000}} 
-				
-					onLoadStart={() => setLoading(true)} onLoad={() => setLoading(false)}
-				/> 
+					onLoadStart={() => setLoading(true)} onLoad={() => setLoading(false)}/> 
 			</Content>
 		</Container>
 	)

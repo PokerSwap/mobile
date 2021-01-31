@@ -22,8 +22,6 @@ export default ProfitTracker = (props) => {
     const [ confirmed, setConfirmed ] = useState(props.buyin.agreed_swaps[0].confirmed)
     const [ theyPaid, setTheyPaid ] = useState(props.buyin.agreed_swaps[0].they_paid)
     const [ theyConfirmed, setTheyConfirmed ] = useState(props.buyin.agreed_swaps[0].they_confirmed)
-
-
     
     const navigation = useNavigation()
 
@@ -73,7 +71,7 @@ export default ProfitTracker = (props) => {
         ]
         )
     }
-    console.log(props.buyin.recipient_buyin)
+
     let final_swap_profit
     let swap_profit = props.buyin.they_owe_total - props.buyin.you_owe_total
     swap_profit >= 0 ?
@@ -83,34 +81,38 @@ export default ProfitTracker = (props) => {
     var message, fn, buttonColor
     if (swap_profit !== 0 && (props.buyin.they_owe_total && props.buyin.you_owe_total)){
         if (paid && confirmed){
-        if ( theyPaid && theyConfirmed ){
-            message = "Swap Confirmed", fn = () => console.log('Nothing Happend'), buttonColor = 'green'
-        } else if ( theyPaid ){
-            message = "Confirm Swap Payment", fn = () => confirmAlert(), buttonColor = 'orange'
-        } else {
-            message = "Waiting on their Payment", fn = () => console.log('Nothing Happend'), buttonColor = 'rgb(241, 191, 86)'
-        }
+            if ( theyPaid && theyConfirmed ){
+                message = "Swap Confirmed", fn = () => console.log('Nothing Happend'), 
+                buttonColor = 'green'
+            } else if ( theyPaid ){
+                message = "Confirm Swap Payment", fn = () => confirmAlert(), 
+                buttonColor = 'orange'
+            } else {
+                message = "Waiting on their Payment", fn = () => console.log('Nothing Happend'), 
+                buttonColor = 'rgb(241, 191, 86)'
+            }
         } else if ( paid ){
-        message = "Waiting for their Confirmation", fn = () => console.log('Nothing Happend'), buttonColor = 'rgb(241, 191, 86)'
+            message = "Waiting for their Confirmation", fn = () => console.log('Nothing Happend'), 
+            buttonColor = 'rgb(241, 191, 86)'
         } else {
-        message = "Paid Your Swaps?", fn = payAlert, buttonColor = 'rgb(241, 191, 86)'
+            message = "Paid Your Swaps?", fn = payAlert, buttonColor = 'rgb(241, 191, 86)'
         }
 
-    }else{null}
+    } else {null}
 
     const paySwap = async() => {
         setLoading(true)
         var answer = await actions.swap.paid(
-        props.buyin.recipient_buyin.tournament_id, 
-        props.buyin.recipient_user.id, 
-        props.buyin.agreed_swaps[0].id)
+            props.buyin.recipient_buyin.tournament_id, 
+            props.buyin.recipient_user.id, 
+            props.buyin.agreed_swaps[0].id)
         if (answer == true) {
-        setPaid(true)
-        setVisible(false)
-        setLoading(false)}
-        else{
-        setVisible(false)
-        setLoading(false)
+            setPaid(true)
+            setVisible(false)
+            setLoading(false)
+        } else {
+            setVisible(false)
+            setLoading(false)
         }
     }
 
@@ -128,8 +130,7 @@ export default ProfitTracker = (props) => {
     }
         
     return(
-        <ListItem noIndent transparent 
-        style={{justifyContent:'center'}}>
+        <ListItem noIndent transparent  style={{justifyContent:'center'}}>
             <Spinner visible={loading}/>
             {/* PAY MODAL */}
             <Modal
@@ -171,43 +172,54 @@ export default ProfitTracker = (props) => {
                 {/* PLACE ROW */}
                 <Row style={{paddingTop:15}}>
                     <Col style={{width:'25%'}}>
-                        
                     </Col>
                     <Col>
                         {props.myPlace ? 
-                        <Text style={{alignSelf:'center', fontSize:20, fontWeight:'600', color:currentStyle.text.color}}>
-                            {props.myPlace}
-                        </Text>
-                        : null}
+                            <Text style={{alignSelf:'center', fontSize:20, 
+                                fontWeight:'600', color:currentStyle.text.color}}>
+                                {props.myPlace}
+                            </Text>
+                            : 
+                            null}
                     </Col> 
                     <Col>
                         {props.buyin.their_place ? 
-                        <Text style={{alignSelf:'center',  fontSize:20, fontWeight:'600', color:currentStyle.text.color}}>
+                        <Text style={{alignSelf:'center',  fontSize:20, 
+                            fontWeight:'600', color:currentStyle.text.color}}>
                             {props.buyin.their_place}
                         </Text>
-                        : null}
+                        : 
+                        null}
                     </Col>
                 </Row>
                 {/* WINNINGS ROW */}
                 <Row style={{paddingBottom:15, paddingTop:5}}>
                     <Col style={{width:'25%'}}>
                         <Text style={{fontSize:18, color:currentStyle.text.color}}>
-                        Winnings
+                            Winnings
                         </Text>
                     </Col>
                     <Col>
                         {props.buyin.you_won ? 
-                        <Text style={{alignSelf:'center',  fontSize:20, color:currentStyle.text.color}}>
+                        <Text style={{alignSelf:'center',  fontSize:20, 
+                            color:currentStyle.text.color}}>
                             ${props.buyin.you_won}
                         </Text>
-                        : <Text style={{color:currentStyle.text.color}}> Pending </Text>}
+                        : 
+                        <Text style={{color:currentStyle.text.color}}> 
+                            Pending 
+                        </Text>}
                     </Col> 
                     <Col>
                         {props.buyin.they_won ? 
-                        <Text style={{alignSelf:'center',  fontSize:20, color:currentStyle.text.color}}>
-                            ${props.buyin.they_won}
-                        </Text>
-                        : <Text style={{color:currentStyle.text.color}}> Pending </Text>}
+                            <Text style={{alignSelf:'center',  fontSize:20, 
+                                color:currentStyle.text.color}}>
+                                ${props.buyin.they_won}
+                            </Text>
+                            : 
+                            <Text style={{color:currentStyle.text.color}}> 
+                                Pending 
+                            </Text>}
                     </Col>
                 </Row>
                 {/* INDIVIDUAL SWAPS ROW */}
@@ -217,43 +229,51 @@ export default ProfitTracker = (props) => {
                         number={index} swap={swap}
                         you_owe={swap.you_owe} they_owe= {swap.they_owe}/>)
                 })}
+
                 {/* TOTAL OWE ROW */}
                 <TotalOweRow 
                     you_owe_total = {props.buyin.you_owe_total}
                     they_owe_total = {props.buyin.they_owe_total}/>
+
                 {/* SWAP PROFIT OWE */}
                 <Row style={{flexDirection:'column'}}>
-                <Text style={{ fontSize:36, fontWeight:'600', color:currentStyle.text.color, 
-                    textAlign:'center', marginTop:30}}>
-                    Swap Profit
-                </Text>
-                {props.buyin.they_owe_total && props.buyin.you_owe_total ?
-                    <View>
-                        <Text style={{fontSize:24,marginTop:5, color:currentStyle.text.color}}>
-                            {final_swap_profit}
-                        </Text>
-                        <Text style={{fontSize:36, fontWeight:'600', marginTop:5, color:currentStyle.text.color}}>
-                            ${Math.abs(swap_profit).toFixed(2)}
-                        </Text>
-                    </View>
-                    : 
-                    <Text style={{fontSize:24, marginTop:20, color:currentStyle.text.color}}>
-                    Pending
-                    </Text>}
+                    <Text style={{ fontSize:36, fontWeight:'600', color:currentStyle.text.color, 
+                        textAlign:'center', marginTop:30}}>
+                        Swap Profit
+                    </Text>
+                    {props.buyin.they_owe_total && props.buyin.you_owe_total ?
+                        <View>
+                            <Text style={{fontSize:24,marginTop:5, 
+                                    color:currentStyle.text.color}}>
+                                {final_swap_profit}
+                            </Text>
+                            <Text style={{fontSize:36, fontWeight:'600', 
+                                marginTop:5, color:currentStyle.text.color}}>
+                                ${Math.abs(swap_profit).toFixed(2)}
+                            </Text>
+                        </View>
+                        : 
+                        <Text style={{fontSize:24, marginTop:20, 
+                            color:currentStyle.text.color}}>
+                            Pending
+                        </Text>}
                 
                 </Row>
 
                 {/* PAY/PAID BUTTON */}
                 {props.buyin.you_won ?
-                <Row style={{marginTop:30}}>
-                    <Button large onPress={() => fn()}
-                        style={{height:60, justifyContent:'center', backgroundColor:buttonColor}} >
-                        <Text style={{textAlign:'center', fontWeight:'600'}}>
-                            {message}
-                        </Text> 
-                    </Button>
-                </Row>
-                : null}
+                    <Row style={{marginTop:30}}>
+                        <Button large onPress={() => fn()}
+                            style={{height:60, justifyContent:'center', 
+                                backgroundColor:buttonColor}} >
+                            <Text style={{textAlign:'center', fontWeight:'600'}}>
+                                {message}
+                            </Text> 
+                        </Button>
+                    </Row>
+                    : 
+                    null}
+
                 {/* DISPUTE BUTTON */}
                 {props.buyin.you_won && paid && confirmed && theyPaid && !(theyConfirmed) ?
                     <Row style={{marginTop:30}}>
@@ -264,7 +284,8 @@ export default ProfitTracker = (props) => {
                             </Text> 
                         </TouchableOpacity>
                     </Row>
-                    : null}
+                    : 
+                    null}
                 
             </Grid>
         </ListItem>

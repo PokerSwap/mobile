@@ -8,25 +8,15 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 
 
 export default HendonSetup = (props) => {
-	const [disabled, setDisabled] = useState(true)
-
+	
 	const { store, actions } = useContext(Context)
 
 	const [ hendonURL, setHendonURL ] = useState('None Selected')
 	const [ lookHendon, setLookHendon] = useState(false)
 	const [ available, setAvailable] = useState(false)
-    
+	const [ disabled, setDisabled ] = useState(true)
 
-
-
-    const navigation = useNavigation()
-    const route = useRoute()
-
-    
-	// const goToNextPage = () => {
-	// 	props.onChangeHendon('');
-	// 	actions.profile.hendonUrlCurrent('')
-	// }
+	const navigation = useNavigation()
 
 	const showAlert = () =>{
         Alert.alert(
@@ -44,25 +34,30 @@ export default HendonSetup = (props) => {
 		if (x == true){
 			setAvailable(true)
 			setDisabled(false)
-		}else{
+		} else {
 			setAvailable(false)
-				setDisabled(true)}
+			setDisabled(true)
+		}
+	}
+
+	var goToHendon = () => {
+		navigation.push('Hendon Selection', {
+			onChangeHendon: setHendonURL,
+			setHendonURL: setHendonURL,
+			setAvailable: setAvailable
+		})
 	}
 	
-
 	useEffect(() => {  
         const unsubscribe = navigation.addListener('focus', () => {
             if (store.currentHendonURL.includes('https://pokerdb.thehendonmob.com/player.php?a=r&n=')){
 				checkBaby()
-			}  else{setDisabled(true)
+			} else {
+				setDisabled(true)
 				setAvailable(false)
-                // actions.profile.hendonUrlCurrent('')
             }
             console.log(store.currentHendonURL, 'newhendon')
         });
-        // return () => {
-        //   actions.profile.hendonUrlCurrent('')
-        // }
       }, [])
 
 	return(
@@ -71,15 +66,15 @@ export default HendonSetup = (props) => {
 			{lookHendon ?
 				<View style={{height:'99%', alignText:'center', display:'flex', justifyContent:'center'}}>
 
-                    <Text style={{fontSize:16, width:'95%', alignSelf:'center',  marginTop:20, textAlign:'center', marginBottom:20,}}>
-                        Enter your name on the following page. Once you have found your actual profile page, confirm it. {'\n'}{'\n'} Please be advised that if you claim a hendon mob profile that is not your own, you may be banned from Swapping
+					<Text style={{fontSize:16, width:'95%', alignSelf:'center',  
+						marginTop:20, textAlign:'center', marginBottom:20,}}>
+                        Enter your name on the following page. Once you have found your actual profile page, confirm it.
+						{'\n'}{'\n'} Please be advised that if you claim a hendon mob profile that is not your own, 
+						you may be banned from Swapping.
                     </Text>
 
-					<Button large style={{marginBottom:40, alignSelf:'center'}} onPress={() => navigation.push('Hendon Selection', {
-									onChangeHendon: setHendonURL,
-                                    setHendonURL: setHendonURL,
-                                    setAvailable: setAvailable
-								})}>
+					<Button large style={{marginBottom:40, alignSelf:'center'}} 
+						onPress={() => goToHendon()}>
 						<Text>Click Here to Search</Text>
 					</Button>
 					<Text style={{textAlign:"center", marginBottom:10, fontSize:18}}>Current Hendon Mob Profile:</Text>
@@ -100,18 +95,16 @@ export default HendonSetup = (props) => {
 							:
 							<Text style={{fontSize:18, alignSelf:'center', width:'70%', textAlign:'center'}}>
 								You did not submit a valid Hendon Mob profile
-							</Text>
-					}    
+							</Text> }    
 								
-					
-
-					<Button style={{alignSelf:'center', marginTop:20}} onPress={() => navigation.navigate('Drawer', {screen:'Home'})}>
+					<Button style={{alignSelf:'center', marginTop:20}} 
+						onPress={() => navigation.navigate('Drawer', {screen:'Home'})}>
 						<Text>Maybe Later</Text>
 					</Button>
 					
 					<View style={{justifyContent:'center'}}>
-						<Button large disabled={disabled} style={{marginTop:40, alignSelf:'center', justifyContent:'center'}}
-							onPress={()=> showAlert()}>
+						<Button large disabled={disabled} onPress={()=> showAlert()}
+							style={{marginTop:40, alignSelf:'center', justifyContent:'center'}} >
 							<Text style={{fontSize:24, fontWeight:'600'}}> 
 								Confirm Update 
 							</Text>
@@ -124,12 +117,9 @@ export default HendonSetup = (props) => {
 					{/* HENDON INSTRUCTIONS */}
 					<View style={{flexDirection:"column", justifyContent:"center", textAlign:'center'}}>
 						<View>
-						<Text style={{textAlign:'center', fontSize:20, marginBottom:5}}>
-							Have a Hendon Mob profile? 
-						</Text>
-						{/* <Text style={{textAlign:'center', fontSize:20}}>
-							Enter your name in the search engine and find your profile.
-						</Text> */}
+							<Text style={{textAlign:'center', fontSize:20, marginBottom:5}}>
+								Have a Hendon Mob profile? 
+							</Text>
 						</View>
 
 						<TouchableOpacity style={{marginTop:40, alignSelf:'center'}}
@@ -137,17 +127,18 @@ export default HendonSetup = (props) => {
 							<Text style={{fontSize:36,}}>Yes, I do</Text>
 						</TouchableOpacity>	
 
-						<TouchableOpacity  style={{marginTop:30, alignSelf:'center'}}
+						<TouchableOpacity  style={{marginTop:40, alignSelf:'center'}}
 							onPress={() => navigation.navigate('Drawer', {screen:'Home'})}>
 							<Text style={{fontSize:36,}}>No, I don't</Text>
 						</TouchableOpacity>	
-
 					</View>
-					
-		
 				</View>}
 			
 		</View>
 		</KeyboardAvoidingView>
 	)
+}
+
+const styles = {
+
 }

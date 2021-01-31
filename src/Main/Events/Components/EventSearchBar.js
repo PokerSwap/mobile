@@ -19,14 +19,13 @@ export default EventSearchBar = (props) => {
     const testValue = async(value) => {
         const regexZip = new RegExp('^\\d{5}$');
         const regexName = new RegExp('^[a-zA-Z0-9_ .-]+$');
-        console.log('value', value)
         if(regexZip.test(value)){
             var answer1 = await actions.tournament.getInitial('zip', value)    
         props.setMode('byZip')
-        } else if(regexName.test(value)){
+        } else if (regexName.test(value)){
             var answer2 = await actions.tournament.getInitial('name', value)
             props.setMode('byName')    
-        }else{
+        } else {
             props.setPage(1)
             var answer2 = await actions.tournament.getInitial()
             props.setMode('byDate')

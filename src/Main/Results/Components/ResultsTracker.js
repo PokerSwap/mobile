@@ -45,30 +45,33 @@ export default ResultsTracker = (props) => {
     const oneStar = moment(props.tournament.updated_at).add(240, 'hours')
     const now = moment()
 
-    var x = (e, f) =>  'To recieve a ' + f + ' star Swap rating,\ncomplete full payment of your Swaps by :\n' + e
+    var x = (e, f) =>  'To recieve a ' + f + ' star Swap rating,\n'+
+        'complete full payment of your Swaps by :\n' + e
     var y, wColor
-    if(allPaid && allConfirmed){
+    if (allPaid && allConfirmed){
         y = 'All Swaps Paid and Confirmed'
         wColor = 'black'
-    }else if(allPaid){
+    } else if (allPaid){
         y = 'All Swaps Paid, Waiting on Confirmation'
         wColor = 'black'
-    }else if(now.isBefore(fiveStar)){
+    } else if (now.isBefore(fiveStar)){
         y = x(fiveStar.format('h:mm A dddd MMMM Do'), 5)
         wColor = 'green'
-    }else if(now.isBefore(fourStar)){
+    } else if (now.isBefore(fourStar)){
         y = x(fourStar.format('h:mm A dddd MMMM Do'), 4)
         wColor = '#99cc33'
-    }else if(now.isBefore(threeStar)){
+    } else if (now.isBefore(threeStar)){
         y = x(threeStar.format('h:mm A dddd MMMM Do'), 3)
         wColor = 'orange'
-    }else if(now.isBefore(twoStar)){
+    } else if (now.isBefore(twoStar)){
         y = x(twoStar.format('h:mm A dddd MMMM Do'), 2)
         wColor = 'red'
-    }else if(now.isBefore(oneStar)){
-        y = "You will recieve a one star Swap rating.\nFailure to pay all Swaps after this deadline\nwill result in an account suspension:\n"+oneStar.format('h:mm A dddd MMMM Do')
+    } else if (now.isBefore(oneStar)){
+        y = "You will recieve a one star Swap rating.\n"+
+            "Failure to pay all Swaps after this deadline\n"+
+            "will result in an account suspension:\n"+oneStar.format('h:mm A dddd MMMM Do')
         wColor = '#5c1010'
-    }else{
+    } else {
         y = "You must pay these swaps in order to reestablish your account"
     }
     
@@ -91,18 +94,21 @@ export default ResultsTracker = (props) => {
                     <Text style={{textAlign:'center', color:'white'}}>{y}</Text>
                 </ListItem>
                 : null}
-            <ListItem noIndent onPress={()=> enterProfitResults()} style={{justifyContent:'flex-end'}}>
+            <ListItem noIndent onPress={()=> enterProfitResults()} 
+                style={{justifyContent:'flex-end'}}>
                 {/* TOURNAMENT TITLE */}
                 <Col style={{width:'77%', justifyContent:'flex-end'}}>
                     <Text style={{color:'black', fontSize:20, fontWeight:'600',
-                        alignContent:'center', textAlign:'center', color:currentStyle.text.color }}> 
+                        alignContent:'center', textAlign:'center', 
+                        color:currentStyle.text.color }}> 
                         {props.tournament.name}
                     </Text>
                 </Col>
                 {/* RIGHT ARROW NAVIGATION */}
                 <Col style={{width:'20%', justifyContent:'flex-end'}}>
                     <Icon type="FontAwesome5" name="angle-right" 
-                        style={{justifyContent:'center', alignSelf:'center', color:currentStyle.text.color}} />    
+                        style={{justifyContent:'center', alignSelf:'center', 
+                            color:currentStyle.text.color}} />    
                 </Col>
             </ListItem>
         </View>

@@ -24,7 +24,7 @@ export default HistoryList = (props) => {
     // RETRIEVING RELATED SWAP HISTORY
     const getHistory = () => {
         var aHistory =[]
-        if(props.user_id !== store.myProfile.id ){
+        if (props.user_id !== store.myProfile.id ){
         var checkingHistory = store.myPastTrackers.forEach(
             tracker =>  {
             var y = tracker.buyins.filter(buyin => 
@@ -37,13 +37,13 @@ export default HistoryList = (props) => {
             }
         )
         setHistory(aHistory)
-        } else{
+        } else {
         setHistory(store.myPastTrackers)
         }
     }
 
     // MAPPING HISTORY COMPONENT
-    if(history){
+    if (history){
         var myHistory = history.map((content, index) =>{ 
         // console.log('hello', content)
         return(
@@ -74,7 +74,7 @@ export default HistoryList = (props) => {
             myTrackers={store.myPastTrackers}/>
         )
         })
-    }else{
+    } else {
         null
     }
 

@@ -49,12 +49,12 @@ export default SplashScreen = () => {
 			// CHECKING USER TOKEN
 			var checkUserToken = await actions.userToken.check(savedUserToken)
 			// IF TOKEN IS VALID, MOVE TO AUTO-LOGIN PROCESS
-			if(checkUserToken && savedLoginInfo){
+			if (checkUserToken && savedLoginInfo){
 				var x = JSON.parse(savedLoginInfo)
 				// console.log('Saved Logged Info',x, typeof(x))
 				var autoLoggingIn = await actions.user.login(x, navigation)
 				// var annn = await getInitialNotification()
-			}else{
+			} else {
 				console.log('Current User Token is bad or expired.  Now moving to Login Screen.')
 				var wwx = await AsyncStorage.removeItem('userToken')
 				var wett = await AsyncStorage.removeItem('loginInfo')
@@ -62,7 +62,7 @@ export default SplashScreen = () => {
 			}			
 		} 
 		// IF NO TOKEN IS STORED ON DEVICE
-		else{
+		else {
 			console.log('Null User Token')
 			navigation.navigate('Login') 
 		}
@@ -72,7 +72,7 @@ export default SplashScreen = () => {
 		var answer = await messaging().hasPermission();
 		if (answer){
 			var fcmToken = await messaging().getToken();
-		}else{
+		} else {
 			console.log('Requesting Permission')
 			getPermission()
 		}
@@ -92,18 +92,17 @@ export default SplashScreen = () => {
 	}
 
 	const registerNotifications = async() => {
-		try{
+		try {
 			var x = await messaging().registerDeviceForRemoteMessages()
 			console.log('x',x)
 			if (!x) {
 				console.log('registered for notifications')
-			}else{
+			} else {
 				console.log('was already refistered')
 			}
-		}catch(error){
+		} catch (error){
 			console.log('error', error)
 		}
-		
 	}
 
 	useEffect(() => {

@@ -10,9 +10,9 @@ const deviceLanguage =
 console.log(deviceLanguage); //en_US
 
 var myLanguage;
-if(deviceLanguage == 'en_US'){
+if (deviceLanguage == 'en_US'){
   myLanguage = 'en'
-} else if(deviceLanguage == 'es_US') {
+} else if (deviceLanguage == 'es_US') {
   myLanguage = 'es'
 } else {
   myLanguage = 'en'

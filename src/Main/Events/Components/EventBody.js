@@ -24,8 +24,8 @@ export default EventBody = (props) => {
 
     const enterTournament = () => {
         navigation.push(path, {
-        tournament: event,
-        tournament_id:event.tournament_id
+            tournament: event,
+            tournament_id:event.tournament_id
         });
     }
 
@@ -51,36 +51,41 @@ export default EventBody = (props) => {
     var startHour = parseInt(start_at.substring(16,19))
         var startM 
         if (startHour % 12!==0){
-        if(startHour/12 >= 1){ startM = ' PM', startHour%=12 }
-        else{ startM = ' AM' }
-        } else{
-        if(startHour == 0){ startM = ' AM', startHour=12 }
-        else{ startM = ' PM' }
+            if (startHour/12 >= 1){ 
+                startM = ' PM', startHour%=12 
+            } else { 
+                startM = ' AM' 
+            }
+        } else {
+            if (startHour == 0){ 
+                startM = ' AM', startHour=12 
+            } else { 
+                startM = ' PM' 
+            }
         }
     var startTime = event.local
-    // startHour + ':' + start_at.substring(20,22) + startM + event.casino.time_zone
 
 
     var renderedItem 
-    if(props.mode=='byDate' || props.mode=='byName'){
+    if (props.mode=='byDate' || props.mode=='byName'){
         renderedItem = null
     }else if(props.mode=='byZip'){
         renderedItem = 
-        <Text style={{fontWeight:"600", fontSize:12, 
-            color:textColor, marginTop:5}}>
-            {event.casino.city}
-        </Text>
-    }else if(props.mode=='byLocation'){
+            <Text style={{fontWeight:"600", fontSize:12, 
+                color:textColor, marginTop:5}}>
+                {event.casino.city}
+            </Text>
+    } else if (props.mode=='byLocation'){
         renderedItem=
-        <Text style={{fontWeight:"600", fontSize:12, 
-            color:textColor, marginTop:5}}>
-            {event.distance !== undefined ?
-            event.distance < 10 ?
-                event.distance.toFixed(1)
-                : event.distance.toFixed(0)
-            :null	} mi.						
-        </Text>
-    }else{
+            <Text style={{fontWeight:"600", fontSize:12, 
+                color:textColor, marginTop:5}}>
+                {event.distance !== undefined ?
+                event.distance < 10 ?
+                    event.distance.toFixed(1)
+                    : event.distance.toFixed(0)
+                :null	} mi.						
+            </Text>
+    } else {
         console.log('somethign went wrong with search mode')
     }
 

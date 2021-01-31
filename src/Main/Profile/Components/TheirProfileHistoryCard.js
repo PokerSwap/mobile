@@ -53,7 +53,7 @@ export default TheirProfileHistoryCard = (props) => {
 				var startM 
 				if (startHour/12 >= 1){
 					startM = ' P.M.', startHour%=12
-				}  else{
+				}  else {
 					startM = ' A.M.'
 				}
 				

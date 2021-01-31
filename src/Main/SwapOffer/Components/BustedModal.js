@@ -11,131 +11,136 @@ import darkStyle from '../../../Themes/dark.js'
 import lightStyle from '../../../Themes/light.js'
 
 export default BustedModal = (props) => {
-  const { store, actions } = useContext(Context)
-  const navigation = useNavigation();
+    const { store, actions } = useContext(Context)
+    const navigation = useNavigation();
 
-  const [ place, setPlace ] = useState('')
-  const [ winnings, setWinnings ] = useState('')
-  const [ mode, setMode ] = useState(props.mode)
-  const [ loading, setLoading ] = useState(false)
+    const [ place, setPlace ] = useState('')
+    const [ winnings, setWinnings ] = useState('')
+    const [ mode, setMode ] = useState(props.mode)
+    const [ loading, setLoading ] = useState(false)
 
-  var currentStyle
-  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
+    var currentStyle
+    store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
 
-  var txtWinnings = null
+    var txtWinnings = null
 
-  var a_behavior, offBy;
-
-  if (Platform.OS == 'ios'){
-    a_behavior='position' 
-     offBy= -300
-    // marginee=20
-  }else{
-    a_behavior='padding'
-    offBy = -600
-    // marginee = 30
-  }
-
-  var bustedComplete = async() => {
-    if (mode=='busted'){
-      props.setNewChips(0)
-      setLoading(true)
-      var answer1 = await actions.buy_in.edit(
-        props.buyin_id, props.newTable, props.newSeat, 0, props.tournament_id, false)
-      var answer2 = await actions.buy_in.busted(
-        props.buyin_id, place, winnings, props.tournament_id )
-      console.log('done')
-        setLoading(false)
-        navigation.goBack()
-      props.setVisible(false)
-    }else if(mode=='entry'){
-      setLoading(true)
-      var answer2 = await actions.buy_in.entry(
-        props.buyin_id, place, winnings, props.tournament_id )
-      props.setRefreshing(true)
-      setLoading(false)
-      props.setVisible(false)
-    }else{
-      null
+    var a_behavior, offBy;
+    if (Platform.OS == 'ios'){
+        a_behavior='position', offBy= -300
+        // marginee=20
+    } else {
+        a_behavior='padding', offBy = -600
+        // marginee = 30
     }
-  } 
 
-  return(
-    <KeyboardAvoidingView  behavior={a_behavior} keyboardVerticalOffset={offBy}>
-        <View style={modalStyles.background}>
+    var bustedComplete = async() => {
+        if (mode=='busted'){
+            props.setNewChips(0)
+            setLoading(true)
+            var answer1 = await actions.buy_in.edit(
+                props.buyin_id, props.newTable, props.newSeat, 
+                0, props.tournament_id, false)
+            var answer2 = await actions.buy_in.busted(
+                props.buyin_id, place, winnings, props.tournament_id )
+                setLoading(false)
+                navigation.goBack()
+            props.setVisible(false)
+        } else if (mode=='entry'){
+            setLoading(true)
+            var answer2 = await actions.buy_in.entry(
+                props.buyin_id, place, winnings, props.tournament_id )
+            props.setRefreshing(true)
+            setLoading(false)
+            props.setVisible(false)
+        } else {
+            null
+        }
+    } 
 
+    return(
+        <KeyboardAvoidingView  behavior={a_behavior} keyboardVerticalOffset={offBy}>
+            <View style={modalStyles.background}>
 
-        <View style={ [modalStyles.main, {backgroundColor:currentStyle.background.color}] }>        
-         
-         <Spinner visible={loading}/>
+                <View style={ [modalStyles.main, 
+                    {backgroundColor:currentStyle.background.color}] }>        
+                
+                    <Spinner visible={loading}/>
 
-          <Text style={{fontSize:24, textAlign:'center', color: currentStyle.text.color}}>
-            Enter your place and cash amount you won.
-          </Text>
+                    <Text style={{fontSize:24, textAlign:'center', 
+                    color: currentStyle.text.color}}>
+                        Enter your place and cash amount you won.
+                    </Text>
 
-          <Grid style={{marginVertical:10}}>
-            
-            <Col style={{justifyContent:'center'}}>             
-              <View style={ modalStyles.field.view }>
-                <Icon type='Ionicons' name='ios-ribbon' style={{color:currentStyle.text.color}}/>
-                <Text style={ [modalStyles.field.text, {color:currentStyle.text.color}] }>
-                {'  '}Place
-                </Text>
+                    <Grid style={{marginVertical:10}}>
+                        
+                        <Col style={{justifyContent:'center'}}>             
+                            <View style={ modalStyles.field.view }>
+                                <Icon type='Ionicons' name='ios-ribbon' 
+                                    style={{color:currentStyle.text.color}}/>
+                                <Text style={ [modalStyles.field.text, 
+                                    {color:currentStyle.text.color}] }>
+                                {'  '}Place
+                                </Text>
 
-              <TextInput 
-                style={ [modalStyles.field.textInput ,{color:currentStyle.text.color}] }
-                placeholder={'5'}
-                keyboardType='number-pad'
-                placeholderTextColor='grey'
-                blurOnSubmit={false}
-                returnKeyType="done"
-                onSubmitEditing={() => { txtWinnings.focus(); }}
-                value={place}    
-                onChangeText={placeX => setPlace( placeX )}/>
-              </View>
+                                <TextInput 
+                                    style={ [modalStyles.field.textInput ,
+                                        {color:currentStyle.text.color}] }
+                                    placeholder={'5'}
+                                    keyboardType='number-pad'
+                                    placeholderTextColor='grey'
+                                    blurOnSubmit={false}
+                                    returnKeyType="done"
+                                    onSubmitEditing={() => { txtWinnings.focus(); }}
+                                    value={place}    
+                                    onChangeText={placeX => setPlace( placeX )}/>
+                            </View>
 
-              <View style={modalStyles.field.view}>
-                <Icon type='FontAwesome5' name='dollar-sign' 
-                style={{color:currentStyle.text.color}}/>
-                <Text style={[modalStyles.field.text, {color:currentStyle.text.color}]}>
-                  {'  '}Cash
-                </Text>
+                            <View style={modalStyles.field.view}>
+                                <Icon type='FontAwesome5' name='dollar-sign' 
+                                    style={{color:currentStyle.text.color}}/>
+                                <Text style={[modalStyles.field.text, 
+                                    {color:currentStyle.text.color}]}>
+                                    {'  '}Cash
+                                </Text>
 
-              <TextInput 
-                style={[modalStyles.field.textInput,{color:currentStyle.text.color}]}
-                keyboardType='decimal-pad'
-                returnKeyType="done"
-                placeholderTextColor='grey'
-                placeholder={'$100.00'}
-                ref={(input) => { txtWinnings = input; }} 
-                blurOnSubmit={true}
-                value={winnings}    
-                onChangeText={winningsX => setWinnings( winningsX )} />
-              </View>
+                                <TextInput 
+                                    style={[modalStyles.field.textInput,
+                                        {color:currentStyle.text.color}]}
+                                    keyboardType='decimal-pad'
+                                    returnKeyType="done"
+                                    placeholderTextColor='grey'
+                                    placeholder={'$100.00'}
+                                    ref={(input) => { txtWinnings = input; }} 
+                                    blurOnSubmit={true}
+                                    value={winnings}    
+                                    onChangeText={winningsX => setWinnings( winningsX )} />
+                            </View>
 
-              <Row style={{marginTop:20, justifyContent:'space-around'}}>
-              
-                <TouchableOpacity onPress={()=> bustedComplete()}>
-                  <Text style={[modalStyles.button.text, {color:currentStyle.text.color}]}>
-                    Submit
-                  </Text>
-                </TouchableOpacity>
-              
-                <TouchableOpacity onPress={()=>props.setVisible(false)}>
-                  <Text style={[modalStyles.button.text, {color:currentStyle.text.color}]}>
-                    Cancel
-                  </Text>
-                </TouchableOpacity>
-              </Row>
-            </Col>
-          </Grid>
+                            <Row style={{marginTop:20, justifyContent:'space-around'}}>
+                            
+                                <TouchableOpacity onPress={()=> bustedComplete()}>
+                                    <Text style={[modalStyles.button.text, 
+                                        {color:currentStyle.text.color}]}>
+                                        Submit
+                                    </Text>
+                                </TouchableOpacity>
+                            
+                                <TouchableOpacity onPress={()=>props.setVisible(false)}>
+                                    <Text style={[modalStyles.button.text, 
+                                        {color:currentStyle.text.color}]}>
+                                        Cancel
+                                    </Text>
+                                </TouchableOpacity>
+                            </Row>
+                        </Col>
+                    </Grid>
 
-        </View>
+                </View>
 
-      </View>
-      </KeyboardAvoidingView> 
+            </View>
+        </KeyboardAvoidingView> 
 
-  )
+    )
 }
 
 const modalStyles = {

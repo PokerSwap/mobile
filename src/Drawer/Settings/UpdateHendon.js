@@ -43,7 +43,7 @@ export default UpdateHendon = () => {
 		if (x == true){
 			setAvailable(true)
 			setDisabled(false)
-		}else{
+		} else {
 			setAvailable(false)
 				setDisabled(true)}
 	}

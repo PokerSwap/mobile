@@ -174,7 +174,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 							// var eee = await getActions().buy_in.delete(newBuyin.buyin_id)
 							console.log('lol', newBuyin)
 							return errorMessage(newBuyin.message)
-						}else{null}
+						} else {
+							null
+						}
 						console.log('newBuyin',newBuyin)
 						// if(a_tournament_id !== 882){
 						// 	null
@@ -290,15 +292,15 @@ const getState = ({ getStore, setStore, getActions }) => {
 						console.log('Current Unconfirmed Swaps:', swapsToClose)						
 						
 						var closingAllSwaps = swapsToClose.forEach( swap => {
-							if( swap.status == 'pending' ){
+							if ( swap.status == 'pending' ){
 								getActions().swap.statusChange( swap.tournament_id, swap.id, swap.buyinID, 'pending', "canceled")
 								getActions().swapToken.buy(1)
-							}else if(swap.status == 'incoming'){
+							} else if (swap.status == 'incoming'){
 								getActions().swap.statusChange( swap.tournament_id, swap.id, swap.buyinID, 'incoming', "rejected" )
-							}else if( swap.status == 'counter_incoming' ){
+							} else if ( swap.status == 'counter_incoming' ){
 								getActions().swap.statusChange( swap.tournament_id, swap.id, swap.buyinID, 'counter_incoming', "rejected" )
 								getActions().swapToken.buy(1)
-							}else{
+							}else {
 								null
 							}
 						})
@@ -438,7 +440,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							if (message.user_id == xx.id){
 								whoDis = xx.profile_pic_url
 								thisMe = xx.first_name
-							}else{
+							} else {
 								whoDis = yy.profile_pic_url
 								thisMe= yy.first_name
 							}
@@ -486,7 +488,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 							if(chat.user2_id !== getStore().myProfile.id){
 								return chat.user2_id
 							
-							}else{return chat.user1_id}
+							} else {
+								return chat.user1_id
+							}
 						})
 						// console.log('dddds', getIds)
 						const asyncRes = await Promise.all(getIds.map(async (i) => {
@@ -534,7 +538,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						// console.log('check',currentChatResponse)
 						if (currentChatResponse.messages){
 							return currentChatResponse.id
-						}else{
+						} else {
 							return false
 						}
 					} catch (error) {
@@ -610,7 +614,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						if (aDeviceToken){
 							setStore({deviceToken: aDeviceToken})
 							// console.log('Current Device Token', getStore().deviceToken)
-						} else{
+						} else {
 							getActions().deviceToken.retrieve(getStore().myProfile.id)
 						}										
 					} catch (error) {
@@ -695,7 +699,11 @@ const getState = ({ getStore, setStore, getActions }) => {
 						.then(() =>	{ 
 							var userf = firebase.auth().currentUser;
 							var x
-							if (username.length !== 0){x = username}else{x = name}
+							if (username.length !== 0){
+								x = username
+							} else {
+								x = name
+							}
 							userf.updateProfile({ displayName: x })
 							console.log('Updated displayName successfully. name:' + x)
 						} )
@@ -1016,7 +1024,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 						if(getStore().notificationData.id){
 							null
-						}else{
+						} else {
 							setStore({notificationData: notification })
 						}
 
@@ -1030,7 +1038,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 								var startGoToEvent = await getActions().navigate.toEvent(getStore().notificationData, navigation)
 							} else if(type == 'swap'){
 								var startGoToSwap = await getActions().navigate.toSwap(getStore().notificationData, navigation)
-							} else{
+							} else {
 								console.log('No Notification Recieved or Error: ')
 								setStore({notificationData:null})
 								navigation.navigate('Active Swaps')		
@@ -1038,7 +1046,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}
 						}
 						// NO NEW NOTIFICATION RECIEVED
-						else{
+						else {
 							setStore({notificationData:{}})
 							navigation.navigate('Active Swaps')		
 						}
@@ -1217,18 +1225,15 @@ const getState = ({ getStore, setStore, getActions }) => {
 						var d = await getActions().profile.get()
 					
 						
-					if(addedProfile.message == 'This Hendon Mob profile has already been assigned to another user.'){
+					if (addedProfile.message == 'This Hendon Mob profile has already been assigned to another user.'){
 						return errorMessage(addedProfile.message)  
-					}else{
-						if(first_time){
+					} else {
+						if (first_time){
 							var xxx = await navigation.navigate('Drawer', {screen: "Home"})
-							
-						}else{
+						} else {
 							var b = await navigation.goBack()
 						}
-						
 						return customMessage(addedProfile.message)   
-
 					}
 	
 					  }catch(error) {
@@ -1508,7 +1513,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						if(response.hasOwnProperty('message') && response.message.includes('has been confirmed') ){
 							var x = await getActions().tracker.getPast()
 							return true
-						}else{
+						} else {
 							return false
 						}
 						
@@ -1538,10 +1543,10 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 						.then(response => response.json())
 						console.log('You Paid Swap Response:', response)
-						if(response.hasOwnProperty('message') && response.message.includes('has been paid') ){
+						if (response.hasOwnProperty('message') && response.message.includes('has been paid') ){
 							var x = await getActions().tracker.getPast()
 							return true
-						}else{
+						} else {
 							return false
 						}
 						
@@ -1600,8 +1605,11 @@ const getState = ({ getStore, setStore, getActions }) => {
 						
 						if(response.message){
 							if(response.message.includes("Cannot agree")){
-							return errorMessage(response.message)
-						}else{null}}
+								return errorMessage(response.message)
+							} else{
+								null
+							}
+						}
 
 						var refreshingTournament = await getActions().tournament.getCurrent(a_tournament_id)
 						var refreshingAction = await getActions().tournament.getAction(a_tournament_id)			
@@ -1668,22 +1676,22 @@ const getState = ({ getStore, setStore, getActions }) => {
 						var y, since;
 						if (time.includes('a ') || time.includes('an ')) { 
 							y = '1'
-						} else{
+						} else {
 							y = parseInt(time.replace(/[^0-9\.]/g, ''), 10);
 						}
 						if (time.includes('second')) { since = 'Just Now' } 
-						else if(time.includes('minute')){ since = y + 'm' } 
-						else if(time.includes('hour')){ since = y + 'h' } 
-						else if(time.includes('day')){ since = y + 'd' } 
-						else if(time.includes('week')){ since = y + 'w' }
-						else if(time.includes('month')){ since = y + 'M' }
-						else if(time.includes('year')){ since = y + 'Y' }
-						else{ null }
+						else if (time.includes('minute')){ since = y + 'm' } 
+						else if (time.includes('hour')){ since = y + 'h' } 
+						else if (time.includes('day')){ since = y + 'd' } 
+						else if (time.includes('week')){ since = y + 'w' }
+						else if (time.includes('month')){ since = y + 'M' }
+						else if (time.includes('year')){ since = y + 'Y' }
+						else { null }
 						// console.log('Converted Small Time of: ' + since)
 						
 						if (since != 'Just Now'){
 							return (since + ' ago')
-						}else{
+						} else {
 							return(since)
 						}
 					}catch(error){
@@ -1704,13 +1712,13 @@ const getState = ({ getStore, setStore, getActions }) => {
 						if (startHour % 12!==0){
 							if(startHour/12 >= 1){
 								startM = ' P.M.', startHour%=12
-							}else{
+							} else {
 								startM = ' A.M.'
 							}
-						} else{
-							if(startHour == 0){
+						} else {
+							if (startHour == 0){
 								startM = ' A.M.', startHour=12
-							}else{
+							} else {
 								startM = ' P.M.'
 							}
 						}
@@ -1877,10 +1885,10 @@ const getState = ({ getStore, setStore, getActions }) => {
 							// var aaaab = aaaa.filter(x => now.isBefore(moment(x.start_at).add(17, 'hours')))
 							var currentTournaments = [...tournamentData, ...aaaa]
 							setStore({tournamentList: currentTournaments})
-						}else{
+						} else {
 							console.log('No more tournaments')}
 
-					} catch(error){
+					} catch(error) {
 						console.log('Something went wrong with getting more tournaments: ', error)
 					}
 				},
@@ -1919,7 +1927,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						if (tOurnament.buy_ins.length !== 0){
 						  tournamentBuyins = tOurnament.buy_ins.filter( buyin => 
 							toFilter2.includes(buyin.user_id) != true)
-						}else{
+						} else {
 						  tournamentBuyins = []
 						}
 						var flightSet =[]
@@ -1953,7 +1961,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					  setStore({currentLobby: flightSet})
 					  var xdxr = getActions().tracker.getCurrent()
 					
-					  }else{
+					  } else {
 						null
 					  }
 				},
@@ -2055,7 +2063,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 								const isTrues = (currentValue) => currentValue ==true;
 								allPaid.every(isTrues) ? allPaid = true : allPaid = false
 								allConfirmed.every(isTrues) ? allConfirmed = true : allConfirmed = false
-							} else{ 
+							} else { 
 								allPaid= null
 								allConfirmed= null
 							}
@@ -2131,7 +2139,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 								const isTrues = (currentValue) => currentValue ==true;
 								allPaid.every(isTrues) ? allPaid = true : allPaid = false
 								allConfirmed.every(isTrues) ? allConfirmed = true : allConfirmed = false
-							} else{ 
+							} else { 
 								allPaid= null
 								allConfirmed= null
 							}
@@ -2241,7 +2249,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 									duration:3000,
 								})
 								return false
-						} else{ return true}
+						} else { 
+							return true
+						}
 						
 
 					} catch(error) {
@@ -2269,7 +2279,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 									.then(async() => {
 										if (ww == undefined || ww== null){
 											var ww = await AsyncStorage.setItem('uiMode', 'false')
-										}else{
+										} else {
 											var xe
 											ww == 'true' ? xe=true : xe=false
 											getActions().uiMode.change(xe)
@@ -2281,7 +2291,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 									// console.log('got through half')
 									if (getStore().myProfile.naughty == true){
 										navigation.navigate('Drawer', {screen: 'Home'} )
-									}else{
+									} else {
 										getActions().tournament.getInitial()
 										// .then(() => getActions().firebase.login( data ))
 										.then(() => getActions().chat.getMine())
@@ -2296,17 +2306,19 @@ const getState = ({ getStore, setStore, getActions }) => {
 												// console.log('wew', wew)
 												if(wew.data.type=='swap'){
 													getActions().navigate.toSwap(wew.data, navigation)
-												}else if(wew.data.type=='event'){
+												} else if (wew.data.type=='event'){
 													getActions().navigate.toEvent(wew.data, navigation)
-												}else if(wew.data.type=='chat'){
+												} else if (wew.data.type=='chat'){
 													getActions().navigate.toChat(wew.data, navigation)
-												}else if(wew.data.type=='result'){
+												} else if (wew.data.type=='result'){
 													getActions().navigate.toResult(wew.data, navigation)
-												}else if(wew.data.type=='buyin'){
+												} else if (wew.data.type=='buyin'){
 													getActions().navigate.toBuyin(wew.data, navigation)
-												}else{null}
+												} else {
+													null
+												}
 												AsyncStorage.removeItem('notificationData')
-											}else{
+											} else {
 												null
 											}
 										})
@@ -2319,7 +2331,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 									// console.log("x",x)
 									navigation.navigate('Profile Creation')
 								}									
-							}else{
+							} else {
 								console.log("There is an error with userToken or the profile returns error");
 								// return errorMessage("You did not login correctly")
 							}
@@ -2384,7 +2396,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 						if (response.message == "Please verify your new email"){
 							getActions().user.logout(navigation)
-						}else{
+						} else {
 							console.log('You did not return to login')
 						}
 					}catch(error){
@@ -2414,9 +2426,9 @@ const getState = ({ getStore, setStore, getActions }) => {
 						console.log('Change Password Response: ', response)
 						
 
-						if(response.message == 'This Hendon Mob profile is available') {
+						if (response.message == 'This Hendon Mob profile is available') {
 							return(true)
-						}else{
+						} else {
 							return(false)
 						}
 						
@@ -2457,7 +2469,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						})
 						if (response.message == "Your password has been changed"){
 							getActions().user.logout(navigation)
-						}else{
+						} else {
 							console.log('You did not return to login')
 						}
 					}catch(error){
@@ -2542,10 +2554,10 @@ const getState = ({ getStore, setStore, getActions }) => {
 			            let checkedResponse = await response.json();
 
 			            let isValid;
-			            if(checkedResponse.id){
+			            if (checkedResponse.id){
 			              isValid = true;
 			              setStore({userToken: myUserToken})
-			            }else{
+			            } else {
 			              isValid = false
 			              AsyncStorage.removeItem('userToken')
 			              AsyncStorage.removeItem('loginInfo')

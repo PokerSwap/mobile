@@ -27,10 +27,10 @@ export default CreateUser = () => {
 		if(email !== '' && xxx.test(email)){
 			if(password.length >= 6 && ree.test(password)){
 				password == c_password ? userStart(): errorMessage('Make sure your passwords match')
-			} else{
+			} else {
 				errorMessage('Your password must have at least 6 characters containing at least one lowercase letter, one uppercase letter, and one number.')
 			}
-		} else{
+		} else {
 			errorMessage('Please enter a valid email address')
 		}
 	}
@@ -38,8 +38,9 @@ export default CreateUser = () => {
 	const userStart = async() => {
 		var answer323 = await actions.user.add(email, password)
 		setSubmitted(answer323)
-		if(answer323 ==true){set_An_Auto(true);setTimeout(()=>{navigation.pop(2)}, 5000)}
-		else{set_An_Auto(false)}
+		if (answer323 ==true){
+			set_An_Auto(true);setTimeout(()=>{navigation.pop(2)}, 5000)
+		} else {set_An_Auto(false)}
 	}
 
 	const handler = () => {

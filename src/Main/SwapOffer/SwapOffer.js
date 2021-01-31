@@ -51,16 +51,16 @@ export default SwapOffer = (props) => {
       if (currentSwap !== undefined){
         console.log('getting swap from SwapOffer', store.currentSwap)
         var x = await actions.swap.getCurrent(currentSwap.id)
-      }else{
+      } else {
         null
       }
       if (store.currentSwap.id !== undefined){
         setCurrentSwap(store.currentSwap)
         setAStatus(store.currentSwap.status)
-      } else{
+      } else {
         return setAStatus('inactive')
       }
-    } else{
+    } else {
         setAStatus('edit') 
     }
   }
@@ -169,81 +169,76 @@ export default SwapOffer = (props) => {
 
   return(
     <View style={{flex:1,  backgroundColor:currentStyle.background.color}}>
-      <View style={{height:20,  backgroundColor:currentStyle.header.color}}>
-        <StatusBar StatusBarAnimation={'fade'} barStyle={'light-content'}
-          backgroundColor={'rgb(38, 171, 75)'}/>
-      </View>
-      <OtherHeader title={'Swap Offer'} />
-      <Spinner visible={loading}/>
-      <Content contentContainerStyle={{backgroundColor:currentStyle.background.color}}  refreshControl={
-                <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}>
-        {/* EVENT HEADER */}
-        <Card transparent style={{marginVertical:40, width:'90%', alignSelf:'center', flexDirection:'column', backgroundColor:currentStyle.background.color}}>
-          <Text style={{marginVertical:10, fontSize:20, fontWeight:'bold', textAlign:'center', color: currentStyle.text.color}}>
-            {tournament.name}
-          </Text>
-        </Card>
-       
-        {/* CURRENT STATUS OF BUYIN */}
-        <Card style={{alignSelf:'center', flex:1, width:'90%', 
-          paddingTop:15, backgroundColor:'rgb(38, 171, 75)'}}>
-            {/* USERNAME */}
-            <Row style={{
-              justifyContent:'center', marginBottom:10}}>
-              <Text style={{color:'white',
-                textAlign:'center', fontSize:30}}>
-                {buyin.user_name}
-              </Text>
-            </Row>
-            {/* BUYIN INFO */}
-            <Row>
-              {/* TABLE */}
-              <Col style={{justifyContent:'center'}}>
-                <Text style={{color:'white',
-                  textAlign:'center', fontSize:18}}>
-                  Table:
+        <View style={{height:20,  backgroundColor:currentStyle.header.color}}>
+            <StatusBar StatusBarAnimation={'fade'} barStyle={'light-content'}
+            backgroundColor={'rgb(38, 171, 75)'}/>
+        </View>
+        <OtherHeader title={'Swap Offer'} />
+        <Spinner visible={loading}/>
+        <Content contentContainerStyle={{backgroundColor:currentStyle.background.color}}  
+            refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}>
+            
+            {/* EVENT HEADER */}
+            <Card transparent style={{marginVertical:40, width:'90%', alignSelf:'center', 
+                flexDirection:'column', backgroundColor:currentStyle.background.color}}>
+                <Text style={{marginVertical:10, fontSize:20, fontWeight:'bold', 
+                    textAlign:'center', color: currentStyle.text.color}}>
+                    {tournament.name}
                 </Text>
-                <Text style={{color:'white',
-                  textAlign:'center', fontSize:24}}>
-                  {currentBuyin.table}
-                </Text>
-              </Col>
-              {/* SEAT */}
-              <Col style={{justifyContent:'center'}}>
-                <Text style={{color:'white',
-                  textAlign:'center', fontSize:18}}>
-                  Seat:
-                </Text>
-                <Text style={{color:'white',
-                  textAlign:'center', fontSize:24}}>
-                  {currentBuyin.seat}
-                </Text>
-              </Col>
-              {/* CHIPS */}
-              <Col style={{justifyContent:'center'}}>
-                <Text style={{color:'white',
-                  textAlign:'center', fontSize:18}}>
-                  Chips:
-                </Text>
-                <Text style={{color:'white',
-                  textAlign:'center', fontSize:24}}>
-                  {currentBuyin.chips}
-                </Text>
-              </Col>
-            </Row>
-            {/* BUYIN LAST UPDATED TIME */}
-            <Row style={{justifyContent:'flex-end', alignItems:'flex-end'}}>
-              <Text style={{color:'white', fontWeight:'bold', paddingVertical:10, paddingRight:10,
-                textAlign:'right', fontSize:12}}>
-                Updated: {moment(currentBuyin.updated_at).fromNow()}
-              </Text>
-            </Row>
-        </Card>        
-        {/* SWAP BODY PATH */}
-        {currentPath}
-        </Content>
+            </Card>
+        
+            {/* CURRENT STATUS OF BUYIN */}
+            <Card style={{alignSelf:'center', flex:1, width:'90%', 
+                paddingTop:15, backgroundColor:'rgb(38, 171, 75)'}}>
+                {/* USERNAME */}
+                <Row style={{justifyContent:'center', marginBottom:10}}>
+                    <Text style={{color:'white', textAlign:'center', fontSize:30}}>
+                        {buyin.user_name}
+                    </Text>
+                </Row>
+                {/* BUYIN INFO */}
+                <Row>
+                    {/* TABLE */}
+                    <Col style={{justifyContent:'center'}}>
+                        <Text style={{color:'white', textAlign:'center', fontSize:18}}>
+                            Table:
+                        </Text>
+                        <Text style={{color:'white', textAlign:'center', fontSize:24}}>
+                            {currentBuyin.table}
+                        </Text>
+                    </Col>
+                    {/* SEAT */}
+                    <Col style={{justifyContent:'center'}}>
+                        <Text style={{color:'white', textAlign:'center', fontSize:18}}>
+                            Seat:
+                        </Text>
+                        <Text style={{color:'white', textAlign:'center', fontSize:24}}>
+                            {currentBuyin.seat}
+                        </Text>
+                    </Col>
+                    {/* CHIPS */}
+                    <Col style={{justifyContent:'center'}}>
+                        <Text style={{color:'white', textAlign:'center', fontSize:18}}>
+                            Chips:
+                        </Text>
+                        <Text style={{color:'white', textAlign:'center', fontSize:24}}>
+                            {currentBuyin.chips}
+                        </Text>
+                    </Col>
+                </Row>
+                {/* BUYIN LAST UPDATED TIME */}
+                <Row style={{justifyContent:'flex-end', alignItems:'flex-end'}}>
+                    <Text style={{color:'white', fontWeight:'bold', paddingVertical:10, 
+                        paddingRight:10, textAlign:'right', fontSize:12}}>
+                        Updated: {moment(currentBuyin.updated_at).fromNow()}
+                    </Text>
+                </Row>
+            </Card>        
+            {/* SWAP BODY PATH */}
+            {currentPath}
 
+            </Content>
         </View>
       
-  )
+    )
 }

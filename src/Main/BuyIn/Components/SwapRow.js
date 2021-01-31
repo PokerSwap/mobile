@@ -44,7 +44,7 @@ export default SwapRow = (props) => {
     buttonColor= 'green';
   } 
   // PENDING SWAP VIEW
-  else if(swap.status == 'pending') {
+  else if (swap.status == 'pending') {
     lastCol =  
       <Text style={styles.pending}> 
         {swap.percentage}% 

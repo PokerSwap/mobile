@@ -39,7 +39,7 @@ export default HendonSetup = (props) => {
 		if (x == true){
 			setAvailable(true)
 			setDisabled(false)
-		}else{
+		} else {
 			setAvailable(false)
 				setDisabled(true)}
 	}
@@ -49,7 +49,7 @@ export default HendonSetup = (props) => {
         const unsubscribe = navigation.addListener('focus', () => {
             if (store.currentHendonURL.includes('https://pokerdb.thehendonmob.com/player.php?a=r&n=')){
 				checkBaby()
-			}  else{setDisabled(true)
+			}  else {setDisabled(true)
 				setAvailable(false)
 				actions.profile.hendonUrlCurrent('')}
             console.log(store.currentHendonURL, 'newhendon')

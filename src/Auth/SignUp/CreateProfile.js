@@ -13,73 +13,61 @@ import { useNavigation } from '@react-navigation/native'
 
 export default CreateProfile = (props) => {
 
-  const navigation = useNavigation()
+    const { store, actions } = useContext(Context)
 
-  const { store, actions } = useContext(Context)
+    const [ page, setPage ] = useState(0)
+    const [ first_name, setFirstName ] = useState('')
+    const [ last_name, setLastName ] = useState('')
+    const [ nickname, setNickName ] = useState('')
+    const [ picture, setPicture]  = useState('https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png')
 
-  const [ page, setPage ] = useState(0)
-  const [ first_name, setFirstName ] = useState('')
-  const [ last_name, setLastName ] = useState('')
-  const [ nickname, setNickName ] = useState('')
-  const [ picture, setPicture]  = useState('https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png')
+    const [ disabled1, setDisabled1 ] = useState(true)
+    const [ disabled2, setDisabled2 ] = useState(true)
+    const [ loading, setLoading ] = useState(false) 
 
-  const [ disabled1, setDisabled1 ] = useState(true)
-  const [ disabled2, setDisabled2 ] = useState(true)
-  const [ loading, setLoading ] = useState(false) 
+    const navigation = useNavigation()
 
-//   useEffect(() => {
-    //   return () => {
-    //     //   cleanup
-    //   }
-//   }, [true])
 
-    if (page == 0){
-        x = disabled1
-    }
-    else{
-        x = disabled2
-    }
+    page == 0 ? x = disabled1 : x = disabled2
 
-  var e = () => {
-
-    var rrr = /^[A-Za-z]+$/
-    if(first_name == '' || last_name == ''){
-        setDisabled1(true)
-    }else{
-        if(rrr.test(first_name) && rrr.test(last_name)){
-            setDisabled1(false)
-        }else{
+    var e = () => {
+        var rrr = /^[A-Za-z]+$/
+        if (first_name == '' || last_name == ''){
             setDisabled1(true)
+        } else {
+            if (rrr.test(first_name) && rrr.test(last_name)){
+                setDisabled1(false)
+            } else {
+                setDisabled1(true)
+            }
         }
     }
-    console.log('email', disabled1)
-  }
 
-  var f = () => {
-    picture == 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png' ?  
-        setDisabled2(true) : setDisabled2(false)
-  }
+    var f = () => {
+        picture == 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png' ?  
+            setDisabled2(true) : setDisabled2(false)
+    }
 
 
-// NEXT SIGNUP STEP
-  const nextPage = () => {
-    if (page >= 0){
-      setPage(page + 1)
-    } 
-  };
-  // NEXT SIGNUP STEP
-  const prevPage = () => {
-    if (page <= 5){
-      setPage(page- 1)
-    } 
-  }
+    // NEXT SIGNUP STEP
+    const nextPage = () => {
+        if (page >= 0){
+            setPage(page + 1)
+        } 
+    };
+    // PREVIOUS SIGNUP STEP
+    const prevPage = () => {
+        if (page <= 5){
+            setPage(page- 1)
+        } 
+    }
 
-  const createProfile = async() => {
-    setLoading(true)
-    var creatingProfile = await actions.profile.add(
-        nickname, first_name, last_name, null, picture, navigation) 
-    setLoading(false)
-}
+    const createProfile = async() => {
+        setLoading(true)
+        var creatingProfile = await actions.profile.add(
+            nickname, first_name, last_name, null, picture, navigation) 
+        setLoading(false)
+    }
 
     return(
         <Container>
@@ -109,14 +97,6 @@ export default CreateProfile = (props) => {
                         picture= {picture}
                         onChangePicture={picture => setPicture( picture )}/>
                     </Tab>
-                    {/* HENDON PAGE */}
-                    {/* <Tab disabled heading="Hendon">
-                        <HendonSetup 
-                        prev={() => prevPage()}
-                        next={() => nextPage()}
-                        hendon= {hendon}
-                        onChangeHendon={hendon => setHendon(hendon)}/>
-                    </Tab> */}
                     {/* REVIEW PAGE */}
                     <Tab disabled heading="Review">
                         <ProfileReview 
@@ -133,7 +113,8 @@ export default CreateProfile = (props) => {
                     <View style={{flexDirection:'row', marginTop:20}}>
                         <View style={{width:'50%'}}>
                             {page !== 0 ?
-                                <Button style={{alignSelf:'center'}} large iconLeft transparent onPress={()=> prevPage()}>
+                                <Button  large iconLeft transparent 
+                                    style={{alignSelf:'center'}} onPress={()=> prevPage()}>
                                     <Icon name='arrow-back'/>
                                     <Text>Prev.</Text>
                                 </Button>
@@ -143,21 +124,23 @@ export default CreateProfile = (props) => {
                         
                         <View style={{width:'50%'}}>
                             {page !== 2 ?
-                                <Button disabled={x} style={{alignSelf:'center'}} large iconRight transparent onPress={() => nextPage()}>
+                                <Button disabled={x} large iconRight transparent 
+                                    style={{alignSelf:'center'}} onPress={() => nextPage()}>
                                     <Text>Next</Text>
                                     <Icon name='arrow-forward'/>
                                 </Button>
                                 :
-                                <Button style={{alignSelf:'center'}} large  transparent onPress={() => createProfile()}>
+                                <Button style={{alignSelf:'center'}} large  transparent 
+                                    onPress={() => createProfile()}>
                                     <Text>Finalize</Text>
                                 </Button>}
                             </View>
                         </View>
                         
-                
-                <Button large style={{marginBottom:30, marginTop:30, alignSelf:'center'}} onPress={() => navigation.goBack()}>
-                    <Text>Exit To Login</Text>
-                </Button>
+                    <Button large style={{marginBottom:30, marginTop:30, alignSelf:'center'}} 
+                        onPress={() => navigation.goBack()}>
+                        <Text>Exit To Login</Text>
+                    </Button>
                 </View>
                 
             </Content>   
