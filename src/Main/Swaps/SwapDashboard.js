@@ -32,10 +32,12 @@ export default SwapDashboard = (props) => {
         
             var sw = await actions.refresh.offer(true)
             return customMessage(remoteMessage.data.alert)
-        } else if (remoteMessage.data.type == 'swap' && store.currentPage =="Swap Offer"){
+        } else if (remoteMessage.data.type == 'swap' && 
+            store.currentPage =="Swap Offer"){
             var e = await actions.swap.getCurrent(remoteMessage.data.id)
             var x = await actions.tournament.getCurrent(store.currentSwap.tournament_id)
-            var ree = x.buyins.filter(buyin => buyin.recipient_user.id == store.currentSwap.recipient_user.id)
+            var ree = x.buyins.filter(buyin => 
+                buyin.recipient_user.id == store.currentSwap.recipient_user.id)
             var dwer = await actions.buy_in.getCurrent(ree[0].recipient_buyin.id)
             
             navigation.push("Swap Offer",{
@@ -94,17 +96,23 @@ export default SwapDashboard = (props) => {
                 try {
                     console.log('Getting from Background IOS',remoteMessage); 
                     if (remoteMessage.data.type=='swap'){
-                        var e = await actions.navigate.toSwap(remoteMessage.data, navigation)
+                        var e = await actions.navigate.toSwap(
+                            remoteMessage.data, navigation)
                     } else if (remoteMessage.data.type=='chat'){
-                        var e = await actions.navigate.toChat(remoteMessage.data, navigation)
+                        var e = await actions.navigate.toChat(
+                            remoteMessage.data, navigation)
                     } else if (remoteMessage.data.type=='event'){
-                        var e = await actions.navigate.toEvent(remoteMessage.data, navigation)
+                        var e = await actions.navigate.toEvent(
+                            remoteMessage.data, navigation)
                     } else if (remoteMessage.data.type=='result'){
-                        var e = await actions.navigate.toResult(remoteMessage.data, navigation)
+                        var e = await actions.navigate.toResult(
+                            remoteMessage.data, navigation)
                     } else if (remoteMessage.data.type=='coin'){
-                        var e = await actions.navigate.toCoin(remoteMessage.data, navigation)
+                        var e = await actions.navigate.toCoin(
+                            remoteMessage.data, navigation)
                     } else if (remoteMessage.data.type=='buyin'){
-                        var e = await actions.navigate.toBuyin(remoteMessage.data, navigation)
+                        var e = await actions.navigate.toBuyin(
+                            remoteMessage.data, navigation)
                     } else {null}  
             
                 } catch (error) {
@@ -117,21 +125,27 @@ export default SwapDashboard = (props) => {
                 console.log('Getting from Background Android', remoteMessage)
 
                 if (remoteMessage.data.type=='swap'){
-                    var e = await actions.navigate.toSwap(remoteMessage.data, navigation)
+                    var e = await actions.navigate.toSwap(
+                        remoteMessage.data, navigation)
                 } else if (remoteMessage.data.type=='chat'){
                     if (store.currentPage == "Chat"){
                         var x = actions.refresh.chat(true)
                     } else {
-                        var e = await actions.navigate.toChat(remoteMessage.data, navigation)
+                        var e = await actions.navigate.toChat(
+                            remoteMessage.data, navigation)
                     }
                 } else if (remoteMessage.data.type=='event'){
-                    var e = await actions.navigate.toChat(remoteMessage.data, navigation)
+                    var e = await actions.navigate.toChat(
+                        remoteMessage.data, navigation)
                 } else if (remoteMessage.data.type=='buyin'){
-                    var e = await actions.navigate.toBuyin(remoteMessage.data, navigation)
+                    var e = await actions.navigate.toBuyin(
+                        remoteMessage.data, navigation)
                 } else if (remoteMessage.data.type=='result'){
-                    var e = await actions.navigate.toResult(remoteMessage.data, navigation)
+                    var e = await actions.navigate.toResult(
+                        remoteMessage.data, navigation)
                 } else if (remoteMessage.data.type=='coin'){
-                    var e = await actions.navigate.toCoin(remoteMessage.data, navigation)
+                    var e = await actions.navigate.toCoin(
+                        remoteMessage.data, navigation)
                 } else {
                     null
                 }
@@ -172,8 +186,10 @@ export default SwapDashboard = (props) => {
             var xeee = await actions.tracker.getUpcoming()
             var e = await actions.swap.returnCurrent(remoteMessage.data.id)
             var x = await actions.tournament.getCurrent(e.tournament_id)
+            
             // UPDATING THE CURRENT SWAP
-            if (store.currentPage =="Swap Offer" && remoteMessage.data.id==store.currentSwap.id){
+            if (store.currentPage =="Swap Offer" && 
+                remoteMessage.data.id==store.currentSwap.id){
             console.log('refreshing here UPDATING THE CURRENT SWAP')
 
             var s = actions.refresh.offer(true)
@@ -182,7 +198,8 @@ export default SwapDashboard = (props) => {
             return customMessage(remoteMessage.data.alert)
             } 
             // UPDATING SWAP OFFER ON INACTIVE SWAP
-            else if (store.currentPage =="Swap Offer" && remoteMessage.data.buyin_id==store.currentBuyin.id){
+            else if (store.currentPage =="Swap Offer" && 
+                remoteMessage.data.buyin_id==store.currentBuyin.id){
             console.log('refreshing here UPDATING SWAP OFFER ON INACTIVE SWAP')
             var e = await actions.swap.getCurrent(remoteMessage.data.id)
             var sw = actions.refresh.offer(true)
@@ -222,15 +239,15 @@ export default SwapDashboard = (props) => {
         else if (remoteMessage.data.type == 'chat'){
             actions.refresh.chat(true)
             return Toast.show({
-            style: {
-            backgroundColor: "rgb(10,132,255)"},
-            duration:3000,
-            buttonText: "Go To",
-            buttonTextStyle: { color: "#008000" },
-            buttonStyle: { backgroundColor: "#5cb85c" },
-            onClose: (reason)=> checkPress(reason),
-            text:remoteMessage.notification.title+ ':  '+ remoteMessage.data.alert, 
-            position:'top'})
+                style: {
+                backgroundColor: "rgb(10,132,255)"},
+                duration:3000,
+                buttonText: "Go To",
+                buttonTextStyle: { color: "#008000" },
+                buttonStyle: { backgroundColor: "#5cb85c" },
+                onClose: (reason)=> checkPress(reason),
+                text:remoteMessage.notification.title+ ':  ' + remoteMessage.data.alert, 
+                position:'top'})
         }
         else {null}
 
@@ -250,8 +267,8 @@ export default SwapDashboard = (props) => {
             remoteMessage.notification.title, 
             remoteMessage.notification.body,
             [
-            { text: 'Open', onPress: () => goToThing(remoteMessage) },
-            { text: 'Close', onPress: () => console.log("Cancel Pressed"), }
+                { text: 'Open', onPress: () => goToThing(remoteMessage) },
+                { text: 'Close', onPress: () => console.log("Cancel Pressed"), }
             ]
         );
         });
@@ -353,20 +370,24 @@ export default SwapDashboard = (props) => {
                 renderItem={aTracker}
                 keyExtractor={(content, index) => index.toString()}
                 ListFooterComponent={
-                    <View style={{alignSelf:'center', justifyContent:'center', paddingBottom:100}}>
+                    <View style={{alignSelf:'center', 
+                        justifyContent:'center', paddingBottom:100}}>
                         {!store.myProfile.naughty ?
                             Object.keys(store.myUpcomingTrackers[0])[0] == 'message' ?
-                                <Text style={[styles.noTracker.text, {color:currentStyle.text.color}]}> 
+                                <Text style={[styles.noTracker.text, 
+                                    {color:currentStyle.text.color}]}> 
                                     You have no upcoming tournaments{'\n'} at the moment. 
                                 </Text>
                                 :
                                 null
                             :
                             <Text style={{color:currentStyle.text.color, width:'80%', 
-                                alignSelf:'center', marginTop:20, textAlign:'center', fontSize:18}}>
+                                alignSelf:'center', marginTop:20, 
+                                textAlign:'center', fontSize:18}}>
                                 You've been put on the naughty list.{'\n'}{'\n'}
                                 To start swapping again,{'\n'}
-                                please pay your overdue swaps and have the other users confirm payment.
+                                please pay your overdue swaps and 
+                                have the other users confirm payment.
                             </Text>}
                         <Button iconLeft onPress={() => onRefresh2()}
                             style={{alignSelf:'center', borderRadius:100, marginVertical:20}}>
@@ -379,8 +400,7 @@ export default SwapDashboard = (props) => {
         )
     } 
 
-    // REFRESHING AFTER COMING FROM BACKGROUND (START)
-
+    // REFRESHING AFTER COMING FROM BACKGROUND - START
     const appState = useRef(AppState.currentState);
     const [appStateVisible, setAppStateVisible] = useState(appState.current);
 
@@ -406,8 +426,7 @@ export default SwapDashboard = (props) => {
 
         console.log("AppState", appState.current);
     };
-
-    // REFRESHING AFTER COMING FROM BACKGROUND (END)
+    // REFRESHING AFTER COMING FROM BACKGROUND - END
 
     return(
         <Container style={{position:'absolute'}}>
@@ -420,35 +439,45 @@ export default SwapDashboard = (props) => {
         <HomeHeader title={'Active Swaps'} />
             <Tabs  tabBarUnderlineStyle={{backgroundColor:'white'}}
                 tabBarTextStyle={{fontWeight:'bold', color:'white'}}>
-                {/* LIVE SWAPTRACKER BODY */}
+                
+                {/* LIVE SWAPTRACKER - START */}
                 <Tab tabBarUnderlineStyle='white' 
                     heading={
-                    <TabHeading tabBarUnderlineStyle='white' style={{backgroundColor:'#174502'}}>
+                    <TabHeading tabBarUnderlineStyle='white' 
+                        style={{backgroundColor:'#174502'}}>
                         <Text style={{color:'white'}}>LIVE</Text>
                     </TabHeading>}>
                     <BounceColorWrapper style={{flex: 1}}
-                    mainColor={currentStyle.background.color}>
-                    <Content contentContainerStyle={{backgroundColor:currentStyle.background.color, display:'flex'}}
-                        refreshControl={ 
-                            <RefreshControl onRefresh={onRefresh1} refreshing={refreshing} />}>
-                        {aflatlist()}
-                    </Content>
+                        mainColor={currentStyle.background.color}>
+                        <Content contentContainerStyle={{
+                            backgroundColor:currentStyle.background.color, display:'flex'}}
+                            refreshControl={ 
+                                <RefreshControl 
+                                    onRefresh={onRefresh1} refreshing={refreshing} />}>
+                            {aflatlist()}
+                        </Content>
                     </BounceColorWrapper>
                 </Tab>
-                {/* UPCOMING SWAPTRACKER */}
+                {/* LIVE SWAPTRACKER - END */}
+
+                {/* UPCOMING SWAPTRACKER - START */}
                 <Tab heading={
                     <TabHeading style={{backgroundColor:'#000099'}}>
                         <Text style={{color:'white'}}>UPCOMING</Text>
                     </TabHeading>}>
                     <BounceColorWrapper style={{flex: 1}}
                     mainColor={currentStyle.background.color}>
-                        <Content contentContainerStyle={{backgroundColor:currentStyle.background.color, display:'flex'}} 
-                        refreshControl={
-                            <RefreshControl onRefresh={onRefresh2} refreshing={refreshing} />}>
+                        <Content contentContainerStyle={{
+                            backgroundColor:currentStyle.background.color, display:'flex'}} 
+                            refreshControl={
+                                <RefreshControl 
+                                    onRefresh={onRefresh2} refreshing={refreshing} />}>
                             {bflatlist()}
                         </Content>
                     </BounceColorWrapper>
                 </Tab>
+                {/* UPCOMING SWAPTRACKER - END */}
+                
             </Tabs>  
         </Container>
     )
@@ -467,6 +496,7 @@ const styles = {
         listItem:{
             justifyContent:'center'},
         text:{
-            justifyContent:'center', textAlign:'center', fontSize:18, width:'90%', marginVertical: 5}
+            justifyContent:'center', textAlign:'center', 
+            fontSize:18, width:'90%', marginVertical: 5}
     }
 }

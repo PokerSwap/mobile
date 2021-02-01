@@ -18,6 +18,7 @@ export default CanceledPath = (props) => {
 
     return(
         <Card transparent style={{backgroundColor:currentStyle.background.color}}>
+           
             {/* CANCELED SWAP INFO */}
             {swap.percentage ?
                 <View style={{width:'100%'}}>

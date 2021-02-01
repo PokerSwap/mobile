@@ -1,7 +1,7 @@
 import React from 'react';
 
-import {TextInput, Keyboard, View } from 'react-native'
-import { Button, Card, CardItem, Item, Icon, Input, Text } from 'native-base';
+import {TextInput, View } from 'react-native'
+import { Card, CardItem, Text } from 'native-base';
 
 export default NameSetup = (props) => {
 
@@ -34,7 +34,7 @@ export default NameSetup = (props) => {
                         autoCorrect={false}
                         
                         style={{height:40, fontSize:20, marginTop: 1, color: "black", 
-                        paddingHorizontal: 10, fontWeight:'bold'}}
+                            paddingHorizontal: 10, fontWeight:'bold'}}
                         // keyboardType="email-address"
                         blurOnSubmit={false}
                         returnKeyType="next" 
@@ -45,8 +45,9 @@ export default NameSetup = (props) => {
                     <TextInput 
                         placeholder='Last Name'
                         placeholderTextColor='grey'
-                        style={{height:40, width:'100%', fontSize:20, marginTop: 20, color: "black", 
-                        paddingHorizontal: 10, fontWeight:'bold'}}
+                        style={{height:40, width:'100%', fontSize:20, 
+                            marginTop: 20, color: "black", 
+                            paddingHorizontal: 10, fontWeight:'bold'}}
                         value={props.last_name}    
                         onChangeText={props.onChangeLastName} 
                         autoCorrect={false}
@@ -59,7 +60,8 @@ export default NameSetup = (props) => {
             {/* NICK NAME BODY */}
             <CardItem body style={{flexDirection:"column"}}>  
                 {/* NICK NAME INSTRUCTIONS */}
-                <Text style={{alignSelf:'flex-start',textAlign:'center', fontSize:16, paddingTop:30, paddingBottom:20, width:'90%'}}>
+                <Text style={{alignSelf:'flex-start',textAlign:'center', fontSize:16, 
+                    paddingTop:30, paddingBottom:20, width:'90%'}}>
                     (Optional) Enter any other name that may show up on your receipt. 
                 </Text>
                 {/* NICK NAME INPUT */}
@@ -77,13 +79,6 @@ export default NameSetup = (props) => {
                         returnKeyType="done" />
                 </View>
             </CardItem>
-            {/* SUBMIT BUTTON */}
-            {/* <CardItem footer style={{justifyContent:"flex-end", alignContent:'flex-end'}}>
-                <Button iconRight large disabled={x} onPress={() => {Keyboard.dismiss(); props.next()}}>
-                <Text>Next</Text>
-                <Icon name='arrow-forward'/>
-                </Button>
-            </CardItem> */}
         </Card>     
     )
 }

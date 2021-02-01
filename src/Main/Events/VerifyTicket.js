@@ -56,12 +56,12 @@ export default VerifyTicket = (props) => {
 
     const showAlert = () =>{
         Alert.alert(
-        "Permissions Needed",
-        'In order to proceed you must have Camera and Photo Library permissions',
-        [
-            { text: 'Go To Settings', onPress: () => openSets() },
-            { text: 'Cancel', onPress: () => console.log("Cancel Pressed"), }
-        ]
+            "Permissions Needed",
+            'In order to proceed you must have Camera and Photo Library permissions',
+            [
+                { text: 'Go To Settings', onPress: () => openSets() },
+                { text: 'Cancel', onPress: () => console.log("Cancel Pressed"), }
+            ]
         )
     }
 
@@ -160,7 +160,7 @@ export default VerifyTicket = (props) => {
             <View style={{height:20, position:'absolute', top:0, alignSelf:'flex-start',  
                 backgroundColor:currentStyle.header.color}}>
                 <StatusBar StatusBarAnimation={'fade'} barStyle={'light-content'}
-                backgroundColor={'rgb(38, 171, 75)'}/>
+                    backgroundColor={'rgb(38, 171, 75)'}/>
             </View>
             <OtherHeader title={"Verify Ticket"} />
             <Content style={{backgroundColor:currentStyle.background.color}}>
@@ -168,16 +168,18 @@ export default VerifyTicket = (props) => {
                 <KeyboardAvoidingView style={{flex:1,}} 
                     behavior='position' keyboardVerticalOffset={-180}>
                     <Modal
-                    animationType='fade'
-                    visible={visible}
-                    presentationStyle='overFullScreen'
-                    transparent={true}>
-                    <InfoModal  
-                        setVisible={setVisible}
-                        tournament={tournament} />
+                        animationType='fade'
+                        visible={visible}
+                        presentationStyle='overFullScreen'
+                        transparent={true}>
+                        <InfoModal  
+                            setVisible={setVisible}
+                            tournament={tournament} />
                     </Modal>
+
                     {/* TOURNEY INFO */}
                     <Card transparent style={{backgroundColor:currentStyle.background.color}}>
+                    
                     {/* TOURNAMENT INFO */}
                         <CardItem style={{justifyContent:'center', flexDirection:'column',
                             backgroundColor:currentStyle.background.color}}>
@@ -266,13 +268,14 @@ export default VerifyTicket = (props) => {
                                     </Col>
                                 </Grid>
                             </CardItem>
+
                             {/* SUBMIT BUTTON */}
                             <CardItem style={{backgroundColor:currentStyle.background.color}}>
                                 <Button disabled={disabled} large style={styles.button} 
-                                onPress={() => handler()}>
-                                <Text style={styles.text.button}> 
-                                    SUBMIT 
-                                </Text>
+                                    onPress={() => handler()}>
+                                    <Text style={styles.text.button}> 
+                                        SUBMIT 
+                                    </Text>
                                 </Button>
                             </CardItem>
                     </Card>

@@ -29,11 +29,13 @@ export default  ProfileReview = (props) => {
 	return(
 		<Card transparent style={{flexDirection:'column'}}>
 			<Spinner visible={loading} />
+			
 			{/* PROFILE PICTURE FIELD */}
 			<CardItem transparent style={{justifyContent:'center'}}>
 				<Image source={{uri: props.picture.uri}} 
 					style={{height:100, width:100, marginTop:25, borderRadius:500}}/>
 			</CardItem>
+			
 			{/* PROFILE NAME FIELD */}
 			<CardItem transparent style={{flexDirection:'column',marginVertical:10}}>
 				<Text style={{textAlign:'center', fontSize:20,fontWeight:'bold'}}>
@@ -43,38 +45,16 @@ export default  ProfileReview = (props) => {
 					{props.first_name} {props.last_name}
 				</Text>
 			</CardItem>
+			
 			{/* NICK NAME FIELD */}
-
-				<CardItem transparent style={{flexDirection:'column',marginVertical:10}}>
-					<Text style={{textAlign:'center', fontSize:20,fontWeight:'bold'}}>
-						Nick Name
-					</Text>
-					<Text style={{textAlign:'center', fontSize:20}}>
-						{props.nickname ? props.nickname : "No Nickname Entered"}
-					</Text>
-				</CardItem>
-			{/* HENDON URL FIELD */}
-			{/* <CardItem transparent 
-				style={{flexDirection:'column',marginVertical:10}}>		
-				{props.hendon !== '' ?
-					props.hendon.includes('https://pokerdb.thehendonmob.com/player.php?a=r&n=') ?
-						<Text style={{textAlign:'center',fontSize:20,fontWeight:'600'}}>
-							Hendon URL: {'\n'} {props.hendon}
-						</Text>
-					: <Text> You did not submit a valid hendon profile</Text>
-				: <Text> You did not submit a hendon profile </Text> }
-			</CardItem> */}
-			{/* NAVIGATION BUTTONS */}
-			{/* <CardItem transparent style={{justifyContent:'space-around'}}>		 */}
-				{/* GO BACK BUTTON */}
-				{/* <Button light onPress={() => props.prev()}>
-					<Text>Go Back</Text>
-				</Button> */}
-				{/* CREATE PROFILE BUTTON */}
-				{/* <Button success large onPress={()=> createProfile()}>
-					<Text>Finalize</Text>
-				</Button>
-			</CardItem> */}
+			<CardItem transparent style={{flexDirection:'column',marginVertical:10}}>
+				<Text style={{textAlign:'center', fontSize:20,fontWeight:'bold'}}>
+					Nick Name
+				</Text>
+				<Text style={{textAlign:'center', fontSize:20}}>
+					{props.nickname ? props.nickname : "No Nickname Entered"}
+				</Text>
+			</CardItem>
 		</Card>
 	)
 }

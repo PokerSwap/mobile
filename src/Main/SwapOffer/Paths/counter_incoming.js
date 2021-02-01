@@ -23,6 +23,7 @@ export default CounterIncomingPath = (props) => {
     return(
         <Card transparent style={{ alignSelf:'center', width:'95%', 
             justifyContent:'center', backgroundColor:currentStyle.background.color}}>
+            
             {/* COUNTER SWAP INFO */}
             <CardItem style={{ 
                 alignSelf:'center', backgroundColor:currentStyle.background.color}}>
@@ -41,6 +42,7 @@ export default CounterIncomingPath = (props) => {
                     </View>
                 : <Spinner />}
             </CardItem>
+
             {/* COUNTER SWAP INTERACTION UI */}
             {swap ? 
                 counter == false ?

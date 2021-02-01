@@ -45,8 +45,10 @@ export default CategoriesScreen = (props) => {
                     Choose a Category
                 </Text>
             </Header>
-                {/* FIRST CATEGORY ROW */}
+            
+            {/* FIRST CATEGORY ROW */}
             <Row style={{height:200}}>
+                
                 {/* POKER CATEGORY */}
                 <TouchableOpacity onPress={()=> goToCategory()} 
                     style={{width:'50%'}}>
@@ -60,6 +62,7 @@ export default CategoriesScreen = (props) => {
                         </Text>
                     </View>
                 </TouchableOpacity>
+
                 {/* GOLF CATEGORY */}
                 <View style={{width:'50%',backgroundColor: '#228B22',justifyContent:'center'}}>
                     <Icon style={{color:'white', marginBottom:10, 

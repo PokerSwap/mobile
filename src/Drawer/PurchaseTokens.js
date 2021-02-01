@@ -52,12 +52,12 @@ PriceOption = (props) => {
 
 export default PurchaseTokens = (props) => {
 
-  const { store, actions } = useContext(Context)
-  
-  var currentStyle
-  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
+    const { store, actions } = useContext(Context)
+    
+    var currentStyle
+    store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
 
-  return(
+    return(
         <Container>
             <OtherHeader title={'Purchase Tokens'} />
             <Content>

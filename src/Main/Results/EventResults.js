@@ -92,22 +92,27 @@ export default EventResults = (props) => {
 
     var flatlist = (a_data, if_none) => {
         return(
-            <FlatList contentContainerStyle={{ alignSelf: 'stretch', backgroundColor: currentStyle.background.color }}
+            <FlatList contentContainerStyle={{ alignSelf: 'stretch', 
+                backgroundColor: currentStyle.background.color }}
                 data={a_data}
                 renderItem={aTracker}
                 keyExtractor={(content, index) => index.toString()}
                 ListFooterComponent={
-                    <View style={{alignSelf:'center', justifyContent:'center', paddingBottom:100}}>
+                    <View style={{alignSelf:'center', 
+                        justifyContent:'center', paddingBottom:100}}>
                         {!store.myProfile.naughty ?
                             Object.keys(a_data[0])[0] == 'message' ?
-                                <Text style={[styles.noTracker.text, {color:currentStyle.text.color}]}> 
-                                    You have no past events that{'\n'}{if_none} results. 
+                                <Text style={[styles.noTracker.text, 
+                                    {color:currentStyle.text.color}]}> 
+                                    You have no past events that{'\n'}
+                                    {if_none} results. 
                                 </Text>
                                 :
                                 null
                             :
                             <Text style={{color:currentStyle.text.color, width:'80%', 
-                                alignSelf:'center', marginTop:20, textAlign:'center', fontSize:18}}>
+                                alignSelf:'center', marginTop:20, 
+                                textAlign:'center', fontSize:18}}>
                                 You've been put on the naughty list.{'\n'}{'\n'}
                                 To start swapping again,{'\n'}
                                 please pay your overdue swaps and have the other users 
@@ -189,6 +194,7 @@ const styles = {
         listItem:{
             justifyContent:'center'},
         text:{
-            justifyContent:'center', textAlign:'center', fontSize:18, width:'90%', marginVertical: 5}
+            justifyContent:'center', textAlign:'center', 
+            fontSize:18, width:'90%', marginVertical: 5}
     }
 }

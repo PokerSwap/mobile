@@ -92,6 +92,7 @@ export default LoginScreen = ({navigation}) => {
                     <Image style={styles.logo.image}
                         source={require("../Images/transparent-logo.png")}/>
                 </View>  
+                
                 {/* MAIN BODY */}
                 <View transparent>
                     {/* EMAIL INPUT */}
@@ -110,6 +111,7 @@ export default LoginScreen = ({navigation}) => {
                             value={email}    
                             onChangeText={emailX => setEmail( emailX )} />
                     </View>           
+                    
                     {/* PASSWORD INPUT */}
                     <View style={styles.input.container}>
                         <TextInput 
@@ -126,8 +128,10 @@ export default LoginScreen = ({navigation}) => {
                             value={password}
                             onChangeText={passwordX => setPassword( passwordX )}/>
                     </View>
-                    {/* BUTTONS */}
+                    
+                    {/* BUTTONS - START */}
                     <View style={styles.buttons.container}>
+                        
                         {/* LOGIN BUTTON */}         
                         <Button block onPress={() => loginStart()}
                             onPressIn={() => setLoginColor('#6699FF')}
@@ -137,6 +141,7 @@ export default LoginScreen = ({navigation}) => {
                                 Login 
                             </Text>
                         </Button>                 
+                        
                         {/* SIGN UP BUTTON */}
                         <Button block 
                             onPressIn={()=> setSignupColor('#FF8533')}
@@ -146,7 +151,8 @@ export default LoginScreen = ({navigation}) => {
                             <Text style={styles.buttons.text}> 
                                 Sign Up 
                             </Text>
-                        </Button>                  
+                        </Button>           
+
                         {/* FORGOT PASSWORD BUTTON */}
                         <Button transparent style={styles.forgotPassword.button} 
                             onPress={() => navigation.navigate("Forgot Password")}>
@@ -154,7 +160,9 @@ export default LoginScreen = ({navigation}) => {
                                 Forgot password?
                             </Text>
                         </Button>                  
-                    </View>          
+                    </View>  
+                    {/* BUTTONS - END */}   
+
                 </View>
             </View>
             </TouchableWithoutFeedback>

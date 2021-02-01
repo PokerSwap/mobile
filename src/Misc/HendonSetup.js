@@ -4,7 +4,7 @@ import { Alert, KeyboardAvoidingView, TouchableOpacity, View } from "react-nativ
 import { Button, Content, Text, Icon } from 'native-base';
 
 import {Context} from '../Store/appContext'
-import { useNavigation, useRoute } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 
 
 export default HendonSetup = (props) => {
@@ -58,42 +58,51 @@ export default HendonSetup = (props) => {
             }
             console.log(store.currentHendonURL, 'newhendon')
         });
-      }, [])
+    }, [])
 
 	return(
 		<KeyboardAvoidingView behavior={'position'} keyboardVerticalOffset={-300}>
 		<View transparent style={{display:'flex', justifyContent:'center'}}>
 			{lookHendon ?
-				<View style={{height:'99%', alignText:'center', display:'flex', justifyContent:'center'}}>
+				<View style={{height:'99%', alignText:'center', 
+					display:'flex', justifyContent:'center'}}>
 
 					<Text style={{fontSize:16, width:'95%', alignSelf:'center',  
 						marginTop:20, textAlign:'center', marginBottom:20,}}>
-                        Enter your name on the following page. Once you have found your actual profile page, confirm it.
-						{'\n'}{'\n'} Please be advised that if you claim a hendon mob profile that is not your own, 
-						you may be banned from Swapping.
+                        Enter your name on the following page. Once you have found your actual
+						profile page, confirm it. {'\n'}{'\n'} Please be advised that if you claim
+						a hendon mob profile that is not your own, you may be banned from Swapping.
                     </Text>
 
 					<Button large style={{marginBottom:40, alignSelf:'center'}} 
 						onPress={() => goToHendon()}>
 						<Text>Click Here to Search</Text>
 					</Button>
-					<Text style={{textAlign:"center", marginBottom:10, fontSize:18}}>Current Hendon Mob Profile:</Text>
+					<Text style={{textAlign:"center", marginBottom:10, fontSize:18}}>
+						Current Hendon Mob Profile:
+					</Text>
 					{ store.currentHendonURL == '' && hendonURL == 'None Selected' ?
 						<Text style={{fontSize:18,alignSelf:'center', textAlign:'center'}}>
 							None Selected
 						</Text>
 						:
-						store.currentHendonURL.includes('https://pokerdb.thehendonmob.com/player.php?a=r&n=') || hendonURL.includes('https://pokerdb.thehendonmob.com/player.php?a=r&n=') ?
+						store.currentHendonURL.includes(
+							'https://pokerdb.thehendonmob.com/player.php?a=r&n=') 
+							|| hendonURL.includes(
+								'https://pokerdb.thehendonmob.com/player.php?a=r&n=') ?
 							available ?
-								<Text style={{fontSize:16, textAlign:'center',alignSelf:'center', width:'80%'}}>
+								<Text style={{fontSize:16, textAlign:'center',
+									alignSelf:'center', width:'80%'}}>
 									{hendonURL}
 								</Text>
 								:
-								<Text style={{fontSize:16, textAlign:'center',alignSelf:'center', width:'80%'}}>
+								<Text style={{fontSize:16, textAlign:'center',
+									alignSelf:'center', width:'80%'}}>
 									This Hendon Mob Profile is already taken
 								</Text>
 							:
-							<Text style={{fontSize:18, alignSelf:'center', width:'70%', textAlign:'center'}}>
+							<Text style={{fontSize:18, alignSelf:'center', 
+								width:'70%', textAlign:'center'}}>
 								You did not submit a valid Hendon Mob profile
 							</Text> }    
 								
@@ -104,7 +113,8 @@ export default HendonSetup = (props) => {
 					
 					<View style={{justifyContent:'center'}}>
 						<Button large disabled={disabled} onPress={()=> showAlert()}
-							style={{marginTop:40, alignSelf:'center', justifyContent:'center'}} >
+							style={{marginTop:40, alignSelf:'center', 
+								justifyContent:'center'}} >
 							<Text style={{fontSize:24, fontWeight:'600'}}> 
 								Confirm Update 
 							</Text>
@@ -113,9 +123,11 @@ export default HendonSetup = (props) => {
 					
 				</View>
 				:
-				<View style={{width:'80%', height:500, flexDirection:'column', justifyContent:'space-around', alignSelf:'center', marginTop:20}}>
+				<View style={{width:'80%', height:500, flexDirection:'column', 
+					justifyContent:'space-around', alignSelf:'center', marginTop:20}}>
 					{/* HENDON INSTRUCTIONS */}
-					<View style={{flexDirection:"column", justifyContent:"center", textAlign:'center'}}>
+					<View style={{flexDirection:"column", 
+						justifyContent:"center", textAlign:'center'}}>
 						<View>
 							<Text style={{textAlign:'center', fontSize:20, marginBottom:5}}>
 								Have a Hendon Mob profile? 

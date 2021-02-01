@@ -47,19 +47,23 @@ export default FlightSchedule = (props) => {
             <ListItem noIndent seperator style={{
                 backgroundColor:'#D3D3D3', justifyContent:'space-between'}}>
                 <Text> 
-                Day {props.flight.day} - {startMonth}. {startDay} 
+                    Day {props.flight.day} - {startMonth}. {startDay} 
                 </Text>
                 <Text>{startTime}</Text>
             </ListItem> 
+            
             {/* IF MY BUYIN IS IN THIS FLIGHT */}
             {props.my_buyin.length !== 0?
                 <BuyIn  
-                setRefreshing={props.setRefreshing}
-                action = {props.action} tournament ={props.tournament}
-                my_buyin= {props.my_buyin} buyin = {props.my_buyin}/>
-                : null}
+                    setRefreshing={props.setRefreshing}
+                    action = {props.action} tournament ={props.tournament}
+                    my_buyin= {props.my_buyin} buyin = {props.my_buyin}/>
+                : 
+                null}
+            
             {/* BUYINS IN FLIGHT I SWAPPED WITH */}
             {Buy_Ins}
+
             {/* OTHER BUY-INS IN FLIGHT */}
             {Tournament_Buy_Ins}
         </View>

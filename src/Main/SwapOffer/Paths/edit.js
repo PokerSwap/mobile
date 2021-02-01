@@ -35,7 +35,8 @@ export default EditPath = (props) => {
             newTable == "" || newTable == " " ? 
                 rex = props.buyin.table : rex= newTable
             var answer = await actions.buy_in.edit(
-                props.buyin.id, rex, newSeat, newChips, props.buyin.tournament_id, false )
+                props.buyin.id, rex, newSeat, 
+                newChips, props.buyin.tournament_id, false )
             props.onRefresh()
             props.setLoading(false)
         } else {
@@ -77,7 +78,8 @@ export default EditPath = (props) => {
     var bustedEnter = async() => {
         setNewChips(0)
         var answer1 = await actions.buy_in.edit(
-            props.buyin_id, props.newTable, props.newSeat, 0, props.tournament_id, false)
+            props.buyin_id, props.newTable, props.newSeat, 
+            0, props.tournament_id, false)
         var answer2 = await actions.buy_in.busted(
             props.buyin_id, place, winnings, props.tournament_id )
         setVisible(false)
@@ -85,109 +87,110 @@ export default EditPath = (props) => {
     } 
 
     return(
-        <View style={{justifyContent:'center', backgroundColor:currentStyle.background.color}}>
-        
-        <View style={ styles.update.view }>
-            <Icon type='FontAwesome5' name='angle-double-down'
-                style={ [styles.update.icon, {color:currentStyle.text.color}] } />
-            <Text style={ [styles.update.title, {color:currentStyle.text.color}] }>
-                {'   '}STATUS UPDATE
-            </Text>
-            <Icon type='FontAwesome5' name='angle-double-down'
-                style={ [styles.update.icon, {color:currentStyle.text.color}] } />
-        </View>
-
-        <Modal
-            animationType='fade'
-            visible={visible}
-            presentationStyle='overFullScreen'
-            transparent={true}>
-            <BustedModal 
-                setNewChips={setNewChips} 
-                setVisible={setVisible} setLoading={props.setLoading}
-                buyin_id={props.buyin.id} 
-                newTable={newTable} newSeat={newSeat} newChips={newChips} 
-                bustedEnter={bustedEnter}
-                tournament_id={props.buyin.tournament_id}
-                mode={'busted'} />  
-        </Modal>
-
-        <Card style={{width:'90%', alignSelf:'center', paddingBottom:10, 
+        <View style={{justifyContent:'center', 
             backgroundColor:currentStyle.background.color}}>
-            <CardItem style={ [styles.field.container, 
-                {backgroundColor:currentStyle.background.color}] }>
-                
-                <Row style={{alignItems:'center'}}>
-                    <Text style={ [styles.field.text, {color:currentStyle.text.color}] }>
-                        Table:{'  '}
-                    </Text>
-                    <TextInput 
-                        // placeholder={props.buyin.table.toString()}
-                        style={ [styles.field.textInput, {width:'20%', marginRight:'5%', color:currentStyle.text.color, borderColor:currentStyle.text.color}] }              
-                        placeholderTextColor='red'
-                        keyboardType="number-pad"
-                        blurOnSubmit={false}
-                        returnKeyType="done"
-                        autoCapitalize='none'
-                        autoCorrect={false} 
-                        onSubmitEditing={() => { txtSeat.focus(); }}          
-                        value={newTable}    
-                        onChangeText={table => setNewTable( table )} />
-                    
-                    
-                    <Text style={[styles.field.text, {color:currentStyle.text.color}] }>
-                        Seat: {'  '}
-                    </Text>
+        
+            <View style={ styles.update.view }>
+                <Icon type='FontAwesome5' name='angle-double-down'
+                    style={ [styles.update.icon, {color:currentStyle.text.color}] } />
+                <Text style={ [styles.update.title, {color:currentStyle.text.color}] }>
+                    {'   '}STATUS UPDATE
+                </Text>
+                <Icon type='FontAwesome5' name='angle-double-down'
+                    style={ [styles.update.icon, {color:currentStyle.text.color}] } />
+            </View>
 
-                    <TextInput 
-                        // placeholder={props.buyin.seat.toString()}
-                        style={ [styles.field.textInput, {
-                        width:'20%', color:currentStyle.text.color, borderColor:currentStyle.text.color}] }              
-                        placeholderTextColor='red'
-                        keyboardType="number-pad"
-                        blurOnSubmit={false}
-                        returnKeyType="done"
-                        autoCapitalize='none'
-                        autoCorrect={false} 
-                        ref={(input) => { txtSeat = input; }} 
-                        onSubmitEditing={() => { txtChips.focus(); }}
-                        value={newSeat}    
-                        onChangeText={seat => setNewSeat(seat)}/>
-                </Row>
+            <Modal
+                animationType='fade'
+                visible={visible}
+                presentationStyle='overFullScreen'
+                transparent={true}>
+                <BustedModal 
+                    setNewChips={setNewChips} 
+                    setVisible={setVisible} setLoading={props.setLoading}
+                    buyin_id={props.buyin.id} 
+                    newTable={newTable} newSeat={newSeat} newChips={newChips} 
+                    bustedEnter={bustedEnter}
+                    tournament_id={props.buyin.tournament_id}
+                    mode={'busted'} />  
+            </Modal>
 
-                <Row style={{marginTop:30, alignItems:'center', alignItems:'center'}}>
-                    <Text style={ [styles.field.text,{color:currentStyle.text.color}] }>
-                        Chips:{'  '} 
-                    </Text>
-                    <TextInput 
-                        style={ [styles.field.textInput, {width:'40%', paddingRight:'2%', 
-                            height:40, textAlign:'right', color:currentStyle.text.color, 
-                            borderColor:currentStyle.text.color}]  }
-                        placeholderTextColor='red'
-                        keyboardType="number-pad"
-                        returnKeyType="done"
-                        autoCapitalize='none'
-                        autoCorrect={false} 
-                        blurOnSubmit={true}
-                        ref={(input) => { txtChips = input; }} 
-                        value={newChips}    
-                        onChangeText={chips => setNewChips(chips)}/>
-                    <Button danger style={styles.busted.button}
-                        onPress={()=> bustedAlert()} >
-                        <Text style={styles.busted.text}> 
-                            BUSTED? 
+            <Card style={{width:'90%', alignSelf:'center', paddingBottom:10, 
+                backgroundColor:currentStyle.background.color}}>
+                <CardItem style={ [styles.field.container, 
+                    {backgroundColor:currentStyle.background.color}] }>
+                    
+                    <Row style={{alignItems:'center'}}>
+                        <Text style={ [styles.field.text, {color:currentStyle.text.color}] }>
+                            Table:{'  '}
                         </Text>
-                    </Button>
-                </Row>
-            </CardItem>     
-        </Card>
+                        <TextInput 
+                            // placeholder={props.buyin.table.toString()}
+                            style={ [styles.field.textInput, {width:'20%', marginRight:'5%', color:currentStyle.text.color, borderColor:currentStyle.text.color}] }              
+                            placeholderTextColor='red'
+                            keyboardType="number-pad"
+                            blurOnSubmit={false}
+                            returnKeyType="done"
+                            autoCapitalize='none'
+                            autoCorrect={false} 
+                            onSubmitEditing={() => { txtSeat.focus(); }}          
+                            value={newTable}    
+                            onChangeText={table => setNewTable( table )} />
+                        
+                        
+                        <Text style={[styles.field.text, {color:currentStyle.text.color}] }>
+                            Seat: {'  '}
+                        </Text>
 
-        <Button large  style={ styles.update.button }
-            onPress={()=> buyinEdit()}>
-            <Text style={ styles.update.text }>
-                UPDATE 
-            </Text>
-        </Button>
+                        <TextInput 
+                            // placeholder={props.buyin.seat.toString()}
+                            style={ [styles.field.textInput, {
+                            width:'20%', color:currentStyle.text.color, borderColor:currentStyle.text.color}] }              
+                            placeholderTextColor='red'
+                            keyboardType="number-pad"
+                            blurOnSubmit={false}
+                            returnKeyType="done"
+                            autoCapitalize='none'
+                            autoCorrect={false} 
+                            ref={(input) => { txtSeat = input; }} 
+                            onSubmitEditing={() => { txtChips.focus(); }}
+                            value={newSeat}    
+                            onChangeText={seat => setNewSeat(seat)}/>
+                    </Row>
+
+                    <Row style={{marginTop:30, alignItems:'center', alignItems:'center'}}>
+                        <Text style={ [styles.field.text,{color:currentStyle.text.color}] }>
+                            Chips:{'  '} 
+                        </Text>
+                        <TextInput 
+                            style={ [styles.field.textInput, {width:'40%', paddingRight:'2%', 
+                                height:40, textAlign:'right', color:currentStyle.text.color, 
+                                borderColor:currentStyle.text.color}]  }
+                            placeholderTextColor='red'
+                            keyboardType="number-pad"
+                            returnKeyType="done"
+                            autoCapitalize='none'
+                            autoCorrect={false} 
+                            blurOnSubmit={true}
+                            ref={(input) => { txtChips = input; }} 
+                            value={newChips}    
+                            onChangeText={chips => setNewChips(chips)}/>
+                        <Button danger style={styles.busted.button}
+                            onPress={()=> bustedAlert()} >
+                            <Text style={styles.busted.text}> 
+                                BUSTED? 
+                            </Text>
+                        </Button>
+                    </Row>
+                </CardItem>     
+            </Card>
+
+            <Button large  style={ styles.update.button }
+                onPress={()=> buyinEdit()}>
+                <Text style={ styles.update.text }>
+                    UPDATE 
+                </Text>
+            </Button>
             
         </View>
     )

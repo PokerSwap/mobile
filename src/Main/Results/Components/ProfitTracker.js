@@ -132,6 +132,7 @@ export default ProfitTracker = (props) => {
     return(
         <ListItem noIndent transparent  style={{justifyContent:'center'}}>
             <Spinner visible={loading}/>
+            
             {/* PAY MODAL */}
             <Modal
                 animationType='fade'
@@ -140,39 +141,47 @@ export default ProfitTracker = (props) => {
                 transparent={true}>
                 <PayModal fn={paySwap} setVisible={setVisible}/>  
             </Modal>
+
             {/* MAIN BODY */}
             <Grid style={{justifyContent:'center',
                 alignItems:'center', marginVertical:40}}>
-                {/* USERS ROW */}
+                
+                {/* USERS ROW - START */}
                 <Row style={{justifyContent:'center'}}>
+
+                    {/* PLACEHOLDER FOR SPACING */}
                     <Col style={{width:'25%'}}></Col>
+                    
                     {/* YOUR PROFILE */}
                     <Col style={{alignSelf:'center'}}>           
                         <Image source={{uri: store.myProfile.profile_pic_url}} 
-                        style={{height:100, width:100, 
-                            borderRadius:500, alignSelf:'center'}}/>
+                            style={{height:100, width:100, 
+                                borderRadius:500, alignSelf:'center'}}/>
                         <Text style={{marginTop:10, color:currentStyle.text.color}}>
-                        You
+                            You
                         </Text>
                     </Col>
+
                     {/* THEIR PROFILE */}
                     <Col style={{alignSelf:'center'}} 
                         onPress={() => navigation.push('Profile',{
-                        user_id: props.buyin.recipient_user.id,
-                        nickname: props.buyin.recipient_buyin.user_name
-                        })}>
+                            user_id: props.buyin.recipient_user.id,
+                            nickname: props.buyin.recipient_buyin.user_name})}>
                         <Image source={{uri: props.buyin.recipient_user.profile_pic_url}} 
-                        style={{height:100, width:100,
-                        borderRadius:500, alignSelf:'center'}}/>  
+                            style={{height:100, width:100, borderRadius:500, alignSelf:'center'}}/>  
                         <Text style={{marginTop:10, color:currentStyle.text.color}}>
-                        {props.buyin.recipient_user.first_name}
+                            {props.buyin.recipient_user.first_name}
                         </Text>
                     </Col>
                 </Row>
-                {/* PLACE ROW */}
+                {/* USERS ROW - END */}
+
+                {/* PLACE ROW - START */}
                 <Row style={{paddingTop:15}}>
                     <Col style={{width:'25%'}}>
                     </Col>
+
+                    {/* MY PLACE */}
                     <Col>
                         {props.myPlace ? 
                             <Text style={{alignSelf:'center', fontSize:20, 
@@ -182,6 +191,8 @@ export default ProfitTracker = (props) => {
                             : 
                             null}
                     </Col> 
+
+                    {/* THEIR PLACE */}
                     <Col>
                         {props.buyin.their_place ? 
                         <Text style={{alignSelf:'center',  fontSize:20, 
@@ -192,13 +203,19 @@ export default ProfitTracker = (props) => {
                         null}
                     </Col>
                 </Row>
-                {/* WINNINGS ROW */}
+                {/* PLACE ROW - END */}
+
+                {/* WINNINGS ROW - START */}
                 <Row style={{paddingBottom:15, paddingTop:5}}>
+                    
+                    {/* WINNINGS HEADER */}
                     <Col style={{width:'25%'}}>
                         <Text style={{fontSize:18, color:currentStyle.text.color}}>
                             Winnings
                         </Text>
                     </Col>
+
+                    {/* YOUR WINNINGS */}
                     <Col>
                         {props.buyin.you_won ? 
                         <Text style={{alignSelf:'center',  fontSize:20, 
@@ -210,6 +227,8 @@ export default ProfitTracker = (props) => {
                             Pending 
                         </Text>}
                     </Col> 
+
+                    {/* THEIR WINNINGS */}
                     <Col>
                         {props.buyin.they_won ? 
                             <Text style={{alignSelf:'center',  fontSize:20, 
@@ -222,6 +241,8 @@ export default ProfitTracker = (props) => {
                             </Text>}
                     </Col>
                 </Row>
+                {/* WINNINGS ROW - END */}
+
                 {/* INDIVIDUAL SWAPS ROW */}
                 {props.agreed_swaps.map((swap, index) =>{
                     return(
@@ -235,7 +256,7 @@ export default ProfitTracker = (props) => {
                     you_owe_total = {props.buyin.you_owe_total}
                     they_owe_total = {props.buyin.they_owe_total}/>
 
-                {/* SWAP PROFIT OWE */}
+                {/* FINAL SWAP PROFIT - BEGIN */}
                 <Row style={{flexDirection:'column'}}>
                     <Text style={{ fontSize:36, fontWeight:'600', color:currentStyle.text.color, 
                         textAlign:'center', marginTop:30}}>
@@ -257,8 +278,8 @@ export default ProfitTracker = (props) => {
                             color:currentStyle.text.color}}>
                             Pending
                         </Text>}
-                
                 </Row>
+                {/* FINAL SWAP PROFIT - END */}
 
                 {/* PAY/PAID BUTTON */}
                 {props.buyin.you_won ?

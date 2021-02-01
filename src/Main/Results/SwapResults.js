@@ -168,54 +168,54 @@ export default ProfitResults = (props) => {
             </Modal>
             <View style={{backgroundColor:currentStyle.background.color, height:'100%'}}>
             
-            {/* NO SWAPS TEXT */}
-            <FlatList style={{backgroundColor:currentStyle.background.color}}
-                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-                data={store.currentResult.agreed_buyins}
-                renderItem={profitTracker}
-                ListHeaderComponent={
-                    <View style={{ width:'100%', backgroundColor:currentStyle.backgroundColor}}>
-                    <Text style={{justifyContent:'center', marginTop:20, textAlign:'center', fontWeight:'600', fontSize:20, color:currentStyle.text.color}}> 
-                        {tournament.name}
-                    </Text>
-                    {/* TOURNAMENT CASINO and Address*/}
-                    <Text style={{marginTop:20, textAlign:'center', color:currentStyle.text.color}}>
-                        {tournament.casino.name + '\n' + tournament.casino.address + '\n' + 
-                        tournament.casino.city + ', ' + tournament.casino.state + ' ' + tournament.casino.zip_code}
-                    </Text>
-                    {/* TOURNAMENT START TIME */}
-                    <Text style={{justifyContent:'center', marginVertical:10, textAlign:'center', fontSize:16, color:currentStyle.text.color}}>
-                        {moment(tournament.start_at).tz(tournament.casino.time_zone).format('llll z')}
-                    </Text>
-                    {store.currentResult.results_link !== null ? 
-                    <View style={{flexDirection:'column', alignSelf:'center', width:'80%', justifyContent:'center', marginTop:10}}>
-                        <Button style={{alignSelf:'center'}} block onPress={() => openResults()}>
-                        <Text style={{color:currentStyle.text.color, }}>
-                            See Complete Event Results
+                {/* NO SWAPS TEXT */}
+                <FlatList style={{backgroundColor:currentStyle.background.color}}
+                    refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+                    data={store.currentResult.agreed_buyins}
+                    renderItem={profitTracker}
+                    ListHeaderComponent={
+                        <View style={{ width:'100%', backgroundColor:currentStyle.backgroundColor}}>
+                        <Text style={{justifyContent:'center', marginTop:20, textAlign:'center', fontWeight:'600', fontSize:20, color:currentStyle.text.color}}> 
+                            {tournament.name}
                         </Text>
-                        </Button>
-                        <Text style={{marginTop:15, marginBottom:5, textAlign:'center', color:currentStyle.text.color}}>
-                        Results posted {moment(tournament.updated_at).fromNow()}.
+                        {/* TOURNAMENT CASINO and Address*/}
+                        <Text style={{marginTop:20, textAlign:'center', color:currentStyle.text.color}}>
+                            {tournament.casino.name + '\n' + tournament.casino.address + '\n' + 
+                            tournament.casino.city + ', ' + tournament.casino.state + ' ' + tournament.casino.zip_code}
                         </Text>
-                    </View>                
-                    : null}
-                    </View>}
-                ListFooterComponent={
-                    <View style={{backgroundColor:currentStyle.background.color, alignSelf:'center', width:'80%'}}>
-                {store.currentResult.agreed_buyins == [] || store.currentResult.agreed_buyins == undefined ?
-                    <Text style={{color:currentStyle.text.color, paddingTop:20,  fontSize:20, textAlign:'center'}}>
-                    You did not agree to any swaps in this event.
-                    </Text> 
-                    : <View style={{paddingVertical:30, paddingBottom:100}}>
-                    <Text style={{fontSize:24, textAlign:'center', color:currentStyle.text.color}}>
-                    Your final profit is:
-                    </Text>
-                    <Text style={{fontSize:36, fontWeight:'600', textAlign:'center', color:currentStyle.text.color}}>
-                    {profit}
-                    </Text>
-                </View> }
-                    
-                </View> } />
+                        {/* TOURNAMENT START TIME */}
+                        <Text style={{justifyContent:'center', marginVertical:10, textAlign:'center', fontSize:16, color:currentStyle.text.color}}>
+                            {moment(tournament.start_at).tz(tournament.casino.time_zone).format('llll z')}
+                        </Text>
+                        {store.currentResult.results_link !== null ? 
+                        <View style={{flexDirection:'column', alignSelf:'center', width:'80%', justifyContent:'center', marginTop:10}}>
+                            <Button style={{alignSelf:'center'}} block onPress={() => openResults()}>
+                            <Text style={{color:currentStyle.text.color, }}>
+                                See Complete Event Results
+                            </Text>
+                            </Button>
+                            <Text style={{marginTop:15, marginBottom:5, textAlign:'center', color:currentStyle.text.color}}>
+                            Results posted {moment(tournament.updated_at).fromNow()}.
+                            </Text>
+                        </View>                
+                        : null}
+                        </View>}
+                    ListFooterComponent={
+                        <View style={{backgroundColor:currentStyle.background.color, alignSelf:'center', width:'80%'}}>
+                    {store.currentResult.agreed_buyins == [] || store.currentResult.agreed_buyins == undefined ?
+                        <Text style={{color:currentStyle.text.color, paddingTop:20,  fontSize:20, textAlign:'center'}}>
+                        You did not agree to any swaps in this event.
+                        </Text> 
+                        : <View style={{paddingVertical:30, paddingBottom:100}}>
+                        <Text style={{fontSize:24, textAlign:'center', color:currentStyle.text.color}}>
+                        Your final profit is:
+                        </Text>
+                        <Text style={{fontSize:36, fontWeight:'600', textAlign:'center', color:currentStyle.text.color}}>
+                        {profit}
+                        </Text>
+                    </View> }
+                        
+                    </View> } />
                   
             </View>     
 

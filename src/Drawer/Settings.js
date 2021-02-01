@@ -19,7 +19,10 @@ export default SettingsScreen = () => {
     store.myProfile.nickname == '' ? nick="N/A" : nick= '\n' + store.myProfile.nickname
 
     var url 
-    store.myProfile.hendon_url == '' || store.myProfile.hendon_url == null ? url="N/A" : url= '\n' + store.myProfile.hendon_url
+    store.myProfile.hendon_url == '' || store.myProfile.hendon_url == null ? 
+        url="N/A" 
+        : 
+        url= '\n' + store.myProfile.hendon_url
 
     var currentStyle
     store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
@@ -43,7 +46,8 @@ export default SettingsScreen = () => {
                             <Col>
                                 <Row>
                                     <Text style={{color:currentStyle.text.color}}>
-                                        Full Name: {'\n'}{store.myProfile.first_name} {store.myProfile.last_name}
+                                        Full Name:{'\n'}
+                                        {store.myProfile.first_name} {store.myProfile.last_name}
                                     </Text>
                                 </Row>
                                 <Row>
@@ -92,7 +96,9 @@ export default SettingsScreen = () => {
                     </ListItem>
                     {store.myProfile.hendon_url !== null ?
                         <ListItem noIndent 
-                            onPress={()=> Linking.openURL("mailto:contact@swapprofitonline.com?subject=" + store.myProfile.first_name + " " + store.myProfile.last_name + " - Change Hendon Profile")}>
+                            onPress={()=> Linking.openURL("mailto:contact@swapprofitonline.com?subject=" + 
+                                store.myProfile.first_name + " " + store.myProfile.last_name + 
+                                " - Change Hendon Profile")}>
                             <Text style={{color:currentStyle.text.color}}> 
                                 Change Hendon Profile
                             </Text>

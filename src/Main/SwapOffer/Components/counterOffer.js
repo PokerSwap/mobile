@@ -127,6 +127,8 @@ const { store, actions } = useContext(Context)
     return(
         <Card transparent style={{backgroundColor:currentStyle.background.color,
             alignSelf:'center', width:'90%', justifyContent:'center'}}>
+            
+            {/* OFFER PATHS - CONDITIONAL RENDERING */}
             {offerPath ?
                 <StandardOffer confirmationAlert={confirmationAlert}
                     counterSwitch={counterSwitch}
@@ -138,13 +140,17 @@ const { store, actions } = useContext(Context)
                     percentage={percentage} counterPercentage={cPercentage}
                     pAdd={pAdd} pSubtract={pSubtract}
                     cAdd={cAdd} cSubtract={cSubtract} /> }
+            
             {/* GO BACK TO OFFER */}
-            <CardItem style={{justifyContent:'center', backgroundColor:currentStyle.background.color}}>
-                <Button style={{alignSelf:'center', width:'90%', color:'grey'}} large block 
+            <CardItem style={{justifyContent:'center', 
+                backgroundColor:currentStyle.background.color}}>
+                <Button style={{alignSelf:'center', width:'90%', color:'grey'}} 
+                    large block 
                     onPress={()=> props.setCounter(!props.counter)}>
                     <Text>Go Back</Text>
                 </Button>
             </CardItem>
+
         </Card>
     )
 }

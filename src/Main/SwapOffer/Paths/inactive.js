@@ -127,15 +127,19 @@ export default InactivePath = (props) => {
 
   return(
     <Card transparent style={{backgroundColor:currentStyle.background.color}}>
-      
+        
+        {/* IF YOU HAVE COINS */}
         {store.myProfile.coins > 0 ? 
+            // HAGGLE TOGGLE
             !visible ?
+                // SAME PERCEBTAGE SWAP VIEW
                 <StandardOffer 
                     confirmationAlert={confirmationAlert}
                     counterSwitch={counterSwitch}
                     percentage={percentage} 
                     tAdd={tAdd} tSubtract={tSubtract}  />
                 :
+                //DIFFERENT PERCENTAGE SWAP VIEW
                 <SpecialOffer confirmationAlert={confirmationAlert}
                     otherUser={props.buyin.user_name} 
                     counterSwitch={counterSwitch}
@@ -144,6 +148,7 @@ export default InactivePath = (props) => {
                     pAdd={pAdd} pSubtract={pSubtract}
                     cAdd={cAdd} cSubtract={cSubtract} />
             : 
+            // YOU HAVE NO COINS, PURCHASE SOME
             <View style={{backgroundColor:currentStyle.background.color}}>
                 <CardItem style={{backgroundColor:currentStyle.background.color, 
                     justifyContent:'center'}}>

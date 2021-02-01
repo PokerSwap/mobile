@@ -23,10 +23,9 @@ export default SwapTracker = (props) => {
     })
 
     const enterTournament = () => {
-        // console.log("CHECKIN", props.tournament.id)
         navigation.push('Event Lobby', {
-        tournament: props.tournament,
-        tournament_id: props.tournament.id
+            tournament: props.tournament,
+            tournament_id: props.tournament.id
         });
     }
     
@@ -57,6 +56,7 @@ export default SwapTracker = (props) => {
 
             {/* OTHER BUYINS YOU SWAPPED TO IN TOURNAMENT */}
             {other_swaps}   
+            
         </View>
     )
 }

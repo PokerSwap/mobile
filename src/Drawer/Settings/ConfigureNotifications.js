@@ -29,50 +29,58 @@ export default ConfigureNotifications = () => {
 
     return(
         <Container>
-            <Content contentContainerStyle={{paddingTop:50, backgroundColor:currentStyle.background.color,
-                justifyContent:'flex-start', alignItems:'center', flex:1, flexDirection:'column'}}>
+            <Content contentContainerStyle={{paddingTop:50, 
+                backgroundColor:currentStyle.background.color,
+                justifyContent:'flex-start', alignItems:'center', 
+                flex:1, flexDirection:'column'}}>
                 <List style={{width:'100%'}}>
                     <ListItem noIndent style={{justifyContent:'space-around'}}>
                         <Text style={{color:currentStyle.text.color}}>
-                        Buyin Updates
+                            Buyin Updates
                         </Text>
                         <Switch value={buyinSetting} 
-                        onValueChange={() => toggleIt(buyinSetting, setBuyinSetting, "buyin")}/>
+                            onValueChange={() => 
+                                toggleIt(buyinSetting, setBuyinSetting, "buyin")}/>
                     </ListItem>
                     <ListItem noIndent style={{justifyContent:'space-around'}}>
                         <Text style={{color:currentStyle.text.color}}>
-                        Coin Updates
+                            Coin Updates
                         </Text>
                         <Switch value={coinSetting} 
-                        onValueChange={() => toggleIt(coinSetting, setCoinSetting, "coin")}/>
+                            onValueChange={() => 
+                                toggleIt(coinSetting, setCoinSetting, "coin")}/>
                     </ListItem>
                     <ListItem noIndent style={{justifyContent:'space-around'}}>
                         <Text style={{color:currentStyle.text.color}}>
-                        Swap Updates
+                            Swap Updates
                         </Text>
                         <Switch value={swapSetting}
-                        onValueChange={() => toggleIt(swapSetting, setSwapSetting, "swap")}/>
+                            onValueChange={() => 
+                                toggleIt(swapSetting, setSwapSetting, "swap")}/>
                     </ListItem>
                     <ListItem noIndent style={{justifyContent:'space-around'}}>
                         <Text style={{color:currentStyle.text.color}}>
-                        Event Updates
+                            Event Updates
                         </Text>
                         <Switch value={eventSetting}
-                        onValueChange={() => toggleIt(eventSetting, setEventSetting, "event")} />
+                            onValueChange={() => 
+                                toggleIt(eventSetting, setEventSetting, "event")} />
                     </ListItem>
                     <ListItem noIndent style={{justifyContent:'space-around'}}>
                         <Text style={{color:currentStyle.text.color}}>
-                        Chat Updates
+                            Chat Updates
                         </Text>
                         <Switch value={chatSetting}
-                        onValueChange={() => toggleIt(chatSetting, setChatSetting, "chat")} />
+                            onValueChange={() => 
+                                toggleIt(chatSetting, setChatSetting, "chat")} />
                     </ListItem>
                     <ListItem noIndent style={{justifyContent:'space-around'}}>
                         <Text style={{color:currentStyle.text.color}}>
-                        Result Updates
+                            Result Updates
                         </Text>
                         <Switch value={resultSetting}
-                        onValueChange={() => toggleIt(resultSetting, setResultSetting, "result")} />
+                            onValueChange={() => 
+                                toggleIt(resultSetting, setResultSetting, "result")} />
                     </ListItem>
                 </List>
             </Content>  

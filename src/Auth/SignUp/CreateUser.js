@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react';
 import { Context } from '../../Store/appContext';
-import { throttle } from 'lodash'
 import { useNavigation } from '@react-navigation/native'
 
 import { Keyboard, TextInput } from 'react-native'
@@ -26,9 +25,12 @@ export default CreateUser = () => {
 	const createUser = async() => {
 		if(email !== '' && xxx.test(email)){
 			if(password.length >= 6 && ree.test(password)){
-				password == c_password ? userStart(): errorMessage('Make sure your passwords match')
+				password == c_password ? 
+					userStart(): errorMessage('Make sure your passwords match')
 			} else {
-				errorMessage('Your password must have at least 6 characters containing at least one lowercase letter, one uppercase letter, and one number.')
+				errorMessage('Your password must have at least 6 characters'+
+				' containing at least one lowercase letter,'+
+				' one uppercase letter, and one number.')
 			}
 		} else {
 			errorMessage('Please enter a valid email address')
@@ -69,13 +71,16 @@ export default CreateUser = () => {
 				:
 				// Waiting for Valid Email
 				<View transparent style={styles.validateContainer}>
+					
 					{/* USER INSTRUCTIONS */}
 					<View style={{width:'90%', alignSelf:'center'}}>
 						<Text style={{textAlign:"center", fontSize:16, marginBottom:10}}>
 							Please enter your personal email address.
 						</Text>
 						<Text style={{textAlign:"center", fontSize:16}}>
-							Then create a password at least 6 characters long containing at least one lowercase letter, one uppercase letter, and one number.
+							Then create a password at least 6 characters long 
+							containing at least one lowercase letter, 
+							one uppercase letter, and one number.
 						</Text>
 					</View>
 					
@@ -96,6 +101,7 @@ export default CreateUser = () => {
 							value={email}    
 							onChangeText={email => setEmail( email )}/>
 					</Item>
+					
 					{/* PASSWORD FIELD */}
 					<Item style={styles.item}>
 						<Icon active name='key' style={{fontSize:40}}/>
@@ -115,6 +121,7 @@ export default CreateUser = () => {
 							value={password}
 							onChangeText={password => setPassword( password )}/>
 					</Item>
+
 					{/* CONFIRM PASSWORD FIELD */}
 					<Item style={styles.item}>
 						<Icon active name='key' style={{fontSize:40}} />
@@ -131,8 +138,10 @@ export default CreateUser = () => {
 							value={c_password}
 							onChangeText={password => setC_Password( password )}/>
 					</Item>
+
 					{/* SUBMIT BUTTON */}
-					<Button large block disabled={disabled}  style={{alignSelf:'center', textAlign:'center'}}
+					<Button large block disabled={disabled}  
+						style={{alignSelf:'center', textAlign:'center'}}
 						onPress={() => handler()} >
 						<Text> SUBMIT </Text>
 					</Button>	

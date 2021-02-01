@@ -285,7 +285,8 @@ export default ProfileBio = (props) => {
                             </Col>
                             <Col>
                                 {/* SWAP RATING STAT */}
-                                <View style={{flex:1, flexDirection:'column', justifyContent:'center'}}>
+                                <View style={{flex:1, flexDirection:'column', 
+                                    justifyContent:'center'}}>
                                     <Text style={{textAlign:'center', marginBottom:10, 
                                         fontWeight:'500', color:currentStyle.text.color}}> 
                                         Swap Rating 

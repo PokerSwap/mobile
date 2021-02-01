@@ -52,105 +52,114 @@ export default ChangeEmail = () => {
             })
     }
 
-  return(
-    <Container >
-        <Content contentContainerStyle={{paddingTop:50,
-            justifyContent:'flex-start', alignItems:'center', flex:1, flexDirection:'column', backgroundColor:currentStyle.background.color}}>
-            {/* ENTER CURRENT EMAIL FIELD */}
-            <Text style={{fontSize:20, textAlign:'center', marginBottom:5, color:currentStyle.text.color}}>
-            Enter Current Email:
-            </Text>
-            <View style={{borderColor:currentStyle.text.color, borderWidth:1, width:'80%', padding:10, marginVeritcal:5}}>
-                <TextInput 
-                    style={{fontSize:20, textAlign:'center', color:currentStyle.text.color}}
-                    placeholder="Enter Current Email"
-                    placeholderTextColor='gray'
-                    keyboardType="email-address"
-                    blurOnSubmit={false}
-                    selectionColor={currentStyle.text.color}
-                    returnKeyType="next"
-                    autoCapitalize='none'
-                    autoCorrect={false} 
-                    onSubmitEditing={() => { txtCurrentPassword1.focus(); }}
-                    value={currentEmail}    
-                    onChangeText={email2 => setCurrentEmail( email2 )} />
-            </View>
-            
-            {/* INSTRUCTION - CHANGE EMAIL */}
-            <Text style={{fontSize:20, textAlign:'center', marginTop:15, marginBottom:5, 
-                color:currentStyle.text.color}}>
-                Enter Current Password:
-            </Text>
-            <View style={{borderColor:currentStyle.text.color, borderWidth:1, width:'80%',
-                 padding:10, marginVeritcal:5}}>
-            <TextInput 
-                style={{fontSize:20, textAlign:'center', paddingHorizontal:10, width:'100%', 
-                    color:currentStyle.text.color}}
-                placeholder="Enter Current Password"
-                placeholderTextColor='gray'
-                secureTextEntry
-                blurOnSubmit={false}
-                autoCapitalize='none'
-                returnKeyType="next"
-                autoCorrect={false} 
-                selectionColor={currentStyle.text.color}
-                ref={(input) => { txtCurrentPassword1 = input; }} 
-                onSubmitEditing={() => { txtNewEmail.focus(); }}
-                value={currentPassword}
-                onChangeText={currentPassword => setCurrentPassword( currentPassword )} />
-            </View>
-            {/* ENTER NEW EMAIL FIELD */}
-            <Text style={{fontSize:20, textAlign:'center', marginTop:15, marginBottom:5, 
-                color:currentStyle.text.color}}>
-                Enter New Email:
-            </Text>
-            <View style={{borderColor:currentStyle.text.color, borderWidth:1, width:'80%', 
-                padding:10, marginVeritcal:5}}>
-                <TextInput 
-                    style={{fontSize:20, textAlign:'center', color:currentStyle.text.color}}
-                    placeholder="Enter New Email Address"
-                    placeholderTextColor='gray'
-                    keyboardType="email-address"
-                    blurOnSubmit={true}
-                    ref={(input) => { txtNewEmail = input; }} 
-                    onSubmitEditing={() => { txtConfirmEmail.focus(); }}
-                    selectionColor={currentStyle.text.color}
-                    returnKeyType="go"
-                    autoCapitalize='none'
-                    autoCorrect={false} 
-                    value={newEmail}    
-                    onChangeText={email => setNewEmail( email )} />
-            </View>
-            {/* CONFIRM NEW EMAIL FIELD */}
-            <Text style={{fontSize:20, textAlign:'center', marginTop:15, marginBottom:5, 
-                color:currentStyle.text.color}}>
-            Confirm New Email:
-            </Text>
-            <View style={{borderColor:currentStyle.text.color, borderWidth:1, width:'80%', 
-                padding:10, marginVeritcal:5}}>
-                <TextInput 
-                    style={{fontSize:20, textAlign:'center', color:currentStyle.text.color}}
-                    placeholder="Confirm New Email Address"
-                    placeholderTextColor='gray'
-                    keyboardType="email-address"
-                    blurOnSubmit={true}
-                    ref={(input) => { txtConfirmEmail = input; }} 
-                    selectionColor={currentStyle.text.color}
-                    returnKeyType="go"
-                    autoCapitalize='none'
-                    autoCorrect={false} 
-                    value={confirmEmail}    
-                    onChangeText={email => setConfirmEmail( email )}/>
-            </View>
-            
-            {/* SUBMIT BUTTON - CHANGE EMAIL */}
-            <Button large  style={{marginTop:40, alignSelf:'center'}} 
-            onPress={() => changeEmail()}>
-                <Text style={{fontSize:30, fontWeight:'600'}}> 
-                    SUBMIT 
+    return(
+        <Container >
+            <Content contentContainerStyle={{paddingTop:50,
+                justifyContent:'flex-start', alignItems:'center', flex:1, 
+                flexDirection:'column', backgroundColor:currentStyle.background.color}}>
+                
+                {/* ENTER CURRENT EMAIL FIELD */}
+                <Text style={{fontSize:20, textAlign:'center', marginBottom:5, 
+                    color:currentStyle.text.color}}>
+                    Enter Current Email:
                 </Text>
-            </Button>
-        </Content>  
-    </Container>
+                <View style={{borderColor:currentStyle.text.color, borderWidth:1, width:'80%', 
+                    padding:10, marginVeritcal:5}}>
+                    <TextInput 
+                        style={{fontSize:20, textAlign:'center', color:currentStyle.text.color}}
+                        placeholder="Enter Current Email"
+                        placeholderTextColor='gray'
+                        keyboardType="email-address"
+                        blurOnSubmit={false}
+                        selectionColor={currentStyle.text.color}
+                        returnKeyType="next"
+                        autoCapitalize='none'
+                        autoCorrect={false} 
+                        onSubmitEditing={() => { txtCurrentPassword1.focus(); }}
+                        value={currentEmail}    
+                        onChangeText={email2 => setCurrentEmail( email2 )} />
+                </View>
+                
+                {/* INSTRUCTION - CHANGE EMAIL */}
+                <Text style={{fontSize:20, textAlign:'center', marginTop:15, marginBottom:5, 
+                    color:currentStyle.text.color}}>
+                    Enter Current Password:
+                </Text>
+
+                <View style={{borderColor:currentStyle.text.color, borderWidth:1, width:'80%',
+                    padding:10, marginVeritcal:5}}>
+                    <TextInput 
+                        style={{fontSize:20, textAlign:'center', paddingHorizontal:10, width:'100%', 
+                            color:currentStyle.text.color}}
+                        placeholder="Enter Current Password"
+                        placeholderTextColor='gray'
+                        secureTextEntry
+                        blurOnSubmit={false}
+                        autoCapitalize='none'
+                        returnKeyType="next"
+                        autoCorrect={false} 
+                        selectionColor={currentStyle.text.color}
+                        ref={(input) => { txtCurrentPassword1 = input; }} 
+                        onSubmitEditing={() => { txtNewEmail.focus(); }}
+                        value={currentPassword}
+                        onChangeText={currentPassword => setCurrentPassword( currentPassword )} />
+                </View>
+
+                {/* ENTER NEW EMAIL FIELD */}
+                <Text style={{fontSize:20, textAlign:'center', marginTop:15, marginBottom:5, 
+                    color:currentStyle.text.color}}>
+                    Enter New Email:
+                </Text>
+
+                <View style={{borderColor:currentStyle.text.color, borderWidth:1, width:'80%', 
+                    padding:10, marginVeritcal:5}}>
+                    <TextInput 
+                        style={{fontSize:20, textAlign:'center', color:currentStyle.text.color}}
+                        placeholder="Enter New Email Address"
+                        placeholderTextColor='gray'
+                        keyboardType="email-address"
+                        blurOnSubmit={true}
+                        ref={(input) => { txtNewEmail = input; }} 
+                        onSubmitEditing={() => { txtConfirmEmail.focus(); }}
+                        selectionColor={currentStyle.text.color}
+                        returnKeyType="go"
+                        autoCapitalize='none'
+                        autoCorrect={false} 
+                        value={newEmail}    
+                        onChangeText={email => setNewEmail( email )} />
+                </View>
+                
+                {/* CONFIRM NEW EMAIL FIELD */}
+                <Text style={{fontSize:20, textAlign:'center', marginTop:15, marginBottom:5, 
+                    color:currentStyle.text.color}}>
+                    Confirm New Email:
+                </Text>
+                <View style={{borderColor:currentStyle.text.color, borderWidth:1, width:'80%', 
+                    padding:10, marginVeritcal:5}}>
+                    <TextInput 
+                        style={{fontSize:20, textAlign:'center', color:currentStyle.text.color}}
+                        placeholder="Confirm New Email Address"
+                        placeholderTextColor='gray'
+                        keyboardType="email-address"
+                        blurOnSubmit={true}
+                        ref={(input) => { txtConfirmEmail = input; }} 
+                        selectionColor={currentStyle.text.color}
+                        returnKeyType="go"
+                        autoCapitalize='none'
+                        autoCorrect={false} 
+                        value={confirmEmail}    
+                        onChangeText={email => setConfirmEmail( email )}/>
+                </View>
+                
+                {/* SUBMIT BUTTON - CHANGE EMAIL */}
+                <Button large  style={{marginTop:40, alignSelf:'center'}} 
+                    onPress={() => changeEmail()}>
+                    <Text style={{fontSize:30, fontWeight:'600'}}> 
+                        SUBMIT 
+                    </Text>
+                </Button>
+
+            </Content>  
+        </Container>
     )
 }

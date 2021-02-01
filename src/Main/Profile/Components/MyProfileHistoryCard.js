@@ -47,7 +47,8 @@ export default MyProfileHistoryCard = (props) => {
 					return(
 						<View>
 							{/* USERS NAME */}
-							<ListItem noIndent key={index} style={{flexDirection:'column', backgroundColor:currentStyle.background.color}}>
+							<ListItem noIndent key={index} style={{flexDirection:'column', 
+								backgroundColor:currentStyle.background.color}}>
 								<Text style={{textAlign:'center', fontSize:24, 
 								fontWeight:'500', marginVertical:7, color:currentStyle.text.color }}>
 									{fullName}

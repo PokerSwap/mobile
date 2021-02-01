@@ -16,6 +16,7 @@ export default CompareCard = (props) => {
     return(
         <CardItem style={{justifyContent:'center', backgroundColor:currentStyle.background.color}}>
             <Row>
+                
                 {/* YOUR SWAP PERCENTAGE */}
                 <Col>
                     <Text style={[styles.userTitle, {color:currentStyle.text.color}]}>
@@ -27,6 +28,7 @@ export default CompareCard = (props) => {
                         </Text>
                     </View>
                 </Col>
+
                 {/* THEIR SWAP PERCENTAGE */}
                 <Col>
                     <Text style={[styles.userTitle, {color:currentStyle.text.color} ]}>

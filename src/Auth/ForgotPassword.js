@@ -16,10 +16,12 @@ export default ForgotPassword = () => {
 		<Container style={{justifyContent:'center'}}>
 			<Content contentContainerStyle={{flexDirection:'column',
 				justifyContent:'center', height:'100%', alignSelf:'center'}}>
+				
 				{/* EMAIL INSTRUCTIONS */}
 				<Text style={{textAlign:'center', fontSize:20, marginBottom:10}}>
 					Enter Your Email:
 				</Text>
+				
 				{/* EMAIL TEXT INPUT */}
 				<Item style={{width:'90%'}}>
 					<TextInput 
@@ -38,6 +40,7 @@ export default ForgotPassword = () => {
 						value={email}    
 						onChangeText={emailX => setEmail( emailX )} />
 				</Item>
+				
 				{/* SUBMIT BUTTON */}
 				<Button large onPress={()=> forgotStart()}
 					style={{alignSelf:'center',marginTop:40, maxWidth:150, justifyContent:'center'}}>

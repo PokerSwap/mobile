@@ -19,7 +19,7 @@ export default ProfileScreen = (props) => {
     var currentStyle
         store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
     const route = useRoute()
-    const { nickname, user_id, from_tournament } = route.params;
+    const { nickname, user_id } = route.params;
   
     return(
         <Container> 
@@ -27,16 +27,17 @@ export default ProfileScreen = (props) => {
             <View style={{height:20,  backgroundColor:currentStyle.header.color}}>
                 <StatusBar StatusBarAnimation={'fade'} barStyle={'light-content'}
                     backgroundColor={'rgb(38, 171, 75)'}/>
-                </View>        
-                <OtherHeader title={"Profile Screen"}/>
-                <Content contentContainerStyle={{ justifyContent:'center', }}>
-                    {/* PROFILE BIO */}
-                    <ProfileBio user_id={user_id} nickname={nickname} />
-                    {/* HISTORY LIST */}
-                    <HistoryList user_id={user_id}/>
-                </Content>
+            </View>        
+            <OtherHeader title={"Profile Screen"}/>
+            <Content contentContainerStyle={{ justifyContent:'center', }}>
+                
+                {/* PROFILE BIO */}
+                <ProfileBio user_id={user_id} nickname={nickname} />
+                
+                {/* HISTORY LIST */}
+                <HistoryList user_id={user_id}/>
+            </Content>
             </BounceColorWrapper>
-
         </Container>
     )
 }

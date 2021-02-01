@@ -2,7 +2,7 @@ import React, {useContext} from 'react';
 import {Context} from '../../../Store/appContext';
 
 import { View } from 'react-native'
-import { ListItem, Text, Button } from 'native-base';
+import { ListItem, Text } from 'native-base';
 import { Row, Col} from 'react-native-easy-grid'
 
 import darkStyle from '../../../Themes/dark.js'
@@ -12,11 +12,12 @@ export default TheirProfileHistoryCard = (props) => {
 
 	const { store, actions } = useContext(Context)
 	
-  var currentStyle
-  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
+	var currentStyle
+	store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
 
 	return(
 		<View>
+			
 			<ListItem noIndent style={{ flexDirection:'column',
 				paddingVertical:5, backgroundColor:'black', 
 				justifyContent:'center'}}>
@@ -25,6 +26,7 @@ export default TheirProfileHistoryCard = (props) => {
 					{props.buyin.tournament_name}
 				</Text>
 			</ListItem>
+			
 			<ListItem noIndent style={{flexDirection:'row', backgroundColor:'#a3a3a3'}}>
 				<Col style={{width:'25%'}}>
 					<Text style={{color:'white'}}>Status</Text>
@@ -58,7 +60,8 @@ export default TheirProfileHistoryCard = (props) => {
 				}
 				
 				var startDate = startMonth + '. ' + startDay + ', ' + startYear
-				var startTime = day_name + ' ' + startHour + ':' + swapTime.substring(20,22) + startM
+				var startTime = day_name + ' ' + startHour + ':' 
+					+ swapTime.substring(20,22) + startM
 
 				var bgColor, path;
 				if (swap.status == 'agreed'){bgColor = 'green'}
@@ -76,7 +79,8 @@ export default TheirProfileHistoryCard = (props) => {
 							
 							<Col style={styles.status.container}>
 							{swap.status !== 'counter_incoming' ?
-								<Text style={{textTransform:'capitalize', textAlign:'left', color:'white'}}>
+								<Text style={{textTransform:'capitalize', 
+									textAlign:'left', color:'white'}}>
 									{swap.status}
 								</Text>
 								: 

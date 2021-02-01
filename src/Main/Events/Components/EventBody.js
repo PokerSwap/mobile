@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Context } from '../../../Store/appContext'
 import { useNavigation } from '@react-navigation/native'
-import { throttle, debounce } from 'lodash';
 
 import { View } from 'react-native';
 import { ListItem, Text, Icon } from 'native-base';

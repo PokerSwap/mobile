@@ -92,72 +92,83 @@ export default BuyIn = (props) => {
         bg='red', txt='white'
     }
     
-  return(
-    <ListItem noIndent style={{ backgroundColor:bg, flexDirection:'column',marginleft:0, paddingLeft:0}}>
-      <Grid style={{marginVertical:10, marginleft:0,}}>
-        <Row style={{width:'100%',  justifyContent:'space-between'}}>
-          {/* BUYIN ACCORDION BUTTON */}
-          {buyin.user_id !== store.myProfile.id ?
-            <Col style={{width:'15%', marginleft:10,  justifyContent:'center'}}>
-              <TouchableOpacity style={{ justifyContent:'center', width:'100%', height:'100%'}} onPress={() => setIsExpanded(!isExpanded)}>
-                {isExpanded ?
-                  <Icon style={{textAlign:'center', color:txt}} type='FontAwesome5' name='angle-up'/> 
-                  : <Icon style={{textAlign:'center', color:txt}} type='FontAwesome5' name='angle-down'/>}
-              </TouchableOpacity>
-            </Col>
-            : <Col style={{width:'15%'}}/>}
-          {/* BUYIN INFORMATION */}
-          <Col style={{width:'60%'}}>
-            {/* PROFILE NAME */}
-            <Row style={{justifyContent:'center'}}>
-              <Button disabled={disabled} transparent 
-                onPress={()=> handler()}>
-                <Text style={{fontSize:24, color:txt,
-                  textTransform:'capitalize'}}> 
-                  {buyin.user_id !== store.myProfile.id ? 
-                    buyin.user_name  :  store.myProfile.first_name }
-                </Text>
-              </Button>
-            </Row>
-            {/* BUYIN DETAILS */}
-            <Row style={{marginTop:10}}>
-              <BuyInAttribute top=' Table ' 
-                bottom={buyin.table} txt={txt}/>
-              <BuyInAttribute top=' Seat ' 
-                bottom={buyin.seat} txt={txt}/>
-              <BuyInAttribute top=' Chips ' 
-                bottom={buyin.chips} txt={txt}/>
-            </Row>
-          </Col>
-          {/* BUTTON WITH VARIABLE PATHS */}
-          <SwapButton 
-            allSwaps={allSwaps}  
-            
-            my_buyin={props.my_buyin}
-            agreed_swaps={props.agreed_swaps}
-            other_swaps={props.other_swaps}
-            tournament={props.tournament} action={props.action}
-            updated_at={props.buyin.updated_at}
-            buyin={buyin} buyinSince={buyinSince}
-            txt={txt}
-            setRefreshing={props.setRefreshing}/>  
-        </Row>
-        {/* BUSTED TITLE */}
-        { buyin.chips == 0 ?
-          <Row style={{backgroundColor:'red', 
-            justifyContent:'space-around', paddingTop:10}}>
-            <Text style={{color:'white', fontSize:16, 
-              fontWeight:'600', textAlign:'center'}}>
-              BUSTED
-            </Text>
-            <Text style={{fontWeight:'600',color:'white'}}>Place: {buyin.place}</Text>
-            <Text style={{fontWeight:'600',color:'white'}}>Cashed: ${parseInt(buyin.winnings).toFixed(2)}</Text>
-          </Row>
-          : null }
-      </Grid>
-      {/* BUYIN ACCORIDION CONTENT */}
-      { allSwaps !== null  && isExpanded  ?
-        _renderContent() : null }
-    </ListItem>
-  )
+    return(
+        <ListItem noIndent style={{ backgroundColor:bg, flexDirection:'column',marginleft:0, paddingLeft:0}}>
+            <Grid style={{marginVertical:10, marginleft:0,}}>
+                <Row style={{width:'100%',  justifyContent:'space-between'}}>
+                    {/* BUYIN ACCORDION BUTTON */}
+                    {buyin.user_id !== store.myProfile.id ?
+                        <Col style={{width:'15%', marginleft:10,  justifyContent:'center'}}>
+                            <TouchableOpacity  onPress={() => setIsExpanded(!isExpanded)}
+                                style={{ justifyContent:'center', width:'100%', height:'100%'}}>
+                                {isExpanded ?
+                                <Icon style={{textAlign:'center', color:txt}} 
+                                    type='FontAwesome5' name='angle-up'/> 
+                                : 
+                                <Icon style={{textAlign:'center', color:txt}} 
+                                    type='FontAwesome5' name='angle-down'/>}
+                            </TouchableOpacity>
+                        </Col>
+                        : 
+                        <Col style={{width:'15%'}}/>}
+
+                    {/* BUYIN INFORMATION */}
+                    <Col style={{width:'60%'}}>
+                        {/* PROFILE NAME */}
+                        <Row style={{justifyContent:'center'}}>
+                            <Button disabled={disabled} transparent 
+                                onPress={()=> handler()}>
+                                <Text style={{fontSize:24, color:txt,
+                                    textTransform:'capitalize'}}> 
+                                    {buyin.user_id !== store.myProfile.id ? 
+                                        buyin.user_name  :  store.myProfile.first_name }
+                                </Text>
+                            </Button>
+                        </Row>
+                        {/* BUYIN DETAILS */}
+                        <Row style={{marginTop:10}}>
+                            <BuyInAttribute top=' Table ' 
+                                bottom={buyin.table} txt={txt}/>
+                            <BuyInAttribute top=' Seat ' 
+                                bottom={buyin.seat} txt={txt}/>
+                            <BuyInAttribute top=' Chips ' 
+                                bottom={buyin.chips} txt={txt}/>
+                        </Row>
+                    </Col>
+                    {/* BUTTON WITH VARIABLE PATHS */}
+                    <SwapButton 
+                        allSwaps={allSwaps}  
+                        my_buyin={props.my_buyin}
+                        agreed_swaps={props.agreed_swaps}
+                        other_swaps={props.other_swaps}
+                        tournament={props.tournament} action={props.action}
+                        updated_at={props.buyin.updated_at}
+                        buyin={buyin} buyinSince={buyinSince}
+                        txt={txt}
+                        setRefreshing={props.setRefreshing}/>  
+                </Row>
+                
+                {/* BUSTED TITLE */}
+                { buyin.chips == 0 ?
+                    <Row style={{backgroundColor:'red', 
+                        justifyContent:'space-around', paddingTop:10}}>
+                        <Text style={{color:'white', fontSize:16, 
+                            fontWeight:'600', textAlign:'center'}}>
+                            BUSTED
+                        </Text>
+                        <Text style={{fontWeight:'600',color:'white'}}>
+                            Place: {buyin.place}
+                        </Text>
+                        <Text style={{fontWeight:'600',color:'white'}}>
+                            Cashed: ${parseInt(buyin.winnings).toFixed(2)}
+                        </Text>
+                    </Row>
+                    : 
+                    null }
+            </Grid>
+            {/* BUYIN ACCORIDION CONTENT */}
+            { allSwaps !== null  && isExpanded  ?
+                _renderContent() : null }
+        </ListItem>
+    )
 }

@@ -139,7 +139,8 @@ export default EventLobby = () => {
                         data={store.currentLobby}
                         renderItem={FlightRow}
                         keyExtractor={(content, index) => index.toString()}
-                        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+                        refreshControl={
+                            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
                         ListFooterComponent={<Text style={{textAlign:'center'}}></Text>} />}          
             </List>
 

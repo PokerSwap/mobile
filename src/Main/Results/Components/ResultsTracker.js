@@ -22,16 +22,14 @@ export default ResultsTracker = (props) => {
     const {allPaid, allConfirmed} = props
     const navigation = useNavigation()
     const enterProfitResults = () => {
-        // console.log('the final profit is', props.final_profit)
-        console.log('buyins as normal', props.agreed_buyins)
         navigation.push('Swap Results', {
-        tournament: props.tournament,
-        results_link: props.tournament.results_link,
-        my_buyin: props.my_buyin,
-        agreed_buyins: props.agreed_buyins,
-        final_profit: props.final_profit,
-        allPaid: props.allPaid,
-        tournament_end: props.tournament_end
+            tournament: props.tournament,
+            results_link: props.tournament.results_link,
+            my_buyin: props.my_buyin,
+            agreed_buyins: props.agreed_buyins,
+            final_profit: props.final_profit,
+            allPaid: props.allPaid,
+            tournament_end: props.tournament_end
         })
     }
 
@@ -80,7 +78,8 @@ export default ResultsTracker = (props) => {
 
     return(
         <View style={{width:'100%'}}>
-            {/* WHEN TOURNAMENT ENDED */}
+            
+            {/* TOURNAMENT ENDED TIME */}
             <ListItem noIndent itemHeader style={{flex:1, backgroundColor:'black', 
                 height:heightx, justifyContent:'center'}}>
                 <Text style={{ textAlign:'center', color:'white', marginTop:space,
@@ -89,13 +88,18 @@ export default ResultsTracker = (props) => {
                 </Text>
             </ListItem>
 
+            {/* RESULTS LINK - IF AVAILABLE */}
             {resultsLink ?
                 <ListItem noIndent style={{backgroundColor:wColor, justifyContent:'center'}}>
                     <Text style={{textAlign:'center', color:'white'}}>{y}</Text>
                 </ListItem>
-                : null}
+                : 
+                null}
+
+            {/* EVENT BODY - START */}
             <ListItem noIndent onPress={()=> enterProfitResults()} 
                 style={{justifyContent:'flex-end'}}>
+                
                 {/* TOURNAMENT TITLE */}
                 <Col style={{width:'77%', justifyContent:'flex-end'}}>
                     <Text style={{color:'black', fontSize:20, fontWeight:'600',
@@ -104,6 +108,7 @@ export default ResultsTracker = (props) => {
                         {props.tournament.name}
                     </Text>
                 </Col>
+
                 {/* RIGHT ARROW NAVIGATION */}
                 <Col style={{width:'20%', justifyContent:'flex-end'}}>
                     <Icon type="FontAwesome5" name="angle-right" 
@@ -111,6 +116,8 @@ export default ResultsTracker = (props) => {
                             color:currentStyle.text.color}} />    
                 </Col>
             </ListItem>
+            {/* EVENT BODY - END */}
+            
         </View>
     )
 }

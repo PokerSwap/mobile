@@ -36,11 +36,12 @@ export default SpecialOffer = (props) => {
 
     return(
         <View >
-            {/* SWAP PERCENTAGES */}
+
+            {/* SWAP PERCENTAGE OFFER - START */}
             <CardItem style={{justifyContent:'center', flexDirection:'column', 
                 paddingTop:0, backgroundColor:currentStyle.background.color}}>
                 <Grid>         
-                    {/* MY PERCENTAGE */}
+                    {/* PERCENTAGE (MINE) - START */}
                     <Col style={{width:'50%'}}>
                         <Row style={{justifyContent:'center'}}>
                             <Text style={{fontSize:40, fontWeight:'600', textAlign:'center', 
@@ -48,9 +49,12 @@ export default SpecialOffer = (props) => {
                                 You
                             </Text>
                         </Row>
+
+                        {/* PERCENTAGE COUNTER */}
                         <Row style={{justifyContent:'center',  alignItems:'center'}}>
                             <View style={{flexDirection:'column', justifyContent:'space-around'}}>
-                                {/* ADD BUTTON */}
+                                
+                                {/* PERECENTAGE - ADD BUTTON */}
                                 <Pressable 
                                     onPress={()=>props.pAdd()}
                                     onLongPress={()=> setup(w)}
@@ -63,11 +67,14 @@ export default SpecialOffer = (props) => {
                                                 fontSize:24, textAlign:'center'}}/>
                                     </View>
                                 </Pressable>
+
+                                {/* PERCENTAGE - TEXT */}
                                 <Text style={{fontSize:40, paddingVertical:4, fontWeight:'600',
                                      textAlign:'center', color:currentStyle.text.color}}>
-                                {'  '}{props.percentage}%
+                                    {'  '}{props.percentage}%
                                 </Text>
-                                {/* SUBTRACT BUTTON */}
+
+                                {/* PERCENTAGE - SUBTRACT BUTTON */}
                                 <Pressable 
                                     onPress={()=> props.pSubtract()}
                                     onLongPress={()=> setup(x)}
@@ -83,7 +90,9 @@ export default SpecialOffer = (props) => {
                             </View>
                         </Row>
                     </Col>
-                    {/* THEIR PERCENTAGE */}
+                    {/* PERCENTAGE (MINE) - END */}
+
+                    {/* COUNTER PERCENTAGE (THEM) - START */}
                     <Col style={{width:'50%', justifyContent:'center', }}>
                         <Row style={{justifyContent:'center'}}>
                             <Text style={{fontSize:40, fontWeight:'600', textAlign:'center', 
@@ -91,59 +100,80 @@ export default SpecialOffer = (props) => {
                                 Them
                             </Text>
                         </Row>
+
+                        {/* COUNTER PERCENTAGE COUNTER*/}
                         <Row style={{justifyContent:'center',  alignItems:'center'}}>
-                        <View style={{flexDirection:'column', justifyContent:'center'}}>
-                            {/* ADD BUTTON */}
-                            <Pressable 
-                            onPress={()=>props.cAdd()}
-                            onLongPress={()=> setup(y)}
-                            onPressOut={() => stop()}>
-                                <View style={{width:120, height:50, justifyContent:'center',
-                                    backgroundColor:'rgb(38, 171, 75)', alignContent:'center', 
-                                    borderTopLeftRadius:10, borderTopRightRadius:10}} >                      
-                                    <Icon type='FontAwesome5' name='plus'
-                                    style={{color:'white', alignSelf:'center', fontSize:24, textAlign:'center'}}/>
-                                </View>
-                            </Pressable>
-                            <Text style={{fontSize:40, paddingVertical:4, fontWeight:'600', 
-                                textAlign:'center', color:currentStyle.text.color}}> 
-                            {'  '}{props.counterPercentage}%
-                            </Text>
-                            {/* SUBTRACT BUTTON */}
-                            <Pressable info
-                            onPress={()=> props.cSubtract()}
-                            onLongPress={()=> setup(z)}
-                            onPressOut={() => stop()}>
-                                <View style={{width:120, height:50, justifyContent:'center', 
-                                    backgroundColor:'rgb(38, 171, 75)', alignContent:'center', 
-                                    borderBottomLeftRadius:10, borderBottomRightRadius:10}} >                      
-                                    <Icon type='FontAwesome5' name='minus'
-                                    style={{color:'white', alignSelf:'center', fontSize:24, textAlign:'center'}}/>
-                                </View>
-                            </Pressable>
-                        </View>
+                            <View style={{flexDirection:'column', justifyContent:'center'}}>
+                            
+                                {/* COUNTER PERCENTAGE - ADD BUTTON */}
+                                <Pressable 
+                                    onPress={()=>props.cAdd()}
+                                    onLongPress={()=> setup(y)}
+                                    onPressOut={() => stop()}>
+                                    <View style={{width:120, height:50, justifyContent:'center',
+                                        backgroundColor:'rgb(38, 171, 75)', alignContent:'center', 
+                                        borderTopLeftRadius:10, borderTopRightRadius:10}} >                      
+                                        <Icon type='FontAwesome5' name='plus'
+                                            style={{color:'white', alignSelf:'center', 
+                                            fontSize:24, textAlign:'center'}}/>
+                                    </View>
+                                </Pressable>
+
+                                {/* COUNTER PERCENTAGE TEXT */}
+                                <Text style={{fontSize:40, paddingVertical:4, fontWeight:'600', 
+                                    textAlign:'center', color:currentStyle.text.color}}> 
+                                    {'  '}{props.counterPercentage}%
+                                </Text>
+                                
+                                {/* COUNTER PERCENTAGE - SUBTRACT BUTTON */}
+                                <Pressable info
+                                    onPress={()=> props.cSubtract()}
+                                    onLongPress={()=> setup(z)}
+                                    onPressOut={() => stop()}>
+                                    <View style={{width:120, height:50, justifyContent:'center', 
+                                        backgroundColor:'rgb(38, 171, 75)', alignContent:'center', 
+                                        borderBottomLeftRadius:10, borderBottomRightRadius:10}} >                      
+                                        <Icon type='FontAwesome5' name='minus'
+                                            style={{color:'white', alignSelf:'center', 
+                                                fontSize:24, textAlign:'center'}}/>
+                                    </View>
+                                </Pressable>
+
+                            </View>
 
                         </Row>
                     </Col>
+                    {/* COUNTER PERCENTAGE (THEM) - END */}
+
                 </Grid>
             </CardItem>
-            {/* SWAP BUTTONS */}
-            <CardItem style={{justifyContent:'space-around', backgroundColor:currentStyle.background.color}}>
+            {/* SWAP PERCENTAGE OFFER - END */}
+
+            {/* SWAP BUTTONS - START */}
+            <CardItem style={{justifyContent:'space-around', 
+                backgroundColor:currentStyle.background.color}}>
+                
                 {/* CHANGE SWAP TYPE */}
                 <Button large info style={{width:'50%', justifyContent:'center'}} 
                     onPress={()=>props.counterSwitch()}>
-                    <Text style={{textAlign:'center', fontWeight:'600', fontSize:24, paddingVertical:10}}>
+                    <Text style={{textAlign:'center', fontWeight:'600', 
+                        fontSize:24, paddingVertical:10}}>
                         HAGGLE
                     </Text>
                 </Button>
+                
                 {/* OFFER SWAP BUTTON */}
                 <Button large success style={{width:'40%', justifyContent:'center'}}
                     onPress={() => props.confirmationAlert('offer')} >
-                    <Text style={{textAlign:'center', fontWeight:'600', fontSize:24, paddingVertical:10}}>
+                    <Text style={{textAlign:'center', fontWeight:'600', 
+                        fontSize:24, paddingVertical:10}}>
                         OFFER
                     </Text>
                 </Button>
+
             </CardItem>
+            {/* SWAP BUTTONS - END */}
+
         </View>
     )
 }

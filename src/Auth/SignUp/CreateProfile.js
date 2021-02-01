@@ -75,6 +75,7 @@ export default CreateProfile = (props) => {
             <Spinner visible={loading} />
    
                 <Tabs locked initialPage={0} page={page}>
+                    
                     {/* NAME PAGE */}
                     <Tab disabled heading="Name">
                         <NameSetup 
@@ -88,6 +89,7 @@ export default CreateProfile = (props) => {
                         nickname= {nickname}
                         onChangeNickName={nickname => setNickName( nickname )}/>
                     </Tab>
+
                     {/* PICTURE PAGE */}
                     <Tab disabled heading="Picture">
                         <PictureSetup 

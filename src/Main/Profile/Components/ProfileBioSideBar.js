@@ -29,7 +29,8 @@ export default ProfileBioSideBar = (props) => {
         <Card transparent style={{backgroundColor:currentStyle.background.color,flex:1, 
             flexDirection:'column', paddingTop:20}}>
             {/* YOUR PICTURE AND TOKENS */}
-            <CardItem style={styles.topContainer, {backgroundColor:currentStyle.background.color}}>
+            <CardItem style={styles.topContainer, {
+                backgroundColor:currentStyle.background.color}}>
                 {/* YOUR PICTURE */}
                 <View style={styles.picture.container}>
                     <Image source={{uri: props.profile_pic_url}} 
@@ -40,20 +41,25 @@ export default ProfileBioSideBar = (props) => {
                 <Button large warning onPress={()=> goPurchase()}  
                     style={styles.tokens.button}>
                     <Text style={styles.tokens.text}>
-                    {store.myProfile.coins}
+                        {store.myProfile.coins}
                     </Text>
-                    <Icon type="FontAwesome5" name="coins" size={24} style={styles.tokens.text} />
+                    <Icon type="FontAwesome5" name="coins" size={24} 
+                        style={styles.tokens.text} />
                 </Button>
                 </View>
             </CardItem>
             {/* YOUR NAME */}
-            <CardItem style={styles.name.container, {backgroundColor:currentStyle.background.color}}>
-                <Button style={styles.name.button}  transparent onPress={() => enterProfile()}>
+            <CardItem style={styles.name.container, 
+                {backgroundColor:currentStyle.background.color}}>
+                <Button style={styles.name.button}  transparent 
+                    onPress={() => enterProfile()}>
                     {props.nickname !== '' ?
-                        <Text style={{fontSize:14, color:currentStyle.text.color, textAlign:'center', marginBottom:5}}>
-                        {props.nickname}
+                        <Text style={{fontSize:14, color:currentStyle.text.color, 
+                            textAlign:'center', marginBottom:5}}>
+                            {props.nickname}
                         </Text> 
-                        : null}
+                        : 
+                        null}
                     <Text style={styles.name.text} >
                         {props.first_name} {props.last_name}
                     </Text>

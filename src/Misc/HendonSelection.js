@@ -6,7 +6,6 @@ import { WebView } from 'react-native-webview'
 import { View, StatusBar, TouchableOpacity, Text } from 'react-native'
 import { Container, Content } from "native-base";
 import { useRoute, useNavigation } from '@react-navigation/native'
-import Spinner from 'react-native-loading-spinner-overlay'
 import OtherHeader from "../View-Components/OtherHeader";
 
 import darkStyle from '../Themes/dark.js'
@@ -43,7 +42,8 @@ export default HendonSelection = () => {
 
 	return(
 		<Container>
-			<View style={{height:20, position:'absolute', top:0, alignSelf:'flex-start',  backgroundColor:currentStyle.header.color}}>
+			<View style={{height:20, position:'absolute', top:0, alignSelf:'flex-start',  
+				backgroundColor:currentStyle.header.color}}>
 				<StatusBar StatusBarAnimation={'fade'} barStyle={'light-content'}
 				backgroundColor={'rgb(38, 171, 75)'}/>
 			</View>
@@ -63,12 +63,15 @@ export default HendonSelection = () => {
 						setHendon(webViewState.url)
 						onChangeHendon(webViewState.url)
 					}}
-					onLoadStart={() => setLoading(true)} onLoadProgress={() => setLoading(false)} onLoad={() => setLoading(false)}
+					onLoadStart={() => setLoading(true)} 
+					onLoadProgress={() => setLoading(false)} 
+					onLoad={() => setLoading(false)}
 					javaScriptEnabled = {true}
 					domStorageEnabled = {true}
 					startInLoadingState={false}/>
 					<View>
-						<View style={{flexDirection:'row', justifyContent:'space-around', marginVertical:20}}>
+						<View style={{flexDirection:'row', 
+							justifyContent:'space-around', marginVertical:20}}>
 							<TouchableOpacity onPress={()=>goBack()}>
 								<Text style={{fontSize:20}}>Back One Page</Text>
 							</TouchableOpacity>

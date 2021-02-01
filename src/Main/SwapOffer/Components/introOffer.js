@@ -43,9 +43,11 @@ export default IntroOffer = (props) => {
             backgroundColor:currentStyle.background.color}}>
             {store.myProfile.coins > 0 ?
                 // WHEN YOU HAVE ENOUGH TOKENS
-                // COUNTER AND REHECT BUTTONS
+                // BUTTON CONTAINER
                 <View style={{ alignSelf:'center', flexDirection:'column'}}>
-                    <CardItem style={{justifyContent:'space-between', backgroundColor:currentStyle.background.color}}>
+                    {/* COUNTER REJECT BUTTONS */}
+                    <CardItem style={{justifyContent:'space-between', 
+                        backgroundColor:currentStyle.background.color}}>
                         {/* COUNTER BUTTON */}
                         <Button large warning style={{justifyContent:'center'}}
                             onPress={()=> props.setCounter(!props.counter)}>
@@ -60,6 +62,7 @@ export default IntroOffer = (props) => {
                             <Icon style={{marginLeft:-10}} type='Entypo' name='circle-with-cross'/>
                         </Button>
                     </CardItem>
+
                     {/* ACCEPT BUTTON */}
                     <CardItem style={{ backgroundColor:currentStyle.background.color}}>
                         <Button success full large style={{width:'100%'}}
@@ -72,21 +75,26 @@ export default IntroOffer = (props) => {
                 :
                 // WHEN YOU HAVE ZERO TOKENS
                 <CardItem style={{flexDirection:'column', color:currentStyle.background.color}}>
+                   
                     {/* NO TOKENS WARNING */}
                     <Text style={{textAlign:'center', fontSize:18, marginBottom:25}}> 
                         In order to accept or counter this swap, 
                         you need to purchase tokens.
                     </Text>
+                    
                     {/* PURCHASE TOKENS BUTTON */}
                     <Button large success style={{alignSelf:'center'}} 
                         onPress={() => navigation.navigate('Purchase Tokens')}>
                         <Text>Purchase Tokens</Text>
                     </Button>
+                    
+                    {/* REJECT BUTTON */}
                     <Button large danger style={{marginTop:25}}
                         onPress={()=> confirmationAlert('reject','rejected')}>
                         <Text style={{fontWeight:'600'}}> Reject </Text>
                         <Icon style={{marginLeft:-10}} type='Entypo' name='circle-with-cross'/>
                     </Button>
+                    
                 </CardItem>}
         </Card>
     )

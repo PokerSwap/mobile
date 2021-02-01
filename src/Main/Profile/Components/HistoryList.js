@@ -70,8 +70,8 @@ export default HistoryList = (props) => {
         // console.log('allSwaps', allSwaps)
         return(
             <TheirProfileHistoryCard key={index}
-            allSwaps={allSwaps} buyin={content}
-            myTrackers={store.myPastTrackers}/>
+                allSwaps={allSwaps} buyin={content}
+                myTrackers={store.myPastTrackers}/>
         )
         })
     } else {
@@ -82,7 +82,8 @@ export default HistoryList = (props) => {
     var emptyHistory = (message) => {
         return(
             <ListItem noIndent style={{justifyContent:'center'}}>
-                <Text style={{textAlign:'center', textAlign:'center', fontSize:20, fontWeight:'600', color:currentStyle.text.color}}>
+                <Text style={{textAlign:'center', textAlign:'center', 
+                    fontSize:20, fontWeight:'600', color:currentStyle.text.color}}>
                 {message}
                 </Text>
             </ListItem>
@@ -91,14 +92,16 @@ export default HistoryList = (props) => {
   
     return(
         <List style={{justifyContent:'center'}}>
+
             {/* HISTORY HEADER */}
             <ListItem noIndent itemHeader style={{ justifyContent:'center', 
                 backgroundColor: currentStyle.background.color }}>
                 <Text style={{ textAlign:'center', fontWeight:'600', fontSize:24, 
-                color: currentStyle.text.color}}>
+                    color: currentStyle.text.color}}>
                 History
                 </Text>
             </ListItem>
+            
             {/* HISTORY LIST */}
             {history ?
                 props.user_id !== store.myProfile.id ?

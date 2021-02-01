@@ -12,7 +12,7 @@ export default AgreedPath = (props) => {
     const { store, actions } = useContext(Context)
 
     var {swap ,buyin} = props;
-    
+
     var currentStyle
     store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
 
@@ -23,13 +23,13 @@ export default AgreedPath = (props) => {
                 {swap.percentage ?
                     <View style={{width:'100%'}}>
                         <Text style={{textAlign:'center', color:currentStyle.text.color}}>
-                        AGREED SWAP{'\n'}{moment(swap.updated_at).fromNow()}
+                            AGREED SWAP{'\n'}{moment(swap.updated_at).fromNow()}
                         </Text>
                         <CompareCard 
-                        youColor={'green'} themColor={'green'}
-                        percentage={swap.percentage} 
-                        counter_percentage={swap.counter_percentage}
-                        buyin={buyin}/>
+                            youColor={'green'} themColor={'green'}
+                            percentage={swap.percentage} 
+                            counter_percentage={swap.counter_percentage}
+                            buyin={buyin}/>
                     </View>
                     :
                     <Spinner/>}

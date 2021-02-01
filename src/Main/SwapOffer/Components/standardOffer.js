@@ -35,7 +35,8 @@ export default StandardOffer = (props) => {
                 You Both Swap:
             </Text>
             {/* BOTH SWAP PERCENTAGE */}
-            <CardItem style={{flex:1, justifyContent:'space-around', backgroundColor:currentStyle.background.color}}>
+            <CardItem style={{flex:1, justifyContent:'space-around', 
+                backgroundColor:currentStyle.background.color}}>
             
                 {/* THE PERCENTAGE */}
                 <View style={{flexDirection:'column', alignItems:'center', justifyContent:'center'}}>
@@ -54,7 +55,8 @@ export default StandardOffer = (props) => {
                     </Pressable>
 
                     <View style={{justifyContent:'center',paddingVertical:2}}>
-                        <Text style={{fontSize:48,  fontWeight:'600', color:currentStyle.text.color,  textAlign:'center'}}> 
+                        <Text style={{fontSize:48,  fontWeight:'600', 
+                            color:currentStyle.text.color,  textAlign:'center'}}> 
                             {'  '}{props.percentage}% 
                         </Text>
                     </View>
@@ -64,7 +66,8 @@ export default StandardOffer = (props) => {
                         onPress={()=>props.tSubtract()}
                         onLongPress={()=> setup(y)}
                         onPressOut={() => stop()} >
-                        <View style={{width:180, height:50, justifyContent:'center', alignSelf:'flex-end',
+                        <View style={{width:180, height:50, justifyContent:'center', 
+                            alignSelf:'flex-end',
                             backgroundColor:'blue', alignContent:'center',
                             borderBottomLeftRadius:10, borderBottomRightRadius:10}}>
                             <Icon type='FontAwesome5' name='minus' 

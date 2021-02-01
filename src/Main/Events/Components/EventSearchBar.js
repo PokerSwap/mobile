@@ -38,12 +38,12 @@ export default EventSearchBar = (props) => {
 
     const showAlert = () =>{
         Alert.alert(
-        "Permissions Needed",
-        'In order to proceed, you must have Location Services permissions allowed',
-        [
-            { text: 'Go To Settings', onPress: () => openSets() },
-            { text: 'Cancel', onPress: () => console.log("Cancel Pressed"), }
-        ]
+            "Permissions Needed",
+            'In order to proceed, you must have Location Services permissions allowed',
+            [
+                { text: 'Go To Settings', onPress: () => openSets() },
+                { text: 'Cancel', onPress: () => console.log("Cancel Pressed"), }
+            ]
         )
     }
 
@@ -64,11 +64,11 @@ export default EventSearchBar = (props) => {
     let getByLocation = () => {
         let a_latitude, a_longitude;
         let myCoordinates = Geolocation.getCurrentPosition(info => {
-        console.log('locationinfo',info);
-        a_latitude = info.coords.latitude;
-        a_longitude = info.coords.longitude;
-        props.setMode('byLocation')
-        props.setMyCoords({latitude:a_latitude,longitude:a_longitude})
+            console.log('locationinfo',info);
+            a_latitude = info.coords.latitude;
+            a_longitude = info.coords.longitude;
+            props.setMode('byLocation')
+            props.setMyCoords({latitude:a_latitude,longitude:a_longitude})
         getNearest(a_latitude, a_longitude)
         })
     }

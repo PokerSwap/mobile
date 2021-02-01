@@ -8,24 +8,26 @@ import darkStyle from '../../../Themes/dark.js'
 import lightStyle from '../../../Themes/light.js'
 
 export default BuyInAttribute = (props) => {
-  const { store, actions } = useContext(Context)
-  var currentStyle
-  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
-  return(
-    <Col>
+    const { store, actions } = useContext(Context)
 
-      <Row style={{justifyContent:'center'}}>
-        <Text style={{textAlign:'center', color:props.txt}}> 
-          {props.top} 
-        </Text>
-      </Row>
+    var currentStyle
+    store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
 
-      <Row style={{justifyContent:'center'}}>
-        <Text style={{textAlign:'center', color:props.txt}}> 
-          {props.bottom} 
-        </Text>
-      </Row>
+    return(
+        <Col>
 
-    </Col> 
-  )
+            <Row style={{justifyContent:'center'}}>
+                <Text style={{textAlign:'center', color:props.txt}}> 
+                    {props.top} 
+                </Text>
+            </Row>
+
+            <Row style={{justifyContent:'center'}}>
+                <Text style={{textAlign:'center', color:props.txt}}> 
+                    {props.bottom} 
+                </Text>
+            </Row>
+
+        </Col> 
+    )
 }
