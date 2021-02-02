@@ -96,6 +96,7 @@ export default BuyIn = (props) => {
         <ListItem noIndent style={{ backgroundColor:bg, flexDirection:'column',marginleft:0, paddingLeft:0}}>
             <Grid style={{marginVertical:10, marginleft:0,}}>
                 <Row style={{width:'100%',  justifyContent:'space-between'}}>
+                    
                     {/* BUYIN ACCORDION BUTTON */}
                     {buyin.user_id !== store.myProfile.id ?
                         <Col style={{width:'15%', marginleft:10,  justifyContent:'center'}}>
@@ -135,6 +136,7 @@ export default BuyIn = (props) => {
                                 bottom={buyin.chips} txt={txt}/>
                         </Row>
                     </Col>
+                    
                     {/* BUTTON WITH VARIABLE PATHS */}
                     <SwapButton 
                         allSwaps={allSwaps}  
@@ -147,7 +149,7 @@ export default BuyIn = (props) => {
                         txt={txt}
                         setRefreshing={props.setRefreshing}/>  
                 </Row>
-                
+
                 {/* BUSTED TITLE */}
                 { buyin.chips == 0 ?
                     <Row style={{backgroundColor:'red', 
@@ -165,7 +167,9 @@ export default BuyIn = (props) => {
                     </Row>
                     : 
                     null }
+
             </Grid>
+            
             {/* BUYIN ACCORIDION CONTENT */}
             { allSwaps !== null  && isExpanded  ?
                 _renderContent() : null }

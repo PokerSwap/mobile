@@ -90,12 +90,11 @@ export default EventBody = (props) => {
 
     return(
         <ListItem disabled={disabled} noIndent onPress={()=>  handler()}
-        style={{backgroundColor: bgColor, flexGrow:1, 
-            flexDirection:'row', justifyContent:'space-between'}}>
-            {/* TOURNAMENT DATE */}
+            style={{backgroundColor: bgColor, flexGrow:1, 
+                flexDirection:'row', justifyContent:'space-between'}}>
+            
+            {/* TOURNAMENT DATE - START */}
             <Col style={{width:'28%', alignItems:'center'}}>
-                
-                {/* TOURNAMENT DATE BOX */}
                 <View style={{backgroundColor: bgColor, 
                     borderColor:buttonColor, borderRadius: borderWidths, 
                     alignContent:'center', flexDirection:"column", 
@@ -120,8 +119,11 @@ export default EventBody = (props) => {
 
                     {/* TOURNAMENT ADDRESS */}
                     {renderedItem}
+                    
                 </View>        
             </Col>
+            {/* TOURNAMENT DATE - END */}
+
             {/* TOURNAMENT TITLE */}    
             <Col style={{width: '62%'}}>
                 <Text style={{color:textColor, alignContent:'center',
@@ -129,11 +131,13 @@ export default EventBody = (props) => {
                 {event.name}
                 </Text>
             </Col>
+
             {/* RIGHT ARROW NAVIGATION */}
             <Col style={{justifyContent:'flex-end', width:'10%'}}>
                 <Icon type="FontAwesome5" name="angle-right"
                 style={{justifyContent:'flex-end', alignSelf:'flex-end', color:textColor}}/>
             </Col>
+
         </ListItem>
     )
 }

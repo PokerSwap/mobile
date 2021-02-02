@@ -33,7 +33,8 @@ export default ChangePassword = () => {
     const showAlert = () =>{
         Alert.alert(
             "Confirmation",
-            'For security reasons, you will be logged out once you make these changes.\n\n Do you wish to continue?',
+            'For security reasons, you will be logged out once you make these changes.'+
+                '\n\n Do you wish to continue?',
             [
                 { text: 'Yes',
                 onPress: () => changePassword() },
@@ -60,10 +61,10 @@ export default ChangePassword = () => {
     return(
         <Container style={{backgroundColor:currentStyle.background.color}}>
             <Content contentContainerStyle={{paddingTop:30, paddingBottom:30,
-                justifyContent:'flex-start', alignItems:'center', flex:1, 
+                justifyContent:'flex-start', alignItems:'center', flexGrow:1, 
                 flexDirection:'column', backgroundColor:currentStyle.background.color}}>
                 
-                {/* EMAIL ADDRESS FIELD */}
+                {/* EMAIL ADDRESS FIELD - START */}
                 <Text style={{fontSize:20, textAlign:'center', 
                     marginBottom:5, color:currentStyle.text.color}}> 
                     Email Current Email: 
@@ -86,13 +87,13 @@ export default ChangePassword = () => {
                         value={currentEmail}    
                         onChangeText={email => setCurrentEmail( email )}  />
                 </View>
+                {/* EMAIL ADDRESS FIELD - END */}
 
-                {/* ENTER CURRENT PASSWORD */}
+                {/* ENTER CURRENT PASSWORD - START */}
                 <Text style={{fontSize:20, marginTop:20, textAlign:'center',marginBottom:5, 
                     color: currentStyle.text.color}}>
                     Enter Current Password:
                 </Text>
-
                 <View style={{borderColor:currentStyle.text.color, borderWidth:1, width:'80%', 
                     padding:10, marginVeritcal:5}}>
                     <TextInput 
@@ -111,20 +112,20 @@ export default ChangePassword = () => {
                         value={currentPassword}
                         onChangeText={password => setCurrentPassword( password )} />
                 </View>
+                {/* ENTER CURRENT PASSWORD - END */}
 
-                {/* ENTER NEW PASSWORD */}
+                {/* NEW PASSWORD INSTRUCTIONS*/}
                 <Text style={{fontSize:16, marginTop:20, width:'80%', 
                     textAlign:'center',marginBottom:5, color:currentStyle.text.color}}>
                     Your new password must be at least 6 characters containing:{'\n'} 
                     one lowercase letter, one uppercase letter, and one number.
                 </Text>
-
-                {/* ENTER NEW PASSWORD */}
+                
+                {/* ENTER NEW PASSWORD - START */}
                 <Text style={{fontSize:20, marginTop:20, textAlign:'center',marginBottom:5, 
                     color:currentStyle.text.color}}>
                     Enter New Password:
                 </Text>
-
                 <View style={{borderColor:currentStyle.text.color, borderWidth:1, width:'80%', 
                     padding:10, marginVeritcal:5}}>
                     <TextInput 
@@ -143,13 +144,13 @@ export default ChangePassword = () => {
                         value={newPassword}
                         onChangeText={password2 => setNewPassword( password2 )} />
                 </View>
+                {/* ENTER NEW PASSWORD - END */}
 
-                {/* CONFIRM NEW PASSWORD */}
+                {/* CONFIRM NEW PASSWORD - START */}
                 <Text style={{fontSize:20, marginTop:20, textAlign:'center',marginBottom:5, 
                     color:currentStyle.text.color}}>
                     Confirm New Password:
                 </Text>
-
                 <View style={{borderColor:currentStyle.text.color, borderWidth:1, width:'80%', 
                     padding:10, marginVeritcal:5}}>
                     <TextInput 
@@ -167,9 +168,10 @@ export default ChangePassword = () => {
                         value={confirmPassword}    
                         onChangeText={password3 => setConfirmPassword( password3 )} />
                 </View>
+                {/* CONFIRM NEW PASSWORD - END */}
 
+                {/* SUBMIT BUTTON */}
                 <View style={{justifyContent:'center'}}>
-                    {/* SUBMIT BUTTON */}
                     <Button large disabled={isDisabled} style={{marginTop:20, selfAlign:'center', 
                         justifyContent:'center'}}
                         onPress={()=> showAlert()}>

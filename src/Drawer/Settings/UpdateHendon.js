@@ -64,71 +64,73 @@ export default UpdateHendon = () => {
     }
     var y
     available ? y = 'green': y = 'red'
-return(
-    <Container style={{justifyContent:'center'}}>
-        <Content contentContainerStyle={{backgroundColor:currentStyle.background.color,
-            justifyContent:'center', alignItems:'center', flex:1, flexDirection:'column'}}>
-        
-        {/* TEXT FIELD */}
-        <Text style={{fontSize:20, width:'70%', marginTop:20, textAlign:'center',marginBottom:5, 
-            color:currentStyle.text.color, marginBottom:20,}}>
-            Enter your name on the following page. Once you have found 
-            your actual profile page, confirm it. 
-            {'\n'}{'\n'} Please be advised that if you claim a 
-            hendon mob profile that is not your own, 
-            you may be banned from Swapping
-        </Text>
+    return(
+        <Container style={{justifyContent:'center'}}>
+            <Content contentContainerStyle={{
+                backgroundColor:currentStyle.background.color,
+                justifyContent:'center', alignItems:'center', 
+                flex:1, flexDirection:'column'}}>
+            
+                {/* HENDON INSTRUCTIONS */}
+                <Text style={{fontSize:20, width:'70%', marginTop:20, textAlign:'center',marginBottom:5, 
+                    color:currentStyle.text.color, marginBottom:20,}}>
+                    Enter your name on the following page. Once you have found 
+                    your actual profile page, confirm it. 
+                    {'\n'}{'\n'} Please be advised that if you claim a 
+                    hendon mob profile that is not your own, 
+                    you may be banned from Swapping
+                </Text>
 
-        <Button style={{alignSelf:'center', marginBottom:40,}} 
-        onPress={() => navigation.push('Hendon Selection', {
+                <Button style={{alignSelf:'center', marginBottom:40,}} 
+                    onPress={() => navigation.push('Hendon Selection', {
                         onChangeHendon: setNewHendon,
                         setHendonURL: setNewHendon,
-                        setAvailable: setAvailable
-					})}>
-						<Text>Click Here</Text>
-					</Button>
-        
-        <Text style={{color:currentStyle.text.color, fontSize:24, 
-            marginBottom:10, textAlign:'center'}}>
-            Selected Hendon Profile:
-        </Text>
-        { store.currentHendonURL == '' ?
-            <Text style={{color:currentStyle.text.color, 
-                fontSize:18, textAlign:'center'}}>
-                None Selected
-            </Text>
-            :
-            store.currentHendonURL.includes('https://pokerdb.thehendonmob.com/player.php?a=r&n=') ?
-                <View style={{ width:'70%'}}>
+                        setAvailable: setAvailable })}>
+                    <Text>Click Here</Text>
+                </Button>
+                
+                <Text style={{color:currentStyle.text.color, fontSize:24, 
+                    marginBottom:10, textAlign:'center'}}>
+                    Selected Hendon Profile:
+                </Text>
+                
+                { store.currentHendonURL == '' ?
                     <Text style={{color:currentStyle.text.color, 
-                        fontSize:12, textAlign:'center',}}>
-                        {newHendon}
+                        fontSize:18, textAlign:'center'}}>
+                        None Selected
                     </Text>
-                    <Text style={{color: y, textAlign:'center', 
-                        fontSize:20, paddingTop:10}}>
-                        This profile is {available ? 'available.' : 'already taken.'} 
-                    </Text>
+                    :
+                    store.currentHendonURL.includes('https://pokerdb.thehendonmob.com/player.php?a=r&n=') ?
+                        <View style={{ width:'70%'}}>
+                            <Text style={{color:currentStyle.text.color, 
+                                fontSize:12, textAlign:'center',}}>
+                                {newHendon}
+                            </Text>
+                            <Text style={{color: y, textAlign:'center', 
+                                fontSize:20, paddingTop:10}}>
+                                This profile is {available ? 'available.' : 'already taken.'} 
+                            </Text>
+                        </View>
+                        
+                        :
+                        <Text style={{color:currentStyle.text.color, fontSize:18, 
+                            width:'70%', textAlign:'center'}}>
+                            You did not submit a valid Hendon Mob profile
+                        </Text>
+                }    
+
+                {/* SUBMIT BUTTON - CHANGE NICKNAME */}
+                <View style={{justifyContent:'center'}}>
+                    <Button large disabled={disabled} style={{marginTop:40, 
+                        selfAlign:'center', justifyContent:'center'}}
+                        onPress={()=> showAlert()}>
+                        <Text style={{fontSize:24, fontWeight:'600'}}> 
+                            Confirm Update 
+                        </Text>
+                    </Button>
                 </View>
                 
-                :
-                <Text style={{color:currentStyle.text.color, fontSize:18, 
-                    width:'70%', textAlign:'center'}}>
-                    You did not submit a valid Hendon Mob profile
-                </Text>
-        }    
-
-        {/* SUBMIT BUTTON - CHANGE NICKNAME */}
-        <View style={{justifyContent:'center'}}>
-            <Button large disabled={disabled} style={{marginTop:40, 
-                selfAlign:'center', justifyContent:'center'}}
-                onPress={()=> showAlert()}>
-                <Text style={{fontSize:24, fontWeight:'600'}}> 
-                    Confirm Update 
-                </Text>
-            </Button>
-        </View>
-        
-    </Content>  
-    </Container>
-)
+            </Content>  
+        </Container>
+    )
 }

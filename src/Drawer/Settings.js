@@ -33,6 +33,8 @@ export default SettingsScreen = () => {
             <Content style={{backgroundColor:currentStyle.background.color}}>      
                 
                 <List>
+
+                    {/* PROFILE BIO ON TOP */}
                     <ListItem noIndent header>
                         <Grid>
                             <Col style={{width:'33%'}}>
@@ -63,6 +65,7 @@ export default SettingsScreen = () => {
                             </Col>
                         </Grid>
                     </ListItem>
+
                     {/* CHANGE EMAIL BUTTON */}
                     <ListItem noIndent 
                         onPress={()=> navigation.navigate('Change Email')}>
@@ -94,6 +97,8 @@ export default SettingsScreen = () => {
                             Change Nickname 
                         </Text>
                     </ListItem>
+
+                    {/* ADD/CHANGE HENDON PROFILE */}
                     {store.myProfile.hendon_url !== null ?
                         <ListItem noIndent 
                             onPress={()=> Linking.openURL("mailto:contact@swapprofitonline.com?subject=" + 
@@ -111,8 +116,6 @@ export default SettingsScreen = () => {
                             </Text>
                         </ListItem>
                     }
-                    {/* CHANGE NICKNAME BUTTON */}
-                    
 
                     {/* CHANGE NICKNAME BUTTON */}
                     <ListItem noIndent 

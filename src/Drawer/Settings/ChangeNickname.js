@@ -51,12 +51,11 @@ export default ChangeNickname = () => {
                 justifyContent:'flex-start', alignItems:'center', 
                 flex:1, flexDirection:'column'}}>
             
-                {/* TEXT FIELD */}
+                {/* CHANGE NICKNAME INPUT - START */}
                 <Text style={{fontSize:20, marginTop:20, textAlign:'center',
                     marginBottom:5, color:currentStyle.text.color}}>
                     Change Nickname: 
                 </Text>
-
                 <View style={{borderColor:currentStyle.text.color, borderWidth:1, 
                     width:'80%', padding:10, marginVeritcal:5}}>
                     <TextInput 
@@ -72,7 +71,8 @@ export default ChangeNickname = () => {
                         value={newNickname}    
                         onChangeText={nickname => setNewNickname( nickname )}  />
                 </View>
-                
+                {/* CHANGE NICKNAME INPUT - END */}
+
                 {/* SUBMIT BUTTON - CHANGE NICKNAME */}
                 <View style={{justifyContent:'center'}}>
                     <Button large disabled={disabled} style={{marginTop:40, 
@@ -84,7 +84,7 @@ export default ChangeNickname = () => {
                     </Button>
                 </View>
             
-        </Content>  
+            </Content>  
         </Container>
     )
 }

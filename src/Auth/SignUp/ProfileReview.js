@@ -46,7 +46,7 @@ export default  ProfileReview = (props) => {
 				</Text>
 			</CardItem>
 			
-			{/* NICK NAME FIELD */}
+			{/* NICKNAME FIELD */}
 			<CardItem transparent style={{flexDirection:'column',marginVertical:10}}>
 				<Text style={{textAlign:'center', fontSize:20,fontWeight:'bold'}}>
 					Nick Name
@@ -55,6 +55,7 @@ export default  ProfileReview = (props) => {
 					{props.nickname ? props.nickname : "No Nickname Entered"}
 				</Text>
 			</CardItem>
+
 		</Card>
 	)
 }

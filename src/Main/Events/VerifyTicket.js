@@ -2,12 +2,11 @@ import React, { useState, useContext, useEffect } from 'react';
 import { Context } from '../../Store/appContext';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import {openSettings, requestMultiple, PERMISSIONS} from 'react-native-permissions';
-import { throttle } from 'lodash'
 
 import { Image,  TextInput, KeyboardAvoidingView, Modal, 
   Platform, Alert, StatusBar, View } from 'react-native';
 import { Container,  Button, Text, Content, Card, CardItem, Icon} from 'native-base';
-import { Grid, Row, Col } from 'react-native-easy-grid';
+import { Grid, Col } from 'react-native-easy-grid';
 import Spinner from 'react-native-loading-spinner-overlay'
 import ImagePicker from 'react-native-image-picker';
 
@@ -163,10 +162,12 @@ export default VerifyTicket = (props) => {
                     backgroundColor={'rgb(38, 171, 75)'}/>
             </View>
             <OtherHeader title={"Verify Ticket"} />
-            <Content style={{backgroundColor:currentStyle.background.color}}>
+            <Content style={{backgroundColor:currentStyle.background.color, flexGrow:1}}>
                 <Spinner visible={loading} />
                 <KeyboardAvoidingView style={{flex:1,}} 
                     behavior='position' keyboardVerticalOffset={-180}>
+                    
+                    {/* EVENT INFO MODAL */}
                     <Modal
                         animationType='fade'
                         visible={visible}
@@ -177,48 +178,52 @@ export default VerifyTicket = (props) => {
                             tournament={tournament} />
                     </Modal>
 
-                    {/* TOURNEY INFO */}
+                    {/* EVENT INFO - START */}
                     <Card transparent style={{backgroundColor:currentStyle.background.color}}>
                     
-                    {/* TOURNAMENT INFO */}
+                        {/* TOURNAMENT INFO */}
                         <CardItem style={{justifyContent:'center', flexDirection:'column',
                             backgroundColor:currentStyle.background.color}}>
                             <Text style={{textAlign:'center', fontSize:20, marginBottom:10, 
-                            fontWeight:'600',color:currentStyle.text.color}}>
-                            {tournament.name} 
+                                fontWeight:'600',color:currentStyle.text.color}}>
+                                {tournament.name} 
                             </Text>
-
                             <Button block info onPress={() => setVisible(!visible)}>
-                            <Text>Event Info</Text>
-                            </Button>
-                            
-                            
+                                <Text>Event Info</Text>
+                            </Button>  
                         </CardItem>
+
                         {/* INSTRUCTION TEXT  */}
                         <CardItem style={{selfAlign:'center', flex:1, marginBottom:-10,
                             backgroundColor:currentStyle.background.color,
                             justifyContent:'center', flexDirection:'column'}}>
                             <Text style={{textAlign:'center', fontWeight:'600', fontSize:18, 
-                            color:currentStyle.text.color,  flex:1}}>
-                            Enter the information and upload a photo of your tournament buyin ticket.
+                                color:currentStyle.text.color,  flex:1}}>
+                                Enter the information and upload a photo of your tournament buyin ticket.
                             </Text>
                         </CardItem>
-                        </Card>
-                        {/* TICKET INPUT */}
-                        <Card transparent style={{backgroundColor:currentStyle.background.color}}>
-                            <CardItem style={{backgroundColor:currentStyle.background.color}}>
-                                <Grid>
+
+                    </Card>
+                    {/* EVENT INFO - END */}
+
+                    {/* BUYIN TICKET SUBMISSION - START */}
+                    <Card transparent style={{backgroundColor:currentStyle.background.color}}>
+                        <CardItem style={{backgroundColor:currentStyle.background.color}}>
+                            <Grid>
+
+                                {/* BUYIN TICKET - IMAGE UPLOAD FIELD */}
                                 <Col style={{justifyContent:'center'}}>
-                                    {/* IMAGE UPLOADED  */}
                                     <Image source={image} style={{width:175, height:175}} />
                                     <Button style={{width:175, justifyContent:'center'}} 
-                                    onPress={()=> askPersmission()}>
-                                    <Icon type='FontAwesome5' name='plus' style={{color:'white'}}/>
+                                        onPress={()=> askPersmission()}>
+                                        <Icon type='FontAwesome5' name='plus' style={{color:'white'}}/>
                                     </Button>
                                 </Col>
-                                {/* ALL BUYIN INPUTS */}
+                                
+                                {/* BUYIN TICKET - DETAIL INPUTS - START */}
                                 <Col style={{justifyContent:'center'}}>
-                                    {/* TABLE INPUT */}
+                                    
+                                    {/* TABLE INPUT - START */}
                                     <Text style={[styles.text.input, {color:currentStyle.text.color}]}>
                                         Table: 
                                     </Text>
@@ -234,7 +239,9 @@ export default VerifyTicket = (props) => {
                                         onSubmitEditing={() => { textSeat.focus({pageYOffset:56})}}
                                         value={table}    
                                         onChangeText={tableX => setTable( tableX )}/>
-                                    {/* SEAT INPUT */}
+                                    {/* TABLE INPUT - END */}
+                                    
+                                    {/* SEAT INPUT - START */}
                                     <Text style={[styles.text.input, {color:currentStyle.text.color}]}>
                                         Seat: 
                                     </Text>
@@ -250,7 +257,9 @@ export default VerifyTicket = (props) => {
                                         onSubmitEditing={() => { textChips.focus(); }}
                                         value={seat}    
                                         onChangeText={seatX => setSeat( seatX )}/>
-                                    {/* CHIPS INPUT */}
+                                    {/* SEAT INPUT - END */}
+
+                                    {/* CHIPS INPUT - START */}
                                     <Text style={[styles.text.input, {color:currentStyle.text.color}]}>
                                         Chips: 
                                     </Text>
@@ -265,20 +274,26 @@ export default VerifyTicket = (props) => {
                                         ref={(input) => { textChips = input; }} 
                                         value={chips}    
                                         onChangeText={chips => setChips( chips )}/>
-                                    </Col>
-                                </Grid>
-                            </CardItem>
+                                    {/* CHIPS INPUT - END */}
 
-                            {/* SUBMIT BUTTON */}
-                            <CardItem style={{backgroundColor:currentStyle.background.color}}>
-                                <Button disabled={disabled} large style={styles.button} 
-                                    onPress={() => handler()}>
-                                    <Text style={styles.text.button}> 
-                                        SUBMIT 
-                                    </Text>
-                                </Button>
-                            </CardItem>
+                                </Col>
+                                {/* BUYIN TICKET - DETAIL INPUTS - END */}
+                            </Grid>
+                        </CardItem>
+
+                        {/* SUBMIT BUTTON */}
+                        <CardItem style={{backgroundColor:currentStyle.background.color}}>
+                            <Button disabled={disabled} large style={styles.button} 
+                                onPress={() => handler()}>
+                                <Text style={styles.text.button}> 
+                                    SUBMIT 
+                                </Text>
+                            </Button>
+                        </CardItem>
+                    
                     </Card>
+                    {/* BUYIN TICKET SUBMISSION - END */}
+
                 </KeyboardAvoidingView>
             </Content>
         </Container>

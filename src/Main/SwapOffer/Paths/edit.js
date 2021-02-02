@@ -44,7 +44,7 @@ export default EditPath = (props) => {
         }
     }
 
-    const bustedAlert = () =>{
+    const bustedAlert = () => {
         Alert.alert(
             "Busted Confirmation",
             "Are you officially busted out of the tournament?",
@@ -55,7 +55,7 @@ export default EditPath = (props) => {
         )
     }
 
-    const rebuyAlert = () =>{
+    const rebuyAlert = () => {
         Alert.alert(
             "Rebuy Confirmation",
             "Are you going re-enter?",
@@ -126,7 +126,8 @@ export default EditPath = (props) => {
                         </Text>
                         <TextInput 
                             // placeholder={props.buyin.table.toString()}
-                            style={ [styles.field.textInput, {width:'20%', marginRight:'5%', color:currentStyle.text.color, borderColor:currentStyle.text.color}] }              
+                            style={ [styles.field.textInput, {width:'20%', marginRight:'5%', 
+                                color:currentStyle.text.color, borderColor:currentStyle.text.color}] }              
                             placeholderTextColor='red'
                             keyboardType="number-pad"
                             blurOnSubmit={false}
@@ -145,7 +146,8 @@ export default EditPath = (props) => {
                         <TextInput 
                             // placeholder={props.buyin.seat.toString()}
                             style={ [styles.field.textInput, {
-                            width:'20%', color:currentStyle.text.color, borderColor:currentStyle.text.color}] }              
+                                width:'20%', color:currentStyle.text.color, 
+                                borderColor:currentStyle.text.color}] }              
                             placeholderTextColor='red'
                             keyboardType="number-pad"
                             blurOnSubmit={false}

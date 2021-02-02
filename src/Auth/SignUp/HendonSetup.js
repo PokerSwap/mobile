@@ -66,6 +66,7 @@ export default HendonSetup = (props) => {
 		<KeyboardAvoidingView behavior={'position'} keyboardVerticalOffset={-300}>
 		<View transparent style={{display:'flex', justifyContent:'center'}}>
 			{lookHendon ?
+				// CLICKED ON "YES, I DO"
 				<View style={{height:'99%', alignText:'center', 
 					display:'flex', justifyContent:'center'}}>
 
@@ -127,9 +128,10 @@ export default HendonSetup = (props) => {
 					</View>
 				</View>
 				:
+				// INTRODUCTION SCREEN
 				<View style={{width:'80%', height:500, flexDirection:'column', 
 					justifyContent:'space-around', alignSelf:'center', marginTop:20}}>
-					{/* HENDON INSTRUCTIONS */}
+					
 					<View style={{flexDirection:"column", 
 						justifyContent:"center", textAlign:'center'}}>
 						<View>
@@ -140,12 +142,16 @@ export default HendonSetup = (props) => {
 
 						<TouchableOpacity style={{marginTop:40, alignSelf:'center'}}
 							onPress={() => setLookHendon(true)}>
-							<Text style={{fontSize:36,}}>Yes, I do</Text>
+							<Text style={{fontSize:36,}}>
+								Yes, I do
+							</Text>
 						</TouchableOpacity>	
 
 						<TouchableOpacity  style={{marginTop:30, alignSelf:'center'}}
 							onPress={() => goToNextPage()}>
-							<Text style={{fontSize:36,}}>No, I don't</Text>
+							<Text style={{fontSize:36,}}>
+								No, I don't
+							</Text>
 						</TouchableOpacity>	
 
 					</View>

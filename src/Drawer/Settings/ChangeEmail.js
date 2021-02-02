@@ -54,11 +54,11 @@ export default ChangeEmail = () => {
 
     return(
         <Container >
-            <Content contentContainerStyle={{paddingTop:50,
-                justifyContent:'flex-start', alignItems:'center', flex:1, 
+            <Content contentContainerStyle={{paddingTop:50,paddingBottom:50,
+                justifyContent:'flex-start', alignItems:'center', flexGrow:1, 
                 flexDirection:'column', backgroundColor:currentStyle.background.color}}>
                 
-                {/* ENTER CURRENT EMAIL FIELD */}
+                {/* ENTER CURRENT EMAIL INPUT - START */}
                 <Text style={{fontSize:20, textAlign:'center', marginBottom:5, 
                     color:currentStyle.text.color}}>
                     Enter Current Email:
@@ -79,13 +79,13 @@ export default ChangeEmail = () => {
                         value={currentEmail}    
                         onChangeText={email2 => setCurrentEmail( email2 )} />
                 </View>
+                {/* ENTER CURRENT EMAIL INPUT - END */}
                 
-                {/* INSTRUCTION - CHANGE EMAIL */}
+                {/* ENTER CURRENT PASSWORD INPUT - START */}
                 <Text style={{fontSize:20, textAlign:'center', marginTop:15, marginBottom:5, 
                     color:currentStyle.text.color}}>
                     Enter Current Password:
                 </Text>
-
                 <View style={{borderColor:currentStyle.text.color, borderWidth:1, width:'80%',
                     padding:10, marginVeritcal:5}}>
                     <TextInput 
@@ -104,13 +104,13 @@ export default ChangeEmail = () => {
                         value={currentPassword}
                         onChangeText={currentPassword => setCurrentPassword( currentPassword )} />
                 </View>
+                {/* ENTER CURRENT PASSWORD INPUT - END */}
 
-                {/* ENTER NEW EMAIL FIELD */}
+                {/* ENTER NEW EMAIL FIELD - START */}
                 <Text style={{fontSize:20, textAlign:'center', marginTop:15, marginBottom:5, 
                     color:currentStyle.text.color}}>
                     Enter New Email:
                 </Text>
-
                 <View style={{borderColor:currentStyle.text.color, borderWidth:1, width:'80%', 
                     padding:10, marginVeritcal:5}}>
                     <TextInput 
@@ -128,8 +128,9 @@ export default ChangeEmail = () => {
                         value={newEmail}    
                         onChangeText={email => setNewEmail( email )} />
                 </View>
-                
-                {/* CONFIRM NEW EMAIL FIELD */}
+                {/* ENTER NEW EMAIL FIELD - END */}
+
+                {/* CONFIRM NEW EMAIL INPUT - START */}
                 <Text style={{fontSize:20, textAlign:'center', marginTop:15, marginBottom:5, 
                     color:currentStyle.text.color}}>
                     Confirm New Email:
@@ -150,7 +151,8 @@ export default ChangeEmail = () => {
                         value={confirmEmail}    
                         onChangeText={email => setConfirmEmail( email )}/>
                 </View>
-                
+                {/* CONFIRM NEW EMAIL INPUT - END */}
+
                 {/* SUBMIT BUTTON - CHANGE EMAIL */}
                 <Button large  style={{marginTop:40, alignSelf:'center'}} 
                     onPress={() => changeEmail()}>

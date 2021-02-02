@@ -99,6 +99,7 @@ export default SwapRow = (props) => {
 
     return(
         <View style={styles.rowContainer}>
+            
             {/* SWAP STATUS */}
             <Col style={{ width:'30%' }}>
                 <Text style={{ textTransform:'capitalize', textAlign:'center', 
@@ -107,6 +108,7 @@ export default SwapRow = (props) => {
                         props.swap.status : ' Counter\nIncoming'}
                 </Text>
             </Col>
+
             {/* SWAP TIME */}
             <Col style={{marginLeft:-25}}>
                 {swapTime ?
@@ -116,6 +118,7 @@ export default SwapRow = (props) => {
                     : 
                     null}
             </Col>
+            
             {/* SWAP BUTTON */}
             <Col style={{ width:'20%' }}>
                 <TouchableOpacity onPress={() => enterSwapOffer()}>
