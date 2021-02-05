@@ -11,7 +11,7 @@ export default TermsAndConditions = (props) => {
         <Container>
             <OtherHeader title={"Terms and Conditions"}/>
             <Content contentContainerStyle={{
-                alignContent:"center",justifyContent:"center"}}>
+                alignContent:"center",justifyContent:"center", flexGrow:1}}>
                 
                 {/* PAGE CONTAINER */}
                 <Card transparent style={{justifyContent:"center"}} >

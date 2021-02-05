@@ -65,7 +65,46 @@ export default HendonSetup = (props) => {
 	return(
 		<KeyboardAvoidingView behavior={'position'} keyboardVerticalOffset={-300}>
 		<View transparent style={{display:'flex', justifyContent:'center'}}>
-			{lookHendon ?
+			{!lookHendon ?
+				// "Do you have a hendon?" INTRODUCTION SCREEN
+				<View style={{width:'80%', height:500, flexDirection:'column', 
+					justifyContent:'space-around', alignSelf:'center', marginTop:20}}>
+					
+					<View style={{flexDirection:"column", 
+						justifyContent:"center", textAlign:'center'}}>
+						<View>
+							<Text style={{textAlign:'center', fontSize:20, marginBottom:5}}>
+								Have a Hendon Mob profile? 
+							</Text>
+						</View>
+
+						<TouchableOpacity style={{marginTop:40, alignSelf:'center'}}
+							onPress={() => setLookHendon(true)}>
+							<Text style={{fontSize:36,}}>
+								Yes, I do
+							</Text>
+						</TouchableOpacity>	
+
+						<TouchableOpacity  style={{marginTop:30, alignSelf:'center'}}
+							onPress={() => goToNextPage()}>
+							<Text style={{fontSize:36,}}>
+								No, I don't
+							</Text>
+						</TouchableOpacity>	
+
+					</View>
+
+					{/* PREV BUTTON */}
+					<View style={{justifyContent:'center', alignSelf:'center', marginTop:30}}>
+						<Button info iconLeft large onPress={() => props.prev()}>
+							<Icon name='arrow-back'/>
+							<Text>Back</Text>
+						</Button>
+						
+					</View>
+		
+				</View>
+				:
 				// CLICKED ON "YES, I DO"
 				<View style={{height:'99%', alignText:'center', 
 					display:'flex', justifyContent:'center'}}>
@@ -103,8 +142,6 @@ export default HendonSetup = (props) => {
 								You did not submit a valid Hendon Mob profile
 							</Text> }    
 								
-					
-
 					<Button style={{alignSelf:'center', marginTop:20}} 
 						onPress={() => goToNextPage()}>
 						<Text>Maybe Later</Text>
@@ -126,46 +163,8 @@ export default HendonSetup = (props) => {
 							<Text>Next</Text>
 						</Button>
 					</View>
-				</View>
-				:
-				// INTRODUCTION SCREEN
-				<View style={{width:'80%', height:500, flexDirection:'column', 
-					justifyContent:'space-around', alignSelf:'center', marginTop:20}}>
-					
-					<View style={{flexDirection:"column", 
-						justifyContent:"center", textAlign:'center'}}>
-						<View>
-							<Text style={{textAlign:'center', fontSize:20, marginBottom:5}}>
-								Have a Hendon Mob profile? 
-							</Text>
-						</View>
+				</View> }
 
-						<TouchableOpacity style={{marginTop:40, alignSelf:'center'}}
-							onPress={() => setLookHendon(true)}>
-							<Text style={{fontSize:36,}}>
-								Yes, I do
-							</Text>
-						</TouchableOpacity>	
-
-						<TouchableOpacity  style={{marginTop:30, alignSelf:'center'}}
-							onPress={() => goToNextPage()}>
-							<Text style={{fontSize:36,}}>
-								No, I don't
-							</Text>
-						</TouchableOpacity>	
-
-					</View>
-					{/* PREV BUTTON */}
-					<View style={{justifyContent:'center', alignSelf:'center', marginTop:30}}>
-						<Button info iconLeft large onPress={() => props.prev()}>
-							<Icon name='arrow-back'/>
-							<Text>Back</Text>
-						</Button>
-						
-					</View>
-		
-				</View>}
-			
 		</View>
 		</KeyboardAvoidingView>
 	)

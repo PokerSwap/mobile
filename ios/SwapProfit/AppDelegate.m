@@ -13,6 +13,8 @@
 #import <RNCPushNotificationIOS.h>
 #import "RNFBMessagingModule.h"
 #import <Firebase.h>
+#import <React/RCTLinkingManager.h>
+
 
 
 @import UIKit;
@@ -73,6 +75,13 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
   [RNCPushNotificationIOS didReceiveLocalNotification:notification];
 }
 
+- (BOOL)application:(UIApplication *)application
+   openURL:(NSURL *)url
+   options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
+{
+  return [RCTLinkingManager application:application openURL:url options:options];
+}
+
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
 {
 #if DEBUG
@@ -81,5 +90,6 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
   return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 #endif
 }
+
 
 @end

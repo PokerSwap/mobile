@@ -107,23 +107,25 @@ export default  PictureSetup = (props) => {
         });
     };
 
-    
     props.f()
 
     return(
         <Card transparent>
+
             {/* IMAGE PREVIEW */}
             <CardItem header style={{justifyContent:'center'}}>
                 <Image source={{uri:image}}
                     style={{height:150, width:150, marginTop:25, borderRadius:500}}>
                 </Image>
             </CardItem>
+
             {/* PICTURE INSTRUCTIONS */}
             <CardItem body style={{justifyContent:'center'}}>
                 <Text style={{fontSize:24}}>
                     Choose a profile picture of yourself to upload.
                 </Text>
             </CardItem>
+            
             {/* UPLOAD BUTTON */}
             <CardItem footer style={{justifyContent:"center"}}>
                 <Button large onPress={() => choosePhoto()}>
