@@ -16,7 +16,7 @@ import BounceColorWrapper from '../../Functional/BounceColorWrapper'
 import darkStyle from '../../Themes/dark.js'
 import lightStyle from '../../Themes/light.js'
 
-export default ProfitResults = (props) => {
+export default SwapResults = (props) => {
   const { store, actions } = useContext(Context)
 
   const route = useRoute()

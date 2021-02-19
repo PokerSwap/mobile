@@ -127,7 +127,8 @@ var SwapsStack = () => {
 
 var EventsStack = () => {
   return(
-    <Stack.Navigator initialRouteName="Event Listings" screenOptions={{ gestureEnabled: false, headerShown: false }}>
+    <Stack.Navigator initialRouteName="Event Listings" 
+      screenOptions={{ gestureEnabled: false, headerShown: false }}>
       <Stack.Screen name="Event Listings" component={EventListings}/>
       <Stack.Screen name="Verify Ticket" component={VerifyTicket} 
         options={{ gestureEnabled: false,  headerShown: false, headerBackTitle:''}}/>

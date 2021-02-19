@@ -53,7 +53,7 @@ export default UpdateHendon = () => {
         Alert.alert(
             "Confirmation",
             "Remember if you solely rely on your nickname for your buy-in ticket,"+
-            "you may not be able to verify your buyin ticket on SwapProfit"+
+            " you may not be able to verify your buyin ticket on SwapProfit"+
             " if its different than what is registered.\n\n  Do you wish to continue?",
             [
                 { text: 'Yes', onPress: () => 
@@ -74,11 +74,10 @@ export default UpdateHendon = () => {
                 {/* HENDON INSTRUCTIONS */}
                 <Text style={{fontSize:20, width:'70%', marginTop:20, textAlign:'center',marginBottom:5, 
                     color:currentStyle.text.color, marginBottom:20,}}>
-                    Enter your name on the following page. Once you have found 
-                    your actual profile page, confirm it. 
-                    {'\n'}{'\n'} Please be advised that if you claim a 
-                    hendon mob profile that is not your own, 
-                    you may be banned from Swapping
+                    Enter your name in the search engine on the following page. 
+                    Once you have found your actual profile page, confirm it.{'\n'}{'\n'} 
+                    Please be advised that if you claim
+                    a Hendon Mob profile that is not your own, you may be banned from Swapping.
                 </Text>
 
                 <Button style={{alignSelf:'center', marginBottom:40,}} 

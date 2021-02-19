@@ -21,7 +21,7 @@ export default HendonSetup = (props) => {
 	const showAlert = () =>{
         Alert.alert(
             "Confirmation",
-            " Please be advised that if you claim a hendon mob profile that is not your own, you may be banned from Swapping?",
+            " Please be advised that if you claim a Hendon Mob profile that is not your own, you may be banned from Swapping?",
             [
                 { text: 'Yes', onPress: () => {actions.profile.changeHendon(hendonURL, navigation, true);actions.profile.hendonUrlCurrent(''); } },
                 { text: 'No',  onPress: () => console.log("Cancel Pressed"), }
@@ -69,9 +69,10 @@ export default HendonSetup = (props) => {
 
 					<Text style={{fontSize:16, width:'95%', alignSelf:'center',  
 						marginTop:20, textAlign:'center', marginBottom:20,}}>
-                        Enter your name on the following page. Once you have found your actual
-						profile page, confirm it. {'\n'}{'\n'} Please be advised that if you claim
-						a hendon mob profile that is not your own, you may be banned from Swapping.
+                        Enter your name in the search engine on the following page. 
+						Once you have found your actual profile page, confirm it.{'\n'}{'\n'} 
+						Please be advised that if you claim
+						a Hendon Mob profile that is not your own, you may be banned from Swapping.
                     </Text>
 
 					<Button large style={{marginBottom:40, alignSelf:'center'}} 

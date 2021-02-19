@@ -43,15 +43,27 @@ export default BuyIn = (props) => {
   }, [refreshing])
 
   var allSwaps 
-  buyin.user_id != store.myProfile.id ?   
-    props.agreed_swaps !== [] ?
-      props.other_swaps !== [] ?
+
+  if(buyin.user_id != store.myProfile.id){
+    if(props.agreed_swaps !== []){
+      if(props.other_swaps !== []){
         allSwaps = [...props.agreed_swaps, ...props.other_swaps]
-        : allSwaps = [...props.agreed_swaps]
-      : props.other_swaps !== [] ?
+      }else{
+        allSwaps = [...props.agreed_swaps]
+      }
+    }else{
+      if(props.other_swaps !== []){
         allSwaps = [...props.other_swaps]
-        : allSwaps = null
-    : allSwaps = null
+      }else{
+        allSwaps = []
+      }
+    }
+  }else{
+    allSwaps = []
+  }
+
+
+
 
 
   const _renderContent = () => {

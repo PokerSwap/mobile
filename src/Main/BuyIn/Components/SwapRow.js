@@ -56,7 +56,7 @@ export default SwapRow = (props) => {
         lastCol = 
             <Icon type="FontAwesome5" name="exclamation"
                 style={styles.incoming}/>;
-        buttonColor= 'green';
+        buttonColor= 'orange';
     } 
     // COUNTER-INCOMING SWAP VIEW
     else if (swap.status == 'counter_incoming'){

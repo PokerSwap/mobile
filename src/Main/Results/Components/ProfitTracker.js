@@ -64,7 +64,7 @@ export default ProfitTracker = (props) => {
     const finalConfirmAlert = () => {
         Alert.alert(
         "Final Confirmation",
-        "If you confirm and the other user has not their paid their swaps to you, you cannot file a dispute afterwards. Is this understood?",
+        "If you confirm and the other user has not paid their swaps to you, you cannot file a dispute afterwards.\n\nIs this understood?",
         [
             {text: 'Yes', onPress: () => confirmSwap()},
             {text: 'No', onPress: () => console.log("Cancel Pressed"),}

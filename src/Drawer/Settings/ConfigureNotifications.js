@@ -34,14 +34,14 @@ export default ConfigureNotifications = () => {
                 justifyContent:'flex-start', alignItems:'center', 
                 flex:1, flexDirection:'column'}}>
                 <List style={{width:'100%'}}>
-                    <ListItem noIndent style={{justifyContent:'space-around'}}>
+                    {/* <ListItem noIndent style={{justifyContent:'space-around'}}>
                         <Text style={{color:currentStyle.text.color}}>
-                            Buyin Updates
+                            Buy-In Updates
                         </Text>
                         <Switch value={buyinSetting} 
                             onValueChange={() => 
                                 toggleIt(buyinSetting, setBuyinSetting, "buyin")}/>
-                    </ListItem>
+                    </ListItem> */}
                     <ListItem noIndent style={{justifyContent:'space-around'}}>
                         <Text style={{color:currentStyle.text.color}}>
                             Coin Updates
@@ -50,14 +50,14 @@ export default ConfigureNotifications = () => {
                             onValueChange={() => 
                                 toggleIt(coinSetting, setCoinSetting, "coin")}/>
                     </ListItem>
-                    <ListItem noIndent style={{justifyContent:'space-around'}}>
+                    {/* <ListItem noIndent style={{justifyContent:'space-around'}}>
                         <Text style={{color:currentStyle.text.color}}>
                             Swap Updates
                         </Text>
                         <Switch value={swapSetting}
                             onValueChange={() => 
                                 toggleIt(swapSetting, setSwapSetting, "swap")}/>
-                    </ListItem>
+                    </ListItem> */}
                     <ListItem noIndent style={{justifyContent:'space-around'}}>
                         <Text style={{color:currentStyle.text.color}}>
                             Event Updates
@@ -74,14 +74,14 @@ export default ConfigureNotifications = () => {
                             onValueChange={() => 
                                 toggleIt(chatSetting, setChatSetting, "chat")} />
                     </ListItem>
-                    <ListItem noIndent style={{justifyContent:'space-around'}}>
+                    {/* <ListItem noIndent style={{justifyContent:'space-around'}}>
                         <Text style={{color:currentStyle.text.color}}>
                             Result Updates
                         </Text>
                         <Switch value={resultSetting}
                             onValueChange={() => 
                                 toggleIt(resultSetting, setResultSetting, "result")} />
-                    </ListItem>
+                    </ListItem> */}
                 </List>
             </Content>  
         </Container>

@@ -123,7 +123,7 @@ export default EventLobby = () => {
       
         {/* <BounceColorWrapper style={{flex:1}} mainColor={currentStyle.background.color}> */}
 
-        <View  style={{alignSelf:'flex-start', }}>
+        <View  style={{alignSelf:'flex-start', paddinBottom:100 }}>
       
             <List style={{backgroundColor:currentStyle.background.color}}>
                 

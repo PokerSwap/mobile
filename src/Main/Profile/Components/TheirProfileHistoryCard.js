@@ -1,7 +1,8 @@
 import React, {useContext} from 'react';
 import {Context} from '../../../Store/appContext';
+import { useNavigation } from '@react-navigation/native'
 
-import { View } from 'react-native'
+import { View, TouchableOpacity } from 'react-native'
 import { ListItem, Text } from 'native-base';
 import { Row, Col} from 'react-native-easy-grid'
 
@@ -11,21 +12,41 @@ import lightStyle from '../../../Themes/light.js'
 export default TheirProfileHistoryCard = (props) => {
 
 	const { store, actions } = useContext(Context)
-	
+	const navigation = useNavigation()
+
 	var currentStyle
 	store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
+	console.log('check here',Object.keys(props.buyin.recipient_buyin))
+
+	const goToSwapResults = async() => {
+
+		var x = await actions.tracker.getPastSpecific(props.buyin.recipient_buyin.tournament_id)
+
+
+		navigation.push('Swap Results', { 
+			tournament: x.tournament,
+            results_link: x.results_link,
+            my_buyin: x.my_buyin,
+            agreed_buyins: x.agreed_buyins,
+            final_profit: x.final_profit,
+            allPaid: x.allPaid,
+            tournament_end: x.tournament_end})
+	}
 
 	return(
 		<View>
 			
-			<ListItem noIndent style={{ flexDirection:'column',
-				paddingVertical:5, backgroundColor:'black', 
-				justifyContent:'center'}}>
-				<Text style={{fontSize:20, width:'90%',
-					color:'white', fontWeight:'600', textAlign:'center'}}>
-					{props.buyin.tournament_name}
-				</Text>
-			</ListItem>
+				<ListItem noIndent style={{ flexDirection:'column',  backgroundColor:'black', 
+					justifyContent:'center'}}>
+						<TouchableOpacity onPress={()=> goToSwapResults()}>
+						<Text style={{fontSize:20, width:'90%',
+						color:'white', fontWeight:'600', textAlign:'center'}}>
+						{props.buyin.tournament_name}
+					</Text>
+						</TouchableOpacity>
+					
+				</ListItem>
+		
 			
 			<ListItem noIndent style={{flexDirection:'row', backgroundColor:'#a3a3a3'}}>
 				<Col style={{width:'25%'}}>
@@ -65,7 +86,7 @@ export default TheirProfileHistoryCard = (props) => {
 
 				var bgColor, path;
 				if (swap.status == 'agreed'){bgColor = 'green'}
-				else if (swap.status == 'incoming'){bgColor = 'green'}
+				else if (swap.status == 'incoming'){bgColor = 'orange'}
 				else if (swap.status == 'pending'){bgColor = 'orange'}
 				else if (swap.status == 'counter_incoming'){bgColor = 'orange'}
 				else if (swap.status == 'canceled'){bgColor = 'grey'}

@@ -7,10 +7,9 @@ import { View } from 'react-native'
 import { Text, Button, Icon, Toast } from 'native-base';
 import { Col } from 'react-native-easy-grid'
 
-export default SwapButton = (props) => {
+export default TourSwapButton = (props) => {
     const { store, actions } = useContext(Context)
     const [ busted, setBusted ] = useState(false)
-    const {allSwaps} = props
 
     const [disabled, setDisabled] = useState(false)
     const navigation = useNavigation();
@@ -21,102 +20,17 @@ export default SwapButton = (props) => {
     }, [busted])
 
 
-    var allStatuses =[]
-    // console.log('allSwaps',allSwaps)
-    console.log('allswaps', allSwaps)
-    allSwaps !== null || allSwaps !== undefined || allSwaps !== [] ?
-        allSwaps.forEach(swap => allStatuses.push(swap.status))
-        : 
-        allStatuses = ['inactive']
 
     var lastCol, buttonColor, path, swap;
     
-    // YOUR SWAP VIEW
-    if (props.buyin.user_id == store.myProfile.id){
-        lastCol = 
-            <Icon type="FontAwesome5" name='edit'
-                style={{alignSelf:'center', fontSize:24}}/>;
-        buttonColor= 'grey';
-        path = 'edit'
-    } 
-    // INCOMING SWAP VIEW
-    else if (allStatuses.includes('incoming')){
-        lastCol = 
-            <Icon type="FontAwesome5" name='exclamation'
-                style={{alignSelf:'center', fontSize:24}}/>;
-        buttonColor= 'orange';
-        path = 'incoming'
-        swap = allSwaps[allStatuses.indexOf('incoming')]
-    } 
-    // COUNTER-INCOMING SWAP VIEW
-    else if (allStatuses.includes('counter_incoming')){
-        lastCol = 
-            <Icon type="FontAwesome5" name='exclamation'
-                style={{alignSelf:'center', fontSize:24}}/>;
-        buttonColor= 'orange';
-        path = 'counter_incoming'
-        swap = allSwaps[allStatuses.indexOf('counter_incoming')]
-    } 
-    // PENDING SWAP VIEW
-    else if (allStatuses.includes('pending')) {
-        var pendingPercentage = 0
-        var gettingpendingagreed = props.allSwaps.filter(swap => 
-            swap.status == 'agreed' || swap.status == 'pending')
-        var addingPercentage = gettingpendingagreed.forEach(swap => 
-            pendingPercentage+= swap.percentage)
-        lastCol =  
-            <Text style={{fontWeight:'600', fontSize:16,
-                color:'white', textAlignVertical:'center'}}> 
-                {pendingPercentage}% 
-            </Text>;
-        path = "pending";
-        buttonColor = 'orange';
-        swap = allSwaps[allStatuses.indexOf('pending')]
-    } 
-    // AGREED SWAP VIEW
-    else if (allStatuses.includes('agreed')){
-        var totalAgreed = 0
-        var addingAgreedTotal = props.agreed_swaps.forEach(
-            swap => totalAgreed += swap.percentage)
-        lastCol = 
-            <View style={{flexDirection:'column'}}>
-                <View style={{width:70, height:50, alignContent:'center', 
-                    borderTopLeftRadius:10, borderTopRightRadius:10, 
-                    backgroundColor:'green', paddingTop:13}}>
-                    <Text style={{width:'100%',textAlign:'center', textAlignVertical:'center', 
-                        fontSize:20, fontWeight:'600'}}>
-                        {totalAgreed}%
-                    </Text>
-                </View>
-                <View style={{width:70, height:20, backgroundColor:'rgb(38, 171, 75)',
-                borderBottomLeftRadius:10, borderBottomRightRadius:10,}}>
-                    <Icon type='FontAwesome5' name='plus' 
-                        style={{fontSize:12,paddingTop:3,color:'white', textAlign:'center'}} />
-                </View>
-            </View>
-        props.action !== 50 ? path = "inactive" : path = null
-        buttonColor = null;
-        swap = allSwaps[allStatuses.indexOf('incoming')-1] 
-        // console.log('Swap that comes out of Statues', swap)
-    } 
-    // ACTION IS FULL
-    else if (props.action == 50){
-        lastCol = 
-            <Text style={{alignSelf:'center', fontSize:16, fontWeight:'bold'}}>
-                Full
-            </Text>;
-        buttonColor= 'red';
-        path = null
-    }
-    // INACTIVE SWAP OFFER VIEW
-    else {
-        lastCol = 
-            <Icon type="FontAwesome5" name="handshake" 
-                style={{alignSelf:'center', fontSize:24}} />;
-        path = "inactive";
-        swap={}
-        buttonColor = 'rgb(56,68,165)';
-    } 
+
+    lastCol = 
+        <Icon type="FontAwesome5" name="handshake" 
+            style={{alignSelf:'center', fontSize:24}} />;
+    path = "inactive";
+    swap={}
+    buttonColor = 'rgb(56,68,165)';
+    
 
     const preliminary = async() => {
         // CHECKS IF MY USER IS BUSTED

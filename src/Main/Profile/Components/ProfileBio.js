@@ -326,16 +326,26 @@ export default ProfileBio = (props) => {
                 {/* FULL NAME AND HENDON URL */}
                 <View style={{flex:1, marginVertical:10, justifyContent:'center', 
                     height:100, backgroundColor:currentStyle.background.color}}>
-                {profile !== undefined ?
-                    profile.nickname !== "" || profile.nickname.length !== 0 ?
-                        <Text style={{textAlign:'center', marginTop:5, 
-                            fontSize:18, color:currentStyle.text.color}}>
-                            "{profile.nickname}"
-                        </Text>
+                    
+                    {profile !== undefined && profile.id == store.myProfile.id ?
+                            <Text style={{textAlign:'center', marginTop:5, paddingBottom:10,
+                                fontSize:12, color:currentStyle.text.color}}>
+                                THIS IS YOUR PROFILE
+                            </Text>
+                            : 
+                            null 
+                      }
+                    
+                    {profile !== undefined ?
+                        profile.nickname !== "" || profile.nickname.length !== 0 ?
+                            <Text style={{textAlign:'center', marginTop:5, 
+                                fontSize:18, color:currentStyle.text.color}}>
+                                "{profile.nickname}"
+                            </Text>
+                            : 
+                            null 
                         : 
-                        null 
-                    : 
-                    null}
+                        null}
                 
                     {profile !== undefined ?
                         <Text style={{fontSize:24, textAlign:'center', 

@@ -1739,6 +1739,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				// GETTING ACTION FOR TOURNAMENT YOU'RE VIEWING
 				getAction: async ( a_tournament_id ) => {
 					try{
+						console.log('HERE',a_tournament_id )
 						const url = databaseURL + 'swaps/me/tournament/' + a_tournament_id;
 						const accessToken = getStore().userToken ;
 						let response = await fetch(url, {
@@ -1813,6 +1814,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 								x = ' - Day '+ tournament.day : x = ''
 							var action =null
 							// console.log('lol',typeOf(tournament.tournament_id))
+							console.log("GET ACTION IN GET INITIAL")
 							if(tournament.buyin){
 								 action = getActions().tournament.retrieveAction(tournament.tournament_id.toString())}
 							
@@ -1871,6 +1873,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 										x = ' - Day '+ tournament.day : x = ''
 									
 									var action =null
+									console.log("GET ACTION IN GET MORE")
 									if(tournament.buyin){
 								 		action = getActions().tournament.retrieveAction(tournament.tournament_id)}
 						
@@ -1895,7 +1898,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 				// RETRIEVES CURRENT ACTION FOR FORMULA USE 
 				retrieveAction: async ( a_tournament_id ) => {
 					try{
-						// console.log('Coming in', a_tournament_id)
+						console.log('Coming in', a_tournament_id)
 						const url = databaseURL + 'swaps/me/tournament/' + a_tournament_id;
 						const accessToken = getStore().userToken ;
 						let response = await fetch(url, {
@@ -1986,11 +1989,12 @@ const getState = ({ getStore, setStore, getActions }) => {
 						// console.log('trackerData',trackerData)
 						
 						var getIds = trackerData.map(tracker => tracker.tournament.id)
-						
+						console.log('check 11')
 						const asyncRes = await Promise.all(getIds.map(async (i) => {
 							 
-							console.log("TOURNAMENT ID", i)
+							console.log("TOURNAMENT ID IN GET TRACKER CURRENT", i)
 							var e = await getActions().tournament.retrieveAction(i);
+							console.log('e', e)
 							return e;
 						}));
 						
@@ -2006,12 +2010,15 @@ const getState = ({ getStore, setStore, getActions }) => {
 						var currentList = newTrackerData.filter(tracker => 
 							moment().isAfter(moment(tracker.tournament.start_at)))
 						// console.log('cruent list', currentList)
-						
+						console.log('check2')
+
 						// var xss = await console.log('jellp')
 						currentList.length == 0 ? xp=[{message:true}] : xp=currentList
 						setStore({myCurrentTrackers: xp})
+						console.log('check3')
 						// console.log("HERE HERE HER", Object.keys(getStore().myCurrentTrackers[0]))
 						var x = await getActions().refresh.dashboard(true)
+						console.log('check4')
     					// var eeee = await getActions().refresh.dashboard(false) 
 						// setStore({myTrackers: newTrackerData})
 						
@@ -2146,7 +2153,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 							console.log(allPaid)
 							console.log(allConfirmed)
 							
-
+							console.log('is', Object.keys(tracker))
 							return({
 								...tracker,
 								results_link: tracker.tournament.results_link,
@@ -2185,10 +2192,11 @@ const getState = ({ getStore, setStore, getActions }) => {
 						let trackerData = await response.json()
 						// console.log('trackerData',trackerData)
 						
-						var getIds = trackerData.map(tracker => tracker.tournament.tournament_id)
-						
+						var getIds = trackerData.map(tracker => tracker.tournament)
+						console.log('getIds', getIds)
 						const asyncRes = await Promise.all(getIds.map(async (i) => {
-							 var e = await getActions().tournament.retrieveAction(i);
+							console.log('i', Object.keys(i))
+							 var e = await getActions().tournament.retrieveAction(i.id);
 							return e;
 						}));
 						

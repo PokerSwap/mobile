@@ -6,8 +6,10 @@ export default ActionBar = (props) => {
 
     var bg;
     !props.action ?
-        bg='grey' : props.action.actions < 50 ?
-        bg ='green' : bg='red'
+        bg='grey' 
+        : 
+        props.action.actions < 50 ?
+            bg ='green' : bg='red'
 
     return(
         <Footer style={{maxHeight:60}}>

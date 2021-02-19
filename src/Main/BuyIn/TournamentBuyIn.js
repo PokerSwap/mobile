@@ -7,7 +7,7 @@ import { Col, Row, Grid } from 'react-native-easy-grid'
 import { throttle } from 'lodash'
 
 import BuyInAttribute from './Components/BuyInAttribute'
-import SwapButton from './Components/SwapButton'
+import TourSwapButton from './Components/TourSwapButton'
 
 import darkStyle from '../../Themes/dark.js'
 import lightStyle from '../../Themes/light.js'
@@ -74,7 +74,7 @@ export default TournamentBuyIn = (props) => {
 
                 {/* SWAP BUTTON */}
                 <Col>
-                    <SwapButton 
+                    <TourSwapButton 
                         tournament={props.tournament} action={props.action}
                         updated_at={props.buyin.updated_at}
                         my_buyin={props.my_buyin} buyin={buyin}

@@ -4,27 +4,48 @@ import { Context } from '../../../Store/appContext';
 import { View } from 'react-native'
 import { ListItem, Text } from 'native-base';
 import { Row, Col } from 'react-native-easy-grid'
+import { useNavigation } from '@react-navigation/native'
 
 import darkStyle from '../../../Themes/dark.js'
 import lightStyle from '../../../Themes/light.js'
+import { TouchableOpacity } from 'react-native-gesture-handler';
  
 export default MyProfileHistoryCard = (props) => {
 	const { store, actions } = useContext(Context)
 
   var currentStyle
 	store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
-	
+	const navigation = useNavigation()
+
+	const goToSwapResults = async() => {
+
+		var x = await actions.tracker.getPastSpecific(props.tournament.id)
+
+
+		navigation.push('Swap Results', { 
+			tournament: x.tournament,
+            results_link: x.results_link,
+            my_buyin: x.my_buyin,
+            agreed_buyins: x.agreed_buyins,
+            final_profit: x.final_profit,
+            allPaid: x.allPaid,
+            tournament_end: x.tournament_end})
+	}
+
 	return(
 		<View style={{marginBottom:10, backgroundColor:currentStyle.background.color}}>
 			{/* TOURNAMENT NAME */}
-			<ListItem noIndent style={{ flexDirection:'column',
-				paddingVertical:5, backgroundColor:'black', 
-				justifyContent:'center'}}>
-				<Text style={{fontSize:20, width:'90%',
-					color:'white', fontWeight:'600', textAlign:'center'}}>
-					{props.tournament.name}
-				</Text>
-			</ListItem>
+			<TouchableOpacity onPress={()=> goToSwapResults()}>
+				<ListItem noIndent style={{ flexDirection:'column',
+					paddingVertical:5, backgroundColor:'black', 
+					justifyContent:'center'}}>
+					<Text style={{fontSize:20, width:'90%',
+						color:'white', fontWeight:'600', textAlign:'center'}}>
+						{props.tournament.name}
+					</Text>
+				</ListItem>
+			</TouchableOpacity>
+			
 			{/* ALL RELATED SWAPS */}
 			{props.buyins.length > 0 ?
 				props.buyins.map((buyin, index) => {
@@ -49,10 +70,14 @@ export default MyProfileHistoryCard = (props) => {
 							{/* USERS NAME */}
 							<ListItem noIndent key={index} style={{flexDirection:'column', 
 								backgroundColor:currentStyle.background.color}}>
-								<Text style={{textAlign:'center', fontSize:24, 
-								fontWeight:'500', marginVertical:7, color:currentStyle.text.color }}>
-									{fullName}
-								</Text>
+								<TouchableOpacity onPress={() => navigation.push('Profile',{
+										user_id: buyin.recipient_buyin.user_id})}>
+									<Text style={{textAlign:'center', fontSize:24, 
+										fontWeight:'500', marginVertical:7, color:currentStyle.text.color }}>
+										{fullName}
+									</Text>
+								</TouchableOpacity>
+								
 							</ListItem>
 							{/* ROW OF SWAP ATTRIBUTE HEADERS */}
 							<ListItem noIndent style={{backgroundColor:'#a3a3a3'}}>
@@ -122,7 +147,7 @@ MyHistoryAccordion = (props) => {
 	var swap = props.swap
 	var bgColor, path;
 	if (swap.status == 'agreed'){bgColor = 'green'}
-	else if (swap.status == 'incoming'){bgColor = 'green'}
+	else if (swap.status == 'incoming'){bgColor = 'orange'}
 	else if (swap.status == 'pending'){bgColor = 'orange'}
 	else if (swap.status == 'counter_incoming'){bgColor = 'orange', d="Counter\nIncoming"}
 	else if (swap.status == 'canceled'){bgColor = 'grey'}

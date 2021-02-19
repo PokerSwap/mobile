@@ -42,7 +42,7 @@ export default FlightSchedule = (props) => {
     })
 
     return(
-        <View>
+        <View style={{paddingBottom:60}}>
             {/* FLIGHT TIME */}
             <ListItem noIndent seperator style={{
                 backgroundColor:'#D3D3D3', justifyContent:'space-between'}}>

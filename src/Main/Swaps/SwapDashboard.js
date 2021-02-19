@@ -304,11 +304,14 @@ export default SwapDashboard = (props) => {
 
     // OCCUPIED CURRENT TRACKER COMPONENT
     var aTracker = ({item, index}) => {
+        console.log('item', Object.keys(item))
+        console.log(item.action)
         var y
         if (item.message && item.message == true){
             return(null)
         } else {
             var x
+            console.log("ACTION", item.action)
             item.countdown.includes('ago') ? x = 'Started' : x = 'Starts'
             return(<SwapTracker  key={index}  event={item} 
             countdown={item.countdown} timeBy={x}
@@ -340,7 +343,7 @@ export default SwapDashboard = (props) => {
                         {!store.myProfile.naughty ?
                             Object.keys(store.myCurrentTrackers[0])[0] == 'message' ?
                                 <Text style={[styles.noTracker.text, {color:currentStyle.text.color}]}> 
-                                    You have no live tournaments{'\n'} at the moment. 
+                                    You have no live swaps{'\n'} at the moment. 
                                 </Text>
                                 :
                                 null
@@ -376,7 +379,7 @@ export default SwapDashboard = (props) => {
                             Object.keys(store.myUpcomingTrackers[0])[0] == 'message' ?
                                 <Text style={[styles.noTracker.text, 
                                     {color:currentStyle.text.color}]}> 
-                                    You have no upcoming tournaments{'\n'} at the moment. 
+                                    You have no upcoming swaps{'\n'} at the moment. 
                                 </Text>
                                 :
                                 null
