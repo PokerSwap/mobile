@@ -248,16 +248,16 @@ export default ProfileBio = (props) => {
             {/* PROFILE PICTURE AND STATS */}
             <CardItem style={{ alignItems:'center', flex:1, flexDirection:'column',
                 backgroundColor: currentStyle.background.color}}>
-                <Grid style={{backgroundColor:currentStyle.background.color}}>
+                <Grid style={{backgroundColor:currentStyle.background.color, height:200}}>
                     {/* PROFILE PICTURE AND NICKNAME */}
-                    <Col>
-                        <View  style={{marginTop:'4%', width: 150, 
-                            height: 150, position: 'relative', 
-                            overflow: 'hidden', borderRadius: 50}}>
+                    <Col >
+                        <View  style={{flex:1,
+                            marginTop:'4%',justifyContent:'center', marginLeft:10, marginRight:10, width: 100, height:100, 
+                            position: 'relative', overflow: 'hidden', borderRadius: 10}}>
                             {profile ?
                                 <Image style={{
-                                display: 'flex', margin: 'auto', 
-                                height: '100%', width: 'auto'}} 
+                                    display: 'flex', margin: 'auto', 
+                                    height: '100%', width: 'auto' }} 
                                 source={{uri: profile.profile_pic_url}} />
                                 : null}
                         </View>

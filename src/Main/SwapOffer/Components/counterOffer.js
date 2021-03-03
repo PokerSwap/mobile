@@ -1,8 +1,8 @@
 import React, {useContext, useState} from 'react'
 import { Context } from '../../../Store/appContext'
 
-import { Alert } from 'react-native'
-import { Text, Card, Button, CardItem } from 'native-base'
+import { Alert, View } from 'react-native'
+import { Text, Button } from 'native-base'
 
 import StandardOffer from './standardOffer'
 import SpecialOffer from './specialOffer'
@@ -125,32 +125,28 @@ const { store, actions } = useContext(Context)
     }
 
     return(
-        <Card transparent style={{backgroundColor:currentStyle.background.color,
-            alignSelf:'center', width:'90%', justifyContent:'center'}}>
+        <View transparent style={{backgroundColor:currentStyle.background.color, flex:1, flexDirection:'row',
+           width:'100%', justifyContent:'center', alignItems:'flex-start'}}>
             
             {/* OFFER PATHS - CONDITIONAL RENDERING */}
             {offerPath ?
                 <StandardOffer confirmationAlert={confirmationAlert}
                     counterSwitch={counterSwitch}
                     percentage={percentage}
-                    tAdd={tAdd} tSubtract={tSubtract} />
+                    tAdd={tAdd} tSubtract={tSubtract} 
+                    counter={props.counter}
+                    setCounter={props.setCounter}/>
                 :
                 <SpecialOffer confirmationAlert={confirmationAlert}
                     counterSwitch={counterSwitch}
                     percentage={percentage} counterPercentage={cPercentage}
                     pAdd={pAdd} pSubtract={pSubtract}
-                    cAdd={cAdd} cSubtract={cSubtract} /> }
+                    cAdd={cAdd} cSubtract={cSubtract} 
+                    counter={props.counter}
+                    setCounter={props.setCounter}/> }
             
-            {/* GO BACK TO OFFER */}
-            <CardItem style={{justifyContent:'center', 
-                backgroundColor:currentStyle.background.color}}>
-                <Button style={{alignSelf:'center', width:'90%', color:'grey'}} 
-                    large block 
-                    onPress={()=> props.setCounter(!props.counter)}>
-                    <Text>Go Back</Text>
-                </Button>
-            </CardItem>
+           
 
-        </Card>
+        </View>
     )
 }

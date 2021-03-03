@@ -3,7 +3,7 @@ import { Context } from '../../Store/appContext'
 import { useNavigation } from '@react-navigation/native'
 import messaging from '@react-native-firebase/messaging'
 
-import { AppState, FlatList, Platform, RefreshControl, View, StatusBar, Alert } from 'react-native';
+import { AppState, FlatList, Platform, RefreshControl, View, StatusBar, SafeAreaView, Alert } from 'react-native';
 import { Button, Container, Content, Icon, Tabs, Tab, 
 TabHeading, Text, Toast } from 'native-base';
 
@@ -433,12 +433,13 @@ export default SwapDashboard = (props) => {
 
     return(
         <Container style={{position:'absolute'}}>
-
+            
             <View style={{height:20,  backgroundColor:currentStyle.header.color}}>
                 <StatusBar StatusBarAnimation={'fade'} barStyle={'light-content'}
                     backgroundColor={'rgb(38, 171, 75)'}/>
             </View>
-      
+            <SafeAreaView style={{flex:1, backgroundColor:currentStyle.header.color}}>
+      {/* <SafeAreaView style={{backgroundColor:currentStyle.header.color}}> */}
         <HomeHeader title={'Active Swaps'} />
             <Tabs  tabBarUnderlineStyle={{backgroundColor:'white'}}
                 tabBarTextStyle={{fontWeight:'bold', color:'white'}}>
@@ -456,7 +457,10 @@ export default SwapDashboard = (props) => {
                             backgroundColor:currentStyle.background.color, display:'flex'}}
                             refreshControl={ 
                                 <RefreshControl 
-                                    onRefresh={onRefresh1} refreshing={refreshing} />}>
+                                    onRefresh={onRefresh1} refreshing={refreshing} 
+                                    title="Refreshing Swaps..."
+                                    tintColor={currentStyle.text.color}
+                                    titleColor={currentStyle.text.color}/>}>
                             {aflatlist()}
                         </Content>
                     </BounceColorWrapper>
@@ -474,7 +478,10 @@ export default SwapDashboard = (props) => {
                             backgroundColor:currentStyle.background.color, display:'flex'}} 
                             refreshControl={
                                 <RefreshControl 
-                                    onRefresh={onRefresh2} refreshing={refreshing} />}>
+                                    onRefresh={onRefresh2} refreshing={refreshing} 
+                                    title="Refreshing Swaps..."
+                                    tintColor={currentStyle.text.color}
+                                    titleColor={currentStyle.text.color}/>}>
                             {bflatlist()}
                         </Content>
                     </BounceColorWrapper>
@@ -482,7 +489,9 @@ export default SwapDashboard = (props) => {
                 {/* UPCOMING SWAPTRACKER - END */}
                 
             </Tabs>  
+            </SafeAreaView>
         </Container>
+        
     )
 }
 

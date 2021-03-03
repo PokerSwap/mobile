@@ -22,27 +22,27 @@ export default IncomingPath = (props) => {
     store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
 
     return(
-        <Card transparent style={{ backgroundColor:currentStyle.background.color,
-            alignSelf:'center', width:'95%', justifyContent:'center'}}>
+        <View  style={{ alignSelf:'center', flex:1, backgroundColor:currentStyle.background.color, justifyContent:'flex-start',
+            width:'95%', flexDirection:'column'}}>
             
             {/* INCOMING SWAP INFO */}
-            <CardItem style={{ alignSelf:'center', 
-                backgroundColor:currentStyle.background.color}}>
+           
                 {swap.percentage ?
-                    <View style={{width:'100%'}}>
-                        <Text style={{fontSize:20, textAlign:'center', 
-                            color:currentStyle.text.color}}>
-                            INCOMING SWAP{'\n'}{moment(swap.updated_at).fromNow()}
-                        </Text>
-                        <CompareCard 
-                            percentage={swap.percentage} 
-                            youColor={'blue'} themColor={'green'}
-                            counter_percentage={swap.counter_percentage}
-                            buyin={buyin}/>
-                    </View>
+                    !counter ?
+                        <View style={{width:'100%',  alignSelf:'center', marginBottom:20}}>
+                            <Text style={{textAlign:'center',marginBottom:20, marginTop:10, 
+                                color:currentStyle.text.color}}>
+                                INCOMING SWAP{'\n'}{moment(swap.updated_at).fromNow()}
+                            </Text>
+                            <CompareCard 
+                                percentage={swap.percentage} 
+                                youColor={'blue'} themColor={'green'}
+                                counter_percentage={swap.counter_percentage}
+                                buyin={buyin}/>
+                        </View>
+                        : null
                     : 
                     <Spinner />} 
-            </CardItem>
 
             {/* INCOMING SWAP INTERACTION UI */}
             {swap.percentage ?
@@ -68,6 +68,6 @@ export default IncomingPath = (props) => {
                         counter={counter} setCounter={setCounter} />
                 : 
                 null} 
-        </Card>
+        </View>
     )
 }

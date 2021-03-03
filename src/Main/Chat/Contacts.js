@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect, useRef } from 'react';
 import { Context } from '../../Store/appContext'
 import { useNavigation, useRoute } from '@react-navigation/native'
 
-import { AppState, View, Image, TouchableOpacity } from 'react-native'
+import { AppState, View, Image, TouchableOpacity, SafeAreaView } from 'react-native'
 import { Container, Content, List, ListItem, Text, Icon } from 'native-base';
 import { Col } from 'react-native-easy-grid'
 
@@ -72,9 +72,15 @@ export default ContactsScreen = (props) => {
 
     return(
         <Container style={{backgroundColor:currentStyle.background.color}}>      
+            <SafeAreaView style={{flex:1,backgroundColor:currentStyle.header.color}}>
+
             <OtherHeader title={'Contacts'} />
-            <Content contentContainerStyle={{backgroundColor:currentStyle.background.color}}>
-                <List>
+            <Content contentContainerStyle={{flex:1,backgroundColor:currentStyle.background.color}}>
+
+                <View style={{flex:1,backgroundColor:currentStyle.background.color}}>
+
+                
+                <List style={{flex:1}}>
                 {store.myChats.length != 0 ?
                     store.myChats.map(chat => {
 
@@ -146,7 +152,9 @@ export default ContactsScreen = (props) => {
                     </Text> }
                 
                 </List>
+                </View>
             </Content>
+            </SafeAreaView>
         </Container>
     )
 }

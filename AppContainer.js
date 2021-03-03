@@ -68,78 +68,84 @@ var Drawer = createDrawerNavigator()
 var aTab = createBottomTabNavigator()
 
 var AuthStack = () => {
-  return(
-    <Stack.Navigator name="Auth" initialRouteName="Splash"
-      screenOptions={{ gestureEnabled: false, headerShown: false }}>
-      <Stack.Screen name="Splash" component={SplashScreen} />
-      <Stack.Screen name="Login" component={LogInScreen} options={{ headerShown: false }}/>
-      <Stack.Screen name="Forgot Password" component={ForgotPassword} options={{ headerShown: true }}/>
-      <Stack.Screen name="User Creation" component={CreateUser} options={{ headerShown: false }}/>
-      <Stack.Screen name="Terms and Conditions" component={TermsAndConditions} options={{ headerShown: false }}/>
-      <Stack.Screen name="Profile Creation" component={CreateProfile} options={{ headerShown: false }}/>
-    </Stack.Navigator>
-  )
+    return(
+        <Stack.Navigator name="Auth" initialRouteName="Splash"
+            screenOptions={{ gestureEnabled: false, headerShown: false }}>
+            <Stack.Screen name="Splash" component={SplashScreen} />
+            <Stack.Screen name="Login" component={LogInScreen} 
+                options={{ headerShown: false }}/>
+            <Stack.Screen name="Forgot Password" component={ForgotPassword} 
+                options={{ headerShown: true }}/>
+            <Stack.Screen name="User Creation" component={CreateUser} 
+                options={{ headerShown: false }}/>
+            <Stack.Screen name="Terms and Conditions" component={TermsAndConditions} 
+                options={{ headerShown: false }}/>
+            <Stack.Screen name="Profile Creation" component={CreateProfile} 
+                options={{ headerShown: false }}/>
+        </Stack.Navigator>
+    )
 }
 
 var MainTabs = () => {
-  const { store, actions } = useContext(Context)
+    const { store, actions } = useContext(Context)
 
-  var currentStyle
-  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
-  return(
-    <aTab.Navigator initialRouteName="Active Swaps" tabBarOptions= {{
-      showLabel: false, activeTintColor: 'orange',
-      inactiveTintColor: 'gray', style: {height: 70, paddingTop:10, backgroundColor:currentStyle.background.color}}} >
-      <aTab.Screen name="Active Swaps" component={SwapsStack} 
-        options={{
-          tabBarIcon: ({ color }) => 
-            <Icon type="FontAwesome5" name="handshake" 
-              size={24} style={{ color: color }}/>
-        }}/>
-      <aTab.Screen name="Event Listings" component={EventsStack} options={{
-          tabBarIcon: ({ color }) => 
-            <Icon type="FontAwesome5" name="trophy" 
-              size={24} style={{ color: color }}/>
-        }}/>
-      <aTab.Screen name="Event Results" component={ResultsStack} options={{
-          tabBarIcon: ({ color }) => 
-            <Icon type="FontAwesome5" name="comments-dollar" 
-              size={24} style={{ color: color }}/>
-        }}/>
-    </aTab.Navigator>
-  )
+    var currentStyle
+    store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
+    return(
+        <aTab.Navigator initialRouteName="Event Listings" tabBarOptions= {{
+            showLabel: false, activeTintColor: 'orange',
+            inactiveTintColor: 'gray', style: {height: '12%', 
+            paddingBottom:10, backgroundColor:currentStyle.background.color}}} >
+            <aTab.Screen name="Active Swaps" component={SwapsStack} 
+                options={{
+                tabBarIcon: ({ color }) => 
+                    <Icon type="FontAwesome5" name="handshake" 
+                    size={24} style={{ color: color }}/>
+                }}/>
+            <aTab.Screen name="Event Listings" component={EventsStack} options={{
+                tabBarIcon: ({ color }) => 
+                    <Icon type="FontAwesome5" name="trophy" 
+                    size={24} style={{ color: color }}/>
+                }}/>
+            <aTab.Screen name="Event Results" component={ResultsStack} options={{
+                tabBarIcon: ({ color }) => 
+                    <Icon type="FontAwesome5" name="comments-dollar" 
+                    size={24} style={{ color: color }}/>
+                }}/>
+        </aTab.Navigator>
+    )
 }
 
 var SwapsStack = () => {
-  return(
-    <Stack.Navigator initialRouteName="Swap Dashboard" 
-      screenOptions={{ gestureEnabled: false, headerShown: false }}>
-      <Stack.Screen name="Swap Dashboard" component={SwapDashboard}/>
-      <Stack.Screen name="Swap Offer" component={SwapOffer} 
-        options={{ gestureEnabled: false, headerShown: false, headerBackTitle:'' }}/>
-      <Stack.Screen name="Verify Ticket" component={VerifyTicket} 
-        options={{ gestureEnabled: false,  headerShown: false, headerBackTitle:''}}/>
-      <Stack.Screen name="Event Lobby" component={EventLobby} 
-        options={{ gestureEnabled: false, headerShown: false, headerBackTitle:'' }}/>
-    </Stack.Navigator>
-  )
+    return(
+        <Stack.Navigator initialRouteName="Swap Dashboard" 
+            screenOptions={{ gestureEnabled: false, headerShown: false }}>
+            <Stack.Screen name="Swap Dashboard" component={SwapDashboard}/>
+            <Stack.Screen name="Swap Offer" component={SwapOffer} 
+                options={{ gestureEnabled: false, headerShown: false, headerBackTitle:'' }}/>
+            <Stack.Screen name="Verify Ticket" component={VerifyTicket} 
+                options={{ gestureEnabled: false,  headerShown: false, headerBackTitle:''}}/>
+            <Stack.Screen name="Event Lobby" component={EventLobby} 
+                options={{ gestureEnabled: false, headerShown: false, headerBackTitle:'' }}/>
+        </Stack.Navigator>
+    )
 }
 
 var EventsStack = () => {
-  return(
-    <Stack.Navigator initialRouteName="Event Listings" 
-      screenOptions={{ gestureEnabled: false, headerShown: false }}>
-      <Stack.Screen name="Event Listings" component={EventListings}/>
-      <Stack.Screen name="Verify Ticket" component={VerifyTicket} 
-        options={{ gestureEnabled: false,  headerShown: false, headerBackTitle:''}}/>
-      <Stack.Screen name="Event Lobby" component={EventLobby}  
-        options={{ gestureEnabled: false }} />
-      <Stack.Screen name="Swap Offer" component={SwapOffer} 
-        options={{ gestureEnabled: false, headerShown: false, headerBackTitle:'' }}/>
+    return(
+        <Stack.Navigator initialRouteName="Event Listings" 
+            screenOptions={{ gestureEnabled: false, headerShown: false }}>
+        <Stack.Screen name="Event Listings" component={EventListings}/>
+        <Stack.Screen name="Verify Ticket" component={VerifyTicket} 
+            options={{ gestureEnabled: false,  headerShown: false, headerBackTitle:''}}/>
+        <Stack.Screen name="Event Lobby" component={EventLobby}  
+            options={{ gestureEnabled: false }} />
+        <Stack.Screen name="Swap Offer" component={SwapOffer} 
+                options={{ gestureEnabled: false, headerShown: false, headerBackTitle:'' }}/>
         <Stack.Screen name="Profile" component={ProfileScreen} 
-          options={{ gestureEnabled: false, headerShown: false, headerBackTitle:''}}/>
-    </Stack.Navigator>
-  )
+            options={{ gestureEnabled: false, headerShown: false, headerBackTitle:''}}/>
+        </Stack.Navigator>
+    )
 }
 
 var ResultsStack = () => {
@@ -156,67 +162,72 @@ var ResultsStack = () => {
 }
 
 var MainDrawer = () => {
-  const { store, actions } = useContext(Context)
+    const { store, actions } = useContext(Context)
 
-  var currentStyle
-  store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
-  return(
-    <Drawer.Navigator initialRouteName="Home" 
-    drawerContentOptions={{
-      activeTintColor: currentStyle.text.color,
-      inactiveTintColor:currentStyle.text.color,
-    }}
-      drawerContent={(props) => <SideBar {...props} />}
-      screenOptions={{ gestureEnabled: true }}>
-      {/* HOME DRAWER TAB */}
-      <Drawer.Screen name="Home" component={MainTabs}
-        options={{
-          drawerIcon: ({ focused }) => (
-          <Icon type="FontAwesome5" name="home" style={{fontSize:26, color:currentStyle.text.color}}
-            color={currentStyle.text.color} />)}}/>
-      {/* SETTINGS DRAWER TAB */}
-      <Drawer.Screen name="Settings" component={SettingsStack}
-        screenOptions={{ gestureEnabled: false, headerShown: false }}
-        options={{
-          component:()=>(<Text>"aaaa"</Text>),
-          drawerIcon: ({ focused }) => (
-            
-            <Icon type="FontAwesome5" name="cog" style={{fontSize:26, color:currentStyle.text.color}}
-              color={focused ? 'blue' : 'black'} />)}}/>
-      {/* CATEGORIES DRAWER TAB */}
-      <Drawer.Screen name="Categories" component={CategoriesScreen} 
-        options={{
-          drawerIcon: ({ focused }) => (
-          <Icon type="FontAwesome5" name="th-large" style={{fontSize:24, color:currentStyle.text.color}}
-            color={focused ? 'blue' : 'black'} />)}}/>
-      {/* CHAT SCREEN TAB */}
-      <Drawer.Screen name="Chat" component={ChatStack}
-      screenOptions={{ gestureEnabled: false, headerShown: true }}
-      options={{
-        params:{name:store.myProfile.first_name},
-        headerShown:true,
-        drawerIcon: ({ focused }) => (
-          <Icon type="FontAwesome5" name="comment-dots" size={24} style={{fontSize:24, color:currentStyle.text.color}} 
-            color={focused ? 'blue' : 'black'} />
-      )}} />
-      {/* HELP DRAWER TAB */}
-      <Drawer.Screen name="Help" component={HelpStack}
-        screenOptions={{ gestureEnabled: false, headerShown: false }}
-        options={{
-          drawerIcon: ({ focused }) => (
-            <Icon type="FontAwesome5" name="question-circle" style={{fontSize:24, color:currentStyle.text.color}} 
-              color={focused ? 'blue' : 'black'} />)}}/>
-    </Drawer.Navigator>
-  )
+    var currentStyle
+    store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
+    return(
+        <Drawer.Navigator initialRouteName="Home" 
+            drawerContentOptions={{
+                activeTintColor: currentStyle.text.color,
+                inactiveTintColor:currentStyle.text.color,
+            }}
+            drawerContent={(props) => <SideBar {...props} />}
+            screenOptions={{ gestureEnabled: true }}>
+            {/* HOME DRAWER TAB */}
+            <Drawer.Screen name="Home" component={MainTabs}
+                options={{
+                drawerIcon: ({ focused }) => (
+                    <Icon type="FontAwesome5" name="home" 
+                        style={{fontSize:26, color:currentStyle.text.color}}
+                        color={currentStyle.text.color} />)}}/>
+            {/* SETTINGS DRAWER TAB */}
+            <Drawer.Screen name="Settings" component={SettingsStack}
+                screenOptions={{ gestureEnabled: false, headerShown: false }}
+                options={{
+                    component:()=>(<Text>"aaaa"</Text>),
+                    drawerIcon: ({ focused }) => (
+                        
+                        <Icon type="FontAwesome5" name="cog" 
+                            style={{fontSize:26, color:currentStyle.text.color}}
+                            color={focused ? 'blue' : 'black'} />)}}/>
+            {/* CATEGORIES DRAWER TAB */}
+            <Drawer.Screen name="Categories" component={CategoriesScreen} 
+                options={{
+                    drawerIcon: ({ focused }) => (
+                    <Icon type="FontAwesome5" name="th-large" 
+                        style={{fontSize:24, color:currentStyle.text.color}}
+                        color={focused ? 'blue' : 'black'} />)}}/>
+            {/* CHAT SCREEN TAB */}
+            <Drawer.Screen name="Chat" component={ChatStack}
+                screenOptions={{ gestureEnabled: false, headerShown: true }}
+                options={{
+                    params:{name:store.myProfile.first_name},
+                    headerShown:true,
+                    drawerIcon: ({ focused }) => (
+                    <Icon type="FontAwesome5" name="comment-dots" size={24} 
+                        style={{fontSize:24, color:currentStyle.text.color}} 
+                        color={focused ? 'blue' : 'black'} />
+                )}} />
+            {/* HELP DRAWER TAB */}
+            <Drawer.Screen name="Help" component={HelpStack}
+                screenOptions={{ gestureEnabled: false, headerShown: false }}
+                options={{
+                drawerIcon: ({ focused }) => (
+                    <Icon type="FontAwesome5" name="question-circle" 
+                        style={{fontSize:24, color:currentStyle.text.color}} 
+                        color={focused ? 'blue' : 'black'} />)}}/>
+        </Drawer.Navigator>
+    )
 }
 
 var ChatStack = () => {
-  return(
-    <Stack.Navigator initialRouteName="Contacts" 
-      screenOptions={{ gestureEnabled: false, headerShown: false }}>
-      <Stack.Screen name="Contacts" component={ContactsScreen} />
-      <Stack.Screen name="Chat" component={ChatScreen} />
-    </Stack.Navigator>
+    return(
+        <Stack.Navigator initialRouteName="Contacts" 
+            screenOptions={{ gestureEnabled: false, headerShown: false }}>
+            <Stack.Screen name="Contacts" component={ContactsScreen} />
+            <Stack.Screen name="Chat" component={ChatScreen} />
+        </Stack.Navigator>
     )
 }
 
@@ -243,82 +254,80 @@ var SettingsStack = () => {
 }
 
 var HelpStack = () => {
-  return(
-    <Stack.Navigator name="Help" initialRouteName="TutorialsScreen"
-      screenOptions={{ gestureEnabled: false, headerShown: false }}>
-      <Stack.Screen name="Tutorial List" component={TutorialListScreen} />
-      <Stack.Screen name="Tutorial Screen" component={TutorialsScreen} />
-    </Stack.Navigator>
+    return(
+        <Stack.Navigator name="Help" initialRouteName="TutorialsScreen"
+            screenOptions={{ gestureEnabled: false, headerShown: false }}>
+            <Stack.Screen name="Tutorial List" component={TutorialListScreen} />
+            <Stack.Screen name="Tutorial Screen" component={TutorialsScreen} />
+        </Stack.Navigator>
   )
 }
 
 var TokenStack = () => {
-  return(
-    <Stack.Navigator name="Tokens" initialRouteName="Purchase Tokens">
-      <Stack.Screen name="Purchase Tokens" component={PurchaseTokens} 
-      options={{ gestureEnabled: false, headerShown: false, headerBackTitle:''}}/>
-      <Stack.Screen name="Card Form" component={CardFormScreen} />
-      <Stack.Screen name="Card Field Text" component={CardFieldTextScreen} />
-      <Stack.Screen name="Custom Card" component={CustomCardScreen} />
-    </Stack.Navigator>
-  )
+    return(
+        <Stack.Navigator name="Tokens" initialRouteName="Purchase Tokens">
+            <Stack.Screen name="Purchase Tokens" component={PurchaseTokens} 
+                options={{ gestureEnabled: false, headerShown: false, headerBackTitle:''}}/>
+            <Stack.Screen name="Card Form" component={CardFormScreen} />
+            <Stack.Screen name="Card Field Text" component={CardFieldTextScreen} />
+            <Stack.Screen name="Custom Card" component={CustomCardScreen} />
+        </Stack.Navigator>
+    )
 }
 
 const NavContainer = () => {
-  return(
-<Stack.Navigator name="Root" initialRouteName="Auth"
-        screenOptions={{ gestureEnabled: false, headerShown: false }}>
-        <Stack.Screen name="Auth" component={AuthStack} />
-        <Stack.Screen name="Drawer" component={MainDrawer}/>
-        <Stack.Screen name="Home" component={MainTabs}/>
-        <Stack.Screen name="Web View" component={WebViewScreen} 
-          options={{ gestureEnabled: false, headerShown: false, headerBackTitle:''}} />
-        <Stack.Screen name="Purchase Tokens" component={TokenStack} 
-          options={{ gestureEnabled: false, headerShown: false}} />
-        <Stack.Screen name="Profile" component={ProfileScreen} 
-          options={{ gestureEnabled: false, headerShown: false, headerBackTitle:''}}/>
-        {/* <Stack.Screen name="Notifications" component={NotificationsScreen} 
-          options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}}/> */}
-        <Stack.Screen name="Swap Offer" component={SwapOffer} 
-          options={{ gestureEnabled: false, headerShown: false, headerBackTitle:''}}/>
-        <Stack.Screen name="Swap Results" component={SwapResults} 
-          options={{ gestureEnabled: false, headerShown: false, headerBackTitle:''}}/>
-        <Stack.Screen name="Hendon Setup"  component={HendonSetup} 
-          options={{ gestureEnabled: false, headerShown: false, headerBackTitle:''}}/>
-        <Stack.Screen name="Hendon Selection" component={HendonSelection} 
-          options={{ gestureEnabled: false, headerShown: false, headerBackTitle:''}}/>
-        <Stack.Screen name="Chat" component={ChatScreen} 
-          screenOptions={{ gestureEnabled: false, headerShown: false, headerBackTitle:''}} />
-      </Stack.Navigator>
-  )
-
+    return(
+        <Stack.Navigator name="Root" initialRouteName="Auth"
+            screenOptions={{ gestureEnabled: false, headerShown: false }}>
+            <Stack.Screen name="Auth" component={AuthStack} />
+            <Stack.Screen name="Drawer" component={MainDrawer}/>
+            <Stack.Screen name="Home" component={MainTabs}/>
+            <Stack.Screen name="Web View" component={WebViewScreen} 
+            options={{ gestureEnabled: false, headerShown: false, headerBackTitle:''}} />
+            <Stack.Screen name="Purchase Tokens" component={TokenStack} 
+                options={{ gestureEnabled: false, headerShown: false}} />
+            <Stack.Screen name="Profile" component={ProfileScreen} 
+                options={{ gestureEnabled: false, headerShown: false, headerBackTitle:''}}/>
+            {/* <Stack.Screen name="Notifications" component={NotificationsScreen} 
+            options={{ gestureEnabled: false, headerShown: true, headerBackTitle:''}}/> */}
+            <Stack.Screen name="Swap Offer" component={SwapOffer} 
+             options={{ gestureEnabled: false, headerShown: false, headerBackTitle:''}}/>
+            <Stack.Screen name="Swap Results" component={SwapResults} 
+                options={{ gestureEnabled: false, headerShown: false, headerBackTitle:''}}/>
+            <Stack.Screen name="Hendon Setup"  component={HendonSetup} 
+                options={{ gestureEnabled: false, headerShown: false, headerBackTitle:''}}/>
+            <Stack.Screen name="Hendon Selection" component={HendonSelection} 
+                options={{ gestureEnabled: false, headerShown: false, headerBackTitle:''}}/>
+            <Stack.Screen name="Chat" component={ChatScreen} 
+                screenOptions={{ gestureEnabled: false, headerShown: false, headerBackTitle:''}} />
+        </Stack.Navigator>
+    )
 }
 
 // MAIN NAVIGATION STACK
 const AppContainer = () => {
 
-  const { store, actions } = useContext(Context)
+    const { store, actions } = useContext(Context)
 
-  LogBox.ignoreLogs(['VirtualizedLists', 'Warning: Picker', 'Warning: Async']); // Ignore log notification by message
+    LogBox.ignoreLogs(['VirtualizedLists', 'Warning: Picker', 'Warning: Async']); // Ignore log notification by message
 
-  const routeNameRef = useRef();
-  const navigationRef = useRef();
-  
-  return(
-    <NavigationContainer
-      ref={navigationRef}
-      onReady={() => routeNameRef.current = navigationRef.current.getCurrentRoute().name}
-      onStateChange={() => {
-        const previousRouteName = routeNameRef.current;
-        const currentRouteName = navigationRef.current.getCurrentRoute().name
-        actions.navigate.currentPage(currentRouteName)
-        // Save the current route name for later comparision
-        routeNameRef.current = currentRouteName;
-      }}
-    >
-      <NavContainer />
-    </NavigationContainer>
-  )
+    const routeNameRef = useRef();
+    const navigationRef = useRef();
+    
+    return(
+        <NavigationContainer
+            ref={navigationRef}
+            onReady={() => routeNameRef.current = navigationRef.current.getCurrentRoute().name}
+            onStateChange={() => {
+                const previousRouteName = routeNameRef.current;
+                const currentRouteName = navigationRef.current.getCurrentRoute().name
+                actions.navigate.currentPage(currentRouteName)
+                // Save the current route name for later comparision
+                routeNameRef.current = currentRouteName;
+        }}>
+        <NavContainer />
+        </NavigationContainer>
+    )
 }
 
 export default Store(AppContainer);

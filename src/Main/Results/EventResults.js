@@ -1,7 +1,7 @@
 import React, {useContext, useState, useCallback, useEffect, useRef} from 'react';
 import { Context } from '../../Store/appContext'
 
-import { AppState, RefreshControl,  FlatList, View, StatusBar } from 'react-native'
+import { AppState, RefreshControl,  FlatList, View, SafeAreaView, StatusBar } from 'react-native'
 import { Button, Container, Content, Icon, Text, Tabs, Tab, TabHeading} from 'native-base';
 import { useNavigation } from '@react-navigation/native'
 
@@ -138,6 +138,8 @@ export default EventResults = (props) => {
                 <StatusBar StatusBarAnimation={'fade'} barStyle={'light-content'}
                     backgroundColor={'rgb(38, 171, 75)'}/>
             </View>
+            <SafeAreaView style={{flex:1,backgroundColor:currentStyle.header.color}}>
+
             <HomeHeader title={'Event Results'} />
             <Content contentContainerStyle={{flex:1, 
                     backgroundColor:currentStyle.background.color}}>
@@ -178,6 +180,7 @@ export default EventResults = (props) => {
                     </Tab>
                 </Tabs>
             </Content>
+            </SafeAreaView>
         </Container>
     )
 }

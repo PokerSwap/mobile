@@ -3,7 +3,7 @@ import { Context } from '../../Store/appContext';
 import { useRoute } from '@react-navigation/native';
 import moment from 'moment';
 
-import { AppState, RefreshControl, Text, View, StatusBar } from 'react-native'
+import { AppState, Dimensions, RefreshControl, Text, View, StatusBar, ScrollView, SafeAreaView } from 'react-native'
 import { Container, Content, Card } from 'native-base';
 import { Grid, Row, Col } from 'react-native-easy-grid'
 import Spinner from 'react-native-loading-spinner-overlay'
@@ -165,15 +165,21 @@ export default SwapOffer = (props) => {
     let currentPath;
 
     return(
-        <View style={{flex:1,  backgroundColor:currentStyle.background.color}}>
+        <View style={{flex:1,  backgroundColor:currentStyle.header.color}}>
             <View style={{height:20,  backgroundColor:currentStyle.header.color}}>
                 <StatusBar StatusBarAnimation={'fade'} barStyle={'light-content'}
-                backgroundColor={'rgb(38, 171, 75)'}/>
+                backgroundColor={currentStyle.header.color}/>
             </View>
+            <SafeAreaView style={{flex:1, backgroundColor:currentStyle.header.color}}>
+
             <OtherHeader title={'Swap Offer'} />
             <Spinner visible={loading}/>
-            <Content contentContainerStyle={{backgroundColor:currentStyle.background.color}}  
-                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}>
+            <View style={{backgroundColor:currentStyle.background.color, flex:1}}>
+            
+            <Content padder={true} contentContainerStyle={{ backgroundColor:currentStyle.background.color, flexGrow:1}}  
+                refreshControl={<RefreshControl tintColor='white' refreshing={refreshing} onRefresh={onRefresh}/>}>
+
+                
                 
                 {/* EVENT HEADER */}
                 <Card transparent style={{marginVertical:40, width:'90%', alignSelf:'center', 
@@ -185,7 +191,7 @@ export default SwapOffer = (props) => {
                 </Card>
             
                 {/* CURRENT STATUS OF BUYIN */}
-                <Card style={{alignSelf:'center', flex:1, width:'90%', 
+                <Card style={{alignSelf:'center', height:150,  width:'90%', marginBottom:10,
                     paddingTop:15, backgroundColor:'rgb(38, 171, 75)'}}>
                     {/* USERNAME */}
                     <Row style={{justifyContent:'center', marginBottom:10}}>
@@ -235,9 +241,14 @@ export default SwapOffer = (props) => {
                 </Card>
 
                 {/* SWAP BODY PATH */}
-                {currentPath}
-
+                {/* <View style={{flex:1, alignSelf:'center'}}> */}
+                 {currentPath}
+                {/* </View> */}
+                <View style={{height:50}}></View>
             </Content>
+            </View>
+
+            </SafeAreaView>
         </View>
       
     )

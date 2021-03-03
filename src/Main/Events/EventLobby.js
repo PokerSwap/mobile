@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect, useCallback, useRef } from 'rea
 import { Context } from '../../Store/appContext'
 import { useNavigation, useRoute } from '@react-navigation/native'
 
-import { AppState, View, RefreshControl,StatusBar, FlatList, ScrollView } from 'react-native'
+import { AppState, View, RefreshControl,StatusBar, FlatList, ScrollView, SafeAreaView } from 'react-native'
 import { Container, Content, List,ListItem, Spinner, Header, Text } from 'native-base';
 import { HeaderBackButton } from '@react-navigation/stack'
 import messaging from '@react-native-firebase/messaging'
@@ -118,6 +118,7 @@ export default EventLobby = () => {
     	    <StatusBar StatusBarAnimation={'fade'} barStyle={'light-content'}
         	    backgroundColor={'rgb(38, 171, 75)'}/>
         </View>
+        <SafeAreaView style={{flex:1,backgroundColor:currentStyle.header.color}}>
 
         <OtherHeader  title={'Event Lobby'}/>
       
@@ -133,19 +134,24 @@ export default EventLobby = () => {
 
                 {/* TOURNEY BUYIN ENTRIES  */}
                 {!aTournament ? 
-                    <Spinner /> 
+                    <View style={{height:'100%', backgroundColor:currentStyle.background.color}}>
+                        <Spinner /> 
+                    </View>
                     : 
                     <FlatList
                         data={store.currentLobby}
                         renderItem={FlightRow}
                         keyExtractor={(content, index) => index.toString()}
                         refreshControl={
-                            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+                            <RefreshControl refreshing={refreshing} onRefresh={onRefresh}  
+                                title="Refreshing Event..."
+                                tintColor={currentStyle.text.color}
+                                titleColor={currentStyle.text.color}/>}
                         ListFooterComponent={<Text style={{textAlign:'center'}}></Text>} />}          
             </List>
 
         </View> 
-
+        </SafeAreaView>                    
         {/* </BounceColorWrapper> */}
       {/* FOOTER CONTAINS NUMBER OF SWAPS AND ACTION  */}
     </View>

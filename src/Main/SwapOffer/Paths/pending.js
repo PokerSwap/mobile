@@ -36,10 +36,12 @@ export default PendingPath = (props) => {
     }
 
     return(
-        <Card transparent style={{backgroundColor:currentStyle.background.color}}>
+        <View transparent style={{alignSelf:'center',
+            backgroundColor:currentStyle.background.color,width:'90%',
+            alignItems:'center', flexDirection:'column', flex:1}}>
             
             {/* PENDING SWAP INFO - START */}
-            <CardItem style={{justifyContent:'center', 
+            <View style={{justifyContent:'center', 
                 backgroundColor:currentStyle.background.color}}>
                 {swap.percentage ?
                     <View style={{width:'100%', 
@@ -55,20 +57,20 @@ export default PendingPath = (props) => {
                     </View>
                     : 
                     <Spinner />}
-            </CardItem>
+            </View>
             {/* PENDING SWAP INFO - END */}
             
             {/* CANCEL SWAP BUTTON */}
             {swap ?
-                <CardItem style={{justifyContent:'center', 
+                <View style={{justifyContent:'center', marginTop:20, width:'90%', alignSelf:'center',
                     backgroundColor:currentStyle.background.color}}>  
-                    <Button full large style={{width:'100%', backgroundColor:'#a3a3a3'}} 
+                    <Button full large style={{width:'100%', textAlign:'center', backgroundColor:'#a3a3a3'}} 
                         onPress={()=> showAlert()}>
                         <Text>Cancel</Text>
                     </Button>
-                </CardItem>
+                </View>
                 : 
                 null}  
-        </Card>
+        </View>
     )
 }

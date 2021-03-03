@@ -3,7 +3,7 @@ import { Context } from '../Store/appContext'
 import { useNavigation } from '@react-navigation/native'
 import AsyncStorage from '@react-native-community/async-storage'
 
-import { Alert,  Linking, Switch, Text, View, TouchableOpacity } from 'react-native'
+import { Alert,  Linking, Switch, Text, View, TouchableOpacity, SafeAreaView } from 'react-native'
 import { Icon } from 'native-base'
 import { DrawerContentScrollView, DrawerItemList, DrawerItem } from '@react-navigation/drawer'
 
@@ -32,7 +32,8 @@ export default SideBar = (props) => {
 
   return(
     <DrawerContentScrollView style={{backgroundColor:currentStyle.background.color}}{...props}>
-    
+                  <SafeAreaView style={{flex:1,backgroundColor:currentStyle.background.color}}>
+
       <ProfileBioSideBar
         user_id={profile.id}
         first_name={profile.first_name}
@@ -74,7 +75,7 @@ export default SideBar = (props) => {
             ],
             { cancelable: false }
       )}/>
-      
+      </SafeAreaView>
     </DrawerContentScrollView>
   )
 }

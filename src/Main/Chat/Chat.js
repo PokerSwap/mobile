@@ -3,7 +3,7 @@ import React, { useState, useContext, useCallback, useEffect, useRef } from 'rea
 import { Context } from '../../Store/appContext'
 import { useRoute } from '@react-navigation/native'
 
-import { AppState, View, StatusBar } from 'react-native'
+import { AppState, View, StatusBar, SafeAreaView } from 'react-native'
 import { GiftedChat } from 'react-native-gifted-chat'
 
 import OtherHeader from '../../View-Components/OtherHeader';
@@ -81,6 +81,8 @@ export default ChatScreen = (props) => {
                 <StatusBar StatusBarAnimation={'fade'} barStyle={'light-content'}
                 backgroundColor={'rgb(38, 171, 75)'}/>
             </View>
+            <SafeAreaView style={{flex:1,backgroundColor:currentStyle.header.color}}>
+
             <OtherHeader title={nickname}/>
             <GiftedChat
                 messages={messages}
@@ -89,6 +91,7 @@ export default ChatScreen = (props) => {
                     _id: store.myProfile.id,
                     name:store.myProfile.first_name,
                     avatar:store.myProfile.profile_pic_url }} />
+                    </SafeAreaView>
         </View>
         
     )

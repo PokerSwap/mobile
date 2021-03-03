@@ -3,7 +3,7 @@ import { Context } from '../../../Store/appContext'
 import {useNavigation} from '@react-navigation/native'
 
 import { View, Alert } from 'react-native'
-import { Text, Button, Card, CardItem } from 'native-base'
+import { Text, Button,} from 'native-base'
 
 import SpecialOffer from '../Components/specialOffer'
 import StandardOffer from '../Components/standardOffer'
@@ -126,7 +126,7 @@ export default InactivePath = (props) => {
     }
 
   return(
-    <Card transparent style={{backgroundColor:currentStyle.background.color}}>
+    <View transparent style={{backgroundColor:currentStyle.background.color, flex:1}}>
         
         {/* IF YOU HAVE COINS */}
         {store.myProfile.coins > 0 ? 
@@ -149,23 +149,19 @@ export default InactivePath = (props) => {
                     cAdd={cAdd} cSubtract={cSubtract} />
             : 
             // YOU HAVE NO COINS, PURCHASE SOME
-            <View style={{backgroundColor:currentStyle.background.color}}>
-                <CardItem style={{backgroundColor:currentStyle.background.color, 
-                    justifyContent:'center'}}>
+            <View style={{backgroundColor:currentStyle.background.color, justifyContent:'center'}}>
+
                     <Text style={{color:currentStyle.text.color, textAlign:'center'}}> 
                         You need to purchase tokens{'\n'}
                         to swap with this person.
                     </Text>
-                </CardItem>
 
-                <CardItem style={{backgroundColor:currentStyle.background.color, 
-                    justifyContent:'center'}}>
+               
                     <Button large success 
                         onPress={()=> navigation.navigate('Purchase Tokens')}>
                         <Text>Purchase Tokens</Text>
                     </Button>
-                </CardItem>
             </View>}
-        </Card>
+        </View>
     )
 }

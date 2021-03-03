@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Context } from '../../Store/appContext';
 
 import { Text,  Segment, Spinner, ListItem } from 'native-base';
-import {  RefreshControl, FlatList, View, StatusBar} from 'react-native'
+import {  RefreshControl, FlatList, View, StatusBar, SafeAreaView} from 'react-native'
  
 import HomeHeader from "../../View-Components/HomeHeader";
 import EventBody from './Components/EventBody';
@@ -62,7 +62,11 @@ export default EventListings = (props, navigation) => {
                 <StatusBar StatusBarAnimation={'fade'} barStyle={'light-content'}
                         backgroundColor={'rgb(38, 171, 75)'}/>
             </View>
+            <SafeAreaView style={{flex:1,backgroundColor:currentStyle.header.color}}>
+
             <HomeHeader title={'Event Listings'} />
+            <View style={{backgroundColor:currentStyle.background.color, flex:1}}>
+
             
             {/* SEARCH BAR COMPONENT */}
             <Segment style={{backgroundColor:currentStyle.background.color, 
@@ -82,7 +86,10 @@ export default EventListings = (props, navigation) => {
                         refreshControl={
                             <RefreshControl
                                 refreshing={refreshing}
-                                onRefresh={onRefresh} />}
+                                onRefresh={onRefresh} 
+                                title="Refreshing Event Listings..."
+                                tintColor={currentStyle.text.color}
+                                titleColor={currentStyle.text.color}/>}
                         onEndReachedThreshold={0.99}
                         onEndReached ={()=>getMore(page) }
                         ListFooterComponent={<Text style={{textAlign:'center'}}></Text>} />
@@ -92,13 +99,16 @@ export default EventListings = (props, navigation) => {
                         refreshControl={
                             <RefreshControl
                                 refreshing={refreshing}
-                                onRefresh={onRefresh} />}
+                                onRefresh={onRefresh} 
+                                title="Refreshing Event Listings..."
+                                tintColor={currentStyle.text.color}
+                                titleColor={currentStyle.text.color}/>}
                         ListFooterComponent={
                             <Segment style={{ width:'80%', marginTop:20, alignSelf:'center', 
                                 backgroundColor:'rgba(0,0,0,0)'}}>
                                 <Text style={{textAlign:'center', color:currentStyle.text.color, 
                                     fontSize:18, justifyContent:'center'}}> 
-                                    There are no tournamnents under that name in our database
+                                    An error occured. Please make sure you are connected to the internet
                                 </Text>
                             </Segment>} />
                 
@@ -113,6 +123,8 @@ export default EventListings = (props, navigation) => {
                     To start swapping again,{'\n'}
                     please pay your overdue swaps and have the other users confirm payment.
                 </Text> }
+                </View>
+                </SafeAreaView>
         </View>
     )
 }

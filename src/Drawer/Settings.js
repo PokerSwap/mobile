@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Context } from '../Store/appContext'
 import { useNavigation } from '@react-navigation/native';
 
-import {View, Image, Linking} from 'react-native'
+import {View, Image, Linking, SafeAreaView} from 'react-native'
 import { Container, Content, Text, List, ListItem } from 'native-base';
 import { Grid, Row, Col } from 'react-native-easy-grid'
 
@@ -29,6 +29,8 @@ export default SettingsScreen = () => {
 
     return(
         <Container>
+            <SafeAreaView style={{flex:1,backgroundColor:currentStyle.header.color}}>
+
             <OtherHeader title={'Settings'} />
             <Content style={{backgroundColor:currentStyle.background.color}}>      
                 
@@ -127,6 +129,7 @@ export default SettingsScreen = () => {
 
                 </List>
             </Content>  
+            </SafeAreaView>
         </Container>
     )
 }

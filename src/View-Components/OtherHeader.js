@@ -41,7 +41,7 @@ export default OtherHeader = (props) => {
         <View  style={{
             justifyContent:'space-between', flexDirection:'row', 
             alignItems:'flex-end', paddingBottom:12, 
-            backgroundColor:currentStyle.header.color,  height:'10%'}}>
+            backgroundColor:currentStyle.header.color,  }}>
             {/* MENU ICON */}
             <TouchableOpacity disabled={x} onPress={() => {x =true;handler()}}>
                 <Icon  type="Ionicons" name="ios-chevron-back" 

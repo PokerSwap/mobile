@@ -3,7 +3,7 @@ import { Context } from '../../../Store/appContext'
 import { useNavigation } from '@react-navigation/native'
 
 import { TextInput, View, Alert, Modal } from 'react-native'
-import { Text, Card, CardItem, Button, Icon } from 'native-base'
+import { Text, Button, Icon } from 'native-base'
 import { Grid, Row, Col } from 'react-native-easy-grid'
 
 import BustedModal from '../Components/BustedModal'
@@ -25,7 +25,7 @@ export default EditPath = (props) => {
     newTable != '' && newSeat != '' && newChips != '' ?
         isDisabled = false : isDisabled = true
     
-        var currentStyle
+    var currentStyle
     store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
   
     const buyinEdit = async() => {
@@ -78,7 +78,7 @@ export default EditPath = (props) => {
     var bustedEnter = async() => {
         setNewChips(0)
         var answer1 = await actions.buy_in.edit(
-            props.buyin_id, props.newTable, props.newSeat, 
+            props.buyin_id, props.newTable, props.newSeat, true,
             0, props.tournament_id, false)
         var answer2 = await actions.buy_in.busted(
             props.buyin_id, place, winnings, props.tournament_id )
@@ -87,13 +87,13 @@ export default EditPath = (props) => {
     } 
 
     return(
-        <View style={{justifyContent:'center', 
+        <View style={{flex:1, alignSelf:'center', width:'85%',
             backgroundColor:currentStyle.background.color}}>
         
             <View style={ styles.update.view }>
                 <Icon type='FontAwesome5' name='angle-double-down'
                     style={ [styles.update.icon, {color:currentStyle.text.color}] } />
-                <Text style={ [styles.update.title, {color:currentStyle.text.color}] }>
+                <Text style={ [styles.update.title, {color:currentStyle.text.color, marginBottom:20}] }>
                     {'   '}STATUS UPDATE
                 </Text>
                 <Icon type='FontAwesome5' name='angle-double-down'
@@ -115,12 +115,11 @@ export default EditPath = (props) => {
                     mode={'busted'} />  
             </Modal>
 
-            <Card style={{width:'90%', alignSelf:'center', paddingBottom:10, 
-                backgroundColor:currentStyle.background.color}}>
-                <CardItem style={ [styles.field.container, 
-                    {backgroundColor:currentStyle.background.color}] }>
+            
+                {/* <View style={ [styles.field.container, 
+                    {backgroundColor:currentStyle.background.color}] }> */}
                     
-                    <Row style={{alignItems:'center'}}>
+                    <View style={{flexDirection:'row',alignItems:'center'}}>
                         <Text style={ [styles.field.text, {color:currentStyle.text.color}] }>
                             Table:{'  '}
                         </Text>
@@ -158,9 +157,9 @@ export default EditPath = (props) => {
                             onSubmitEditing={() => { txtChips.focus(); }}
                             value={newSeat}    
                             onChangeText={seat => setNewSeat(seat)}/>
-                    </Row>
+                    </View>
 
-                    <Row style={{marginTop:30, alignItems:'center', alignItems:'center'}}>
+                    <View style={{flexDirection:'row',marginTop:30, alignItems:'center', alignItems:'center'}}>
                         <Text style={ [styles.field.text,{color:currentStyle.text.color}] }>
                             Chips:{'  '} 
                         </Text>
@@ -183,16 +182,18 @@ export default EditPath = (props) => {
                                 BUSTED? 
                             </Text>
                         </Button>
-                    </Row>
-                </CardItem>     
-            </Card>
-
+                    </View>
+                {/* </View>      */}
+           <View>
             <Button large  style={ styles.update.button }
-                onPress={()=> buyinEdit()}>
-                <Text style={ styles.update.text }>
-                    UPDATE 
-                </Text>
-            </Button>
+                    onPress={()=> buyinEdit()}>
+                    <Text style={ styles.update.text }>
+                        UPDATE 
+                    </Text>
+                </Button>
+           </View>
+           
+           
             
         </View>
     )
@@ -207,7 +208,7 @@ const styles = {
     },
     field:{
         container:{
-            justifyContent:'center', flex:1, 
+            justifyContent:'center', 
             flexDirection:'column', paddingHorizontal:0 },
         text:{
             fontSize:24, alignItems:'center', textAlign:'center', marginBottom:10 },
@@ -219,8 +220,8 @@ const styles = {
     },
     update:{
         button:{
-            marginTop:10, marginLeft:'5%', width:'90%', 
-            selfAlign:'center', justifyContent:'center' },
+            marginTop:20, width:'90%', 
+            alignSelf:'center', justifyContent:'center' },
         icon:{
             marginLeft:10, fontSize:16 },
         text:{

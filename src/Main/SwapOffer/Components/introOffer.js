@@ -3,7 +3,7 @@ import { Context } from '../../../Store/appContext'
 import { useNavigation } from '@react-navigation/native'
 
 import { View, Alert } from 'react-native'
-import { Button, Card, CardItem, Icon, Text } from 'native-base'
+import { Button, Icon, Text } from 'native-base'
 
 import lightStyle from '../../../Themes/light'
 import darkStyle from '../../../Themes/dark'
@@ -38,43 +38,43 @@ export default IntroOffer = (props) => {
     }
 
     return(
-        <Card transparent style={{
-            alignSelf:'center', width:'90%', justifyContent:'center', 
-            backgroundColor:currentStyle.background.color}}>
+        <View  style={{ alignSelf:'center', height:100, marginTop:10,
+            backgroundColor:currentStyle.background.color, 
+            width:'100%',justifyContent:'center',  }}>
             {store.myProfile.coins > 0 ?
                 // WHEN YOU HAVE ENOUGH TOKENS
                 // BUTTON CONTAINER
-                <View style={{ alignSelf:'center', flexDirection:'column'}}>
+                <View style={{ flex:1, alignSelf:'center', flexDirection:'column'}}>
                     {/* COUNTER REJECT BUTTONS */}
-                    <CardItem style={{justifyContent:'space-between', 
+                    <View style={{ flexDirection:'row', marginBottom:15, justifyContent:'space-between',
                         backgroundColor:currentStyle.background.color}}>
                         {/* COUNTER BUTTON */}
-                        <Button large warning style={{justifyContent:'center'}}
+                        <Button large warning style={{justifyContent:'center', width:'50%'}}
                             onPress={()=> props.setCounter(!props.counter)}>
                             <Text style={{fontWeight:'600'}}> Counter </Text>
                             <Icon style={{marginLeft:-10}} 
                                 type='Ionicons' name='ios-swap-horizontal'/>
                         </Button>
                         {/* REJECT BUTTON */}
-                        <Button large danger 
+                        <Button large danger style={{width:'45%'}}
                             onPress={()=> confirmationAlert('reject','rejected')}>
                             <Text style={{fontWeight:'600'}}> Reject </Text>
                             <Icon style={{marginLeft:-10}} type='Entypo' name='circle-with-cross'/>
                         </Button>
-                    </CardItem>
+                    </View>
 
                     {/* ACCEPT BUTTON */}
-                    <CardItem style={{ backgroundColor:currentStyle.background.color}}>
+                    <View style={{ backgroundColor:currentStyle.background.color}}>
                         <Button success full large style={{width:'100%'}}
                             onPress={()=> confirmationAlert('accept','agreed')}>
                             <Text style={{fontWeight:'600', fontSize:24}}> Accept </Text>
                             <Icon style={{marginLeft:-10, fontSize:36}} type='Ionicons' name='md-checkmark'/>
                         </Button>
-                    </CardItem>
+                    </View>
                 </View>
                 :
                 // WHEN YOU HAVE ZERO TOKENS
-                <CardItem style={{flexDirection:'column', color:currentStyle.background.color}}>
+                <View style={{flexDirection:'column', color:currentStyle.background.color}}>
                    
                     {/* NO TOKENS WARNING */}
                     <Text style={{textAlign:'center', fontSize:18, marginBottom:25}}> 
@@ -95,7 +95,7 @@ export default IntroOffer = (props) => {
                         <Icon style={{marginLeft:-10}} type='Entypo' name='circle-with-cross'/>
                     </Button>
                     
-                </CardItem>}
-        </Card>
+                </View>}
+        </View>
     )
 }

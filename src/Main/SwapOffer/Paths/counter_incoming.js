@@ -3,7 +3,7 @@ import { Context } from '../../../Store/appContext'
 import moment from 'moment'
 
 import { View } from 'react-native'
-import { Card, CardItem, Text, Spinner } from 'native-base'
+import { Text, Spinner } from 'native-base'
 
 import CompareCard from '../Components/CompareCard'
 import CounterOffer from '../Components/counterOffer'
@@ -21,31 +21,30 @@ export default CounterIncomingPath = (props) => {
     var currentStyle
     store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
     return(
-        <Card transparent style={{ alignSelf:'center', width:'95%', 
-            justifyContent:'center', backgroundColor:currentStyle.background.color}}>
+        <View transparent style={{ alignSelf:'center', width:'95%', flex:1, flexDirection:'column',
+            justifyContent:'flex-start', backgroundColor:currentStyle.background.color}}>
             
             {/* COUNTER SWAP INFO */}
-            <CardItem style={{ 
-                alignSelf:'center', backgroundColor:currentStyle.background.color}}>
-                {swap.percentage ?
-                    <View style={{
-                        width:'100%', backgroundColor:currentStyle.background.color}}>
-                        <Text style={{
-                            fontSize:20, textAlign:'center', color:currentStyle.text.color}}>
-                            COUNTER SWAP{'\n'}{moment(swap.updated_at).fromNow()}
-                        </Text>
-                        <CompareCard 
-                            buyin={buyin}
-                            percentage={swap.percentage} 
-                            counter_percentage={swap.counter_percentage}
-                            youColor={'blue'} themColor={'green'} />
-                    </View>
-                : <Spinner />}
-            </CardItem>
+            
+            {swap.percentage ?
+            !counter ?
+                <View style={{
+                    width:'100%', backgroundColor:currentStyle.background.color}}>
+                    <Text style={{ textAlign:'center', color:currentStyle.text.color}}>
+                        COUNTER SWAP{'\n'}{moment(swap.updated_at).fromNow()}
+                    </Text>
+                    <CompareCard 
+                        buyin={buyin}
+                        percentage={swap.percentage} 
+                        counter_percentage={swap.counter_percentage}
+                        youColor={'blue'} themColor={'green'} />
+                </View>
+                : null
+            : <Spinner />}
 
             {/* COUNTER SWAP INTERACTION UI */}
             {swap ? 
-                counter == false ?
+                !counter ?
                     <IntroOffer buyin_id={buyin.id}
                         setLoading={props.setLoading} onRefresh={props.onRefresh}
                         percentage={swap.percentage} 
@@ -60,6 +59,6 @@ export default CounterIncomingPath = (props) => {
                         counter={counter} setCounter={setCounter} />
                 : 
                 null}
-        </Card>
+        </View>
     )
 }

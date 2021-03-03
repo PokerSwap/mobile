@@ -9,17 +9,17 @@ import firebase from 'firebase'; // 4.8.1
 import { initial } from 'lodash';
 var databaseURL
 
-// Platform.OS == 'ios' ?
-// 	databaseURL = 'http://gabriels-imac.local:3000/' : databaseURL = 'http://10.0.2.2:3000/'
+Platform.OS == 'ios' ?
+	databaseURL = 'http://gabriels-imac.local:3000/' : databaseURL = 'http://10.0.2.2:3000/'
 
 
-databaseURL = 'https://swapprofit-beta.herokuapp.com/'
+// databaseURL = 'https://swapprofit-beta.herokuapp.com/'
 
 
 var errorMessage = (error) => {
 	Toast.show({
 		text:error, 
-		duration:3000, 
+		duration:3000,  
 		position:'bottom',
 		style:{bottom: "20%",backgroundColor:'red'}
 	})
@@ -132,10 +132,14 @@ const getState = ({ getStore, setStore, getActions }) => {
 
 						}
 
+
+
 						if (some_chips == 0){
 							return customMessage('You can not enter with zero chips')
 
 						}
+
+						
 						// BUYIN DATA SETUP
 						var newBuyin
 						let accessToken = getStore().userToken
@@ -243,7 +247,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 						// }else{null}
 
 						// VALIDATING BUYIN (DONE ONCE)
-						var validatingBuyin = await getActions().buy_in.edit(newBuyin.buyin_id, a_table, a_seat, some_chips, a_tournament.tournament_id, true)
+						var validatingBuyin = await getActions().buy_in.edit(
+							newBuyin.buyin_id, a_table, a_seat, some_chips, a_tournament.tournament_id, true)
 						console.log("CHECK THIS BITCH ASS",a_tournament)
 						var enteringTournament = await navigation.push('Event Lobby', {
 							tournament: a_tournament,
@@ -333,7 +338,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					console.log('incorrect buyin deleted:', weeee)
 				},
 				// EDITING YOUR BUYIN
-				edit: async ( a_buyin_id, a_table, a_seat, some_chips, a_tournament_id, special) => {
+				edit: async ( a_buyin_id, a_table, a_seat,  some_chips, a_tournament_id, special) => {
 					try{
 						const accessToken = getStore().userToken
 						let url
@@ -858,7 +863,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 						// PREVENTS ENTERING CLOSED TOURNAMENT
 						if (currentTournament.tournament.tournament_status !== 'open'){
 							setStore({notificationData:null})
-							var e = await navigation.navigate('Active Swaps')
+							var e = await navigation.navigate('Event Listings')
 							return errorMessage('This event is not open')
 						}
 
@@ -880,7 +885,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 					}catch(error){
 						console.log("Something went wrong with navigating to event:", error)
 						setStore({notificationData:null})
-						navigation.navigate('Active Swaps')
+						navigation.navigate('Event Listings')
 					}
 				},
 				// NAVIGATING TO SWAP AFTER NOTIFICATION
@@ -1041,19 +1046,19 @@ const getState = ({ getStore, setStore, getActions }) => {
 							} else {
 								console.log('No Notification Recieved or Error: ')
 								setStore({notificationData:null})
-								navigation.navigate('Active Swaps')		
+								navigation.navigate('Event Listings')		
 
 							}
 						}
 						// NO NEW NOTIFICATION RECIEVED
 						else {
 							setStore({notificationData:{}})
-							navigation.navigate('Active Swaps')		
+							navigation.navigate('Event Listings')		
 						}
 					} catch(error) {
 						console.log('Something went wrong checking notification data', error)
 						setStore({notificationData:null})
-						navigation.navigate('Active Swaps')
+						navigation.navigate('Event Listings')
 					}
 				},
 

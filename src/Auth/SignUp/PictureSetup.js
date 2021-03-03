@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import { openSettings, requestMultiple, PERMISSIONS } from 'react-native-permissions';
 
-import { Image, Platform } from 'react-native';
-import { Button, Card, CardItem, Text } from 'native-base';
+import { Image, Platform, View } from 'react-native';
+import { Button, Icon, Text } from 'native-base';
 import ImagePicker from 'react-native-image-picker';
 
 import '../../Images/placeholder.jpg';
@@ -110,28 +110,59 @@ export default  PictureSetup = (props) => {
     props.f()
 
     return(
-        <Card transparent>
+        <View style={{justifyContent:'center', alignSelf:'center', flex:1, flexDirection:'column',
+            backgroundColor:'white',  textAlign:'center'}}>
+
+<View style={{width:'80%', flex:1, alignSelf:'center', justifyContent:'center'}}>
 
             {/* IMAGE PREVIEW */}
-            <CardItem header style={{justifyContent:'center'}}>
-                <Image source={{uri:image}}
-                    style={{height:150, width:150, marginTop:25, borderRadius:500}}>
-                </Image>
-            </CardItem>
-
-            {/* PICTURE INSTRUCTIONS */}
-            <CardItem body style={{justifyContent:'center'}}>
-                <Text style={{fontSize:24}}>
+            <Image source={{uri:image}}
+                style={{height:200, alignSelf:'center', width:200, marginTop:20, borderRadius:500}}>
+            </Image>
+                {/* PICTURE INSTRUCTIONS */}
+                <Text style={{fontSize:24, marginTop:20, marginBottom:20,  textAlign:'center'}}>
                     Choose a profile picture of yourself to upload.
                 </Text>
-            </CardItem>
-            
-            {/* UPLOAD BUTTON */}
-            <CardItem footer style={{justifyContent:"center"}}>
-                <Button large onPress={() => choosePhoto()}>
+                {/* UPLOAD BUTTON */}
+                <Button large style={{alignSelf:'center'}} large onPress={() => choosePhoto()}>
                     <Text> UPLOAD </Text>
                 </Button>
-            </CardItem>
-        </Card>
+            </View>
+                
+            
+            
+
+            <View style={{flexDirection:'row', marginTop:20}}>
+                <View style={{width:'50%'}}>
+                    {props.page !== 0 ?
+                        <Button  large iconLeft transparent 
+                            style={{alignSelf:'center'}} onPress={()=> props.prev()}>
+                            <Icon name='arrow-back'/>
+                            <Text>Prev.</Text>
+                        </Button>
+                        :
+                        null}
+                </View>
+                
+                <View style={{width:'50%'}}>
+                    {props.page !== 2 ?
+                        <Button disabled={x} large iconRight transparent 
+                            style={{alignSelf:'center'}} onPress={() => props.next()}>
+                            <Text>Next</Text>
+                            <Icon name='arrow-forward'/>
+                        </Button>
+                        :
+                        <Button style={{alignSelf:'center'}} large  transparent 
+                            onPress={() => createProfile()}>
+                            <Text>Finalize</Text>
+                        </Button>}
+                    </View>
+                </View>
+                
+            <Button large style={{marginBottom:30, marginTop:30, alignSelf:'center'}} 
+                onPress={() => navigation.goBack()}>
+                <Text>Exit To Login</Text>
+            </Button>
+        </View>
     )
 }

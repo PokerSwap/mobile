@@ -14,34 +14,34 @@ export default CompareCard = (props) => {
     var currentStyle
     store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
     return(
-        <CardItem style={{justifyContent:'center', backgroundColor:currentStyle.background.color}}>
-            <Row>
+        <Row style={{justifyContent:'center', alignSelf:'center', width:'100%', marginVertical:10,
+            height:100, backgroundColor:currentStyle.background.color}}>
+            
+            {/* YOUR SWAP PERCENTAGE */}
+            <Col>
+                <Text style={[styles.userTitle, {color:currentStyle.text.color}]}>
+                    You Give
+                </Text>
                 
-                {/* YOUR SWAP PERCENTAGE */}
-                <Col>
-                    <Text style={[styles.userTitle, {color:currentStyle.text.color}]}>
-                        You Give
+                <View style={[styles.percentageView,{backgroundColor:props.youColor}]}>
+                    <Text style={styles.percentageText}>
+                        {props.percentage}%
                     </Text>
-                    <View style={[styles.percentageView,{backgroundColor:props.youColor}]}>
-                        <Text style={styles.percentageText}>
-                            {props.percentage}%
-                        </Text>
-                    </View>
-                </Col>
+                </View>
+            </Col>
 
-                {/* THEIR SWAP PERCENTAGE */}
-                <Col>
-                    <Text style={[styles.userTitle, {color:currentStyle.text.color} ]}>
-                        They Give
+            {/* THEIR SWAP PERCENTAGE */}
+            <Col>
+                <Text style={[styles.userTitle, {color:currentStyle.text.color} ]}>
+                    They Give
+                </Text>
+                <View style={[styles.percentageView,{backgroundColor:props.themColor}]}>
+                    <Text style={styles.percentageText}>
+                        {props.counter_percentage}%
                     </Text>
-                    <View style={[styles.percentageView,{backgroundColor:props.themColor}]}>
-                        <Text style={styles.percentageText}>
-                            {props.counter_percentage}%
-                        </Text>
-                    </View>
-                </Col>
-            </Row>
-        </CardItem>
+                </View>
+            </Col>
+        </Row>
     )
 }
 
@@ -52,5 +52,5 @@ const styles = {
         justifyContent:'center', alignSelf:'center', alignItems:'center',
         height:60, width:'75%',},
     userTitle:{
-        fontSize:24, fontWeight:'600', marginBottom:5, textAlign:'center'},
+        fontSize:24, fontWeight:'600', marginBottom:10, textAlign:'center'},
 }

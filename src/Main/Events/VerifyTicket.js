@@ -4,7 +4,7 @@ import { useRoute, useNavigation } from '@react-navigation/native';
 import {openSettings, requestMultiple, PERMISSIONS} from 'react-native-permissions';
 
 import { Image,  TextInput, KeyboardAvoidingView, Modal, 
-  Platform, Alert, StatusBar, View } from 'react-native';
+  Platform, Alert, StatusBar, View, Keyboard, SafeAreaView } from 'react-native';
 import { Container,  Button, Text, Content, Card, CardItem, Icon} from 'native-base';
 import { Grid, Col } from 'react-native-easy-grid';
 import Spinner from 'react-native-loading-spinner-overlay'
@@ -15,6 +15,7 @@ import InfoModal from './Components/InfoModal'
 
 import darkStyle from '../../Themes/dark.js'
 import lightStyle from '../../Themes/light.js'
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default VerifyTicket = (props) => {
     const { store, actions } = useContext(Context)
@@ -23,6 +24,7 @@ export default VerifyTicket = (props) => {
     const [ table, setTable ]= useState('');
     const [ seat, setSeat ] = useState('');
     const [ chips, setChips ] = useState('');
+    // const [ submittedChips, setSubmittedChips ] = useState(false);
     const [ loading, setLoading ] = useState(false)
     const [ info, setInfo ] = useState(false)
     const [ visible, setVisible ] = useState(false)
@@ -36,6 +38,7 @@ export default VerifyTicket = (props) => {
     var navigation = useNavigation();
     var route = useRoute();
     const { tournament, tournament_id } = route.params;
+
 
     useEffect(() => {
         getTournament()
@@ -140,7 +143,7 @@ export default VerifyTicket = (props) => {
     const BuyInStart = async() => {
         setLoading(true)
         var x = await actions.buy_in.add( 
-        image, table, seat, chips, 
+        image, table, seat, chips,
         tournament, tournament_id, navigation )
         setLoading(false)
     }
@@ -161,6 +164,8 @@ export default VerifyTicket = (props) => {
                 <StatusBar StatusBarAnimation={'fade'} barStyle={'light-content'}
                     backgroundColor={'rgb(38, 171, 75)'}/>
             </View>
+            <SafeAreaView style={{flex:1,backgroundColor:currentStyle.header.color}}>
+
             <OtherHeader title={"Verify Ticket"} />
             <Content style={{backgroundColor:currentStyle.background.color, flexGrow:1}}>
                 <Spinner visible={loading} />
@@ -197,9 +202,9 @@ export default VerifyTicket = (props) => {
                         <CardItem style={{selfAlign:'center', flex:1, marginBottom:-10,
                             backgroundColor:currentStyle.background.color,
                             justifyContent:'center', flexDirection:'column'}}>
-                            <Text style={{textAlign:'center', fontWeight:'600', fontSize:18, 
+                            <Text style={{textAlign:'center', fontWeight:'600', fontSize:16, 
                                 color:currentStyle.text.color,  flex:1}}>
-                                Enter the information and upload a photo of your tournament buyin ticket.
+                                Enter the information and upload a photo of your tournament buy-in ticket.
                             </Text>
                         </CardItem>
 
@@ -207,78 +212,93 @@ export default VerifyTicket = (props) => {
                     {/* EVENT INFO - END */}
 
                     {/* BUYIN TICKET SUBMISSION - START */}
-                    <Card transparent style={{backgroundColor:currentStyle.background.color}}>
-                        <CardItem style={{backgroundColor:currentStyle.background.color}}>
-                            <Grid>
+                    <Card transparent 
+                        style={{backgroundColor:currentStyle.background.color, marginTop:0}}>
+                        <CardItem style={{backgroundColor:currentStyle.background.color, flex:1, 
+                            justifyContent:'space-between'}}>
 
                                 {/* BUYIN TICKET - IMAGE UPLOAD FIELD */}
-                                <Col style={{justifyContent:'center'}}>
+                                <View style={{ width:'50%', justifyContent:'flex-end'}}>
                                     <Image source={image} style={{width:175, height:175}} />
                                     <Button style={{width:175, justifyContent:'center'}} 
                                         onPress={()=> askPersmission()}>
                                         <Icon type='FontAwesome5' name='plus' style={{color:'white'}}/>
                                     </Button>
-                                </Col>
+                                </View>
                                 
                                 {/* BUYIN TICKET - DETAIL INPUTS - START */}
-                                <Col style={{justifyContent:'center'}}>
+                                <View style={{justifyContent:'center',width:'45%'}}>
                                     
                                     {/* TABLE INPUT - START */}
-                                    <Text style={[styles.text.input, {color:currentStyle.text.color}]}>
+                                    
+                                    <Text style={[styles.text.input, {color:currentStyle.text.color, marginTop:0}]}>
                                         Table: 
                                     </Text>
-                                    <TextInput 
-                                        placeholder="Table #"
-                                        placeholderTextColor='gray'
-                                        keyboardType="number-pad"
-                                        blurOnSubmit={false}
-                                        style={[styles.input, {color:currentStyle.text.color}]}
-                                        returnKeyType="done"
-                                        allowFontScaling={false}
-                                        autoCorrect={false} 
-                                        onSubmitEditing={() => { textSeat.focus({pageYOffset:56})}}
-                                        value={table}    
-                                        onChangeText={tableX => setTable( tableX )}/>
-                                    {/* TABLE INPUT - END */}
-                                    
+                                    <View style={{borderWidth:1, paddingVertical:10, width:'80%',alignSelf:'center', 
+                                        borderColor:currentStyle.text.color}}>
+                                        <TextInput 
+                                            placeholder="Table #"
+                                            placeholderTextColor='gray'
+                                            selectionColor={currentStyle.text.color}
+                                            keyboardType="number-pad"
+                                            blurOnSubmit={false}
+                                            style={[styles.input, {color:currentStyle.text.color}]}
+                                            returnKeyType="done"
+                                            allowFontScaling={false}
+                                            autoCorrect={false} 
+                                            onSubmitEditing={() => { textSeat.focus({pageYOffset:56})}}
+                                            value={table}    
+                                            onChangeText={tableX => setTable( tableX )}/>
+                                    </View>
+                                     {/* TABLE INPUT - END */}
+
                                     {/* SEAT INPUT - START */}
-                                    <Text style={[styles.text.input, {color:currentStyle.text.color}]}>
-                                        Seat: 
-                                    </Text>
-                                    <TextInput 
-                                        placeholder="Seat #"
-                                        placeholderTextColor='gray'
-                                        keyboardType="number-pad"
-                                        blurOnSubmit={false}
-                                        returnKeyType="done"
-                                        autoCorrect={false} 
-                                        style={[styles.input, {color:currentStyle.text.color}]}
-                                        ref={(input) => { textSeat = input; }} 
-                                        onSubmitEditing={() => { textChips.focus(); }}
-                                        value={seat}    
-                                        onChangeText={seatX => setSeat( seatX )}/>
+                                        <Text style={[styles.text.input, {color:currentStyle.text.color}]}>
+                                            Seat: 
+                                        </Text>
+                                        <View style={{borderWidth:1, paddingVertical:10, width:'80%',
+                                            alignSelf:'center', borderColor:currentStyle.text.color}}>
+                                        <TextInput 
+                                            placeholder="Seat #"
+                                            placeholderTextColor='gray'
+                                            selectionColor={currentStyle.text.color}
+                                            keyboardType="number-pad"
+                                            blurOnSubmit={false}
+                                            returnKeyType="done"
+                                            autoCorrect={false} 
+                                            style={[styles.input, {color:currentStyle.text.color}]}
+                                            ref={(input) => { textSeat = input; }} 
+                                            onSubmitEditing={() => { textChips.focus(); }}
+                                            value={seat}    
+                                            onChangeText={seatX => setSeat( seatX )}/>
+                                    </View>
                                     {/* SEAT INPUT - END */}
 
                                     {/* CHIPS INPUT - START */}
-                                    <Text style={[styles.text.input, {color:currentStyle.text.color}]}>
-                                        Chips: 
-                                    </Text>
-                                    <TextInput 
-                                        placeholder="# of Chips"
-                                        placeholderTextColor='gray'
-                                        keyboardType="number-pad"
-                                        returnKeyType="done"
-                                        autoCorrect={false} 
-                                        blurOnSubmit={true}
-                                        style={[styles.input, {color:currentStyle.text.color}]}
-                                        ref={(input) => { textChips = input; }} 
-                                        value={chips}    
-                                        onChangeText={chips => setChips( chips )}/>
+                                    
+                                                <Text style={[styles.text.input, {color:currentStyle.text.color}]}>
+                                                    Chips: 
+                                                </Text>
+                                                <View style={{borderWidth:1, paddingVertical:10, width:'80%', 
+                                                    alignSelf:'center', borderColor:currentStyle.text.color}}>
+                                                    <TextInput 
+                                                        placeholder="# of Chips"
+                                                        placeholderTextColor='gray'
+                                                        selectionColor={currentStyle.text.color}
+                                                        keyboardType="number-pad"
+                                                        returnKeyType="done"
+                                                        autoCorrect={false} 
+                                                        blurOnSubmit={true}
+                                                        style={[styles.input, {color:currentStyle.text.color}]}
+                                                        ref={(input) => { textChips = input; }} 
+                                                        value={chips}    
+                                                        onChangeText={chips => setChips( chips )}/>
+                                                </View>
+
                                     {/* CHIPS INPUT - END */}
 
-                                </Col>
+                                </View>
                                 {/* BUYIN TICKET - DETAIL INPUTS - END */}
-                            </Grid>
                         </CardItem>
 
                         {/* SUBMIT BUTTON */}
@@ -296,6 +316,7 @@ export default VerifyTicket = (props) => {
 
                 </KeyboardAvoidingView>
             </Content>
+            </SafeAreaView>
         </Container>
     )
 }
@@ -304,55 +325,55 @@ var styles
 
 
 const iosStyles = {
-  button:{
-    paddingVertical:20, width:'100%', justifyContent:'center' 
-  },
-  container:{
     button:{
-      justifyContent:'center', width:1000, 
-      paddingTop:0, marginTop:0, paddingRight:0, paddingLeft:0},
-    main:{
-      alignItems:'center', justifyContent:'center', marginBottom:0 },
+        paddingVertical:20, width:'100%', justifyContent:'center' 
+    },
+    container:{
+        button:{
+            justifyContent:'center', width:1000, 
+            paddingTop:0, marginTop:0, paddingRight:0, paddingLeft:0},
+        main:{
+            alignItems:'center', justifyContent:'center', marginBottom:0 },
+        image:{
+            justifyContent:'center', width:200, flex:1, flexDirection:'column' }
+    },
     image:{
-      justifyContent:'center', width:200, flex:1, flexDirection:'column' }
-  },
-  image:{
-    height:200, width:200, marginTop:10 },
-  input:{
-    justifyContent:'center', fontSize:24, color:'black', textAlign:'center'},
-  text:{
+        height:200, width:200, marginTop:10 },
     input:{
-      fontSize:24, marginBottom:0, textAlign:'center', marginTop:10, marginBottom:3},
-    instruction:{
-       fontSize:20, textAlign:'center', marginTop:0},
-    button:{
-      fontWeight:'600', fontSize:24, textAlign:'center'}
-  }
+        justifyContent:'center', fontSize:24, color:'black', textAlign:'center'},
+    text:{
+        input:{
+            fontSize:24, marginBottom:0, textAlign:'center', marginTop:10, marginBottom:3},
+        instruction:{
+            fontSize:20, textAlign:'center', marginTop:0},
+        button:{
+            fontWeight:'600', fontSize:24, textAlign:'center'}
+    }
 }
 
 const androidStyles = {
-  button:{
-    paddingVertical:20, width:'100%', justifyContent:'center' 
-  },
-  container:{
     button:{
-      justifyContent:'center', width:1000, 
-      paddingTop:0, marginTop:0, paddingRight:0, paddingLeft:0},
-    main:{
-      alignItems:'center', justifyContent:'center', marginBottom:0 },
+        paddingVertical:20, width:'100%', justifyContent:'center' 
+    },
+    container:{
+        button:{
+            justifyContent:'center', width:1000, 
+            paddingTop:0, marginTop:0, paddingRight:0, paddingLeft:0},
+        main:{
+            alignItems:'center', justifyContent:'center', marginBottom:0 },
+        image:{
+            justifyContent:'center', width:200, flex:1, flexDirection:'column' }
+    },
     image:{
-      justifyContent:'center', width:200, flex:1, flexDirection:'column' }
-  },
-  image:{
-    height:200, width:200, marginTop:10 },
-  input:{
-    justifyContent:'center', fontSize:20, color:'black', textAlign:'center'},
-  text:{
+        height:200, width:200, marginTop:10 },
     input:{
-      fontSize:20, marginBottom:0, textAlign:'center', marginTop:3, marginBottom:-3},
-    instruction:{
-       fontSize:20, textAlign:'center', marginTop:0},
-    button:{
-      fontWeight:'600', fontSize:24, textAlign:'center'}
-  }
-}
+        justifyContent:'center', fontSize:20, color:'black', textAlign:'center'},
+    text:{
+        input:{
+            fontSize:20, marginBottom:0, textAlign:'center', marginTop:3, marginBottom:-3},
+        instruction:{
+            fontSize:20, textAlign:'center', marginTop:0},
+        button:{
+            fontWeight:'600', fontSize:24, textAlign:'center'}
+    }
+    }

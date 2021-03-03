@@ -3,7 +3,7 @@ import { Context } from '../../Store/appContext'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import moment from 'moment-timezone'
 
-import { AppState, Modal, View, FlatList, RefreshControl, StatusBar } from 'react-native';
+import { AppState, Modal, View, FlatList, RefreshControl, StatusBar, SafeAreaView } from 'react-native';
 import { Container, Content, List, Text, ListItem, Button, Segment } from 'native-base';
 import Spinner from 'react-native-loading-spinner-overlay'
 import { Grid, Row, Col } from 'react-native-easy-grid'
@@ -166,6 +166,8 @@ export default SwapResults = (props) => {
                 tournament_id={tournament.id}
                 mode={'entry'} />  
             </Modal>
+            <SafeAreaView style={{flex:1,backgroundColor:currentStyle.header.color}}>
+
             <View style={{backgroundColor:currentStyle.background.color, height:'100%'}}>
             
                 {/* NO SWAPS TEXT */}
@@ -218,7 +220,7 @@ export default SwapResults = (props) => {
                     </View> } />
                   
             </View>     
-
+            </SafeAreaView>
         </Container>
     )
 }

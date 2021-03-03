@@ -2,8 +2,8 @@ import React, { useContext, useState } from 'react';
 import { Context } from '../../Store/appContext';
 import { useNavigation} from '@react-navigation/native'
 
-import { Image } from 'react-native';
-import { Button, Card, Text, CardItem } from 'native-base';
+import { Image, View } from 'react-native';
+import { Button, Text, Icon } from 'native-base';
 import Spinner from 'react-native-loading-spinner-overlay'
 
 export default  ProfileReview = (props) => {
@@ -27,35 +27,62 @@ export default  ProfileReview = (props) => {
 	}
 
 	return(
-		<Card transparent style={{flexDirection:'column'}}>
+		<View style={{justifyContent:'center', alignSelf:'center', flex:1, flexDirection:'column',
+            backgroundColor:'white',  textAlign:'center'}}>
 			<Spinner visible={loading} />
 			
 			{/* PROFILE PICTURE FIELD */}
-			<CardItem transparent style={{justifyContent:'center'}}>
-				<Image source={{uri: props.picture.uri}} 
-					style={{height:100, width:100, marginTop:25, borderRadius:500}}/>
-			</CardItem>
+			<Image source={{uri: props.picture.uri}} 
+				style={{height:200, alignSelf:'center', width:200, marginTop:25, borderRadius:500}}/>
 			
 			{/* PROFILE NAME FIELD */}
-			<CardItem transparent style={{flexDirection:'column',marginVertical:10}}>
-				<Text style={{textAlign:'center', fontSize:20,fontWeight:'bold'}}>
-					Profile Name
-				</Text>
-				<Text style={{fontWeight:'600'}}>
-					{props.first_name} {props.last_name}
-				</Text>
-			</CardItem>
+			<Text style={{textAlign:'center', fontSize:24,fontWeight:'bold',marginVertical:10}}>
+				Profile Name
+			</Text>
+			<Text style={{fontWeight:'600',fontSize:24, textAlign:'center',}}>
+				{props.first_name} {props.last_name}
+			</Text>
 			
 			{/* NICKNAME FIELD */}
-			<CardItem transparent style={{flexDirection:'column',marginVertical:10}}>
-				<Text style={{textAlign:'center', fontSize:20,fontWeight:'bold'}}>
-					Nick Name
-				</Text>
-				<Text style={{textAlign:'center', fontSize:20}}>
-					{props.nickname ? props.nickname : "No Nickname Entered"}
-				</Text>
-			</CardItem>
+			<Text style={{textAlign:'center', fontSize:24,fontWeight:'bold',marginVertical:10}}>
+				Nick Name
+			</Text>
+			<Text style={{textAlign:'center', fontSize:24}}>
+				{props.nickname ? props.nickname : "No Nickname Entered"}
+			</Text>
 
-		</Card>
+			<View style={{flexDirection:'row', marginTop:20}}>
+                <View style={{width:'50%'}}>
+                    {props.page !== 0 ?
+                        <Button  large iconLeft transparent 
+                            style={{alignSelf:'center'}} onPress={()=> props.prev()}>
+                            <Icon name='arrow-back'/>
+                            <Text>Prev.</Text>
+                        </Button>
+                        :
+                        null}
+                </View>
+                
+                <View style={{width:'50%'}}>
+                    {props.page !== 2 ?
+                        <Button disabled={x} large iconRight transparent 
+                            style={{alignSelf:'center'}} onPress={() => props.next()}>
+                            <Text>Next</Text>
+                            <Icon name='arrow-forward'/>
+                        </Button>
+                        :
+                        <Button style={{alignSelf:'center'}} large  transparent 
+                            onPress={() => props.createProfile()}>
+                            <Text>Finalize</Text>
+                        </Button>}
+                    </View>
+                </View>
+                
+            <Button large style={{marginBottom:30, marginTop:30, alignSelf:'center'}} 
+                onPress={() => navigation.goBack()}>
+                <Text>Exit To Login</Text>
+            </Button>
+
+		</View>
 	)
 }

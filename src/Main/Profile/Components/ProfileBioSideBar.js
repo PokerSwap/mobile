@@ -82,7 +82,7 @@ const styles ={
     },
     picture:{
         container:{
-        marginLeft:10, width: 100, height:100, 
+        marginLeft:10, marginRight:10, width: 100, height:100, 
         position: 'relative',
         overflow: 'hidden', borderRadius: 100},
         image:{

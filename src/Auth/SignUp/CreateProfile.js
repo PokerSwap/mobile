@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Content, Container, Tab, Tabs,Icon, Button, Text } from 'native-base';
-import { View} from 'react-native'
+import { View, Platform, KeyboardAvoidingView, SafeAreaView, Keyboard} from 'react-native'
 import Spinner from 'react-native-loading-spinner-overlay'
 
 import {Context} from '../../Store/appContext'
@@ -10,6 +10,13 @@ import NameSetup from './NameSetup';
 import PictureSetup from './PictureSetup';
 import HendonSetup from './HendonSetup';
 import { useNavigation } from '@react-navigation/native'
+
+
+var a_behavior, offBy, marginee
+if (Platform.OS == 'ios'){
+  a_behavior='position', offBy= -100, marginee=20
+} else {
+  a_behavior='padding', offBy = -600, marginee = 30}
 
 export default CreateProfile = (props) => {
 
@@ -70,82 +77,88 @@ export default CreateProfile = (props) => {
     }
 
     return(
-        <Container>
-            <Content contentContainerStyle={{flex:1, justifyContent:"center"}}>      
+        <SafeAreaView style={{flex:1, flexGrow:1}}>
             <Spinner visible={loading} />
-   
-                <Tabs locked initialPage={0} page={page}>
-                    
-                    {/* NAME PAGE */}
-                    <Tab disabled heading="Name">
-                        <NameSetup 
+
+
+            {/* CREATE PROFILE TABS */}
+            <Tabs  locked initialPage={0} page={page}>
+            
+
+                {/* NAME PAGE */}
+                <Tab style={{flex:1}} disabled heading="Name">
+                    <NameSetup 
                         e={()=> e()}
                         prev={() => prevPage()} 
-                        next={() => nextPage()} 
+                        next={() => {nextPage(); Keyboard.dismiss()}} 
+                        page={page}
                         first_name= {first_name} 
                         onChangeFirstName={first_name => setFirstName( first_name )}
                         last_name= {last_name} 
                         onChangeLastName={last_name => setLastName( last_name )}
                         nickname= {nickname}
                         onChangeNickName={nickname => setNickName( nickname )}/>
-                    </Tab>
+                </Tab>
 
-                    {/* PICTURE PAGE */}
-                    <Tab disabled heading="Picture">
-                        <PictureSetup 
+
+                {/* PICTURE PAGE */}
+                <Tab disabled heading="Picture">
+                    <PictureSetup 
                         f={() => f()}
+                        page={page}
                         prev={() => prevPage()}
                         next={() => nextPage()}
                         picture= {picture}
                         onChangePicture={picture => setPicture( picture )}/>
-                    </Tab>
-                    {/* REVIEW PAGE */}
-                    <Tab disabled heading="Review">
-                        <ProfileReview 
+                </Tab>
+                {/* REVIEW PAGE */}
+                <Tab disabled heading="Review">
+                    <ProfileReview 
+                        page={page}
                         prev={() => prevPage()}
+                        createProfile={createProfile}
                         first_name= {first_name} 
                         last_name= {last_name} 
                         nickname= {nickname}
-                        picture= {picture}
-                        // hendon= {hendon} 
-                        />
-                    </Tab>
-                </Tabs>
-                <View style={{flexDirection:'column'}}>
-                    <View style={{flexDirection:'row', marginTop:20}}>
-                        <View style={{width:'50%'}}>
-                            {page !== 0 ?
-                                <Button  large iconLeft transparent 
-                                    style={{alignSelf:'center'}} onPress={()=> prevPage()}>
-                                    <Icon name='arrow-back'/>
-                                    <Text>Prev.</Text>
-                                </Button>
-                                :
-                                null}
+                        picture= {picture}  />
+                </Tab>
+            </Tabs>
+            
+            {/* CREATE PROFILE NAVIGATION
+            <View style={{flexDirection:'column', backgroundColor:'white',}}>
+                <View style={{flexDirection:'row', marginTop:20}}>
+                    <View style={{width:'50%'}}>
+                        {page !== 0 ?
+                            <Button  large iconLeft transparent 
+                                style={{alignSelf:'center'}} onPress={()=> prevPage()}>
+                                <Icon name='arrow-back'/>
+                                <Text>Prev.</Text>
+                            </Button>
+                            :
+                            null}
+                    </View>
+                    
+                    <View style={{width:'50%'}}>
+                        {page !== 2 ?
+                            <Button disabled={x} large iconRight transparent 
+                                style={{alignSelf:'center'}} onPress={() => nextPage()}>
+                                <Text>Next</Text>
+                                <Icon name='arrow-forward'/>
+                            </Button>
+                            :
+                            <Button style={{alignSelf:'center'}} large  transparent 
+                                onPress={() => createProfile()}>
+                                <Text>Finalize</Text>
+                            </Button>}
                         </View>
-                        
-                        <View style={{width:'50%'}}>
-                            {page !== 2 ?
-                                <Button disabled={x} large iconRight transparent 
-                                    style={{alignSelf:'center'}} onPress={() => nextPage()}>
-                                    <Text>Next</Text>
-                                    <Icon name='arrow-forward'/>
-                                </Button>
-                                :
-                                <Button style={{alignSelf:'center'}} large  transparent 
-                                    onPress={() => createProfile()}>
-                                    <Text>Finalize</Text>
-                                </Button>}
-                            </View>
-                        </View>
-                        
-                    <Button large style={{marginBottom:30, marginTop:30, alignSelf:'center'}} 
-                        onPress={() => navigation.goBack()}>
-                        <Text>Exit To Login</Text>
-                    </Button>
-                </View>
-                
-            </Content>   
-        </Container>  
+                    </View>
+                    
+                <Button large style={{marginBottom:30, marginTop:30, alignSelf:'center'}} 
+                    onPress={() => navigation.goBack()}>
+                    <Text>Exit To Login</Text>
+                </Button>
+            </View> */}
+
+        </SafeAreaView>  
     )
 }

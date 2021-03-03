@@ -1,7 +1,13 @@
 import React from 'react';
 
-import {TextInput, View } from 'react-native'
-import { Card, CardItem, Text } from 'native-base';
+import {TextInput, View, Platform, KeyboardAvoidingView } from 'react-native'
+import { Button, Text, Icon } from 'native-base';
+
+var a_behavior, offBy, marginee
+if (Platform.OS == 'ios'){
+  a_behavior='position', offBy= -100, marginee=20
+} else {
+  a_behavior='padding', offBy = -500, marginee = 80}
 
 export default NameSetup = (props) => {
 
@@ -14,18 +20,23 @@ export default NameSetup = (props) => {
 
     
     return(
-        <Card transparent>
-            {/* NAME INSTRUCTIONS */}
-            <CardItem style={{justifyContent:'center'}}>
-                <Text style={{fontSize:16,textAlign:'center', width:'90%'}}>
+        <KeyboardAvoidingView behavior={a_behavior} keyboardVerticalOffset={offBy} style={{flex:1, justifyContent:'center',  marginTop:40}}>
+
+            {/* <View style={{justifyContent:'center', flex:1, flexDirection:'column', backgroundColor:'white', height:'100%', textAlign:'center'}}> */}
+                {/* NAME INSTRUCTIONS */}
+                <View>
+                <Text style={{fontSize:16,textAlign:'center', alignSelf:'center', width:'80%'}}>
                     Please enter your first and last name in the 
                     fields below as it appears on your competitive event reciepts.
                 </Text>
-            </CardItem>
-            {/* NAME TEXT INPUTS */}
-            <CardItem body style={{flexDirection:"column"}}>
-                {/* FIRST NAME INPUT */}
-                <View style={{width:'80%', borderBottomWidth:0.5, borderBottomColor: 'grey'}}>
+                </View>
+                
+                {/* <KeyboardAvoidingView behavior={a_behavior} keyboardVerticalOffset={offBy} style={{flex:1}}> */}
+
+                {/* NAME TEXT INPUTS */}
+                    {/* FIRST NAME INPUT */}
+                <View style={{width:'80%', alignSelf:'center', marginTop:10,
+                    borderBottomWidth:0.5, borderBottomColor: 'grey'}}>
                     <TextInput 
                         placeholder='First Name'
                         placeholderTextColor='grey'
@@ -33,7 +44,7 @@ export default NameSetup = (props) => {
                         onChangeText={props.onChangeFirstName}
                         autoCorrect={false}
                         
-                        style={{height:40, fontSize:20, marginTop: 1, color: "black", 
+                        style={{height:50, fontSize:20, marginTop: 20, color: "black", 
                             paddingHorizontal: 10, fontWeight:'bold'}}
                         // keyboardType="email-address"
                         blurOnSubmit={false}
@@ -41,11 +52,12 @@ export default NameSetup = (props) => {
                         onSubmitEditing={() => { txtLastName.focus(); }} />
                 </View>
                 {/* LAST NAME INPUT */}
-                <View style={{width:'80%', borderBottomWidth:0.5, borderBottomColor: 'grey'}}>
+                <View style={{width:'80%', alignSelf:'center', 
+                    borderBottomWidth:0.5, borderBottomColor: 'grey'}}>
                     <TextInput 
                         placeholder='Last Name'
                         placeholderTextColor='grey'
-                        style={{height:40, width:'100%', fontSize:20, 
+                        style={{height:50, width:'100%', fontSize:20, 
                             marginTop: 20, color: "black", 
                             paddingHorizontal: 10, fontWeight:'bold'}}
                         value={props.last_name}    
@@ -56,20 +68,18 @@ export default NameSetup = (props) => {
                         returnKeyType="next" 
                         onSubmitEditing={() => { txtNickName.focus(); }} />
                 </View>
-            </CardItem>
             {/* NICK NAME BODY */}
-            <CardItem body style={{flexDirection:"column"}}>  
                 {/* NICK NAME INSTRUCTIONS */}
-                <Text style={{alignSelf:'flex-start',textAlign:'center', fontSize:16, 
-                    paddingTop:30, paddingBottom:20, width:'90%'}}>
+                <Text style={{alignSelf:'center',textAlign:'center', fontSize:16, 
+                    paddingTop:30, paddingBottom:20, width:'80%'}}>
                     (Optional) Enter any other name that may show up on your receipt. 
                 </Text>
                 {/* NICK NAME INPUT */}
-                <View style={{width:'80%', borderBottomWidth:0.5, borderBottomColor: 'grey'}}>
+                <View style={{width:'80%', alignSelf:'center',borderBottomWidth:0.5, borderBottomColor: 'grey'}}>
                     <TextInput 
                         placeholder='Enter Buy-In Alias'
                         placeholderTextColor='grey'
-                        style={{height:40, fontSize:20, marginTop: 1, color: "black", 
+                        style={{height:50, fontSize:20, marginTop: 1, color: "black", 
                         paddingHorizontal: 10, fontWeight:'bold'}}
                         value={props.nickname}    
                         onChangeText={props.onChangeNickName} 
@@ -78,7 +88,42 @@ export default NameSetup = (props) => {
                         ref={(input) => { txtNickName = input; }} 
                         returnKeyType="done" />
                 </View>
-            </CardItem>
-        </Card>     
+
+
+            {/* CREATE PROFILE NAVIGATION */}
+                <View style={{flexDirection:'row', marginTop:20}}>
+                    <View style={{width:'50%'}}>
+                        {props.page !== 0 ?
+                            <Button  large iconLeft transparent 
+                                style={{alignSelf:'center'}} onPress={()=> props.prev()}>
+                                <Icon name='arrow-back'/>
+                                <Text>Prev.</Text>
+                            </Button>
+                            :
+                            null}
+                    </View>
+                    
+                    <View style={{width:'50%'}}>
+                        {props.page !== 2 ?
+                            <Button disabled={x} large iconRight transparent 
+                                style={{alignSelf:'center'}} onPress={() => props.next()}>
+                                <Text>Next</Text>
+                                <Icon name='arrow-forward'/>
+                            </Button>
+                            :
+                            <Button style={{alignSelf:'center'}} large  transparent 
+                                onPress={() => props.createProfile()}>
+                                <Text>Finalize</Text>
+                            </Button>}
+                        </View>
+                    </View>
+                    
+                    <Button large style={{marginBottom:30, marginTop:30, alignSelf:'center'}} 
+                        onPress={() => navigation.goBack()}>
+                        <Text>Exit To Login</Text>
+                    </Button>
+                {/* </View>      */}
+
+        </KeyboardAvoidingView>
     )
 }

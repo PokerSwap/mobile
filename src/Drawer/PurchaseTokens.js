@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Context } from '../Store/appContext';
 
-import { ScrollView, Image, View, Modal } from 'react-native';
+import { ScrollView, Image, View, Modal, SafeAreaView } from 'react-native';
 import { Container, Content,  Button, Text } from 'native-base';
 import { Grid, Col, Row} from 'react-native-easy-grid'
 
@@ -60,6 +60,8 @@ export default PurchaseTokens = (props) => {
 
     return(
         <Container>
+            <SafeAreaView style={{flex:1,backgroundColor:currentStyle.header.color}}>
+
             <OtherHeader title={'Purchase Tokens'} />
             <Content>
                 <ScrollView style={{ alignSelf: 'stretch' }}>    
@@ -97,6 +99,7 @@ export default PurchaseTokens = (props) => {
                     </Grid>
                 </ScrollView>
             </Content>
+            </SafeAreaView>
         </Container>
     )
 }

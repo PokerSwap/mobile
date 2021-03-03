@@ -17,23 +17,22 @@ export default AgreedPath = (props) => {
     store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
 
     return(
-        <Card transparent style={{backgroundColor:currentStyle.background.color}}>
-            <CardItem style={{justifyContent:'center', flexDirection:'column',
-                backgroundColor:currentStyle.background.color}}>
-                {swap.percentage ?
-                    <View style={{width:'100%'}}>
-                        <Text style={{textAlign:'center', color:currentStyle.text.color}}>
-                            AGREED SWAP{'\n'}{moment(swap.updated_at).fromNow()}
-                        </Text>
-                        <CompareCard 
-                            youColor={'green'} themColor={'green'}
-                            percentage={swap.percentage} 
-                            counter_percentage={swap.counter_percentage}
-                            buyin={buyin}/>
-                    </View>
-                    :
-                    <Spinner/>}
-            </CardItem>
-        </Card>
+        <View transparent style={{ 
+            backgroundColor:currentStyle.background.color,
+            width:'95%',justifyContent:'center', flexDirection:'column', flex:1}}>
+            {swap.percentage ?
+                <View style={{width:'100%', flex:1,}}>
+                    <Text style={{textAlign:'center', marginTop:10, color:currentStyle.text.color}}>
+                        AGREED SWAP{'\n'}{moment(swap.updated_at).fromNow()}
+                    </Text>
+                    <CompareCard 
+                        youColor={'green'} themColor={'green'}
+                        percentage={swap.percentage} 
+                        counter_percentage={swap.counter_percentage}
+                        buyin={buyin}/>
+                </View>
+                :
+                <Spinner/>}
+        </View>
     )
 }
