@@ -25,7 +25,7 @@ export default SwapButton = (props) => {
     // console.log('allSwaps',allSwaps)
     console.log('allswaps', allSwaps)
     allSwaps !== null || allSwaps !== undefined || allSwaps !== [] ?
-        allSwaps.forEach(swap => allStatuses.push(swap.status))
+        allSwaps.forEach(swap => {console.log(swap.status);allStatuses.push(swap.status)})
         : 
         allStatuses = ['inactive']
 

@@ -3,7 +3,7 @@ import { Context } from '../../../Store/appContext';
 import { useNavigation } from '@react-navigation/native'
 
 import { Image, View, Spinner, Linking, Modal, TextInput, TouchableOpacity } from 'react-native'
-import { Button, Icon, Card, CardItem, Content, Text, Radio, Toast } from 'native-base';
+import { Button, Icon,  Content, Text, Radio, Toast } from 'native-base';
 import { Grid, Row, Col} from 'react-native-easy-grid'
 
 import darkStyle from '../../../Themes/dark.js'
@@ -226,9 +226,11 @@ export default ProfileBio = (props) => {
     }
  
     return(
-        <Content transparent contentContainerStyle={{
-            backgroundColor: currentStyle.background.color,}}>
-            {/* REPORT MODAL */}
+ 
+            
+        <Grid style={{  display:'flex', marginTop:20, width:'100%', flexGrow:1, flex:3,
+            backgroundColor: currentStyle.background.color}}>
+                
             <Modal
                 animationType='fade'
                 visible={visible}
@@ -245,108 +247,10 @@ export default ProfileBio = (props) => {
                 <MessageModal  setVisible2={setVisible2} their_id={props.user_id}
                 myProfile={store.myProfile} profile={profile}  />
             </Modal>
-            {/* PROFILE PICTURE AND STATS */}
-            <CardItem style={{ alignItems:'center', flex:1, flexDirection:'column',
-                backgroundColor: currentStyle.background.color}}>
-                <Grid style={{backgroundColor:currentStyle.background.color, height:200}}>
-                    {/* PROFILE PICTURE AND NICKNAME */}
-                    <Col >
-                        <View  style={{flex:1,
-                            marginTop:'4%',justifyContent:'center', marginLeft:10, marginRight:10, width: 100, height:100, 
-                            position: 'relative', overflow: 'hidden', borderRadius: 10}}>
-                            {profile ?
-                                <Image style={{
-                                    display: 'flex', margin: 'auto', 
-                                    height: '100%', width: 'auto' }} 
-                                source={{uri: profile.profile_pic_url}} />
-                                : null}
-                        </View>
-                    </Col>
-                    {/* PROFILE STATS */}
-                    <Col>
-                        <Row>
-                            <Col>
-                                <View style={{flex:1, 
-                                    flexDirection:'column', justifyContent:'center'}}>
-                                    <Text style={{
-                                        textAlign:'center', marginBottom:10, 
-                                        fontWeight:'500', color:currentStyle.text.color}}> 
-                                        R.O.I. 
-                                    </Text>
-                                {profile !== undefined ?
-                                    <Text style={{
-                                        textAlign:'center', fontSize:24, 
-                                        fontWeight:'600', color:currentStyle.text.color}}> 
-                                        {profile.roi_rating}%
-                                    </Text>
-                                    :
-                                    <Spinner/>}
-                                </View>
-                            </Col>
-                            <Col>
-                                {/* SWAP RATING STAT */}
-                                <View style={{flex:1, flexDirection:'column', 
-                                    justifyContent:'center'}}>
-                                    <Text style={{textAlign:'center', marginBottom:10, 
-                                        fontWeight:'500', color:currentStyle.text.color}}> 
-                                        Swap Rating 
-                                    </Text>
-                                    {profile !== undefined ?
-                                        <Text style={{textAlign:'center', fontSize:24, 
-                                            fontWeight:'600', color:currentStyle.text.color}}> 
-                                            {parseFloat(profile.swap_rating).toFixed(1)}
-                                        </Text>
-                                        :
-                                        <Spinner /> }
-                                </View>  
-                            </Col>
-                        </Row>
-                    
-                        <Row>
-                            {/* CONFIRMED SWAPS STAT */}
-                            <View style={{flex:1, flexDirection:'column', justifyContent:'center'}}>
-                                <Text style={{textAlign:'center', marginBottom:10, 
-                                    fontWeight:'500', color:currentStyle.text.color}}> 
-                                    Confirmed Swaps 
-                                </Text>
-                                {profile !== undefined ?
-                                    <Text style={{textAlign:'center', 
-                                        fontSize:30, fontWeight:'600',
-                                        color:currentStyle.text.color}}> 
-                                        {profile.total_swaps} 
-                                    </Text>
-                                    : 
-                                    <Spinner />}
-                            </View>
-
-                        </Row>
-                    </Col>
-                </Grid>
-                
-                {/* FULL NAME AND HENDON URL */}
-                <View style={{flex:1, marginVertical:10, justifyContent:'center', 
-                    height:100, backgroundColor:currentStyle.background.color}}>
-                    
-                    {profile !== undefined && profile.id == store.myProfile.id ?
-                            <Text style={{textAlign:'center', marginTop:5, paddingBottom:10,
-                                fontSize:12, color:currentStyle.text.color}}>
-                                THIS IS YOUR PROFILE
-                            </Text>
-                            : 
-                            null 
-                      }
-                    
-                    {profile !== undefined ?
-                        profile.nickname !== "" || profile.nickname.length !== 0 ?
-                            <Text style={{textAlign:'center', marginTop:5, 
-                                fontSize:18, color:currentStyle.text.color}}>
-                                "{profile.nickname}"
-                            </Text>
-                            : 
-                            null 
-                        : 
-                        null}
-                
+            
+            {/* PROFILE PICTURE AND NICKNAME */}
+            <Row style={{  width:'100%', height:60,  backgroundColor:currentStyle.background.color}}>
+                <Col>
                     {profile !== undefined ?
                         <Text style={{fontSize:24, textAlign:'center', 
                             color:currentStyle.text.color}}>
@@ -356,41 +260,146 @@ export default ProfileBio = (props) => {
                         null }
 
                     {profile !== undefined ?
-                        <TouchableOpacity transparent onPress={() => openHendon()}
-                            style={{flex:1, justifyContent:'center'}}>
+                        profile.nickname !== "" || profile.nickname.length !== 0 ?
+                            <Text style={{textAlign:'center', 
+                                fontSize:18, color:currentStyle.text.color}}>
+                                "{profile.nickname}"
+                            </Text>
+                            : 
+                            null 
+                        : 
+                        null}  
+                </Col>
+                          
+            </Row>
+            <Row style={{  width:'100%', marginTop:10, flex:1, backgroundColor:currentStyle.background.color}}>
+                <Col style={{ width:'40%', marginLeft:10,}}>
+                    <View  style={{ alignSelf:'center', justifyContent:'center', 
+                        marginLeft:10,  width: 150, height:150,  }}>
+                        {profile ?
+                            <Image style={{margin: 'auto', borderRadius:10,
+                                height: 150, width: 150 }} 
+                            source={{uri: profile.profile_pic_url}} />
+                            : null}
+                    </View> 
+                    
+                    {profile !== undefined ?
+                        <Button transparent onPress={() => openHendon()}
+                            style={{ justifyContent:'center', alignSelf:'center'}}>
                             <Text style={{fontSize:18, textAlign:'center',  
                                 color:'#4682bf', textDecorationLine: 'underline'}}>
                                 See Profile
                             </Text>
-                        </TouchableOpacity>
-                        : 
-                        null }
-                </View>
-            </CardItem>
+                        </Button>
+                    : 
+                    null }
 
-            {/* PROFILE COINS / CHAT BUTTON */}
-            {props.user_id == store.myProfile.id ?
-                <CardItem style={{justifyContent:'center' , flexDirection:'column', width:'100%', 
-                    backgroundColor:currentStyle.background.color}}>
-                    <Button block iconLeft warning 
-                        onPress={() => navigation.navigate("Purchase Tokens")}>
-                        <Icon type='FontAwesome5' name='coins'/>
-                        <Text>{store.myProfile.coins}</Text>
-                    </Button>
-                </CardItem>
-                : 
-                <CardItem style={{justifyContent:'center', flexDirection:'column', width:'100%', 
-                    paddingBottom: 0, backgroundColor:currentStyle.background.color}}>
-                    <Button full iconLeft info onPress={() => openChat()}>
-                        <Icon type='FontAwesome5' name='comments'/>
-                        <Text style={{fontSize:24}}>Chat</Text>
-                    </Button>
-                    <Button style={{alignSelf:'center'}}transparent iconLeft light 
-                        onPress={() => setVisible(true)} title="play@thepokersociety.com">
-                        <Text>Report</Text>
-                    </Button>
-                </CardItem>}
-        </Content>
+                        {profile !== undefined && profile.id == store.myProfile.id ?
+                            <Text style={{textAlign:'center', 
+                                fontSize:12, color:currentStyle.text.color}}>
+                                THIS IS YOUR PROFILE
+                            </Text>
+                            : 
+                            null }
+
+                </Col>
+            <Col style={{width:'50%', justifyContent:'flex-start'}}>
+                <Row style={{height:90}}>
+                    {/* PROFILE STATS */}
+                    <Col style={{ justifyContent:'flex-start', textAlign:'center',
+                        alignItems:'center', width:'50%', alignSelf:'flex-start'}}>        
+                    
+                            <Text style={{
+                                textAlign:'center', marginBottom:10, 
+                                fontWeight:'500', color:currentStyle.text.color}}> 
+                                R.O.I. 
+                            </Text>
+                        {profile !== undefined ?
+                            <Text style={{
+                                textAlign:'center', fontSize:24, 
+                                fontWeight:'600', color:currentStyle.text.color}}> 
+                                {profile.roi_rating}%
+                            </Text>
+                            :
+                            <Spinner/>}
+                        </Col>
+                    
+                        {/* SWAP RATING STAT */}
+                        <Col style={{ flexDirection:'column', alignSelf:'flex-start',
+                            justifyContent:'center'}}>
+                            <Text style={{textAlign:'center', marginBottom:10, 
+                                fontWeight:'500', color:currentStyle.text.color}}> 
+                                Swap Rating 
+                            </Text>
+                            {profile !== undefined ?
+                                <Text style={{textAlign:'center', fontSize:24, 
+                                    fontWeight:'600', color:currentStyle.text.color}}> 
+                                    {parseFloat(profile.swap_rating).toFixed(1)}
+                                </Text>
+                                :
+                                <Spinner /> }
+                        </Col>
+                        
+                    </Row>
+                    <Row style={{justifyContent:'center', height:60}}>
+                        {/* CONFIRMED SWAPS STAT */}
+                        <View style={{ flexDirection:'column', alignSelf:'center',alignItems:'center'}}>
+                            <Text style={{textAlign:'center', marginBottom:10, 
+                                fontWeight:'500', color:currentStyle.text.color}}> 
+                                Confirmed Swaps 
+                            </Text>
+                            {profile !== undefined ?
+                                <Text style={{textAlign:'center', 
+                                    fontSize:30, fontWeight:'600',
+                                    color:currentStyle.text.color}}> 
+                                    {profile.total_swaps} 
+                                </Text>
+                                : 
+                                <Spinner />}
+                        </View>
+                    </Row>
+            </Col>
+
+            </Row>
+            
+
+                    
+             
+    
+
+
+           
+
+            <Row style={{width:'90%', alignSelf:'center'}} >
+                {props.user_id == store.myProfile.id ?
+                    <View style={{justifyContent:'center' ,  flexDirection:'column', width:'100%',  marginBottom:10, marginTop:10,
+                        backgroundColor:currentStyle.background.color}}>
+                        <Button block iconLeft warning 
+                            onPress={() => navigation.navigate("Purchase Tokens")}>
+                            <Icon type='FontAwesome5' name='coins'/>
+                            <Text>{store.myProfile.coins}</Text>
+                        </Button>
+                    </View>
+                    : 
+                    <View style={{justifyContent:'center', height:100,   flexDirection:'column', width:'100%', 
+                         backgroundColor:currentStyle.background.color}}>
+                        <Button full iconLeft info onPress={() => openChat()}>
+                            <Icon type='FontAwesome5' name='comments'/>
+                            <Text style={{fontSize:24}}>Chat</Text>
+                        </Button>
+                        <Button style={{alignSelf:'center'}}transparent iconLeft light 
+                            onPress={() => setVisible(true)} title="play@thepokersociety.com">
+                            <Text>Report</Text>
+                        </Button>
+                    </View>} 
+
+                </Row>
+            
+                
+            
+           
+        </Grid>
+            
     )
 }
 

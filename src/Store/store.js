@@ -9,11 +9,11 @@ import firebase from 'firebase'; // 4.8.1
 import { initial } from 'lodash';
 var databaseURL
 
-// Platform.OS == 'ios' ?
-// 	databaseURL = 'http://gabriels-imac.local:3000/' : databaseURL = 'http://10.0.2.2:3000/'
+Platform.OS == 'ios' ?
+	databaseURL = 'http://gabriels-imac.local:3000/' : databaseURL = 'http://10.0.2.2:3000/'
 
 
-databaseURL = 'https://swapprofit-beta.herokuapp.com/'
+// databaseURL = 'https://swapprofit-beta.herokuapp.com/'
 
 
 var errorMessage = (error) => {
@@ -63,6 +63,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 			refreshResult:false,
 			refreshDashboard:false,
 			
+			eventListCustom: [],
 
 			initialSetup:true,
 			// MY CHATS
@@ -313,7 +314,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 						var refreshingTracker = await getActions().tracker.getCurrent()
 						var refreshingTracker2 = await getActions().tracker.getUpcoming()
 
-						var refreshingProfile = await getActions().tournament.getInitial()
+						var refreshingProfile = await getActions().tournament.getInitial('/official')
+						var refreshingProfidle = await getActions().tournament.getInitial('/custom')
 						var refreshingProfile = await getActions().profile.get()
 						
 						return( customMessage('All unconfirmed swaps have been closed and your tokens returned'))
@@ -374,7 +376,8 @@ const getState = ({ getStore, setStore, getActions }) => {
 						var refreshTrackers = await getActions().tracker.getCurrent()
 						var refreshingTracker2 = await getActions().tracker.getUpcoming()
 
-						var refreshTournaments = await getActions().tournament.getInitial()
+						var refreshTournaments = await getActions().tournament.getInitial('/official')
+						var refreshingProfidle = await getActions().tournament.getInitial('/custom')
 						var refreshAction = await getActions().tournament.getAction(a_tournament_id)
 						var refreshBuyin = await getActions().tournament.getCurrent(a_tournament_id)
 						// var refreshSwap = await getActions().buy_in.getCurrent(a_buyin_id)
@@ -1760,33 +1763,20 @@ const getState = ({ getStore, setStore, getActions }) => {
 						console.log('Something went wrong in getting action from a tournament: ', error)
 					}
 				},		
-				// GETTING INFORMATION ON TOURNAMENT YOU'RE VIEWING
-				getCurrent: async( a_tournament_id ) => {
-					try{
-						const url = databaseURL + 'tournaments/' + a_tournament_id;
-						const accessToken = getStore().userToken ;
-						
-						let response = await fetch(url, {
-							method: 'GET',
-							headers: {
-								'Authorization': 'Bearer ' + accessToken,
-								'Content-Type':'application/json'
-							}, 
-						})
-						
-						var aCurrentTournament = await response.json()
-						setStore({currentTournament: aCurrentTournament})
-						return(aCurrentTournament)
-					} catch(error){
-						console.log('Something went wrong with getting a current tournament: ', error)
-						return errorMessage(error.message)
-					}
-				},
+				
+
+
 				// RETRIEVES INITIAL TOURNAMENTS IN THE EVENTS DASHBOARD
-				getInitial: async ( key1, value1, key2, value2 ) => {
+				getInitial: async ( key0, key1, value1, key2, value2 ) => {
 					try {
-						setStore({tournamentList: null})
-						var base_url =databaseURL + 'tournaments/all?asc=true&limit=12&page=1'
+						if (key0 == '/custom'){
+							setStore({eventListCustom: null})
+
+						}else{
+							setStore({tournamentList: null})
+						}
+						 
+						var base_url =databaseURL + 'tournaments' + key0 + '/all?asc=true&limit=12&page=1'
 						var full_url
 						key1 !== undefined ?
 							key2 !== undefined ?
@@ -1823,29 +1813,46 @@ const getState = ({ getStore, setStore, getActions }) => {
 							if(tournament.buyin){
 								 action = getActions().tournament.retrieveAction(tournament.tournament_id.toString())}
 							
-							
+							var local
+							if (key0 == '/custom'){
+								local =moment(tournament.start_at).format('h:mm A z')
+							}else{
+								local = moment(tournament.start_at).tz(tournament.casino.time_zone).format('h:mm A z')
+							}
+							console.log('local',local)
 								 
 							aaaa.push({
 								'action': action,
 								'name': tournament.tournament + x,
-								'local': moment(tournament.start_at).tz(tournament.casino.time_zone).format('h:mm A z'),
+								'local': local,
 								...tournament
 							})
 							// console.log('aaaa',aaaa)
 						})
 						// var now = moment()
 						// var aaaab = aaaa.filter(x => now.isBefore(moment(x.start_at).add(17, 'hours')))
-						setStore({tournamentList: aaaa})
+						console.log('ttt', aaaa)
+						if (key0 == '/custom'){
+							setStore({eventListCustom: aaaa})
+						}else{
+							setStore({tournamentList: aaaa})
+						}
+						console.log('evn', getStore().eventListCustom)
+						
 						// console.log('tournaments inital', getStore().tournamentList)
 					} catch(error) {
 						console.log('Something went wrong with getting initial tournaments: ', error)
-						setStore({tournamentList: "There are no events at the moment"})
+						if (key0 == '/custom'){
+							setStore({eventListCustom: "There are no custom events at the moment"})
+						}else{
+							setStore({tournamentList: "There are no official events at the moment"})
+						}
 					}
 				},
 				// RETRIEVES ADDITIONAL TOURNAMENTS IN THE EVENTS DASHBOARD
-				getMore: async ( page, key1, value1, key2, value2 ) => {
+				getMore: async ( page, key0, key1, value1, key2, value2 ) => {
 					try{
-						var base_url = databaseURL + 'tournaments/all?asc=true&limit=12&page='
+						var base_url = databaseURL + 'tournaments'+ key0 +'/all?asc=true&limit=12&page='
 						var full_url
 						key1 !== undefined ?
 							key2 !== undefined ?
@@ -1864,8 +1871,14 @@ const getState = ({ getStore, setStore, getActions }) => {
 							}, 
 						})
 						console.log()
+						var tournamentData
+						if(key0== '/custom' ){
+							tournamentData = getStore().eventListCustom
+						}else{
+							tournamentData = getStore().tournamentList
+						}
 
-						var tournamentData = getStore().tournamentList
+
 						let newData = await response.json()
 
 
@@ -1881,10 +1894,18 @@ const getState = ({ getStore, setStore, getActions }) => {
 									console.log("GET ACTION IN GET MORE")
 									if(tournament.buyin){
 								 		action = getActions().tournament.retrieveAction(tournament.tournament_id)}
+
+									var local
+									if (key0 == '/custom'){
+										local =moment(tournament.start_at)
+									}else{
+										local = moment(tournament.start_at).tz(tournament.casino.time_zone).format('h:mm A z')
+									}
 						
 									aaaa.push({
 										'action': action,
 										'name': tournament.tournament + x,
+										'local': local,
 										...tournament
 									})
 								
@@ -1892,7 +1913,11 @@ const getState = ({ getStore, setStore, getActions }) => {
 							// var now = moment()
 							// var aaaab = aaaa.filter(x => now.isBefore(moment(x.start_at).add(17, 'hours')))
 							var currentTournaments = [...tournamentData, ...aaaa]
-							setStore({tournamentList: currentTournaments})
+							if (key0 == '/custom'){
+								setStore({eventListCustom: currentTournaments})
+							}else{
+								setStore({tournamentList: currentTournaments})
+							}
 						} else {
 							console.log('No more tournaments')}
 
@@ -2305,7 +2330,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 									if (getStore().myProfile.naughty == true){
 										navigation.navigate('Drawer', {screen: 'Home'} )
 									} else {
-										getActions().tournament.getInitial()
+										getActions().tournament.getInitial('/official')
 										// .then(() => getActions().firebase.login( data ))
 										.then(() => getActions().chat.getMine())
 										.then(() => setStore({nowLoading: 'Loading Swaps...'}))

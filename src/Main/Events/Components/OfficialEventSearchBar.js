@@ -9,7 +9,7 @@ import { Icon, Item, Text} from 'native-base';
 import darkStyle from '../../../Themes/dark.js'
 import lightStyle from '../../../Themes/light.js'
 
-export default EventSearchBar = (props) => {
+export default OfficialEventSearchBar = (props) => {
     const { store, actions } = useContext(Context)
 
     var currentStyle
@@ -20,14 +20,14 @@ export default EventSearchBar = (props) => {
         const regexZip = new RegExp('^\\d{5}$');
         const regexName = new RegExp('^[a-zA-Z0-9_ .-]+$');
         if(regexZip.test(value)){
-            var answer1 = await actions.tournament.getInitial('zip', value)    
+            var answer1 = await actions.tournament.getInitial('/official','zip', value)    
         props.setMode('byZip')
         } else if (regexName.test(value)){
-            var answer2 = await actions.tournament.getInitial('name', value)
+            var answer2 = await actions.tournament.getInitial('/official','name', value)
             props.setMode('byName')    
         } else {
             props.setPage(1)
-            var answer2 = await actions.tournament.getInitial()
+            var answer2 = await actions.tournament.getInitial('/official')
             props.setMode('byDate')
         }
     }
@@ -74,7 +74,7 @@ export default EventSearchBar = (props) => {
     }
 
     const getNearest = async(myLatitude, myLongitude) => {
-        var answer = await actions.tournament.getInitial('lat',myLatitude,'lon', myLongitude)
+        var answer = await actions.tournament.getInitial('/official','lat',myLatitude,'lon', myLongitude)
     }
 
     return(

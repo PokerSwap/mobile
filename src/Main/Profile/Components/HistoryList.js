@@ -91,10 +91,10 @@ export default HistoryList = (props) => {
     }
   
     return(
-        <List style={{justifyContent:'center', backgroundColor:currentStyle.background.color}}>
+        <List style={{justifyContent:'center', flex:1, backgroundColor:currentStyle.background.color}}>
 
             {/* HISTORY HEADER */}
-            <ListItem noIndent itemHeader style={{ justifyContent:'center', 
+            <ListItem noIndent itemHeader style={{ justifyContent:'center', paddingTop:10,
                 backgroundColor: currentStyle.background.color }}>
                 <Text style={{ textAlign:'center', fontWeight:'600', fontSize:24, 
                     color: currentStyle.text.color}}>

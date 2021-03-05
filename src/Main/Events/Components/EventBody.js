@@ -89,7 +89,7 @@ export default EventBody = (props) => {
     }
 
     return(
-        <ListItem disabled={disabled} noIndent onPress={()=>  handler()}
+        <ListItem disabled={disabled} noIndent onPress={()=>  {setDisabled(true);handler()}}
             style={{backgroundColor: bgColor, flexGrow:1, 
                 flexDirection:'row', justifyContent:'space-between'}}>
             

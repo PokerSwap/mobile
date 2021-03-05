@@ -22,7 +22,8 @@ export default CategoriesScreen = (props) => {
         var answer1 = await actions.tracker.getUpcoming()
 
         var answer2 = await actions.tracker.getPast()
-        var answer3 = await actions.tournament.getInitial()
+        var answer3 = await actions.tournament.getInitial('/official')
+        var refreshingProfidle = await actions().tournament.getInitial('/custom')
         setLoading(false)
         if (store.initialSetup){
             var e = await actions.profile.initialSetupCurrent(false)
