@@ -3,6 +3,8 @@ import { Context } from '../../../Store/appContext'
 import Geolocation from '@react-native-community/geolocation';
 import { openSettings, request, PERMISSIONS } from 'react-native-permissions';
 
+import { useNavigation } from '@react-navigation/native'
+
 import { TextInput, View, TouchableOpacity, Platform, Alert } from 'react-native';
 import { Icon, Item, Text} from 'native-base';
  
@@ -11,7 +13,7 @@ import lightStyle from '../../../Themes/light.js'
 
 export default CustomEventSearchBar = (props) => {
     const { store, actions } = useContext(Context)
-
+    const navigation = useNavigation()
     var currentStyle
     store.uiMode ? currentStyle = lightStyle : currentStyle = darkStyle
 
@@ -111,7 +113,7 @@ export default CustomEventSearchBar = (props) => {
 
             {/* SEARCH BY LOCATION BUTTON */}
             <TouchableOpacity style={{marginRight:15, height:40}}
-                onPress={()=> askPersmission()}>
+                onPress={()=> navigation.navigate("Custom Creation")}>
                 <Icon name='plus-circle' type='FontAwesome5' 
                 style={{color:currentStyle.text.color, fontSize:36}} />
             </TouchableOpacity>

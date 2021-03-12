@@ -10,6 +10,7 @@ target 'SwapProfit' do
   pod 'Firebase/Messaging'
   pod 'Firebase/Firestore'
   pod 'Firebase/Auth'
+  pod 'RNDateTimePicker', :path => '../node_modules/@react-native-community/datetimepicker/RNDateTimePicker.podspec'
 
   permissions_path = '../node_modules/react-native-permissions/ios'
   pod 'Permission-Camera', :path => "#{permissions_path}/Camera.podspec"
@@ -41,7 +42,7 @@ target 'SwapProfit-tvOS' do
 
 end
 
-use_flipper!
+use_flipper!({'Flipper' => '0.78.0'})
 post_install do |installer|
   flipper_post_install(installer)
 end

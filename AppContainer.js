@@ -29,6 +29,9 @@ import SwapResults from './src/Main/Results/SwapResults'
 // TOURNAMENT VIEWS
 import EventLobby from './src/Main/Events/EventLobby'
 import VerifyTicket from './src/Main/Events/VerifyTicket';
+import VerifyCustom from './src/Main/Events/VerifyCustom';
+import CustomCreation from './src/Main/Events/CustomCreation';
+
 import SwapOffer from './src/Main/SwapOffer/SwapOffer';
 
 // MISC VIEWS
@@ -125,6 +128,7 @@ var SwapsStack = () => {
                 options={{ gestureEnabled: false, headerShown: false, headerBackTitle:'' }}/>
             <Stack.Screen name="Verify Ticket" component={VerifyTicket} 
                 options={{ gestureEnabled: false,  headerShown: false, headerBackTitle:''}}/>
+
             <Stack.Screen name="Event Lobby" component={EventLobby} 
                 options={{ gestureEnabled: false, headerShown: false, headerBackTitle:'' }}/>
         </Stack.Navigator>
@@ -140,6 +144,10 @@ var EventsStack = () => {
             options={{ gestureEnabled: false,  headerShown: false, headerBackTitle:''}}/>
         <Stack.Screen name="Event Lobby" component={EventLobby}  
             options={{ gestureEnabled: false }} />
+        <Stack.Screen name="Verify Custom" component={VerifyCustom} 
+            options={{ gestureEnabled: false,  headerShown: false, headerBackTitle:''}}/>
+        <Stack.Screen name="Custom Creation" component={CustomCreation} 
+            options={{ gestureEnabled: false,  headerShown: false, headerBackTitle:''}}/>
         <Stack.Screen name="Swap Offer" component={SwapOffer} 
                 options={{ gestureEnabled: false, headerShown: false, headerBackTitle:'' }}/>
         <Stack.Screen name="Profile" component={ProfileScreen} 

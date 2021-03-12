@@ -4,7 +4,7 @@ import { useRoute, useNavigation } from '@react-navigation/native';
 import {openSettings, requestMultiple, PERMISSIONS} from 'react-native-permissions';
 
 import { Image,  TextInput, KeyboardAvoidingView, Modal, 
-  Platform, Alert, StatusBar, View, TouchableOpacity, SafeAreaView } from 'react-native';
+  Platform, Alert, StatusBar, View, Keyboard, SafeAreaView, TouchableOpacity } from 'react-native';
 import { Container,  Button, Text, Content, Card, CardItem, Icon} from 'native-base';
 import { Grid, Col } from 'react-native-easy-grid';
 import Spinner from 'react-native-loading-spinner-overlay'
@@ -16,7 +16,7 @@ import InfoModal from './Components/InfoModal'
 import darkStyle from '../../Themes/dark.js'
 import lightStyle from '../../Themes/light.js'
 
-export default VerifyTicket = (props) => {
+export default VerifyCustom = (props) => {
     const { store, actions } = useContext(Context)
     const de = require('../../Images/placeholder.jpg'); 
     const [ image, setImage ]= useState(de);
@@ -89,55 +89,55 @@ export default VerifyTicket = (props) => {
     };
 
 
-    const UploadTicketPhoto = async() => {
+    // const UploadTicketPhoto = async() => {
 
-        const options = {
-            title: 'Submit Picture',
-            storageOptions: {
-                skipBackup: true,
-                path: 'images',
-            },
-        };
+    //     const options = {
+    //         title: 'Submit Picture',
+    //         storageOptions: {
+    //             skipBackup: true,
+    //             path: 'images',
+    //         },
+    //     };
         
-        ImagePicker.showImagePicker(options, (response) => {
-        console.log('Response = ', response);
+    //     ImagePicker.showImagePicker(options, (response) => {
+    //     console.log('Response = ', response);
         
-        if (response.didCancel) {
-            console.log('User cancelled image picker');
-        } else if (response.error) {
-            console.log('ImagePicker Error: ', response.error);
-        } else {
+    //     if (response.didCancel) {
+    //         console.log('User cancelled image picker');
+    //     } else if (response.error) {
+    //         console.log('ImagePicker Error: ', response.error);
+    //     } else {
 
-            if (!response.uri) return;
+    //         if (!response.uri) return;
 
-        let type = response.type;
+    //     let type = response.type;
 
-        if (type === undefined && response.fileName === undefined) {
-            const pos = response.uri.lastIndexOf('.');
-            type = response.uri.substring(pos + 1);
-            if (type) type = `image/${type}`;
-        }
-        if (type === undefined) {
-            const splitted = response.fileName.split('.');
-            type = splitted[splitted.length - 1];
-            if (type) type = `image/${type}`;
-        }
+    //     if (type === undefined && response.fileName === undefined) {
+    //         const pos = response.uri.lastIndexOf('.');
+    //         type = response.uri.substring(pos + 1);
+    //         if (type) type = `image/${type}`;
+    //     }
+    //     if (type === undefined) {
+    //         const splitted = response.fileName.split('.');
+    //         type = splitted[splitted.length - 1];
+    //         if (type) type = `image/${type}`;
+    //     }
 
-        let name = response.fileName;
-        if (name === undefined && response.fileName === undefined) {
-            const pos = response.uri.lastIndexOf('/');
-            name = response.uri.substring(pos + 1);
-        }
+    //     let name = response.fileName;
+    //     if (name === undefined && response.fileName === undefined) {
+    //         const pos = response.uri.lastIndexOf('/');
+    //         name = response.uri.substring(pos + 1);
+    //     }
 
-        const selectedImage = {
-            uri: response.uri,
-            type: type.toLowerCase(),
-            name: 'default',
-        };
-        setImage(selectedImage);
-        }
-        });
-    };
+    //     const selectedImage = {
+    //         uri: response.uri,
+    //         type: type.toLowerCase(),
+    //         name: 'default',
+    //     };
+    //     setImage(selectedImage);
+    //     }
+    //     });
+    // };
     
     const BuyInStart = async() => {
         setLoading(true)
@@ -165,7 +165,7 @@ export default VerifyTicket = (props) => {
             </View>
             <SafeAreaView style={{flex:1,backgroundColor:currentStyle.header.color}}>
 
-            <OtherHeader title={"Verify Ticket"} />
+            <OtherHeader title={"Verify Custom"} />
             <Content style={{backgroundColor:currentStyle.background.color, flexGrow:1}}>
                 <Spinner visible={loading} />
                 <KeyboardAvoidingView style={{flex:1,}} 

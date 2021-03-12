@@ -39,9 +39,15 @@ export default EventBody = (props) => {
         bgColor = 'green', textColor = 'white', buttonColor = 'white',
         borderWidths = 4, path = 'Event Lobby'
     } else {
-        bgColor = currentStyle.background.color,textColor = currentStyle.text.color
-        buttonColor = null,
-        borderWidths = 2, path = 'Verify Ticket'
+        bgColor = currentStyle.background.color
+        textColor = currentStyle.text.color
+        buttonColor = null, borderWidths = 2
+        if (event.custom){
+             path = 'Verify Custom'
+        }else{
+            path = 'Verify Ticket'
+        }
+       
     }
     var month = start_at.substring(8,11)
     var day = start_at.substring(5,7)

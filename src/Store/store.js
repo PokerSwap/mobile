@@ -1764,7 +1764,19 @@ const getState = ({ getStore, setStore, getActions }) => {
 					}
 				},		
 				
-
+				addCustom: async() => {
+					const url = databaseURL + 'tournament/custom';
+					const accessToken = getStore().userToken ;
+					let response = await fetch(url,{
+						method:"POST",
+						body: JSON.stringify(data),
+						headers:{
+							'Authorization': 'Bearer ' + accessToken,
+							'Content-Type':'application/json'
+						}
+					})
+					var aCurrentAction = await response.json()
+				},
 
 				// RETRIEVES INITIAL TOURNAMENTS IN THE EVENTS DASHBOARD
 				getInitial: async ( key0, key1, value1, key2, value2 ) => {
@@ -2331,6 +2343,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 										navigation.navigate('Drawer', {screen: 'Home'} )
 									} else {
 										getActions().tournament.getInitial('/official')
+										getActions().tournament.getInitial('/custom')
 										// .then(() => getActions().firebase.login( data ))
 										.then(() => getActions().chat.getMine())
 										.then(() => setStore({nowLoading: 'Loading Swaps...'}))
